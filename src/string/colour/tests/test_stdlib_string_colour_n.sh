@@ -45,7 +45,7 @@ test_stdlib_colour_n__empty_string____red______________________correct_output() 
 
   _capture.stdout_raw stdlib.string.colour_n "RED" "${TEST_INPUT}"
 
-  assert_output "${TEST_EXPECTED}"
+  assert_equals "${TEST_OUTPUT}" "${TEST_EXPECTED}"
 }
 
 test_stdlib_colour_n__valid_args______green____________________correct_output() {
@@ -63,7 +63,7 @@ test_stdlib_colour_n__empty_string____green____________________correct_output() 
 
   _capture.stdout_raw stdlib.string.colour_n "GREEN" "${TEST_INPUT}"
 
-  assert_output "${TEST_EXPECTED}"
+  assert_equals "${TEST_OUTPUT}" "${TEST_EXPECTED}"
 }
 
 test_stdlib_colour_n__valid_args______invalid_colour___________logs_warning() {

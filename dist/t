@@ -1,0 +1,66 @@
+#!/bin/bash
+
+# stdlib distributable test runner
+# $1: a filter to match tests by
+
+set -eo pipefail
+
+_t_runner_discover() {
+  # $1: a filter to match tests by
+
+  local _t_runner_discovered_test_file
+
+  while read -r -d $'\0' _t_runner_discovered_test_file; do
+    _t_runner_discovered_test_modules+=("${_t_runner_discovered_test_file}")
+  done < <(find "${1}" -name "test_*" -type f -print0)
+}
+
+_t_runner_execute() {
+  # shellcheck disable=SC2034
+  local TEST_INPUT
+  # shellcheck disable=SC2034
+  local TEST_OUTPUT
+  # shellcheck disable=SC2034
+  local TEST_RC
+
+  set +e
+  (
+    # shellcheck source=/dev/null
+    source /usr/local/bin/bash_unit -p "${1}" "${_t_runner_discovered_test_modules[@]}"
+  )
+  _t_runner_exit_code="$?"
+  set -e
+}
+
+_t_runner_execution_context() {
+  # shellcheck source=/dev/null
+  source "${_t_runner_working_directory}/stdlib.sh"
+  # shellcheck source=/dev/null
+  source "${_t_runner_working_directory}/stdlib_testing.sh"
+
+  stdlib.trap.handler.exit.fn.register __mock.persistence.registry.cleanup
+
+  _t_runner_execute "$@"
+
+   exit "${_t_runner_exit_code}"
+}
+
+_t_runner_main() {
+  local _t_runner_discovered_test_modules=()
+  local _t_runner_exit_code
+  local _t_runner_working_directory
+
+  _t_runner_working_directory="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+
+  _t_runner_discover "${1-.}"
+
+  shift || true
+
+  if declare -f _t_runner_custom_execution_context > /dev/null 2>&1; then
+    _t_runner_custom_execution_context "$@"
+  else
+    _t_runner_execution_context "$@"
+  fi
+}
+
+_t_runner_main "$@"

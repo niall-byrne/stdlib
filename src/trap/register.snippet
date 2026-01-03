@@ -1,0 +1,10 @@
+#!/bin/bash
+
+stdlib.trap.handler.exit.fn.register "stdlib.trap.fn.clean_up_on_exit"
+
+if [[ "${STDLIB_TRACEBACK_DISABLE_BOOLEAN}" -eq "0" ]]; then
+  stdlib.trap.handler.err.fn.register stdlib.logger.traceback
+fi
+
+trap stdlib.trap.handler.err.fn ERR
+trap stdlib.trap.handler.exit.fn EXIT

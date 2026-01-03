@@ -21,5 +21,5 @@ _capture_assertion_failure() {
   fi
 
   # shellcheck disable=SC2034
-  TEST_OUTPUT="$(echo "${output}" | sed -E '/^FAILURE/d' | sed -E '/(^\.\/|^\/)[^:]+:[0-9]+:.*/d')"
+  TEST_OUTPUT="$(echo "${output}" | sed -E '/^FAILURE/d' | sed -E '/((^\.\/|^\/)[^:]+:[0-9]+:.*|environment:[0-9]+:_t_runner_custom_execution_context\(\))/d')"
 }
