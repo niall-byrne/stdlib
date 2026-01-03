@@ -5,14 +5,15 @@ test_stdlib_logger_traceback__mock_call_stack__generates_correct_stdout() {
   _capture.stdout_raw stdlib.logger.traceback
 
   assert_matches "$(stdlib.message.get TRACEBACK_HEADER)
->  (\./|/){1}.+/t:[0-9]+:main\(\)
->>  (\./|/){1}.+/t:[0-9]+:_test_runner_main\(\)
->>>  (\./|/){1}.+/t:[0-9]+:_test_runner_execute\(\)
->>>>  /usr/local/bin/bash_unit:[0-9]+:source\(\)
->>>>>  /usr/local/bin/bash_unit:[0-9]+:run_test_suite\(\)
->>>>>>  /usr/local/bin/bash_unit:[0-9]+:run_tests\(\)
->>>>>>>  /usr/local/bin/bash_unit:[0-9]+:run_test\(\)
->>>>>>>>  (\./)*test_stdlib_logger_traceback.sh:[0-9]+:test_stdlib_logger_traceback__mock_call_stack__generates_correct_stdout\(\)
+>  .+t:[0-9]+:main\(\)
+>>  .+t:[0-9]+:_t_runner_main\(\)
+>>>  .+t:[0-9]+:(_t_runner_execution_context|_t_runner_custom_execution_context)\(\)
+>>>>  .+t:[0-9]+:_t_runner_execute\(\)
+>>>>>  /usr/local/bin/bash_unit:[0-9]+:source\(\)
+>>>>>>  /usr/local/bin/bash_unit:[0-9]+:run_test_suite\(\)
+>>>>>>>  /usr/local/bin/bash_unit:[0-9]+:run_tests\(\)
+>>>>>>>>  /usr/local/bin/bash_unit:[0-9]+:run_test\(\)
+>>>>>>>>>  (\./)*test_stdlib_logger_traceback.sh:[0-9]+:test_stdlib_logger_traceback__mock_call_stack__generates_correct_stdout\(\)
 " \
     "${TEST_OUTPUT}"
 }
