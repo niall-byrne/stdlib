@@ -4,9 +4,9 @@
 
 builtin set -eo pipefail
 
-# shellcheck source=stdlib/string/colour/colour.sh
+# shellcheck source=src/string/colour/colour.sh
 source "${STDLIB_DIRECTORY}/string/colour/colour.sh"
-# shellcheck source=stdlib/string/colour/substring.sh
+# shellcheck source=src/string/colour/substring.sh
 source "${STDLIB_DIRECTORY}/string/colour/substring.sh"
 
 stdlib.fn.derive.pipeable "stdlib.string.colour_n" "2"
