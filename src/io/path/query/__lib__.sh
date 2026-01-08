@@ -4,5 +4,5 @@
 
 builtin set -eo pipefail
 
-# shellcheck source=stdlib/io/path/query/is.sh
+# shellcheck source=src/io/path/query/is.sh
 source "${STDLIB_DIRECTORY}/io/path/query/is.sh"
