@@ -7,7 +7,14 @@ set -eo pipefail
 
 TEST_RUNNER="${TEST_RUNNER-"t"}"
 
+_error_no_path_specified() {
+  echo "You must specify a target path."
+  return 127
+}
+
 main() {
+  [[ -z "${1}" ]] && _error_no_path_specified
+
   [[ -d coverage ]] && rm -r coverage
 
   kcov \

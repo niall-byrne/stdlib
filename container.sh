@@ -5,7 +5,7 @@
 set -eo pipefail
 
 _testing_build() {
-  pushd "${TEST_WORKING_DIRECTORY}" > /dev/null
+  pushd "${test_working_directory}" > /dev/null
 
   docker build \
     --build-arg UID1="$(id -u)" \
@@ -18,57 +18,60 @@ _testing_build() {
 }
 
 _testing_run() {
-  pushd "${TEST_WORKING_DIRECTORY}" > /dev/null
+  pushd "${test_working_directory}" > /dev/null
 
   if [[ "${TEST_CONTAINER_DISABLE_TTY}" -eq "1" ]]; then
-    TEST_CONTAINER_SWITCHES="t"
+    test_container_switches="t"
   fi
 
   docker run \
     --rm \
-    -"${TEST_CONTAINER_SWITCHES}" \
+    -"${test_container_switches}" \
     -v "${PWD}":/work \
     -v /var/run/docker.sock:/var/run/docker.sock \
     --tmpfs /tmp:exec \
     stdlib:local \
-    "${TEST_CONTAINER_COMMAND}" "${@}"
+    "${test_container_command}" "${@}"
 
   popd > /dev/null
 }
 
 main() {
-  local TEST_CONTAINER_COMMAND="${2:-bash}"
-  local TEST_CONTAINER_SWITCHES="it"
+  local test_container_command="${2:-"bash"}"
   local TEST_CONTAINER_DISABLE_TTY="${TEST_CONTAINER_DISABLE_TTY:0}"
-  local TEST_WORKING_DIRECTORY
+  local test_container_switches="it"
+  local test_working_directory
 
   if [[ "${EUID}" == "0" ]]; then
     echo "Do not run this container as root."
     echo "Try one of the following strategies:"
     echo "#1 add yourself to the docker group, and retry:"
-    echo "- sudo usermod -aG docker \$USER"
-    echo "- exec sudo su -l \$USER"
+    echo "- ./testing/container.sh docker_group"
     echo "#2 change the permissions on the docker socket:"
-    echo "- ./testing/container.sh fix_docker"
+    echo "- ./testing/container.sh docker_permissions"
     return 127
   fi
 
-  TEST_WORKING_DIRECTORY="$(dirname "${0}")"
+  test_working_directory="$(dirname "${0}")"
 
   case "${1}" in
     build)
       _testing_build
       ;;
     ci)
-      TEST_CONTAINER_SWITCHES="t"
+      test_container_switches="t"
       _testing_build
       _testing_run t
+      ;;
+    docker_group)
+      sudo usermod -aG docker "${USER}"
+      exec sudo su -l "${USER}"
       ;;
     docker_permissions)
       sudo chgrp "${USER}" /var/run/docker.sock
       ;;
     run)
-      _testing_run "${@:2}"
+      _testing_run "${@:3}"
       ;;
     *)
       echo "Valid commands:"
