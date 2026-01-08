@@ -4,7 +4,7 @@
 
 builtin set -eo pipefail
 
-# shellcheck source=stdlib/array/assert/is.sh
+# shellcheck source=src/array/assert/is.sh
 source "${STDLIB_DIRECTORY}/array/assert/is.sh"
-# shellcheck source=stdlib/array/assert/not.sh
+# shellcheck source=src/array/assert/not.sh
 source "${STDLIB_DIRECTORY}/array/assert/not.sh"
