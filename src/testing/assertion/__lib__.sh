@@ -4,19 +4,19 @@
 
 builtin set -eo pipefail
 
-# shellcheck source=stdlib/testing/assertion/array.sh
+# shellcheck source=src/testing/assertion/array.sh
 source "${STDLIB_DIRECTORY}/testing/assertion/array.sh"
-# shellcheck source=stdlib/testing/assertion/fn.sh
+# shellcheck source=src/testing/assertion/fn.sh
 source "${STDLIB_DIRECTORY}/testing/assertion/fn.sh"
-# shellcheck source=stdlib/testing/assertion/message.sh
+# shellcheck source=src/testing/assertion/message.sh
 source "${STDLIB_DIRECTORY}/testing/assertion/message.sh"
-# shellcheck source=stdlib/testing/assertion/null.sh
+# shellcheck source=src/testing/assertion/null.sh
 source "${STDLIB_DIRECTORY}/testing/assertion/null.sh"
-# shellcheck source=stdlib/testing/assertion/output.sh
+# shellcheck source=src/testing/assertion/output.sh
 source "${STDLIB_DIRECTORY}/testing/assertion/output.sh"
-# shellcheck source=stdlib/testing/assertion/rc.sh
+# shellcheck source=src/testing/assertion/rc.sh
 source "${STDLIB_DIRECTORY}/testing/assertion/rc.sh"
-# shellcheck source=stdlib/testing/assertion/snapshot.sh
+# shellcheck source=src/testing/assertion/snapshot.sh
 source "${STDLIB_DIRECTORY}/testing/assertion/snapshot.sh"
 
 _testing.__assertion.value.check() {
