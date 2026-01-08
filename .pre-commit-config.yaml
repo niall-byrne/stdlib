@@ -1,0 +1,129 @@
+---
+default_install_hook_types:
+  - pre-commit
+  - commit-msg
+repos:
+  - repo: https://github.com/adrienverge/yamllint.git
+    rev: v1.32.0
+    hooks:
+      - id: yamllint
+        args:
+          - "-c"
+          - "./.yamllint.yml"
+        stages: [pre-commit]
+  - repo: https://github.com/cicd-tools-org/pre-commit.git
+    rev: 0.6.0
+    hooks:
+      - id: format-shell
+        args:
+          - "-w"
+          - "--indent=2"
+          - "-ci"
+          - "-sr"
+        files: "^(.+\\.(sh|snippet)|build/t|dist/t)$"
+        exclude: "^dist/stdlib(_testing)*.sh$"
+      - id: format-toml
+      - id: git-conflict-markers
+        exclude: "^src/logger/tests/test_stdlib_logger_traceback.sh$"
+      - id: lint-github-workflow
+      - id: lint-github-workflow-header
+      - id: lint-markdown
+        args:
+          - "-c"
+          - ".markdownlint.yml"
+      - id: lint-shell
+        args:
+          - "--color=always"
+          - "--source-path=SCRIPTDIR"
+          - "--exclude=SC2317"
+          - "-x"
+        files: "^(.+\\.(sh|snippet)|build/t|dist/t)$"
+        exclude: "^dist/stdlib(_testing)*.sh$"
+      - id: pre-commit-sort-config
+      - id: security-credentials
+      - id: spelling-commit-message
+      - id: spelling-markdown
+      - id: spelling-vale-sync
+      - id: spelling-vale-vocab
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v3.2.2
+    hooks:
+      - id: commitizen
+        stages: [commit-msg]
+  - repo: https://github.com/python-jsonschema/check-jsonschema
+    rev: 0.22.0
+    hooks:
+      - id: check-jsonschema
+        name: check-github-workflow-push-schema
+        files: "^\\.github/config/workflows/workflow-push.json$"
+        args:
+          - "--schemafile"
+          - ".github/config/schemas/workflows/workflow-push.json"
+        stages: [pre-commit]
+  - repo: local
+    # To generate the list of bash keywords:
+    # $ for builtin in $(compgen -b | grep -v builtin); do [[ "${builtin}" =~ ^[a-z]+$ ]] && echo "${builtin}"; done | tr '\n' '|' | sed 's/.$//'
+    hooks:
+      - id: bash-unit-tests
+        name: ensure unit tests pass
+        entry: bash -c 'TEST_CONTAINER_DISABLE_TTY=1 ./container.sh run t src'
+        language: system
+        stages: [manual]
+        pass_filenames: false
+        require_serial: true
+      - id: distribution-package
+        name: package the stdlib distribution files
+        entry: bash -c 'TEST_CONTAINER_DISABLE_TTY=1 ./container.sh run package.sh'
+        language: system
+        stages: [pre-commit]
+        pass_filenames: false
+        require_serial: true
+      - id: snippet-files-headers
+        name: ensure snippet files have correct headers
+        entry: "\\A(?!#!/bin/bash\n).+\\Z"
+        args: [--multiline]
+        language: pygrep
+        files: "^src/.+\\.snippet$"
+      - id: source-files-binaries
+        name: ensure source files don't directly reference restricted binary commands
+        entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$).*((?<=\\s|\\()|(?<=^))(cat|cut|grep|head|mktemp|rm|sed|sort|tail|tput|tr)((\\s|\\)).*$|$)"
+        language: pygrep
+        files: "^src/.+\\.sh$"
+        exclude: "^((.+/)*tests/.+\\.sh)$"
+      - id: source-files-headers
+        name: ensure source files have correct headers
+        entry: "\\A(?!#!/bin/bash\n(# shellcheck disable=.+\n){0,1}\n# stdlib.+\nbuiltin set -eo pipefail\n).+\\Z"
+        args: [--multiline]
+        language: pygrep
+        files: "^src/.+\\.sh$"
+        exclude: "^((.+/)*tests/.+\\.sh|src/trap/trap.sh)$"
+      - id: source-files-headers-(exporting-traps)
+        name: ensure source files exporting traps have correct headers
+        entry: "\\A(?!#!/bin/bash\n(# shellcheck disable=.+\n){0,1}\n# stdlib.+\nbuiltin set -Eeo pipefail\n).+\\Z"
+        args: [--multiline]
+        language: pygrep
+        files: "^src/trap/trap.sh$"
+      - id: source-files-keywords
+        name: ensure source files use builtins prefaced with the 'builtin' command
+        entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$).*(?<!builtin )(?<!stdlib\\.builtin\\.overridable )((?<=\\s|\\()|(?<=^))(alias|bg|bind|break|caller|cd|command|compgen|complete|continue|declare|dirs|disown|echo|enable|eval|exec|exit|export|false|fc|fg|getopts|hash|help|history|jobs|kill|let|local|logout|popd|printf|pushd|pwd|read|readonly|return|set|shift|shopt|source|suspend|test|times|trap|true|type|typeset|ulimit|umask|unalias|unset|wait)((\\s|\\)).*$|$)"
+        language: pygrep
+        files: "^src/.+\\.sh$"
+        exclude: "^((.+/)*tests/.+\\.sh)$"
+      - id: test-files-binaries
+        name: ensure test files don't directly reference restricted binary commands
+        entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$).*((?<=\\s|\\()|(?<=^))(cat|cut|grep|head|mktemp|rm|sed|sort|tail|tput|tr)((\\s|\\)).*$|$)"
+        language: pygrep
+        files: "^((.+/)*tests/.+\\.sh)$"
+        exclude: "^.*/test_.+\\.sh$"
+      - id: test-files-headers
+        name: ensure test files have correct headers
+        entry: "\\A(?!#!/bin/bash\n).+\\Z"
+        args: [--multiline]
+        language: pygrep
+        files: "^((.+/)*tests/.+\\.sh)$"
+      - id: test-files-imports
+        name: ensure test files do not use the source keyword for imports
+        entry: "\\A#!/bin/bash\n.+((^ *|^ +|; *|\\| *|\\& *)(source |\\. )(\".+?\"|\\S+) *(;*)$)+.+\\Z"
+        args: [--multiline]
+        language: pygrep
+        files: "^((.+/)*tests/.+\\.sh)$"
