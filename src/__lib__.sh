@@ -26,17 +26,17 @@ bootstrap "${STDLIB_DIRECTORY}/string/query/__lib__.sh"
 bootstrap "${STDLIB_DIRECTORY}/string/assert/__lib__.sh"
 bootstrap "${STDLIB_DIRECTORY}/fn/__lib__.sh"
 
-# source=stdlib/array/__lib__.sh
+# source=src/array/__lib__.sh
 source "${STDLIB_DIRECTORY}/array/__lib__.sh"
-# source=stdlib/fn/__lib__.sh
+# source=src/fn/__lib__.sh
 source "${STDLIB_DIRECTORY}/fn/__lib__.sh"
-# source=stdlib/io/__lib__.sh
+# source=src/io/__lib__.sh
 source "${STDLIB_DIRECTORY}/io/__lib__.sh"
-# source=stdlib/logger/__lib__.sh
+# source=src/logger/__lib__.sh
 source "${STDLIB_DIRECTORY}/logger/__lib__.sh"
-# source=stdlib/security/__lib__.sh
+# source=src/security/__lib__.sh
 source "${STDLIB_DIRECTORY}/security/__lib__.sh"
-# source=stdlib/string/__lib__.sh
+# source=src/string/__lib__.sh
 source "${STDLIB_DIRECTORY}/string/__lib__.sh"
-# source=stdlib/trap/__lib__.sh
+# source=src/trap/__lib__.sh
 source "${STDLIB_DIRECTORY}/trap/__lib__.sh"
