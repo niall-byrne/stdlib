@@ -4,7 +4,7 @@
 
 builtin set -eo pipefail
 
-# shellcheck source=stdlib/logger/logger.sh
+# shellcheck source=src/logger/logger.sh
 source "${STDLIB_DIRECTORY}/logger/logger.sh"
 
 stdlib.fn.derive.pipeable "stdlib.logger.error" "1"
