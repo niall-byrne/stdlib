@@ -62,6 +62,13 @@ repos:
         stages: [pre-commit]
   - repo: local
     hooks:
+      - id: bash-code-coverage
+        name: ensure the codebase meets coverage requirements
+        entry: bash -c 'TEST_RUNNER=build/test.sh TEST_CONTAINER_DISABLE_TTY=1 ./container.sh run collect_coverage src'
+        language: system
+        stages: [manual]
+        pass_filenames: false
+        require_serial: true
       - id: bash-unit-tests
         name: ensure unit tests pass
         entry: bash -c 'TEST_CONTAINER_DISABLE_TTY=1 ./container.sh run build/test.sh src'

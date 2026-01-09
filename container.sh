@@ -27,6 +27,7 @@ _testing_run() {
   docker run \
     --rm \
     -"${test_container_switches}" \
+    -e TEST_RUNNER \
     -v "${PWD}":/work \
     -v /var/run/docker.sock:/var/run/docker.sock \
     --tmpfs /tmp:exec \
