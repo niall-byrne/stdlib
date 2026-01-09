@@ -10,6 +10,9 @@ on:
   workflow_dispatch:
 
 #  secrets:
+#    CODECOV_TOKEN:
+#      description: "Required, allows coverage uploads to the codecov.com website."
+#      required: true
 #    SLACK_WEBHOOK:
 #      description: "Optional, enables Slack notifications."
 #      required: false
@@ -89,6 +92,23 @@ jobs:
       CONCURRENCY: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_concurrency_limit }}
       PRECOMMIT_HOOK_ID: "bash-unit-tests"
       PRECOMMIT_HOOK_NAME: "Bash Unit Tests"
+      PRECOMMIT_HOOK_STAGE: "manual"
+      PYTHON_VERSIONS: ${{ toJSON(fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_python_versions) }}
+      VERBOSE_NOTIFICATIONS: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_verbose_notifications }}
+
+  code_coverage:
+    needs:
+      - build_container
+      - configuration
+    secrets:
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      ENV_SECRET_1: ${{ secrets.CODECOV_TOKEN }}
+    uses: cicd-tools-org/cicd-tools/.github/workflows/job-80-poetry-precommit_commit_stage_hook.yml@main
+    with:
+      CONCURRENCY: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_concurrency_limit }}
+      POST_HOOK_COMMAND: 'CODECOV_TOKEN="${ENV_SECRET_1}" .github/scripts/job-81-coverage-upload.sh'
+      PRECOMMIT_HOOK_ID: "bash-code-coverage"
+      PRECOMMIT_HOOK_NAME: "Code Coverage Test"
       PRECOMMIT_HOOK_STAGE: "manual"
       PYTHON_VERSIONS: ${{ toJSON(fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_python_versions) }}
       VERBOSE_NOTIFICATIONS: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_verbose_notifications }}
@@ -309,6 +329,7 @@ jobs:
     permissions:
       contents: write
     needs:
+      - code_coverage
       - commit_lint
       - commit_spell_check
       - configuration
