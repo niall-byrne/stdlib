@@ -109,11 +109,11 @@ stdlib.message.get() {
       ;;
     IS_NOT_ALPHABETIC)
       required_options=1
-      message="The value '${option1}' is not a set alphabetic only string!"
+      message="The value '${option1}' is not a alphabetic only string!"
       ;;
     IS_NOT_ALPHA_NUMERIC)
       required_options=1
-      message="The value '${option1}' is not a set alpha-numeric only string!"
+      message="The value '${option1}' is not a alpha-numeric only string!"
       ;;
     IS_NOT_ARRAY)
       required_options=1
@@ -121,15 +121,15 @@ stdlib.message.get() {
       ;;
     IS_NOT_BOOLEAN)
       required_options=1
-      message="The value '${option1}' is not a set string containing a boolean (0 or 1)!"
+      message="The value '${option1}' is not a string containing a boolean (0 or 1)!"
       ;;
     IS_NOT_CHAR)
       required_options=1
-      message="The value '${option1}' is not a set string containing a single char!"
+      message="The value '${option1}' is not a string containing a single char!"
       ;;
     IS_NOT_DIGIT)
       required_options=1
-      message="The value '${option1}' is not a set string containing a digit!"
+      message="The value '${option1}' is not a string containing a digit!"
       ;;
     IS_NOT_FN)
       required_options=1
@@ -137,19 +137,19 @@ stdlib.message.get() {
       ;;
     IS_NOT_INTEGER)
       required_options=1
-      message="The value '${option1}' is not a set string containing an integer!"
+      message="The value '${option1}' is not a string containing an integer!"
       ;;
     IS_NOT_INTEGER_IN_RANGE)
       required_options=3
-      message="The value '${option3}' is not a set string containing an integer in the inclusive range ${option1} to ${option2}!"
+      message="The value '${option3}' is not a string containing an integer in the inclusive range ${option1} to ${option2}!"
       ;;
     IS_NOT_OCTAL_PERMISSION)
       required_options=1
-      message="The value '${option1}' is not a set string containing an octal file permission!"
+      message="The value '${option1}' is not a string containing an octal file permission!"
       ;;
     IS_NOT_SET_STRING)
       required_options=1
-      message="The value '${option1}' is not a set string!"
+      message="The value '${option1}' is not a set string!"  # noqa
       ;;
     REGEX_DOES_NOT_MATCH)
       required_options=2

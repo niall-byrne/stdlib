@@ -15,7 +15,7 @@ ${1}() {
 
   if [[ "\${__${2}_mock_pipeable}" -eq "1" ]]; then
     ${1}.mock.__controller pipeable
-    set -- "\${@}" "\${_mock_object_pipe_input}"
+    builtin set -- "\${@}" "\${_mock_object_pipe_input}"
   fi
 
   ${1}.mock.__call "\${@}"

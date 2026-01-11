@@ -109,7 +109,7 @@ repos:
         entry: pre-commit/filtered_pygrep.py
         args:
           - "^\\s*#.*$"
-          - "^(?!.*\\# noqa).*(?<!builtin )(?<!stdlib\\.builtin\\.overridable )((?<=\\s|\\()|(?<=^))(break|continue|command|declare|echo|eval|false|printf|true|unset)((\\s|\\)).*$|$)"
+          - "^(?!.*\\# noqa).*(?<!builtin )(?<!stdlib\\.builtin\\.overridable )((?<=\\s|\\()|(?<=^))(break|continue|command|declare|echo|eval|false|printf|set|true|unset)((\\s|\\)).*$|$)"
         language: python
         files: "^src/.+\\.sh$"
         exclude: "^((.+/)*tests/.+\\.sh)$"

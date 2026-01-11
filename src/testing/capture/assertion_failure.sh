@@ -12,9 +12,9 @@ _capture.assertion_failure() {
   local output
   local rc
 
-  set +e
+  builtin set +e
   LC_ALL=C IFS= builtin read -rd '' output < <("$@" 2>&1)
-  set -e
+  builtin set -e
 
   wait "$!"
   rc="$?"
