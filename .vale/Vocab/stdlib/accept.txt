@@ -16,6 +16,7 @@ assert_snapshot
 bashunit
 parametrizer
 parametrizers
+pygrep
 stdlib
 stdout
 subfolder

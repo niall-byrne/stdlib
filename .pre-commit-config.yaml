@@ -84,9 +84,11 @@ repos:
         files: "^src/.+\\.snippet$"
       - id: source-files-binaries
         name: ensure source files don't directly reference restricted binary commands
-        entry: "^(?!.*# noqa).*(?<=\\s|\\()(cat|cut|grep|head|mktemp|rm|sed|sort|tail|tput|tr)((\\s|\\)).*$|$)"
-        args: [--multiline]
-        language: pygrep
+        entry: pre-commit/filtered_pygrep.py
+        args:
+          - "^\\s*#.*$"
+          - "^(?!.*\\# noqa).*((?<=\\s|\\()|(?<=^))(cat|cut|grep|head|mktemp|rm|sed|sort|tail|tput|tr)((\\s|\\)).*$|$)"
+        language: python
         files: "^src/.+\\.sh$"
         exclude: "^((.+/)*tests/.+\\.sh)$"
       - id: source-files-headers
@@ -104,16 +106,20 @@ repos:
         files: "^src/trap/trap.sh$"
       - id: source-files-keywords
         name: ensure source files use builtins prefaced with the 'builtin' command
-        entry: "^(?!.*# noqa).*(?<!builtin )(?<!stdlib\\.builtin\\.overridable )(?<=\\s|\\()(break|continue|command|declare|echo|eval|false|printf|true|unset)((\\s|\\)).*$|$)"
-        args: [--multiline]
-        language: pygrep
+        entry: pre-commit/filtered_pygrep.py
+        args:
+          - "^\\s*#.*$"
+          - "^(?!.*\\# noqa).*(?<!builtin )(?<!stdlib\\.builtin\\.overridable )((?<=\\s|\\()|(?<=^))(break|continue|command|declare|echo|eval|false|printf|true|unset)((\\s|\\)).*$|$)"
+        language: python
         files: "^src/.+\\.sh$"
         exclude: "^((.+/)*tests/.+\\.sh)$"
       - id: test-files-binaries
         name: ensure test files don't directly reference restricted binary commands
-        entry: "^(?!.*# noqa).*(?<=\\s|\\()(cat|cut|grep|head|mktemp|rm|sed|sort|tail|tput|tr)((\\s|\\)).*$|$)"
-        args: [--multiline]
-        language: pygrep
+        entry: pre-commit/filtered_pygrep.py
+        args:
+          - "^\\s*#.*$"
+          - "^(?!.*# noqa).*((?<=\\s|\\()|(?<=^))(cat|cut|grep|head|mktemp|rm|sed|sort|tail|tput|tr)((\\s|\\)).*$|$)"
+        language: python
         files: "^((.+/)*tests/.+\\.sh)$"
         exclude: "^.*/test_.+\\.sh$"
       - id: test-files-headers
@@ -130,8 +136,10 @@ repos:
         files: "^((.+/)*tests/.+\\.sh)$"
       - id: test-files-keywords
         name: ensure test fixtures use builtins prefaced with the 'builtin' command
-        entry: "^(?!.*# noqa).*(?<!builtin )(?<!stdlib\\.builtin\\.overridable )(?<=\\s|\\()(break|continue|command|declare|echo|eval|false|printf|true|unset)((\\s|\\)).*$|$)"
-        args: [--multiline]
-        language: pygrep
+        entry: pre-commit/filtered_pygrep.py
+        args:
+          - "^\\s*#.*$"
+          - "^(?!.*# noqa).*(?<!builtin )(?<!stdlib\\.builtin\\.overridable )((?<=\\s|\\()|(?<=^))(break|continue|command|declare|echo|eval|false|printf|true|unset)((\\s|\\)).*$|$)"
+        language: python
         files: "^src/.+\\.sh$"
         exclude: "^.*/test_.+\\.sh$"
