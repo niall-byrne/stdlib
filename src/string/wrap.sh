@@ -12,7 +12,7 @@ stdlib.string.wrap() {
   # $2: the right-side wrap limit
   # $3: the text to wrap
   #
-  # _STDLIB_LINE_BREAK_CHAR:     a char that forces a line break in the text (# noqa)
+  # _STDLIB_LINE_BREAK_CHAR:     a char that forces a line break in the text
   # _STDLIB_WRAP_PREFIX_STRING:  a string to insert when wrapping text
 
   local _STDLIB_ARGS_NULL_SAFE=("3")

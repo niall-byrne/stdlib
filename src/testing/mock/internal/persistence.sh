@@ -18,7 +18,7 @@ __mock.persistence.create() {
 }
 
 __mock.persistence.registry.apply_to_all() {
-  # $1: the command to execute on all registered mocks (# noqa)
+  # $1: the command to execute on all registered mocks
 
   local mock_instance
 

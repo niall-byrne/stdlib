@@ -682,8 +682,8 @@ ${1}.mock.__controller() {
 
 # === component start ==========================
 ${1}.mock.__get_apply_to_matching_mock_calls() {
-  # $1: the matching command to execute against mock_args (# noqa)
-  # $@: the command to apply to the result (# noqa)
+  # $1: the matching command to execute against mock_args
+  # $@: the command to apply to the result
 
   local _mock_object_call_file_index=1
   local _mock_object_call_file_line

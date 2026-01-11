@@ -7,7 +7,7 @@ builtin set -eo pipefail
 _STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=""
 
 stdlib.builtin.overridable() {
-  # $1: the command to execute (# noqa)
+  # $1: the command to execute
   # _STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN
 
   local use_builtin_boolean="${_STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN:-0}"
