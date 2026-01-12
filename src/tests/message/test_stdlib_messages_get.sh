@@ -45,16 +45,16 @@ setup() {
     "is_array;IS_ARRAY|value;The value 'value' is an array!" \
     "is_equal;IS_EQUAL|value;A value equal to 'value' cannot be used!" \
     "is_fn;IS_FN|value;The value 'value' is a function!" \
-    "is_not_alphabetic;IS_NOT_ALPHABETIC|value;The value 'value' is not a set alphabetic only string!" \
-    "is_not_alpha_numeric;IS_NOT_ALPHA_NUMERIC|value;The value 'value' is not a set alpha-numeric only string!" \
+    "is_not_alphabetic;IS_NOT_ALPHABETIC|value;The value 'value' is not a alphabetic only string!" \
+    "is_not_alpha_numeric;IS_NOT_ALPHA_NUMERIC|value;The value 'value' is not a alpha-numeric only string!" \
     "is_not_array;IS_NOT_ARRAY|value;The value 'value' is not an array!" \
-    "is_not_boolean;IS_NOT_BOOLEAN|value;The value 'value' is not a set string containing a boolean (0 or 1)!" \
-    "is_not_char;IS_NOT_CHAR|value;The value 'value' is not a set string containing a single char!" \
-    "is_not_digit;IS_NOT_DIGIT|value;The value 'value' is not a set string containing a digit!" \
+    "is_not_boolean;IS_NOT_BOOLEAN|value;The value 'value' is not a string containing a boolean (0 or 1)!" \
+    "is_not_char;IS_NOT_CHAR|value;The value 'value' is not a string containing a single char!" \
+    "is_not_digit;IS_NOT_DIGIT|value;The value 'value' is not a string containing a digit!" \
     "is_not_fn;IS_NOT_FN|value;The value 'value' is not a function!" \
-    "is_not_integer;IS_NOT_INTEGER|value;The value 'value' is not a set string containing an integer!" \
-    "is_not_integer_in_range;IS_NOT_INTEGER_IN_RANGE|1|10|11;The value '11' is not a set string containing an integer in the inclusive range 1 to 10!" \
-    "is_not_octal_permission;IS_NOT_OCTAL_PERMISSION|aaa;The value 'aaa' is not a set string containing an octal file permission!" \
+    "is_not_integer;IS_NOT_INTEGER|value;The value 'value' is not a string containing an integer!" \
+    "is_not_integer_in_range;IS_NOT_INTEGER_IN_RANGE|1|10|11;The value '11' is not a string containing an integer in the inclusive range 1 to 10!" \
+    "is_not_octal_permission;IS_NOT_OCTAL_PERMISSION|aaa;The value 'aaa' is not a string containing an octal file permission!" \
     "is_not_set_string;IS_NOT_SET_STRING|value;The value 'value' is not a set string!" \
     "regex_does_not_match;REGEX_DOES_NOT_MATCH|regex|not matching;The regex 'regex' does not match the value 'not matching'!" \
     "security_insecure_group_ownership;SECURITY_INSECURE_GROUP_OWNERSHIP|/tmp/foo;SECURITY: The group ownership on '/tmp/foo' is not secure!" \

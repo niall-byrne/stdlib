@@ -9,14 +9,14 @@ STDLIB_TESTING_TRACEBACK_REGEX="${STDLIB_TESTING_TRACEBACK_REGEX:-$'((^\.\/|^\/)
 _capture.assertion_failure() {
   # $@: the assertion commands to execute
 
-  local output
-  local rc
+  builtin local output
+  builtin local rc
 
-  set +e
+  builtin set +e
   LC_ALL=C IFS= builtin read -rd '' output < <("$@" 2>&1)
-  set -e
+  builtin set -e
 
-  wait "$!"
+  builtin wait "$!"
   rc="$?"
 
   if [[ ${rc} -eq 0 ]]; then

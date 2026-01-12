@@ -9,9 +9,10 @@ __MOCK_SEQUENCE=()
 _mock.sequence.assert_is() {
   # $@: the expected sequence of mock calls
 
-  local mock_sequence=()
-  local expected_mock_sequence=("$@")
-  # shellcheck disable=SC2034
+  builtin local -a mock_sequence
+  builtin local -a expected_mock_sequence
+
+  expected_mock_sequence=("$@")
 
   _testing.__assertion.value.check "${@}"
 
@@ -25,9 +26,9 @@ _mock.sequence.assert_is() {
 
 _mock.sequence.assert_is_empty() {
 
-  local mock_sequence=()
+  builtin local -a mock_sequence
   # shellcheck disable=SC2034
-  local expected_mock_sequence=()
+  builtin local -a expected_mock_sequence
 
   _mock.sequence.record.stop
 

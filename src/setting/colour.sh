@@ -9,16 +9,16 @@ _STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN=""
 stdlib.setting.colour.enable() {
   # _STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN: disable error message on initialization failure
 
-  local silent_fallback_boolean="${_STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN:-0}"
-  local error_message=""
+  builtin local silent_fallback_boolean="${_STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN:-0}"
+  builtin local error_message=""
 
   if ! "${_STDLIB_BINARY_TPUT}" init 2> /dev/null; then
     if [[ "${silent_fallback_boolean}" != "1" ]]; then
       stdlib.setting.colour.enable._generate_error_message
-      return 127
+      builtin return 127
     fi
     stdlib.setting.colour.disable
-    return 0
+    builtin return 0
   fi
 
   stdlib.setting.colour.state.enabled
@@ -26,7 +26,7 @@ stdlib.setting.colour.enable() {
 }
 
 stdlib.setting.colour.enable._generate_error_message() {
-  local error_message=""
+  builtin local error_message=""
 
   error_message+="$(stdlib.message.get COLOUR_INITIALIZE_ERROR)\n"
   if [[ -z "${TERM}" ]]; then
