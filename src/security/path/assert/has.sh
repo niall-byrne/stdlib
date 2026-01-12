@@ -8,7 +8,7 @@ stdlib.security.path.assert.has_group() {
   # $1: the path to check
   # $2: the required group name
 
-  local return_code=0
+  builtin local return_code=0
 
   stdlib.security.path.query.has_group "${@}" || return_code="$?"
 
@@ -23,14 +23,14 @@ stdlib.security.path.assert.has_group() {
       ;;
   esac
 
-  return "${return_code}"
+  builtin return "${return_code}"
 }
 
 stdlib.security.path.assert.has_owner() {
   # $1: the path to check
   # $2: the required user name
 
-  local return_code=0
+  builtin local return_code=0
 
   stdlib.security.path.query.has_owner "${@}" || return_code="$?"
 
@@ -45,14 +45,14 @@ stdlib.security.path.assert.has_owner() {
       ;;
   esac
 
-  return "${return_code}"
+  builtin return "${return_code}"
 }
 
 stdlib.security.path.assert.has_permissions() {
   # $1: the path to check
   # $2: the permission octal value required
 
-  local return_code=0
+  builtin local return_code=0
 
   stdlib.security.path.query.has_permissions "${@}" || return_code="$?"
 
@@ -67,5 +67,5 @@ stdlib.security.path.assert.has_permissions() {
       ;;
   esac
 
-  return "${return_code}"
+  builtin return "${return_code}"
 }

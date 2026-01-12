@@ -8,27 +8,27 @@ builtin set -eo pipefail
   # $1: the name of the test function to parametrize
   # $@: a series of parametrize functions to apply to this function
 
-  local original_test_function_name=""
-  local parametrized_test_function_name=""
-  local parametrizer_index=0
-  local parametrizer_fn
-  local parametrizer_fn_array=()
-  local parametrizer_variant_array=()
-  local parametrizer_variant_tag_padding
+  builtin local original_test_function_name=""
+  builtin local parametrized_test_function_name=""
+  builtin local parametrizer_index=0
+  builtin local parametrizer_fn
+  builtin local -a parametrizer_fn_array
+  builtin local -a parametrizer_variant_array
+  builtin local parametrizer_variant_tag_padding
 
   original_test_function_name="${1}"
   parametrizer_fn_array=("${@:2}")
 
   [[ "${#@}" -gt "1" ]] || {
     _testing.error "${FUNCNAME[0]}: $(__testing.protected stdlib.message.get ARGUMENTS_INVALID)"
-    return 127
+    builtin return 127
   }
-  @parametrize._components.validate.fn_name.test "${original_test_function_name}" || return 126
+  @parametrize._components.validate.fn_name.test "${original_test_function_name}" || builtin return 126
 
   @parametrize._components.create.array.fn_variant_tags \
     parametrizer_variant_tag_padding \
     parametrizer_variant_array \
-    "${@:2}" || return 126
+    "${@:2}" || builtin return 126
 
   for ((parametrizer_index = 0; parametrizer_index < "${#parametrizer_fn_array[@]}"; parametrizer_index++)); do
     parametrizer_fn="${parametrizer_fn_array[parametrizer_index]}"

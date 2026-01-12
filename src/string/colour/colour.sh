@@ -9,10 +9,12 @@ stdlib.string.colour_n() {
   # $1: the colour
   # $2: the source string
 
-  local _STDLIB_ARGS_NULL_SAFE=("2")
-  local string_colour
+  builtin local -a _STDLIB_ARGS_NULL_SAFE
+  builtin local string_colour
 
-  stdlib.fn.args.require "2" "0" "${@}" || return "$?"
+  _STDLIB_ARGS_NULL_SAFE=("2")
+
+  stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?"
 
   string_colour="$(stdlib.setting.theme.get_colour "${1}")"
 
@@ -23,10 +25,12 @@ stdlib.string.colour() {
   # $1: the colour
   # $2: the source string
 
-  local _STDLIB_ARGS_NULL_SAFE=("2")
-  local string_output
+  builtin local -a _STDLIB_ARGS_NULL_SAFE
+  builtin local string_output
 
-  stdlib.fn.args.require "2" "0" "${@}" || return "$?"
+  _STDLIB_ARGS_NULL_SAFE=("2")
+
+  stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?"
 
   string_output="$(stdlib.string.colour_n "${1}" "${2}")"
 
