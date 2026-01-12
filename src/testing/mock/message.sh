@@ -9,12 +9,12 @@ _testing.mock.message.get() {
   # $2: interpolation option 1
   # $3: interpolation option 2
 
-  local key="${1}"
-  local message
-  local option1="${2}"
-  local option2="${3}"
-  local required_options=0
-  local return_status=0
+  builtin local key="${1}"
+  builtin local message
+  builtin local option1="${2}"
+  builtin local option2="${3}"
+  builtin local required_options=0
+  builtin local return_status=0
 
   case "${key}" in
     MOCK_CALL_ACTUAL_PREFIX)
@@ -60,7 +60,7 @@ _testing.mock.message.get() {
 
   ((return_status == 0)) || {
     __testing.protected stdlib.logger.error "${message}"
-    return ${return_status}
+    builtin return ${return_status}
   }
 
   builtin echo -n "${message}"

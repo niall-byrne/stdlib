@@ -8,7 +8,7 @@ _testing.fixtures.debug.diff() {
   # $1: the expected value to compare against
   # $2: the actual value to compare with
 
-  local debug_colour
+  builtin local debug_colour
 
   debug_colour="$(stdlib.setting.theme.get_colour "${STDLIB_TESTING_THEME_DEBUG_FIXTURE}")"
 
