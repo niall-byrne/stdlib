@@ -7,7 +7,7 @@ builtin set -eo pipefail
 stdlib.fn.assert.is_fn() {
   # $1: the function name to query
 
-  local return_code=0
+  builtin local return_code=0
 
   stdlib.fn.query.is_fn "${@}" || return_code="$?"
 
@@ -21,13 +21,13 @@ stdlib.fn.assert.is_fn() {
       ;;
   esac
 
-  return "${return_code}"
+  builtin return "${return_code}"
 }
 
 stdlib.fn.assert.is_valid_name() {
   # $1: the function name to query
 
-  local return_code=0
+  builtin local return_code=0
 
   stdlib.fn.query.is_valid_name "${@}" || return_code="$?"
 
@@ -41,5 +41,5 @@ stdlib.fn.assert.is_valid_name() {
       ;;
   esac
 
-  return "${return_code}"
+  builtin return "${return_code}"
 }
