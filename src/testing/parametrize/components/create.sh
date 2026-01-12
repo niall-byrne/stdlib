@@ -9,21 +9,20 @@ builtin set -eo pipefail
   # #2: the array to store the variant tags in
   # $@: an array of function names to convert to variant tags
 
-  local arg_name_for_padding_value="${1}"
-  local arg_name_for_variant_array="${2}"
+  builtin local arg_name_for_padding_value="${1}"
+  builtin local arg_name_for_variant_array="${2}"
 
-  local padding_value="${!1}"
-  local parametrizer_function_name=""
-  local variant_index=""
-  local variant_tag=""
-  local variants=()
+  builtin local padding_value="${!1}"
+  builtin local parametrizer_function_name=""
+  builtin local variant_index=""
+  builtin local variant_tag=""
+  builtin local -a variants
 
-  shift
-  shift
+  builtin shift 2
 
   for ((variant_index = 1; variant_index <= "${#@}"; variant_index++)); do
     parametrizer_function_name="${!variant_index}"
-    @parametrize._components.validate.fn_name.parametrizer "${parametrizer_function_name}" || return 126
+    @parametrize._components.validate.fn_name.parametrizer "${parametrizer_function_name}" || builtin return 126
     variant_tag="${parametrizer_function_name/${_PARAMETRIZE_PARAMETRIZER_PREFIX}/}"
     variants+=("${variant_tag}")
     if [[ "${#variant_tag}" -gt "${padding_value}" ]]; then
@@ -43,17 +42,17 @@ builtin set -eo pipefail
   # $5: the name of the array in which the fixture commands are stored
   # $6: the name of the array in which the scenario values are stored
 
-  local array_indirect_environment_variables=()
-  local array_indirect_environment_variables_reference
-  local array_indirect_fixture_commands=()
-  local array_indirect_fixture_commands_reference
-  local array_indirect_scenario_definition=()
-  local array_indirect_scenario_definition_reference
-  local original_test_function_name="${2}"
-  local original_test_function_reference="${3}"
-  local scenario_debug_message=""
-  local scenario_index
-  local test_function_variant_name="${1}"
+  builtin local -a array_indirect_environment_variables
+  builtin local array_indirect_environment_variables_reference
+  builtin local -a array_indirect_fixture_commands
+  builtin local array_indirect_fixture_commands_reference
+  builtin local -a array_indirect_scenario_definition
+  builtin local array_indirect_scenario_definition_reference
+  builtin local original_test_function_name="${2}"
+  builtin local original_test_function_reference="${3}"
+  builtin local scenario_debug_message=""
+  builtin local scenario_index
+  builtin local test_function_variant_name="${1}"
 
   array_indirect_environment_variables_reference="${4}[@]"
   array_indirect_environment_variables=("${!array_indirect_environment_variables_reference}")
@@ -106,7 +105,7 @@ builtin set -eo pipefail
   # $2: the function variant's description
   # $3: the length of the longest variant description for padding
 
-  local padded_variant_name
+  builtin local padded_variant_name
 
   padded_variant_name="${2// /_}"
 

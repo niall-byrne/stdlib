@@ -69,8 +69,8 @@ test_stdlib_trap_create_clean_up_fn__valid_args_______________clean_up_fn_functi
 
 # shellcheck disable=SC2034
 test_stdlib_trap_create_clean_up_fn__valid_args_______________clean_up_fn_function__valid_args__default_behaviour________all_files_exist___calls_non_recursive_rm_on_each_existing_file() {
-  _mock.create test
-  test.mock.set.rc 0
+  _mock.create stdlib.io.path.query.is_exists
+  stdlib.io.path.query.is_exists.mock.set.rc 0
 
   stdlib.trap.create.clean_up_fn clean_up_fn TEST_ARRAY
   TEST_ARRAY+=("file_exists_1")
@@ -87,8 +87,8 @@ test_stdlib_trap_create_clean_up_fn__valid_args_______________clean_up_fn_functi
 
 # shellcheck disable=SC2034
 test_stdlib_trap_create_clean_up_fn__valid_args_______________clean_up_fn_function__valid_args__default_behaviour________some_files_exist__calls_non_recursive_rm_on_each_existing_file() {
-  _mock.create test
-  test.mock.set.side_effects "return 0" "return 1" "return 0"
+  _mock.create stdlib.io.path.query.is_exists
+  stdlib.io.path.query.is_exists.mock.set.side_effects "return 0" "return 1" "return 0"
 
   stdlib.trap.create.clean_up_fn clean_up_fn TEST_ARRAY
   TEST_ARRAY+=("file_exists_1")
@@ -104,8 +104,8 @@ test_stdlib_trap_create_clean_up_fn__valid_args_______________clean_up_fn_functi
 
 # shellcheck disable=SC2034
 test_stdlib_trap_create_clean_up_fn__valid_args_______________clean_up_fn_function__valid_args__specified_non_recursive__all_files_exist___calls_non_recursive_rm_on_each_existing_file() {
-  _mock.create test
-  test.mock.set.rc 0
+  _mock.create stdlib.io.path.query.is_exists
+  stdlib.io.path.query.is_exists.mock.set.rc 0
 
   stdlib.trap.create.clean_up_fn clean_up_fn TEST_ARRAY "0"
   TEST_ARRAY+=("file_exists_1")
@@ -122,8 +122,8 @@ test_stdlib_trap_create_clean_up_fn__valid_args_______________clean_up_fn_functi
 
 # shellcheck disable=SC2034
 test_stdlib_trap_create_clean_up_fn__valid_args_______________clean_up_fn_function__valid_args__specified_non_recursive__some_files_exist__calls_non_recursive_rm_on_each_existing_file() {
-  _mock.create test
-  test.mock.set.side_effects "return 0" "return 1" "return 0"
+  _mock.create stdlib.io.path.query.is_exists
+  stdlib.io.path.query.is_exists.mock.set.side_effects "return 0" "return 1" "return 0"
 
   stdlib.trap.create.clean_up_fn clean_up_fn TEST_ARRAY "0"
   TEST_ARRAY+=("file_exists_1")
@@ -139,8 +139,8 @@ test_stdlib_trap_create_clean_up_fn__valid_args_______________clean_up_fn_functi
 
 # shellcheck disable=SC2034
 test_stdlib_trap_create_clean_up_fn__valid_args_______________clean_up_fn_function__valid_args__specified_recursive______all_files_exist___calls_non_recursive_rm_on_each_existing_file() {
-  _mock.create test
-  test.mock.set.rc 0
+  _mock.create stdlib.io.path.query.is_exists
+  stdlib.io.path.query.is_exists.mock.set.rc 0
 
   stdlib.trap.create.clean_up_fn clean_up_fn TEST_ARRAY "1"
   TEST_ARRAY+=("file_exists_1")
@@ -157,8 +157,8 @@ test_stdlib_trap_create_clean_up_fn__valid_args_______________clean_up_fn_functi
 
 # shellcheck disable=SC2034
 test_stdlib_trap_create_clean_up_fn__valid_args_______________clean_up_fn_function__valid_args__specified_recursive______some_files_exist__calls_non_recursive_rm_on_each_existing_file() {
-  _mock.create test
-  test.mock.set.side_effects "return 0" "return 1" "return 0"
+  _mock.create stdlib.io.path.query.is_exists
+  stdlib.io.path.query.is_exists.mock.set.side_effects "return 0" "return 1" "return 0"
 
   stdlib.trap.create.clean_up_fn clean_up_fn TEST_ARRAY "1"
   TEST_ARRAY+=("file_exists_1")

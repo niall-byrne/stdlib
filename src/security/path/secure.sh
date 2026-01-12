@@ -10,7 +10,7 @@ stdlib.security.path.secure() {
   # $3: the group name to set
   # $4: the permission octal value to set
 
-  stdlib.fn.args.require "4" "0" "${@}" || return "$?"
+  stdlib.fn.args.require "4" "0" "${@}" || builtin return "$?"
 
   chown "${2}":"${3}" "${1}"
   chmod "${4}" "${1}"

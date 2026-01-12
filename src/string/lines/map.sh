@@ -10,18 +10,20 @@ stdlib.string.lines.map.format() {
   #
   # _STDLIB_DELIMITER:  a char to split the string with for processing
 
-  local _STDLIB_ARGS_NULL_SAFE=("2")
-  local delimiter="${_STDLIB_DELIMITER:-$'\n'}"
-  local line=""
-  local output=""
+  builtin local -a _STDLIB_ARGS_NULL_SAFE
+  builtin local delimiter="${_STDLIB_DELIMITER:-$'\n'}"
+  builtin local line=""
+  builtin local output=""
 
-  stdlib.fn.args.require "2" "0" "${@}" || return "$?"
-  stdlib.string.assert.is_char "${delimiter}" || return 126
+  _STDLIB_ARGS_NULL_SAFE=("2")
+
+  stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?"
+  stdlib.string.assert.is_char "${delimiter}" || builtin return 126
 
   if ! stdlib.string.query.has_substring "${delimiter}" "${2}"; then
     # shellcheck disable=SC2059
     builtin printf "${1}" "${2}"
-    return
+    builtin return
   fi
 
   while IFS="${delimiter}" builtin read -r -d "${delimiter}" line; do
@@ -42,18 +44,20 @@ stdlib.string.lines.map.fn() {
   #
   # _STDLIB_DELIMITER:  a char to split the string with for processing
 
-  local _STDLIB_ARGS_NULL_SAFE=("2")
-  local delimiter="${_STDLIB_DELIMITER:-$'\n'}"
-  local line=""
-  local output=""
+  builtin local -a _STDLIB_ARGS_NULL_SAFE
+  builtin local delimiter="${_STDLIB_DELIMITER:-$'\n'}"
+  builtin local line=""
+  builtin local output=""
 
-  stdlib.fn.args.require "2" "0" "${@}" || return "$?"
-  stdlib.fn.assert.is_fn "${1}" || return 126
-  stdlib.string.assert.is_char "${delimiter}" || return 126
+  _STDLIB_ARGS_NULL_SAFE=("2")
+
+  stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?"
+  stdlib.fn.assert.is_fn "${1}" || builtin return 126
+  stdlib.string.assert.is_char "${delimiter}" || builtin return 126
 
   if ! stdlib.string.query.has_substring "${delimiter}" "${2}"; then
     "${1}" "${2}"
-    return
+    builtin return
   fi
 
   while IFS="${delimiter}" builtin read -r -d "${delimiter}" line; do

@@ -10,12 +10,12 @@ _testing.assert.message.get() {
   # $3: interpolation option 2
   # $4: interpolation option 3
 
-  local key="${1}"
-  local message
-  local option1="${2}"
-  local option2="${3}"
-  local required_options=0
-  local return_status=0
+  builtin local key="${1}"
+  builtin local message
+  builtin local option1="${2}"
+  builtin local option2="${3}"
+  builtin local required_options=0
+  builtin local return_status=0
 
   case "${key}" in
     ASSERT_ERROR_DID_NOT_FAIL)
@@ -81,7 +81,7 @@ _testing.assert.message.get() {
 
   ((return_status == 0)) || {
     __testing.protected stdlib.logger.error "${message}"
-    return ${return_status}
+    builtin return ${return_status}
   }
 
   builtin echo -n "${message}"
