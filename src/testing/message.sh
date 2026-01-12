@@ -8,11 +8,11 @@ _testing.message.get() {
   # $1: the message key to retrieve
   # $2: interpolation option 1
 
-  local key="${1}"
-  local message
-  local option1="${2}"
-  local required_options=0
-  local return_status=0
+  builtin local key="${1}"
+  builtin local message
+  builtin local option1="${2}"
+  builtin local required_options=0
+  builtin local return_status=0
 
   case "${key}" in
     DEBUG_DIFF_FOOTER)
@@ -53,11 +53,11 @@ _testing.message.get() {
       ;;
     PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_DETAIL)
       required_options=0
-      message="This test variant was created twice, please check your parametrize configuration for this test."
+      message="This test variant was created twice, please check your parametrize configuration for this test." # noqa
       ;;
     PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_NAME)
       required_options=0
-      message="Duplicate test variant name!"
+      message="Duplicate test variant name!" # noqa
       ;;
     PARAMETRIZE_ERROR_FN_DOES_NOT_EXIST)
       required_options=0
@@ -138,7 +138,7 @@ _testing.message.get() {
 
   ((return_status == 0)) || {
     __testing.protected stdlib.logger.error "${message}"
-    return ${return_status}
+    builtin return ${return_status}
   }
 
   builtin echo -n "${message}"

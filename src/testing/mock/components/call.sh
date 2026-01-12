@@ -4,15 +4,18 @@
 
 builtin set -eo pipefail
 
-export CONTENT
+builtin export CONTENT
 
+# shellcheck disable=SC2034
 CONTENT="$(
   "${_STDLIB_BINARY_CAT}" << EOF
 ${1}.mock.__call() {
   # $@: the arguments the mock was called with
 
-  local _mock_object_args=("\${@}")
-  local _mock_object_call_array=()
+  builtin local -a _mock_object_args
+  builtin local -a _mock_object_call_array
+
+  _mock_object_args=("\${@}")
 
   __mock.arg_array.from_array \
     _mock_object_call_array \

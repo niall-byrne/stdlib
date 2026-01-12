@@ -7,7 +7,7 @@ builtin set -eo pipefail
 stdlib.string.assert.is_alpha() {
   # $1: the string to check
 
-  local return_code=0
+  builtin local return_code=0
 
   stdlib.string.query.is_alpha "${@}" || return_code="$?"
 
@@ -21,13 +21,13 @@ stdlib.string.assert.is_alpha() {
       ;;
   esac
 
-  return "${return_code}"
+  builtin return "${return_code}"
 }
 
 stdlib.string.assert.is_alpha_numeric() {
   # $1: the string to check
 
-  local return_code=0
+  builtin local return_code=0
 
   stdlib.string.query.is_alpha_numeric "${@}" || return_code="$?"
 
@@ -41,13 +41,13 @@ stdlib.string.assert.is_alpha_numeric() {
       ;;
   esac
 
-  return "${return_code}"
+  builtin return "${return_code}"
 }
 
 stdlib.string.assert.is_boolean() {
   # $1: the string to check
 
-  local return_code=0
+  builtin local return_code=0
 
   stdlib.string.query.is_boolean "${@}" || return_code="$?"
 
@@ -61,13 +61,13 @@ stdlib.string.assert.is_boolean() {
       ;;
   esac
 
-  return "${return_code}"
+  builtin return "${return_code}"
 }
 
 stdlib.string.assert.is_char() {
   # $1: the string to check
 
-  local return_code=0
+  builtin local return_code=0
 
   stdlib.string.query.is_char "${@}" || return_code="$?"
 
@@ -81,13 +81,13 @@ stdlib.string.assert.is_char() {
       ;;
   esac
 
-  return "${return_code}"
+  builtin return "${return_code}"
 }
 
 stdlib.string.assert.is_digit() {
   # $1: the string to check
 
-  local return_code=0
+  builtin local return_code=0
 
   stdlib.string.query.is_digit "${@}" || return_code="$?"
 
@@ -101,13 +101,13 @@ stdlib.string.assert.is_digit() {
       ;;
   esac
 
-  return "${return_code}"
+  builtin return "${return_code}"
 }
 
 stdlib.string.assert.is_integer() {
   # $1: the string to check
 
-  local return_code=0
+  builtin local return_code=0
 
   stdlib.string.query.is_integer "${@}" || return_code="$?"
 
@@ -121,7 +121,7 @@ stdlib.string.assert.is_integer() {
       ;;
   esac
 
-  return "${return_code}"
+  builtin return "${return_code}"
 }
 
 stdlib.string.assert.is_integer_with_range() {
@@ -129,7 +129,7 @@ stdlib.string.assert.is_integer_with_range() {
   # $2: the range end point
   # $3: the digit itself
 
-  local return_code=0
+  builtin local return_code=0
 
   stdlib.string.query.is_integer_with_range "${@}" || return_code="$?"
 
@@ -143,13 +143,13 @@ stdlib.string.assert.is_integer_with_range() {
       ;;
   esac
 
-  return "${return_code}"
+  builtin return "${return_code}"
 }
 
 stdlib.string.assert.is_octal_permission() {
   # $1: the string to check
 
-  local return_code=0
+  builtin local return_code=0
 
   stdlib.string.query.is_octal_permission "${@}" || return_code="$?"
 
@@ -163,14 +163,14 @@ stdlib.string.assert.is_octal_permission() {
       ;;
   esac
 
-  return "${return_code}"
+  builtin return "${return_code}"
 }
 
 stdlib.string.assert.is_regex_match() {
   # $1: the regex to match
   # $2: the string to check
 
-  local return_code=0
+  builtin local return_code=0
 
   stdlib.string.query.is_regex_match "${@}" || return_code="$?"
 
@@ -184,13 +184,13 @@ stdlib.string.assert.is_regex_match() {
       ;;
   esac
 
-  return "${return_code}"
+  builtin return "${return_code}"
 }
 
 stdlib.string.assert.is_string() {
   # $1: the string to check
 
-  local return_code=0
+  builtin local return_code=0
 
   stdlib.string.query.is_string "${@}" || return_code="$?"
 
@@ -204,5 +204,5 @@ stdlib.string.assert.is_string() {
       ;;
   esac
 
-  return "${return_code}"
+  builtin return "${return_code}"
 }

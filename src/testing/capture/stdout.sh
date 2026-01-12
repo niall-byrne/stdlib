@@ -17,6 +17,6 @@ _capture.stdout_raw() {
   # shellcheck disable=SC2034
   LC_ALL=C IFS= builtin read -rd '' TEST_OUTPUT < <("$@" 2> /dev/null)
 
-  wait "$!"
-  return "$?"
+  builtin wait "$!"
+  builtin return "$?"
 }

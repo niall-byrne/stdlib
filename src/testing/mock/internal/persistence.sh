@@ -18,9 +18,9 @@ __mock.persistence.create() {
 }
 
 __mock.persistence.registry.apply_to_all() {
-  # $1: the command to execute on all registered mocks (# noqa)
+  # $1: the command to execute on all registered mocks
 
-  local mock_instance
+  builtin local mock_instance
 
   for mock_instance in "${__MOCK_INSTANCES[@]}"; do
     "${mock_instance}".mock."${1}"
@@ -50,14 +50,16 @@ __mock.persistence.sequence.initialize() {
 }
 
 __mock.persistence.sequence.retrieve() {
-  local __MOCK_SEQUENCE_PERSISTED_ARRAY=()
+  builtin local -a __MOCK_SEQUENCE_PERSISTED_ARRAY
 
   builtin eval "$(${_STDLIB_BINARY_CAT} "${__MOCK_SEQUENCE_PERSISTENCE_FILE}")"
   __MOCK_SEQUENCE=("${__MOCK_SEQUENCE_PERSISTED_ARRAY[@]}")
 }
 
 __mock.persistence.sequence.update() {
-  local __MOCK_SEQUENCE_PERSISTED_ARRAY=("${__MOCK_SEQUENCE[@]}")
+  builtin local -a __MOCK_SEQUENCE_PERSISTED_ARRAY
+
+  __MOCK_SEQUENCE_PERSISTED_ARRAY=("${__MOCK_SEQUENCE[@]}")
 
   builtin declare -p __MOCK_SEQUENCE_PERSISTED_ARRAY > "${__MOCK_SEQUENCE_PERSISTENCE_FILE}"
 }

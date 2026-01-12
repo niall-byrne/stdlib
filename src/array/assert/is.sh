@@ -7,7 +7,7 @@ builtin set -eo pipefail
 stdlib.array.assert.is_array() {
   # $1: the array name
 
-  local _stdlib_return_code=0
+  builtin local _stdlib_return_code=0
 
   stdlib.array.query.is_array "${@}" || _stdlib_return_code="$?"
 
@@ -21,14 +21,14 @@ stdlib.array.assert.is_array() {
       ;;
   esac
 
-  return "${_stdlib_return_code}"
+  builtin return "${_stdlib_return_code}"
 }
 
 stdlib.array.assert.is_contains() {
   # $1: the value to assert is present
   # $2: the array name
 
-  local _stdlib_return_code=0
+  builtin local _stdlib_return_code=0
 
   stdlib.array.query.is_contains "${@}" || _stdlib_return_code="$?"
 
@@ -42,13 +42,13 @@ stdlib.array.assert.is_contains() {
       ;;
   esac
 
-  return "${_stdlib_return_code}"
+  builtin return "${_stdlib_return_code}"
 }
 
 stdlib.array.assert.is_empty() {
   # $1: the array name
 
-  local _stdlib_return_code=0
+  builtin local _stdlib_return_code=0
 
   stdlib.array.query.is_empty "${@}" || _stdlib_return_code="$?"
 
@@ -65,28 +65,28 @@ stdlib.array.assert.is_empty() {
       ;;
   esac
 
-  return "${_stdlib_return_code}"
+  builtin return "${_stdlib_return_code}"
 }
 
 stdlib.array.assert.is_equal() {
   # $1: the name of the first array to compare
   # $2: the name of the second array to compare
 
-  local _stdlib_array_index
-  local _stdlib_array_name_1="${1}"
-  local _stdlib_array_name_2="${2}"
-  local _stdlib_comparison_errors_array=()
-  local _stdlib_indirect_array_1=()
-  local _stdlib_indirect_array_2=()
-  local _stdlib_indirect_reference_1
-  local _stdlib_indirect_reference_2
+  builtin local _stdlib_array_index
+  builtin local _stdlib_array_name_1="${1}"
+  builtin local _stdlib_array_name_2="${2}"
+  builtin local -a _stdlib_comparison_errors_array
+  builtin local -a _stdlib_indirect_array_1
+  builtin local -a _stdlib_indirect_array_2
+  builtin local _stdlib_indirect_reference_1
+  builtin local _stdlib_indirect_reference_2
 
   [[ "${#@}" == "2" ]] || {
     stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
-    return 127
+    builtin return 127
   }
-  stdlib.array.assert.is_array "${1}" || return 126
-  stdlib.array.assert.is_array "${2}" || return 126
+  stdlib.array.assert.is_array "${1}" || builtin return 126
+  stdlib.array.assert.is_array "${2}" || builtin return 126
 
   _stdlib_indirect_reference_1="${_stdlib_array_name_1}[@]"
   _stdlib_indirect_array_1=("${!_stdlib_indirect_reference_1}")
@@ -112,8 +112,8 @@ stdlib.array.assert.is_equal() {
     for ((_stdlib_array_index = 0; _stdlib_array_index < "${#_stdlib_comparison_errors_array[@]}"; _stdlib_array_index++)); do
       stdlib.logger.error "${_stdlib_comparison_errors_array[_stdlib_array_index]}"
     done
-    return 1
+    builtin return 1
   fi
 
-  return 0
+  builtin return 0
 }
