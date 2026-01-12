@@ -52,8 +52,8 @@ __MOCK_SEQUENCE_TRACKING="0"
 # _mock.sequence.record.resume              - resumes recording all mock calls without clearing the existing sequence
 
 _testing._mock.compile() {
-  local mock_component
-  local mock_component_file_set=()
+  builtin local mock_component
+  builtin local -a mock_component_file_set
 
   mock_component_file_set=(
     "${STDLIB_DIRECTORY}/testing/mock/components/defaults.sh"
@@ -66,14 +66,14 @@ _testing._mock.compile() {
   )
 
   # shellcheck disable=SC1090
-  source <({
+  builtin source <({
     builtin echo "_mock.__generate_mock() {"
     builtin echo "  __mock.persistence.create \"\${1}\" \"\${2}\""
     builtin echo "builtin eval \"\$(\"${_STDLIB_BINARY_CAT}\" <<EOF"
 
     for mock_component in "${mock_component_file_set[@]}"; do
       builtin echo -e "\n\n# === component start =========================="
-      "${_STDLIB_BINARY_SED}" -e "1,10d" "${mock_component}" | "${_STDLIB_BINARY_HEAD}" -n -2
+      "${_STDLIB_BINARY_SED}" -e "1,11d" "${mock_component}" | "${_STDLIB_BINARY_HEAD}" -n -2
       builtin echo -e "# === component end ============================\n\n"
     done
 
@@ -86,20 +86,20 @@ _testing._mock.compile() {
 _mock.create() {
   # $1: the variable name to create
 
-  local _mock_sanitized_fn_name
-  local _mock_escaped_fn_name
-  local _mock_attribute
-  local _mock_restricted_attribute_boolean=0
+  builtin local _mock_sanitized_fn_name
+  builtin local _mock_escaped_fn_name
+  builtin local _mock_attribute
+  builtin local _mock_restricted_attribute_boolean=0
 
   if [[ "${#@}" != 1 ]] || [[ -z "${1}" ]]; then
     _testing.error "${FUNCNAME[0]}: $(__testing.protected stdlib.message.get ARGUMENTS_INVALID)"
-    return 127
+    builtin return 127
   fi
 
   if ! __testing.protected stdlib.fn.query.is_valid_name "${1}" ||
     __testing.protected stdlib.array.query.is_contains "${1}" _MOCK_ATTRIBUTES_RESTRICTED; then
     _testing.error "${FUNCNAME[0]}: $(_testing.message.get MOCK_TARGET_INVALID "${1}")"
-    return 126
+    builtin return 126
   fi
 
   builtin printf -v "_mock_escaped_fn_name" "%q" "${1}"
@@ -116,8 +116,8 @@ _mock.create() {
 _mock.delete() {
   # $1: the mock name to delete (restoring the original implementation)
 
-  __testing.protected stdlib.fn.assert.is_fn "${1}" || return 127
-  __testing.protected stdlib.fn.assert.is_fn "${1}.mock.set.subcommand" || return 127
+  __testing.protected stdlib.fn.assert.is_fn "${1}" || builtin return 127
+  __testing.protected stdlib.fn.assert.is_fn "${1}.mock.set.subcommand" || builtin return 127
 
   builtin unset -f "${1}"
 

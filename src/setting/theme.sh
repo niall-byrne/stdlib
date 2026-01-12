@@ -6,7 +6,7 @@ builtin set -eo pipefail
 
 stdlib.setting.theme.get_colour() {
 
-  local theme_colour
+  builtin local theme_colour
 
   theme_colour="STDLIB_COLOUR_${1}"
 

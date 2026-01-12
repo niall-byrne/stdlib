@@ -9,10 +9,12 @@ stdlib.string.lines.join() {
   #
   # _STDLIB_DELIMITER:  a char sequence to replace which joins the string
 
-  local _STDLIB_ARGS_NULL_SAFE=("1")
-  local delimiter="${_STDLIB_DELIMITER:-$'\n'}"
+  builtin local -a _STDLIB_ARGS_NULL_SAFE
+  builtin local delimiter="${_STDLIB_DELIMITER:-$'\n'}"
 
-  stdlib.fn.args.require "1" "0" "${@}" || return "$?"
+  _STDLIB_ARGS_NULL_SAFE=("1")
+
+  stdlib.fn.args.require "1" "0" "${@}" || builtin return "$?"
 
   builtin printf '%s\n' "${1//${delimiter}/}"
 }

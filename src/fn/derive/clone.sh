@@ -8,13 +8,13 @@ stdlib.fn.derive.clone() {
   # $1: the original function name
   # $2: the function's new reference name
 
-  local function_name="${1}"
-  local function_reference="${2}"
+  builtin local function_name="${1}"
+  builtin local function_reference="${2}"
 
-  [[ "${#@}" == 2 ]] || return 127
-  stdlib.fn.assert.is_fn "${function_name}" || return 126
-  [[ -n "${function_reference}" ]] || return 126
-  stdlib.fn.assert.is_valid_name "${function_reference}" || return 126
+  [[ "${#@}" == 2 ]] || builtin return 127
+  stdlib.fn.assert.is_fn "${function_name}" || builtin return 126
+  [[ -n "${function_reference}" ]] || builtin return 126
+  stdlib.fn.assert.is_valid_name "${function_reference}" || builtin return 126
 
   builtin eval "$(
     builtin echo "${function_reference}()"

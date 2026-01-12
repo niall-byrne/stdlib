@@ -10,11 +10,11 @@ stdlib.security.path.query.is_secure() {
   # $3: the required group name
   # $4: the permission octal value required
 
-  [[ "${#@}" == "4" ]] || return 127
+  [[ "${#@}" == "4" ]] || builtin return 127
 
   if ! stdlib.security.path.query.has_owner "${1}" "${2}" ||
     ! stdlib.security.path.query.has_group "${1}" "${3}" ||
     ! stdlib.security.path.query.has_permissions "${1}" "${4}"; then
-    return 1
+    builtin return 1
   fi
 }

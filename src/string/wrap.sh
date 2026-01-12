@@ -12,25 +12,27 @@ stdlib.string.wrap() {
   # $2: the right-side wrap limit
   # $3: the text to wrap
   #
-  # _STDLIB_LINE_BREAK_CHAR:     a char that forces a line break in the text (# noqa)
+  # _STDLIB_LINE_BREAK_CHAR:     a char that forces a line break in the text
   # _STDLIB_WRAP_PREFIX_STRING:  a string to insert when wrapping text
 
-  local _STDLIB_ARGS_NULL_SAFE=("3")
-  local wrap_indent_string="${_STDLIB_WRAP_PREFIX_STRING:-""}"
-  local forced_line_break_char="${_STDLIB_LINE_BREAK_CHAR:-*}"
+  builtin local -a _STDLIB_ARGS_NULL_SAFE
+  builtin local wrap_indent_string="${_STDLIB_WRAP_PREFIX_STRING:-""}"
+  builtin local forced_line_break_char="${_STDLIB_LINE_BREAK_CHAR:-*}"
 
-  local current_line=""
-  local current_line_length=0
-  local current_word=""
-  local current_word_length=0
-  local input_array=()
-  local output=""
-  local wrap_limit=0
-  local wrap_indent_length="${#wrap_indent_string}"
+  builtin local current_line=""
+  builtin local current_line_length=0
+  builtin local current_word=""
+  builtin local current_word_length=0
+  builtin local -a input_array
+  builtin local output=""
+  builtin local wrap_limit=0
+  builtin local wrap_indent_length="${#wrap_indent_string}"
 
-  stdlib.fn.args.require "3" "0" "${@}" || return "$?"
-  stdlib.string.assert.is_digit "${1}" || return 126
-  stdlib.string.assert.is_digit "${2}" || return 126
+  _STDLIB_ARGS_NULL_SAFE=("3")
+
+  stdlib.fn.args.require "3" "0" "${@}" || builtin return "$?"
+  stdlib.string.assert.is_digit "${1}" || builtin return 126
+  stdlib.string.assert.is_digit "${2}" || builtin return 126
 
   wrap_limit="$(("${2}" - "${1}"))"
   builtin read -ra input_array <<< "${3}"

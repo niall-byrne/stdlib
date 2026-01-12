@@ -9,12 +9,12 @@ _STDLIB_ARRAY_BUFFER=""
 stdlib.array.get.last() {
   # $1: the array name
 
-  local indirect_reference
-  local indirect_array=()
-  local indirect_array_last_element_index
+  builtin local indirect_reference
+  builtin local -a indirect_array
+  builtin local indirect_array_last_element_index
 
-  stdlib.fn.args.require "1" "0" "${@}" || return "$?"
-  stdlib.array.assert.not_empty "${1}" || return 126
+  stdlib.fn.args.require "1" "0" "${@}" || builtin return "$?"
+  stdlib.array.assert.not_empty "${1}" || builtin return 126
 
   indirect_reference="${1}[@]"
   indirect_array=("${!indirect_reference}")
@@ -27,12 +27,12 @@ stdlib.array.get.last() {
 stdlib.array.get.length() {
   # $1: the array name
 
-  local indirect_reference
-  local indirect_array=()
-  local indirect_array_last_element_index
+  builtin local indirect_reference
+  builtin local -a indirect_array
+  builtin local indirect_array_last_element_index
 
-  stdlib.fn.args.require "1" "0" "${@}" || return "$?"
-  stdlib.array.assert.is_array "${1}" || return 126
+  stdlib.fn.args.require "1" "0" "${@}" || builtin return "$?"
+  stdlib.array.assert.is_array "${1}" || builtin return 126
 
   indirect_reference="${1}[@]"
   indirect_array=("${!indirect_reference}")
@@ -44,14 +44,14 @@ stdlib.array.get.length() {
 stdlib.array.get.longest() {
   # $1: the array name
 
-  local indirect_reference
-  local indirect_array=()
-  local indirect_array_last_element_index
-  local current_array_element
-  local longest_array_element_length=-1
+  builtin local indirect_reference
+  builtin local -a indirect_array
+  builtin local indirect_array_last_element_index
+  builtin local current_array_element
+  builtin local longest_array_element_length=-1
 
-  stdlib.fn.args.require "1" "0" "${@}" || return "$?"
-  stdlib.array.assert.not_empty "${1}" || return 126
+  stdlib.fn.args.require "1" "0" "${@}" || builtin return "$?"
+  stdlib.array.assert.not_empty "${1}" || builtin return 126
 
   indirect_reference="${1}[@]"
   indirect_array=("${!indirect_reference}")
@@ -69,14 +69,14 @@ stdlib.array.get.longest() {
 stdlib.array.get.shortest() {
   # $1: the array name
 
-  local indirect_reference
-  local indirect_array=()
-  local indirect_array_last_element_index
-  local current_array_element
-  local shortest_array_element_length=-1
+  builtin local indirect_reference
+  builtin local -a indirect_array
+  builtin local indirect_array_last_element_index
+  builtin local current_array_element
+  builtin local shortest_array_element_length=-1
 
-  stdlib.fn.args.require "1" "0" "${@}" || return "$?"
-  stdlib.array.assert.not_empty "${1}" || return 126
+  stdlib.fn.args.require "1" "0" "${@}" || builtin return "$?"
+  stdlib.array.assert.not_empty "${1}" || builtin return 126
 
   indirect_reference="${1}[@]"
   indirect_array=("${!indirect_reference}")
