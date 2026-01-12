@@ -8,8 +8,8 @@ _STDLIB_LOGGING_MESSAGE_PREFIX=""
 _STDLIB_LOGGING_DECORATORS=("__testing.protected")
 
 stdlib.logger.traceback() {
-  local fn_name_index
-  local fn_name_indent=">"
+  builtin local fn_name_index
+  builtin local fn_name_indent=">"
 
   stdlib.message.get TRACEBACK_HEADER
   builtin echo
@@ -70,7 +70,7 @@ stdlib.logger.success() {
 }
 
 stdlib.logger.__message_prefix() {
-  local message_prefix="${_STDLIB_LOGGING_MESSAGE_PREFIX:-${FUNCNAME[3]}}"
+  builtin local message_prefix="${_STDLIB_LOGGING_MESSAGE_PREFIX:-${FUNCNAME[3]}}"
   if stdlib.array.query.is_contains "${message_prefix}" _STDLIB_LOGGING_DECORATORS; then
     message_prefix="${FUNCNAME[4]}"
   fi
