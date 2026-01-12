@@ -9,10 +9,10 @@ _STDLIB_PASSWORD_BOOLEAN=""
 stdlib.io.stdin.confirmation() {
   # 1: (optional) the prompt to display
 
-  local input_char
-  local prompt=${1:-"$(stdlib.message.get STDIN_DEFAULT_CONFIRMATION_PROMPT)"}
+  builtin local input_char
+  builtin local prompt="${1:-"$(stdlib.message.get STDIN_DEFAULT_CONFIRMATION_PROMPT)"}"
 
-  stdlib.fn.args.require "0" "1" "${@}" || return "$?"
+  stdlib.fn.args.require "0" "1" "${@}" || builtin return "$?"
 
   builtin echo -en "${prompt}"
 
@@ -20,11 +20,11 @@ stdlib.io.stdin.confirmation() {
     builtin read -rs -n 1 input_char
     if [[ "${input_char}" == "n" ]]; then
       builtin echo
-      return 1
+      builtin return 1
     fi
     if [[ "${input_char}" == "Y" ]]; then
       builtin echo
-      return 0
+      builtin return 0
     fi
   done
 }
@@ -32,10 +32,10 @@ stdlib.io.stdin.confirmation() {
 stdlib.io.stdin.pause() {
   # 1: (optional) the prompt to display
 
-  local input_char
-  local prompt=${1:-"$(stdlib.message.get STDIN_DEFAULT_PAUSE_PROMPT)"}
+  builtin local input_char
+  builtin local prompt="${1:-"$(stdlib.message.get STDIN_DEFAULT_PAUSE_PROMPT)"}"
 
-  stdlib.fn.args.require "0" "1" "${@}" || return "$?"
+  stdlib.fn.args.require "0" "1" "${@}" || builtin return "$?"
 
   builtin echo -en "${prompt}"
   builtin read -rs -n 1 input_char
@@ -47,11 +47,11 @@ stdlib.io.stdin.prompt() {
   #
   # _STDLIB_PASSWORD_BOOLEAN: set to 1 to mask password entry
 
-  local flags="-rp"
-  local prompt=${2:-"$(stdlib.message.get STDIN_DEFAULT_VALUE_PROMPT)"}
-  local password="${_STDLIB_PASSWORD_BOOLEAN:-0}"
+  builtin local flags="-rp"
+  builtin local prompt="${2:-"$(stdlib.message.get STDIN_DEFAULT_VALUE_PROMPT)"}"
+  builtin local password="${_STDLIB_PASSWORD_BOOLEAN:-0}"
 
-  stdlib.fn.args.require "1" "1" "${@}" || return "$?"
+  stdlib.fn.args.require "1" "1" "${@}" || builtin return "$?"
 
   if [[ "${password}" == "1" ]]; then
     flags="-rsp"

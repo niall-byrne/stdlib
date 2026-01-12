@@ -4,17 +4,18 @@
 
 builtin set -eo pipefail
 
-export CONTENT
+builtin export CONTENT
 
+# shellcheck disable=SC2034
 CONTENT="$(
   "${_STDLIB_BINARY_CAT}" << EOF
 ${1}.mock.__controller() {
   # $1: the mock component to execute
   # $@: additional arguments to pass
 
-  local _mock_object_pipe_input_line
-  local _mock_object_side_effect
-  local _mock_object_side_effects=()
+  builtin local _mock_object_pipe_input_line
+  builtin local _mock_object_side_effect
+  builtin local -a _mock_object_side_effects
 
   case "\${1}" in
     pipeable)
