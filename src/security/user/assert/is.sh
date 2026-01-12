@@ -6,7 +6,7 @@ builtin set -eo pipefail
 
 stdlib.security.user.assert.is_root() {
 
-  local return_code=0
+  builtin local return_code=0
 
   stdlib.security.user.query.is_root "${@}" || return_code="$?"
 
@@ -20,5 +20,5 @@ stdlib.security.user.assert.is_root() {
       ;;
   esac
 
-  return "${return_code}"
+  builtin return "${return_code}"
 }

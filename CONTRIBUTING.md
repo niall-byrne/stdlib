@@ -96,6 +96,8 @@ Avoid using `local -a` and instead define with an empty array:
 - avoid: `local -a variable_name`
 - instead: `local variable_name=()`
 
+(Production code uses `builtin local -a` and differs from this testing requirement.)
+
 ##### AAA Testing Methodology
 
 Please follow the Arrange, Act, Assert testing methodology, separated these three steps by at least one blank line in the test.
