@@ -12,12 +12,12 @@ stdlib.fn.derive.pipeable() {
   #
   # _STDIN_SOURCE_SPECIFIER:  a reserved argument used to specify a stdin source
 
-  local derive_target_fn_name
-  local stdin_source_specifier="${STDIN_SOURCE_SPECIFIER:-"-"}"
+  builtin local derive_target_fn_name
+  builtin local stdin_source_specifier="${STDIN_SOURCE_SPECIFIER:-"-"}"
 
-  stdlib.fn.args.require "2" "0" "${@}" || return "$?"
-  stdlib.fn.assert.is_fn "${1}" || return 126
-  stdlib.string.assert.is_digit "${2}" || return 126
+  stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?"
+  stdlib.fn.assert.is_fn "${1}" || builtin return 126
+  stdlib.string.assert.is_digit "${2}" || builtin return 126
 
   derive_target_fn_name="${1}"
 
@@ -35,13 +35,15 @@ ${derive_target_fn_name}_pipe() {
   #   STDIN_POSITIONAL: the user specified that an argument is explicitly from stdin
   #   STDIN_ASSUMED:    there are not enough arguments and no known position for stdin, append stdin
 
-  local mutate_examined_arg=""
-  local mutate_examined_arg_index=0
-  local mutate_pipe_input=""
-  local mutate_pipe_input_index=0
-  local mutate_pipe_input_line=''
-  local mutate_pipe_parser_strategy="ARG_SPECIFIED"
-  local mutate_received_args=("\$@")
+  builtin local mutate_examined_arg=""
+  builtin local mutate_examined_arg_index=0
+  builtin local mutate_pipe_input=""
+  builtin local mutate_pipe_input_index=0
+  builtin local mutate_pipe_input_line=''
+  builtin local mutate_pipe_parser_strategy="ARG_SPECIFIED"
+  builtin local -a mutate_received_args
+
+  mutate_received_args=("\$@")
 
   # Append stdin strategy
   if [[ "\${#@}" -lt "${2}" ]]; then

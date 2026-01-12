@@ -11,7 +11,7 @@ _testing.error() {
     (
       while [[ -n "${1}" ]]; do
         __testing.protected stdlib.string.colour "${STDLIB_TESTING_THEME_ERROR}" "${1}"
-        shift
+        builtin shift
       done
     )
   } >&2 # KCOV_EXCLUDE_LINE

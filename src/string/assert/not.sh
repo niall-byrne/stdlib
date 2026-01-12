@@ -8,7 +8,7 @@ stdlib.string.assert.not_equal() {
   # $1: the comparison value string
   # $2: the string to check
 
-  local return_code=0
+  builtin local return_code=0
 
   [[ "${1}" != "${2}" ]] || return_code="1"
   [[ -n "${1}" ]] || return_code="126"
@@ -24,5 +24,5 @@ stdlib.string.assert.not_equal() {
       ;;
   esac
 
-  return "${return_code}"
+  builtin return "${return_code}"
 }

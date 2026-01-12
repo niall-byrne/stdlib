@@ -7,8 +7,8 @@ builtin set -eo pipefail
 assert_snapshot() {
   # $1: a path relative to the test directory containing a text file
 
-  local _stdlib_expected_output
-  local _stdlib_snapshot_filename="${1}"
+  builtin local _stdlib_expected_output
+  builtin local _stdlib_snapshot_filename="${1}"
 
   _testing.__assertion.value.check "${_stdlib_snapshot_filename}"
 

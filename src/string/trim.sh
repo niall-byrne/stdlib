@@ -7,9 +7,11 @@ builtin set -eo pipefail
 stdlib.string.trim.left() {
   # $1: the string to process
 
-  local _STDLIB_ARGS_NULL_SAFE=("1")
+  builtin local -a _STDLIB_ARGS_NULL_SAFE
 
-  stdlib.fn.args.require "1" "0" "${@}" || return "$?"
+  _STDLIB_ARGS_NULL_SAFE=("1")
+
+  stdlib.fn.args.require "1" "0" "${@}" || builtin return "$?"
 
   builtin shopt -s extglob
   builtin printf '%s\n' "${1##+([[:space:]])}"
@@ -23,9 +25,11 @@ stdlib.fn.derive.var "stdlib.string.trim.left"
 stdlib.string.trim.right() {
   # $1: the string to process
 
-  local _STDLIB_ARGS_NULL_SAFE=("1")
+  builtin local -a _STDLIB_ARGS_NULL_SAFE
 
-  stdlib.fn.args.require "1" "0" "${@}" || return "$?"
+  _STDLIB_ARGS_NULL_SAFE=("1")
+
+  stdlib.fn.args.require "1" "0" "${@}" || builtin return "$?"
 
   builtin shopt -s extglob
   builtin printf '%s\n' "${1%%+([[:space:]])}"
