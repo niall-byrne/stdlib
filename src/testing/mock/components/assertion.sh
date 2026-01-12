@@ -4,18 +4,19 @@
 
 builtin set -eo pipefail
 
-export CONTENT
+builtin export CONTENT
 
+# shellcheck disable=SC2034
 CONTENT="$(
   "${_STDLIB_BINARY_CAT}" << EOF
 
 ${1}.mock.__count_matches() {
   # $1: a set of call args as a string
 
-  local _mock_object_arg_string_actual
-  local _mock_object_arg_string_expected
-  local _mock_object_call_definition
-  local _mock_object_match_count=0
+  builtin local _mock_object_arg_string_actual
+  builtin local _mock_object_arg_string_expected
+  builtin local _mock_object_call_definition
+  builtin local _mock_object_match_count=0
 
   _mock_object_arg_string_expected="\$(builtin printf "%q" "\${1}")"
 
@@ -33,11 +34,13 @@ ${1}.mock.__count_matches() {
 ${1}.mock.assert_any_call_is() {
   # $1: a set of call args as a string
 
-  local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
-  local _STDLIB_ARGS_NULL_SAFE=("1")
-  local _mock_object_match_count
+  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local -a _STDLIB_ARGS_NULL_SAFE
+  builtin local _mock_object_match_count
 
-  __testing.protected stdlib.fn.args.require "1" "0" "\${@}" || return "\$?"
+  _STDLIB_ARGS_NULL_SAFE=("1")
+
+  __testing.protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
 
   _mock_object_match_count="\$(${1}.mock.__count_matches "\${1}")"
 
@@ -51,14 +54,16 @@ ${1}.mock.assert_call_n_is() {
   # $1: the call count to assert
   # $2: a set of call args as a string
 
-  local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
-  local _STDLIB_ARGS_NULL_SAFE=("2")
-  local _mock_object_arg_string_actual
-  local _mock_object_call_count
+  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local -a _STDLIB_ARGS_NULL_SAFE
+  builtin local _mock_object_arg_string_actual
+  builtin local _mock_object_call_count
 
-  __testing.protected stdlib.fn.args.require "2" "0" "\${@}" || return "\$?"
-  __testing.protected stdlib.string.assert.is_digit "\${1}" || return 126
-  __testing.protected stdlib.string.assert.not_equal "0" "\${1}" || return 126
+  _STDLIB_ARGS_NULL_SAFE=("2")
+
+  __testing.protected stdlib.fn.args.require "2" "0" "\${@}" || builtin return "\$?"
+  __testing.protected stdlib.string.assert.is_digit "\${1}" || builtin return 126
+  __testing.protected stdlib.string.assert.not_equal "0" "\${1}" || builtin return 126
 
   _mock_object_call_count="\$(${1}.mock.get.count)"
 
@@ -78,12 +83,14 @@ ${1}.mock.assert_call_n_is() {
 ${1}.mock.assert_called_once_with() {
   # $1: a set of call args as a string
 
-  local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
-  local _STDLIB_ARGS_NULL_SAFE=("1")
-  local _mock_object_arg_string_actual
-  local _mock_object_match_count
+  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local -a _STDLIB_ARGS_NULL_SAFE
+  builtin local _mock_object_arg_string_actual
+  builtin local _mock_object_match_count
 
-  __testing.protected stdlib.fn.args.require "1" "0" "\${@}" || return "\$?"
+  _STDLIB_ARGS_NULL_SAFE=("1")
+
+  __testing.protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
 
   ${1}.mock.assert_count_is "1"
 
@@ -104,11 +111,13 @@ ${1}.mock.assert_called_once_with() {
 ${1}.mock.assert_calls_are() {
   # $@: a set of call args as strings that should match
 
-  local _mock_object_arg_string_actual
-  local _mock_object_arg_string_expected
-  local _mock_object_call_definition=""
-  local _mock_object_call_index=0
-  local _mock_object_expected_mock_calls=("\${@}")
+  builtin local _mock_object_arg_string_actual
+  builtin local _mock_object_arg_string_expected
+  builtin local _mock_object_call_definition=""
+  builtin local _mock_object_call_index=0
+  builtin local -a _mock_object_expected_mock_calls
+
+  _mock_object_expected_mock_calls=("\${@}")
 
   while IFS= builtin read -r _mock_object_call_definition; do
     builtin eval "\${_mock_object_call_definition}"
@@ -134,11 +143,11 @@ ${1}.mock.assert_calls_are() {
 ${1}.mock.assert_count_is() {
   # $1: the call count to assert
 
-  local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
-  local _mock_object_call_count
+  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local _mock_object_call_count
 
-  __testing.protected stdlib.fn.args.require "1" "0" "\${@}" || return "\$?"
-  __testing.protected stdlib.string.assert.is_digit "\${1}" || return 126
+  __testing.protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
+  __testing.protected stdlib.string.assert.is_digit "\${1}" || builtin return 126
 
   _mock_object_call_count="\$("${1}.mock.get.count")"
 
@@ -149,10 +158,10 @@ ${1}.mock.assert_count_is() {
 }
 
 ${1}.mock.assert_not_called() {
-  local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
-  local _mock_object_call_count
+  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local _mock_object_call_count
 
-  __testing.protected stdlib.fn.args.require "0" "0" "\${@}" || return "\$?"
+  __testing.protected stdlib.fn.args.require "0" "0" "\${@}" || builtin return "\$?"
 
   _mock_object_call_count="\$(${1}.mock.get.count)"
 

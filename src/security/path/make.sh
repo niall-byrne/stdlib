@@ -10,11 +10,11 @@ stdlib.security.path.make.dir() {
   # $3: the group name to set
   # $4: the permission octal value to set
 
-  [[ "${#@}" == "4" ]] || return 127
-  [[ -n "${1}" ]] || return 126
-  [[ -n "${2}" ]] || return 126
-  [[ -n "${3}" ]] || return 126
-  [[ -n "${4}" ]] || return 126
+  [[ "${#@}" == "4" ]] || builtin return 127
+  [[ -n "${1}" ]] || builtin return 126
+  [[ -n "${2}" ]] || builtin return 126
+  [[ -n "${3}" ]] || builtin return 126
+  [[ -n "${4}" ]] || builtin return 126
 
   mkdir -p "${1}"
   stdlib.security.path.secure "${@}"
@@ -26,11 +26,11 @@ stdlib.security.path.make.file() {
   # $3: the group name to set
   # $4: the permission octal value to set
 
-  [[ "${#@}" == "4" ]] || return 127
-  [[ -n "${1}" ]] || return 126
-  [[ -n "${2}" ]] || return 126
-  [[ -n "${3}" ]] || return 126
-  [[ -n "${4}" ]] || return 126
+  [[ "${#@}" == "4" ]] || builtin return 127
+  [[ -n "${1}" ]] || builtin return 126
+  [[ -n "${2}" ]] || builtin return 126
+  [[ -n "${3}" ]] || builtin return 126
+  [[ -n "${4}" ]] || builtin return 126
 
   touch "${1}"
   stdlib.security.path.secure "${@}"

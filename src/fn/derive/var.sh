@@ -9,21 +9,23 @@ stdlib.fn.derive.var() {
   # $2: (optional) the new target function name
   # $3: (optional) the argument index for the variable's existing value (defaults to the last value)
 
-  local args_with_defaults=("$@")
-  local derive_source_fn_name="${1}"
-  local derive_target_fn_name
-  local derive_argument_index="${3:-"-1"}"
+  builtin local -a args_with_defaults
+  builtin local derive_source_fn_name="${1}"
+  builtin local derive_target_fn_name
+  builtin local derive_argument_index="${3:-"-1"}"
+
+  args_with_defaults=("$@")
 
   derive_target_fn_name="${2:-"${derive_source_fn_name}_var"}"
 
   args_with_defaults[1]="${derive_target_fn_name}"
   args_with_defaults[2]="${derive_argument_index}"
 
-  stdlib.fn.args.require "3" "0" "${args_with_defaults[@]}" || return "$?"
-  stdlib.fn.assert.is_fn "${1}" || return 126
-  stdlib.fn.assert.is_valid_name "${derive_target_fn_name}" || return 126
-  stdlib.string.assert.is_integer "${derive_argument_index}" || return 126
-  stdlib.string.assert.not_equal "0" "${derive_argument_index}" || return 126
+  stdlib.fn.args.require "3" "0" "${args_with_defaults[@]}" || builtin return "$?"
+  stdlib.fn.assert.is_fn "${1}" || builtin return 126
+  stdlib.fn.assert.is_valid_name "${derive_target_fn_name}" || builtin return 126
+  stdlib.string.assert.is_integer "${derive_argument_index}" || builtin return 126
+  stdlib.string.assert.not_equal "0" "${derive_argument_index}" || builtin return 126
 
   builtin eval "$(
     # KCOV_EXCLUDE_BEGIN
@@ -32,12 +34,12 @@ stdlib.fn.derive.var() {
 ${derive_target_fn_name}() {
   # \${@} the args to pass to the source function, plus the variable name
 
-  local fn_argument_index
-  local fn_argument_index_variable_name="${derive_argument_index}"
-  local fn_arguments=()
-  local fn_variable_name=""
+  builtin local fn_argument_index
+  builtin local fn_argument_index_variable_name="${derive_argument_index}"
+  builtin local -a fn_arguments
+  builtin local fn_variable_name=""
 
-  stdlib.fn.args.require "1" "1000" "\${@}" || return "\$?"
+  stdlib.fn.args.require "1" "1000" "\${@}" || builtin return "\$?"
 
   if [[ "${derive_argument_index}" -lt "0" ]]; then
     fn_argument_index_variable_name="\$(("\${#@}" + 1 + "${derive_argument_index}"))"

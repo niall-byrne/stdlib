@@ -8,9 +8,11 @@ stdlib.string.justify.left() {
   # $1: the column width to justify to
   # $2: the string to justify
 
-  local _STDLIB_ARGS_NULL_SAFE=("2")
+  builtin local -a _STDLIB_ARGS_NULL_SAFE
 
-  stdlib.fn.args.require "2" "0" "${@}" || return "$?"
+  _STDLIB_ARGS_NULL_SAFE=("2")
+
+  stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?"
 
   builtin printf "%-${1}b"$'\n' "${2}"
 }
@@ -23,9 +25,11 @@ stdlib.string.justify.right() {
   # $1: the column width to justify to
   # $2: the string to justify
 
-  local _STDLIB_ARGS_NULL_SAFE=("2")
+  builtin local -a _STDLIB_ARGS_NULL_SAFE
 
-  stdlib.fn.args.require "2" "0" "${@}" || return "$?"
+  _STDLIB_ARGS_NULL_SAFE=("2")
+
+  stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?"
 
   builtin printf "%${1}s"$'\n' "${2}"
 }

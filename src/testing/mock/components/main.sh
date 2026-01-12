@@ -4,18 +4,19 @@
 
 builtin set -eo pipefail
 
-export CONTENT
+builtin export CONTENT
 
+# shellcheck disable=SC2034
 CONTENT="$(
   "${_STDLIB_BINARY_CAT}" << EOF
 ${1}() {
-  local _mock_object_pipe_input=""
-  local _mock_object_rc=0
-  local _mock_object_side_effects=()
+  builtin local _mock_object_pipe_input=""
+  builtin local _mock_object_rc=0
+  builtin local -a _mock_object_side_effects
 
   if [[ "\${__${2}_mock_pipeable}" -eq "1" ]]; then
     ${1}.mock.__controller pipeable
-    set -- "\${@}" "\${_mock_object_pipe_input}"
+    builtin set -- "\${@}" "\${_mock_object_pipe_input}"
   fi
 
   ${1}.mock.__call "\${@}"
@@ -29,12 +30,12 @@ ${1}() {
   ${1}.mock.__controller stderr
   ${1}.mock.__controller stdout
 
-  return "\${_mock_object_rc}"
+  builtin return "\${_mock_object_rc}"
 }
 
 
 ${1}.mock.clear() {
-  local _mock_object_side_effects=()
+  builtin local -a _mock_object_side_effects
   builtin echo -n "" > "\${__${2}_mock_calls_file}"
   builtin declare -p _mock_object_side_effects > "\${__${2}_mock_side_effects_file}"
 }

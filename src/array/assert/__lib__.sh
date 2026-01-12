@@ -5,6 +5,6 @@
 builtin set -eo pipefail
 
 # shellcheck source=src/array/assert/is.sh
-source "${STDLIB_DIRECTORY}/array/assert/is.sh"
+builtin source "${STDLIB_DIRECTORY}/array/assert/is.sh"
 # shellcheck source=src/array/assert/not.sh
-source "${STDLIB_DIRECTORY}/array/assert/not.sh"
+builtin source "${STDLIB_DIRECTORY}/array/assert/not.sh"
