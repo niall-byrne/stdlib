@@ -12,7 +12,7 @@ declare -- STDLIB_TESTING_THEME_LOAD="GREY"
 declare -- STDLIB_TESTING_THEME_PARAMETRIZE_HIGHLIGHT="LIGHT_BLUE"
 declare -- STDLIB_TESTING_THEME_PARAMETRIZE_ORIGINAL_TEST_NAMES="GREY"
 declare -- STDLIB_TESTING_TRACEBACK_REGEX="^([^:]+:[0-9]+|environment:[0-9]+):.+\$"
-declare -a _MOCK_ATTRIBUTES_RESTRICTED=([0]="builtin" [1]="case" [2]="do" [3]="done" [4]="elif" [5]="else" [6]="esac" [7]="eval" [8]="fi" [9]="for" [10]="if" [11]="local" [12]="return" [13]="set" [14]="false" [15]="true" [16]="unset" [17]="while")
+declare -a _MOCK_ATTRIBUTES_RESTRICTED=([0]="builtin" [1]="case" [2]="do" [3]="done" [4]="elif" [5]="else" [6]="esac" [7]="fi" [8]="for" [9]="if" [10]="while")
 declare -- _PARAMETRIZE_DEBUG="0"
 declare -- _PARAMETRIZE_FIELD_SEPARATOR=";"
 declare -- _PARAMETRIZE_FIXTURE_COMMAND_PREFIX="@fixture "
