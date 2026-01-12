@@ -1,3 +1,3 @@
 #!/bin/bash
 
-builtin echo "Loaded!"
+echo "Loaded!"

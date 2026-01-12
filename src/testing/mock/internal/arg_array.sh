@@ -9,13 +9,13 @@ __mock.arg_array.from_array() {
   # $2: the array name to generate an arg string from
   # $3: an optional array name to generate keyword args from
 
-  local _mock_arg_array=()
-  local _mock_array_index
-  local _mock_arg_element
-  local _mock_keyword_args_array=()
-  local _mock_keyword_args_array_indirect_reference
-  local _mock_position_args_array=()
-  local _mock_positional_args_array_indirect_reference
+  builtin local -a _mock_arg_array
+  builtin local _mock_array_index
+  builtin local _mock_arg_element
+  builtin local -a _mock_keyword_args_array
+  builtin local _mock_keyword_args_array_indirect_reference
+  builtin local -a _mock_position_args_array
+  builtin local _mock_positional_args_array_indirect_reference
 
   _mock_positional_args_array_indirect_reference="${2}[@]"
   _mock_position_args_array=("${!_mock_positional_args_array_indirect_reference}")
@@ -48,9 +48,9 @@ __mock.arg_array.from_array() {
 }
 
 __mock.arg_array.array_arg_as_string() {
-  local _mock_keyword_array_arg_indirect_reference
-  local _mock_keyword_array_arg=()
-  local _mock_keyword_array_arg_as_string
+  builtin local _mock_keyword_array_arg_indirect_reference
+  builtin local -a _mock_keyword_array_arg
+  builtin local _mock_keyword_array_arg_as_string
 
   _mock_keyword_array_arg_indirect_reference="${_mock_keyword_arg}[@]"
   _mock_keyword_array_arg=("${!_mock_keyword_array_arg_indirect_reference}")

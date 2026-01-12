@@ -5,7 +5,7 @@
 builtin set -eo pipefail
 
 stdlib.security.get.euid() {
-  [[ "${#@}" == "0" ]] || return 127
+  [[ "${#@}" == "0" ]] || builtin return 127
 
   builtin echo "${EUID}"
 }
@@ -13,27 +13,27 @@ stdlib.security.get.euid() {
 stdlib.security.get.gid() {
   # $1: the group name to lookup the gid for
 
-  [[ "${#@}" == "1" ]] || return 127
-  [[ -n "${1}" ]] || return 126
+  [[ "${#@}" == "1" ]] || builtin return 127
+  [[ -n "${1}" ]] || builtin return 126
 
-  getent group "${1}" | "${_STDLIB_BINARY_CUT}" -d ":" -f 3 || return 126
+  getent group "${1}" | "${_STDLIB_BINARY_CUT}" -d ":" -f 3 || builtin return 126
 }
 
 stdlib.security.get.uid() {
   # $1: the username to lookup the uid for
 
-  [[ "${#@}" == "1" ]] || return 127
-  [[ -n "${1}" ]] || return 126
+  [[ "${#@}" == "1" ]] || builtin return 127
+  [[ -n "${1}" ]] || builtin return 126
 
-  id -u "${1}" || return 126
+  id -u "${1}" || builtin return 126
 }
 
 stdlib.security.get.unused_uid() {
-  local current_id
-  local existing_ids=()
-  local existing_ids_index=0
+  builtin local current_id
+  builtin local -a existing_ids
+  builtin local existing_ids_index=0
 
-  [[ "${#@}" == "0" ]] || return 127
+  [[ "${#@}" == "0" ]] || builtin return 127
 
   builtin read -d '' -ra existing_ids <<< \
     "$( # KCOV_EXCLUDE_BEGIN
@@ -57,9 +57,9 @@ stdlib.security.get.unused_uid() {
     done
     id "${current_id}" > /dev/null 2>&1 || {
       builtin echo "${current_id}"
-      return 0
+      builtin return 0
     }
   done
 
-  return 1
+  builtin return 1
 }
