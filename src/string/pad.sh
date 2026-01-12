@@ -8,9 +8,11 @@ stdlib.string.pad.left() {
   # $1: the width to pad with
   # $2: the string to pad
 
-  local _STDLIB_ARGS_NULL_SAFE=("2")
+  builtin local -a _STDLIB_ARGS_NULL_SAFE
 
-  stdlib.fn.args.require "2" "0" "${@}" || return "$?"
+  _STDLIB_ARGS_NULL_SAFE=("2")
+
+  stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?"
 
   builtin printf "%*s%s"$'\n' "${1}" " " "${2}"
 }
@@ -23,9 +25,11 @@ stdlib.string.pad.right() {
   # $1: the width to pad with
   # $2: the string to pad
 
-  local _STDLIB_ARGS_NULL_SAFE=("2")
+  builtin local -a _STDLIB_ARGS_NULL_SAFE
 
-  stdlib.fn.args.require "2" "0" "${@}" || return "$?"
+  _STDLIB_ARGS_NULL_SAFE=("2")
+
+  stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?"
 
   builtin printf "%s%*s"$'\n' "${2}" "${1}" " "
 }

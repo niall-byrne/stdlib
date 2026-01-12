@@ -32,36 +32,36 @@ declare -- __MOCK_SEQUENCE_TRACKING="0"
 @parametrize ()
 {
     {
-        local array_environment_variables=();
-        local array_fixture_commands=();
-        local array_scenario_values=()
+        builtin local -a array_environment_variables;
+        builtin local -a array_fixture_commands;
+        builtin local -a array_scenario_values
     };
-    local original_test_function_name="";
-    local original_test_function_reference="";
-    local parametrize_configuration=();
-    local parametrize_configuration_index=0;
-    local parametrize_configuration_line="";
-    local parametrize_configuration_scenario_start_index;
-    local test_function_variant_name="";
-    local test_function_variant_padding_value=0;
-    local PARAMETRIZE_SCENARIO_NAME;
+    builtin local original_test_function_name="";
+    builtin local original_test_function_reference="";
+    builtin local -a parametrize_configuration;
+    builtin local parametrize_configuration_index=0;
+    builtin local parametrize_configuration_line="";
+    builtin local parametrize_configuration_scenario_start_index;
+    builtin local test_function_variant_name="";
+    builtin local test_function_variant_padding_value=0;
+    builtin local PARAMETRIZE_SCENARIO_NAME;
     original_test_function_name="${1}";
     original_test_function_reference="__parametrized_original_function_definition_${1}";
     [[ "${#@}" -gt "1" ]] || {
         _testing.error "${FUNCNAME[0]}: $(__testing.protected stdlib.message.get ARGUMENTS_INVALID)";
-        return 127
+        builtin return 127
     };
-    @parametrize._components.validate.fn_name.test "${original_test_function_name}" || return "$?";
+    @parametrize._components.validate.fn_name.test "${original_test_function_name}" || builtin return "$?";
     stdlib.fn.derive.clone "${original_test_function_name}" "${original_test_function_reference}";
     builtin unset -f "${1}";
-    shift;
+    builtin shift;
     parametrize_configuration=("${@}");
-    @parametrize._components.configuration.parse parametrize_configuration parametrize_configuration_scenario_start_index array_environment_variables array_fixture_commands test_function_variant_padding_value || return "$?";
+    @parametrize._components.configuration.parse parametrize_configuration parametrize_configuration_scenario_start_index array_environment_variables array_fixture_commands test_function_variant_padding_value || builtin return "$?";
     parametrize_configuration=("${parametrize_configuration[@]:parametrize_configuration_scenario_start_index}");
     for ((parametrize_configuration_index = 0; "${parametrize_configuration_index}" < "${#parametrize_configuration[@]}"; parametrize_configuration_index++))
     do
         parametrize_configuration_line="${parametrize_configuration[parametrize_configuration_index]}";
-        IFS="${_PARAMETRIZE_FIELD_SEPARATOR}" read -ra array_scenario_values <<< "${parametrize_configuration_line}";
+        IFS="${_PARAMETRIZE_FIELD_SEPARATOR}" builtin read -ra array_scenario_values <<< "${parametrize_configuration_line}";
         test_function_variant_name="$(@parametrize._components.create.string.padded_test_fn_variant_name "${original_test_function_name}" "${array_scenario_values[0]}" "${test_function_variant_padding_value}")";
         if stdlib.fn.query.is_fn "${test_function_variant_name}"; then
             _testing.error "$(_testing.message.get PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_NAME)";
@@ -72,7 +72,7 @@ declare -- __MOCK_SEQUENCE_TRACKING="0"
                 builtin echo ": '$(__testing.protected stdlib.string.colour "${STDLIB_TESTING_THEME_PARAMETRIZE_HIGHLIGHT}" "${test_function_variant_name}")'"
             } 1>&2;
             _testing.error "$(_testing.message.get PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_DETAIL)";
-            return 126;
+            builtin return 126;
         fi;
         @parametrize._components.create.fn.test_variant "${test_function_variant_name}" "${original_test_function_name}" "${original_test_function_reference}" array_environment_variables array_fixture_commands array_scenario_values;
         _PARAMETRIZE_GENERATED_FUNCTIONS+=("${test_function_variant_name}");
@@ -81,21 +81,21 @@ declare -- __MOCK_SEQUENCE_TRACKING="0"
 
 @parametrize._components.configuration.parse ()
 {
-    local parse_configuration_array_indirect_reference;
-    local parse_configuration_array=();
-    local parse_configuration_array_index=0;
-    local parse_env_var_array_name;
-    local parse_fixture_commands_array_indirect_reference;
-    local parse_fixture_commands_array=();
-    local parse_variant_padding_value=0;
+    builtin local parse_configuration_array_indirect_reference;
+    builtin local -a parse_configuration_array;
+    builtin local parse_configuration_array_index=0;
+    builtin local parse_env_var_array_name;
+    builtin local parse_fixture_commands_array_indirect_reference;
+    builtin local -a parse_fixture_commands_array;
+    builtin local parse_variant_padding_value=0;
     parse_configuration_array_indirect_reference="${1}[@]";
     parse_configuration_array=("${!parse_configuration_array_indirect_reference}");
     parse_env_var_array_name="${3}";
     parse_fixture_commands_array_indirect_reference="${4}[@]";
     parse_fixture_commands_array=("${!parse_fixture_commands_array_indirect_reference}");
-    @parametrize._components.configuration.parse_header "${parse_configuration_array[@]}" || return "$?";
+    @parametrize._components.configuration.parse_header "${parse_configuration_array[@]}" || builtin return "$?";
     builtin printf -v "${2}" "%s" "${parse_configuration_array_index}";
-    @parametrize._components.configuration.parse_scenarios "${parse_configuration_array[@]:"${parse_configuration_array_index}"}" || return "$?";
+    @parametrize._components.configuration.parse_scenarios "${parse_configuration_array[@]:"${parse_configuration_array_index}"}" || builtin return "$?";
     if [[ "${#parse_fixture_commands_array[@]}" == "0" ]]; then
         builtin eval "${4}=()";
     else
@@ -110,11 +110,11 @@ declare -- __MOCK_SEQUENCE_TRACKING="0"
         ((parse_configuration_array_index = parse_configuration_array_index + 1));
         if stdlib.string.query.starts_with "${_PARAMETRIZE_FIXTURE_COMMAND_PREFIX}" "${1}"; then
             parse_fixture_commands_array+=("${1/"${_PARAMETRIZE_FIXTURE_COMMAND_PREFIX}"/}");
-            shift;
+            builtin shift;
             builtin continue;
         else
             __testing.protected stdlib.array.make.from_string "${parse_env_var_array_name?}" "${_PARAMETRIZE_FIELD_SEPARATOR}" "${1}";
-            shift;
+            builtin shift;
             builtin break;
         fi;
     done
@@ -122,33 +122,32 @@ declare -- __MOCK_SEQUENCE_TRACKING="0"
 
 @parametrize._components.configuration.parse_scenarios ()
 {
-    local parse_scenario_array=();
+    builtin local -a parse_scenario_array;
     while [[ -n "${1}" ]]; do
         ((parse_configuration_array_index++));
         __testing.protected stdlib.array.make.from_string parse_scenario_array "${_PARAMETRIZE_FIELD_SEPARATOR}" "${1}";
-        @parametrize._components.validate.scenario "${parse_env_var_array_name}" parse_fixture_commands_array parse_scenario_array || return "$?";
+        @parametrize._components.validate.scenario "${parse_env_var_array_name}" parse_fixture_commands_array parse_scenario_array || builtin return "$?";
         if [[ "${#parse_scenario_array[0]}" -gt "${parse_variant_padding_value}" ]]; then
             parse_variant_padding_value="${#parse_scenario_array[0]}";
         fi;
-        shift;
+        builtin shift;
     done
 }
 
 @parametrize._components.create.array.fn_variant_tags ()
 {
-    local arg_name_for_padding_value="${1}";
-    local arg_name_for_variant_array="${2}";
-    local padding_value="${!1}";
-    local parametrizer_function_name="";
-    local variant_index="";
-    local variant_tag="";
-    local variants=();
-    shift;
-    shift;
+    builtin local arg_name_for_padding_value="${1}";
+    builtin local arg_name_for_variant_array="${2}";
+    builtin local padding_value="${!1}";
+    builtin local parametrizer_function_name="";
+    builtin local variant_index="";
+    builtin local variant_tag="";
+    builtin local -a variants;
+    builtin shift 2;
     for ((variant_index = 1; variant_index <= "${#@}"; variant_index++))
     do
         parametrizer_function_name="${!variant_index}";
-        @parametrize._components.validate.fn_name.parametrizer "${parametrizer_function_name}" || return 126;
+        @parametrize._components.validate.fn_name.parametrizer "${parametrizer_function_name}" || builtin return 126;
         variant_tag="${parametrizer_function_name/${_PARAMETRIZE_PARAMETRIZER_PREFIX}/}";
         variants+=("${variant_tag}");
         if [[ "${#variant_tag}" -gt "${padding_value}" ]]; then
@@ -161,17 +160,17 @@ declare -- __MOCK_SEQUENCE_TRACKING="0"
 
 @parametrize._components.create.fn.test_variant ()
 {
-    local array_indirect_environment_variables=();
-    local array_indirect_environment_variables_reference;
-    local array_indirect_fixture_commands=();
-    local array_indirect_fixture_commands_reference;
-    local array_indirect_scenario_definition=();
-    local array_indirect_scenario_definition_reference;
-    local original_test_function_name="${2}";
-    local original_test_function_reference="${3}";
-    local scenario_debug_message="";
-    local scenario_index;
-    local test_function_variant_name="${1}";
+    builtin local -a array_indirect_environment_variables;
+    builtin local array_indirect_environment_variables_reference;
+    builtin local -a array_indirect_fixture_commands;
+    builtin local array_indirect_fixture_commands_reference;
+    builtin local -a array_indirect_scenario_definition;
+    builtin local array_indirect_scenario_definition_reference;
+    builtin local original_test_function_name="${2}";
+    builtin local original_test_function_reference="${3}";
+    builtin local scenario_debug_message="";
+    builtin local scenario_index;
+    builtin local test_function_variant_name="${1}";
     array_indirect_environment_variables_reference="${4}[@]";
     array_indirect_environment_variables=("${!array_indirect_environment_variables_reference}");
     array_indirect_fixture_commands_reference="${5}[@]";
@@ -214,7 +213,7 @@ fi)
 
 @parametrize._components.create.string.padded_test_fn_variant_name ()
 {
-    local padded_variant_name;
+    builtin local padded_variant_name;
     padded_variant_name="${2// /_}";
     if (("${3}" > "${#2}")); then
         padded_variant_name="$(stdlib.string.pad.right "$(("${3}" - "${#2}"))" "${padded_variant_name}")";
@@ -233,12 +232,12 @@ fi)
     if ! stdlib.fn.query.is_fn "${1}"; then
         _testing.error "$(_testing.message.get PARAMETRIZE_ERROR_PARAMETRIZER_FN_INVALID "${1}")";
         _testing.error "$(_testing.message.get PARAMETRIZE_ERROR_FN_DOES_NOT_EXIST)";
-        return 126;
+        builtin return 126;
     fi;
     if ! stdlib.string.query.starts_with "${_PARAMETRIZE_PARAMETRIZER_PREFIX}" "${1}"; then
         _testing.error "$(_testing.message.get PARAMETRIZE_ERROR_PARAMETRIZER_FN_INVALID "${1}")";
         _testing.error "$(_testing.message.get PARAMETRIZE_ERROR_PARAMETRIZER_FN_NAME)";
-        return 126;
+        builtin return 126;
     fi
 }
 
@@ -247,30 +246,30 @@ fi)
     if ! stdlib.fn.query.is_fn "${1}"; then
         _testing.error "$(_testing.message.get PARAMETRIZE_ERROR_TEST_FN_INVALID "${1}")";
         _testing.error "$(_testing.message.get PARAMETRIZE_ERROR_FN_DOES_NOT_EXIST)";
-        return 126;
+        builtin return 126;
     fi;
     if ! stdlib.string.query.has_substring "${_PARAMETRIZE_VARIANT_TAG}" "${1}" || ! stdlib.string.query.starts_with "test" "${1}"; then
         _testing.error "$(_testing.message.get PARAMETRIZE_ERROR_TEST_FN_INVALID "${1}")";
         _testing.error "$(_testing.message.get PARAMETRIZE_ERROR_TEST_FN_NAME)";
-        return 126;
+        builtin return 126;
     fi
 }
 
 @parametrize._components.validate.scenario ()
 {
-    local validate_env_var_indirect_array_reference;
-    local validate_env_var_indirect_array=();
-    local validate_fixture_indirect_command_array_reference;
-    local validate_fixture_indirect_command_array=();
-    local validate_scenario_indirect_array_reference;
-    local validate_scenario_indirect_array=();
+    builtin local validate_env_var_indirect_array_reference;
+    builtin local -a validate_env_var_indirect_array;
+    builtin local validate_fixture_indirect_command_array_reference;
+    builtin local -a validate_fixture_indirect_command_array;
+    builtin local validate_scenario_indirect_array_reference;
+    builtin local -a validate_scenario_indirect_array;
     validate_env_var_indirect_array_reference="${1}[@]";
     validate_env_var_indirect_array=("${!validate_env_var_indirect_array_reference}");
     validate_fixture_indirect_command_array_reference="${2}[@]";
     validate_fixture_indirect_command_array=("${!validate_fixture_indirect_command_array_reference}");
     validate_scenario_indirect_array_reference="${3}[@]";
     validate_scenario_indirect_array=("${!validate_scenario_indirect_array_reference}");
-    local validation_index;
+    builtin local validation_index;
     if (("${#validate_scenario_indirect_array[@]}" != "${#validate_env_var_indirect_array[@]}" + 1)); then
         {
             _testing.message.get PARAMETRIZE_HEADER_SCENARIO_VALUES;
@@ -283,27 +282,27 @@ fi)
             builtin echo
         } 1>&2;
         _testing.error "$(_testing.message.get PARAMETRIZE_CONFIGURATION_ERROR)" "$(_testing.message.get PARAMETRIZE_PREFIX_SCENARIO_NAME): ${validate_scenario_indirect_array[0]}" "$(_testing.message.get PARAMETRIZE_PREFIX_SCENARIO_VARIABLE): ${validate_env_var_indirect_array[*]} = ${#validate_env_var_indirect_array[@]} variables" "$(_testing.message.get PARAMETRIZE_PREFIX_SCENARIO_VALUES): ${validate_scenario_indirect_array[*]:1} = $((${#validate_scenario_indirect_array[@]} - 1)) values" "$(_testing.message.get PARAMETRIZE_PREFIX_FIXTURE_COMMANDS): $(builtin printf "'%s' " "${validate_fixture_indirect_command_array[@]}")";
-        return 126;
+        builtin return 126;
     fi
 }
 
 @parametrize.apply ()
 {
-    local original_test_function_name="";
-    local parametrized_test_function_name="";
-    local parametrizer_index=0;
-    local parametrizer_fn;
-    local parametrizer_fn_array=();
-    local parametrizer_variant_array=();
-    local parametrizer_variant_tag_padding;
+    builtin local original_test_function_name="";
+    builtin local parametrized_test_function_name="";
+    builtin local parametrizer_index=0;
+    builtin local parametrizer_fn;
+    builtin local -a parametrizer_fn_array;
+    builtin local -a parametrizer_variant_array;
+    builtin local parametrizer_variant_tag_padding;
     original_test_function_name="${1}";
     parametrizer_fn_array=("${@:2}");
     [[ "${#@}" -gt "1" ]] || {
         _testing.error "${FUNCNAME[0]}: $(__testing.protected stdlib.message.get ARGUMENTS_INVALID)";
-        return 127
+        builtin return 127
     };
-    @parametrize._components.validate.fn_name.test "${original_test_function_name}" || return 126;
-    @parametrize._components.create.array.fn_variant_tags parametrizer_variant_tag_padding parametrizer_variant_array "${@:2}" || return 126;
+    @parametrize._components.validate.fn_name.test "${original_test_function_name}" || builtin return 126;
+    @parametrize._components.create.array.fn_variant_tags parametrizer_variant_tag_padding parametrizer_variant_array "${@:2}" || builtin return 126;
     for ((parametrizer_index = 0; parametrizer_index < "${#parametrizer_fn_array[@]}"; parametrizer_index++))
     do
         parametrizer_fn="${parametrizer_fn_array[parametrizer_index]}";
@@ -316,24 +315,24 @@ fi)
 
 @parametrize.compose ()
 {
-    local _PARAMETRIZE_GENERATED_FUNCTIONS=();
-    local original_test_function_name="${1}";
-    local parametrizer_fn;
-    local parametrizer_fn_array=();
-    local parametrizer_fn_target;
-    local parametrizer_fn_targets=();
-    local parametrizer_index=0;
+    builtin local -a _PARAMETRIZE_GENERATED_FUNCTIONS;
+    builtin local original_test_function_name="${1}";
+    builtin local parametrizer_fn;
+    builtin local -a parametrizer_fn_array;
+    builtin local parametrizer_fn_target;
+    builtin local -a parametrizer_fn_targets;
+    builtin local parametrizer_index=0;
     parametrizer_fn_array=("${@:2}");
     [[ "${#@}" -gt "1" ]] || {
         _testing.error "${FUNCNAME[0]}: $(__testing.protected stdlib.message.get ARGUMENTS_INVALID)";
-        return 127
+        builtin return 127
     };
-    @parametrize._components.validate.fn_name.test "${original_test_function_name}" || return 126;
+    @parametrize._components.validate.fn_name.test "${original_test_function_name}" || builtin return 126;
     parametrizer_fn_targets=("${original_test_function_name}");
     for ((parametrizer_index = 0; parametrizer_index < "${#parametrizer_fn_array[@]}"; parametrizer_index++))
     do
         parametrizer_fn="${parametrizer_fn_array[parametrizer_index]}";
-        @parametrize._components.validate.fn_name.parametrizer "${parametrizer_fn}" || return 126;
+        @parametrize._components.validate.fn_name.parametrizer "${parametrizer_fn}" || builtin return 126;
         _PARAMETRIZE_GENERATED_FUNCTIONS=();
         for parametrizer_fn_target in "${parametrizer_fn_targets[@]}";
         do
@@ -346,9 +345,9 @@ fi)
 
 __mock.arg_array.array_arg_as_string ()
 {
-    local _mock_keyword_array_arg_indirect_reference;
-    local _mock_keyword_array_arg=();
-    local _mock_keyword_array_arg_as_string;
+    builtin local _mock_keyword_array_arg_indirect_reference;
+    builtin local -a _mock_keyword_array_arg;
+    builtin local _mock_keyword_array_arg_as_string;
     _mock_keyword_array_arg_indirect_reference="${_mock_keyword_arg}[@]";
     _mock_keyword_array_arg=("${!_mock_keyword_array_arg_indirect_reference}");
     if [[ "${#_mock_keyword_array_arg[@]}" -eq 0 ]]; then
@@ -361,13 +360,13 @@ __mock.arg_array.array_arg_as_string ()
 
 __mock.arg_array.from_array ()
 {
-    local _mock_arg_array=();
-    local _mock_array_index;
-    local _mock_arg_element;
-    local _mock_keyword_args_array=();
-    local _mock_keyword_args_array_indirect_reference;
-    local _mock_position_args_array=();
-    local _mock_positional_args_array_indirect_reference;
+    builtin local -a _mock_arg_array;
+    builtin local _mock_array_index;
+    builtin local _mock_arg_element;
+    builtin local -a _mock_keyword_args_array;
+    builtin local _mock_keyword_args_array_indirect_reference;
+    builtin local -a _mock_position_args_array;
+    builtin local _mock_positional_args_array_indirect_reference;
     _mock_positional_args_array_indirect_reference="${2}[@]";
     _mock_position_args_array=("${!_mock_positional_args_array_indirect_reference}");
     if [[ -n "${3}" ]]; then
@@ -398,8 +397,8 @@ __mock.arg_array.from_array ()
 
 __mock.create_sanitized_fn_name ()
 {
-    local _fn_name_sanitized;
-    local _fn_name_original="${1}";
+    builtin local _fn_name_sanitized;
+    builtin local _fn_name_original="${1}";
     _fn_name_sanitized="${_fn_name_original//@/____at_sign____}";
     _fn_name_sanitized="${_fn_name_sanitized//-/____dash____}";
     _fn_name_sanitized="${_fn_name_sanitized//./____dot____}";
@@ -415,7 +414,7 @@ __mock.persistence.create ()
 
 __mock.persistence.registry.apply_to_all ()
 {
-    local mock_instance;
+    builtin local mock_instance;
     for mock_instance in "${__MOCK_INSTANCES[@]}";
     do
         "${mock_instance}".mock."${1}";
@@ -450,22 +449,23 @@ __mock.persistence.sequence.initialize ()
 
 __mock.persistence.sequence.retrieve ()
 {
-    local __MOCK_SEQUENCE_PERSISTED_ARRAY=();
+    builtin local -a __MOCK_SEQUENCE_PERSISTED_ARRAY;
     builtin eval "$(${_STDLIB_BINARY_CAT} "${__MOCK_SEQUENCE_PERSISTENCE_FILE}")";
     __MOCK_SEQUENCE=("${__MOCK_SEQUENCE_PERSISTED_ARRAY[@]}")
 }
 
 __mock.persistence.sequence.update ()
 {
-    local __MOCK_SEQUENCE_PERSISTED_ARRAY=("${__MOCK_SEQUENCE[@]}");
+    builtin local -a __MOCK_SEQUENCE_PERSISTED_ARRAY;
+    __MOCK_SEQUENCE_PERSISTED_ARRAY=("${__MOCK_SEQUENCE[@]}");
     builtin declare -p __MOCK_SEQUENCE_PERSISTED_ARRAY > "${__MOCK_SEQUENCE_PERSISTENCE_FILE}"
 }
 
 __testing.protect_stdlib ()
 {
-    local stdlib_library_prefix="${_STDLIB_TESTING_STDLIB_PROTECT_PREFIX:-"stdlib"}";
-    local stdlib_function_regex="^${stdlib_library_prefix}\\..* ()";
-    while IFS= read -r stdlib_fn_name; do
+    builtin local stdlib_library_prefix="${_STDLIB_TESTING_STDLIB_PROTECT_PREFIX:-"stdlib"}";
+    builtin local stdlib_function_regex="^${stdlib_library_prefix}\\..* ()";
+    while IFS= builtin read -r stdlib_fn_name; do
         stdlib_fn_definition="$(builtin declare -f "${stdlib_fn_name/" () "/}")";
         builtin eval "${stdlib_fn_definition//"${stdlib_library_prefix}."/"${stdlib_library_prefix}.testing.internal."}";
     done <<< "$(builtin declare -f | "${_STDLIB_BINARY_GREP}" -E "${stdlib_function_regex}")"
@@ -478,12 +478,12 @@ __testing.protected ()
 
 _capture.assertion_failure ()
 {
-    local output;
-    local rc;
-    set +e;
+    builtin local output;
+    builtin local rc;
+    builtin set +e;
     LC_ALL=C IFS= builtin read -rd '' output < <("$@" 2>&1);
-    set -e;
-    wait "$!";
+    builtin set -e;
+    builtin wait "$!";
     rc="$?";
     if [[ ${rc} -eq 0 ]]; then
         fail " $(_testing.assert.message.get ASSERT_ERROR_DID_NOT_FAIL "${1}")";
@@ -499,8 +499,8 @@ _capture.output ()
 _capture.output_raw ()
 {
     LC_ALL=C IFS= builtin read -rd '' TEST_OUTPUT < <("$@" 2>&1);
-    wait "$!";
-    return "$?"
+    builtin wait "$!";
+    builtin return "$?"
 }
 
 _capture.rc ()
@@ -511,21 +511,21 @@ _capture.rc ()
 
 _capture.stderr ()
 {
-    local captured_rc;
-    exec 3>&1;
+    builtin local captured_rc;
+    builtin exec 3>&1;
     TEST_OUTPUT="$("$@" 2>&1 > /dev/null)";
     captured_rc="$?";
-    exec 3>&-;
-    return "${captured_rc}"
+    builtin exec 3>&-;
+    builtin return "${captured_rc}"
 }
 
 _capture.stderr_raw ()
 {
-    exec 3>&1;
+    builtin exec 3>&1;
     LC_ALL=C IFS= builtin read -rd '' TEST_OUTPUT < <("$@" 2>&1 > /dev/null);
-    exec 3>&-;
-    wait "$!";
-    return "$?"
+    builtin exec 3>&-;
+    builtin wait "$!";
+    builtin return "$?"
 }
 
 _capture.stdout ()
@@ -536,8 +536,8 @@ _capture.stdout ()
 _capture.stdout_raw ()
 {
     LC_ALL=C IFS= builtin read -rd '' TEST_OUTPUT < <("$@" 2> /dev/null);
-    wait "$!";
-    return "$?"
+    builtin wait "$!";
+    builtin return "$?"
 }
 
 _mock.__generate_mock ()
@@ -560,13 +560,13 @@ __${2}_mock_stdout=""
 
 # === component start ==========================
 ${1}() {
-  local _mock_object_pipe_input=""
-  local _mock_object_rc=0
-  local _mock_object_side_effects=()
+  builtin local _mock_object_pipe_input=""
+  builtin local _mock_object_rc=0
+  builtin local -a _mock_object_side_effects
 
   if [[ "\${__${2}_mock_pipeable}" -eq "1" ]]; then
     ${1}.mock.__controller pipeable
-    set -- "\${@}" "\${_mock_object_pipe_input}"
+    builtin set -- "\${@}" "\${_mock_object_pipe_input}"
   fi
 
   ${1}.mock.__call "\${@}"
@@ -580,12 +580,12 @@ ${1}() {
   ${1}.mock.__controller stderr
   ${1}.mock.__controller stdout
 
-  return "\${_mock_object_rc}"
+  builtin return "\${_mock_object_rc}"
 }
 
 
 ${1}.mock.clear() {
-  local _mock_object_side_effects=()
+  builtin local -a _mock_object_side_effects
   builtin echo -n "" > "\${__${2}_mock_calls_file}"
   builtin declare -p _mock_object_side_effects > "\${__${2}_mock_side_effects_file}"
 }
@@ -606,8 +606,10 @@ ${1}.mock.reset() {
 ${1}.mock.__call() {
   # $@: the arguments the mock was called with
 
-  local _mock_object_args=("\${@}")
-  local _mock_object_call_array=()
+  builtin local -a _mock_object_args
+  builtin local -a _mock_object_call_array
+
+  _mock_object_args=("\${@}")
 
   __mock.arg_array.from_array     _mock_object_call_array     _mock_object_args     "__${2}_mock_keywords"
 
@@ -629,9 +631,9 @@ ${1}.mock.__controller() {
   # $1: the mock component to execute
   # $@: additional arguments to pass
 
-  local _mock_object_pipe_input_line
-  local _mock_object_side_effect
-  local _mock_object_side_effects=()
+  builtin local _mock_object_pipe_input_line
+  builtin local _mock_object_side_effect
+  builtin local -a _mock_object_side_effects
 
   case "\${1}" in
     pipeable)
@@ -682,11 +684,11 @@ ${1}.mock.__controller() {
 
 # === component start ==========================
 ${1}.mock.__get_apply_to_matching_mock_calls() {
-  # $1: the matching command to execute against mock_args (# noqa)
-  # $@: the command to apply to the result (# noqa)
+  # $1: the matching command to execute against mock_args
+  # $@: the command to apply to the result
 
-  local _mock_object_call_file_index=1
-  local _mock_object_call_file_line
+  builtin local _mock_object_call_file_index=1
+  builtin local _mock_object_call_file_line
 
   while builtin read -r _mock_object_call_file_line; do
     builtin eval "\${_mock_object_call_file_line}"
@@ -701,12 +703,12 @@ ${1}.mock.__get_apply_to_matching_mock_calls() {
 ${1}.mock.get.call() {
   # $1: the call to retrieve
 
-  local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
-  local _mock_object_escaped_args
+  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local _mock_object_escaped_args
 
-  __testing.protected stdlib.fn.args.require "1" "0" "\${@}" || return "\$?"
-  __testing.protected stdlib.string.assert.is_digit "\${1}" || return 126
-  __testing.protected stdlib.string.assert.not_equal "0" "\${1}" || return 126
+  __testing.protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
+  __testing.protected stdlib.string.assert.is_digit "\${1}" || builtin return 126
+  __testing.protected stdlib.string.assert.not_equal "0" "\${1}" || builtin return 126
 
   builtin printf -v _mock_object_escaped_args "%q" "\${1}"
 
@@ -714,26 +716,26 @@ ${1}.mock.get.call() {
 }
 
 ${1}.mock.get.calls() {
-  local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
-  local _mock_object_escaped_args
+  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local _mock_object_escaped_args
 
-  __testing.protected stdlib.fn.args.require "0" "0" "\${@}" || return "\$?"
+  __testing.protected stdlib.fn.args.require "0" "0" "\${@}" || builtin return "\$?"
 
   ${1}.mock.__get_apply_to_matching_mock_calls     "true"     builtin printf '%s\\\\n' '"\${_mock_object_call_array[*]}"'
 }
 
 ${1}.mock.get.count() {
-  local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
 
-  __testing.protected stdlib.fn.args.require "0" "0" "\${@}" || return "\$?"
+  __testing.protected stdlib.fn.args.require "0" "0" "\${@}" || builtin return "\$?"
 
   < "\${__${2}_mock_calls_file}" wc -l
 }
 
 ${1}.mock.get.keywords() {
-  local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
 
-  __testing.protected stdlib.fn.args.require "0" "0" "\${@}" || return "\$?"
+  __testing.protected stdlib.fn.args.require "0" "0" "\${@}" || builtin return "\$?"
 
   builtin echo "\${__${2}_mock_keywords[*]}"
 }
@@ -746,10 +748,12 @@ ${1}.mock.get.keywords() {
 ${1}.mock.set.keywords() {
   # $@: the keyword names to assign to the mock
 
-  local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
-  local _mock_object_keywords=("\${@}")
+  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local -a _mock_object_keywords
 
-  __testing.protected stdlib.array.assert.not_contains "" _mock_object_keywords || return 126
+  _mock_object_keywords=("\${@}")
+
+  __testing.protected stdlib.array.assert.not_contains "" _mock_object_keywords || builtin return 126
 
   builtin eval "__${2}_mock_keywords=(\$(builtin printf '%q ' "\${@}"))"
 }
@@ -758,21 +762,20 @@ ${1}.mock.set.keywords() {
 ${1}.mock.set.pipeable() {
   # $1: the boolean to enable or disable the pipeable attribute
 
-  local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
 
-  __testing.protected stdlib.fn.args.require "1" "0" "\${@}" || return "\$?"
-  __testing.protected stdlib.string.assert.is_boolean "\${1}" || return 126
+  __testing.protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
+  __testing.protected stdlib.string.assert.is_boolean "\${1}" || builtin return 126
 
   builtin printf -v "__${2}_mock_pipeable" "%s" "\${1}"
 }
 
 ${1}.mock.set.rc() {
   # $1: the return code to make the mock return
+  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
 
-  local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
-
-  __testing.protected stdlib.fn.args.require "1" "0" "\${@}" || return "\$?"
-  __testing.protected stdlib.string.assert.is_integer_with_range "0" "255" "\${1}" || return 126
+  __testing.protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
+  __testing.protected stdlib.string.assert.is_integer_with_range "0" "255" "\${1}" || builtin return 126
 
   builtin printf -v "__${2}_mock_rc" "%s" "\${1}"
 }
@@ -780,7 +783,9 @@ ${1}.mock.set.rc() {
 ${1}.mock.set.side_effects() {
   # $1: the array to set as a queue of side effect functions
 
-  local _mock_object_side_effects=("\${@}")
+  builtin local -a _mock_object_side_effects
+
+  _mock_object_side_effects=("\${@}")
 
   builtin declare -p _mock_object_side_effects > "\${__${2}_mock_side_effects_file}"
   builtin printf -v "__${2}_mock_side_effects_boolean" "%s" "1"
@@ -789,10 +794,12 @@ ${1}.mock.set.side_effects() {
 ${1}.mock.set.stderr() {
   # $1: the value to make the mock emit to stderr
 
-  local _STDLIB_ARGS_NULL_SAFE=("1")
-  local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local -a _STDLIB_ARGS_NULL_SAFE
+  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
 
-  __testing.protected stdlib.fn.args.require "1" "0" "\${@}" || return "\$?"
+  _STDLIB_ARGS_NULL_SAFE=("1")
+
+  __testing.protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
 
   builtin printf -v "__${2}_mock_stderr" "%s" "\${1}"
 }
@@ -800,10 +807,12 @@ ${1}.mock.set.stderr() {
 ${1}.mock.set.stdout() {
   # $1: the value to make the mock emit to stdout
 
-  local _STDLIB_ARGS_NULL_SAFE=("1")
-  local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local -a _STDLIB_ARGS_NULL_SAFE
+  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
 
-  __testing.protected stdlib.fn.args.require "1" "0" "\${@}" || return "\$?"
+  _STDLIB_ARGS_NULL_SAFE=("1")
+
+  __testing.protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
 
   builtin printf -v "__${2}_mock_stdout" "%s" "\${1}"
 }
@@ -825,10 +834,10 @@ ${1}.mock.set.subcommand() {
 ${1}.mock.__count_matches() {
   # $1: a set of call args as a string
 
-  local _mock_object_arg_string_actual
-  local _mock_object_arg_string_expected
-  local _mock_object_call_definition
-  local _mock_object_match_count=0
+  builtin local _mock_object_arg_string_actual
+  builtin local _mock_object_arg_string_expected
+  builtin local _mock_object_call_definition
+  builtin local _mock_object_match_count=0
 
   _mock_object_arg_string_expected="\$(builtin printf "%q" "\${1}")"
 
@@ -846,11 +855,13 @@ ${1}.mock.__count_matches() {
 ${1}.mock.assert_any_call_is() {
   # $1: a set of call args as a string
 
-  local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
-  local _STDLIB_ARGS_NULL_SAFE=("1")
-  local _mock_object_match_count
+  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local -a _STDLIB_ARGS_NULL_SAFE
+  builtin local _mock_object_match_count
 
-  __testing.protected stdlib.fn.args.require "1" "0" "\${@}" || return "\$?"
+  _STDLIB_ARGS_NULL_SAFE=("1")
+
+  __testing.protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
 
   _mock_object_match_count="\$(${1}.mock.__count_matches "\${1}")"
 
@@ -861,14 +872,16 @@ ${1}.mock.assert_call_n_is() {
   # $1: the call count to assert
   # $2: a set of call args as a string
 
-  local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
-  local _STDLIB_ARGS_NULL_SAFE=("2")
-  local _mock_object_arg_string_actual
-  local _mock_object_call_count
+  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local -a _STDLIB_ARGS_NULL_SAFE
+  builtin local _mock_object_arg_string_actual
+  builtin local _mock_object_call_count
 
-  __testing.protected stdlib.fn.args.require "2" "0" "\${@}" || return "\$?"
-  __testing.protected stdlib.string.assert.is_digit "\${1}" || return 126
-  __testing.protected stdlib.string.assert.not_equal "0" "\${1}" || return 126
+  _STDLIB_ARGS_NULL_SAFE=("2")
+
+  __testing.protected stdlib.fn.args.require "2" "0" "\${@}" || builtin return "\$?"
+  __testing.protected stdlib.string.assert.is_digit "\${1}" || builtin return 126
+  __testing.protected stdlib.string.assert.not_equal "0" "\${1}" || builtin return 126
 
   _mock_object_call_count="\$(${1}.mock.get.count)"
 
@@ -884,12 +897,14 @@ ${1}.mock.assert_call_n_is() {
 ${1}.mock.assert_called_once_with() {
   # $1: a set of call args as a string
 
-  local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
-  local _STDLIB_ARGS_NULL_SAFE=("1")
-  local _mock_object_arg_string_actual
-  local _mock_object_match_count
+  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local -a _STDLIB_ARGS_NULL_SAFE
+  builtin local _mock_object_arg_string_actual
+  builtin local _mock_object_match_count
 
-  __testing.protected stdlib.fn.args.require "1" "0" "\${@}" || return "\$?"
+  _STDLIB_ARGS_NULL_SAFE=("1")
+
+  __testing.protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
 
   ${1}.mock.assert_count_is "1"
 
@@ -906,11 +921,13 @@ ${1}.mock.assert_called_once_with() {
 ${1}.mock.assert_calls_are() {
   # $@: a set of call args as strings that should match
 
-  local _mock_object_arg_string_actual
-  local _mock_object_arg_string_expected
-  local _mock_object_call_definition=""
-  local _mock_object_call_index=0
-  local _mock_object_expected_mock_calls=("\${@}")
+  builtin local _mock_object_arg_string_actual
+  builtin local _mock_object_arg_string_expected
+  builtin local _mock_object_call_definition=""
+  builtin local _mock_object_call_index=0
+  builtin local -a _mock_object_expected_mock_calls
+
+  _mock_object_expected_mock_calls=("\${@}")
 
   while IFS= builtin read -r _mock_object_call_definition; do
     builtin eval "\${_mock_object_call_definition}"
@@ -933,11 +950,11 @@ ${1}.mock.assert_calls_are() {
 ${1}.mock.assert_count_is() {
   # $1: the call count to assert
 
-  local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
-  local _mock_object_call_count
+  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local _mock_object_call_count
 
-  __testing.protected stdlib.fn.args.require "1" "0" "\${@}" || return "\$?"
-  __testing.protected stdlib.string.assert.is_digit "\${1}" || return 126
+  __testing.protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
+  __testing.protected stdlib.string.assert.is_digit "\${1}" || builtin return 126
 
   _mock_object_call_count="\$("${1}.mock.get.count")"
 
@@ -945,10 +962,10 @@ ${1}.mock.assert_count_is() {
 }
 
 ${1}.mock.assert_not_called() {
-  local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
-  local _mock_object_call_count
+  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local _mock_object_call_count
 
-  __testing.protected stdlib.fn.args.require "0" "0" "\${@}" || return "\$?"
+  __testing.protected stdlib.fn.args.require "0" "0" "\${@}" || builtin return "\$?"
 
   _mock_object_call_count="\$(${1}.mock.get.count)"
 
@@ -963,19 +980,19 @@ EOF
 
 _mock.arg_string.from_array ()
 {
-    local _mock_arg_string="";
-    local _mock_arg_string_spacer="";
-    local _mock_array_index;
-    local _mock_generated_mock_arg_array;
-    local _mock_keyword_arg;
-    local _mock_keyword_args_array=();
-    local _mock_keyword_args_array_indirect_reference;
-    local _mock_position_args_array=();
-    local _mock_positional_args_array_indirect_reference;
-    __testing.protected stdlib.fn.args.require "1" "1" "$@" || return 127;
-    __testing.protected stdlib.array.assert.is_array "${1}" || return 126;
+    builtin local _mock_arg_string="";
+    builtin local _mock_arg_string_spacer="";
+    builtin local _mock_array_index;
+    builtin local -a _mock_generated_mock_arg_array;
+    builtin local _mock_keyword_arg;
+    builtin local -a _mock_keyword_args_array;
+    builtin local _mock_keyword_args_array_indirect_reference;
+    builtin local -a _mock_position_args_array;
+    builtin local _mock_positional_args_array_indirect_reference;
+    __testing.protected stdlib.fn.args.require "1" "1" "$@" || builtin return 127;
+    __testing.protected stdlib.array.assert.is_array "${1}" || builtin return 126;
     if [[ "${#@}" == 2 ]]; then
-        __testing.protected stdlib.array.assert.is_array "${2}" || return 126;
+        __testing.protected stdlib.array.assert.is_array "${2}" || builtin return 126;
     fi;
     __mock.arg_array.from_array _mock_generated_mock_arg_array "${@}";
     builtin echo "${_mock_generated_mock_arg_array[*]}"
@@ -983,15 +1000,17 @@ _mock.arg_string.from_array ()
 
 _mock.arg_string.from_string ()
 {
-    local _mock_args_array=();
-    local _mock_arg_string_args=("_mock_args_array");
-    local _mock_separator="${_STDLIB_DELIMITER:- }";
-    local _STDLIB_ARGS_NULL_SAFE=("2");
-    __testing.protected stdlib.fn.args.require "1" "1" "${@}" || return 127;
+    builtin local -a _STDLIB_ARGS_NULL_SAFE;
+    builtin local -a _mock_args_array;
+    builtin local -a _mock_arg_string_args;
+    builtin local _mock_separator="${_STDLIB_DELIMITER:- }";
+    _STDLIB_ARGS_NULL_SAFE=("2");
+    _mock_arg_string_args=("_mock_args_array");
+    __testing.protected stdlib.fn.args.require "1" "1" "${@}" || builtin return 127;
     if [[ -n "${2}" ]]; then
         _mock_arg_string_args+=("${2}");
     fi;
-    __testing.protected stdlib.array.make.from_string _mock_args_array "${_mock_separator}" "${1}" || return "$?";
+    __testing.protected stdlib.array.make.from_string _mock_args_array "${_mock_separator}" "${1}" || builtin return "$?";
     _mock.arg_string.from_array "${_mock_arg_string_args[@]}"
 }
 
@@ -1002,17 +1021,17 @@ _mock.clear_all ()
 
 _mock.create ()
 {
-    local _mock_sanitized_fn_name;
-    local _mock_escaped_fn_name;
-    local _mock_attribute;
-    local _mock_restricted_attribute_boolean=0;
+    builtin local _mock_sanitized_fn_name;
+    builtin local _mock_escaped_fn_name;
+    builtin local _mock_attribute;
+    builtin local _mock_restricted_attribute_boolean=0;
     if [[ "${#@}" != 1 ]] || [[ -z "${1}" ]]; then
         _testing.error "${FUNCNAME[0]}: $(__testing.protected stdlib.message.get ARGUMENTS_INVALID)";
-        return 127;
+        builtin return 127;
     fi;
     if ! __testing.protected stdlib.fn.query.is_valid_name "${1}" || __testing.protected stdlib.array.query.is_contains "${1}" _MOCK_ATTRIBUTES_RESTRICTED; then
         _testing.error "${FUNCNAME[0]}: $(_testing.message.get MOCK_TARGET_INVALID "${1}")";
-        return 126;
+        builtin return 126;
     fi;
     builtin printf -v "_mock_escaped_fn_name" "%q" "${1}";
     _mock_sanitized_fn_name="$(__mock.create_sanitized_fn_name "${_mock_escaped_fn_name}")";
@@ -1024,8 +1043,8 @@ _mock.create ()
 
 _mock.delete ()
 {
-    __testing.protected stdlib.fn.assert.is_fn "${1}" || return 127;
-    __testing.protected stdlib.fn.assert.is_fn "${1}.mock.set.subcommand" || return 127;
+    __testing.protected stdlib.fn.assert.is_fn "${1}" || builtin return 127;
+    __testing.protected stdlib.fn.assert.is_fn "${1}.mock.set.subcommand" || builtin return 127;
     builtin unset -f "${1}";
     while IFS= builtin read -r mocked_function; do
         mocked_function="${mocked_function/" ()"/}";
@@ -1044,8 +1063,9 @@ _mock.reset_all ()
 
 _mock.sequence.assert_is ()
 {
-    local mock_sequence=();
-    local expected_mock_sequence=("$@");
+    builtin local -a mock_sequence;
+    builtin local -a expected_mock_sequence;
+    expected_mock_sequence=("$@");
     _testing.__assertion.value.check "${@}";
     _mock.sequence.record.stop;
     __mock.persistence.sequence.retrieve;
@@ -1055,8 +1075,8 @@ _mock.sequence.assert_is ()
 
 _mock.sequence.assert_is_empty ()
 {
-    local mock_sequence=();
-    local expected_mock_sequence=();
+    builtin local -a mock_sequence;
+    builtin local -a expected_mock_sequence;
     _mock.sequence.record.stop;
     __mock.persistence.sequence.retrieve;
     mock_sequence=("${__MOCK_SEQUENCE[@]}");
@@ -1086,8 +1106,8 @@ _mock.sequence.record.stop ()
 
 _testing.__assertion.value.check ()
 {
-    local value_name="${1}";
-    local assertion_name="${FUNCNAME[1]}";
+    builtin local value_name="${1}";
+    builtin local assertion_name="${FUNCNAME[1]}";
     if [[ -z "${value_name}" ]]; then
         fail " '${assertion_name}' $(__testing.protected stdlib.message.get ARGUMENTS_INVALID)";
     fi
@@ -1095,12 +1115,12 @@ _testing.__assertion.value.check ()
 
 _testing.assert.message.get ()
 {
-    local key="${1}";
-    local message;
-    local option1="${2}";
-    local option2="${3}";
-    local required_options=0;
-    local return_status=0;
+    builtin local key="${1}";
+    builtin local message;
+    builtin local option1="${2}";
+    builtin local option2="${3}";
+    builtin local required_options=0;
+    builtin local return_status=0;
     case "${key}" in
         ASSERT_ERROR_DID_NOT_FAIL)
             required_options=1;
@@ -1163,7 +1183,7 @@ _testing.assert.message.get ()
     };
     ((return_status == 0)) || {
         __testing.protected stdlib.logger.error "${message}";
-        return ${return_status}
+        builtin return ${return_status}
     };
     builtin echo -n "${message}"
 }
@@ -1173,14 +1193,14 @@ _testing.error ()
     {
         ( while [[ -n "${1}" ]]; do
             __testing.protected stdlib.string.colour "${STDLIB_TESTING_THEME_ERROR}" "${1}";
-            shift;
+            builtin shift;
         done )
     } 1>&2
 }
 
 _testing.fixtures.debug.diff ()
 {
-    local debug_colour;
+    builtin local debug_colour;
     debug_colour="$(stdlib.setting.theme.get_colour "${STDLIB_TESTING_THEME_DEBUG_FIXTURE}")";
     builtin printf "%s\n" "$(_testing.message.get DEBUG_DIFF_HEADER)";
     builtin printf "${!debug_colour}%s${STDLIB_COLOUR_NC}\n%q\n" "$(_testing.message.get DEBUG_DIFF_PREFIX_EXPECTED):" "${1}";
@@ -1192,7 +1212,7 @@ _testing.fixtures.debug.diff ()
 
 _testing.fixtures.random.name ()
 {
-    local random_name_length="${1:-50}";
+    builtin local random_name_length="${1:-50}";
     "${_STDLIB_BINARY_TR}" -dc A-Za-z0-9 < /dev/urandom | "${_STDLIB_BINARY_HEAD}" -c "${random_name_length}";
     builtin echo
 }
@@ -1201,22 +1221,22 @@ _testing.load ()
 {
     [[ "${#@}" == 1 ]] || {
         _testing.error "_testing.load: $(__testing.protected stdlib.message.get ARGUMENTS_INVALID)";
-        return 127
+        builtin return 127
     };
     __testing.protected stdlib.string.colour "${STDLIB_TESTING_THEME_LOAD}" "    $(_testing.message.get LOAD_MODULE_NOTIFICATION "${1}")";
     . "${1}" 2> /dev/null || {
         _testing.error "$(_testing.message.get LOAD_MODULE_NOT_FOUND "${1}")";
-        return 126
+        builtin return 126
     }
 }
 
 _testing.message.get ()
 {
-    local key="${1}";
-    local message;
-    local option1="${2}";
-    local required_options=0;
-    local return_status=0;
+    builtin local key="${1}";
+    builtin local message;
+    builtin local option1="${2}";
+    builtin local required_options=0;
+    builtin local return_status=0;
     case "${key}" in
         DEBUG_DIFF_FOOTER)
             required_options=0;
@@ -1339,19 +1359,19 @@ _testing.message.get ()
     };
     ((return_status == 0)) || {
         __testing.protected stdlib.logger.error "${message}";
-        return ${return_status}
+        builtin return ${return_status}
     };
     builtin echo -n "${message}"
 }
 
 _testing.mock.message.get ()
 {
-    local key="${1}";
-    local message;
-    local option1="${2}";
-    local option2="${3}";
-    local required_options=0;
-    local return_status=0;
+    builtin local key="${1}";
+    builtin local message;
+    builtin local option1="${2}";
+    builtin local option2="${3}";
+    builtin local required_options=0;
+    builtin local return_status=0;
     case "${key}" in
         MOCK_CALL_ACTUAL_PREFIX)
             required_options=0;
@@ -1394,15 +1414,15 @@ _testing.mock.message.get ()
     };
     ((return_status == 0)) || {
         __testing.protected stdlib.logger.error "${message}";
-        return ${return_status}
+        builtin return ${return_status}
     };
     builtin echo -n "${message}"
 }
 
 assert_array_equals ()
 {
-    local _stdlib_assertion_ouput;
-    local _stdlib_return_code=0;
+    builtin local _stdlib_assertion_output;
+    builtin local _stdlib_return_code=0;
     _stdlib_assertion_output="$(__testing.protected stdlib.array.assert.is_equal "${@}" 2>&1)" || _stdlib_return_code="$?";
     _stdlib_assertion_output="${_stdlib_assertion_output/'
 '/'
@@ -1415,10 +1435,10 @@ assert_array_length ()
     if [[ $# -ne 2 ]]; then
         fail " $(_testing.assert.message.get ASSERT_ERROR_INSUFFICIENT_ARGS assert_array_length)";
     fi;
-    local _stdlib_expected_length="${1}";
-    local _stdlib_indirect_reference;
-    local _stdlib_indirect_array=();
-    local _stdlib_variable_name="${2}";
+    builtin local _stdlib_expected_length="${1}";
+    builtin local _stdlib_indirect_reference;
+    builtin local -a _stdlib_indirect_array;
+    builtin local _stdlib_variable_name="${2}";
     _testing.__assertion.value.check "${_stdlib_variable_name}";
     __testing.protected assert_is_array "${_stdlib_variable_name}";
     _stdlib_indirect_reference="${_stdlib_variable_name}[@]";
@@ -1428,8 +1448,8 @@ assert_array_length ()
 
 assert_is_array ()
 {
-    local _stdlib_assertion_ouput;
-    local _stdlib_return_code=0;
+    builtin local _stdlib_assertion_output;
+    builtin local _stdlib_return_code=0;
     _stdlib_assertion_output="$(__testing.protected stdlib.array.assert.is_array "${@}" 2>&1)" || _stdlib_return_code="$?";
     _stdlib_assertion_output="${_stdlib_assertion_output/'
 '/'
@@ -1439,8 +1459,8 @@ assert_is_array ()
 
 assert_is_fn ()
 {
-    local _stdlib_assertion_ouput;
-    local _stdlib_return_code=0;
+    builtin local _stdlib_assertion_output;
+    builtin local _stdlib_return_code=0;
     _stdlib_assertion_output="$(__testing.protected stdlib.fn.assert.is_fn "${@}" 2>&1)" || _stdlib_return_code="$?";
     _stdlib_assertion_output="${_stdlib_assertion_output/'
 '/'
@@ -1450,13 +1470,13 @@ assert_is_fn ()
 
 assert_not_null ()
 {
-    local _stdlib_test_value="${1}";
+    builtin local _stdlib_test_value="${1}";
     assert_not_equals "" "${_stdlib_test_value}" " $(_testing.assert.message.get ASSERT_ERROR_VALUE_NULL)"
 }
 
 assert_null ()
 {
-    local _stdlib_test_value="${1}";
+    builtin local _stdlib_test_value="${1}";
     assert_equals "" "${_stdlib_test_value}" " $(_testing.assert.message.get ASSERT_ERROR_VALUE_NOT_NULL "${_stdlib_test_value}")"
 }
 
@@ -1491,8 +1511,8 @@ assert_rc ()
 
 assert_snapshot ()
 {
-    local _stdlib_expected_output;
-    local _stdlib_snapshot_filename="${1}";
+    builtin local _stdlib_expected_output;
+    builtin local _stdlib_snapshot_filename="${1}";
     _testing.__assertion.value.check "${_stdlib_snapshot_filename}";
     if [[ ! -f "${_stdlib_snapshot_filename}" ]]; then
         fail " $(_testing.assert.message.get ASSERT_ERROR_FILE_NOT_FOUND "${_stdlib_snapshot_filename}")";
