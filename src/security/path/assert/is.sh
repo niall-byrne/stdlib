@@ -10,9 +10,9 @@ stdlib.security.path.assert.is_secure() {
   # $3: the required group name
   # $4: the permission octal value required
 
-  [[ "${#@}" == "4" ]] || return 127
+  [[ "${#@}" == "4" ]] || builtin return 127
 
-  stdlib.security.path.assert.has_owner "${1}" "${2}" || return "$?"
-  stdlib.security.path.assert.has_group "${1}" "${3}" || return "$?"
-  stdlib.security.path.assert.has_permissions "${1}" "${4}" || return "$?"
+  stdlib.security.path.assert.has_owner "${1}" "${2}" || builtin return "$?"
+  stdlib.security.path.assert.has_group "${1}" "${3}" || builtin return "$?"
+  stdlib.security.path.assert.has_permissions "${1}" "${4}" || builtin return "$?"
 }

@@ -4,8 +4,9 @@
 
 builtin set -eo pipefail
 
-export CONTENT
+builtin export CONTENT
 
+# shellcheck disable=SC2034
 CONTENT="$(
   "${_STDLIB_BINARY_CAT}" << EOF
 __${2}_mock_keywords=()
