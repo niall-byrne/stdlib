@@ -85,6 +85,13 @@ repos:
         stages: [pre-commit]
         pass_filenames: false
         require_serial: true
+      - id: distribution-test
+        name: ensure unit tests pass using the distribution
+        entry: bash -c 'TEST_CONTAINER_DISABLE_TTY=1 ./container.sh run bash -c "STDLIB_DIRECTORY=/work/src dist/t src"'
+        language: system
+        stages: [manual]
+        pass_filenames: false
+        require_serial: true
       - id: snippet-files-headers
         name: ensure snippet files have correct headers
         entry: "\\A(?!#!/bin/bash\n).+\\Z"
