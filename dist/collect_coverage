@@ -7,7 +7,30 @@ set -eo pipefail
 
 TEST_RUNNER="${TEST_RUNNER-"t"}"
 
-main() {
+_cc_external_dependencies_array=("kcov")
+
+_cc_check_arguments() {
+  if [[ -z "${1}" ]] || [[ "${#@}" != "1" ]]; then
+    echo "ERROR: You must supply a single argument as the target path."
+    return 127
+  fi
+}
+
+_cc_check_external_dependencies() {
+  local required_file
+
+  for required_file in "${_cc_external_dependencies_array[@]}"; do
+    if ! command -v "${required_file}" > /dev/null; then
+      echo "ERROR: the required external dependency '${required_file}' was not found in PATH !"
+      exit 127
+    fi
+  done
+}
+
+_cc_main() {
+  _cc_check_arguments "${@}"
+  _cc_check_external_dependencies
+
   [[ -d coverage ]] && rm -r coverage
 
   kcov \
@@ -27,4 +50,4 @@ main() {
   return 127
 }
 
-main "${@}"
+_cc_main "${@}"
