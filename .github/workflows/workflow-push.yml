@@ -324,9 +324,63 @@ jobs:
     with:
       JSON_APPENDED_CONTENT: ${{ toJSON(fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_extra_release_content) }}
 
-  success:
-    needs:
-      - create_release
+  distribution_packaging_test:
+    if: ${{ needs.create_release.outputs.RELEASE_CANDIDATE == 'true' }}
+    needs: [configuration, create_release]
+    secrets:
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+    uses: cicd-tools-org/cicd-tools/.github/workflows/job-80-poetry-precommit_commit_stage_hook.yml@main
+    with:
+      CONCURRENCY: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_concurrency_limit }}
+      PRE_HOOK_COMMAND: "./container.sh build"
+      PRECOMMIT_HOOK_ID: "distribution-package"
+      PRECOMMIT_HOOK_NAME: "Distribution Packaging"
+      PRECOMMIT_HOOK_STAGE: "manual"
+      PYTHON_VERSIONS: ${{ toJSON(fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_python_versions) }}
+      VERBOSE_NOTIFICATIONS: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_verbose_notifications }}
+
+  distribution_self_test:
+    if: ${{ needs.create_release.outputs.RELEASE_CANDIDATE == 'true' }}
+    needs: [configuration, create_release, distribution_packaging_test]
+    secrets:
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+    uses: cicd-tools-org/cicd-tools/.github/workflows/job-80-poetry-precommit_commit_stage_hook.yml@main
+    with:
+      CONCURRENCY: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_concurrency_limit }}
+      PRE_HOOK_COMMAND: "./container.sh build"
+      PRECOMMIT_HOOK_ID: "distribution-test"
+      PRECOMMIT_HOOK_NAME: "Distribution Self-Test"
+      PRECOMMIT_HOOK_STAGE: "manual"
+      PYTHON_VERSIONS: ${{ toJSON(fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_python_versions) }}
+      VERBOSE_NOTIFICATIONS: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_verbose_notifications }}
+
+  attach_distribution_to_release:
+    permissions:
+      contents: write
+    if: ${{ needs.create_release.outputs.RELEASE_CANDIDATE == 'true' }}
+    needs: [configuration, create_release, distribution_self_test]
+    secrets:
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+    uses: cicd-tools-org/cicd-tools/.github/workflows/job-99-generic-attach_artifact_to_release.yml@main
+    with:
+      ARTIFACT_NAME_PATTERN: ""
+      RELEASE_CONTEXT: ${{ needs.create_release.outputs.RELEASE_CONTEXT }}
+      UPLOAD_FOLDERS: dist
+      VERBOSE_NOTIFICATIONS: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_verbose_notifications }}
+
+  success_standard:
+    if: ${{ needs.create_release.outputs.RELEASE_CANDIDATE != 'true' }}
+    needs: [configuration, create_release]
+    secrets:
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+    uses: cicd-tools-org/cicd-tools/.github/workflows/job-00-generic-notification.yml@main
+    with:
+      NOTIFICATION_EMOJI: ":checkered_flag:"
+      NOTIFICATION_MESSAGE: "Workflow has completed successfully!"
+
+  success_release:
+    if: ${{ needs.create_release.outputs.RELEASE_CANDIDATE == 'true' }}
+    needs: [configuration, create_release, attach_distribution_to_release]
     secrets:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
     uses: cicd-tools-org/cicd-tools/.github/workflows/job-00-generic-notification.yml@main
