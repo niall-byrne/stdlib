@@ -341,7 +341,7 @@ jobs:
 
   distribution_self_test:
     if: ${{ needs.create_release.outputs.RELEASE_CANDIDATE == 'true' }}
-    needs: [configuration, create_release, distribution_packaging_test]
+    needs: [configuration, create_release]
     secrets:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
     uses: cicd-tools-org/cicd-tools/.github/workflows/job-80-poetry-precommit_commit_stage_hook.yml@main
@@ -354,18 +354,33 @@ jobs:
       PYTHON_VERSIONS: ${{ toJSON(fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_python_versions) }}
       VERBOSE_NOTIFICATIONS: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_verbose_notifications }}
 
+  build_distribution_tarball:
+    if: ${{ needs.create_release.outputs.RELEASE_CANDIDATE == 'true' }}
+    needs: [configuration, create_release, distribution_packaging_test, distribution_self_test]
+    secrets:
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+    uses: cicd-tools-org/cicd-tools/.github/workflows/job-95-generic-build_artifact.yml@main
+    with:
+      ARTIFACT_NAME: dist_tarball
+      ARTIFACT_FOLDERS: dist/build_artifact
+      BUILD_COMMAND: |
+        tar cvzf "stdlib_${BRANCH_OR_TAG}.tar.gz" dist --transform='s|dist|stdlib|'
+        mkdir -p dist/build_artifact
+        mv "stdlib_${BRANCH_OR_TAG}.tar.gz" dist/build_artifact
+      VERBOSE_NOTIFICATIONS: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_verbose_notifications }}
+
   attach_distribution_to_release:
     permissions:
       contents: write
     if: ${{ needs.create_release.outputs.RELEASE_CANDIDATE == 'true' }}
-    needs: [configuration, create_release, distribution_self_test]
+    needs: [configuration, create_release, build_distribution_tarball]
     secrets:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
     uses: cicd-tools-org/cicd-tools/.github/workflows/job-99-generic-attach_artifact_to_release.yml@main
     with:
-      ARTIFACT_NAME_PATTERN: ""
+      ARTIFACT_NAME_PATTERN: dist_tarball
       RELEASE_CONTEXT: ${{ needs.create_release.outputs.RELEASE_CONTEXT }}
-      UPLOAD_FOLDERS: dist
+      UPLOAD_FOLDERS: dist/build_artifact
       VERBOSE_NOTIFICATIONS: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_verbose_notifications }}
 
   success_standard:
