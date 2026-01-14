@@ -4,27 +4,22 @@
 
 builtin set -eo pipefail
 
-# @description Creates an array from a file.
-# @arg $1 The name of the array to create.
-# @arg $2 The separator to use.
-# @arg $3 The source file.
-# @exitcode 0 If the array was created successfully.
-# @exitcode 126 If the source file does not exist.
-# @exitcode 127 If the wrong number of arguments is provided.
 stdlib.array.make.from_file() {
+  # $1: the array name
+  # $2: the separator
+  # $3: the source file
+
   stdlib.fn.args.require "3" "0" "${@}" || builtin return "$?"
   stdlib.io.path.assert.is_file "${3}" || builtin return 126
 
   IFS="${2}" builtin read -ra "${1}" < "${3}"
 }
 
-# @description Creates an array from a string.
-# @arg $1 The name of the array to create.
-# @arg $2 The separator to use.
-# @arg $3 The source string.
-# @exitcode 0 If the array was created successfully.
-# @exitcode 127 If the wrong number of arguments is provided.
 stdlib.array.make.from_string() {
+  # $1: the array name
+  # $2: the separator
+  # $3: the source string
+
   builtin local -a _STDLIB_ARGS_NULL_SAFE
 
   _STDLIB_ARGS_NULL_SAFE=("3")
@@ -34,14 +29,11 @@ stdlib.array.make.from_string() {
   IFS="${2}" builtin read -d "" -ra "${1}" < <(builtin echo -n "${3}") || builtin return 0
 }
 
-# @description Creates an array from a string, repeated n times.
-# @arg $1 The name of the array to create.
-# @arg $2 The number of times to repeat the string.
-# @arg $3 The string to repeat.
-# @exitcode 0 If the array was created successfully.
-# @exitcode 126 If the count of repeats is not a digit.
-# @exitcode 127 If the wrong number of arguments is provided.
 stdlib.array.make.from_string_n() {
+  # $1: the array name
+  # $2: the count of repeats
+  # $3: the string to repeat
+
   builtin local -a _STDLIB_ARGS_NULL_SAFE
   builtin local array_index
 
