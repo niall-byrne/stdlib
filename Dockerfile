@@ -35,6 +35,17 @@ RUN \
     "https://raw.githubusercontent.com/bash-unit/bash_unit/master/install.sh" | bash \
   && mv bash_unit /usr/local/bin
 
+# Install shdoc
+RUN \
+  apt-get update \
+  && apt-get install --no-install-recommends -y make gawk \
+  && rm -rf /var/cache/apt/lists \
+  && cd "$(mktemp -d)" \
+  && git clone --recursive https://github.com/reconquest/shdoc \
+  && cd shdoc \
+  && make install \
+  && rm -rf "${PWD}"
+
 # Install kcov
 COPY --from=kcov/kcov:latest /usr/local/bin/kcov* /usr/local/bin/
 COPY --from=kcov/kcov:latest /usr/local/share/doc/kcov /usr/local/share/doc/kcov
