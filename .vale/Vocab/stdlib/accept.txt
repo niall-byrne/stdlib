@@ -16,6 +16,8 @@ assert_snapshot
 bashunit
 parametrizer
 parametrizers
+shdoc
+src
 stdlib
 stdout
 subfolder
