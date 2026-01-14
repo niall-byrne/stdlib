@@ -1,0 +1,132 @@
+#!/bin/bash
+
+# stdlib distributable build script
+
+__build_add_snippet() {
+  # $1: the snippet file to add
+
+  echo
+  echo "# this snippet is included by the build script:"
+  echo "# ${1}"
+
+  tail +3 "${1}"
+}
+
+__build_generate_step_1_stdlib_file_header() {
+  echo "#!/bin/bash"
+  echo
+  echo "# stdlib distributable for bash"
+  echo
+  echo "set -eo pipefail"
+}
+
+__build_generate_step_1_testing_file_header() {
+  echo "#!/bin/bash"
+  echo
+  echo "# stdlib testing distributable for bash"
+  echo
+  echo "set -eo pipefail"
+}
+
+__build_generate_step_2_stdlib_variables() {
+  echo
+  echo "# stdlib variable definitions"
+  echo
+
+  while IFS= read -r stdlib_variable_name_line; do
+    echo "${stdlib_variable_name_line}"
+  done <<< "$(builtin declare -p | "${_STDLIB_BINARY_GREP}" -E "${stdlib_variable_regex}" | "${_STDLIB_BINARY_GREP}" -v "${stdlib_variable_filter}")"
+}
+
+__build_generate_step_2_testing_variables() {
+  echo
+  echo "# stdlib testing variable definitions"
+  echo
+
+  while IFS= read -r stdlib_variable_name_line; do
+    echo "${stdlib_variable_name_line}"
+  done <<< "$(builtin declare -p | "${_STDLIB_BINARY_GREP}" -E "${stdlib_testing_variable_regex}")"
+}
+
+__build_generate_step_3_stdlib_functions() {
+  echo
+  echo "# stdlib function definitions"
+
+  while IFS= read -r stdlib_fn_name_line; do
+    stdlib_fn_name="${stdlib_fn_name_line/" () "/}"
+    echo
+    declare -f "${stdlib_fn_name}"
+  done <<< "$(builtin declare -f | "${_STDLIB_BINARY_GREP}" -E "${stdlib_function_regex}")"
+}
+
+__build_generate_step_3_testing_functions() {
+  echo
+  echo "# stdlib testing function definitions"
+
+  while IFS= read -r stdlib_fn_name_line; do
+    stdlib_fn_name="${stdlib_fn_name_line/" () "/}"
+    echo
+    declare -f "${stdlib_fn_name}"
+  done <<< "$(builtin declare -f | "${_STDLIB_BINARY_GREP}" -E "${stdlib_testing_function_regex}" | "${_STDLIB_BINARY_GREP}" -v "${stdlib_testing_function_filter}")"
+}
+
+__build_generate_step_4_stdlib_traps() {
+  __build_add_snippet src/trap/register.snippet
+}
+
+__build_generate_step_5_stdlib_settings() {
+  echo
+  echo "# colours are disabled by default"
+  echo "stdlib.setting.colour.disable"
+}
+
+__build_generate_step_6_testing_enable_mocking() {
+  __build_add_snippet src/testing/mock/mock.snippet
+}
+
+__build_target() {
+  # $1: the target to build
+
+  case "${1}" in
+    stdlib)
+      source src/__lib__.sh
+      __build_generate_step_1_stdlib_file_header
+      __build_generate_step_2_stdlib_variables
+      __build_generate_step_3_stdlib_functions
+      __build_generate_step_4_stdlib_traps
+      __build_generate_step_5_stdlib_settings
+      ;;
+    testing)
+      source src/__lib__.sh
+      source src/testing/__lib__.sh
+      __build_generate_step_1_testing_file_header
+      __build_generate_step_2_testing_variables
+      __build_generate_step_3_testing_functions
+      __build_generate_step_6_testing_enable_mocking
+      ;;
+    *)
+      echo "ERROR: unknown build target!"
+      exit 127
+      ;;
+  esac
+}
+
+__build() {
+  local stdlib_library_prefix="stdlib"
+  local stdlib_function_regex="^${stdlib_library_prefix}\\..* ()"
+  local stdlib_variable_regex=" _*STDLIB_.*="
+  local stdlib_variable_filter="STDLIB_DIRECTORY"
+
+  local stdlib_testing_library_prefix="((_mock|__mock|_testing|__testing|_capture)\\.|assert_|\\@parametrize)"
+  local stdlib_testing_function_regex="^${stdlib_testing_library_prefix}.* ()"
+  local stdlib_testing_function_filter="^_testing._mock.compile ()"
+  local stdlib_testing_variable_regex="( _*STDLIB_TESTING_.*=| _*PARAMETRIZE_.*=| _*MOCK_.*=)"
+
+  local stdlib_variable_name_line
+  local stdlib_fn_name_line
+  local stdlib_fn_name
+
+  __build_target "${1}"
+}
+
+__build "${@}"
