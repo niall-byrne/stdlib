@@ -14,6 +14,7 @@ assert_output_raw
 assert_rc
 assert_snapshot
 bashunit
+jules
 parametrizer
 parametrizers
 shdoc
