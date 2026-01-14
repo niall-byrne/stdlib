@@ -25,8 +25,5 @@ source "${STDLIB_DIRECTORY}/testing/message.sh"
 # shellcheck source=stdlib/testing/theme.sh
 source "${STDLIB_DIRECTORY}/testing/theme.sh"
 
-# create a protected duplicate of the stdlib library for testing functions to use
-__testing.protect_stdlib
-
 # compile the stdlib testing mock
 _testing._mock.compile
