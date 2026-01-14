@@ -21,8 +21,7 @@ stdlib.setting.colour.enable() {
     return 0
   fi
 
-  # shellcheck source=stdlib/setting/state/colour_enabled.sh
-  source "${STDLIB_DIRECTORY}/setting/state/colour_enabled.sh"
+  stdlib.setting.colour.state.enabled
   stdlib.setting.theme.load
 }
 
@@ -38,7 +37,6 @@ stdlib.setting.colour.enable._generate_error_message() {
 }
 
 stdlib.setting.colour.disable() {
-  # shellcheck source=stdlib/setting/state/colour_disabled.sh
-  source "${STDLIB_DIRECTORY}/setting/state/colour_disabled.sh"
+  stdlib.setting.colour.state.disabled
   stdlib.setting.theme.load
 }
