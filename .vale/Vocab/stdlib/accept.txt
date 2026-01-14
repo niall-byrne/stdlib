@@ -1,5 +1,6 @@
 Parametrizer
 Parametrizers
+Parametrizing
 STDLIB
 _fixture
 assert_array_equals
@@ -13,9 +14,14 @@ assert_output_null
 assert_output_raw
 assert_rc
 assert_snapshot
+bash_unit
 bashunit
+capture_assertion_failure
 parametrizer
 parametrizers
+pytest's
+shdoc
+src
 stdlib
 stdout
 subfolder
