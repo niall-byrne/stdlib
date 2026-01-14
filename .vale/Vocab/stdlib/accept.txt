@@ -1,7 +1,10 @@
 Parametrizer
 Parametrizers
+Parametrizing
+Pipeable
 STDLIB
 _fixture
+_pipe
 assert_array_equals
 assert_array_length
 assert_is_array
@@ -13,9 +16,15 @@ assert_output_null
 assert_output_raw
 assert_rc
 assert_snapshot
+bash_unit
 bashunit
+capture_assertion_failure
 parametrizer
 parametrizers
+pipeable
+pytest's
+shdoc
+src
 stdlib
 stdout
 subfolder
