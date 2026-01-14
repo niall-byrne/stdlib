@@ -17,6 +17,7 @@ assert_snapshot
 bash_unit
 bashunit
 capture_assertion_failure
+jules
 parametrizer
 parametrizers
 pytest's
