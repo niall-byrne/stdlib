@@ -10,7 +10,7 @@ stdlib.setting.theme.get_colour() {
 
   theme_colour="STDLIB_COLOUR_${1}"
 
-  if [[ ! -v "${theme_colour}" ]]; then
+  if [[ -z "${!theme_colour+set}" ]]; then
     stdlib.logger.warning "$(stdlib.message.get COLOUR_NOT_DEFINED "${1}")"
   fi
 
@@ -18,6 +18,5 @@ stdlib.setting.theme.get_colour() {
 }
 
 stdlib.setting.theme.load() {
-  # shellcheck source=stdlib/setting/state/colour_theme.sh
-  source "${STDLIB_DIRECTORY}/setting/state/colour_theme.sh"
+  stdlib.setting.colour.state.theme
 }
