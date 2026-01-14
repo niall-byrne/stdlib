@@ -1,0 +1,103 @@
+#!/bin/bash
+
+# stdlib distributable test runner
+# $1: a filter to match tests by
+
+set -eo pipefail
+
+_t_runner_external_dependencies_array=("bash_unit")
+_t_runner_external_dependencies_notes=("Please see: https://github.com/bash-unit/bash_unit")
+_t_runner_stdlib_distributable_files_array=("stdlib.sh" "stdlib_testing.sh")
+
+_t_runner_check_external_dependencies() {
+  local required_file
+  local required_file_notes
+  local index
+
+  for ((index = 0; index < "${#_t_runner_external_dependencies_array[@]}"; ++index)); do
+    required_file="${_t_runner_external_dependencies_array[index]}"
+    required_file_notes="${_t_runner_external_dependencies_notes[index]}"
+    if ! command -v "${required_file}" > /dev/null; then
+      echo "ERROR: the required external dependency '${required_file}' was not found in PATH !"
+      echo "${required_file_notes}"
+      exit 127
+    fi
+  done
+}
+
+_t_runner_check_stdlib() {
+  local required_file
+
+  for required_file in "${_t_runner_stdlib_distributable_files_array[@]}"; do
+    if [[ ! -f "${_t_runner_working_directory}/${required_file}" ]]; then
+      echo "ERROR: the stdlib distributable file '${required_file}' was not found in the same directory as the test runner script !"
+      exit 127
+    fi
+  done
+}
+
+_t_runner_discover() {
+  # $1: a filter to match tests by
+
+  local _t_runner_discovered_test_file
+
+  while read -r -d $'\0' _t_runner_discovered_test_file; do
+    _t_runner_discovered_test_modules+=("${_t_runner_discovered_test_file}")
+  done < <(find "${1}" -name "test_*" -type f -print0)
+}
+
+_t_runner_execute() {
+  # shellcheck disable=SC2034
+  local TEST_INPUT
+  # shellcheck disable=SC2034
+  local TEST_OUTPUT
+  # shellcheck disable=SC2034
+  local TEST_RC
+
+  if declare -F stdlib.trap.handler.exit.fn.register > /dev/null; then
+    stdlib.trap.handler.exit.fn.register __mock.persistence.registry.cleanup
+  fi
+
+  set +e
+  (
+    # shellcheck source=/dev/null
+    source "$(command -v bash_unit)" -p "${1}" "${_t_runner_discovered_test_modules[@]}"
+  )
+  _t_runner_exit_code="$?"
+  set -e
+
+  exit "${_t_runner_exit_code}"
+}
+
+_t_runner_execution_context() {
+  _t_runner_check_stdlib
+
+  # shellcheck source=/dev/null
+  source "${_t_runner_working_directory}/stdlib.sh"
+  # shellcheck source=/dev/null
+  source "${_t_runner_working_directory}/stdlib_testing.sh"
+
+  _t_runner_execute "$@"
+}
+
+_t_runner_main() {
+  local _t_runner_discovered_test_modules=()
+  local _t_runner_exit_code
+  local _t_runner_working_directory
+
+  _t_runner_working_directory="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+
+  _t_runner_check_external_dependencies
+
+  _t_runner_discover "${1-.}"
+
+  shift || true
+
+  if declare -f _t_runner_custom_execution_context > /dev/null 2>&1; then
+    _t_runner_custom_execution_context "$@"
+  else
+    _t_runner_execution_context "$@"
+  fi
+}
+
+_t_runner_main "$@"

@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# stdlib distributable coverage collector (requires kcov)
+# $1: the target folder to collect coverage from
+
+set -eo pipefail
+
+TEST_RUNNER="${TEST_RUNNER-"t"}"
+
+_cc_external_dependencies_array=("kcov")
+
+_cc_check_arguments() {
+  if [[ -z "${1}" ]] || [[ "${#@}" != "1" ]]; then
+    echo "ERROR: You must supply a single argument as the target path."
+    return 127
+  fi
+}
+
+_cc_check_external_dependencies() {
+  local required_file
+
+  for required_file in "${_cc_external_dependencies_array[@]}"; do
+    if ! command -v "${required_file}" > /dev/null; then
+      echo "ERROR: the required external dependency '${required_file}' was not found in PATH !"
+      exit 127
+    fi
+  done
+}
+
+_cc_main() {
+  _cc_check_arguments "${@}"
+  _cc_check_external_dependencies
+
+  [[ -d coverage ]] && rm -r coverage
+
+  kcov \
+    --include-pattern="${1}" \
+    --exclude-pattern=tests,testing \
+    --exclude-line=KCOV_EXCLUDE_LINE \
+    --exclude-region=KCOV_EXCLUDE_BEGIN:KCOV_EXCLUDE_END \
+    --limits 75,100 \
+    coverage "${TEST_RUNNER}" "${1}"
+
+  if ! { grep percent_covered "coverage/$(basename "${TEST_RUNNER}")/coverage.json" | grep -v 100; } then
+   echo "Coverage SUCCEEDED"
+   return 0
+  fi
+
+  echo "Coverage FAILED"
+  return 127
+}
+
+_cc_main "${@}"
