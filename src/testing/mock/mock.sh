@@ -81,9 +81,6 @@ _testing._mock.compile() {
     builtin echo ")\""
     builtin echo "}"
   })
-
-  __mock.persistence.registry.create
-  __mock.persistence.sequence.initialize
 }
 
 _mock.create() {
