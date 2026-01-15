@@ -4,12 +4,15 @@
 
 builtin set -eo pipefail
 
+# @description Checks if a file or directory has the specified owner, group, and permissions.
+# @arg $1 The filesystem path to check.
+# @arg $2 The required user name.
+# @arg $3 The required group name.
+# @arg $4 The required permission octal value.
+# @exitcode 0 If the ownership and permissions are correct.
+# @exitcode 1 If the ownership or permissions are incorrect.
+# @exitcode 127 If the wrong number of arguments is provided.
 stdlib.security.path.query.is_secure() {
-  # $1: the filesystem path to check
-  # $2: the required user name
-  # $3: the required group name
-  # $4: the permission octal value required
-
   [[ "${#@}" == "4" ]] || builtin return 127
 
   if ! stdlib.security.path.query.has_owner "${1}" "${2}" ||

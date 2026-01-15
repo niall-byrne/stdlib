@@ -4,10 +4,14 @@
 
 builtin set -eo pipefail
 
+# @description Asserts that a file or directory has the specified group ownership.
+# @arg $1 The path to check.
+# @arg $2 The required group name.
+# @exitcode 1 If the group ownership is incorrect.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
+# @stderr The error message if the assertion fails.
 stdlib.security.path.assert.has_group() {
-  # $1: the path to check
-  # $2: the required group name
-
   builtin local return_code=0
 
   stdlib.security.path.query.has_group "${@}" || return_code="$?"
@@ -26,10 +30,14 @@ stdlib.security.path.assert.has_group() {
   builtin return "${return_code}"
 }
 
+# @description Asserts that a file or directory has the specified owner.
+# @arg $1 The path to check.
+# @arg $2 The required user name.
+# @exitcode 1 If the ownership is incorrect.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
+# @stderr The error message if the assertion fails.
 stdlib.security.path.assert.has_owner() {
-  # $1: the path to check
-  # $2: the required user name
-
   builtin local return_code=0
 
   stdlib.security.path.query.has_owner "${@}" || return_code="$?"
@@ -48,10 +56,14 @@ stdlib.security.path.assert.has_owner() {
   builtin return "${return_code}"
 }
 
+# @description Asserts that a file or directory has the specified permissions.
+# @arg $1 The path to check.
+# @arg $2 The required permission octal value.
+# @exitcode 1 If the permissions are incorrect.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
+# @stderr The error message if the assertion fails.
 stdlib.security.path.assert.has_permissions() {
-  # $1: the path to check
-  # $2: the permission octal value required
-
   builtin local return_code=0
 
   stdlib.security.path.query.has_permissions "${@}" || return_code="$?"
