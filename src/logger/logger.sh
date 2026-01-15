@@ -9,8 +9,7 @@ _STDLIB_LOGGING_DECORATORS=("__testing.protected")
 
 # @description Prints a traceback of the call stack.
 # @noargs
-# @exitcode 0 If the traceback was printed successfully.
-# @stdout The traceback.
+# @stdout The traceback of the call stack.
 stdlib.logger.traceback() {
   builtin local fn_name_index
   builtin local fn_name_indent=">"
@@ -24,10 +23,9 @@ stdlib.logger.traceback() {
   done
 }
 
-# @description Prints an error message to stderr.
-#     STDLIB_THEME_LOGGER_ERROR: The colour to use for the message.
-# @arg $1 The message to print.
-# @exitcode 0 If the message was printed successfully.
+# @description Logs an error message to stderr.
+# The `_STDLIB_LOGGING_MESSAGE_PREFIX` variable can be used to set a prefix for the message.
+# @arg $1 The message to log.
 # @stderr The error message.
 stdlib.logger.error() {
   {
@@ -36,10 +34,9 @@ stdlib.logger.error() {
   } >&2 # KCOV_EXCLUDE_LINE
 }
 
-# @description Prints a warning message to stderr.
-#     STDLIB_THEME_LOGGER_WARNING: The colour to use for the message.
-# @arg $1 The message to print.
-# @exitcode 0 If the message was printed successfully.
+# @description Logs a warning message to stderr.
+# The `_STDLIB_LOGGING_MESSAGE_PREFIX` variable can be used to set a prefix for the message.
+# @arg $1 The message to log.
 # @stderr The warning message.
 stdlib.logger.warning() {
   {
@@ -48,30 +45,27 @@ stdlib.logger.warning() {
   } >&2 # KCOV_EXCLUDE_LINE
 }
 
-# @description Prints an info message to stdout.
-#     STDLIB_THEME_LOGGER_INFO: The colour to use for the message.
-# @arg $1 The message to print.
-# @exitcode 0 If the message was printed successfully.
+# @description Logs an info message to stdout.
+# The `_STDLIB_LOGGING_MESSAGE_PREFIX` variable can be used to set a prefix for the message.
+# @arg $1 The message to log.
 # @stdout The info message.
 stdlib.logger.info() {
   stdlib.logger.__message_prefix
   stdlib.string.colour "${STDLIB_THEME_LOGGER_INFO}" "${1}"
 }
 
-# @description Prints a notice message to stdout.
-#     STDLIB_THEME_LOGGER_NOTICE: The colour to use for the message.
-# @arg $1 The message to print.
-# @exitcode 0 If the message was printed successfully.
+# @description Logs a notice message to stdout.
+# The `_STDLIB_LOGGING_MESSAGE_PREFIX` variable can be used to set a prefix for the message.
+# @arg $1 The message to log.
 # @stdout The notice message.
 stdlib.logger.notice() {
   stdlib.logger.__message_prefix
   stdlib.string.colour "${STDLIB_THEME_LOGGER_NOTICE}" "${1}"
 }
 
-# @description Prints a success message to stdout.
-#     STDLIB_THEME_LOGGER_SUCCESS: The colour to use for the message.
-# @arg $1 The message to print.
-# @exitcode 0 If the message was printed successfully.
+# @description Logs a success message to stdout.
+# The `_STDLIB_LOGGING_MESSAGE_PREFIX` variable can be used to set a prefix for the message.
+# @arg $1 The message to log.
 # @stdout The success message.
 stdlib.logger.success() {
   stdlib.logger.__message_prefix
