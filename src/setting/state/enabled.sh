@@ -5,6 +5,9 @@
 
 builtin set -eo pipefail
 
+# @description Enables all colour output by setting the colour variables.
+# @noargs
+# @exitcode 0 If the operation succeeded.
 stdlib.setting.colour.state.enabled() {
   STDLIB_COLOUR_NC="$("${_STDLIB_BINARY_TPUT}" sgr0)"
   STDLIB_COLOUR_BLACK="$(
