@@ -8,6 +8,7 @@ builtin set -eo pipefail
 # @arg $1 The string to append.
 # @arg $2 The name of the array to modify.
 # @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
 # @stderr The error message if the operation fails.
 stdlib.array.mutate.append() {
   builtin local -a _STDLIB_ARGS_NULL_SAFE
@@ -38,6 +39,7 @@ stdlib.array.mutate.append() {
 # @arg $1 The name of the function to apply.
 # @arg $2 The name of the array to modify.
 # @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
 # @stderr The error message if the operation fails.
 stdlib.array.mutate.fn() {
   builtin local -a indirect_array
@@ -67,6 +69,7 @@ stdlib.array.mutate.fn() {
 # @arg $1 The name of the filter function. A match is based on a return status code of 0.
 # @arg $2 The name of the array to modify.
 # @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
 # @stderr The error message if the operation fails.
 stdlib.array.mutate.filter() {
   builtin local array_element
@@ -98,6 +101,7 @@ stdlib.array.mutate.filter() {
 # @arg $1 A valid printf format string.
 # @arg $2 The name of the array to modify.
 # @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
 # @stderr The error message if the operation fails.
 stdlib.array.mutate.format() {
   builtin local -a indirect_array
@@ -127,6 +131,7 @@ stdlib.array.mutate.format() {
 # @arg $2 The index to insert the string at.
 # @arg $3 The name of the array to modify.
 # @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
 # @stderr The error message if the operation fails.
 stdlib.array.mutate.insert() {
   builtin local -a _STDLIB_ARGS_NULL_SAFE
@@ -151,6 +156,7 @@ stdlib.array.mutate.insert() {
 # @arg $1 The string to prepend.
 # @arg $2 The name of the array to modify.
 # @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
 # @stderr The error message if the operation fails.
 stdlib.array.mutate.prepend() {
   builtin local -a _STDLIB_ARGS_NULL_SAFE
@@ -181,6 +187,7 @@ stdlib.array.mutate.prepend() {
 # @arg $1 The index of the element to remove.
 # @arg $2 The name of the array to modify.
 # @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
 # @stderr The error message if the operation fails.
 stdlib.array.mutate.remove() {
   builtin local -a indirect_array
@@ -202,6 +209,7 @@ stdlib.array.mutate.remove() {
 # @description Reverses the order of elements in an array, modifying the array in place.
 # @arg $1 The name of the array to modify.
 # @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
 # @stderr The error message if the operation fails.
 stdlib.array.mutate.reverse() {
   builtin local element

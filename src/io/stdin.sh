@@ -11,6 +11,7 @@ _STDLIB_PASSWORD_BOOLEAN=""
 # @exitcode 0 If the user confirms (Y).
 # @exitcode 1 If the user denies (n).
 # @exitcode 127 If the wrong number of arguments is provided.
+# @stdin The user's confirmation character (Y/n).
 # @stdout The confirmation prompt.
 stdlib.io.stdin.confirmation() {
   builtin local input_char
@@ -36,6 +37,7 @@ stdlib.io.stdin.confirmation() {
 # @description Pauses execution until the user presses any key.
 # @arg $1 (optional) The prompt to display.
 # @exitcode 127 If the wrong number of arguments is provided.
+# @stdin A single character to continue execution.
 # @stdout The pause prompt.
 stdlib.io.stdin.pause() {
   builtin local input_char
@@ -52,6 +54,7 @@ stdlib.io.stdin.pause() {
 # @arg $1 The name of the variable to save the input to.
 # @arg $2 (optional) The prompt to display.
 # @exitcode 127 If the wrong number of arguments is provided.
+# @stdin The value to be saved to the variable.
 # @stdout The value prompt.
 stdlib.io.stdin.prompt() {
   builtin local flags="-rp"

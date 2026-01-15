@@ -8,6 +8,7 @@ builtin set -eo pipefail
 # @arg $1 A valid printf format string.
 # @arg $2 The name of the array to process.
 # @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
 # @stdout The formatted elements of the array.
 # @stderr The error message if the operation fails.
 stdlib.array.map.format() {
@@ -31,6 +32,7 @@ stdlib.array.map.format() {
 # @arg $1 The name of the function to apply.
 # @arg $2 The name of the array to process.
 # @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
 # @stdout The output of the function applied to each element.
 # @stderr The error message if the operation fails.
 stdlib.array.map.fn() {
