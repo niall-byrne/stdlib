@@ -7,8 +7,8 @@ builtin set -eo pipefail
 # @description Creates a new reference to an existing function.
 # @arg $1 The name of the original function.
 # @arg $2 The name of the new function reference.
-# @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments has been provided.
+# @exitcode 126 An invalid argument was provided.
+# @exitcode 127 The wrong number of arguments was provided.
 # @stderr The error message if the operation fails.
 stdlib.fn.derive.clone() {
   builtin local function_name="${1}"

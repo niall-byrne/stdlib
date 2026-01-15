@@ -8,8 +8,8 @@ builtin set -eo pipefail
 # @arg $1 The name of the source function.
 # @arg $2 (optional) The name of the new target function. Defaults to `${source_function}_var`.
 # @arg $3 (optional) The argument index for the variable's existing value. Defaults to the last value.
-# @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments has been provided.
+# @exitcode 126 An invalid argument was provided.
+# @exitcode 127 The wrong number of arguments was provided.
 # @stderr The error message if the operation fails.
 stdlib.fn.derive.var() {
   builtin local -a args_with_defaults
