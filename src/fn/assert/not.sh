@@ -7,6 +7,7 @@ builtin set -eo pipefail
 # @description Asserts that a function does not exist.
 # @arg $1 The name of the function to check.
 # @exitcode 1 If the function exists.
+# @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
 # @stderr The error message if the assertion fails.
 stdlib.fn.assert.not_fn() {

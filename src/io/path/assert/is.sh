@@ -4,9 +4,13 @@
 
 builtin set -eo pipefail
 
+# @description Asserts that a path exists.
+# @arg $1 The path to check.
+# @exitcode 1 If the path does not exist.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
+# @stderr The error message if the assertion fails.
 stdlib.io.path.assert.is_exists() {
-  # $1: the path to check
-
   builtin local return_code=0
 
   stdlib.io.path.query.is_exists "${@}" || return_code="$?"
@@ -24,9 +28,13 @@ stdlib.io.path.assert.is_exists() {
   builtin return "${return_code}"
 }
 
+# @description Asserts that a path is a file.
+# @arg $1 The path to check.
+# @exitcode 1 If the path is not a file.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
+# @stderr The error message if the assertion fails.
 stdlib.io.path.assert.is_file() {
-  # $1: the folder to check
-
   builtin local return_code=0
 
   stdlib.io.path.query.is_file "${@}" || return_code="$?"
@@ -44,9 +52,13 @@ stdlib.io.path.assert.is_file() {
   builtin return "${return_code}"
 }
 
+# @description Asserts that a path is a folder.
+# @arg $1 The path to check.
+# @exitcode 1 If the path is not a folder.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
+# @stderr The error message if the assertion fails.
 stdlib.io.path.assert.is_folder() {
-  # $1: the folder to check
-
   builtin local return_code=0
 
   stdlib.io.path.query.is_folder "${@}" || return_code="$?"

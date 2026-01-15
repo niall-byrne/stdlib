@@ -4,9 +4,13 @@
 
 builtin set -eo pipefail
 
+# @description Asserts that a path does not exist.
+# @arg $1 The path to check.
+# @exitcode 1 If the path exists.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
+# @stderr The error message if the assertion fails.
 stdlib.io.path.assert.not_exists() {
-  # $1: the path to check
-
   builtin local return_code=0
 
   stdlib.io.path.query.is_exists "${@}" || return_code="$?"
