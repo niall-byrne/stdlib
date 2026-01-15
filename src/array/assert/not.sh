@@ -4,9 +4,12 @@
 
 builtin set -eo pipefail
 
+# @description Asserts that a variable is not an array.
+# @arg $1 The name of the variable to check.
+# @exitcode 1 If the variable is an array.
+# @exitcode 127 If an invalid argument has been provided.
+# @stderr The error message if the assertion fails.
 stdlib.array.assert.not_array() {
-  # $1: the value to assert is not an array
-
   builtin local _stdlib_return_code=0
 
   stdlib.array.query.is_array "${@}" || _stdlib_return_code="$?"
@@ -27,10 +30,14 @@ stdlib.array.assert.not_array() {
   builtin return "${_stdlib_return_code}"
 }
 
+# @description Asserts that an array does not contain a specified value.
+# @arg $1 The value to check for.
+# @arg $2 The name of the array.
+# @exitcode 1 If the array contains the value.
+# @exitcode 126 If the specified variable is not an array.
+# @exitcode 127 If an invalid argument has been provided.
+# @stderr The error message if the assertion fails.
 stdlib.array.assert.not_contains() {
-  # $1: the value to assert is present
-  # $2: the array name
-
   builtin local _stdlib_return_code=0
 
   stdlib.array.query.is_contains "${@}" || _stdlib_return_code="$?"
@@ -51,9 +58,13 @@ stdlib.array.assert.not_contains() {
   builtin return "${_stdlib_return_code}"
 }
 
+# @description Asserts that an array is not empty.
+# @arg $1 The name of the array.
+# @exitcode 1 If the array is empty.
+# @exitcode 126 If the specified variable is not an array.
+# @exitcode 127 If an invalid argument has been provided.
+# @stderr The error message if the assertion fails.
 stdlib.array.assert.not_empty() {
-  # $1: the array name
-
   builtin local _stdlib_return_code=0
 
   stdlib.array.query.is_empty "${@}" || _stdlib_return_code="$?"
@@ -77,10 +88,14 @@ stdlib.array.assert.not_empty() {
   builtin return "${_stdlib_return_code}"
 }
 
+# @description Asserts that two arrays are not equal.
+# @arg $1 The name of the first array.
+# @arg $2 The name of the second array.
+# @exitcode 1 If the arrays are equal.
+# @exitcode 126 If one or both of the specified variables are not arrays.
+# @exitcode 127 If an invalid argument has been provided.
+# @stderr The error message if the assertion fails.
 stdlib.array.assert.not_equal() {
-  # $1: the name of the first array to compare
-  # $2: the name of the second array to compare
-
   builtin local _stdlib_array_index
   builtin local _stdlib_array_name_1="${1}"
   builtin local _stdlib_array_name_2="${2}"
