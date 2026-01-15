@@ -13,8 +13,8 @@ _STDLIB_ARGS_NULL_SAFE=()
 # @arg $1 The number of required arguments.
 # @arg $2 The number of optional arguments.
 # @arg $@ The arguments to validate.
-# @exitcode 126 An invalid argument was provided.
-# @exitcode 127 The wrong number of arguments was provided.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
 # @stderr The error message if the validation fails.
 stdlib.fn.args.require() {
   builtin local -a args_null_safe_array

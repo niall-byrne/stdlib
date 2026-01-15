@@ -8,7 +8,7 @@ builtin set -eo pipefail
 # @arg $1 The name of the array to create.
 # @arg $2 The separator to split the file content by.
 # @arg $3 The path to the source file.
-# @exitcode 126 An invalid argument was provided.
+# @exitcode 126 If an invalid argument has been provided.
 # @stderr The error message if the operation fails.
 stdlib.array.make.from_file() {
   stdlib.fn.args.require "3" "0" "${@}" || builtin return "$?"
@@ -21,7 +21,7 @@ stdlib.array.make.from_file() {
 # @arg $1 The name of the array to create.
 # @arg $2 The separator to split the string by.
 # @arg $3 The source string.
-# @exitcode 126 An invalid argument was provided.
+# @exitcode 126 If an invalid argument has been provided.
 # @stderr The error message if the operation fails.
 stdlib.array.make.from_string() {
   builtin local -a _STDLIB_ARGS_NULL_SAFE
@@ -37,7 +37,7 @@ stdlib.array.make.from_string() {
 # @arg $1 The name of the array to create.
 # @arg $2 The number of times to repeat the string.
 # @arg $3 The string to repeat.
-# @exitcode 126 An invalid argument was provided.
+# @exitcode 126 If an invalid argument has been provided.
 # @stderr The error message if the operation fails.
 stdlib.array.make.from_string_n() {
   builtin local -a _STDLIB_ARGS_NULL_SAFE

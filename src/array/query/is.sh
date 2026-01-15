@@ -9,8 +9,8 @@ builtin set -eo pipefail
 # @arg $2 The name of the array.
 # @exitcode 0 If the array contains the value.
 # @exitcode 1 If the array does not contain the value.
-# @exitcode 126 An invalid argument was provided.
-# @exitcode 127 The wrong number of arguments was provided.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
 stdlib.array.query.is_contains() {
   builtin local indirect_reference
   builtin local -a indirect_array
@@ -37,8 +37,8 @@ stdlib.array.query.is_contains() {
 # @arg $2 The name of the second array.
 # @exitcode 0 If the arrays are equal.
 # @exitcode 1 If the arrays are not equal.
-# @exitcode 126 An invalid argument was provided.
-# @exitcode 127 The wrong number of arguments was provided.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
 stdlib.array.query.is_equal() {
   builtin local indirect_reference_1
   builtin local -a indirect_array_1
@@ -72,8 +72,8 @@ stdlib.array.query.is_equal() {
 # @arg $1 The name of the variable to check.
 # @exitcode 0 If the variable is an array.
 # @exitcode 1 If the variable is not an array.
-# @exitcode 126 An invalid argument was provided.
-# @exitcode 127 The wrong number of arguments was provided.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
 stdlib.array.query.is_array() {
   [[ "${#@}" == "1" ]] || builtin return 127
   [[ -n "${1}" ]] || builtin return 126
@@ -87,8 +87,8 @@ stdlib.array.query.is_array() {
 # @arg $1 The name of the array.
 # @exitcode 0 If the array is empty.
 # @exitcode 1 If the array is not empty.
-# @exitcode 126 An invalid argument was provided.
-# @exitcode 127 The wrong number of arguments was provided.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
 stdlib.array.query.is_empty() {
   builtin local indirect_reference
   builtin local -a indirect_array

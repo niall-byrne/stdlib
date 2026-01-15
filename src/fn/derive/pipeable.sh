@@ -10,8 +10,8 @@ STDIN_SOURCE_SPECIFIER="${STDIN_SOURCE_SPECIFIER:-""}"
 #     STDIN_SOURCE_SPECIFIER: A reserved argument used to specify a stdin source.
 # @arg $1 The name of the function to make pipeable.
 # @arg $2 The number of arguments required by the function.
-# @exitcode 126 An invalid argument was provided.
-# @exitcode 127 The wrong number of arguments was provided.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
 # @stderr The error message if the operation fails.
 stdlib.fn.derive.pipeable() {
   builtin local derive_target_fn_name
