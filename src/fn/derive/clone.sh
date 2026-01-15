@@ -4,10 +4,13 @@
 
 builtin set -eo pipefail
 
+# @description Creates a new reference to an existing function.
+# @arg $1 The name of the original function.
+# @arg $2 The name of the new function reference.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments has been provided.
+# @stderr The error message if the operation fails.
 stdlib.fn.derive.clone() {
-  # $1: the original function name
-  # $2: the function's new reference name
-
   builtin local function_name="${1}"
   builtin local function_reference="${2}"
 

@@ -4,9 +4,12 @@
 
 builtin set -eo pipefail
 
+# @description Asserts that a function does not exist.
+# @arg $1 The name of the function to check.
+# @exitcode 1 If the function exists.
+# @exitcode 127 If an invalid argument has been provided.
+# @stderr The error message if the assertion fails.
 stdlib.fn.assert.not_fn() {
-  # $1: the function name to assert does not exist
-
   builtin local return_code=0
 
   stdlib.fn.query.is_fn "${@}" || return_code="$?"
