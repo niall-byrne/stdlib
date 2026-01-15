@@ -4,15 +4,10 @@
 
 builtin set -eo pipefail
 
-# @description Applies a format string to each element of an array.
-# @arg $1 A valid printf format string.
-# @arg $2 The name of the array to process.
-# @exitcode 0 If the format string was applied successfully.
-# @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments is provided.
-# @stdout The formatted elements of the array.
-# @stderr The error message if the operation fails.
 stdlib.array.map.format() {
+  # $1: a valid print format string to apply to each element
+  # $2: the array to process
+
   builtin local element
   builtin local indirect_reference
   builtin local -a indirect_array
@@ -29,15 +24,10 @@ stdlib.array.map.format() {
   done
 }
 
-# @description Applies a function to each element of an array.
-# @arg $1 A valid function to apply to each element.
-# @arg $2 The name of the array to process.
-# @exitcode 0 If the function was applied successfully.
-# @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments is provided.
-# @stdout The output of the function being applied to each element.
-# @stderr The error message if the operation fails.
 stdlib.array.map.fn() {
+  # $1: a valid function to apply to each element
+  # $2: the array to process
+
   builtin local element
   builtin local indirect_reference
   builtin local -a indirect_array
