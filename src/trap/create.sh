@@ -10,7 +10,6 @@ builtin set -eo pipefail
 # @arg $3 (optional) A boolean indicating if recursive deletes should be done.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
-# @stderr The error message if the operation fails.
 stdlib.trap.create.clean_up_fn() {
   builtin local rm_flags="-f"
   builtin local recursive_deletes="${3:-0}"
@@ -49,7 +48,6 @@ EOF
 # @arg $2 The name of the array to store handler function names in.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
-# @stderr The error message if the operation fails.
 stdlib.trap.create.handler() {
   stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?"
   stdlib.array.assert.is_array "${2}" || builtin return 126

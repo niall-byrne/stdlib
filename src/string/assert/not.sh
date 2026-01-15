@@ -4,10 +4,14 @@
 
 builtin set -eo pipefail
 
+# @description Asserts that a string is not equal to a comparison value.
+# @arg $1 The comparison value.
+# @arg $2 The string to check.
+# @exitcode 1 If the strings are equal.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
+# @stderr The error message if the assertion fails.
 stdlib.string.assert.not_equal() {
-  # $1: the comparison value string
-  # $2: the string to check
-
   builtin local return_code=0
 
   [[ "${1}" != "${2}" ]] || return_code="1"

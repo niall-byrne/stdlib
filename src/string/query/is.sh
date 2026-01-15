@@ -4,9 +4,13 @@
 
 builtin set -eo pipefail
 
+# @description Checks if a string contains only alphabetic characters.
+# @arg $1 The string to check.
+# @exitcode 0 If the string is alphabetic.
+# @exitcode 1 If the string is not alphabetic.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
 stdlib.string.query.is_alpha() {
-  # $1: the string to check
-
   [[ "${#@}" == "1" ]] || builtin return 127
   case "${1}" in
     "")
@@ -21,9 +25,13 @@ stdlib.string.query.is_alpha() {
   esac
 }
 
+# @description Checks if a string contains only alphanumeric characters.
+# @arg $1 The string to check.
+# @exitcode 0 If the string is alphanumeric.
+# @exitcode 1 If the string is not alphanumeric.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
 stdlib.string.query.is_alpha_numeric() {
-  # $1: the string to check
-
   [[ "${#@}" == "1" ]] || builtin return 127
   case "${1}" in
     "")
@@ -38,9 +46,13 @@ stdlib.string.query.is_alpha_numeric() {
   esac
 }
 
+# @description Checks if a string is a boolean value (0 or 1).
+# @arg $1 The string to check.
+# @exitcode 0 If the string is a boolean.
+# @exitcode 1 If the string is not a boolean.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
 stdlib.string.query.is_boolean() {
-  # $1: the string to check
-
   [[ "${#@}" == "1" ]] || builtin return 127
   case "${1}" in
     "")
@@ -55,17 +67,25 @@ stdlib.string.query.is_boolean() {
   esac
 }
 
+# @description Checks if a string is a single character.
+# @arg $1 The string to check.
+# @exitcode 0 If the string is a single character.
+# @exitcode 1 If the string is not a single character.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
 stdlib.string.query.is_char() {
-  # $1: the string to check
-
   [[ "${#@}" == "1" ]] || builtin return 127
   [[ -n "${1}" ]] || builtin return 126
   [[ "${#1}" == "1" ]] || builtin return 1
 }
 
+# @description Checks if a string is a digit.
+# @arg $1 The string to check.
+# @exitcode 0 If the string is a digit.
+# @exitcode 1 If the string is not a digit.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
 stdlib.string.query.is_digit() {
-  # $1: the string to check
-
   [[ "${#@}" == "1" ]] || builtin return 127
   case "${1}" in
     "")
@@ -80,9 +100,13 @@ stdlib.string.query.is_digit() {
   esac
 }
 
+# @description Checks if a string is an integer.
+# @arg $1 The string to check.
+# @exitcode 0 If the string is an integer.
+# @exitcode 1 If the string is not an integer.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
 stdlib.string.query.is_integer() {
-  # $1: the string to check
-
   [[ "${#@}" == "1" ]] || builtin return 127
   [[ -n "${1}" ]] || builtin return 126
 
@@ -93,11 +117,15 @@ stdlib.string.query.is_integer() {
   builtin return 1
 }
 
+# @description Checks if an integer is within a specified range.
+# @arg $1 The range start point.
+# @arg $2 The range end point.
+# @arg $3 The integer to check.
+# @exitcode 0 If the integer is within the range.
+# @exitcode 1 If the integer is not within the range.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
 stdlib.string.query.is_integer_with_range() {
-  # $1: the range start point
-  # $2: the range end point
-  # $3: the string to check
-
   [[ "${#@}" == "3" ]] || builtin return 127
   stdlib.string.query.is_integer "${1}" || builtin return 126
   stdlib.string.query.is_integer "${2}" || builtin return 126
@@ -112,9 +140,13 @@ stdlib.string.query.is_integer_with_range() {
   builtin return 1
 }
 
+# @description Checks if a string is a valid octal permission.
+# @arg $1 The string to check.
+# @exitcode 0 If the string is a valid octal permission.
+# @exitcode 1 If the string is not a valid octal permission.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
 stdlib.string.query.is_octal_permission() {
-  # $2: the string to check
-
   [[ "${#@}" == "1" ]] || builtin return 127
   case "${1}" in
     "")
@@ -130,10 +162,14 @@ stdlib.string.query.is_octal_permission() {
 
 }
 
+# @description Checks if a string matches a regular expression.
+# @arg $1 The regular expression to match.
+# @arg $2 The string to check.
+# @exitcode 0 If the string matches the regular expression.
+# @exitcode 1 If the string does not match the regular expression.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
 stdlib.string.query.is_regex_match() {
-  # $1: the regex to use
-  # $2: the string to check
-
   [[ "${#@}" == "2" ]] || builtin return 127
   [[ -n "${1}" ]] || builtin return 126
   [[ -n "${2}" ]] || builtin return 126
@@ -144,9 +180,12 @@ stdlib.string.query.is_regex_match() {
   builtin return 1
 }
 
+# @description Checks if a string is not empty.
+# @arg $1 The string to check.
+# @exitcode 0 If the string is not empty.
+# @exitcode 1 If the string is empty.
+# @exitcode 127 If the wrong number of arguments is provided.
 stdlib.string.query.is_string() {
-  # $1: the string to check
-
   [[ "${#@}" == "1" ]] || builtin return 127
   [[ -n "${1}" ]] || builtin return 1
 }
