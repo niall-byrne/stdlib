@@ -5,9 +5,9 @@
 builtin set -eo pipefail
 
 # @description Creates a cleanup function that removes files and directories.
-# @arg $1 The name of the cleanup function to create.
-# @arg $2 The name of the array used for tracking filesystem objects to clean up.
-# @arg $3 (optional) A boolean indicating if recursive deletes should be done.
+# @arg {string} fn_name The name of the cleanup function to create.
+# @arg {string} array_name The name of the array used for tracking filesystem objects to clean up.
+# @arg {boolean} [recursive=false] A boolean indicating if recursive deletes should be done.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
 stdlib.trap.create.clean_up_fn() {
