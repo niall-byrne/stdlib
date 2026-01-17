@@ -1,0 +1,240 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: niall@niallbyrne.ca\n"
+"POT-Creation-Date: 2026-01-19 20:58+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/message.sh:29
+#, sh-format
+msgid ""
+"Expected '${option1}' required argument(s) and '${option2}' optional "
+"argument(s)."
+msgstr ""
+
+#: src/message.sh:33
+#, sh-format
+msgid "Received '${option1}' argument(s)!"
+msgstr ""
+
+#: src/message.sh:37
+#, sh-format
+msgid "Argument '${option1}' was null and is not null safe!"
+msgstr ""
+
+#: src/message.sh:41
+msgid "Invalid arguments provided!"
+msgstr ""
+
+#: src/message.sh:45
+#, sh-format
+msgid "The arrays '${option1}' and '${option2}' are equal!"
+msgstr ""
+
+#: src/message.sh:49
+#, sh-format
+msgid "At index '${option2}': the array '${option1}' has element '${option3}'"
+msgstr ""
+
+#: src/message.sh:53
+#, sh-format
+msgid "The array '${option1}' is empty!"
+msgstr ""
+
+#: src/message.sh:57
+#, sh-format
+msgid "The array '${option1}' is not empty!"
+msgstr ""
+
+#: src/message.sh:61
+#, sh-format
+msgid "The array '${option1}' has length '${option2}'"
+msgstr ""
+
+#: src/message.sh:65
+#, sh-format
+msgid "The value '${option1}' is found in the '${option2}' array!"
+msgstr ""
+
+#: src/message.sh:69
+#, sh-format
+msgid "The value '${option1}' is not found in the '${option2}' array!"
+msgstr ""
+
+#: src/message.sh:73
+msgid "Terminal colours could not be initialized!"
+msgstr ""
+
+#: src/message.sh:77
+msgid "Consider checking the 'TERM' environment variable."
+msgstr ""
+
+#: src/message.sh:81
+#, sh-format
+msgid "The colour '${option1}' is not defined!"
+msgstr ""
+
+#: src/message.sh:85
+#, sh-format
+msgid "The path '${option1}' does not exist on the filesystem!"
+msgstr ""
+
+#: src/message.sh:89
+#, sh-format
+msgid "The path '${option1}' exists on the filesystem!"
+msgstr ""
+
+#: src/message.sh:93
+#, sh-format
+msgid "The path '${option1}' is not a valid filesystem file!"
+msgstr ""
+
+#: src/message.sh:97
+#, sh-format
+msgid "The path '${option1}' is not a valid filesystem folder!"
+msgstr ""
+
+#: src/message.sh:101
+#, sh-format
+msgid "The value '${option1}' is not a valid function name!"
+msgstr ""
+
+#: src/message.sh:105
+#, sh-format
+msgid "The value '${option1}' is an array!"
+msgstr ""
+
+#: src/message.sh:109
+#, sh-format
+msgid "A value equal to '${option1}' cannot be used!"
+msgstr ""
+
+#: src/message.sh:113
+#, sh-format
+msgid "The value '${option1}' is a function!"
+msgstr ""
+
+#: src/message.sh:117
+#, sh-format
+msgid "The value '${option1}' is not a alphabetic only string!"
+msgstr ""
+
+#: src/message.sh:121
+#, sh-format
+msgid "The value '${option1}' is not a alpha-numeric only string!"
+msgstr ""
+
+#: src/message.sh:125
+#, sh-format
+msgid "The value '${option1}' is not an array!"
+msgstr ""
+
+#: src/message.sh:129
+#, sh-format
+msgid "The value '${option1}' is not a string containing a boolean (0 or 1)!"
+msgstr ""
+
+#: src/message.sh:133
+#, sh-format
+msgid "The value '${option1}' is not a string containing a single char!"
+msgstr ""
+
+#: src/message.sh:137
+#, sh-format
+msgid "The value '${option1}' is not a string containing a digit!"
+msgstr ""
+
+#: src/message.sh:141
+#, sh-format
+msgid "The value '${option1}' is not a function!"
+msgstr ""
+
+#: src/message.sh:145
+#, sh-format
+msgid "The value '${option1}' is not a string containing an integer!"
+msgstr ""
+
+#: src/message.sh:149
+#, sh-format
+msgid ""
+"The value '${option3}' is not a string containing an integer in the "
+"inclusive range ${option1} to ${option2}!"
+msgstr ""
+
+#: src/message.sh:153
+#, sh-format
+msgid ""
+"The value '${option1}' is not a string containing an octal file permission!"
+msgstr ""
+
+#: src/message.sh:157
+#, sh-format
+msgid "The value '${option1}' is not a set string!"
+msgstr ""
+
+#: src/message.sh:161
+#, sh-format
+msgid "The regex '${option1}' does not match the value '${option2}'!"
+msgstr ""
+
+#: src/message.sh:165
+#, sh-format
+msgid "SECURITY: The group ownership on '${option1}' is not secure!"
+msgstr ""
+
+#: src/message.sh:169
+#, sh-format
+msgid "SECURITY: The ownership on '${option1}' is not secure!"
+msgstr ""
+
+#: src/message.sh:173
+#, sh-format
+msgid "SECURITY: The permissions on '${option1}' are not secure!"
+msgstr ""
+
+#: src/message.sh:177
+msgid "SECURITY: This script must be run as root."
+msgstr ""
+
+#: src/message.sh:181
+#, sh-format
+msgid "Please consider running: sudo chgrp '${option1}' '${option2}'"
+msgstr ""
+
+#: src/message.sh:185
+#, sh-format
+msgid "Please consider running: sudo chmod '${option1}' '${option2}'"
+msgstr ""
+
+#: src/message.sh:189
+#, sh-format
+msgid "Please consider running: sudo chown '${option1}' '${option2}'"
+msgstr ""
+
+#: src/message.sh:193
+msgid "Are you sure you wish to proceed (Y/n) ?"
+msgstr ""
+
+#: src/message.sh:197
+msgid "Press any key to continue ..."
+msgstr ""
+
+#: src/message.sh:201
+msgid "Enter a value:"
+msgstr ""
+
+#: src/message.sh:205
+msgid "Callstack:"
+msgstr ""

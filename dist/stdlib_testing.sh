@@ -1113,58 +1113,65 @@ _testing.__assertion.value.check ()
     fi
 }
 
+_testing.__gettext ()
+{
+    stdlib.__gettext.call "stdlib_testing" "${1}"
+}
+
 _testing.assert.message.get ()
 {
     builtin local key="${1}";
     builtin local message;
-    builtin local option1="${2}";
-    builtin local option2="${3}";
+    {
+        builtin local option1="${2}";
+        builtin local option2="${3}"
+    };
     builtin local required_options=0;
     builtin local return_status=0;
     case "${key}" in
         ASSERT_ERROR_DID_NOT_FAIL)
             required_options=1;
-            message="The assertion '${option1}' was expected to fail, but it succeeded instead."
+            message="$(_testing.__gettext "The assertion '\${option1}' was expected to fail, but it succeeded instead.")"
         ;;
         ASSERT_ERROR_FILE_NOT_FOUND)
             required_options=1;
-            message="the file '${option1}' does not exist"
+            message="$(_testing.__gettext "the file '\${option1}' does not exist")"
         ;;
         ASSERT_ERROR_OUTPUT_NON_MATCHING)
             required_options=0;
-            message="the expected output string was not generated"
+            message="$(_testing.__gettext "the expected output string was not generated")"
         ;;
         ASSERT_ERROR_OUTPUT_NULL)
             required_options=0;
-            message="the 'TEST_OUTPUT' value is empty, consider using '_capture.output'"
+            message="$(_testing.__gettext "the 'TEST_OUTPUT' value is empty, consider using '_capture.output'")"
         ;;
         ASSERT_ERROR_RC_NON_MATCHING)
             required_options=0;
-            message="the expected status code was not returned"
+            message="$(_testing.__gettext "the expected status code was not returned")"
         ;;
         ASSERT_ERROR_RC_NULL)
             required_options=0;
-            message="the 'TEST_RC' value is empty, consider using '_capture.rc'"
+            message="$(_testing.__gettext "the 'TEST_RC' value is empty, consider using '_capture.rc'")"
         ;;
         ASSERT_ERROR_SNAPSHOT_NON_MATCHING)
             required_options=1;
-            message="the contents of '${option1}' does not match the received output"
+            message="$(_testing.__gettext "the contents of '\${option1}' does not match the received output")"
         ;;
         ASSERT_ERROR_VALUE_NOT_NULL)
             required_options=1;
-            message="The value '${option1}' is not null!"
+            message="$(_testing.__gettext "The value '\${option1}' is not null!")"
         ;;
         ASSERT_ERROR_VALUE_NULL)
             required_options=0;
-            message="The value is null!"
+            message="$(_testing.__gettext "The value is null!")"
         ;;
         ASSERT_ERROR_INSUFFICIENT_ARGS)
             required_options=1;
-            message="'${option1}' was not given sufficient arguments"
+            message="$(_testing.__gettext "'\${option1}' was not given sufficient arguments")"
         ;;
         ASSERT_ERROR_ARRAY_LENGTH_NON_MATCHING)
             required_options=2;
-            message="expected [${option1}] but was [${option2}]"
+            message="$(_testing.__gettext "expected [\${option1}] but was [\${option2}]")"
         ;;
         "")
             required_options=0;
@@ -1174,7 +1181,7 @@ _testing.assert.message.get ()
         *)
             required_options=0;
             return_status=126;
-            message="Unknown message key '${key}'"
+            message="$(_testing.__gettext "Unknown message key '${key}'")"
         ;;
     esac;
     (("${#@}" == 1 + required_options)) || {
@@ -1240,31 +1247,31 @@ _testing.message.get ()
     case "${key}" in
         DEBUG_DIFF_FOOTER)
             required_options=0;
-            message="== End Debug Diff =="
+            message="$(_testing.__gettext "== End Debug Diff ==")"
         ;;
         DEBUG_DIFF_HEADER)
             required_options=0;
-            message="== Start Debug Diff =="
+            message="$(_testing.__gettext "== Start Debug Diff ==")"
         ;;
         DEBUG_DIFF_PREFIX)
             required_options=0;
-            message="Diff"
+            message="$(_testing.__gettext "Diff")"
         ;;
         DEBUG_DIFF_PREFIX_ACTUAL)
             required_options=0;
-            message="ACTUAL"
+            message="$(_testing.__gettext "ACTUAL")"
         ;;
         DEBUG_DIFF_PREFIX_EXPECTED)
             required_options=0;
-            message="EXPECTED"
+            message="$(_testing.__gettext "EXPECTED")"
         ;;
         LOAD_MODULE_NOT_FOUND)
             required_options=1;
-            message="The module '${option1}' could not be found!"
+            message="$(_testing.__gettext "The module '\${option1}' could not be found!")"
         ;;
         LOAD_MODULE_NOTIFICATION)
             required_options=1;
-            message="Loading module '${option1}' ..."
+            message="$(_testing.__gettext "Loading module '\${option1}' ...")"
         ;;
         "")
             required_options=0;
@@ -1274,7 +1281,7 @@ _testing.message.get ()
         *)
             required_options=0;
             return_status=126;
-            message="Unknown message key '${key}'"
+            message="$(_testing.__gettext "Unknown message key '\${key}'")"
         ;;
     esac;
     (("${#@}" == 1 + required_options)) || {
@@ -1292,34 +1299,36 @@ _testing.mock.message.get ()
 {
     builtin local key="${1}";
     builtin local message;
-    builtin local option1="${2}";
-    builtin local option2="${3}";
+    {
+        builtin local option1="${2}";
+        builtin local option2="${3}"
+    };
     builtin local required_options=0;
     builtin local return_status=0;
     case "${key}" in
         MOCK_CALL_ACTUAL_PREFIX)
             required_options=0;
-            message="Actual call"
+            message="$(_testing.__gettext "Actual call")"
         ;;
         MOCK_CALL_N_NOT_AS_EXPECTED)
             required_options=2;
-            message="Mock '${option1}' call ${option2} was not as expected!"
+            message="$(_testing.__gettext "Mock '\${option1}' call \${option2} was not as expected!")"
         ;;
         MOCK_CALLED_N_TIMES)
             required_options=2;
-            message="Mock '${option1}' was called ${option2} times!"
+            message="$(_testing.__gettext "Mock '\${option1}' was called \${option2} times!")"
         ;;
         MOCK_NOT_CALLED)
             required_options=1;
-            message="Mock '${option1}' was not called!"
+            message="$(_testing.__gettext "Mock '\${option1}' was not called!")"
         ;;
         MOCK_NOT_CALLED_ONCE_WITH)
             required_options=2;
-            message="Mock '${option1}' was not called once with '${option2}' !"
+            message="$(_testing.__gettext "Mock '\${option1}' was not called once with '\${option2}' !")"
         ;;
         MOCK_NOT_CALLED_WITH)
             required_options=2;
-            message="Mock '${option1}' was not called with '${option2}' !"
+            message="$(_testing.__gettext "Mock '\${option1}' was not called with '\${option2}' !")"
         ;;
         MOCK_TARGET_INVALID)
             required_options=1;
@@ -1333,7 +1342,7 @@ _testing.mock.message.get ()
         *)
             required_options=0;
             return_status=126;
-            message="Unknown message key '${key}'"
+            message="$(_testing.__gettext "Unknown message key '${key}'")"
         ;;
     esac;
     (("${#@}" - 1 == required_options)) || {
@@ -1357,75 +1366,75 @@ _testing.parametrize.message.get ()
     case "${key}" in
         PARAMETRIZE_CONFIGURATION_ERROR)
             required_options=0;
-            message="Misconfigured parametrize parameters!"
+            message="$(_testing.__gettext "Misconfigured parametrize parameters!")"
         ;;
         PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_DETAIL)
             required_options=0;
-            message="This test variant was created twice, please check your parametrize configuration for this test."
+            message="$(_testing.__gettext "This test variant was created twice, please check your parametrize configuration for this test.")"
         ;;
         PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_NAME)
             required_options=0;
-            message="Duplicate test variant name!"
+            message="$(_testing.__gettext "Duplicate test variant name!")"
         ;;
         PARAMETRIZE_ERROR_FN_DOES_NOT_EXIST)
             required_options=0;
-            message="It does not exist!"
+            message="$(_testing.__gettext "It does not exist!")"
         ;;
         PARAMETRIZE_ERROR_PARAMETRIZER_FN_INVALID)
             required_options=1;
-            message="The function '${option1}' cannot be used in a parametrize series!"
+            message="$(_testing.__gettext "The function '${option1}' cannot be used in a parametrize series!")"
         ;;
         PARAMETRIZE_ERROR_PARAMETRIZER_FN_NAME)
             required_options=0;
-            message="It's name must be prefixed with '${_PARAMETRIZE_PARAMETRIZER_PREFIX}' !"
+            message="$(_testing.__gettext "It's name must be prefixed with '${_PARAMETRIZE_PARAMETRIZER_PREFIX}' !")"
         ;;
         PARAMETRIZE_ERROR_TEST_FN_INVALID)
             required_options=1;
-            message="The function '${option1}' cannot be parametrized."
+            message="$(_testing.__gettext "The function '${option1}' cannot be parametrized.")"
         ;;
         PARAMETRIZE_ERROR_TEST_FN_NAME)
             required_options=0;
-            message="It's name must start with 'test' and contain a '${_PARAMETRIZE_VARIANT_TAG}' tag, please rename this function!"
+            message="$(_testing.__gettext "It's name must start with 'test' and contain a '${_PARAMETRIZE_VARIANT_TAG}' tag, please rename this function!")"
         ;;
         PARAMETRIZE_FOOTER_SCENARIO_VALUES)
             required_options=0;
-            message="== End Scenario Values =="
+            message="$(_testing.__gettext "== End Scenario Values ==")"
         ;;
         PARAMETRIZE_HEADER_SCENARIO)
             required_options=0;
-            message="Parametrize Scenario"
+            message="$(_testing.__gettext "Parametrize Scenario")"
         ;;
         PARAMETRIZE_HEADER_SCENARIO_VALUES)
             required_options=0;
-            message="== Begin Scenario Values =="
+            message="$(_testing.__gettext "== Begin Scenario Values ==")"
         ;;
         PARAMETRIZE_PREFIX_FIXTURE_COMMAND)
             required_options=0;
-            message="Fixture Command"
+            message="$(_testing.__gettext "Fixture Command")"
         ;;
         PARAMETRIZE_PREFIX_FIXTURE_COMMANDS)
             required_options=0;
-            message="Fixture Commands"
+            message="$(_testing.__gettext "Fixture Commands")"
         ;;
         PARAMETRIZE_PREFIX_SCENARIO_NAME)
             required_options=0;
-            message="Scenario Name"
+            message="$(_testing.__gettext "Scenario Name")"
         ;;
         PARAMETRIZE_PREFIX_SCENARIO_VALUES)
             required_options=0;
-            message="Value Set"
+            message="$(_testing.__gettext "Value Set")"
         ;;
         PARAMETRIZE_PREFIX_SCENARIO_VARIABLE)
             required_options=0;
-            message="Variables"
+            message="$(_testing.__gettext "Variables")"
         ;;
         PARAMETRIZE_PREFIX_TEST_NAME)
             required_options=0;
-            message="Test Name"
+            message="$(_testing.__gettext "Test Name")"
         ;;
         PARAMETRIZE_PREFIX_VARIANT_NAME)
             required_options=0;
-            message="Variant name"
+            message="$(_testing.__gettext "Variant name")"
         ;;
         "")
             required_options=0;
@@ -1435,7 +1444,7 @@ _testing.parametrize.message.get ()
         *)
             required_options=0;
             return_status=126;
-            message="Unknown message key '${key}'"
+            message="$(_testing.__gettext "Unknown message key '${key}'")"
         ;;
     esac;
     (("${#@}" == 1 + required_options)) || {

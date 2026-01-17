@@ -12,7 +12,7 @@ repos:
           - "./.yamllint.yml"
         stages: [pre-commit]
   - repo: https://github.com/cicd-tools-org/pre-commit.git
-    rev: 0.6.0
+    rev: e58ac73ff0825ab646c16f4a1de308ec19fe5c7e
     hooks:
       - id: format-shell
         args:
@@ -23,6 +23,52 @@ repos:
         files: "^(.+\\.(sh|snippet)|build/t|dist/t)$"
         exclude: "^dist/stdlib(_testing)*.sh$"
       - id: format-toml
+      - id: gettext-translations-add
+        args:
+          - "-p"
+          - "locales"
+      - id: gettext-translations-compile
+        args:
+          - "-p"
+          - "locales"
+      - id: gettext-translations-missing
+        args:
+          - "-p"
+          - "locales"
+          - "-s"
+          - "en"
+      - id: gettext-translations-update
+        name: stdlib translations
+        args:
+          - "-b"
+          - "stdlib"
+          - "-r"
+          - "src/message.sh"
+          - "-p"
+          - "locales"
+          - "-c"
+          - "src"
+          - "-e"
+          - "niall@niallbyrne.ca"
+          - "-u"
+          - "-x"
+          - "--keyword=stdlib.__gettext"
+      - id: gettext-translations-update
+        name: stdlib testing translations
+        args:
+          - "-b"
+          - "stdlib_testing"
+          - "-r"
+          - "src/testing*/message.sh"
+          - "-p"
+          - "locales"
+          - "-c"
+          - "src"
+          - "-e"
+          - "niall@niallbyrne.ca"
+          - "-u"
+          - "-x"
+          - "--keyword=_testing.__gettext"
       - id: git-conflict-markers
         exclude: "^src/logger/tests/test_stdlib_logger_traceback.sh$"
       - id: lint-github-workflow
@@ -66,28 +112,28 @@ repos:
     hooks:
       - id: bash-code-coverage
         name: ensure the codebase meets coverage requirements
-        entry: bash -c 'TEST_CONTAINER_DISABLE_TTY=1 ./container.sh run collect_coverage src'
+        entry: bash -c './container.sh build && TEST_CONTAINER_DISABLE_TTY=1 ./container.sh run collect_coverage src'
         language: system
         stages: [manual]
         pass_filenames: false
         require_serial: true
       - id: bash-unit-tests
         name: ensure unit tests pass
-        entry: bash -c 'TEST_CONTAINER_DISABLE_TTY=1 ./container.sh run t src'
+        entry: bash -c './container.sh build && TEST_CONTAINER_DISABLE_TTY=1 ./container.sh run t src'
         language: system
         stages: [manual]
         pass_filenames: false
         require_serial: true
       - id: distribution-package
         name: package the stdlib distribution files
-        entry: bash -c 'TEST_CONTAINER_DISABLE_TTY=1 ./container.sh run package.sh'
+        entry: bash -c './container.sh build && TEST_CONTAINER_DISABLE_TTY=1 ./container.sh run package.sh'
         language: system
-        stages: [manual]
+        stages: [pre-commit]
         pass_filenames: false
         require_serial: true
       - id: distribution-test
         name: ensure unit tests pass using the distribution
-        entry: bash -c 'TEST_CONTAINER_DISABLE_TTY=1 ./container.sh run bash -c "STDLIB_DIRECTORY=/work/src dist/t src"'
+        entry: bash -c './container.sh build && TEST_CONTAINER_DISABLE_TTY=1 ./container.sh run bash -c "STDLIB_DIRECTORY=/work/src dist/t src"'
         language: system
         stages: [manual]
         pass_filenames: false

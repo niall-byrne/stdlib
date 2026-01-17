@@ -1,0 +1,191 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: niall@niallbyrne.ca\n"
+"POT-Creation-Date: 2026-01-19 20:32+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/testing/assertion/message.sh:28
+#, sh-format
+msgid ""
+"The assertion '${option1}' was expected to fail, but it succeeded instead."
+msgstr ""
+
+#: src/testing/assertion/message.sh:32
+#, sh-format
+msgid "the file '${option1}' does not exist"
+msgstr ""
+
+#: src/testing/assertion/message.sh:36
+msgid "the expected output string was not generated"
+msgstr ""
+
+#: src/testing/assertion/message.sh:40
+msgid "the 'TEST_OUTPUT' value is empty, consider using '_capture.output'"
+msgstr ""
+
+#: src/testing/assertion/message.sh:44
+msgid "the expected status code was not returned"
+msgstr ""
+
+#: src/testing/assertion/message.sh:48
+msgid "the 'TEST_RC' value is empty, consider using '_capture.rc'"
+msgstr ""
+
+#: src/testing/assertion/message.sh:52
+#, sh-format
+msgid "the contents of '${option1}' does not match the received output"
+msgstr ""
+
+#: src/testing/assertion/message.sh:56
+#, sh-format
+msgid "The value '${option1}' is not null!"
+msgstr ""
+
+#: src/testing/assertion/message.sh:60
+msgid "The value is null!"
+msgstr ""
+
+#: src/testing/assertion/message.sh:64
+#, sh-format
+msgid "'${option1}' was not given sufficient arguments"
+msgstr ""
+
+#: src/testing/assertion/message.sh:68
+#, sh-format
+msgid "expected [${option1}] but was [${option2}]"
+msgstr ""
+
+#: src/testing/message.sh:23
+msgid "== End Debug Diff =="
+msgstr ""
+
+#: src/testing/message.sh:27
+msgid "== Start Debug Diff =="
+msgstr ""
+
+#: src/testing/message.sh:31
+msgid "Diff"
+msgstr ""
+
+#: src/testing/message.sh:35
+msgid "ACTUAL"
+msgstr ""
+
+#: src/testing/message.sh:39
+msgid "EXPECTED"
+msgstr ""
+
+#: src/testing/message.sh:43
+#, sh-format
+msgid "The module '${option1}' could not be found!"
+msgstr ""
+
+#: src/testing/message.sh:47
+#, sh-format
+msgid "Loading module '${option1}' ..."
+msgstr ""
+
+#: src/testing/message.sh:57
+#, sh-format
+msgid "Unknown message key '${key}'"
+msgstr ""
+
+#: src/testing/mock/message.sh:27
+msgid "Actual call"
+msgstr ""
+
+#: src/testing/mock/message.sh:31
+#, sh-format
+msgid "Mock '${option1}' call ${option2} was not as expected!"
+msgstr ""
+
+#: src/testing/mock/message.sh:35
+#, sh-format
+msgid "Mock '${option1}' was called ${option2} times!"
+msgstr ""
+
+#: src/testing/mock/message.sh:39
+#, sh-format
+msgid "Mock '${option1}' was not called!"
+msgstr ""
+
+#: src/testing/mock/message.sh:43
+#, sh-format
+msgid "Mock '${option1}' was not called once with '${option2}' !"
+msgstr ""
+
+#: src/testing/mock/message.sh:47
+#, sh-format
+msgid "Mock '${option1}' was not called with '${option2}' !"
+msgstr ""
+
+#: src/testing/parametrize/message.sh:20
+msgid "Misconfigured parametrize parameters!"
+msgstr ""
+
+#: src/testing/parametrize/message.sh:24
+msgid ""
+"This test variant was created twice, please check your parametrize "
+"configuration for this test."
+msgstr ""
+
+#: src/testing/parametrize/message.sh:28
+msgid "Duplicate test variant name!"
+msgstr ""
+
+#: src/testing/parametrize/message.sh:32
+msgid "It does not exist!"
+msgstr ""
+
+#: src/testing/parametrize/message.sh:52
+msgid "== End Scenario Values =="
+msgstr ""
+
+#: src/testing/parametrize/message.sh:56
+msgid "Parametrize Scenario"
+msgstr ""
+
+#: src/testing/parametrize/message.sh:60
+msgid "== Begin Scenario Values =="
+msgstr ""
+
+#: src/testing/parametrize/message.sh:64
+msgid "Fixture Command"
+msgstr ""
+
+#: src/testing/parametrize/message.sh:68
+msgid "Fixture Commands"
+msgstr ""
+
+#: src/testing/parametrize/message.sh:72
+msgid "Scenario Name"
+msgstr ""
+
+#: src/testing/parametrize/message.sh:76
+msgid "Value Set"
+msgstr ""
+
+#: src/testing/parametrize/message.sh:80
+msgid "Variables"
+msgstr ""
+
+#: src/testing/parametrize/message.sh:84
+msgid "Test Name"
+msgstr ""
+
+#: src/testing/parametrize/message.sh:88
+msgid "Variant name"
+msgstr ""

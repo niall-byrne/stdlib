@@ -1,6 +1,8 @@
 .idea
-coverage
 .cicd-tools/boxes
 .cicd-tools/manifest.json
 .vale/*
 !.vale/Vocab
+coverage
+*.po~
+locales/**/LC_MESSAGES/*.mo

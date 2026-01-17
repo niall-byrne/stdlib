@@ -11,35 +11,40 @@ _testing.mock.message.get() {
 
   builtin local key="${1}"
   builtin local message
-  builtin local option1="${2}"
-  builtin local option2="${3}"
+
+  # shellcheck disable=SC2034
+  {
+    builtin local option1="${2}"
+    builtin local option2="${3}"
+  }
+
   builtin local required_options=0
   builtin local return_status=0
 
   case "${key}" in
     MOCK_CALL_ACTUAL_PREFIX)
       required_options=0
-      message="Actual call"
+      message="$(_testing.__gettext "Actual call")"
       ;;
     MOCK_CALL_N_NOT_AS_EXPECTED)
       required_options=2
-      message="Mock '${option1}' call ${option2} was not as expected!"
+      message="$(_testing.__gettext "Mock '\${option1}' call \${option2} was not as expected!")"
       ;;
     MOCK_CALLED_N_TIMES)
       required_options=2
-      message="Mock '${option1}' was called ${option2} times!"
+      message="$(_testing.__gettext "Mock '\${option1}' was called \${option2} times!")"
       ;;
     MOCK_NOT_CALLED)
       required_options=1
-      message="Mock '${option1}' was not called!"
+      message="$(_testing.__gettext "Mock '\${option1}' was not called!")"
       ;;
     MOCK_NOT_CALLED_ONCE_WITH)
       required_options=2
-      message="Mock '${option1}' was not called once with '${option2}' !"
+      message="$(_testing.__gettext "Mock '\${option1}' was not called once with '\${option2}' !")"
       ;;
     MOCK_NOT_CALLED_WITH)
       required_options=2
-      message="Mock '${option1}' was not called with '${option2}' !"
+      message="$(_testing.__gettext "Mock '\${option1}' was not called with '\${option2}' !")"
       ;;
     MOCK_TARGET_INVALID)
       required_options=1
@@ -53,7 +58,7 @@ _testing.mock.message.get() {
     *)
       required_options=0
       return_status=126
-      message="Unknown message key '${key}'"
+      message="$(_testing.__gettext "Unknown message key '${key}'")"
       ;;
   esac
 

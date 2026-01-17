@@ -1,0 +1,10 @@
+#!/bin/bash
+
+STDLIB_TEXTDOMAINDIR="${STDLIB_TEXTDOMAINDIR-$(dirname -- "${BASH_SOURCE[0]}/locales")}"
+
+export TEXTDOMAIN
+export TEXTDOMAINDIR
+
+set +e
+builtin source gettext.sh 2> /dev/null || stdlib.__gettext.fallback
+set -e
