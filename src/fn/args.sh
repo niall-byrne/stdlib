@@ -7,13 +7,16 @@ builtin set -eo pipefail
 _STDLIB_ARGS_CALLER_FN_NAME=""
 _STDLIB_ARGS_NULL_SAFE=()
 
+# @description Validates the arguments passed to a calling function based on count and null safety.
+#   _STDLIB_ARGS_CALLER_FN_NAME: Overrides the calling function's name in log messages.
+#   _STDLIB_ARGS_NULL_SAFE: An array of argument indexes that are permitted to be null or empty.
+# @arg number required_arg_count The number of required arguments.
+# @arg number optional_arg_count The number of optional arguments.
+# @arg string args The arguments to validate.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
+# @stderr The error message if the validation fails.
 stdlib.fn.args.require() {
-  # $1 the number of arguments expected to be received
-  # $@ the list of argument values to check
-  #
-  # _STDLIB_ARGS_CALLER_FN_NAME:    set to override the name of the calling function in logging messages
-  # _STDLIB_ARGS_NULL_SAFE: an array of argument indexes that are "null safe" (they can be empty values)
-
   builtin local -a args_null_safe_array
   builtin local _STDLIB_LOGGING_MESSAGE_PREFIX="${_STDLIB_ARGS_CALLER_FN_NAME:-"${FUNCNAME[1]}"}"
 

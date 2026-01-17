@@ -7,6 +7,9 @@ builtin set -eo pipefail
 _STDLIB_LOGGING_MESSAGE_PREFIX=""
 _STDLIB_LOGGING_DECORATORS=("__testing.protected")
 
+# @description Prints a traceback of the call stack.
+# @noargs
+# @stdout The traceback of the call stack.
 stdlib.logger.traceback() {
   builtin local fn_name_index
   builtin local fn_name_indent=">"
@@ -20,51 +23,51 @@ stdlib.logger.traceback() {
   done
 }
 
+# @description Logs an error message to stderr.
+#   _STDLIB_LOGGING_MESSAGE_PREFIX: A prefix for the message.
+# @arg string message The message to log.
+# @stderr The error message.
 stdlib.logger.error() {
-  # $1: the input string to log
-  #
-  # _STDLIB_LOGGING_MESSAGE_PREFIX: a prefix for the message (defaults to the calling function's name)
-
   {
     stdlib.logger.__message_prefix
     stdlib.string.colour "${STDLIB_THEME_LOGGER_ERROR}" "${1}"
   } >&2 # KCOV_EXCLUDE_LINE
 }
 
+# @description Logs a warning message to stderr.
+#   _STDLIB_LOGGING_MESSAGE_PREFIX: A prefix for the message.
+# @arg string message The message to log.
+# @stderr The warning message.
 stdlib.logger.warning() {
-  # $1: the input string to log
-  #
-  # _STDLIB_LOGGING_MESSAGE_PREFIX: a prefix for the message (defaults to the calling function's name)
-
   {
     stdlib.logger.__message_prefix
     stdlib.string.colour "${STDLIB_THEME_LOGGER_WARNING}" "${1}"
   } >&2 # KCOV_EXCLUDE_LINE
 }
 
+# @description Logs an info message to stdout.
+#   _STDLIB_LOGGING_MESSAGE_PREFIX: A prefix for the message.
+# @arg string message The message to log.
+# @stdout The info message.
 stdlib.logger.info() {
-  # $1: the input string to log
-  #
-  # _STDLIB_LOGGING_MESSAGE_PREFIX: a prefix for the message (defaults to the calling function's name)
-
   stdlib.logger.__message_prefix
   stdlib.string.colour "${STDLIB_THEME_LOGGER_INFO}" "${1}"
 }
 
+# @description Logs a notice message to stdout.
+#   _STDLIB_LOGGING_MESSAGE_PREFIX: A prefix for the message.
+# @arg string message The message to log.
+# @stdout The notice message.
 stdlib.logger.notice() {
-  # $1: the input string to log
-  #
-  # _STDLIB_LOGGING_MESSAGE_PREFIX: a prefix for the message (defaults to the calling function's name)
-
   stdlib.logger.__message_prefix
   stdlib.string.colour "${STDLIB_THEME_LOGGER_NOTICE}" "${1}"
 }
 
+# @description Logs a success message to stdout.
+#   _STDLIB_LOGGING_MESSAGE_PREFIX: A prefix for the message.
+# @arg string message The message to log.
+# @stdout The success message.
 stdlib.logger.success() {
-  # $1: the input string to log
-  #
-  # _STDLIB_LOGGING_MESSAGE_PREFIX: a prefix for the message (defaults to the calling function's name)
-
   stdlib.logger.__message_prefix
   stdlib.string.colour "${STDLIB_THEME_LOGGER_SUCCESS}" "${1}"
 }

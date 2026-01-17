@@ -7,14 +7,16 @@ builtin set -eo pipefail
 _STDLIB_LINE_BREAK_CHAR=""
 _STDLIB_WRAP_PREFIX_STRING=""
 
+# @description Wraps a string to a specified width.
+#     _STDLIB_LINE_BREAK_CHAR: A character that forces a line break in the text.
+#     _STDLIB_WRAP_PREFIX_STRING: A string to insert when wrapping text.
+# @arg $1 The left-side padding.
+# @arg $2 The right-side wrap limit.
+# @arg $3 The text to wrap.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments is provided.
+# @stdout The wrapped string.
 stdlib.string.wrap() {
-  # $1: the left-side padding
-  # $2: the right-side wrap limit
-  # $3: the text to wrap
-  #
-  # _STDLIB_LINE_BREAK_CHAR:     a char that forces a line break in the text
-  # _STDLIB_WRAP_PREFIX_STRING:  a string to insert when wrapping text
-
   builtin local -a _STDLIB_ARGS_NULL_SAFE
   builtin local wrap_indent_string="${_STDLIB_WRAP_PREFIX_STRING:-""}"
   builtin local forced_line_break_char="${_STDLIB_LINE_BREAK_CHAR:-*}"

@@ -4,10 +4,12 @@
 
 builtin set -eo pipefail
 
+# @description Pads a string on the left with a specified number of spaces.
+# @arg $1 The number of spaces to pad with.
+# @arg $2 The string to pad.
+# @exitcode 127 If the wrong number of arguments is provided.
+# @stdout The padded string.
 stdlib.string.pad.left() {
-  # $1: the width to pad with
-  # $2: the string to pad
-
   builtin local -a _STDLIB_ARGS_NULL_SAFE
 
   _STDLIB_ARGS_NULL_SAFE=("2")
@@ -21,10 +23,12 @@ stdlib.fn.derive.pipeable "stdlib.string.pad.left" "2"
 
 stdlib.fn.derive.var "stdlib.string.pad.left"
 
+# @description Pads a string on the right with a specified number of spaces.
+# @arg $1 The number of spaces to pad with.
+# @arg $2 The string to pad.
+# @exitcode 127 If the wrong number of arguments is provided.
+# @stdout The padded string.
 stdlib.string.pad.right() {
-  # $1: the width to pad with
-  # $2: the string to pad
-
   builtin local -a _STDLIB_ARGS_NULL_SAFE
 
   _STDLIB_ARGS_NULL_SAFE=("2")

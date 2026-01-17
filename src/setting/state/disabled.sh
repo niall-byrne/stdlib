@@ -5,6 +5,9 @@
 
 builtin set -eo pipefail
 
+# @description Disables all colour output by unsetting the colour variables.
+# @noargs
+# @exitcode 0 If the operation succeeded.
 stdlib.setting.colour.state.disabled() {
   STDLIB_COLOUR_NC=""
   STDLIB_COLOUR_BLACK=""
