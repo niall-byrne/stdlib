@@ -8,11 +8,13 @@ ARG UNAME2=user2
 ARG UID2=2001
 ARG GID2=2001
 
+ARG LOCALE=en_US.UTF-8
+
 ENV PATH="${PATH}:/work/build:/work/dist"
 
 RUN \
   apt-get update \
-  && apt-get install -y bash-completion ca-certificates curl elfutils gettext git mandoc sudo unzip vim \
+  && apt-get install -y bash-completion ca-certificates curl elfutils gettext git locales mandoc sudo unzip vim \
   && rm -rf /var/cache/apt/lists
 
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
@@ -49,6 +51,11 @@ RUN \
 # Install kcov
 COPY --from=kcov/kcov:latest /usr/local/bin/kcov* /usr/local/bin/
 COPY --from=kcov/kcov:latest /usr/local/share/doc/kcov /usr/local/share/doc/kcov
+
+# Configure locale
+RUN locale-gen $LOCALE
+ENV LANG=$LOCALE
+ENV LC_ALL=$LOCALE
 
 WORKDIR /work
 
