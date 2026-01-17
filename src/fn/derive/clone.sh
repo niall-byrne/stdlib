@@ -5,8 +5,8 @@
 builtin set -eo pipefail
 
 # @description Creates a new reference to an existing function.
-# @arg $1 The name of the original function.
-# @arg $2 The name of the new function reference.
+# @arg string function_name The name of the original function.
+# @arg string function_reference The name of the new function reference.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
 # @stderr The error message if the operation fails.

@@ -5,7 +5,7 @@
 builtin set -eo pipefail
 
 # @description Asserts that a function does not exist.
-# @arg $1 The name of the function to check.
+# @arg string fn_name The name of the function to check.
 # @exitcode 1 If the function exists.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.

@@ -5,8 +5,8 @@
 builtin set -eo pipefail
 
 # @description Asserts that a string is not equal to a comparison value.
-# @arg $1 The comparison value.
-# @arg $2 The string to check.
+# @arg string comparison_value The comparison value.
+# @arg string value The string to check.
 # @exitcode 1 If the strings are equal.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.

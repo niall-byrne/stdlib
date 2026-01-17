@@ -5,8 +5,8 @@
 builtin set -eo pipefail
 
 # @description Checks if an array contains a specified value.
-# @arg $1 The value to check for.
-# @arg $2 The name of the array.
+# @arg string value The value to check for.
+# @arg string array_name The name of the array.
 # @exitcode 0 If the array contains the value.
 # @exitcode 1 If the array does not contain the value.
 # @exitcode 126 If an invalid argument has been provided.
@@ -33,8 +33,8 @@ stdlib.array.query.is_contains() {
 }
 
 # @description Checks if two arrays are equal.
-# @arg $1 The name of the first array.
-# @arg $2 The name of the second array.
+# @arg string array1_name The name of the first array.
+# @arg string array2_name The name of the second array.
 # @exitcode 0 If the arrays are equal.
 # @exitcode 1 If the arrays are not equal.
 # @exitcode 126 If an invalid argument has been provided.
@@ -69,7 +69,7 @@ stdlib.array.query.is_equal() {
 }
 
 # @description Checks if a variable is an array.
-# @arg $1 The name of the variable to check.
+# @arg string variable_name The name of the variable to check.
 # @exitcode 0 If the variable is an array.
 # @exitcode 1 If the variable is not an array.
 # @exitcode 126 If an invalid argument has been provided.
@@ -84,7 +84,7 @@ stdlib.array.query.is_array() {
 }
 
 # @description Checks if an array is empty.
-# @arg $1 The name of the array.
+# @arg string array_name The name of the array.
 # @exitcode 0 If the array is empty.
 # @exitcode 1 If the array is not empty.
 # @exitcode 126 If an invalid argument has been provided.

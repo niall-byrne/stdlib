@@ -5,9 +5,9 @@
 builtin set -eo pipefail
 
 # @description Colours the first occurrence of a substring within a string.
-# @arg $1 The colour to use.
-# @arg $2 The substring to colour.
-# @arg $3 The source string.
+# @arg string colour The colour to use.
+# @arg string substring The substring to colour.
+# @arg string value The source string.
 # @exitcode 127 If the wrong number of arguments is provided.
 # @stdout The string with the coloured substring.
 stdlib.string.colour.substring() {
@@ -24,9 +24,9 @@ stdlib.string.colour.substring() {
 }
 
 # @description Colours all occurrences of a substring within a string.
-# @arg $1 The colour to use.
-# @arg $2 The substring to colour.
-# @arg $3 The source string.
+# @arg string colour The colour to use.
+# @arg string substring The substring to colour.
+# @arg string value The source string.
 # @exitcode 127 If the wrong number of arguments is provided.
 # @stdout The string with the coloured substrings.
 stdlib.string.colour.substrings() {

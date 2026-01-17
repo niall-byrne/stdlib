@@ -5,7 +5,7 @@
 builtin set -eo pipefail
 
 # @description Asserts that a string contains only alphabetic characters.
-# @arg $1 The string to check.
+# @arg string value The string to check.
 # @exitcode 1 If the string is not alphabetic.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
@@ -29,7 +29,7 @@ stdlib.string.assert.is_alpha() {
 }
 
 # @description Asserts that a string contains only alphanumeric characters.
-# @arg $1 The string to check.
+# @arg string value The string to check.
 # @exitcode 1 If the string is not alphanumeric.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
@@ -53,7 +53,7 @@ stdlib.string.assert.is_alpha_numeric() {
 }
 
 # @description Asserts that a string is a boolean value (0 or 1).
-# @arg $1 The string to check.
+# @arg boolean value The string to check.
 # @exitcode 1 If the string is not a boolean.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
@@ -77,7 +77,7 @@ stdlib.string.assert.is_boolean() {
 }
 
 # @description Asserts that a string is a single character.
-# @arg $1 The string to check.
+# @arg string value The string to check.
 # @exitcode 1 If the string is not a single character.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
@@ -101,7 +101,7 @@ stdlib.string.assert.is_char() {
 }
 
 # @description Asserts that a string is a digit.
-# @arg $1 The string to check.
+# @arg string value The string to check.
 # @exitcode 1 If the string is not a digit.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
@@ -125,7 +125,7 @@ stdlib.string.assert.is_digit() {
 }
 
 # @description Asserts that a string is an integer.
-# @arg $1 The string to check.
+# @arg string value The string to check.
 # @exitcode 1 If the string is not an integer.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
@@ -149,9 +149,9 @@ stdlib.string.assert.is_integer() {
 }
 
 # @description Asserts that an integer is within a specified range.
-# @arg $1 The range start point.
-# @arg $2 The range end point.
-# @arg $3 The integer to check.
+# @arg number start The range start point.
+# @arg number end The range end point.
+# @arg number value The integer to check.
 # @exitcode 1 If the integer is not within the range.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
@@ -175,7 +175,7 @@ stdlib.string.assert.is_integer_with_range() {
 }
 
 # @description Asserts that a string is a valid octal permission.
-# @arg $1 The string to check.
+# @arg string value The string to check.
 # @exitcode 1 If the string is not a valid octal permission.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
@@ -199,8 +199,8 @@ stdlib.string.assert.is_octal_permission() {
 }
 
 # @description Asserts that a string matches a regular expression.
-# @arg $1 The regular expression to match.
-# @arg $2 The string to check.
+# @arg string regex The regular expression to match.
+# @arg string value The string to check.
 # @exitcode 1 If the string does not match the regular expression.
 # @exitcode 127 If the wrong number of arguments is provided.
 # @stderr The error message if the assertion fails.
@@ -223,7 +223,7 @@ stdlib.string.assert.is_regex_match() {
 }
 
 # @description Asserts that a string is not empty.
-# @arg $1 The string to check.
+# @arg string value The string to check.
 # @exitcode 1 If the string is empty.
 # @exitcode 127 If the wrong number of arguments is provided.
 # @stderr The error message if the assertion fails.

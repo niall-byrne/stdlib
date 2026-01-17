@@ -5,8 +5,8 @@
 builtin set -eo pipefail
 
 # @description Asserts that a file or directory has the specified group ownership.
-# @arg $1 The path to check.
-# @arg $2 The required group name.
+# @arg string path The path to check.
+# @arg string group The required group name.
 # @exitcode 1 If the group ownership is incorrect.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
@@ -31,8 +31,8 @@ stdlib.security.path.assert.has_group() {
 }
 
 # @description Asserts that a file or directory has the specified owner.
-# @arg $1 The path to check.
-# @arg $2 The required user name.
+# @arg string path The path to check.
+# @arg string owner The required user name.
 # @exitcode 1 If the ownership is incorrect.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
@@ -57,8 +57,8 @@ stdlib.security.path.assert.has_owner() {
 }
 
 # @description Asserts that a file or directory has the specified permissions.
-# @arg $1 The path to check.
-# @arg $2 The required permission octal value.
+# @arg string path The path to check.
+# @arg string permissions The required permission octal value.
 # @exitcode 1 If the permissions are incorrect.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.

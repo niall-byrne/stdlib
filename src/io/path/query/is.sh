@@ -5,7 +5,7 @@
 builtin set -eo pipefail
 
 # @description Checks if a path exists.
-# @arg $1 The path to check.
+# @arg string path The path to check.
 # @exitcode 0 If the path exists.
 # @exitcode 1 If the path does not exist.
 # @exitcode 126 If an invalid argument has been provided.
@@ -17,7 +17,7 @@ stdlib.io.path.query.is_exists() {
 }
 
 # @description Checks if a path is a file.
-# @arg $1 The path to check.
+# @arg string path The path to check.
 # @exitcode 0 If the path is a file.
 # @exitcode 1 If the path is not a file.
 # @exitcode 126 If an invalid argument has been provided.
@@ -29,7 +29,7 @@ stdlib.io.path.query.is_file() {
 }
 
 # @description Checks if a path is a folder.
-# @arg $1 The path to check.
+# @arg string path The path to check.
 # @exitcode 0 If the path is a folder.
 # @exitcode 1 If the path is not a folder.
 # @exitcode 126 If an invalid argument has been provided.

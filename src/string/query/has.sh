@@ -5,9 +5,9 @@
 builtin set -eo pipefail
 
 # @description Checks if a specific character exists at a given index in a string.
-# @arg $1 The character to check for.
-# @arg $2 The index to check at.
-# @arg $3 The string to check.
+# @arg string char The character to check for.
+# @arg number index The index to check at.
+# @arg string value The string to check.
 # @exitcode 0 If the character is found at the specified index.
 # @exitcode 1 If the character is not found at the specified index.
 # @exitcode 126 If an invalid argument has been provided.
