@@ -82,22 +82,22 @@ _PARAMETRIZE_GENERATED_FUNCTIONS=()
     )"
 
     if stdlib.fn.query.is_fn "${test_function_variant_name}"; then
-      _testing.error "$(_testing.message.get PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_NAME)"
+      _testing.error "$(_testing.parametrize.message.get PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_NAME)"
       {
-        _testing.message.get PARAMETRIZE_PREFIX_TEST_NAME
+        _testing.parametrize.message.get PARAMETRIZE_PREFIX_TEST_NAME
         builtin echo ": '$(
           __testing.protected stdlib.string.colour \
             "${STDLIB_TESTING_THEME_PARAMETRIZE_HIGHLIGHT}" \
             "${original_test_function_name}"
         )'"
-        _testing.message.get PARAMETRIZE_PREFIX_VARIANT_NAME
+        _testing.parametrize.message.get PARAMETRIZE_PREFIX_VARIANT_NAME
         builtin echo ": '$(
           __testing.protected stdlib.string.colour \
             "${STDLIB_TESTING_THEME_PARAMETRIZE_HIGHLIGHT}" \
             "${test_function_variant_name}"
         )'"
       } >&2 # KCOV_EXCLUDE_LINE
-      _testing.error "$(_testing.message.get PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_DETAIL)"
+      _testing.error "$(_testing.parametrize.message.get PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_DETAIL)"
       builtin return 126
     fi
 
