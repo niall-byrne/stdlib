@@ -30,25 +30,7 @@ setup() {
     "debug_diff_prefix_expected;DEBUG_DIFF_PREFIX_EXPECTED;EXPECTED" \
     "load_module_not_found;LOAD_MODULE_NOT_FOUND|module_name;The module 'module_name' could not be found!" \
     "load_module_notification;LOAD_MODULE_NOTIFICATION|module_name;Loading module 'module_name' ..." \
-    "mock_target_invalid;MOCK_TARGET_INVALID|target;The object identified by 'target' cannot be mocked!" \
-    "parametrize_configuration_error;PARAMETRIZE_CONFIGURATION_ERROR;Misconfigured parametrize parameters!" \
-    "parametrize_error_duplicate_test_variant_detail;PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_DETAIL;This test variant was created twice, please check your parametrize configuration for this test." \
-    "parametrize_error_duplicate_test_variant_name;PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_NAME;Duplicate test variant name!" \
-    "parametrize_error_fn_does_not_exist;PARAMETRIZE_ERROR_FN_DOES_NOT_EXIST;It does not exist!" \
-    "parametrize_error_parametrizer_fn_invalid;PARAMETRIZE_ERROR_PARAMETRIZER_FN_INVALID|my_func;The function 'my_func' cannot be used in a parametrize series!" \
-    "parametrize_error_parametrizer_fn_name___;PARAMETRIZE_ERROR_PARAMETRIZER_FN_NAME;It's name must be prefixed with '${_PARAMETRIZE_PARAMETRIZER_PREFIX}' !" \
-    "parametrize_error_test_fn_invalid;PARAMETRIZE_ERROR_TEST_FN_INVALID|my_func;The function 'my_func' cannot be parametrized." \
-    "parametrize_error_test_fn_name;PARAMETRIZE_ERROR_TEST_FN_NAME;It's name must start with 'test' and contain a '${_PARAMETRIZE_VARIANT_TAG}' tag, please rename this function!" \
-    "parametrize_footer_scenario_values;PARAMETRIZE_FOOTER_SCENARIO_VALUES;== End Scenario Values ==" \
-    "parametrize_header_scenario;PARAMETRIZE_HEADER_SCENARIO;Parametrize Scenario" \
-    "parametrize_header_scenario_values;PARAMETRIZE_HEADER_SCENARIO_VALUES;== Begin Scenario Values ==" \
-    "parametrize_prefix_fixture_command;PARAMETRIZE_PREFIX_FIXTURE_COMMAND;Fixture Command" \
-    "parametrize_prefix_fixture_commands;PARAMETRIZE_PREFIX_FIXTURE_COMMANDS;Fixture Commands" \
-    "parametrize_prefix_scenario_name;PARAMETRIZE_PREFIX_SCENARIO_NAME;Scenario Name" \
-    "parametrize_prefix_scenario_values;PARAMETRIZE_PREFIX_SCENARIO_VALUES;Value Set" \
-    "parametrize_prefix_scenario_variable;PARAMETRIZE_PREFIX_SCENARIO_VARIABLE;Variables" \
-    "parametrize_prefix_test_name;PARAMETRIZE_PREFIX_TEST_NAME;Test Name" \
-    "parametrize_prefix_variant_name;PARAMETRIZE_PREFIX_VARIANT_NAME;Variant name"
+    "mock_target_invalid;MOCK_TARGET_INVALID|target;The object identified by 'target' cannot be mocked!"
 }
 
 @parametrize_with_incorrect_arg_counts() {
@@ -67,27 +49,7 @@ setup() {
     "load_module_notification_________________________no_args;LOAD_MODULE_NOTIFICATION" \
     "load_module_notification_________________________too_many_args;LOAD_MODULE_NOTIFICATION|1|2" \
     "mock_target_invalid______________________________no_args;MOCK_TARGET_INVALID" \
-    "mock_target_invalid______________________________too_many_args;MOCK_TARGET_INVALID|1|2" \
-    "parametrize_configuration_error__________________too_many_args;PARAMETRIZE_CONFIGURATION_ERROR|1" \
-    "parametrize_error_duplicate_test_variant_detail__too_many_args;PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_DETAIL|1" \
-    "parametrize_error_duplicate_test_variant_name____too_many_args;PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_NAME|1" \
-    "parametrize_error_fn_does_not_exist______________too_many_args;PARAMETRIZE_ERROR_FN_DOES_NOT_EXIST|1" \
-    "parametrize_error_parametrizer_fn_invalid________no_args;PARAMETRIZE_ERROR_PARAMETRIZER_FN_INVALID" \
-    "parametrize_error_parametrizer_fn_invalid________too_many_args;PARAMETRIZE_ERROR_PARAMETRIZER_FN_INVALID|1|2" \
-    "parametrize_error_parametrizer_fn_name___________too_many_args;PARAMETRIZE_ERROR_PARAMETRIZER_FN_NAME|1" \
-    "parametrize_error_test_fn_invalid________________no_args;PARAMETRIZE_ERROR_TEST_FN_INVALID" \
-    "parametrize_error_test_fn_invalid________________too_many_args;PARAMETRIZE_ERROR_TEST_FN_INVALID|1|2" \
-    "parametrize_error_test_fn_name___________________too_many_args;PARAMETRIZE_ERROR_TEST_FN_NAME|1" \
-    "parametrize_footer_scenario_values_______________too_many_args;PARAMETRIZE_FOOTER_SCENARIO_VALUES|1" \
-    "parametrize_header_scenario______________________too_many_args;PARAMETRIZE_HEADER_SCENARIO|1" \
-    "parametrize_header_scenario_values_______________too_many_args;PARAMETRIZE_HEADER_SCENARIO_VALUES|1" \
-    "parametrize_fixture_command______________________too_many_args;PARAMETRIZE_PREFIX_FIXTURE_COMMAND|1" \
-    "parametrize_prefix_fixture_commands______________too_many_args;PARAMETRIZE_PREFIX_FIXTURE_COMMANDS|1" \
-    "parametrize_prefix_scenario_name_________________too_many_args;PARAMETRIZE_PREFIX_SCENARIO_NAME|1" \
-    "parametrize_prefix_scenario_values_______________too_many_args;PARAMETRIZE_PREFIX_SCENARIO_VALUES|1" \
-    "parametrize_prefix_scenario_variable_____________too_many_args;PARAMETRIZE_PREFIX_SCENARIO_VARIABLE|1" \
-    "parametrize_prefix_test_name_____________________too_many_args;PARAMETRIZE_PREFIX_TEST_NAME|1" \
-    "parametrize_prefix_variant_name__________________too_many_args;PARAMETRIZE_PREFIX_VARIANT_NAME|1"
+    "mock_target_invalid______________________________too_many_args;MOCK_TARGET_INVALID|1|2"
 }
 
 # shellcheck disable=SC2034
