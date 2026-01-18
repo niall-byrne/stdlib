@@ -10,8 +10,8 @@ test_parametrize_components_validate_fn_name_parametrizer__non_existent_fn_name_
   @parametrize._components.validate.fn_name.parametrizer "non_existent_fn_name"
 
   _testing.error.mock.assert_calls_are \
-    "1($(_testing.message.get PARAMETRIZE_ERROR_PARAMETRIZER_FN_INVALID "non_existent_fn_name"))" \
-    "1($(_testing.message.get PARAMETRIZE_ERROR_FN_DOES_NOT_EXIST))"
+    "1($(_testing.parametrize.message.get PARAMETRIZE_ERROR_PARAMETRIZER_FN_INVALID "non_existent_fn_name"))" \
+    "1($(_testing.parametrize.message.get PARAMETRIZE_ERROR_FN_DOES_NOT_EXIST))"
 }
 
 test_parametrize_components_validate_fn_name_parametrizer__non_existent_fn_name__returns_status_code_126() {
@@ -24,8 +24,8 @@ test_parametrize_components_validate_fn_name_parametrizer__invalid_fn_name______
   @parametrize._components.validate.fn_name.parametrizer "invalid_parametrizer"
 
   _testing.error.mock.assert_calls_are \
-    "1($(_testing.message.get PARAMETRIZE_ERROR_PARAMETRIZER_FN_INVALID "invalid_parametrizer"))" \
-    "1($(_testing.message.get PARAMETRIZE_ERROR_PARAMETRIZER_FN_NAME))"
+    "1($(_testing.parametrize.message.get PARAMETRIZE_ERROR_PARAMETRIZER_FN_INVALID "invalid_parametrizer"))" \
+    "1($(_testing.parametrize.message.get PARAMETRIZE_ERROR_PARAMETRIZER_FN_NAME))"
 }
 
 test_parametrize_components_validate_fn_name_parametrizer__invalid_fn_name_______returns_status_code_126() {
