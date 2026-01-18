@@ -16,7 +16,7 @@ test_parametrize_components_validate_scenario__not_enough_values__generates_erro
     scenarios
 
   _testing.error.mock.assert_called_once_with \
-    "1($(_testing.message.get PARAMETRIZE_CONFIGURATION_ERROR)) 2($(_testing.message.get PARAMETRIZE_PREFIX_SCENARIO_NAME): scenario_name) 3($(_testing.message.get PARAMETRIZE_PREFIX_SCENARIO_VARIABLE): ENV_VAR1 ENV_VAR2 = 2 variables) 4($(_testing.message.get PARAMETRIZE_PREFIX_SCENARIO_VALUES): value1 = 1 values) 5($(_testing.message.get PARAMETRIZE_PREFIX_FIXTURE_COMMANDS): 'echo fixture1' )"
+    "1($(_testing.parametrize.message.get PARAMETRIZE_CONFIGURATION_ERROR)) 2($(_testing.parametrize.message.get PARAMETRIZE_PREFIX_SCENARIO_NAME): scenario_name) 3($(_testing.parametrize.message.get PARAMETRIZE_PREFIX_SCENARIO_VARIABLE): ENV_VAR1 ENV_VAR2 = 2 variables) 4($(_testing.parametrize.message.get PARAMETRIZE_PREFIX_SCENARIO_VALUES): value1 = 1 values) 5($(_testing.parametrize.message.get PARAMETRIZE_PREFIX_FIXTURE_COMMANDS): 'echo fixture1' )"
 }
 
 # shellcheck disable=SC2034
@@ -30,9 +30,9 @@ test_parametrize_components_validate_scenario__not_enough_values__generates_stde
     fixtures \
     scenarios
 
-  assert_output $"$(_testing.message.get PARAMETRIZE_HEADER_SCENARIO_VALUES)
+  assert_output $"$(_testing.parametrize.message.get PARAMETRIZE_HEADER_SCENARIO_VALUES)
   ENV_VAR1 = value1
-  ENV_VAR2 = "$'\n'"$(_testing.message.get PARAMETRIZE_FOOTER_SCENARIO_VALUES)"
+  ENV_VAR2 = "$'\n'"$(_testing.parametrize.message.get PARAMETRIZE_FOOTER_SCENARIO_VALUES)"
 }
 
 # shellcheck disable=SC2034
@@ -47,7 +47,7 @@ test_parametrize_components_validate_scenario__too_many_values____generates_erro
     scenarios
 
   _testing.error.mock.assert_called_once_with \
-    "1($(_testing.message.get PARAMETRIZE_CONFIGURATION_ERROR)) 2($(_testing.message.get PARAMETRIZE_PREFIX_SCENARIO_NAME): scenario_name) 3($(_testing.message.get PARAMETRIZE_PREFIX_SCENARIO_VARIABLE): ENV_VAR1 ENV_VAR2 = 2 variables) 4($(_testing.message.get PARAMETRIZE_PREFIX_SCENARIO_VALUES): value1 value2 value3 = 3 values) 5($(_testing.message.get PARAMETRIZE_PREFIX_FIXTURE_COMMANDS): 'echo fixture1' )"
+    "1($(_testing.parametrize.message.get PARAMETRIZE_CONFIGURATION_ERROR)) 2($(_testing.parametrize.message.get PARAMETRIZE_PREFIX_SCENARIO_NAME): scenario_name) 3($(_testing.parametrize.message.get PARAMETRIZE_PREFIX_SCENARIO_VARIABLE): ENV_VAR1 ENV_VAR2 = 2 variables) 4($(_testing.parametrize.message.get PARAMETRIZE_PREFIX_SCENARIO_VALUES): value1 value2 value3 = 3 values) 5($(_testing.parametrize.message.get PARAMETRIZE_PREFIX_FIXTURE_COMMANDS): 'echo fixture1' )"
 }
 
 # shellcheck disable=SC2034
@@ -61,10 +61,10 @@ test_parametrize_components_validate_scenario__too_many_values____generates_stde
     fixtures \
     scenarios
 
-  assert_output "$(_testing.message.get PARAMETRIZE_HEADER_SCENARIO_VALUES)
+  assert_output "$(_testing.parametrize.message.get PARAMETRIZE_HEADER_SCENARIO_VALUES)
   ENV_VAR1 = value1
   ENV_VAR2 = value2
-$(_testing.message.get PARAMETRIZE_FOOTER_SCENARIO_VALUES)"
+$(_testing.parametrize.message.get PARAMETRIZE_FOOTER_SCENARIO_VALUES)"
 }
 
 # shellcheck disable=SC2034
