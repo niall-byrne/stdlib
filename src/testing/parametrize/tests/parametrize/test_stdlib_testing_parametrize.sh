@@ -60,7 +60,7 @@ test_parametrize__1st_run_test_variants__invalid_config________logs_correct_erro
     "${INVALID_CONFIG_ONE[@]}" 2> /dev/null
 
   _testing.error.mock.assert_called_once_with \
-    "1($(_testing.message.get PARAMETRIZE_CONFIGURATION_ERROR)) 2($(_testing.message.get PARAMETRIZE_PREFIX_SCENARIO_NAME): config_3_scenario_1) 3($(_testing.message.get PARAMETRIZE_PREFIX_SCENARIO_VARIABLE): VAR_1 VAR_2 VAR_3 = 3 variables) 4($(_testing.message.get PARAMETRIZE_PREFIX_SCENARIO_VALUES): config3-scenario1-value2 config3-scenario1-value3 = 2 values) 5($(_testing.message.get PARAMETRIZE_PREFIX_FIXTURE_COMMANDS): 'config_3_mocked_fixture_1' 'config_3_mocked_fixture_2' )"
+    "1($(_testing.parametrize.message.get PARAMETRIZE_CONFIGURATION_ERROR)) 2($(_testing.parametrize.message.get PARAMETRIZE_PREFIX_SCENARIO_NAME): config_3_scenario_1) 3($(_testing.parametrize.message.get PARAMETRIZE_PREFIX_SCENARIO_VARIABLE): VAR_1 VAR_2 VAR_3 = 3 variables) 4($(_testing.parametrize.message.get PARAMETRIZE_PREFIX_SCENARIO_VALUES): config3-scenario1-value2 config3-scenario1-value3 = 2 values) 5($(_testing.parametrize.message.get PARAMETRIZE_PREFIX_FIXTURE_COMMANDS): 'config_3_mocked_fixture_1' 'config_3_mocked_fixture_2' )"
 }
 
 test_parametrize__1st_run_test_variants__invalid_config________generates_correct_stderr() {
@@ -68,10 +68,10 @@ test_parametrize__1st_run_test_variants__invalid_config________generates_correct
     test_function_mock_@vary \
     "${INVALID_CONFIG_ONE[@]}"
 
-  assert_output $"$(_testing.message.get PARAMETRIZE_HEADER_SCENARIO_VALUES)
+  assert_output $"$(_testing.parametrize.message.get PARAMETRIZE_HEADER_SCENARIO_VALUES)
   VAR_1 = config3-scenario1-value2
   VAR_2 = config3-scenario1-value3
-  VAR_3 = "$'\n'"$(_testing.message.get PARAMETRIZE_FOOTER_SCENARIO_VALUES)"
+  VAR_3 = "$'\n'"$(_testing.parametrize.message.get PARAMETRIZE_FOOTER_SCENARIO_VALUES)"
 }
 
 test_parametrize__1st_run_test_variants__invalid_test_fn_______returns_status_code_126() {
@@ -88,8 +88,8 @@ test_parametrize__1st_run_test_variants__invalid_test_fn_______logs_correct_erro
     "${SIMPLE_CONFIG_ONE[@]}" 2> /dev/null
 
   _testing.error.mock.assert_calls_are \
-    "1($(_testing.message.get PARAMETRIZE_ERROR_TEST_FN_INVALID "invalid_test_fn"))" \
-    "1($(_testing.message.get PARAMETRIZE_ERROR_TEST_FN_NAME))"
+    "1($(_testing.parametrize.message.get PARAMETRIZE_ERROR_TEST_FN_INVALID "invalid_test_fn"))" \
+    "1($(_testing.parametrize.message.get PARAMETRIZE_ERROR_TEST_FN_NAME))"
 }
 
 test_parametrize__1st_run_test_variants__non_existent_test_fn__returns_status_code_126() {
@@ -106,8 +106,8 @@ test_parametrize__1st_run_test_variants__non_existent_test_fn__logs_correct_erro
     "${SIMPLE_CONFIG_ONE[@]}" 2> /dev/null
 
   _testing.error.mock.assert_calls_are \
-    "1($(_testing.message.get PARAMETRIZE_ERROR_TEST_FN_INVALID "test_non_existent_@vary"))" \
-    "1($(_testing.message.get PARAMETRIZE_ERROR_FN_DOES_NOT_EXIST))"
+    "1($(_testing.parametrize.message.get PARAMETRIZE_ERROR_TEST_FN_INVALID "test_non_existent_@vary"))" \
+    "1($(_testing.parametrize.message.get PARAMETRIZE_ERROR_FN_DOES_NOT_EXIST))"
 }
 
 test_parametrize__1st_run_test_variants__duplicate_variant_____generates_correct_stderr() {
@@ -115,8 +115,8 @@ test_parametrize__1st_run_test_variants__duplicate_variant_____generates_correct
     test_function_mock_@vary \
     "${INVALID_CONFIG_TWO[@]}"
 
-  assert_output "$(_testing.message.get PARAMETRIZE_PREFIX_TEST_NAME): '$(stdlib.string.colour "${STDLIB_TESTING_THEME_PARAMETRIZE_HIGHLIGHT}" "test_function_mock_@vary")'
-$(_testing.message.get PARAMETRIZE_PREFIX_VARIANT_NAME): '$(stdlib.string.colour "${STDLIB_TESTING_THEME_PARAMETRIZE_HIGHLIGHT}" "test_function_mock_duplicate_scenario_1")'"
+  assert_output "$(_testing.parametrize.message.get PARAMETRIZE_PREFIX_TEST_NAME): '$(stdlib.string.colour "${STDLIB_TESTING_THEME_PARAMETRIZE_HIGHLIGHT}" "test_function_mock_@vary")'
+$(_testing.parametrize.message.get PARAMETRIZE_PREFIX_VARIANT_NAME): '$(stdlib.string.colour "${STDLIB_TESTING_THEME_PARAMETRIZE_HIGHLIGHT}" "test_function_mock_duplicate_scenario_1")'"
 }
 
 test_parametrize__1st_run_test_variants__duplicate_variant_____logs_correct_error_message() {
@@ -125,8 +125,8 @@ test_parametrize__1st_run_test_variants__duplicate_variant_____logs_correct_erro
     "${INVALID_CONFIG_TWO[@]}" 2> /dev/null
 
   _testing.error.mock.assert_calls_are \
-    "1($(_testing.message.get PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_NAME))" \
-    "1($(_testing.message.get PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_DETAIL))"
+    "1($(_testing.parametrize.message.get PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_NAME))" \
+    "1($(_testing.parametrize.message.get PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_DETAIL))"
 }
 
 test_parametrize__1st_run_test_variants__duplicate_variant_____returns_status_code_126() {
