@@ -6,6 +6,8 @@ builtin set -eo pipefail
 
 # shellcheck source=src/testing/parametrize/apply.sh
 builtin source "${STDLIB_DIRECTORY}/testing/parametrize/apply.sh"
+# shellcheck source=src/testing/parametrize/message.sh
+builtin source "${STDLIB_DIRECTORY}/testing/parametrize/message.sh"
 # shellcheck source=src/testing/parametrize/components/configuration.sh
 builtin source "${STDLIB_DIRECTORY}/testing/parametrize/components/configuration.sh"
 # shellcheck source=src/testing/parametrize/components/create.sh
