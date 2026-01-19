@@ -29,8 +29,7 @@ setup() {
     "debug_diff_prefix_actual;DEBUG_DIFF_PREFIX_ACTUAL;ACTUAL" \
     "debug_diff_prefix_expected;DEBUG_DIFF_PREFIX_EXPECTED;EXPECTED" \
     "load_module_not_found;LOAD_MODULE_NOT_FOUND|module_name;The module 'module_name' could not be found!" \
-    "load_module_notification;LOAD_MODULE_NOTIFICATION|module_name;Loading module 'module_name' ..." \
-    "mock_target_invalid;MOCK_TARGET_INVALID|target;The object identified by 'target' cannot be mocked!"
+    "load_module_notification;LOAD_MODULE_NOTIFICATION|module_name;Loading module 'module_name' ..."
 }
 
 @parametrize_with_incorrect_arg_counts() {
@@ -47,9 +46,7 @@ setup() {
     "load_module_not_found____________________________no_args;LOAD_MODULE_NOT_FOUND" \
     "load_module_not_found____________________________too_many_args;LOAD_MODULE_NOT_FOUND|1|2" \
     "load_module_notification_________________________no_args;LOAD_MODULE_NOTIFICATION" \
-    "load_module_notification_________________________too_many_args;LOAD_MODULE_NOTIFICATION|1|2" \
-    "mock_target_invalid______________________________no_args;MOCK_TARGET_INVALID" \
-    "mock_target_invalid______________________________too_many_args;MOCK_TARGET_INVALID|1|2"
+    "load_module_notification_________________________too_many_args;LOAD_MODULE_NOTIFICATION|1|2"
 }
 
 # shellcheck disable=SC2034
