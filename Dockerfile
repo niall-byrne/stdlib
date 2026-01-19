@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM debian:latest
 
 ARG UNAME1=user1
 ARG UID1=1000
@@ -53,7 +53,8 @@ COPY --from=kcov/kcov:latest /usr/local/bin/kcov* /usr/local/bin/
 COPY --from=kcov/kcov:latest /usr/local/share/doc/kcov /usr/local/share/doc/kcov
 
 # Configure locale
-RUN locale-gen $LOCALE
+RUN echo "$LOCALE UTF-8" | sudo tee -a /etc/locale.gen \
+    && locale-gen
 ENV LANG=$LOCALE
 ENV LC_ALL=$LOCALE
 

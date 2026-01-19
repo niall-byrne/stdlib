@@ -13,7 +13,7 @@ _container_build() {
     --build-arg UID1="$(id -u)" \
     --build-arg GID1="$(id -u)" \
     -f Dockerfile \
-    -t stdlib:local \
+    -t ghcr.io/niall-byrne/stdlib:development \
     .
 
   popd > /dev/null
@@ -33,7 +33,8 @@ _container_run() {
     -v "${PWD}":/work \
     -v /var/run/docker.sock:/var/run/docker.sock \
     --tmpfs /tmp:exec \
-    stdlib:local \
+    --user "$(id -u)":"$(id -u)" \
+    ghcr.io/niall-byrne/stdlib:development \
     "${test_container_command}" "${@}"
 
   popd > /dev/null

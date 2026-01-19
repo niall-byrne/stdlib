@@ -32,6 +32,20 @@ jobs:
       NOTIFICATION_EMOJI: ":vertical_traffic_light:"
       NOTIFICATION_MESSAGE: "Workflow has started!"
 
+  build_container:
+    needs:
+      - configuration
+    permissions:
+      packages: write
+    secrets:
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+    uses: cicd-tools-org/cicd-tools/.github/workflows/job-95-container-push.yml@main
+    with:
+      IMAGE_NAME: "niall-byrne/stdlib"
+      IMAGE_LATEST: true
+      IMAGE_TAG: development
+      VERBOSE_NOTIFICATIONS: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_verbose_notifications }}
+
   security:
     needs:
       - configuration
@@ -54,6 +68,7 @@ jobs:
 
   pre-commit_hooks:
     needs:
+      - build_container
       - configuration
     secrets:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
@@ -68,13 +83,13 @@ jobs:
 
   unit_tests:
     needs:
+      - build_container
       - configuration
     secrets:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
     uses: cicd-tools-org/cicd-tools/.github/workflows/job-80-poetry-precommit_commit_stage_hook.yml@main
     with:
       CONCURRENCY: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_concurrency_limit }}
-      PRE_HOOK_COMMAND: "./container.sh build"
       PRECOMMIT_HOOK_ID: "bash-unit-tests"
       PRECOMMIT_HOOK_NAME: "Bash Unit Tests"
       PRECOMMIT_HOOK_STAGE: "manual"
@@ -83,6 +98,7 @@ jobs:
 
   code_coverage:
     needs:
+      - build_container
       - configuration
     secrets:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
@@ -91,7 +107,6 @@ jobs:
     with:
       CONCURRENCY: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_concurrency_limit }}
       POST_HOOK_COMMAND: 'CODECOV_TOKEN="${ENV_SECRET_1}" .github/scripts/job-81-coverage-upload.sh'
-      PRE_HOOK_COMMAND: "./container.sh build"
       PRECOMMIT_HOOK_ID: "bash-code-coverage"
       PRECOMMIT_HOOK_NAME: "Code Coverage Test"
       PRECOMMIT_HOOK_STAGE: "manual"
@@ -132,13 +147,15 @@ jobs:
       VERBOSE_NOTIFICATIONS: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_verbose_notifications }}
 
   distribution_packaging_test:
-    needs: [configuration]
+    needs:
+      - build_container
+      - configuration
     secrets:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
     uses: cicd-tools-org/cicd-tools/.github/workflows/job-80-poetry-precommit_commit_stage_hook.yml@main
     with:
       CONCURRENCY: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_concurrency_limit }}
-      PRE_HOOK_COMMAND: poetry run pre-commit run --hook-stage manual gettext-translations-compile -a
+      PRE_HOOK_COMMAND: poetry run pre-commit run gettext-translations-compile -a
       PRECOMMIT_HOOK_ID: "distribution-package"
       PRECOMMIT_HOOK_NAME: "Distribution Packaging"
       PYTHON_VERSIONS: ${{ toJSON(fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_python_versions) }}
@@ -198,7 +215,8 @@ jobs:
       VERBOSE_NOTIFICATIONS: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_verbose_notifications }}
 
   pre-commit_lint_config:
-    needs: [configuration]
+    needs:
+      - configuration
     secrets:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
     uses: cicd-tools-org/cicd-tools/.github/workflows/job-80-poetry-precommit_commit_stage_hook.yml@main
@@ -354,15 +372,16 @@ jobs:
 
   distribution_self_test:
     if: ${{ needs.create_release.outputs.RELEASE_CANDIDATE == 'true' }}
-    needs: [configuration, create_release]
+    needs:
+      - build_container
+      - configuration
+      - create_release
     secrets:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
     uses: cicd-tools-org/cicd-tools/.github/workflows/job-80-poetry-precommit_commit_stage_hook.yml@main
     with:
       CONCURRENCY: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_concurrency_limit }}
-      PRE_HOOK_COMMAND: |
-        ./container.sh build &&
-        poetry pre-commit run --hook-stage manual gettext-translations-compile
+      PRE_HOOK_COMMAND: poetry pre-commit run --hook-stage manual gettext-translations-compile
       PRECOMMIT_HOOK_ID: "distribution-test"
       PRECOMMIT_HOOK_NAME: "Distribution Self-Test"
       PRECOMMIT_HOOK_STAGE: "manual"
@@ -371,7 +390,10 @@ jobs:
 
   build_distribution_tarball:
     if: ${{ needs.create_release.outputs.RELEASE_CANDIDATE == 'true' }}
-    needs: [configuration, create_release, distribution_self_test]
+    needs:
+      - configuration
+      - create_release
+      - distribution_self_test
     secrets:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
     uses: cicd-tools-org/cicd-tools/.github/workflows/job-95-generic-build_artifact.yml@main
@@ -388,7 +410,10 @@ jobs:
     permissions:
       contents: write
     if: ${{ needs.create_release.outputs.RELEASE_CANDIDATE == 'true' }}
-    needs: [configuration, create_release, build_distribution_tarball]
+    needs:
+      - configuration
+      - create_release
+      - build_distribution_tarball
     secrets:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
     uses: cicd-tools-org/cicd-tools/.github/workflows/job-99-generic-attach_artifact_to_release.yml@main
@@ -400,7 +425,9 @@ jobs:
 
   success_standard:
     if: ${{ needs.create_release.outputs.RELEASE_CANDIDATE != 'true' }}
-    needs: [configuration, create_release]
+    needs:
+      - configuration
+      - create_release
     secrets:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
     uses: cicd-tools-org/cicd-tools/.github/workflows/job-00-generic-notification.yml@main
@@ -410,7 +437,10 @@ jobs:
 
   success_release:
     if: ${{ needs.create_release.outputs.RELEASE_CANDIDATE == 'true' }}
-    needs: [configuration, create_release, attach_distribution_to_release]
+    needs:
+      - configuration
+      - create_release
+      - attach_distribution_to_release
     secrets:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
     uses: cicd-tools-org/cicd-tools/.github/workflows/job-00-generic-notification.yml@main
