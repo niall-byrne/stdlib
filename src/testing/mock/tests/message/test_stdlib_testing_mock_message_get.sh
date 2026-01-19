@@ -28,7 +28,8 @@ setup() {
     "mock_called_n_times;MOCK_CALLED_N_TIMES|mock_name|3;Mock 'mock_name' was called 3 times!" \
     "mock_not_called;MOCK_NOT_CALLED|mock_name;Mock 'mock_name' was not called!" \
     "mock_not_called_once_with;MOCK_NOT_CALLED_ONCE_WITH|mock_name|arg1;Mock 'mock_name' was not called once with 'arg1' !" \
-    "mock_not_called_with;MOCK_NOT_CALLED_WITH|mock_name|arg1;Mock 'mock_name' was not called with 'arg1' !"
+    "mock_not_called_with;MOCK_NOT_CALLED_WITH|mock_name|arg1;Mock 'mock_name' was not called with 'arg1' !" \
+    "mock_target_invalid;MOCK_TARGET_INVALID|target;The object identified by 'target' cannot be mocked!"
 }
 
 @parametrize_with_incorrect_arg_counts() {
@@ -51,7 +52,9 @@ setup() {
     "mock_not_called_once_with_______too_many_args;MOCK_NOT_CALLED_ONCE_WITH|mock_name|arg1|foo" \
     "mock_not_called_with____________no_args;MOCK_NOT_CALLED_WITH" \
     "mock_not_called_with____________too_few_args;MOCK_NOT_CALLED_WITH|mock_name" \
-    "mock_not_called_with____________too_many_args;MOCK_NOT_CALLED_WITH|mock_name|arg1|foo"
+    "mock_not_called_with____________too_many_args;MOCK_NOT_CALLED_WITH|mock_name|arg1|foo" \
+    "mock_target_invalid_____________no_args;MOCK_TARGET_INVALID" \
+    "mock_target_invalid_____________too_many_args;MOCK_TARGET_INVALID|1|2"
 }
 
 # shellcheck disable=SC2034
