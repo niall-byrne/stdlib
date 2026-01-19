@@ -21,6 +21,10 @@ _testing.mock.message.get() {
       required_options=0
       message="Actual call"
       ;;
+    MOCK_TARGET_INVALID)
+      required_options=1
+      message="The object identified by '${option1}' cannot be mocked!"
+      ;;
     MOCK_CALL_N_NOT_AS_EXPECTED)
       required_options=2
       message="Mock '${option1}' call ${option2} was not as expected!"
