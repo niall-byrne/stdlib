@@ -1030,7 +1030,7 @@ _mock.create ()
         builtin return 127;
     fi;
     if ! __testing.protected stdlib.fn.query.is_valid_name "${1}" || __testing.protected stdlib.array.query.is_contains "${1}" _MOCK_ATTRIBUTES_RESTRICTED; then
-        _testing.error "${FUNCNAME[0]}: $(_testing.message.get MOCK_TARGET_INVALID "${1}")";
+        _testing.error "${FUNCNAME[0]}: $(_testing.mock.message.get MOCK_TARGET_INVALID "${1}")";
         builtin return 126;
     fi;
     builtin printf -v "_mock_escaped_fn_name" "%q" "${1}";
@@ -1266,10 +1266,6 @@ _testing.message.get ()
             required_options=1;
             message="Loading module '${option1}' ..."
         ;;
-        MOCK_TARGET_INVALID)
-            required_options=1;
-            message="The object identified by '${option1}' cannot be mocked!"
-        ;;
         "")
             required_options=0;
             return_status=126;
@@ -1324,6 +1320,10 @@ _testing.mock.message.get ()
         MOCK_NOT_CALLED_WITH)
             required_options=2;
             message="Mock '${option1}' was not called with '${option2}' !"
+        ;;
+        MOCK_TARGET_INVALID)
+            required_options=1;
+            message="The object identified by '${option1}' cannot be mocked!"
         ;;
         "")
             required_options=0;

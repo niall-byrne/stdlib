@@ -43,10 +43,6 @@ _testing.message.get() {
       required_options=1
       message="Loading module '${option1}' ..."
       ;;
-    MOCK_TARGET_INVALID)
-      required_options=1
-      message="The object identified by '${option1}' cannot be mocked!"
-      ;;
     "")
       required_options=0
       return_status=126
