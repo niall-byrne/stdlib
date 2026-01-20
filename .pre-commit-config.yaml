@@ -188,3 +188,9 @@ repos:
         args: [--multiline]
         language: pygrep
         files: "^((.+/)*tests/.+\\.sh)$"
+      - id: testing-folder-function-names
+        name: ensure source files in the testing folder use the correct function names
+        entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$)(?!((assert_|_capture\\.)[a-z_]+)|((__)*\\$\\{1\\}|@parametrize)|((?!.+\\._[^_].+)((__)*\\$\\{1\\}|_testing|_mock|@parametrize))\\.[a-z_.]+).*\\(\\) {$"
+        language: pygrep
+        files: "^src/testing/.+\\.sh$"
+        exclude: "^((.+/)*tests/.+\\.sh)$"

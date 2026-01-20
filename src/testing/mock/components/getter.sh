@@ -32,9 +32,9 @@ ${1}.mock.get.call() {
   builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
   builtin local _mock_object_escaped_args
 
-  __testing.protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
-  __testing.protected stdlib.string.assert.is_digit "\${1}" || builtin return 126
-  __testing.protected stdlib.string.assert.not_equal "0" "\${1}" || builtin return 126
+  _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
+  _testing.__protected stdlib.string.assert.is_digit "\${1}" || builtin return 126
+  _testing.__protected stdlib.string.assert.not_equal "0" "\${1}" || builtin return 126
 
   builtin printf -v _mock_object_escaped_args "%q" "\${1}"
 
@@ -47,7 +47,7 @@ ${1}.mock.get.calls() {
   builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
   builtin local _mock_object_escaped_args
 
-  __testing.protected stdlib.fn.args.require "0" "0" "\${@}" || builtin return "\$?"
+  _testing.__protected stdlib.fn.args.require "0" "0" "\${@}" || builtin return "\$?"
 
   ${1}.mock.__get_apply_to_matching_mock_calls \
     "true" \
@@ -57,7 +57,7 @@ ${1}.mock.get.calls() {
 ${1}.mock.get.count() {
   builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
 
-  __testing.protected stdlib.fn.args.require "0" "0" "\${@}" || builtin return "\$?"
+  _testing.__protected stdlib.fn.args.require "0" "0" "\${@}" || builtin return "\$?"
 
   < "\${__${2}_mock_calls_file}" wc -l
 }
@@ -65,7 +65,7 @@ ${1}.mock.get.count() {
 ${1}.mock.get.keywords() {
   builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
 
-  __testing.protected stdlib.fn.args.require "0" "0" "\${@}" || builtin return "\$?"
+  _testing.__protected stdlib.fn.args.require "0" "0" "\${@}" || builtin return "\$?"
 
   builtin echo "\${__${2}_mock_keywords[*]}"
 }

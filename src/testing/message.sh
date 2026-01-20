@@ -49,7 +49,7 @@ _testing.message.get() {
     "")
       required_options=0
       return_status=126
-      message="$(__testing.protected stdlib.message.get ARGUMENTS_INVALID)"
+      message="$(_testing.__protected stdlib.message.get ARGUMENTS_INVALID)"
       ;;
     *)
       required_options=0
@@ -59,12 +59,12 @@ _testing.message.get() {
   esac
 
   (("${#@}" == 1 + required_options)) || {
-    message="$(__testing.protected stdlib.message.get ARGUMENTS_INVALID)"
+    message="$(_testing.__protected stdlib.message.get ARGUMENTS_INVALID)"
     return_status=127
   }
 
   ((return_status == 0)) || {
-    __testing.protected stdlib.logger.error "${message}"
+    _testing.__protected stdlib.logger.error "${message}"
     builtin return ${return_status}
   }
 
