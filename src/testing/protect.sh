@@ -6,7 +6,7 @@ builtin set -eo pipefail
 
 _STDLIB_TESTING_STDLIB_PROTECT_PREFIX=""
 
-__testing.protect_stdlib() {
+_testing.__protect_stdlib() {
   builtin local stdlib_library_prefix="${_STDLIB_TESTING_STDLIB_PROTECT_PREFIX:-"stdlib"}"
   builtin local stdlib_function_regex="^${stdlib_library_prefix}\\..* ()"
 
@@ -16,7 +16,7 @@ __testing.protect_stdlib() {
   done <<< "$(builtin declare -f | "${_STDLIB_BINARY_GREP}" -E "${stdlib_function_regex}")"
 }
 
-__testing.protected() {
+_testing.__protected() {
   # $@: the stdlib library to call
 
   _STDLIB_BUILTIN_BOOLEAN=1 \

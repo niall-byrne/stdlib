@@ -4,8 +4,8 @@
 
 builtin set -eo pipefail
 
-# shellcheck source=src/testing/mock/arg_string.sh
-builtin source "${STDLIB_DIRECTORY}/testing/mock/arg_string.sh"
+# shellcheck source=src/testing/mock/arg_string/__lib__.sh
+builtin source "${STDLIB_DIRECTORY}/testing/mock/arg_string/__lib__.sh"
 # shellcheck source=src/testing/mock/attributes.sh
 builtin source "${STDLIB_DIRECTORY}/testing/mock/attributes.sh"
 # shellcheck source=src/testing/mock/internal/__lib__.sh
