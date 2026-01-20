@@ -12,7 +12,7 @@ repos:
           - "./.yamllint.yml"
         stages: [pre-commit]
   - repo: https://github.com/cicd-tools-org/pre-commit.git
-    rev: 0.6.0
+    rev: e58ac73ff0825ab646c16f4a1de308ec19fe5c7e
     hooks:
       - id: format-shell
         args:
@@ -23,6 +23,53 @@ repos:
         files: "^(.+\\.(sh|snippet)|build/t|dist/t)$"
         exclude: "^dist/stdlib(_testing)*.sh$"
       - id: format-toml
+      - id: gettext-translations-add
+        args:
+          - "-p"
+          - "locales"
+      - id: gettext-translations-compile
+        args:
+          - "-p"
+          - "locales"
+        stages: [pre-commit]
+      - id: gettext-translations-missing
+        args:
+          - "-p"
+          - "locales"
+          - "-s"
+          - "en"
+      - id: gettext-translations-update
+        name: stdlib translations
+        args:
+          - "-b"
+          - "stdlib"
+          - "-r"
+          - "src/message.sh"
+          - "-p"
+          - "locales"
+          - "-c"
+          - "src"
+          - "-e"
+          - "niall@niallbyrne.ca"
+          - "-u"
+          - "-x"
+          - "--keyword=stdlib.__gettext"
+      - id: gettext-translations-update
+        name: stdlib testing translations
+        args:
+          - "-b"
+          - "stdlib_testing"
+          - "-r"
+          - "src/testing*/message.sh"
+          - "-p"
+          - "locales"
+          - "-c"
+          - "src"
+          - "-e"
+          - "niall@niallbyrne.ca"
+          - "-u"
+          - "-x"
+          - "--keyword=_testing.__gettext"
       - id: git-conflict-markers
         exclude: "^src/logger/tests/test_stdlib_logger_traceback.sh$"
       - id: lint-github-workflow
