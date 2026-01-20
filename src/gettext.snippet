@@ -1,0 +1,13 @@
+#!/bin/bash
+
+STDLIB_TEXTDOMAINDIR="${STDLIB_TEXTDOMAINDIR-$(dirname -- "${BASH_SOURCE[0]}/locales")}"
+
+# shellcheck disable=SC2034
+{
+  builtin export TEXTDOMAIN
+  builtin export TEXTDOMAINDIR
+}
+
+set +e
+stdlib.builtin.overridable source gettext.sh 2> /dev/null || stdlib.__gettext.fallback
+set -e
