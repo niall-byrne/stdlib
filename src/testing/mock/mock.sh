@@ -4,8 +4,6 @@
 
 builtin set -eo pipefail
 
-__MOCK_SEQUENCE_TRACKING="0"
-
 # Mock Api                                  (all other values/methods are not considered stable)
 # -----------------------------------------------------------------------------------------------------
 # _mock.create                             - creates a new mock
@@ -51,38 +49,6 @@ __MOCK_SEQUENCE_TRACKING="0"
 #                                           - NOTE: calling any _mock.sequence assertion will also stop recording
 # _mock.sequence.record.resume              - resumes recording all mock calls without clearing the existing sequence
 
-_testing._mock.compile() {
-  builtin local mock_component
-  builtin local -a mock_component_file_set
-
-  mock_component_file_set=(
-    "${STDLIB_DIRECTORY}/testing/mock/components/defaults.sh"
-    "${STDLIB_DIRECTORY}/testing/mock/components/main.sh"
-    "${STDLIB_DIRECTORY}/testing/mock/components/call.sh"
-    "${STDLIB_DIRECTORY}/testing/mock/components/controller.sh"
-    "${STDLIB_DIRECTORY}/testing/mock/components/getter.sh"
-    "${STDLIB_DIRECTORY}/testing/mock/components/setter.sh"
-    "${STDLIB_DIRECTORY}/testing/mock/components/assertion.sh"
-  )
-
-  # shellcheck disable=SC1090
-  builtin source <({
-    builtin echo "_mock.__generate_mock() {"
-    builtin echo "  __mock.persistence.create \"\${1}\" \"\${2}\""
-    builtin echo "builtin eval \"\$(\"${_STDLIB_BINARY_CAT}\" <<EOF"
-
-    for mock_component in "${mock_component_file_set[@]}"; do
-      builtin echo -e "\n\n# === component start =========================="
-      "${_STDLIB_BINARY_SED}" -e "1,11d" "${mock_component}" | "${_STDLIB_BINARY_HEAD}" -n -2
-      builtin echo -e "# === component end ============================\n\n"
-    done
-
-    builtin echo "EOF"
-    builtin echo ")\""
-    builtin echo "}"
-  })
-}
-
 _mock.create() {
   # $1: the variable name to create
 
@@ -91,23 +57,25 @@ _mock.create() {
   builtin local _mock_attribute
   builtin local _mock_restricted_attribute_boolean=0
 
+  # TODO: add a test to ensure declare is not overridden as that will protect the mock functionality
+
   if [[ "${#@}" != 1 ]] || [[ -z "${1}" ]]; then
-    _testing.error "${FUNCNAME[0]}: $(__testing.protected stdlib.message.get ARGUMENTS_INVALID)"
+    _testing.error "${FUNCNAME[0]}: $(_testing.__protected stdlib.message.get ARGUMENTS_INVALID)"
     builtin return 127
   fi
 
-  if ! __testing.protected stdlib.fn.query.is_valid_name "${1}" ||
-    __testing.protected stdlib.array.query.is_contains "${1}" _MOCK_ATTRIBUTES_RESTRICTED; then
+  if ! _testing.__protected stdlib.fn.query.is_valid_name "${1}" ||
+    _testing.__protected stdlib.array.query.is_contains "${1}" _MOCK_ATTRIBUTES_RESTRICTED; then
     _testing.error "${FUNCNAME[0]}: $(_testing.mock.message.get MOCK_TARGET_INVALID "${1}")"
     builtin return 126
   fi
 
   builtin printf -v "_mock_escaped_fn_name" "%q" "${1}"
 
-  _mock_sanitized_fn_name="$(__mock.create_sanitized_fn_name "${_mock_escaped_fn_name}")"
+  _mock_sanitized_fn_name="$(_mock.__internal.security.sanitize.fn_name "${_mock_escaped_fn_name}")"
 
-  if __testing.protected stdlib.fn.query.is_fn "${_mock_escaped_fn_name}"; then
-    __testing.protected stdlib.fn.derive.clone "${_mock_escaped_fn_name}" "${_mock_escaped_fn_name}____copy_of_original_implementation"
+  if _testing.__protected stdlib.fn.query.is_fn "${_mock_escaped_fn_name}"; then
+    _testing.__protected stdlib.fn.derive.clone "${_mock_escaped_fn_name}" "${_mock_escaped_fn_name}____copy_of_original_implementation"
   fi
 
   _mock.__generate_mock "${_mock_escaped_fn_name}" "${_mock_sanitized_fn_name}"
@@ -116,8 +84,8 @@ _mock.create() {
 _mock.delete() {
   # $1: the mock name to delete (restoring the original implementation)
 
-  __testing.protected stdlib.fn.assert.is_fn "${1}" || builtin return 127
-  __testing.protected stdlib.fn.assert.is_fn "${1}.mock.set.subcommand" || builtin return 127
+  _testing.__protected stdlib.fn.assert.is_fn "${1}" || builtin return 127
+  _testing.__protected stdlib.fn.assert.is_fn "${1}.mock.set.subcommand" || builtin return 127
 
   builtin unset -f "${1}"
 
@@ -127,15 +95,21 @@ _mock.delete() {
     builtin unset -f "${mocked_function/" ()"/}"
   done <<< "$(builtin declare -f | ${_STDLIB_BINARY_GREP} -E "^${1}.mock.* ()")"
 
-  if __testing.protected stdlib.fn.query.is_fn "${1}____copy_of_original_implementation"; then
-    __testing.protected stdlib.fn.derive.clone "${1}____copy_of_original_implementation" "${1}"
+  if _testing.__protected stdlib.fn.query.is_fn "${1}____copy_of_original_implementation"; then
+    _testing.__protected stdlib.fn.derive.clone "${1}____copy_of_original_implementation" "${1}"
   fi
 }
 
 _mock.clear_all() {
-  __mock.persistence.registry.apply_to_all "clear"
+  _mock.__internal.persistence.registry.apply_to_all "clear"
+}
+
+_mock.register_cleanup() {
+  if builtin declare -F stdlib.trap.handler.exit.fn.register > /dev/null; then
+    stdlib.trap.handler.exit.fn.register _mock.__internal.persistence.registry.cleanup
+  fi
 }
 
 _mock.reset_all() {
-  __mock.persistence.registry.apply_to_all "reset"
+  _mock.__internal.persistence.registry.apply_to_all "reset"
 }
