@@ -19,15 +19,15 @@ builtin set -eo pipefail
   parametrizer_fn_array=("${@:2}")
 
   [[ "${#@}" -gt "1" ]] || {
-    _testing.error "${FUNCNAME[0]}: $(__testing.protected stdlib.message.get ARGUMENTS_INVALID)"
+    _testing.error "${FUNCNAME[0]}: $(_testing.__protected stdlib.message.get ARGUMENTS_INVALID)"
     builtin return 127
   }
-  @parametrize._components.validate.fn_name.test "${original_test_function_name}" || builtin return 126
+  @parametrize.__internal.validate.fn_name.test "${original_test_function_name}" || builtin return 126
 
   parametrizer_fn_targets=("${original_test_function_name}")
   for ((parametrizer_index = 0; parametrizer_index < "${#parametrizer_fn_array[@]}"; parametrizer_index++)); do
     parametrizer_fn="${parametrizer_fn_array[parametrizer_index]}"
-    @parametrize._components.validate.fn_name.parametrizer "${parametrizer_fn}" || builtin return 126
+    @parametrize.__internal.validate.fn_name.parametrizer "${parametrizer_fn}" || builtin return 126
     _PARAMETRIZE_GENERATED_FUNCTIONS=()
     for parametrizer_fn_target in "${parametrizer_fn_targets[@]}"; do
       "${parametrizer_fn}" "${parametrizer_fn_target}"
