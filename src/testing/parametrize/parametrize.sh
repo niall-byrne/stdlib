@@ -46,10 +46,10 @@ _PARAMETRIZE_GENERATED_FUNCTIONS=()
   original_test_function_reference="__parametrized_original_function_definition_${1}"
 
   [[ "${#@}" -gt "1" ]] || {
-    _testing.error "${FUNCNAME[0]}: $(__testing.protected stdlib.message.get ARGUMENTS_INVALID)"
+    _testing.error "${FUNCNAME[0]}: $(_testing.__protected stdlib.message.get ARGUMENTS_INVALID)"
     builtin return 127
   }
-  @parametrize._components.validate.fn_name.test "${original_test_function_name}" || builtin return "$?"
+  @parametrize.__internal.validate.fn_name.test "${original_test_function_name}" || builtin return "$?"
 
   stdlib.fn.derive.clone \
     "${original_test_function_name}" \
@@ -61,7 +61,7 @@ _PARAMETRIZE_GENERATED_FUNCTIONS=()
 
   parametrize_configuration=("${@}")
 
-  @parametrize._components.configuration.parse \
+  @parametrize.__internal.configuration.parse \
     parametrize_configuration \
     parametrize_configuration_scenario_start_index \
     array_environment_variables \
@@ -75,7 +75,7 @@ _PARAMETRIZE_GENERATED_FUNCTIONS=()
     IFS="${_PARAMETRIZE_FIELD_SEPARATOR}" builtin read -ra array_scenario_values <<< "${parametrize_configuration_line}"
 
     test_function_variant_name="$(
-      @parametrize._components.create.string.padded_test_fn_variant_name \
+      @parametrize.__internal.create.string.padded_test_fn_variant_name \
         "${original_test_function_name}" \
         "${array_scenario_values[0]}" \
         "${test_function_variant_padding_value}"
@@ -86,13 +86,13 @@ _PARAMETRIZE_GENERATED_FUNCTIONS=()
       {
         _testing.parametrize.message.get PARAMETRIZE_PREFIX_TEST_NAME
         builtin echo ": '$(
-          __testing.protected stdlib.string.colour \
+          _testing.__protected stdlib.string.colour \
             "${STDLIB_TESTING_THEME_PARAMETRIZE_HIGHLIGHT}" \
             "${original_test_function_name}"
         )'"
         _testing.parametrize.message.get PARAMETRIZE_PREFIX_VARIANT_NAME
         builtin echo ": '$(
-          __testing.protected stdlib.string.colour \
+          _testing.__protected stdlib.string.colour \
             "${STDLIB_TESTING_THEME_PARAMETRIZE_HIGHLIGHT}" \
             "${test_function_variant_name}"
         )'"
@@ -101,7 +101,7 @@ _PARAMETRIZE_GENERATED_FUNCTIONS=()
       builtin return 126
     fi
 
-    @parametrize._components.create.fn.test_variant \
+    @parametrize.__internal.create.fn.test_variant \
       "${test_function_variant_name}" \
       "${original_test_function_name}" \
       "${original_test_function_reference}" \

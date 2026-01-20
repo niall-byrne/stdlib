@@ -250,6 +250,8 @@ jobs:
             name: "Source Files (Exporting Traps) Header Linting"
           - id: "source-files-keywords"
             name: "Source Files Keywords Linting"
+          - id: "source-files-testing-folder-function-names"
+            name: "Source Files (src/testing) Function Name Linting"
           - id: "test-files-binaries"
             name: "Test Files Binary Usage Linting"
           - id: "test-files-headers"

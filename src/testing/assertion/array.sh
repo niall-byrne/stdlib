@@ -11,7 +11,7 @@ assert_array_equals() {
   builtin local _stdlib_assertion_output
   builtin local _stdlib_return_code=0
 
-  _stdlib_assertion_output="$(__testing.protected stdlib.array.assert.is_equal "${@}" 2>&1)" || _stdlib_return_code="$?"
+  _stdlib_assertion_output="$(_testing.__protected stdlib.array.assert.is_equal "${@}" 2>&1)" || _stdlib_return_code="$?"
 
   _stdlib_assertion_output="${_stdlib_assertion_output/$'\n'/$'\n '}"
   [[ "${_stdlib_return_code}" == "0" ]] || fail " ${_stdlib_assertion_output}"
@@ -31,7 +31,7 @@ assert_array_length() {
   builtin local _stdlib_variable_name="${2}"
 
   _testing.__assertion.value.check "${_stdlib_variable_name}"
-  __testing.protected assert_is_array "${_stdlib_variable_name}"
+  _testing.__protected assert_is_array "${_stdlib_variable_name}"
 
   _stdlib_indirect_reference="${_stdlib_variable_name}[@]"
   _stdlib_indirect_array=("${!_stdlib_indirect_reference}")
@@ -47,7 +47,7 @@ assert_is_array() {
   builtin local _stdlib_assertion_output
   builtin local _stdlib_return_code=0
 
-  _stdlib_assertion_output="$(__testing.protected stdlib.array.assert.is_array "${@}" 2>&1)" || _stdlib_return_code="$?"
+  _stdlib_assertion_output="$(_testing.__protected stdlib.array.assert.is_array "${@}" 2>&1)" || _stdlib_return_code="$?"
 
   _stdlib_assertion_output="${_stdlib_assertion_output/$'\n'/$'\n '}"
   [[ "${_stdlib_return_code}" == "0" ]] || fail " ${_stdlib_assertion_output}"
