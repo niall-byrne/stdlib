@@ -28,4 +28,4 @@ builtin source "${STDLIB_DIRECTORY}/testing/message.sh"
 builtin source "${STDLIB_DIRECTORY}/testing/theme.sh"
 
 # compile the stdlib testing mock
-_testing._mock.compile
+_mock.__internal.compile
