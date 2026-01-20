@@ -155,6 +155,7 @@ jobs:
     uses: cicd-tools-org/cicd-tools/.github/workflows/job-80-poetry-precommit_commit_stage_hook.yml@main
     with:
       CONCURRENCY: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_concurrency_limit }}
+      PRE_HOOK_COMMAND: poetry run pre-commit run gettext-translations-compile -a
       PRECOMMIT_HOOK_ID: "distribution-package"
       PRECOMMIT_HOOK_NAME: "Distribution Packaging"
       PYTHON_VERSIONS: ${{ toJSON(fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_python_versions) }}
@@ -290,6 +291,19 @@ jobs:
       PYTHON_VERSIONS: ${{ toJSON(fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_python_versions) }}
       VERBOSE_NOTIFICATIONS: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_verbose_notifications }}
 
+  translation_check:
+    needs:
+      - configuration
+    secrets:
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+    uses: cicd-tools-org/cicd-tools/.github/workflows/job-80-poetry-precommit_commit_stage_hook.yml@main
+    with:
+      CONCURRENCY: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_concurrency_limit }}
+      PRECOMMIT_HOOK_ID: "gettext-translations-update"
+      PRECOMMIT_HOOK_NAME: "Translation Check"
+      PYTHON_VERSIONS: ${{ toJSON(fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_python_versions) }}
+      VERBOSE_NOTIFICATIONS: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_verbose_notifications }}
+
   workflow_lint:
     needs:
       - configuration
@@ -346,6 +360,7 @@ jobs:
       - spelling_vocabularies
       - start
       - toml_lint
+      - translation_check
       - unit_tests
       - workflow_lint
       - yaml_lint
@@ -366,6 +381,7 @@ jobs:
     uses: cicd-tools-org/cicd-tools/.github/workflows/job-80-poetry-precommit_commit_stage_hook.yml@main
     with:
       CONCURRENCY: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_concurrency_limit }}
+      PRE_HOOK_COMMAND: poetry pre-commit run --hook-stage manual gettext-translations-compile
       PRECOMMIT_HOOK_ID: "distribution-test"
       PRECOMMIT_HOOK_NAME: "Distribution Self-Test"
       PRECOMMIT_HOOK_STAGE: "manual"
