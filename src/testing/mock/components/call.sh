@@ -17,7 +17,7 @@ ${1}.mock.__call() {
 
   _mock_object_args=("\${@}")
 
-  __mock.arg_array.from_array \
+  _mock.__internal.arg_array.make.from_array \
     _mock_object_call_array \
     _mock_object_args \
     "__${2}_mock_keywords"
@@ -25,9 +25,9 @@ ${1}.mock.__call() {
   builtin declare -p _mock_object_call_array >> "\${__${2}_mock_calls_file}"
 
   if [[ "\${__MOCK_SEQUENCE_TRACKING}" == "1" ]]; then
-    __mock.persistence.sequence.retrieve
+    _mock.__internal.persistence.sequence.retrieve
     __MOCK_SEQUENCE+=("${1}")
-    __mock.persistence.sequence.update
+    _mock.__internal.persistence.sequence.update
   fi
 }
 EOF
