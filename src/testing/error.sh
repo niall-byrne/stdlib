@@ -10,7 +10,7 @@ _testing.error() {
   {
     (
       while [[ -n "${1}" ]]; do
-        __testing.protected stdlib.string.colour "${STDLIB_TESTING_THEME_ERROR}" "${1}"
+        _testing.__protected stdlib.string.colour "${STDLIB_TESTING_THEME_ERROR}" "${1}"
         builtin shift
       done
     )

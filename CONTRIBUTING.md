@@ -199,7 +199,7 @@ A unique `_mock` prefix is given to a handful of functions to create an easily c
 <!-- vale on -->
 - `_mock.create`
 - `_mock.sequence.assert_is_empty`
-- `_mock.arg_string.from_array`
+- `_mock.arg_string.make.from_array`
 
 ##### Mock Centralization of Messages
 

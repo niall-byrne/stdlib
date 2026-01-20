@@ -20,12 +20,12 @@ builtin set -eo pipefail
   parametrizer_fn_array=("${@:2}")
 
   [[ "${#@}" -gt "1" ]] || {
-    _testing.error "${FUNCNAME[0]}: $(__testing.protected stdlib.message.get ARGUMENTS_INVALID)"
+    _testing.error "${FUNCNAME[0]}: $(_testing.__protected stdlib.message.get ARGUMENTS_INVALID)"
     builtin return 127
   }
-  @parametrize._components.validate.fn_name.test "${original_test_function_name}" || builtin return 126
+  @parametrize.__internal.validate.fn_name.test "${original_test_function_name}" || builtin return 126
 
-  @parametrize._components.create.array.fn_variant_tags \
+  @parametrize.__internal.create.array.fn_variant_tags \
     parametrizer_variant_tag_padding \
     parametrizer_variant_array \
     "${@:2}" || builtin return 126
@@ -33,7 +33,7 @@ builtin set -eo pipefail
   for ((parametrizer_index = 0; parametrizer_index < "${#parametrizer_fn_array[@]}"; parametrizer_index++)); do
     parametrizer_fn="${parametrizer_fn_array[parametrizer_index]}"
     parametrized_test_function_name="$(
-      @parametrize._components.create.string.padded_test_fn_variant_name \
+      @parametrize.__internal.create.string.padded_test_fn_variant_name \
         "${original_test_function_name}" \
         "${parametrizer_variant_array[parametrizer_index]}" \
         "${parametrizer_variant_tag_padding}"

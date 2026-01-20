@@ -3,7 +3,7 @@
 _testing.load "${STDLIB_DIRECTORY}/testing/parametrize/tests/__fixtures__/configs.sh"
 _testing.load "${STDLIB_DIRECTORY}/testing/parametrize/tests/__fixtures__/parametrizers.sh"
 
-_mock.create @parametrize._components.debug.message
+_mock.create @parametrize.__internal.debug.message
 
 setup_suite() {
   _mock.create config_1_mocked_fixture_1
@@ -23,7 +23,7 @@ setup() {
 }
 
 teardown_suite() {
-  _mock.delete @parametrize._components.debug.message
+  _mock.delete @parametrize.__internal.debug.message
 }
 
 @parametrize_with_simple_config_one() {
@@ -148,5 +148,5 @@ test_parametrize_compose__post_variant_tests_____correct_fixtures_were_called() 
 
 # shellcheck disable=SC2034
 test_parametrize_compose__post_variant_tests_____debug_was_not_called() {
-  @parametrize._components.debug.message.mock.assert_not_called
+  @parametrize.__internal.debug.message.mock.assert_not_called
 }

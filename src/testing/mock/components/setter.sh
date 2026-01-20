@@ -17,7 +17,7 @@ ${1}.mock.set.keywords() {
 
   _mock_object_keywords=("\${@}")
 
-  __testing.protected stdlib.array.assert.not_contains "" _mock_object_keywords || builtin return 126
+  _testing.__protected stdlib.array.assert.not_contains "" _mock_object_keywords || builtin return 126
 
   builtin eval "__${2}_mock_keywords=(\$(builtin printf '%q ' "\${@}"))"
 }
@@ -28,8 +28,8 @@ ${1}.mock.set.pipeable() {
 
   builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
 
-  __testing.protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
-  __testing.protected stdlib.string.assert.is_boolean "\${1}" || builtin return 126
+  _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
+  _testing.__protected stdlib.string.assert.is_boolean "\${1}" || builtin return 126
 
   builtin printf -v "__${2}_mock_pipeable" "%s" "\${1}"
 }
@@ -38,8 +38,8 @@ ${1}.mock.set.rc() {
   # $1: the return code to make the mock return
   builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
 
-  __testing.protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
-  __testing.protected stdlib.string.assert.is_integer_with_range "0" "255" "\${1}" || builtin return 126
+  _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
+  _testing.__protected stdlib.string.assert.is_integer_with_range "0" "255" "\${1}" || builtin return 126
 
   builtin printf -v "__${2}_mock_rc" "%s" "\${1}"
 }
@@ -63,7 +63,7 @@ ${1}.mock.set.stderr() {
 
   _STDLIB_ARGS_NULL_SAFE=("1")
 
-  __testing.protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
+  _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
 
   builtin printf -v "__${2}_mock_stderr" "%s" "\${1}"
 }
@@ -76,7 +76,7 @@ ${1}.mock.set.stdout() {
 
   _STDLIB_ARGS_NULL_SAFE=("1")
 
-  __testing.protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
+  _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
 
   builtin printf -v "__${2}_mock_stdout" "%s" "\${1}"
 }
@@ -84,7 +84,7 @@ ${1}.mock.set.stdout() {
 ${1}.mock.set.subcommand() {
   # $@: the subcommand to execute on each mock call
 
-  builtin eval "__${1}_mock_subcommand() {
+  builtin eval "__${1}_mock_subcommand() {  # noqa
       \${@}
   }"
 }

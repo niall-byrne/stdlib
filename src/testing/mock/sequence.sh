@@ -5,6 +5,7 @@
 builtin set -eo pipefail
 
 __MOCK_SEQUENCE=()
+__MOCK_SEQUENCE_TRACKING="0"
 
 _mock.sequence.assert_is() {
   # $@: the expected sequence of mock calls
@@ -18,7 +19,7 @@ _mock.sequence.assert_is() {
 
   _mock.sequence.record.stop
 
-  __mock.persistence.sequence.retrieve
+  _mock.__internal.persistence.sequence.retrieve
   mock_sequence=("${__MOCK_SEQUENCE[@]}")
 
   assert_array_equals expected_mock_sequence mock_sequence
@@ -32,7 +33,7 @@ _mock.sequence.assert_is_empty() {
 
   _mock.sequence.record.stop
 
-  __mock.persistence.sequence.retrieve
+  _mock.__internal.persistence.sequence.retrieve
   # shellcheck disable=SC2034
   mock_sequence=("${__MOCK_SEQUENCE[@]}")
 
@@ -40,11 +41,11 @@ _mock.sequence.assert_is_empty() {
 }
 
 _mock.sequence.clear() {
-  __mock.persistence.sequence.clear
+  _mock.__internal.persistence.sequence.clear
 }
 
 _mock.sequence.record.start() {
-  __mock.persistence.sequence.clear
+  _mock.__internal.persistence.sequence.clear
   __MOCK_SEQUENCE_TRACKING="1"
 }
 

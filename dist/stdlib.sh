@@ -50,7 +50,7 @@ declare -- _STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=""
 declare -- _STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN=""
 declare -- _STDLIB_DELIMITER=""
 declare -- _STDLIB_LINE_BREAK_CHAR=""
-declare -a _STDLIB_LOGGING_DECORATORS=([0]="__testing.protected")
+declare -a _STDLIB_LOGGING_DECORATORS=([0]="_testing.__protected")
 declare -- _STDLIB_LOGGING_MESSAGE_PREFIX=""
 declare -- _STDLIB_PASSWORD_BOOLEAN=""
 declare -- _STDLIB_WRAP_PREFIX_STRING=""

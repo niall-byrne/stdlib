@@ -5,7 +5,7 @@
 builtin set -eo pipefail
 
 _STDLIB_LOGGING_MESSAGE_PREFIX=""
-_STDLIB_LOGGING_DECORATORS=("__testing.protected")
+_STDLIB_LOGGING_DECORATORS=("_testing.__protected")
 
 stdlib.logger.traceback() {
   builtin local fn_name_index

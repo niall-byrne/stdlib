@@ -5,7 +5,7 @@ setup() {
   _mock.create test_mock_2
   _mock.create test_mock_3
 
-  __mock.persistence.sequence.clear
+  _mock.__internal.persistence.sequence.clear
 }
 
 teardown() {

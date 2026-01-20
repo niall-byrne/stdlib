@@ -40,7 +40,7 @@ ${1}.mock.assert_any_call_is() {
 
   _STDLIB_ARGS_NULL_SAFE=("1")
 
-  __testing.protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
+  _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
 
   _mock_object_match_count="\$(${1}.mock.__count_matches "\${1}")"
 
@@ -61,9 +61,9 @@ ${1}.mock.assert_call_n_is() {
 
   _STDLIB_ARGS_NULL_SAFE=("2")
 
-  __testing.protected stdlib.fn.args.require "2" "0" "\${@}" || builtin return "\$?"
-  __testing.protected stdlib.string.assert.is_digit "\${1}" || builtin return 126
-  __testing.protected stdlib.string.assert.not_equal "0" "\${1}" || builtin return 126
+  _testing.__protected stdlib.fn.args.require "2" "0" "\${@}" || builtin return "\$?"
+  _testing.__protected stdlib.string.assert.is_digit "\${1}" || builtin return 126
+  _testing.__protected stdlib.string.assert.not_equal "0" "\${1}" || builtin return 126
 
   _mock_object_call_count="\$(${1}.mock.get.count)"
 
@@ -90,7 +90,7 @@ ${1}.mock.assert_called_once_with() {
 
   _STDLIB_ARGS_NULL_SAFE=("1")
 
-  __testing.protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
+  _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
 
   ${1}.mock.assert_count_is "1"
 
@@ -146,8 +146,8 @@ ${1}.mock.assert_count_is() {
   builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
   builtin local _mock_object_call_count
 
-  __testing.protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
-  __testing.protected stdlib.string.assert.is_digit "\${1}" || builtin return 126
+  _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
+  _testing.__protected stdlib.string.assert.is_digit "\${1}" || builtin return 126
 
   _mock_object_call_count="\$("${1}.mock.get.count")"
 
@@ -161,7 +161,7 @@ ${1}.mock.assert_not_called() {
   builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
   builtin local _mock_object_call_count
 
-  __testing.protected stdlib.fn.args.require "0" "0" "\${@}" || builtin return "\$?"
+  _testing.__protected stdlib.fn.args.require "0" "0" "\${@}" || builtin return "\$?"
 
   _mock_object_call_count="\$(${1}.mock.get.count)"
 
