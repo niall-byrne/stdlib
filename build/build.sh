@@ -70,18 +70,19 @@ __build_generate_step_3_testing_functions() {
   done <<< "$(builtin declare -f | "${_STDLIB_BINARY_GREP}" -E "${stdlib_testing_function_regex}" | "${_STDLIB_BINARY_GREP}" -v "${stdlib_testing_function_filter}")"
 }
 
-__build_generate_step_4_stdlib_traps() {
+__build_generate_step_4_stdlib_snippets() {
+  __build_add_snippet src/gettext.snippet
   __build_add_snippet src/trap/register.snippet
+}
+
+__build_generate_step_4_testing_snippets() {
+  __build_add_snippet src/testing/mock/mock.snippet
 }
 
 __build_generate_step_5_stdlib_settings() {
   echo
   echo "# colours are disabled by default"
   echo "stdlib.setting.colour.disable"
-}
-
-__build_generate_step_6_testing_enable_mocking() {
-  __build_add_snippet src/testing/mock/mock.snippet
 }
 
 __build_target() {
@@ -93,7 +94,7 @@ __build_target() {
       __build_generate_step_1_stdlib_file_header
       __build_generate_step_2_stdlib_variables
       __build_generate_step_3_stdlib_functions
-      __build_generate_step_4_stdlib_traps
+      __build_generate_step_4_stdlib_snippets
       __build_generate_step_5_stdlib_settings
       ;;
     testing)
@@ -102,7 +103,7 @@ __build_target() {
       __build_generate_step_1_testing_file_header
       __build_generate_step_2_testing_variables
       __build_generate_step_3_testing_functions
-      __build_generate_step_6_testing_enable_mocking
+      __build_generate_step_4_testing_snippets
       ;;
     *)
       echo "ERROR: unknown build target!"
@@ -115,7 +116,7 @@ __build() {
   local stdlib_library_prefix="stdlib"
   local stdlib_function_regex="^${stdlib_library_prefix}\\..* ()"
   local stdlib_variable_regex=" _*STDLIB_.*="
-  local stdlib_variable_filter="STDLIB_DIRECTORY"
+  local stdlib_variable_filter="STDLIB_DIRECTORY\|STDLIB_TEXTDOMAINDIR"
 
   local stdlib_testing_library_prefix="((_mock|__mock|_testing|__testing|_capture)\\.|assert_|\\@parametrize)"
   local stdlib_testing_function_regex="^${stdlib_testing_library_prefix}.* ()"

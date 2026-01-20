@@ -5,7 +5,10 @@
 builtin set -eo pipefail
 
 # shellcheck disable=SC2034
-STDLIB_DIRECTORY="$(builtin cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && builtin pwd)"
+{
+  STDLIB_DIRECTORY="$(builtin cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && builtin pwd)"
+  STDLIB_TEXTDOMAINDIR="$(dirname -- "${STDLIB_DIRECTORY}")/locales"
+}
 
 # Bootstrap Procedure
 
@@ -16,10 +19,12 @@ bootstrap() {
   builtin source "${1}"
 }
 
-bootstrap "${STDLIB_DIRECTORY}/message.sh"
 bootstrap "${STDLIB_DIRECTORY}/binary.sh"
-bootstrap "${STDLIB_DIRECTORY}/setting/__lib__.sh"
 bootstrap "${STDLIB_DIRECTORY}/builtin.sh"
+bootstrap "${STDLIB_DIRECTORY}/gettext.sh"
+bootstrap "${STDLIB_DIRECTORY}/gettext.snippet"
+bootstrap "${STDLIB_DIRECTORY}/message.sh"
+bootstrap "${STDLIB_DIRECTORY}/setting/__lib__.sh"
 bootstrap "${STDLIB_DIRECTORY}/string/colour/colour.sh"
 bootstrap "${STDLIB_DIRECTORY}/logger/logger.sh"
 bootstrap "${STDLIB_DIRECTORY}/string/query/__lib__.sh"
