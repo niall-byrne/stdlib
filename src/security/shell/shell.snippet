@@ -1,0 +1,31 @@
+#!/bin/bash
+
+stdlib.security.__shell.assert.is_safe() {
+  # $1: the command to verify safety on
+
+  if [[ "$(stdlib.security.__shell.query.is_safe "${1}")" != "0" ]]; then
+    /bin/echo "FATAL ERROR: The 'builtin' keyword could not be verified!  Cannot safely load stdlib!" >&2
+    if [[ "${1}" == "return" ]]; then
+      exit 1
+    fi
+    return 1
+  fi
+  return 0
+}
+
+# shellcheck disable=SC2120
+stdlib.security.__shell.query.is_safe() {
+  if ! unset "${1}" 2> /dev/null ||
+    declare -F "${1}" 2> /dev/null ||
+    [[ "$(type -t "${1}")" != "builtin" ]]; then
+    /bin/echo "1"
+  else
+    /bin/echo "0"
+  fi
+}
+
+stdlib.security.__shell.assert.is_safe return || exit "$?"
+stdlib.security.__shell.assert.is_safe declare || return "$?"
+stdlib.security.__shell.assert.is_safe type || return "$?"
+stdlib.security.__shell.assert.is_safe unset || return "$?"
+stdlib.security.__shell.assert.is_safe builtin || return "$?"

@@ -16,8 +16,11 @@ __build_generate_step_1_stdlib_file_header() {
   echo "#!/bin/bash"
   echo
   echo "# stdlib distributable for bash"
+
+  __build_add_snippet src/security/shell/shell.snippet
+
   echo
-  echo "set -eo pipefail"
+  echo "builtin set -eo pipefail"
 }
 
 __build_generate_step_1_testing_file_header() {
@@ -56,7 +59,7 @@ __build_generate_step_3_stdlib_functions() {
     stdlib_fn_name="${stdlib_fn_name_line/" () "/}"
     echo
     declare -f "${stdlib_fn_name}"
-  done <<< "$(builtin declare -f | "${_STDLIB_BINARY_GREP}" -E "${stdlib_function_regex}")"
+  done <<< "$(builtin declare -f | "${_STDLIB_BINARY_GREP}" -E "${stdlib_function_regex}" | "${_STDLIB_BINARY_GREP}" -v "${stdlib_function_filter}")"
 }
 
 __build_generate_step_3_testing_functions() {
@@ -115,6 +118,7 @@ __build_target() {
 __build() {
   local stdlib_library_prefix="stdlib"
   local stdlib_function_regex="^${stdlib_library_prefix}\\..* ()"
+  local stdlib_function_filter="^${stdlib_library_prefix}.security.__shell.assert.is_safe ()"
   local stdlib_variable_regex=" _*STDLIB_.*="
   local stdlib_variable_filter="STDLIB_DIRECTORY\|STDLIB_TEXTDOMAINDIR"
 
