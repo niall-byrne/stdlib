@@ -12,6 +12,8 @@ builtin source "${STDLIB_DIRECTORY}/testing/capture/__lib__.sh"
 builtin source "${STDLIB_DIRECTORY}/testing/error.sh"
 # shellcheck source=src/testing/fixtures/__lib__.sh
 builtin source "${STDLIB_DIRECTORY}/testing/fixtures/__lib__.sh"
+# shellcheck source=src/testing/gettext.sh
+builtin source "${STDLIB_DIRECTORY}/testing/gettext.sh"
 # shellcheck source=src/testing/load.sh
 builtin source "${STDLIB_DIRECTORY}/testing/load.sh"
 # shellcheck source=src/testing/mock/__lib__.sh

@@ -12,55 +12,60 @@ _testing.assert.message.get() {
 
   builtin local key="${1}"
   builtin local message
-  builtin local option1="${2}"
-  builtin local option2="${3}"
+
+  # shellcheck disable=SC2034
+  {
+    builtin local option1="${2}"
+    builtin local option2="${3}"
+  }
+
   builtin local required_options=0
   builtin local return_status=0
 
   case "${key}" in
     ASSERT_ERROR_DID_NOT_FAIL)
       required_options=1
-      message="The assertion '${option1}' was expected to fail, but it succeeded instead."
+      message="$(_testing.__gettext "The assertion '\${option1}' was expected to fail, but it succeeded instead.")"
       ;;
     ASSERT_ERROR_FILE_NOT_FOUND)
       required_options=1
-      message="the file '${option1}' does not exist"
+      message="$(_testing.__gettext "the file '\${option1}' does not exist")"
       ;;
     ASSERT_ERROR_OUTPUT_NON_MATCHING)
       required_options=0
-      message="the expected output string was not generated"
+      message="$(_testing.__gettext "the expected output string was not generated")"
       ;;
     ASSERT_ERROR_OUTPUT_NULL)
       required_options=0
-      message="the 'TEST_OUTPUT' value is empty, consider using '_capture.output'"
+      message="$(_testing.__gettext "the 'TEST_OUTPUT' value is empty, consider using '_capture.output'")"
       ;;
     ASSERT_ERROR_RC_NON_MATCHING)
       required_options=0
-      message="the expected status code was not returned"
+      message="$(_testing.__gettext "the expected status code was not returned")"
       ;;
     ASSERT_ERROR_RC_NULL)
       required_options=0
-      message="the 'TEST_RC' value is empty, consider using '_capture.rc'"
+      message="$(_testing.__gettext "the 'TEST_RC' value is empty, consider using '_capture.rc'")"
       ;;
     ASSERT_ERROR_SNAPSHOT_NON_MATCHING)
       required_options=1
-      message="the contents of '${option1}' does not match the received output"
+      message="$(_testing.__gettext "the contents of '\${option1}' does not match the received output")"
       ;;
     ASSERT_ERROR_VALUE_NOT_NULL)
       required_options=1
-      message="The value '${option1}' is not null!"
+      message="$(_testing.__gettext "The value '\${option1}' is not null!")"
       ;;
     ASSERT_ERROR_VALUE_NULL)
       required_options=0
-      message="The value is null!"
+      message="$(_testing.__gettext "The value is null!")"
       ;;
     ASSERT_ERROR_INSUFFICIENT_ARGS)
       required_options=1
-      message="'${option1}' was not given sufficient arguments"
+      message="$(_testing.__gettext "'\${option1}' was not given sufficient arguments")"
       ;;
     ASSERT_ERROR_ARRAY_LENGTH_NON_MATCHING)
       required_options=2
-      message="expected [${option1}] but was [${option2}]"
+      message="$(_testing.__gettext "expected [\${option1}] but was [\${option2}]")"
       ;;
     "")
       required_options=0
@@ -70,7 +75,7 @@ _testing.assert.message.get() {
     *)
       required_options=0
       return_status=126
-      message="Unknown message key '${key}'"
+      message="$(_testing.__gettext "Unknown message key '${key}'")"
       ;;
   esac
 
