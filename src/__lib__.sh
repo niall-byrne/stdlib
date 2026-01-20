@@ -2,13 +2,17 @@
 
 # stdlib - reusable components for bash scripting
 
-builtin set -eo pipefail
-
 # shellcheck disable=SC2034
 {
-  STDLIB_DIRECTORY="$(builtin cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && builtin pwd)"
+  STDLIB_DIRECTORY="$(dirname -- "${BASH_SOURCE[0]}")"
   STDLIB_TEXTDOMAINDIR="$(dirname -- "${STDLIB_DIRECTORY}")/locales"
 }
+
+# Check Builtin Integrity
+
+source "${STDLIB_DIRECTORY}/security/shell/shell.snippet" || exit 1 # noqa
+
+builtin set -eo pipefail
 
 # Bootstrap Procedure
 
