@@ -54,9 +54,7 @@ _t_runner_execute() {
   # shellcheck disable=SC2034
   local TEST_RC
 
-  if declare -F stdlib.trap.handler.exit.fn.register > /dev/null; then
-    stdlib.trap.handler.exit.fn.register __mock.persistence.registry.cleanup
-  fi
+  _mock.register_cleanup
 
   set +e
   (

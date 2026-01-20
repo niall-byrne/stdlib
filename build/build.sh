@@ -118,9 +118,9 @@ __build() {
   local stdlib_variable_regex=" _*STDLIB_.*="
   local stdlib_variable_filter="STDLIB_DIRECTORY\|STDLIB_TEXTDOMAINDIR"
 
-  local stdlib_testing_library_prefix="((_mock|__mock|_testing|__testing|_capture)\\.|assert_|\\@parametrize)"
+  local stdlib_testing_library_prefix="((_mock|_testing|_capture|\\@parametrize)\\.|assert_|\\@parametrize)"
   local stdlib_testing_function_regex="^${stdlib_testing_library_prefix}.* ()"
-  local stdlib_testing_function_filter="^_testing._mock.compile ()"
+  local stdlib_testing_function_filter="^_mock.__internal.compile ()"
   local stdlib_testing_variable_regex="( _*STDLIB_TESTING_.*=| _*PARAMETRIZE_.*=| _*MOCK_.*=)"
 
   local stdlib_variable_name_line
