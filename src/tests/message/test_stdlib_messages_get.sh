@@ -61,9 +61,9 @@ setup() {
     "security_insecure_ownership;SECURITY_INSECURE_OWNERSHIP|/tmp/foo;SECURITY: The ownership on '/tmp/foo' is not secure!" \
     "security_insecure_permissions;SECURITY_INSECURE_PERMISSIONS|/tmp/foo;SECURITY: The permissions on '/tmp/foo' are not secure!" \
     "security_must_be_run_as_root;SECURITY_MUST_BE_RUN_AS_ROOT;SECURITY: This script must be run as root." \
-    "security_suggest_chgrp;SECURITY_SUGGEST_CHGRP|wheel|/tmp/foo;Please consider running: sudo chgrp wheel /tmp/foo" \
-    "security_suggest_chmod;SECURITY_SUGGEST_CHMOD|0700|/tmp/foo;Please consider running: sudo chmod 0700 /tmp/foo" \
-    "security_suggest_chown;SECURITY_SUGGEST_CHOWN|root|/tmp/foo;Please consider running: sudo chown root /tmp/foo" \
+    "security_suggest_chgrp;SECURITY_SUGGEST_CHGRP|wheel|/tmp/foo;Please consider running: sudo chgrp 'wheel' '/tmp/foo'" \
+    "security_suggest_chmod;SECURITY_SUGGEST_CHMOD|0700|/tmp/foo;Please consider running: sudo chmod '0700' '/tmp/foo'" \
+    "security_suggest_chown;SECURITY_SUGGEST_CHOWN|root|/tmp/foo;Please consider running: sudo chown 'root' '/tmp/foo'" \
     "stdin_default_confirmation_prompt;STDIN_DEFAULT_CONFIRMATION_PROMPT;Are you sure you wish to proceed (Y/n) ? " \
     "stdin_default_pause_prompt;STDIN_DEFAULT_PAUSE_PROMPT;Press any key to continue ... " \
     "stdin_default_value_prompt;STDIN_DEFAULT_VALUE_PROMPT;Enter a value: " \
