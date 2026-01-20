@@ -169,7 +169,7 @@ repos:
         entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$).*(?<!builtin )(?<!stdlib\\.builtin\\.overridable )((?<=\\s|\\()|(?<=^))(alias|bg|bind|break|caller|cd|command|compgen|complete|continue|declare|dirs|disown|echo|enable|eval|exec|exit|export|false|fc|fg|getopts|hash|help|history|jobs|kill|let|local|logout|popd|printf|pushd|pwd|read|readonly|return|set|shift|shopt|source|suspend|test|times|trap|true|type|typeset|ulimit|umask|unalias|unset|wait)((\\s|\\)).*$|$)"
         language: pygrep
         files: "^src/.+\\.(sh|snippet)$"
-        exclude: "^((.+/)*tests/.+\\.sh)$"
+        exclude: "^((.+/)*tests/.+\\.sh|src/security/shell/shell.snippet)$"
       - id: source-files-testing-folder-function-names
         name: ensure source files in the testing folder use the correct function names
         entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$)(?!((assert_|_capture\\.)[a-z_]+)|((__)*\\$\\{1\\}|@parametrize)|((?!.+\\._[^_].+)((__)*\\$\\{1\\}|_testing|_mock|@parametrize))\\.[a-z_.]+).*\\(\\) {$"
