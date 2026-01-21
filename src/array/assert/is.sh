@@ -4,9 +4,14 @@
 
 builtin set -eo pipefail
 
+# @description Asserts that a variable is an array.
+# @arg $1 string The name of the variable to check.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 1 If the operation failed.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments was provided.
+# @stderr The error message if the assertion fails.
 stdlib.array.assert.is_array() {
-  # $1: the array name
-
   builtin local _stdlib_return_code=0
 
   stdlib.array.query.is_array "${@}" || _stdlib_return_code="$?"
@@ -24,10 +29,15 @@ stdlib.array.assert.is_array() {
   builtin return "${_stdlib_return_code}"
 }
 
+# @description Asserts that an array contains a specific value.
+# @arg $1 string The value to look for.
+# @arg $2 string The name of the array to check.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 1 If the operation failed.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments was provided.
+# @stderr The error message if the assertion fails.
 stdlib.array.assert.is_contains() {
-  # $1: the value to assert is present
-  # $2: the array name
-
   builtin local _stdlib_return_code=0
 
   stdlib.array.query.is_contains "${@}" || _stdlib_return_code="$?"
@@ -45,9 +55,14 @@ stdlib.array.assert.is_contains() {
   builtin return "${_stdlib_return_code}"
 }
 
+# @description Asserts that an array is empty.
+# @arg $1 string The name of the array to check.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 1 If the operation failed.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments was provided.
+# @stderr The error message if the assertion fails.
 stdlib.array.assert.is_empty() {
-  # $1: the array name
-
   builtin local _stdlib_return_code=0
 
   stdlib.array.query.is_empty "${@}" || _stdlib_return_code="$?"
@@ -68,10 +83,15 @@ stdlib.array.assert.is_empty() {
   builtin return "${_stdlib_return_code}"
 }
 
+# @description Asserts that two arrays are equal.
+# @arg $1 string The name of the first array to compare.
+# @arg $2 string The name of the second array to compare.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 1 If the operation failed.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments was provided.
+# @stderr The error message if the assertion fails.
 stdlib.array.assert.is_equal() {
-  # $1: the name of the first array to compare
-  # $2: the name of the second array to compare
-
   builtin local _stdlib_array_index
   builtin local _stdlib_array_name_1="${1}"
   builtin local _stdlib_array_name_2="${2}"

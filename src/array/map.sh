@@ -4,10 +4,14 @@
 
 builtin set -eo pipefail
 
+# @description Maps each element of an array to a string using a printf format string.
+# @arg $1 string The printf format string.
+# @arg $2 string The name of the array.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments was provided.
+# @stdout The formatted elements.
 stdlib.array.map.format() {
-  # $1: a valid print format string to apply to each element
-  # $2: the array to process
-
   builtin local element
   builtin local indirect_reference
   builtin local -a indirect_array
@@ -24,10 +28,14 @@ stdlib.array.map.format() {
   done
 }
 
+# @description Maps each element of an array to a string using a function.
+# @arg $1 string The name of the function to apply.
+# @arg $2 string The name of the array.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments was provided.
+# @stdout The results of applying the function to each element.
 stdlib.array.map.fn() {
-  # $1: a valid function to apply to each element
-  # $2: the array to process
-
   builtin local element
   builtin local indirect_reference
   builtin local -a indirect_array
