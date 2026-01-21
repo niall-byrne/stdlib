@@ -69,7 +69,6 @@ stdlib.array.query.is_equal() {
 }
 
 # @description Checks if a variable is an array.
-#     _STDLIB_BINARY_GREP: The path to the grep binary.
 # @arg $1 string The name of the variable to check.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the operation failed.

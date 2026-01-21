@@ -26,7 +26,6 @@ stdlib.logger.traceback() {
 
 # @description Prints an error message to stderr.
 #     STDLIB_THEME_LOGGER_ERROR: The colour to use for the message.
-#     _STDLIB_LOGGING_MESSAGE_PREFIX: The prefix to use for the message.
 # @arg $1 string The message to print.
 # @exitcode 0 If the operation succeeded.
 # @stderr The error message.
@@ -39,7 +38,6 @@ stdlib.logger.error() {
 
 # @description Prints a warning message to stderr.
 #     STDLIB_THEME_LOGGER_WARNING: The colour to use for the message.
-#     _STDLIB_LOGGING_MESSAGE_PREFIX: The prefix to use for the message.
 # @arg $1 string The message to print.
 # @exitcode 0 If the operation succeeded.
 # @stderr The warning message.
@@ -52,7 +50,6 @@ stdlib.logger.warning() {
 
 # @description Prints an info message to stdout.
 #     STDLIB_THEME_LOGGER_INFO: The colour to use for the message.
-#     _STDLIB_LOGGING_MESSAGE_PREFIX: The prefix to use for the message.
 # @arg $1 string The message to print.
 # @exitcode 0 If the operation succeeded.
 # @stdout The info message.
@@ -63,7 +60,6 @@ stdlib.logger.info() {
 
 # @description Prints a notice message to stdout.
 #     STDLIB_THEME_LOGGER_NOTICE: The colour to use for the message.
-#     _STDLIB_LOGGING_MESSAGE_PREFIX: The prefix to use for the message.
 # @arg $1 string The message to print.
 # @exitcode 0 If the operation succeeded.
 # @stdout The notice message.
@@ -74,7 +70,6 @@ stdlib.logger.notice() {
 
 # @description Prints a success message to stdout.
 #     STDLIB_THEME_LOGGER_SUCCESS: The colour to use for the message.
-#     _STDLIB_LOGGING_MESSAGE_PREFIX: The prefix to use for the message.
 # @arg $1 string The message to print.
 # @exitcode 0 If the operation succeeded.
 # @stdout The success message.
