@@ -5,10 +5,13 @@
 
 builtin set -eo pipefail
 
+# @description Colours a string without a trailing newline.
+# @arg $1 string The colour to use.
+# @arg $2 string The source string.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 127 If the wrong number of arguments was provided.
+# @stdout The coloured string.
 stdlib.string.colour_n() {
-  # $1: the colour
-  # $2: the source string
-
   builtin local -a _STDLIB_ARGS_NULL_SAFE
   builtin local string_colour
 
@@ -21,10 +24,13 @@ stdlib.string.colour_n() {
   builtin echo -ne "${!string_colour}${2}${STDLIB_COLOUR_NC}"
 }
 
+# @description Colours a string with a trailing newline.
+# @arg $1 string The colour to use.
+# @arg $2 string The source string.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 127 If the wrong number of arguments was provided.
+# @stdout The coloured string.
 stdlib.string.colour() {
-  # $1: the colour
-  # $2: the source string
-
   builtin local -a _STDLIB_ARGS_NULL_SAFE
   builtin local string_output
 

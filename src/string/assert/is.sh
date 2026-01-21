@@ -4,9 +4,13 @@
 
 builtin set -eo pipefail
 
+# @description Asserts that a string is alphabetic.
+# @arg $1 string The string to check.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 1 If the operation failed.
+# @exitcode 127 If the wrong number of arguments was provided.
+# @stderr The error message if the assertion fails.
 stdlib.string.assert.is_alpha() {
-  # $1: the string to check
-
   builtin local return_code=0
 
   stdlib.string.query.is_alpha "${@}" || return_code="$?"
@@ -24,9 +28,13 @@ stdlib.string.assert.is_alpha() {
   builtin return "${return_code}"
 }
 
+# @description Asserts that a string is alphanumeric.
+# @arg $1 string The string to check.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 1 If the operation failed.
+# @exitcode 127 If the wrong number of arguments was provided.
+# @stderr The error message if the assertion fails.
 stdlib.string.assert.is_alpha_numeric() {
-  # $1: the string to check
-
   builtin local return_code=0
 
   stdlib.string.query.is_alpha_numeric "${@}" || return_code="$?"
@@ -44,9 +52,13 @@ stdlib.string.assert.is_alpha_numeric() {
   builtin return "${return_code}"
 }
 
+# @description Asserts that a string is a boolean (0 or 1).
+# @arg $1 string The string to check.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 1 If the operation failed.
+# @exitcode 127 If the wrong number of arguments was provided.
+# @stderr The error message if the assertion fails.
 stdlib.string.assert.is_boolean() {
-  # $1: the string to check
-
   builtin local return_code=0
 
   stdlib.string.query.is_boolean "${@}" || return_code="$?"
@@ -64,9 +76,13 @@ stdlib.string.assert.is_boolean() {
   builtin return "${return_code}"
 }
 
+# @description Asserts that a string is a single character.
+# @arg $1 string The string to check.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 1 If the operation failed.
+# @exitcode 127 If the wrong number of arguments was provided.
+# @stderr The error message if the assertion fails.
 stdlib.string.assert.is_char() {
-  # $1: the string to check
-
   builtin local return_code=0
 
   stdlib.string.query.is_char "${@}" || return_code="$?"
@@ -84,9 +100,13 @@ stdlib.string.assert.is_char() {
   builtin return "${return_code}"
 }
 
+# @description Asserts that a string consists only of digits.
+# @arg $1 string The string to check.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 1 If the operation failed.
+# @exitcode 127 If the wrong number of arguments was provided.
+# @stderr The error message if the assertion fails.
 stdlib.string.assert.is_digit() {
-  # $1: the string to check
-
   builtin local return_code=0
 
   stdlib.string.query.is_digit "${@}" || return_code="$?"
@@ -104,9 +124,13 @@ stdlib.string.assert.is_digit() {
   builtin return "${return_code}"
 }
 
+# @description Asserts that a string is an integer.
+# @arg $1 string The string to check.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 1 If the operation failed.
+# @exitcode 127 If the wrong number of arguments was provided.
+# @stderr The error message if the assertion fails.
 stdlib.string.assert.is_integer() {
-  # $1: the string to check
-
   builtin local return_code=0
 
   stdlib.string.query.is_integer "${@}" || return_code="$?"
@@ -124,11 +148,16 @@ stdlib.string.assert.is_integer() {
   builtin return "${return_code}"
 }
 
+# @description Asserts that a string is an integer within a specified range.
+# @arg $1 integer The range start point.
+# @arg $2 integer The range end point.
+# @arg $3 string The string to check.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 1 If the operation failed.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments was provided.
+# @stderr The error message if the assertion fails.
 stdlib.string.assert.is_integer_with_range() {
-  # $1: the range start point
-  # $2: the range end point
-  # $3: the digit itself
-
   builtin local return_code=0
 
   stdlib.string.query.is_integer_with_range "${@}" || return_code="$?"
@@ -146,9 +175,13 @@ stdlib.string.assert.is_integer_with_range() {
   builtin return "${return_code}"
 }
 
+# @description Asserts that a string is a valid octal permission (e.g., 644 or 0755).
+# @arg $1 string The string to check.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 1 If the operation failed.
+# @exitcode 127 If the wrong number of arguments was provided.
+# @stderr The error message if the assertion fails.
 stdlib.string.assert.is_octal_permission() {
-  # $1: the string to check
-
   builtin local return_code=0
 
   stdlib.string.query.is_octal_permission "${@}" || return_code="$?"
@@ -166,10 +199,14 @@ stdlib.string.assert.is_octal_permission() {
   builtin return "${return_code}"
 }
 
+# @description Asserts that a string matches a regular expression.
+# @arg $1 string The regex to match.
+# @arg $2 string The string to check.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 1 If the operation failed.
+# @exitcode 127 If the wrong number of arguments was provided.
+# @stderr The error message if the assertion fails.
 stdlib.string.assert.is_regex_match() {
-  # $1: the regex to match
-  # $2: the string to check
-
   builtin local return_code=0
 
   stdlib.string.query.is_regex_match "${@}" || return_code="$?"
@@ -187,9 +224,13 @@ stdlib.string.assert.is_regex_match() {
   builtin return "${return_code}"
 }
 
+# @description Asserts that a variable is a non-empty string.
+# @arg $1 string The string to check.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 1 If the operation failed.
+# @exitcode 127 If the wrong number of arguments was provided.
+# @stderr The error message if the assertion fails.
 stdlib.string.assert.is_string() {
-  # $1: the string to check
-
   builtin local return_code=0
 
   stdlib.string.query.is_string "${@}" || return_code="$?"

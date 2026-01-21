@@ -4,11 +4,14 @@
 
 builtin set -eo pipefail
 
+# @description Creates a cleanup function that removes files and directories.
+# @arg $1 string The name of the cleanup function to create.
+# @arg $2 string The name of the array used for tracking filesystem objects to clean up.
+# @arg $3 boolean (optional, default=0) A boolean indicating if recursive deletes should be done.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments was provided.
 stdlib.trap.create.clean_up_fn() {
-  # $1: the clean up fn's name
-  # $2: the array to use for tracking filesystem objects to cleanup
-  # $3: (optional) a boolean indicating if recursive deletes should be done
-
   builtin local rm_flags="-f"
   builtin local recursive_deletes="${3:-0}"
 
@@ -41,10 +44,13 @@ EOF
   # KCOV_EXCLUDE_END
 }
 
+# @description Creates a trap handler function.
+# @arg $1 string The name of the handler function to create.
+# @arg $2 string The name of the array to store handler function names in.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments was provided.
 stdlib.trap.create.handler() {
-  # $1: the handler fn's name
-  # $2: the array to store handler function names in
-
   stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?"
   stdlib.array.assert.is_array "${2}" || builtin return 126
 
