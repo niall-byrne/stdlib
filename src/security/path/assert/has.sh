@@ -4,10 +4,16 @@
 
 builtin set -eo pipefail
 
+# @description Asserts that a path has a specific group ownership.
+# @arg $1 string The path to check.
+# @arg $2 string The required group name.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 1 If the operation failed.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments was provided.
+# @stdout Success or suggestion messages.
+# @stderr The error message if the assertion fails.
 stdlib.security.path.assert.has_group() {
-  # $1: the path to check
-  # $2: the required group name
-
   builtin local return_code=0
 
   stdlib.security.path.query.has_group "${@}" || return_code="$?"
@@ -26,10 +32,16 @@ stdlib.security.path.assert.has_group() {
   builtin return "${return_code}"
 }
 
+# @description Asserts that a path has a specific owner.
+# @arg $1 string The path to check.
+# @arg $2 string The required user name.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 1 If the operation failed.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments was provided.
+# @stdout Success or suggestion messages.
+# @stderr The error message if the assertion fails.
 stdlib.security.path.assert.has_owner() {
-  # $1: the path to check
-  # $2: the required user name
-
   builtin local return_code=0
 
   stdlib.security.path.query.has_owner "${@}" || return_code="$?"
@@ -48,10 +60,16 @@ stdlib.security.path.assert.has_owner() {
   builtin return "${return_code}"
 }
 
+# @description Asserts that a path has specific octal permissions.
+# @arg $1 string The path to check.
+# @arg $2 string The permission octal value required.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 1 If the operation failed.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments was provided.
+# @stdout Success or suggestion messages.
+# @stderr The error message if the assertion fails.
 stdlib.security.path.assert.has_permissions() {
-  # $1: the path to check
-  # $2: the permission octal value required
-
   builtin local return_code=0
 
   stdlib.security.path.query.has_permissions "${@}" || return_code="$?"

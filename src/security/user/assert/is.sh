@@ -4,8 +4,13 @@
 
 builtin set -eo pipefail
 
+# @description Asserts that the current user is root.
+# @noargs
+# @exitcode 0 If the user is root.
+# @exitcode 1 If the user is not root.
+# @exitcode 127 If the wrong number of arguments was provided.
+# @stderr The error message if the assertion fails.
 stdlib.security.user.assert.is_root() {
-
   builtin local return_code=0
 
   stdlib.security.user.query.is_root "${@}" || return_code="$?"

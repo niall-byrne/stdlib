@@ -4,12 +4,15 @@
 
 builtin set -eo pipefail
 
+# @description Creates a directory and secures it with the specified ownership and permissions.
+# @arg $1 string The directory to create.
+# @arg $2 string The owner name to set.
+# @arg $3 string The group name to set.
+# @arg $4 string The permission octal value to set.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments was provided.
 stdlib.security.path.make.dir() {
-  # $1: the directory to create
-  # $2: the owner name to set
-  # $3: the group name to set
-  # $4: the permission octal value to set
-
   [[ "${#@}" == "4" ]] || builtin return 127
   [[ -n "${1}" ]] || builtin return 126
   [[ -n "${2}" ]] || builtin return 126
@@ -20,12 +23,15 @@ stdlib.security.path.make.dir() {
   stdlib.security.path.secure "${@}"
 }
 
+# @description Creates a file and secures it with the specified ownership and permissions.
+# @arg $1 string The file to create.
+# @arg $2 string The owner name to set.
+# @arg $3 string The group name to set.
+# @arg $4 string The permission octal value to set.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments was provided.
 stdlib.security.path.make.file() {
-  # $1: the file to create
-  # $2: the owner name to set
-  # $3: the group name to set
-  # $4: the permission octal value to set
-
   [[ "${#@}" == "4" ]] || builtin return 127
   [[ -n "${1}" ]] || builtin return 126
   [[ -n "${2}" ]] || builtin return 126

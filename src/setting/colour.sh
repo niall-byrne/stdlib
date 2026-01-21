@@ -6,9 +6,12 @@ builtin set -eo pipefail
 
 _STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN=""
 
+# @description Initializes color output.
+# @noargs
+# @exitcode 0 If the operation succeeded.
+# @exitcode 127 If color initialization failed and silent fallback is disabled.
+# @stderr The error message if initialization fails and silent fallback is disabled.
 stdlib.setting.colour.enable() {
-  # _STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN: disable error message on initialization failure
-
   builtin local silent_fallback_boolean="${_STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN:-0}"
   builtin local error_message=""
 
@@ -36,6 +39,9 @@ stdlib.setting.colour.enable._generate_error_message() {
   builtin echo -en "${error_message}" >&2
 }
 
+# @description Disables color output.
+# @noargs
+# @exitcode 0 If the operation succeeded.
 stdlib.setting.colour.disable() {
   stdlib.setting.colour.state.disabled
   stdlib.setting.theme.load
