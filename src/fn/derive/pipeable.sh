@@ -7,6 +7,7 @@ builtin set -eo pipefail
 STDIN_SOURCE_SPECIFIER="${STDIN_SOURCE_SPECIFIER:-""}"
 
 # @description Creates a pipeable version of a function.
+#     STDIN_SOURCE_SPECIFIER: A reserved argument used to specify a stdin source.
 # @arg $1 string The name of the function to make pipeable.
 # @arg $2 integer The number of arguments required by the function.
 # @exitcode 0 If the operation succeeded.

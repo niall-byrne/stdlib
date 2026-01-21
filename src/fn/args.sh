@@ -8,7 +8,8 @@ _STDLIB_ARGS_CALLER_FN_NAME=""
 _STDLIB_ARGS_NULL_SAFE=()
 
 # @description Validates the number and quality of arguments received by a function.
-#     _STDLIB_LOGGING_MESSAGE_PREFIX: The prefix to use for logging messages.
+#     _STDLIB_ARGS_CALLER_FN_NAME: The name of the calling function for logging messages.
+#     _STDLIB_ARGS_NULL_SAFE: An array of argument indexes that are "null safe".
 # @arg $1 integer The number of required arguments.
 # @arg $2 integer The number of optional arguments.
 # @arg $@ list The list of argument values to check.
