@@ -8,8 +8,9 @@ STDIN_SOURCE_SPECIFIER="${STDIN_SOURCE_SPECIFIER:-""}"
 
 # @description Creates a pipeable version of a function.
 #   STDIN_SOURCE_SPECIFIER: A reserved argument used to specify a stdin source.
-# @arg string fn_name The name of the function to make pipeable.
-# @arg number arg_count The number of arguments required by the function.
+# @arg $1 string The name of the function to make pipeable.
+# @arg $2 number The number of arguments required by the function.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
 # @stderr The error message if the operation fails.

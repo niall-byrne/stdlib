@@ -5,10 +5,11 @@
 builtin set -eo pipefail
 
 # @description Creates a directory with specified ownership and permissions.
-# @arg $1 The directory path to create.
-# @arg $2 The owner name to set.
-# @arg $3 The group name to set.
-# @arg $4 The permission octal value to set.
+# @arg $1 string The directory path to create.
+# @arg $2 string The owner name to set.
+# @arg $3 string The group name to set.
+# @arg $4 string The permission octal value to set.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
 # @stderr The error message if the operation fails.
@@ -24,10 +25,11 @@ stdlib.security.path.make.dir() {
 }
 
 # @description Creates a file with specified ownership and permissions.
-# @arg $1 The file path to create.
-# @arg $2 The owner name to set.
-# @arg $3 The group name to set.
-# @arg $4 The permission octal value to set.
+# @arg $1 string The file path to create.
+# @arg $2 string The owner name to set.
+# @arg $3 string The group name to set.
+# @arg $4 string The permission octal value to set.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
 # @stderr The error message if the operation fails.

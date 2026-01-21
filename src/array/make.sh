@@ -5,9 +5,10 @@
 builtin set -eo pipefail
 
 # @description Creates an array from the contents of a file.
-# @arg string array_name The name of the array to create.
-# @arg string separator The separator to split the file content by.
-# @arg string file_path The path to the source file.
+# @arg $1 string The name of the array to create.
+# @arg $2 string The separator to split the file content by.
+# @arg $3 string The path to the source file.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments are provided.
 # @stderr The error message if the operation fails.
@@ -19,9 +20,10 @@ stdlib.array.make.from_file() {
 }
 
 # @description Creates an array from a string.
-# @arg string array_name The name of the array to create.
-# @arg string separator The separator to split the string by.
-# @arg string source_string The source string.
+# @arg $1 string The name of the array to create.
+# @arg $2 string The separator to split the string by.
+# @arg $3 string The source string.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments are provided.
 # @stderr The error message if the operation fails.
@@ -36,9 +38,10 @@ stdlib.array.make.from_string() {
 }
 
 # @description Creates an array by repeating a string a specified number of times.
-# @arg string array_name The name of the array to create.
-# @arg number count The number of times to repeat the string.
-# @arg string value The string to repeat.
+# @arg $1 string The name of the array to create.
+# @arg $2 number The number of times to repeat the string.
+# @arg $3 string The string to repeat.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments are provided.
 # @stderr The error message if the operation fails.

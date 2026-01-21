@@ -5,8 +5,9 @@
 builtin set -eo pipefail
 
 # @description Appends a string to each element of an array, modifying the array in place.
-# @arg string value The string to append.
-# @arg string array_name The name of the array to modify.
+# @arg $1 string The string to append.
+# @arg $2 string The name of the array to modify.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments are provided.
 # @stderr The error message if the operation fails.
@@ -36,8 +37,9 @@ stdlib.array.mutate.append() {
 }
 
 # @description Applies a function to each element of an array, modifying the array in place.
-# @arg function fn The name of the function to apply.
-# @arg string array_name The name of the array to modify.
+# @arg $1 function The name of the function to apply.
+# @arg $2 string The name of the array to modify.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments are provided.
 # @stderr The error message if the operation fails.
@@ -66,8 +68,9 @@ stdlib.array.mutate.fn() {
 }
 
 # @description Filters an array in place using a provided filter function.
-# @arg function filter_fn The name of the filter function. A match is based on a return status code of 0.
-# @arg string array_name The name of the array to modify.
+# @arg $1 function The name of the filter function. A match is based on a return status code of 0.
+# @arg $2 string The name of the array to modify.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments are provided.
 # @stderr The error message if the operation fails.
@@ -98,8 +101,9 @@ stdlib.array.mutate.filter() {
 }
 
 # @description Applies a printf format string to each element of an array, modifying the array in place.
-# @arg string format_string A valid printf format string.
-# @arg string array_name The name of the array to modify.
+# @arg $1 string A valid printf format string.
+# @arg $2 string The name of the array to modify.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments are provided.
 # @stderr The error message if the operation fails.
@@ -127,9 +131,10 @@ stdlib.array.mutate.format() {
 }
 
 # @description Inserts a string into an array at a specified index, modifying the array in place.
-# @arg string value The string to insert.
-# @arg number index The index to insert the string at.
-# @arg string array_name The name of the array to modify.
+# @arg $1 string The string to insert.
+# @arg $2 number The index to insert the string at.
+# @arg $3 string The name of the array to modify.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments are provided.
 # @stderr The error message if the operation fails.
@@ -153,8 +158,9 @@ stdlib.array.mutate.insert() {
 }
 
 # @description Prepends a string to each element of an array, modifying the array in place.
-# @arg string value The string to prepend.
-# @arg string array_name The name of the array to modify.
+# @arg $1 string The string to prepend.
+# @arg $2 string The name of the array to modify.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments are provided.
 # @stderr The error message if the operation fails.
@@ -184,8 +190,9 @@ stdlib.array.mutate.prepend() {
 }
 
 # @description Removes an element from an array at a specified index, modifying the array in place.
-# @arg number index The index of the element to remove.
-# @arg string array_name The name of the array to modify.
+# @arg $1 number The index of the element to remove.
+# @arg $2 string The name of the array to modify.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments are provided.
 # @stderr The error message if the operation fails.
@@ -207,7 +214,8 @@ stdlib.array.mutate.remove() {
 }
 
 # @description Reverses the order of elements in an array, modifying the array in place.
-# @arg string array_name The name of the array to modify.
+# @arg $1 string The name of the array to modify.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments are provided.
 # @stderr The error message if the operation fails.

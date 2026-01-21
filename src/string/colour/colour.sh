@@ -6,8 +6,9 @@
 builtin set -eo pipefail
 
 # @description Colours a string without adding a newline.
-# @arg string colour The colour to use.
-# @arg string value The string to colour.
+# @arg $1 string The colour to use.
+# @arg $2 string The string to colour.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 127 If the wrong number of arguments is provided.
 # @stdout The coloured string.
 stdlib.string.colour_n() {
@@ -24,8 +25,9 @@ stdlib.string.colour_n() {
 }
 
 # @description Colours a string and adds a newline.
-# @arg string colour The colour to use.
-# @arg string value The string to colour.
+# @arg $1 string The colour to use.
+# @arg $2 string The string to colour.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 127 If the wrong number of arguments is provided.
 # @stdout The coloured string.
 stdlib.string.colour() {

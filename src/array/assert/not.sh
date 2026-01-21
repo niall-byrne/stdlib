@@ -5,7 +5,8 @@
 builtin set -eo pipefail
 
 # @description Asserts that a variable is not an array.
-# @arg string variable_name The name of the variable to check.
+# @arg $1 string The name of the variable to check.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the variable is an array.
 # @exitcode 127 If the wrong number of arguments is provided.
 # @stderr The error message if the assertion fails.
@@ -31,8 +32,9 @@ stdlib.array.assert.not_array() {
 }
 
 # @description Asserts that an array does not contain a specified value.
-# @arg string value The value to check for.
-# @arg string array_name The name of the array.
+# @arg $1 string The value to check for.
+# @arg $2 string The name of the array.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the array contains the value.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
@@ -59,7 +61,8 @@ stdlib.array.assert.not_contains() {
 }
 
 # @description Asserts that an array is not empty.
-# @arg string array_name The name of the array.
+# @arg $1 string The name of the array.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the array is empty.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
@@ -89,8 +92,9 @@ stdlib.array.assert.not_empty() {
 }
 
 # @description Asserts that two arrays are not equal.
-# @arg string array1_name The name of the first array.
-# @arg string array2_name The name of the second array.
+# @arg $1 string The name of the first array.
+# @arg $2 string The name of the second array.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the arrays are equal.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.

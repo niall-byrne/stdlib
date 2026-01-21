@@ -25,7 +25,8 @@ stdlib.logger.traceback() {
 
 # @description Logs an error message to stderr.
 #   _STDLIB_LOGGING_MESSAGE_PREFIX: A prefix for the message.
-# @arg string message The message to log.
+# @arg $1 string The message to log.
+# @exitcode 0 If the operation succeeded.
 # @stderr The error message.
 stdlib.logger.error() {
   {
@@ -36,7 +37,8 @@ stdlib.logger.error() {
 
 # @description Logs a warning message to stderr.
 #   _STDLIB_LOGGING_MESSAGE_PREFIX: A prefix for the message.
-# @arg string message The message to log.
+# @arg $1 string The message to log.
+# @exitcode 0 If the operation succeeded.
 # @stderr The warning message.
 stdlib.logger.warning() {
   {
@@ -47,7 +49,8 @@ stdlib.logger.warning() {
 
 # @description Logs an info message to stdout.
 #   _STDLIB_LOGGING_MESSAGE_PREFIX: A prefix for the message.
-# @arg string message The message to log.
+# @arg $1 string The message to log.
+# @exitcode 0 If the operation succeeded.
 # @stdout The info message.
 stdlib.logger.info() {
   stdlib.logger.__message_prefix
@@ -56,7 +59,8 @@ stdlib.logger.info() {
 
 # @description Logs a notice message to stdout.
 #   _STDLIB_LOGGING_MESSAGE_PREFIX: A prefix for the message.
-# @arg string message The message to log.
+# @arg $1 string The message to log.
+# @exitcode 0 If the operation succeeded.
 # @stdout The notice message.
 stdlib.logger.notice() {
   stdlib.logger.__message_prefix
@@ -65,7 +69,8 @@ stdlib.logger.notice() {
 
 # @description Logs a success message to stdout.
 #   _STDLIB_LOGGING_MESSAGE_PREFIX: A prefix for the message.
-# @arg string message The message to log.
+# @arg $1 string The message to log.
+# @exitcode 0 If the operation succeeded.
 # @stdout The success message.
 stdlib.logger.success() {
   stdlib.logger.__message_prefix

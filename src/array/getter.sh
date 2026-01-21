@@ -7,7 +7,8 @@ builtin set -eo pipefail
 _STDLIB_ARRAY_BUFFER=""
 
 # @description Gets the last element of an array.
-# @arg string array_name The name of the array.
+# @arg $1 string The name of the array.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments are provided.
 # @stdout The last element of the array.
@@ -29,7 +30,8 @@ stdlib.array.get.last() {
 }
 
 # @description Gets the length of an array.
-# @arg string array_name The name of the array.
+# @arg $1 string The name of the array.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments are provided.
 # @stdout The length of the array.
@@ -50,7 +52,8 @@ stdlib.array.get.length() {
 }
 
 # @description Gets the length of the longest element in an array.
-# @arg string array_name The name of the array.
+# @arg $1 string The name of the array.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments are provided.
 # @stdout The length of the longest element in the array.
@@ -79,7 +82,8 @@ stdlib.array.get.longest() {
 }
 
 # @description Gets the length of the shortest element in an array.
-# @arg string array_name The name of the array.
+# @arg $1 string The name of the array.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments are provided.
 # @stdout The length of the shortest element in the array.

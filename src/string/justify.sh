@@ -5,8 +5,9 @@
 builtin set -eo pipefail
 
 # @description Left-justifies a string to a specified width.
-# @arg $1 The column width to justify to.
-# @arg $2 The string to justify.
+# @arg $1 number The column width to justify to.
+# @arg $2 string The string to justify.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 127 If the wrong number of arguments is provided.
 # @stdout The justified string.
 stdlib.string.justify.left() {
@@ -24,8 +25,9 @@ stdlib.fn.derive.pipeable "stdlib.string.justify.left" "2"
 stdlib.fn.derive.var "stdlib.string.justify.left"
 
 # @description Right-justifies a string to a specified width.
-# @arg $1 The column width to justify to.
-# @arg $2 The string to justify.
+# @arg $1 number The column width to justify to.
+# @arg $2 string The string to justify.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 127 If the wrong number of arguments is provided.
 # @stdout The justified string.
 stdlib.string.justify.right() {

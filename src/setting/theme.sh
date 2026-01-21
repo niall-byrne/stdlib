@@ -5,7 +5,7 @@
 builtin set -eo pipefail
 
 # @description Gets the colour variable for a specified theme element.
-# @arg $1 The theme element to get the colour for.
+# @arg $1 string The theme element to get the colour for.
 # @exitcode 0 If the operation succeeded.
 # @stdout The colour variable name.
 # @stderr A warning message if the colour is not defined.

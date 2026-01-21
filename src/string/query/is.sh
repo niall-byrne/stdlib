@@ -5,8 +5,8 @@
 builtin set -eo pipefail
 
 # @description Checks if a string contains only alphabetic characters.
-# @arg $1 The string to check.
-# @exitcode 0 If the string is alphabetic.
+# @arg $1 string The string to check.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the string is not alphabetic.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
@@ -26,8 +26,8 @@ stdlib.string.query.is_alpha() {
 }
 
 # @description Checks if a string contains only alphanumeric characters.
-# @arg $1 The string to check.
-# @exitcode 0 If the string is alphanumeric.
+# @arg $1 string The string to check.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the string is not alphanumeric.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
@@ -47,8 +47,8 @@ stdlib.string.query.is_alpha_numeric() {
 }
 
 # @description Checks if a string is a boolean value (0 or 1).
-# @arg $1 The string to check.
-# @exitcode 0 If the string is a boolean.
+# @arg $1 boolean The string to check.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the string is not a boolean.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
@@ -68,8 +68,8 @@ stdlib.string.query.is_boolean() {
 }
 
 # @description Checks if a string is a single character.
-# @arg $1 The string to check.
-# @exitcode 0 If the string is a single character.
+# @arg $1 string The string to check.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the string is not a single character.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
@@ -80,8 +80,8 @@ stdlib.string.query.is_char() {
 }
 
 # @description Checks if a string is a digit.
-# @arg $1 The string to check.
-# @exitcode 0 If the string is a digit.
+# @arg $1 string The string to check.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the string is not a digit.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
@@ -101,8 +101,8 @@ stdlib.string.query.is_digit() {
 }
 
 # @description Checks if a string is an integer.
-# @arg $1 The string to check.
-# @exitcode 0 If the string is an integer.
+# @arg $1 string The string to check.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the string is not an integer.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
@@ -118,10 +118,10 @@ stdlib.string.query.is_integer() {
 }
 
 # @description Checks if an integer is within a specified range.
-# @arg $1 The range start point.
-# @arg $2 The range end point.
-# @arg $3 The integer to check.
-# @exitcode 0 If the integer is within the range.
+# @arg $1 number The range start point.
+# @arg $2 number The range end point.
+# @arg $3 number The integer to check.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the integer is not within the range.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
@@ -141,8 +141,8 @@ stdlib.string.query.is_integer_with_range() {
 }
 
 # @description Checks if a string is a valid octal permission.
-# @arg $1 The string to check.
-# @exitcode 0 If the string is a valid octal permission.
+# @arg $1 string The string to check.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the string is not a valid octal permission.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
@@ -163,9 +163,9 @@ stdlib.string.query.is_octal_permission() {
 }
 
 # @description Checks if a string matches a regular expression.
-# @arg $1 The regular expression to match.
-# @arg $2 The string to check.
-# @exitcode 0 If the string matches the regular expression.
+# @arg $1 string The regular expression to match.
+# @arg $2 string The string to check.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the string does not match the regular expression.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
@@ -181,8 +181,8 @@ stdlib.string.query.is_regex_match() {
 }
 
 # @description Checks if a string is not empty.
-# @arg $1 The string to check.
-# @exitcode 0 If the string is not empty.
+# @arg $1 string The string to check.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the string is empty.
 # @exitcode 127 If the wrong number of arguments is provided.
 stdlib.string.query.is_string() {

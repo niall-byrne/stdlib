@@ -5,10 +5,11 @@
 builtin set -eo pipefail
 
 # @description Sets the ownership and permissions for a file or directory.
-# @arg $1 The filesystem path to secure.
-# @arg $2 The owner name to set.
-# @arg $3 The group name to set.
-# @arg $4 The permission octal value to set.
+# @arg $1 string The filesystem path to secure.
+# @arg $2 string The owner name to set.
+# @arg $3 string The group name to set.
+# @arg $4 string The permission octal value to set.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
 # @stderr The error message if the operation fails.

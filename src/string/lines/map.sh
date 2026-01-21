@@ -6,8 +6,9 @@ builtin set -eo pipefail
 
 # @description Applies a printf format string to each line of a string.
 #   _STDLIB_DELIMITER: The character sequence to split the string with. Defaults to a newline.
-# @arg string format_string A valid printf format string.
-# @arg string value The string to process.
+# @arg $1 string A valid printf format string.
+# @arg $2 string The string to process.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 127 If the wrong number of arguments is provided.
 # @stdout The formatted string.
 stdlib.string.lines.map.format() {
@@ -40,8 +41,9 @@ stdlib.fn.derive.var "stdlib.string.lines.map.format"
 
 # @description Applies a function to each line of a string.
 #   _STDLIB_DELIMITER: The character sequence to split the string with. Defaults to a newline.
-# @arg function fn The name of the function to apply.
-# @arg string value The string to process.
+# @arg $1 function The name of the function to apply.
+# @arg $2 string The string to process.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
 # @stdout The processed string.

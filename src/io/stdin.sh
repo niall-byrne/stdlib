@@ -7,10 +7,10 @@ builtin set -eo pipefail
 _STDLIB_PASSWORD_BOOLEAN=""
 
 # @description Prompts the user for confirmation (Y/n).
-# @arg string prompt (optional) The prompt to display.
-# @exitcode 0 If the user confirms (Y).
+# @arg $1 string (optional, default="Do you want to proceed? (Y/n) ") The prompt to display.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the user denies (n).
-# @exitcode 127 If the wrong number of arguments are provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stdin The user's confirmation character (Y/n).
 # @stdout The confirmation prompt to present.
 stdlib.io.stdin.confirmation() {
@@ -35,7 +35,8 @@ stdlib.io.stdin.confirmation() {
 }
 
 # @description Pauses execution until the user presses any key.
-# @arg string prompt (optional) The prompt to display.
+# @arg $1 string (optional, default="Press any key to continue...") The prompt to display.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 127 If the wrong number of arguments are provided.
 # @stdin A single character to continue execution.
 # @stdout The pause prompt to present.
@@ -51,8 +52,9 @@ stdlib.io.stdin.pause() {
 
 # @description Prompts the user for a value and saves it to a variable.
 #   _STDLIB_PASSWORD_BOOLEAN: Set to 1 to mask password entry.
-# @arg string var_name The name of the variable to save the input to.
-# @arg string prompt (optional) The prompt to display.
+# @arg $1 string The name of the variable to save the input to.
+# @arg $2 string (optional, default="Enter a value: ") The prompt to display.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 127 If the wrong number of arguments are provided.
 # @stdin The value to be saved to the variable.
 # @stdout The prompt to present.

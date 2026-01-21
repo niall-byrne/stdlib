@@ -5,7 +5,8 @@
 builtin set -eo pipefail
 
 # @description Asserts that a path does not exist.
-# @arg string path The path to check.
+# @arg $1 string The path to check.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the path exists.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.

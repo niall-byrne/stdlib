@@ -5,10 +5,10 @@
 builtin set -eo pipefail
 
 # @description Checks if a specific character exists at a given index in a string.
-# @arg string char The character to check for.
-# @arg number index The index to check at.
-# @arg string value The string to check.
-# @exitcode 0 If the character is found at the specified index.
+# @arg $1 string The character to check for.
+# @arg $2 number The index to check at.
+# @arg $3 string The string to check.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the character is not found at the specified index.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
@@ -23,9 +23,9 @@ stdlib.string.query.has_char_n() {
 }
 
 # @description Checks if a string contains a specified substring.
-# @arg $1 The substring to check for.
-# @arg $2 The string to check.
-# @exitcode 0 If the substring is found.
+# @arg $1 string The substring to check for.
+# @arg $2 string The string to check.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the substring is not found.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.

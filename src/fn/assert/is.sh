@@ -5,7 +5,8 @@
 builtin set -eo pipefail
 
 # @description Asserts that a function exists.
-# @arg string fn_name The name of the function to check.
+# @arg $1 string The name of the function to check.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the function does not exist.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
@@ -29,7 +30,8 @@ stdlib.fn.assert.is_fn() {
 }
 
 # @description Asserts that a string is a valid function name.
-# @arg string fn_name The string to check.
+# @arg $1 string The string to check.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the string is not a valid function name.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.

@@ -5,9 +5,9 @@
 builtin set -eo pipefail
 
 # @description Checks if a string ends with a specified substring.
-# @arg $1 The substring to check for.
-# @arg $2 The string to check.
-# @exitcode 0 If the string ends with the substring.
+# @arg $1 string The substring to check for.
+# @arg $2 string The string to check.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the string does not end with the substring.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
@@ -21,9 +21,9 @@ stdlib.string.query.ends_with() {
 }
 
 # @description Checks if the first character of a string is a specific character.
-# @arg $1 The character to check for.
-# @arg $2 The string to check.
-# @exitcode 0 If the first character matches.
+# @arg $1 string The character to check for.
+# @arg $2 string The string to check.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the first character does not match.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
@@ -36,9 +36,9 @@ stdlib.string.query.first_char_is() {
 }
 
 # @description Checks if the last character of a string is a specific character.
-# @arg $1 The character to check for.
-# @arg $2 The string to check.
-# @exitcode 0 If the last character matches.
+# @arg $1 string The character to check for.
+# @arg $2 string The string to check.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the last character does not match.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
@@ -51,9 +51,9 @@ stdlib.string.query.last_char_is() {
 }
 
 # @description Checks if a string starts with a specified substring.
-# @arg $1 The substring to check for.
-# @arg $2 The string to check.
-# @exitcode 0 If the string starts with the substring.
+# @arg $1 string The substring to check for.
+# @arg $2 string The string to check.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the string does not start with the substring.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.

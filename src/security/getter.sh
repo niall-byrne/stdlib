@@ -6,6 +6,7 @@ builtin set -eo pipefail
 
 # @description Gets the effective user ID of the current user.
 # @noargs
+# @exitcode 0 If the operation succeeded.
 # @exitcode 127 If the wrong number of arguments are provided.
 # @stdout The effective user ID.
 stdlib.security.get.euid() {
@@ -15,7 +16,8 @@ stdlib.security.get.euid() {
 }
 
 # @description Gets the group ID for a specified group name.
-# @arg $1 The group name to look up.
+# @arg $1 string The group name to look up.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments are provided.
 # @stdout The group ID.
@@ -27,7 +29,8 @@ stdlib.security.get.gid() {
 }
 
 # @description Gets the user ID for a specified username.
-# @arg $1 The username to look up.
+# @arg $1 string The username to look up.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments are provided.
 # @stdout The user ID.
@@ -40,6 +43,7 @@ stdlib.security.get.uid() {
 
 # @description Gets the next available unused user ID.
 # @noargs
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If no unused user ID can be found.
 # @exitcode 127 If the wrong number of arguments are provided.
 # @stdout The next available unused user ID.

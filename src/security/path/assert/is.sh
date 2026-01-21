@@ -5,10 +5,11 @@
 builtin set -eo pipefail
 
 # @description Asserts that a file or directory has the specified owner, group, and permissions.
-# @arg string path The filesystem path to check.
-# @arg string owner The required user name.
-# @arg string group The required group name.
-# @arg string permissions The required permission octal value.
+# @arg $1 string The filesystem path to check.
+# @arg $2 string The required user name.
+# @arg $3 string The required group name.
+# @arg $4 string The required permission octal value.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the ownership or permissions are incorrect.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.

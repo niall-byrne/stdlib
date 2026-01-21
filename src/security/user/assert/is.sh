@@ -6,6 +6,7 @@ builtin set -eo pipefail
 
 # @description Asserts that the current user is the root user.
 # @noargs
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the user is not the root user.
 # @exitcode 127 If the wrong number of arguments is provided.
 # @stderr The error message if the assertion fails.

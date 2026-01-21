@@ -5,8 +5,9 @@
 builtin set -eo pipefail
 
 # @description Applies a printf format string to each element of an array.
-# @arg string format_string A valid printf format string.
-# @arg string array_name The name of the array to process.
+# @arg $1 string A valid printf format string.
+# @arg $2 string The name of the array to process.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments are provided.
 # @stdout The formatted elements of the array.
@@ -29,8 +30,9 @@ stdlib.array.map.format() {
 }
 
 # @description Applies a function to each element of an array.
-# @arg function fn The name of the function to apply.
-# @arg string array_name The name of the array to process.
+# @arg $1 function The name of the function to apply.
+# @arg $2 string The name of the array to process.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments are provided.
 # @stdout The output of the function applied to each element.

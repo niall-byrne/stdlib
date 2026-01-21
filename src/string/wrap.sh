@@ -10,9 +10,10 @@ _STDLIB_WRAP_PREFIX_STRING=""
 # @description Wraps a string to a specified width.
 #     _STDLIB_LINE_BREAK_CHAR: A character that forces a line break in the text.
 #     _STDLIB_WRAP_PREFIX_STRING: A string to insert when wrapping text.
-# @arg $1 The left-side padding.
-# @arg $2 The right-side wrap limit.
-# @arg $3 The text to wrap.
+# @arg $1 number The left-side padding.
+# @arg $2 number The right-side wrap limit.
+# @arg $3 string The text to wrap.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
 # @stdout The wrapped string.

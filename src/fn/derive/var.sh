@@ -5,9 +5,10 @@
 builtin set -eo pipefail
 
 # @description Creates a new function that stores its result in a variable instead of printing to stdout.
-# @arg string source_function The name of the source function.
-# @arg string target_function (optional) The name of the new target function. Defaults to `${source_function}_var`.
-# @arg number index (optional) The argument index for the variable's existing value. Defaults to the last value.
+# @arg $1 string The name of the source function.
+# @arg $2 string (optional, default=${source_function}_var) The name of the new target function.
+# @arg $3 number (optional, default=-1) The argument index for the variable's existing value.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
 # @stderr The error message if the operation fails.

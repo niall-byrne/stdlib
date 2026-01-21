@@ -5,9 +5,10 @@
 builtin set -eo pipefail
 
 # @description Creates a cleanup function that removes files and directories.
-# @arg {string} fn_name The name of the cleanup function to create.
-# @arg {string} array_name The name of the array used for tracking filesystem objects to clean up.
-# @arg {boolean} [recursive=false] A boolean indicating if recursive deletes should be done.
+# @arg $1 string The name of the cleanup function to create.
+# @arg $2 string The name of the array used for tracking filesystem objects to clean up.
+# @arg $3 boolean (optional, default=false) A boolean indicating if recursive deletes should be done.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
 stdlib.trap.create.clean_up_fn() {
@@ -44,8 +45,9 @@ EOF
 }
 
 # @description Creates a trap handler function and a corresponding register function.
-# @arg $1 The name of the handler function to create.
-# @arg $2 The name of the array to store handler function names in.
+# @arg $1 string The name of the handler function to create.
+# @arg $2 string The name of the array to store handler function names in.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
 stdlib.trap.create.handler() {

@@ -5,7 +5,8 @@
 builtin set -eo pipefail
 
 # @description Asserts that a string contains only alphabetic characters.
-# @arg string value The string to check.
+# @arg $1 string The string to check.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the string is not alphabetic.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
@@ -29,7 +30,8 @@ stdlib.string.assert.is_alpha() {
 }
 
 # @description Asserts that a string contains only alphanumeric characters.
-# @arg string value The string to check.
+# @arg $1 string The string to check.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the string is not alphanumeric.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
@@ -53,7 +55,8 @@ stdlib.string.assert.is_alpha_numeric() {
 }
 
 # @description Asserts that a string is a boolean value (0 or 1).
-# @arg boolean value The string to check.
+# @arg $1 boolean The string to check.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the string is not a boolean.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
@@ -77,7 +80,8 @@ stdlib.string.assert.is_boolean() {
 }
 
 # @description Asserts that a string is a single character.
-# @arg string value The string to check.
+# @arg $1 string The string to check.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the string is not a single character.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
@@ -101,7 +105,8 @@ stdlib.string.assert.is_char() {
 }
 
 # @description Asserts that a string is a digit.
-# @arg string value The string to check.
+# @arg $1 string The string to check.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the string is not a digit.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
@@ -125,7 +130,8 @@ stdlib.string.assert.is_digit() {
 }
 
 # @description Asserts that a string is an integer.
-# @arg string value The string to check.
+# @arg $1 string The string to check.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the string is not an integer.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
@@ -149,9 +155,10 @@ stdlib.string.assert.is_integer() {
 }
 
 # @description Asserts that an integer is within a specified range.
-# @arg number start The range start point.
-# @arg number end The range end point.
-# @arg number value The integer to check.
+# @arg $1 number The range start point.
+# @arg $2 number The range end point.
+# @arg $3 number The integer to check.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the integer is not within the range.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
@@ -175,7 +182,8 @@ stdlib.string.assert.is_integer_with_range() {
 }
 
 # @description Asserts that a string is a valid octal permission.
-# @arg string value The string to check.
+# @arg $1 string The string to check.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the string is not a valid octal permission.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments is provided.
@@ -199,8 +207,9 @@ stdlib.string.assert.is_octal_permission() {
 }
 
 # @description Asserts that a string matches a regular expression.
-# @arg string regex The regular expression to match.
-# @arg string value The string to check.
+# @arg $1 string The regular expression to match.
+# @arg $2 string The string to check.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the string does not match the regular expression.
 # @exitcode 127 If the wrong number of arguments is provided.
 # @stderr The error message if the assertion fails.
@@ -223,7 +232,8 @@ stdlib.string.assert.is_regex_match() {
 }
 
 # @description Asserts that a string is not empty.
-# @arg string value The string to check.
+# @arg $1 string The string to check.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the string is empty.
 # @exitcode 127 If the wrong number of arguments is provided.
 # @stderr The error message if the assertion fails.

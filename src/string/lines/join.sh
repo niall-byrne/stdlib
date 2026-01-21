@@ -6,7 +6,8 @@ builtin set -eo pipefail
 
 # @description Joins a multi-line string into a single line.
 #   _STDLIB_DELIMITER: The character sequence to join the lines with. Defaults to a newline.
-# @arg string value The string to process.
+# @arg $1 string The string to process.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 127 If the wrong number of arguments is provided.
 # @stdout The joined string.
 stdlib.string.lines.join() {
