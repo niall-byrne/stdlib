@@ -7,13 +7,16 @@ builtin set -eo pipefail
 _STDLIB_ARGS_CALLER_FN_NAME=""
 _STDLIB_ARGS_NULL_SAFE=()
 
+# @description Validates the number and quality of arguments received by a function.
+#     _STDLIB_LOGGING_MESSAGE_PREFIX: The prefix to use for logging messages.
+# @arg $1 integer The number of required arguments.
+# @arg $2 integer The number of optional arguments.
+# @arg $@ list The list of argument values to check.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments was provided.
+# @stderr The error message if the argument requirements are violated.
 stdlib.fn.args.require() {
-  # $1 the number of arguments expected to be received
-  # $@ the list of argument values to check
-  #
-  # _STDLIB_ARGS_CALLER_FN_NAME:    set to override the name of the calling function in logging messages
-  # _STDLIB_ARGS_NULL_SAFE: an array of argument indexes that are "null safe" (they can be empty values)
-
   builtin local -a args_null_safe_array
   builtin local _STDLIB_LOGGING_MESSAGE_PREFIX="${_STDLIB_ARGS_CALLER_FN_NAME:-"${FUNCNAME[1]}"}"
 

@@ -4,9 +4,13 @@
 
 builtin set -eo pipefail
 
+# @description Asserts that a variable is not a function.
+# @arg $1 string The name of the variable to check.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 1 If the operation failed.
+# @exitcode 127 If the wrong number of arguments was provided.
+# @stderr The error message if the assertion fails.
 stdlib.fn.assert.not_fn() {
-  # $1: the function name to assert does not exist
-
   builtin local return_code=0
 
   stdlib.fn.query.is_fn "${@}" || return_code="$?"

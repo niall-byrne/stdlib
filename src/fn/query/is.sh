@@ -4,9 +4,13 @@
 
 builtin set -eo pipefail
 
+# @description Checks if a variable is a function.
+# @arg $1 string The name of the variable to check.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 1 If the operation failed.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments was provided.
 stdlib.fn.query.is_fn() {
-  # $1: the function name to query
-
   [[ "${#@}" == "1" ]] || builtin return 127
   [[ -n "${1}" ]] || builtin return 126
 
@@ -16,9 +20,13 @@ stdlib.fn.query.is_fn() {
   builtin return 0
 }
 
+# @description Checks if a string is a valid function name.
+# @arg $1 string The string to check.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 1 If the operation failed.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments was provided.
 stdlib.fn.query.is_valid_name() {
-  # $1: the string to check for fn compatibility
-
   [[ "${#@}" == "1" ]] || builtin return 127
   [[ -n "${1}" ]] || builtin return 126
 

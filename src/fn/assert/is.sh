@@ -4,9 +4,13 @@
 
 builtin set -eo pipefail
 
+# @description Asserts that a variable is a function.
+# @arg $1 string The name of the variable to check.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 1 If the operation failed.
+# @exitcode 127 If the wrong number of arguments was provided.
+# @stderr The error message if the assertion fails.
 stdlib.fn.assert.is_fn() {
-  # $1: the function name to query
-
   builtin local return_code=0
 
   stdlib.fn.query.is_fn "${@}" || return_code="$?"
@@ -24,9 +28,14 @@ stdlib.fn.assert.is_fn() {
   builtin return "${return_code}"
 }
 
+# @description Asserts that a string is a valid function name.
+# @arg $1 string The string to check.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 1 If the operation failed.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments was provided.
+# @stderr The error message if the assertion fails.
 stdlib.fn.assert.is_valid_name() {
-  # $1: the function name to query
-
   builtin local return_code=0
 
   stdlib.fn.query.is_valid_name "${@}" || return_code="$?"

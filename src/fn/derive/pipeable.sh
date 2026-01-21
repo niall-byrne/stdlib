@@ -6,12 +6,14 @@ builtin set -eo pipefail
 
 STDIN_SOURCE_SPECIFIER="${STDIN_SOURCE_SPECIFIER:-""}"
 
+# @description Creates a pipeable version of a function.
+# @arg $1 string The name of the function to make pipeable.
+# @arg $2 integer The number of arguments required by the function.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments was provided.
+# @stdin The input to pass to the function if not provided as a positional argument.
 stdlib.fn.derive.pipeable() {
-  # $1: the function name
-  # $2: the number of arguments required
-  #
-  # _STDIN_SOURCE_SPECIFIER:  a reserved argument used to specify a stdin source
-
   builtin local derive_target_fn_name
   builtin local stdin_source_specifier="${STDIN_SOURCE_SPECIFIER:-"-"}"
 
