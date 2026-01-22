@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: niall@niallbyrne.ca\n"
-"POT-Creation-Date: 2026-01-22 18:02+0000\n"
+"POT-Creation-Date: 2026-01-22 18:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -133,6 +133,13 @@ msgid "Mock '${option1}' was not called with '${option2}' !"
 msgstr ""
 
 #: src/testing/mock/message.sh:51
+#, sh-format
+msgid ""
+"Mock '${option1}' requires the '${option2}' keyword to perform this "
+"operation, but it is currently overridden."
+msgstr ""
+
+#: src/testing/mock/message.sh:55
 #, sh-format
 msgid "The object identified by '${option1}' cannot be mocked!"
 msgstr ""
