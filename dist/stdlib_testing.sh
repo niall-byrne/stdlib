@@ -1034,10 +1034,10 @@ _mock.delete ()
     _testing.__protected stdlib.fn.assert.is_fn "${1}.mock.set.subcommand" || builtin return 127;
     builtin unset -f "${1}";
     while IFS= builtin read -r mocked_function; do
-        mocked_function="${mocked_function/" ()"/}";
+        mocked_function="${mocked_function/"declare -f "/}";
         mocked_function="${mocked_function%?}";
-        builtin unset -f "${mocked_function/" ()"/}";
-    done <<< "$(builtin declare -f | ${_STDLIB_BINARY_GREP} -E "^${1}.mock.* ()")";
+        builtin unset -f "${mocked_function/"declare -f "/}";
+    done <<< "$(builtin declare -F | ${_STDLIB_BINARY_GREP} -E "^declare -f ${1}.mock.*")";
     if _testing.__protected stdlib.fn.query.is_fn "${1}____copy_of_original_implementation"; then
         _testing.__protected stdlib.fn.derive.clone "${1}____copy_of_original_implementation" "${1}";
     fi
@@ -1115,11 +1115,11 @@ _testing.__gettext ()
 _testing.__protect_stdlib ()
 {
     builtin local stdlib_library_prefix="${_STDLIB_TESTING_STDLIB_PROTECT_PREFIX:-"stdlib"}";
-    builtin local stdlib_function_regex="^${stdlib_library_prefix}\\..* ()";
+    builtin local stdlib_function_regex="${stdlib_library_prefix}\\..*";
     while IFS= builtin read -r stdlib_fn_name; do
-        stdlib_fn_definition="$(builtin declare -f "${stdlib_fn_name/" () "/}")";
+        stdlib_fn_definition="$(builtin declare -f "${stdlib_fn_name/"declare -f "/}")";
         builtin eval "${stdlib_fn_definition//"${stdlib_library_prefix}."/"${stdlib_library_prefix}.testing.internal."}";
-    done <<< "$(builtin declare -f | "${_STDLIB_BINARY_GREP}" -E "${stdlib_function_regex}")"
+    done <<< "$(builtin declare -F | "${_STDLIB_BINARY_GREP}" -E "^declare -f ${stdlib_function_regex}")"
 }
 
 _testing.__protected ()
