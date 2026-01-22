@@ -29,6 +29,7 @@ setup() {
     "mock_not_called;MOCK_NOT_CALLED|mock_name;Mock 'mock_name' was not called!" \
     "mock_not_called_once_with;MOCK_NOT_CALLED_ONCE_WITH|mock_name|arg1;Mock 'mock_name' was not called once with 'arg1' !" \
     "mock_not_called_with;MOCK_NOT_CALLED_WITH|mock_name|arg1;Mock 'mock_name' was not called with 'arg1' !" \
+    "mock_requires_builtin;MOCK_REQUIRES_BUILTIN|mock_name|builtin_name;Mock 'mock_name' requires the 'builtin_name' keyword to perform this operation, but it is currently overridden." \
     "mock_target_invalid;MOCK_TARGET_INVALID|target;The object identified by 'target' cannot be mocked!"
 }
 
@@ -53,6 +54,9 @@ setup() {
     "mock_not_called_with____________no_args;MOCK_NOT_CALLED_WITH" \
     "mock_not_called_with____________too_few_args;MOCK_NOT_CALLED_WITH|mock_name" \
     "mock_not_called_with____________too_many_args;MOCK_NOT_CALLED_WITH|mock_name|arg1|foo" \
+    "mock_requires_builtin___________no_args;MOCK_REQUIRES_BUILTIN" \
+    "mock_requires_builtin___________too_few_args;MOCK_REQUIRES_BUILTIN|mock_name" \
+    "mock_requires_builtin___________too_many_args;MOCK_REQUIRES_BUILTIN|mock_name|builtin_name|foo" \
     "mock_target_invalid_____________no_args;MOCK_TARGET_INVALID" \
     "mock_target_invalid_____________too_many_args;MOCK_TARGET_INVALID|1|2"
 }

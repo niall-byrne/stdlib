@@ -46,6 +46,10 @@ _testing.mock.message.get() {
       required_options=2
       message="$(_testing.__gettext "Mock '\${option1}' was not called with '\${option2}' !")"
       ;;
+    MOCK_REQUIRES_BUILTIN)
+      required_options=2
+      message="$(_testing.__gettext "Mock '\${option1}' requires the '\${option2}' keyword to perform this operation, but it is currently overridden.")"
+      ;;
     MOCK_TARGET_INVALID)
       required_options=1
       message="$(_testing.__gettext "The object identified by '\${option1}' cannot be mocked!")"

@@ -32,7 +32,7 @@ ${1}.mock.__controller() {
           _mock_object_side_effect="\${_mock_object_side_effects[0]}"
           _mock_object_side_effects=("\${_mock_object_side_effects[@]:1}")
           builtin declare -p _mock_object_side_effects > "\${__${2}_mock_side_effects_file}"
-         builtin eval "\${_mock_object_side_effect}"
+          builtin eval "\${_mock_object_side_effect}"
         fi
       fi
       ;;
