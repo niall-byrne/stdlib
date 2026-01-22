@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: niall@niallbyrne.ca\n"
-"POT-Creation-Date: 2026-01-22 21:59+0000\n"
+"POT-Creation-Date: 2026-01-22 22:03+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -118,123 +118,133 @@ msgstr ""
 
 #: src/message.sh:109
 #, sh-format
-msgid "A value equal to '${option1}' cannot be used!"
+msgid "The value '${option1}' is a shell builtin!"
 msgstr ""
 
 #: src/message.sh:113
 #, sh-format
-msgid "The value '${option1}' is a function!"
+msgid "A value equal to '${option1}' cannot be used!"
 msgstr ""
 
 #: src/message.sh:117
 #, sh-format
-msgid "The value '${option1}' is not a alphabetic only string!"
+msgid "The value '${option1}' is a function!"
 msgstr ""
 
 #: src/message.sh:121
 #, sh-format
-msgid "The value '${option1}' is not a alpha-numeric only string!"
+msgid "The value '${option1}' is not a alphabetic only string!"
 msgstr ""
 
 #: src/message.sh:125
 #, sh-format
-msgid "The value '${option1}' is not an array!"
+msgid "The value '${option1}' is not a alpha-numeric only string!"
 msgstr ""
 
 #: src/message.sh:129
 #, sh-format
-msgid "The value '${option1}' is not a string containing a boolean (0 or 1)!"
+msgid "The value '${option1}' is not an array!"
 msgstr ""
 
 #: src/message.sh:133
 #, sh-format
-msgid "The value '${option1}' is not a string containing a single char!"
+msgid "The value '${option1}' is not a string containing a boolean (0 or 1)!"
 msgstr ""
 
 #: src/message.sh:137
 #, sh-format
-msgid "The value '${option1}' is not a string containing a digit!"
+msgid "The value '${option1}' is not a shell builtin!"
 msgstr ""
 
 #: src/message.sh:141
 #, sh-format
-msgid "The value '${option1}' is not a function!"
+msgid "The value '${option1}' is not a string containing a single char!"
 msgstr ""
 
 #: src/message.sh:145
 #, sh-format
-msgid "The value '${option1}' is not a string containing an integer!"
+msgid "The value '${option1}' is not a string containing a digit!"
 msgstr ""
 
 #: src/message.sh:149
+#, sh-format
+msgid "The value '${option1}' is not a function!"
+msgstr ""
+
+#: src/message.sh:153
+#, sh-format
+msgid "The value '${option1}' is not a string containing an integer!"
+msgstr ""
+
+#: src/message.sh:157
 #, sh-format
 msgid ""
 "The value '${option3}' is not a string containing an integer in the "
 "inclusive range ${option1} to ${option2}!"
 msgstr ""
 
-#: src/message.sh:153
+#: src/message.sh:161
 #, sh-format
 msgid ""
 "The value '${option1}' is not a string containing an octal file permission!"
 msgstr ""
 
-#: src/message.sh:157
+#: src/message.sh:165
 #, sh-format
 msgid "The value '${option1}' is not a set string!"
 msgstr ""
 
-#: src/message.sh:161
+#: src/message.sh:169
 #, sh-format
 msgid "The regex '${option1}' does not match the value '${option2}'!"
 msgstr ""
 
-#: src/message.sh:165
+#: src/message.sh:173
 #, sh-format
 msgid "SECURITY: The group ownership on '${option1}' is not secure!"
 msgstr ""
 
-#: src/message.sh:169
+#: src/message.sh:177
 #, sh-format
 msgid "SECURITY: The ownership on '${option1}' is not secure!"
 msgstr ""
 
-#: src/message.sh:173
+#: src/message.sh:181
 #, sh-format
 msgid "SECURITY: The permissions on '${option1}' are not secure!"
 msgstr ""
 
-#: src/message.sh:177
-msgid "SECURITY: This script must be run as root."
-msgstr ""
-
-#: src/message.sh:181
-#, sh-format
-msgid "Please consider running: sudo chgrp '${option1}' '${option2}'"
-msgstr ""
-
 #: src/message.sh:185
-#, sh-format
-msgid "Please consider running: sudo chmod '${option1}' '${option2}'"
+msgid "SECURITY: This script must be run as root."
 msgstr ""
 
 #: src/message.sh:189
 #, sh-format
-msgid "Please consider running: sudo chown '${option1}' '${option2}'"
+msgid "Please consider running: sudo chgrp '${option1}' '${option2}'"
 msgstr ""
 
 #: src/message.sh:193
-msgid "Are you sure you wish to proceed (Y/n) ?"
+#, sh-format
+msgid "Please consider running: sudo chmod '${option1}' '${option2}'"
 msgstr ""
 
 #: src/message.sh:197
-msgid "Press any key to continue ..."
+#, sh-format
+msgid "Please consider running: sudo chown '${option1}' '${option2}'"
 msgstr ""
 
 #: src/message.sh:201
-msgid "Enter a value:"
+msgid "Are you sure you wish to proceed (Y/n) ?"
 msgstr ""
 
 #: src/message.sh:205
+msgid "Press any key to continue ..."
+msgstr ""
+
+#: src/message.sh:209
+msgid "Enter a value:"
+msgstr ""
+
+#: src/message.sh:213
 msgid "Callstack:"
 msgstr ""
