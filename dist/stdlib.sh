@@ -717,6 +717,24 @@ stdlib.fn.args.require ()
     done
 }
 
+stdlib.fn.assert.is_builtin ()
+{
+    builtin local return_code=0;
+    stdlib.fn.query.is_builtin "${@}" || return_code="$?";
+    case "${return_code}" in
+        0)
+
+        ;;
+        127)
+            stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+        ;;
+        *)
+            stdlib.logger.error "$(stdlib.message.get IS_NOT_BUILTIN "${1}")"
+        ;;
+    esac;
+    builtin return "${return_code}"
+}
+
 stdlib.fn.assert.is_fn ()
 {
     builtin local return_code=0;
@@ -748,6 +766,25 @@ stdlib.fn.assert.is_valid_name ()
         ;;
         *)
             stdlib.logger.error "$(stdlib.message.get FN_NAME_INVALID "${1}")"
+        ;;
+    esac;
+    builtin return "${return_code}"
+}
+
+stdlib.fn.assert.not_builtin ()
+{
+    builtin local return_code=0;
+    stdlib.fn.query.is_builtin "${@}" || return_code="$?";
+    case "${return_code}" in
+        0)
+            stdlib.logger.error "$(stdlib.message.get IS_BUILTIN "${1}")";
+            builtin return 1
+        ;;
+        1)
+            builtin return 0
+        ;;
+        127)
+            stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
         ;;
     esac;
     builtin return "${return_code}"
@@ -893,6 +930,16 @@ ${derive_target_fn_name}() {
 
 EOF
 )"
+}
+
+stdlib.fn.query.is_builtin ()
+{
+    [[ "${#@}" == "1" ]] || builtin return 127;
+    [[ -n "${1}" ]] || builtin return 126;
+    if [[ "$(builtin type -t "${1}")" != "builtin" ]]; then
+        builtin return 1;
+    fi;
+    builtin return 0
 }
 
 stdlib.fn.query.is_fn ()
@@ -1391,6 +1438,10 @@ stdlib.message.get ()
             required_options=1;
             message="$(stdlib.__gettext "The value '\${option1}' is an array!")"
         ;;
+        IS_BUILTIN)
+            required_options=1;
+            message="$(stdlib.__gettext "The value '\${option1}' is a shell builtin!")"
+        ;;
         IS_EQUAL)
             required_options=1;
             message="$(stdlib.__gettext "A value equal to '\${option1}' cannot be used!")"
@@ -1414,6 +1465,10 @@ stdlib.message.get ()
         IS_NOT_BOOLEAN)
             required_options=1;
             message="$(stdlib.__gettext "The value '\${option1}' is not a string containing a boolean (0 or 1)!")"
+        ;;
+        IS_NOT_BUILTIN)
+            required_options=1;
+            message="$(stdlib.__gettext "The value '\${option1}' is not a shell builtin!")"
         ;;
         IS_NOT_CHAR)
             required_options=1;
