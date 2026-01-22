@@ -4,6 +4,18 @@
 
 builtin set -eo pipefail
 
+stdlib.fn.query.is_builtin() {
+  # $1: the function name to query
+
+  [[ "${#@}" == "1" ]] || builtin return 127
+  [[ -n "${1}" ]] || builtin return 126
+
+  if [[ "$(builtin type -t "${1}")" != "builtin" ]]; then
+    builtin return 1
+  fi
+  builtin return 0
+}
+
 stdlib.fn.query.is_fn() {
   # $1: the function name to query
 
