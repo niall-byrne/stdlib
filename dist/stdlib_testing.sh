@@ -517,7 +517,7 @@ ${1}.mock.__controller() {
           _mock_object_side_effect="\${_mock_object_side_effects[0]}"
           _mock_object_side_effects=("\${_mock_object_side_effects[@]:1}")
           builtin declare -p _mock_object_side_effects > "\${__${2}_mock_side_effects_file}"
-         builtin eval "\${_mock_object_side_effect}"
+          builtin eval "\${_mock_object_side_effect}"
         fi
       fi
       ;;
@@ -576,6 +576,7 @@ ${1}.mock.get.call() {
   _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
   _testing.__protected stdlib.string.assert.is_digit "\${1}" || builtin return 126
   _testing.__protected stdlib.string.assert.not_equal "0" "\${1}" || builtin return 126
+  _mock.__internal.security.assert.is_builtin "declare" || builtin return "\$?"
 
   builtin printf -v _mock_object_escaped_args "%q" "\${1}"
 
@@ -587,6 +588,7 @@ ${1}.mock.get.calls() {
   builtin local _mock_object_escaped_args
 
   _testing.__protected stdlib.fn.args.require "0" "0" "\${@}" || builtin return "\$?"
+  _mock.__internal.security.assert.is_builtin "declare" || builtin return "\$?"
 
   ${1}.mock.__get_apply_to_matching_mock_calls     "true"     builtin printf '%s\\\\n' '"\${_mock_object_call_array[*]}"'
 }
@@ -653,6 +655,7 @@ ${1}.mock.set.side_effects() {
   builtin local -a _mock_object_side_effects
 
   _mock_object_side_effects=("\${@}")
+  _mock.__internal.security.assert.is_builtin "declare" || builtin return "\$?"
 
   builtin declare -p _mock_object_side_effects > "\${__${2}_mock_side_effects_file}"
   builtin printf -v "__${2}_mock_side_effects_boolean" "%s" "1"
@@ -729,6 +732,7 @@ ${1}.mock.assert_any_call_is() {
   _STDLIB_ARGS_NULL_SAFE=("1")
 
   _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
+  _mock.__internal.security.assert.is_builtin "declare" || builtin return "\$?"
 
   _mock_object_match_count="\$(${1}.mock.__count_matches "\${1}")"
 
@@ -749,6 +753,7 @@ ${1}.mock.assert_call_n_is() {
   _testing.__protected stdlib.fn.args.require "2" "0" "\${@}" || builtin return "\$?"
   _testing.__protected stdlib.string.assert.is_digit "\${1}" || builtin return 126
   _testing.__protected stdlib.string.assert.not_equal "0" "\${1}" || builtin return 126
+  _mock.__internal.security.assert.is_builtin "declare" || builtin return "\$?"
 
   _mock_object_call_count="\$(${1}.mock.get.count)"
 
@@ -772,6 +777,7 @@ ${1}.mock.assert_called_once_with() {
   _STDLIB_ARGS_NULL_SAFE=("1")
 
   _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
+  _mock.__internal.security.assert.is_builtin "declare" || builtin return "\$?"
 
   ${1}.mock.assert_count_is "1"
 
@@ -795,6 +801,7 @@ ${1}.mock.assert_calls_are() {
   builtin local -a _mock_object_expected_mock_calls
 
   _mock_object_expected_mock_calls=("\${@}")
+  _mock.__internal.security.assert.is_builtin "declare" || builtin return "\$?"
 
   while IFS= builtin read -r _mock_object_call_definition; do
     builtin eval "\${_mock_object_call_definition}"
@@ -953,6 +960,25 @@ _mock.__internal.persistence.sequence.update ()
     builtin local -a __MOCK_SEQUENCE_PERSISTED_ARRAY;
     __MOCK_SEQUENCE_PERSISTED_ARRAY=("${__MOCK_SEQUENCE[@]}");
     builtin declare -p __MOCK_SEQUENCE_PERSISTED_ARRAY > "${__MOCK_SEQUENCE_PERSISTENCE_FILE}"
+}
+
+_mock.__internal.security.assert.is_builtin ()
+{
+    builtin local return_code=0;
+    builtin local requesting_mock="${FUNCNAME[1]%.mock*}";
+    _testing.__protected stdlib.fn.query.is_builtin "${@}" || return_code="$?";
+    case "${return_code}" in
+        0)
+
+        ;;
+        127)
+            _testing.error "${FUNCNAME[0]}: $(_testing.__protected stdlib.message.get ARGUMENTS_INVALID)"
+        ;;
+        *)
+            _testing.error "${FUNCNAME[1]}: $(_testing.mock.message.get MOCK_REQUIRES_BUILTIN "${requesting_mock}" "${1}")"
+        ;;
+    esac;
+    builtin return "${return_code}"
 }
 
 _mock.__internal.security.sanitize.fn_name ()
@@ -1338,6 +1364,10 @@ _testing.mock.message.get ()
         MOCK_NOT_CALLED_WITH)
             required_options=2;
             message="$(_testing.__gettext "Mock '\${option1}' was not called with '\${option2}' !")"
+        ;;
+        MOCK_REQUIRES_BUILTIN)
+            required_options=2;
+            message="$(_testing.__gettext "Mock '\${option1}' requires the '\${option2}' keyword to perform this operation, but it is currently overridden.")"
         ;;
         MOCK_TARGET_INVALID)
             required_options=1;
