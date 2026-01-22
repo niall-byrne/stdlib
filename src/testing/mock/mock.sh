@@ -88,10 +88,10 @@ _mock.delete() {
   builtin unset -f "${1}"
 
   while IFS= builtin read -r mocked_function; do
-    mocked_function="${mocked_function/" ()"/}"
+    mocked_function="${mocked_function/"declare -f "/}"
     mocked_function="${mocked_function%?}"
-    builtin unset -f "${mocked_function/" ()"/}"
-  done <<< "$(builtin declare -f | ${_STDLIB_BINARY_GREP} -E "^${1}.mock.* ()")"
+    builtin unset -f "${mocked_function/"declare -f "/}"
+  done <<< "$(builtin declare -F | ${_STDLIB_BINARY_GREP} -E "^declare -f ${1}.mock.*")"
 
   if _testing.__protected stdlib.fn.query.is_fn "${1}____copy_of_original_implementation"; then
     _testing.__protected stdlib.fn.derive.clone "${1}____copy_of_original_implementation" "${1}"

@@ -56,10 +56,10 @@ __build_generate_step_3_stdlib_functions() {
   echo "# stdlib function definitions"
 
   while IFS= read -r stdlib_fn_name_line; do
-    stdlib_fn_name="${stdlib_fn_name_line/" () "/}"
+    stdlib_fn_name="${stdlib_fn_name_line/"declare -f "/}"
     echo
     declare -f "${stdlib_fn_name}"
-  done <<< "$(builtin declare -f | "${_STDLIB_BINARY_GREP}" -E "${stdlib_function_regex}" | "${_STDLIB_BINARY_GREP}" -v "${stdlib_function_filter}")"
+  done <<< "$(builtin declare -F | "${_STDLIB_BINARY_GREP}" -E "declare -f ${stdlib_function_regex}" | "${_STDLIB_BINARY_GREP}" -v "declare -f ${stdlib_function_filter}")"
 }
 
 __build_generate_step_3_testing_functions() {
@@ -67,10 +67,10 @@ __build_generate_step_3_testing_functions() {
   echo "# stdlib testing function definitions"
 
   while IFS= read -r stdlib_fn_name_line; do
-    stdlib_fn_name="${stdlib_fn_name_line/" () "/}"
+    stdlib_fn_name="${stdlib_fn_name_line/"declare -f "/}"
     echo
     declare -f "${stdlib_fn_name}"
-  done <<< "$(builtin declare -f | "${_STDLIB_BINARY_GREP}" -E "${stdlib_testing_function_regex}" | "${_STDLIB_BINARY_GREP}" -v "${stdlib_testing_function_filter}")"
+  done <<< "$(builtin declare -F | "${_STDLIB_BINARY_GREP}" -E "declare -f ${stdlib_testing_function_regex}" | "${_STDLIB_BINARY_GREP}" -v "declare -f ${stdlib_testing_function_filter}")"
 }
 
 __build_generate_step_4_stdlib_snippets() {
@@ -117,14 +117,14 @@ __build_target() {
 
 __build() {
   local stdlib_library_prefix="stdlib"
-  local stdlib_function_regex="^${stdlib_library_prefix}\\..* ()"
-  local stdlib_function_filter="^${stdlib_library_prefix}.security.__shell.assert.is_safe ()"
+  local stdlib_function_regex="${stdlib_library_prefix}\\..*"
+  local stdlib_function_filter="${stdlib_library_prefix}.security.__shell.assert.is_safe"
   local stdlib_variable_regex=" _*STDLIB_.*="
   local stdlib_variable_filter="STDLIB_DIRECTORY\|STDLIB_TEXTDOMAINDIR"
 
   local stdlib_testing_library_prefix="((_mock|_testing|_capture|\\@parametrize)\\.|assert_|\\@parametrize)"
-  local stdlib_testing_function_regex="^${stdlib_testing_library_prefix}.* ()"
-  local stdlib_testing_function_filter="^_mock.__internal.compile ()"
+  local stdlib_testing_function_regex="${stdlib_testing_library_prefix}.*"
+  local stdlib_testing_function_filter="_mock.__internal.compile"
   local stdlib_testing_variable_regex="( _*STDLIB_TESTING_.*=| _*PARAMETRIZE_.*=| _*MOCK_.*=)"
 
   local stdlib_variable_name_line

@@ -8,12 +8,12 @@ _STDLIB_TESTING_STDLIB_PROTECT_PREFIX=""
 
 _testing.__protect_stdlib() {
   builtin local stdlib_library_prefix="${_STDLIB_TESTING_STDLIB_PROTECT_PREFIX:-"stdlib"}"
-  builtin local stdlib_function_regex="^${stdlib_library_prefix}\\..* ()"
+  builtin local stdlib_function_regex="${stdlib_library_prefix}\\..*"
 
   while IFS= builtin read -r stdlib_fn_name; do
-    stdlib_fn_definition="$(builtin declare -f "${stdlib_fn_name/" () "/}")"
+    stdlib_fn_definition="$(builtin declare -f "${stdlib_fn_name/"declare -f "/}")"
     builtin eval "${stdlib_fn_definition//"${stdlib_library_prefix}."/"${stdlib_library_prefix}.testing.internal."}"
-  done <<< "$(builtin declare -f | "${_STDLIB_BINARY_GREP}" -E "${stdlib_function_regex}")"
+  done <<< "$(builtin declare -F | "${_STDLIB_BINARY_GREP}" -E "^declare -f ${stdlib_function_regex}")"
 }
 
 _testing.__protected() {

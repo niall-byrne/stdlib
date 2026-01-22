@@ -91,7 +91,7 @@ _t_runner_main() {
 
   shift || true
 
-  if declare -f _t_runner_custom_execution_context > /dev/null 2>&1; then
+  if declare -F _t_runner_custom_execution_context > /dev/null 2>&1; then
     _t_runner_custom_execution_context "$@"
   else
     _t_runner_execution_context "$@"
