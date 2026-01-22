@@ -4,6 +4,26 @@
 
 builtin set -eo pipefail
 
+stdlib.fn.assert.is_builtin() {
+  # $1: the function name to query
+
+  builtin local return_code=0
+
+  stdlib.fn.query.is_builtin "${@}" || return_code="$?"
+
+  case "${return_code}" in
+    0) ;; # KCOV_EXCLUDE_LINE
+    127)
+      stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+      ;;
+    *)
+      stdlib.logger.error "$(stdlib.message.get IS_NOT_BUILTIN "${1}")"
+      ;;
+  esac
+
+  builtin return "${return_code}"
+}
+
 stdlib.fn.assert.is_fn() {
   # $1: the function name to query
 
