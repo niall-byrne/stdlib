@@ -14,8 +14,8 @@ setup() {
   @parametrize \
     "${1}" \
     "TEST_ARGS_DEFINITION;TEST_EXPECTED_RC;TEST_MESSAGE_ARG_DEFINITIONS" \
-    "no_args___;;127;ARGUMENT_REQUIREMENTS_VIOLATION|1|0 ARGUMENT_REQUIREMENTS_VIOLATION_DETAIL|0" \
-    "extra_arg_;1(expected call)|extra argument;127;ARGUMENT_REQUIREMENTS_VIOLATION|1|0 ARGUMENT_REQUIREMENTS_VIOLATION_DETAIL|2"
+    "no_args____________;;127;ARGUMENT_REQUIREMENTS_VIOLATION|1|0 ARGUMENT_REQUIREMENTS_VIOLATION_DETAIL|0" \
+    "extra_arg__________;1(expected call)|extra argument;127;ARGUMENT_REQUIREMENTS_VIOLATION|1|0 ARGUMENT_REQUIREMENTS_VIOLATION_DETAIL|2"
 }
 
 @parametrize_with_no_keywords() {
@@ -84,9 +84,27 @@ test_stdlib_testing_mock_object_assert_called_once_with__@vary__generates_expect
 @parametrize_with_invalid_arg_combos \
   test_stdlib_testing_mock_object_assert_called_once_with__@vary__generates_expected_log_messages
 
-test_stdlib_testing_mock_object_assert_called_once_with__valid_args__called_1_time___no_args______no_keywords________succeeds() {
-  local keywords=()
+test_stdlib_testing_mock_object_assert_called_once_with__builtin_unavailable__returns_expected_status_code() {
+  _mock.create declare
+  _mock.create test_mock
 
+  _capture.rc test_mock.mock.assert_called_once_with "" 2> /dev/null
+
+  assert_rc "1"
+}
+
+test_stdlib_testing_mock_object_assert_called_once_with__builtin_unavailable__generates_expected_log_messages() {
+  _mock.create declare
+  _mock.create test_mock
+
+  _capture.assertion_failure test_mock.mock.assert_called_once_with ""
+
+  assert_equals \
+    "test_mock.mock.assert_called_once_with: $(_testing.mock.message.get "MOCK_REQUIRES_BUILTIN" "test_mock" "declare")" \
+    "${TEST_OUTPUT}"
+}
+
+test_stdlib_testing_mock_object_assert_called_once_with__valid_args___________called_1_time___no_args______no_keywords________succeeds() {
   _mock.create test_mock
 
   test_mock
@@ -94,7 +112,7 @@ test_stdlib_testing_mock_object_assert_called_once_with__valid_args__called_1_ti
   test_mock.mock.assert_called_once_with ""
 }
 
-test_stdlib_testing_mock_object_assert_called_once_with__valid_args__called_1_time___no_args______with_keywords______succeeds() {
+test_stdlib_testing_mock_object_assert_called_once_with__valid_args___________called_1_time___no_args______with_keywords______succeeds() {
   local keywords=()
 
   _mock.create test_mock
@@ -105,9 +123,7 @@ test_stdlib_testing_mock_object_assert_called_once_with__valid_args__called_1_ti
   test_mock.mock.assert_called_once_with "keyword1(value1) keyword2(value2)"
 }
 
-test_stdlib_testing_mock_object_assert_called_once_with__valid_args__called_1_time___no_args______no_keywords________fails() {
-  local keywords=()
-
+test_stdlib_testing_mock_object_assert_called_once_with__valid_args___________called_1_time___no_args______no_keywords________fails() {
   _mock.create test_mock
 
   test_mock
@@ -121,7 +137,7 @@ $(_testing.mock.message.get MOCK_NOT_CALLED_ONCE_WITH "test_mock" "1(arg1)")
     "${TEST_OUTPUT}"
 }
 
-test_stdlib_testing_mock_object_assert_called_once_with__valid_args__called_1_time___no_args______with_keywords______fails() {
+test_stdlib_testing_mock_object_assert_called_once_with__valid_args___________called_1_time___no_args______with_keywords______fails() {
   local keywords=()
 
   _mock.create test_mock
@@ -138,7 +154,7 @@ $(_testing.mock.message.get MOCK_NOT_CALLED_ONCE_WITH "test_mock" "1(arg1)")
     "${TEST_OUTPUT}"
 }
 
-test_stdlib_testing_mock_object_assert_called_once_with__valid_args__called_1_time___@vary__@vary__succeeds() {
+test_stdlib_testing_mock_object_assert_called_once_with__valid_args___________called_1_time___@vary__@vary__succeeds() {
   local keywords=()
 
   stdlib.array.make.from_string keywords "|" "${TEST_KEYWORDS}"
@@ -151,11 +167,11 @@ test_stdlib_testing_mock_object_assert_called_once_with__valid_args__called_1_ti
 }
 
 @parametrize.apply \
-  test_stdlib_testing_mock_object_assert_called_once_with__valid_args__called_1_time___@vary__@vary__succeeds \
+  test_stdlib_testing_mock_object_assert_called_once_with__valid_args___________called_1_time___@vary__@vary__succeeds \
   @parametrize_with_no_keywords \
   @parametrize_with_keywords
 
-test_stdlib_testing_mock_object_assert_called_once_with__valid_args__called_1_time___@vary__@vary__fails() {
+test_stdlib_testing_mock_object_assert_called_once_with__valid_args___________called_1_time___@vary__@vary__fails() {
   local expected_call="1(non matching value)"
   local keyword_string
   local keywords=()
@@ -179,11 +195,11 @@ $(_testing.mock.message.get MOCK_NOT_CALLED_ONCE_WITH "test_mock" "${TEST_ARG_ST
 }
 
 @parametrize.apply \
-  test_stdlib_testing_mock_object_assert_called_once_with__valid_args__called_1_time___@vary__@vary__fails \
+  test_stdlib_testing_mock_object_assert_called_once_with__valid_args___________called_1_time___@vary__@vary__fails \
   @parametrize_with_no_keywords \
   @parametrize_with_keywords
 
-test_stdlib_testing_mock_object_assert_called_once_with__valid_args__@vary_______fails() {
+test_stdlib_testing_mock_object_assert_called_once_with__valid_args___________@vary_______fails() {
   _mock.create test_mock
   test_mock 2
   test_mock 2
@@ -199,7 +215,7 @@ test_stdlib_testing_mock_object_assert_called_once_with__valid_args__@vary______
 }
 
 _PARAMETRIZE_FIELD_SEPARATOR="," @parametrize \
-  test_stdlib_testing_mock_object_assert_called_once_with__valid_args__@vary_______fails \
+  test_stdlib_testing_mock_object_assert_called_once_with__valid_args___________@vary_______fails \
   "TEST_ARG_STRING,EXPECTED_COUNT" \
   "not_called______no_keywords__empty_string,,0" \
   "not_called______no_keywords__string______,1(0),0" \

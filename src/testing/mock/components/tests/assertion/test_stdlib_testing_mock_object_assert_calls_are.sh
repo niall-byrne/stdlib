@@ -6,20 +6,40 @@ setup() {
   keyword2="value2"
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__not_called___single_call_____no_keywords____matching__succeeds() {
+test_stdlib_testing_mock_object_assert_calls_are__builtin_unavailable__returns_expected_status_code() {
+  _mock.create declare
+  _mock.create test_mock
+
+  _capture.rc test_mock.mock.assert_calls_are "1(arg)" 2> /dev/null
+
+  assert_rc "1"
+}
+
+test_stdlib_testing_mock_object_assert_calls_are__builtin_unavailable__generates_expected_log_messages() {
+  _mock.create declare
+  _mock.create test_mock
+
+  _capture.assertion_failure test_mock.mock.assert_calls_are "1(arg)"
+
+  assert_equals \
+    "test_mock.mock.assert_calls_are: $(_testing.mock.message.get "MOCK_REQUIRES_BUILTIN" "test_mock" "declare")" \
+    "${TEST_OUTPUT}"
+}
+
+test_stdlib_testing_mock_object_assert_calls_are__not_called___________single_call_____no_keywords____matching__succeeds() {
   _mock.create test_mock
 
   test_mock.mock.assert_calls_are
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__not_called___single_call_____with_keywords__matching__succeeds() {
+test_stdlib_testing_mock_object_assert_calls_are__not_called___________single_call_____with_keywords__matching__succeeds() {
   _mock.create test_mock
   test_mock.mock.set.keywords "keyword1" "keyword2"
 
   test_mock.mock.assert_calls_are
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__not_called___single_call_____no_keywords____index_0___fails() {
+test_stdlib_testing_mock_object_assert_calls_are__not_called___________single_call_____no_keywords____index_0___fails() {
   _mock.create test_mock
   EXPECTED_CALLS=(
     "1(call 1; call1"$'\n'"call1 call1 \'\";)"
@@ -30,7 +50,7 @@ test_stdlib_testing_mock_object_assert_calls_are__not_called___single_call_____n
   assert_output "$(_testing.mock.message.get "MOCK_NOT_CALLED" "test_mock")"
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__not_called___single_call_____with_keywords__index_0___fails() {
+test_stdlib_testing_mock_object_assert_calls_are__not_called___________single_call_____with_keywords__index_0___fails() {
   _mock.create test_mock
   test_mock.mock.set.keywords "keyword1" "keyword2"
   EXPECTED_CALLS=(
@@ -42,7 +62,7 @@ test_stdlib_testing_mock_object_assert_calls_are__not_called___single_call_____w
   assert_output "$(_testing.mock.message.get "MOCK_NOT_CALLED" "test_mock")"
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__no_args______single_call_____no_keywords____matching__succeeds() {
+test_stdlib_testing_mock_object_assert_calls_are__no_args______________single_call_____no_keywords____matching__succeeds() {
   _mock.create test_mock
   EXPECTED_CALLS=(
     ""
@@ -53,7 +73,7 @@ test_stdlib_testing_mock_object_assert_calls_are__no_args______single_call_____n
   test_mock.mock.assert_calls_are "${EXPECTED_CALLS[@]}"
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__no_args______single_call_____with_keywords__matching__succeeds() {
+test_stdlib_testing_mock_object_assert_calls_are__no_args______________single_call_____with_keywords__matching__succeeds() {
   _mock.create test_mock
   test_mock.mock.set.keywords "keyword1" "keyword2"
   EXPECTED_CALLS=(
@@ -65,7 +85,7 @@ test_stdlib_testing_mock_object_assert_calls_are__no_args______single_call_____w
   test_mock.mock.assert_calls_are "${EXPECTED_CALLS[@]}"
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__no_args______single_call_____no_keywords____index_0___fails() {
+test_stdlib_testing_mock_object_assert_calls_are__no_args______________single_call_____no_keywords____index_0___fails() {
   _mock.create test_mock
   EXPECTED_CALLS=(
     "1(arg1)"
@@ -80,7 +100,7 @@ test_stdlib_testing_mock_object_assert_calls_are__no_args______single_call_____n
  expected [1\(arg1\)] but was ['']"
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__no_args______single_call_____with_keywords__index_0___fails() {
+test_stdlib_testing_mock_object_assert_calls_are__no_args______________single_call_____with_keywords__index_0___fails() {
   _mock.create test_mock
   test_mock.mock.set.keywords "keyword1" "keyword2"
   EXPECTED_CALLS=(
@@ -96,7 +116,7 @@ test_stdlib_testing_mock_object_assert_calls_are__no_args______single_call_____w
  expected [1\(arg1\)\ keyword1\(value1\)\ keyword2\(value2\)] but was [keyword1\(value1\)\ keyword2\(value2\)]"
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__no_args______multiple_calls__no_keywords____matching__succeeds() {
+test_stdlib_testing_mock_object_assert_calls_are__no_args______________multiple_calls__no_keywords____matching__succeeds() {
   _mock.create test_mock
   EXPECTED_CALLS=(
     ""
@@ -111,7 +131,7 @@ test_stdlib_testing_mock_object_assert_calls_are__no_args______multiple_calls__n
   test_mock.mock.assert_calls_are "${EXPECTED_CALLS[@]}"
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__no_args______multiple_calls__with_keywords__matching__succeeds() {
+test_stdlib_testing_mock_object_assert_calls_are__no_args______________multiple_calls__with_keywords__matching__succeeds() {
   _mock.create test_mock
   test_mock.mock.set.keywords "keyword1" "keyword2"
   EXPECTED_CALLS=(
@@ -127,7 +147,7 @@ test_stdlib_testing_mock_object_assert_calls_are__no_args______multiple_calls__w
   test_mock.mock.assert_calls_are "${EXPECTED_CALLS[@]}"
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__no_args______multiple_calls__no_keywords____index_1___fails() {
+test_stdlib_testing_mock_object_assert_calls_are__no_args______________multiple_calls__no_keywords____index_1___fails() {
   _mock.create test_mock
   EXPECTED_CALLS=(
     ""
@@ -146,7 +166,7 @@ test_stdlib_testing_mock_object_assert_calls_are__no_args______multiple_calls__n
  expected [1\(arg1\)] but was ['']"
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__no_args______multiple_calls__with_keywords__index_1___fails() {
+test_stdlib_testing_mock_object_assert_calls_are__no_args______________multiple_calls__with_keywords__index_1___fails() {
   _mock.create test_mock
   test_mock.mock.set.keywords "keyword1" "keyword2"
   EXPECTED_CALLS=(
@@ -166,7 +186,7 @@ test_stdlib_testing_mock_object_assert_calls_are__no_args______multiple_calls__w
  expected [1\(arg1\)\ keyword1\(value1\)\ keyword2\(value2\)] but was [keyword1\(value1\)\ keyword2\(value2\)]"
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__single_arg___single_call_____no_keywords____matching__succeeds() {
+test_stdlib_testing_mock_object_assert_calls_are__single_arg___________single_call_____no_keywords____matching__succeeds() {
   _mock.create test_mock
   EXPECTED_CALLS=(
     "1(call 1; call1"$'\n'"call1 call1 \'\";)"
@@ -177,7 +197,7 @@ test_stdlib_testing_mock_object_assert_calls_are__single_arg___single_call_____n
   test_mock.mock.assert_calls_are "${EXPECTED_CALLS[@]}"
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__single_arg___single_call_____with_keywords__matching__succeeds() {
+test_stdlib_testing_mock_object_assert_calls_are__single_arg____________single_call_____with_keywords__matching__succeeds() {
   _mock.create test_mock
   test_mock.mock.set.keywords "keyword1" "keyword2"
   EXPECTED_CALLS=(
@@ -189,7 +209,7 @@ test_stdlib_testing_mock_object_assert_calls_are__single_arg___single_call_____w
   test_mock.mock.assert_calls_are "${EXPECTED_CALLS[@]}"
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__single_arg___single_call_____no_keywords____index_0___fails() {
+test_stdlib_testing_mock_object_assert_calls_are__single_arg___________single_call_____no_keywords____index_0___fails() {
   _mock.create test_mock
   EXPECTED_CALLS=(
     "1(arg1)"
@@ -205,7 +225,7 @@ test_stdlib_testing_mock_object_assert_calls_are__single_arg___single_call_____n
 call1 call1 \\'\";)']"
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__single_arg___single_call_____with_keywords__index_0___fails() {
+test_stdlib_testing_mock_object_assert_calls_are__single_arg___________single_call_____with_keywords__index_0___fails() {
   _mock.create test_mock
   test_mock.mock.set.keywords "keyword1" "keyword2"
   EXPECTED_CALLS=(
@@ -222,7 +242,7 @@ test_stdlib_testing_mock_object_assert_calls_are__single_arg___single_call_____w
 call1 call1 \\'\";) keyword1(value1) keyword2(value2)']"
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__single_arg___single_call_____no_keywords____extra_____fails() {
+test_stdlib_testing_mock_object_assert_calls_are__single_arg___________single_call_____no_keywords____extra_____fails() {
   _mock.create test_mock
   test_mock.mock.set.keywords "keyword1" "keyword2"
   EXPECTED_CALLS=(
@@ -238,7 +258,7 @@ test_stdlib_testing_mock_object_assert_calls_are__single_arg___single_call_____n
     "$(_testing.mock.message.get MOCK_CALLED_N_TIMES "test_mock" "1")"
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__single_arg___single_call_____with_keywords__extra_____fails() {
+test_stdlib_testing_mock_object_assert_calls_are__single_arg___________single_call_____with_keywords__extra_____fails() {
   _mock.create test_mock
   EXPECTED_CALLS=(
     "1(arg1)"
@@ -253,7 +273,7 @@ test_stdlib_testing_mock_object_assert_calls_are__single_arg___single_call_____w
     "$(_testing.mock.message.get MOCK_CALLED_N_TIMES "test_mock" "1")"
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__single_arg___multiple_calls__no_keywords____matching__succeeds() {
+test_stdlib_testing_mock_object_assert_calls_are__single_arg___________multiple_calls__no_keywords____matching__succeeds() {
   _mock.create test_mock
   EXPECTED_CALLS=(
     "1(call 1; call1"$'\n'"call1 call1 \'\";)"
@@ -268,7 +288,7 @@ test_stdlib_testing_mock_object_assert_calls_are__single_arg___multiple_calls__n
   test_mock.mock.assert_calls_are "${EXPECTED_CALLS[@]}"
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__single_arg___multiple_calls__with_keywords__matching__succeeds() {
+test_stdlib_testing_mock_object_assert_calls_are__single_arg___________multiple_calls__with_keywords__matching__succeeds() {
   _mock.create test_mock
   test_mock.mock.set.keywords "keyword1" "keyword2"
   EXPECTED_CALLS=(
@@ -284,7 +304,7 @@ test_stdlib_testing_mock_object_assert_calls_are__single_arg___multiple_calls__w
   test_mock.mock.assert_calls_are "${EXPECTED_CALLS[@]}"
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__single_arg___multiple_calls__no_keywords____index_2___fails() {
+test_stdlib_testing_mock_object_assert_calls_are__single_arg___________multiple_calls__no_keywords____index_2___fails() {
   _mock.create test_mock
   EXPECTED_CALLS=(
     "1(call 1; call1"$'\n'"call1 call1 \'\";)"
@@ -305,7 +325,7 @@ call3 call3 \\'\"; - does not match)'] but was [$'1(call 3; call3
 call3 call3 \\'\";)']"
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__single_arg___multiple_calls__with_keywords__index_2___fails() {
+test_stdlib_testing_mock_object_assert_calls_are__single_arg___________multiple_calls__with_keywords__index_2___fails() {
   _mock.create test_mock
   test_mock.mock.set.keywords "keyword1" "keyword2"
   EXPECTED_CALLS=(
@@ -327,7 +347,7 @@ call3 call3 \\'\"; - does not match) keyword1(value1) keyword2(value2)'] but was
 call3 call3 \\'\";) keyword1(value1) keyword2(value2)']"
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__single_arg___multiple_calls__no_keywords____extra___fails() {
+test_stdlib_testing_mock_object_assert_calls_are__single_arg___________multiple_calls__no_keywords____extra___fails() {
   _mock.create test_mock
   EXPECTED_CALLS=(
     "1(call 1; call1"$'\n'"call1 call1 \'\";)"
@@ -346,7 +366,7 @@ test_stdlib_testing_mock_object_assert_calls_are__single_arg___multiple_calls__n
     "$(_testing.mock.message.get MOCK_CALLED_N_TIMES "test_mock" "3")"
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__single_arg___multiple_calls__with_keywords__extra___fails() {
+test_stdlib_testing_mock_object_assert_calls_are__single_arg___________multiple_calls__with_keywords__extra___fails() {
   _mock.create test_mock
   test_mock.mock.set.keywords "keyword1" "keyword2"
   EXPECTED_CALLS=(
@@ -366,7 +386,7 @@ test_stdlib_testing_mock_object_assert_calls_are__single_arg___multiple_calls__w
     "$(_testing.mock.message.get MOCK_CALLED_N_TIMES "test_mock" "3")"
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__double_args__multiple_calls__no_keywords____matching__succeeds() {
+test_stdlib_testing_mock_object_assert_calls_are__double_args__________multiple_calls__no_keywords____matching__succeeds() {
   _mock.create test_mock
   EXPECTED_CALLS=(
     "1(call 1; call1"$'\n'"call1 call1 \'\";) 2(call1arg2)"
@@ -381,7 +401,7 @@ test_stdlib_testing_mock_object_assert_calls_are__double_args__multiple_calls__n
   test_mock.mock.assert_calls_are "${EXPECTED_CALLS[@]}"
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__double_args__multiple_calls__with_keywords__matching__succeeds() {
+test_stdlib_testing_mock_object_assert_calls_are__double_args__________multiple_calls__with_keywords__matching__succeeds() {
   _mock.create test_mock
   test_mock.mock.set.keywords "keyword1" "keyword2"
   EXPECTED_CALLS=(
@@ -397,7 +417,7 @@ test_stdlib_testing_mock_object_assert_calls_are__double_args__multiple_calls__w
   test_mock.mock.assert_calls_are "${EXPECTED_CALLS[@]}"
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__double_args__single_call_____no_keywords____index_0___fails() {
+test_stdlib_testing_mock_object_assert_calls_are__double_args__________single_call_____no_keywords____index_0___fails() {
   _mock.create test_mock
   EXPECTED_CALLS=(
     "1(call 1; call1"$'\n'"call1 call1 \'\";) 2(call1arg2 - does not match)"
@@ -414,7 +434,7 @@ call1 call1 \\'\";) 2(call1arg2 - does not match)'] but was [$'1(call 1; call1
 call1 call1 \\'\";) 2(call1arg2)']"
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__double_args__single_call_____with_keywords__index_0___fails() {
+test_stdlib_testing_mock_object_assert_calls_are__double_args__________single_call_____with_keywords__index_0___fails() {
   _mock.create test_mock
   test_mock.mock.set.keywords "keyword1" "keyword2"
   EXPECTED_CALLS=(
@@ -432,7 +452,7 @@ call1 call1 \\'\";) 2(call1arg2 - does not match) keyword1(value1) keyword2(valu
 call1 call1 \\'\";) 2(call1arg2) keyword1(value1) keyword2(value2)']"
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__double_args__multiple_calls__no_keywords____index_0___fails() {
+test_stdlib_testing_mock_object_assert_calls_are__double_args__________multiple_calls__no_keywords____index_0___fails() {
   _mock.create test_mock
   EXPECTED_CALLS=(
     "1(call 1; call1"$'\n'"call1 call1 \'\";) 2(call1arg2 - does not match)"
@@ -453,7 +473,7 @@ call1 call1 \\'\";) 2(call1arg2 - does not match)'] but was [$'1(call 1; call1
 call1 call1 \\'\";) 2(call1arg2)']"
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__double_args__multiple_calls__with_keywords__index_0___fails() {
+test_stdlib_testing_mock_object_assert_calls_are__double_args__________multiple_calls__with_keywords__index_0___fails() {
   _mock.create test_mock
   test_mock.mock.set.keywords "keyword1" "keyword2"
   EXPECTED_CALLS=(
@@ -475,7 +495,7 @@ call1 call1 \\'\";) 2(call1arg2 - does not match) keyword1(value1) keyword2(valu
 call1 call1 \\'\";) 2(call1arg2) keyword1(value1) keyword2(value2)']"
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__double_args__multiple_calls__no_keywords____index_1___fails() {
+test_stdlib_testing_mock_object_assert_calls_are__double_args__________multiple_calls__no_keywords____index_1___fails() {
   _mock.create test_mock
   EXPECTED_CALLS=(
     "1(call 1; call1"$'\n'"call1 call1 \'\";) 2(call1arg2)"
@@ -496,7 +516,7 @@ call2 call2 \\'\";) 2(call2arg2 - does not match)'] but was [$'1(call 2; call2
 call2 call2 \\'\";) 2(call2arg2)']"
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__double_args__multiple_calls__with_keywords__index_1___fails() {
+test_stdlib_testing_mock_object_assert_calls_are__double_args__________multiple_calls__with_keywords__index_1___fails() {
   _mock.create test_mock
   test_mock.mock.set.keywords "keyword1" "keyword2"
   EXPECTED_CALLS=(
@@ -518,7 +538,7 @@ call2 call2 \\'\";) 2(call2arg2 - does not match) keyword1(value1) keyword2(valu
 call2 call2 \\'\";) 2(call2arg2) keyword1(value1) keyword2(value2)']"
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__double_args__multiple_calls__no_keywords____index_2___fails() {
+test_stdlib_testing_mock_object_assert_calls_are__double_args__________multiple_calls__no_keywords____index_2___fails() {
   _mock.create test_mock
   EXPECTED_CALLS=(
     "1(call 1; call1"$'\n'"call1 call1 \'\";) 2(call1arg2)"
@@ -539,7 +559,7 @@ call3 call3 \\'\";) 2(call3arg2 - does not match)'] but was [$'1(call 3; call3
 call3 call3 \\'\";) 2(call3arg2)']"
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__double_args__multiple_calls__with_keywords__index_2___fails() {
+test_stdlib_testing_mock_object_assert_calls_are__double_args__________multiple_calls__with_keywords__index_2___fails() {
   _mock.create test_mock
   test_mock.mock.set.keywords "keyword1" "keyword2"
   EXPECTED_CALLS=(
