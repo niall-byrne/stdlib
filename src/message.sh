@@ -104,6 +104,10 @@ stdlib.message.get() {
       required_options=1
       message="$(stdlib.__gettext "The value '\${option1}' is an array!")"
       ;;
+    IS_BUILTIN)
+      required_options=1
+      message="$(stdlib.__gettext "The value '\${option1}' is a shell builtin!")"
+      ;;
     IS_EQUAL)
       required_options=1
       message="$(stdlib.__gettext "A value equal to '\${option1}' cannot be used!")"
@@ -127,6 +131,10 @@ stdlib.message.get() {
     IS_NOT_BOOLEAN)
       required_options=1
       message="$(stdlib.__gettext "The value '\${option1}' is not a string containing a boolean (0 or 1)!")"
+      ;;
+    IS_NOT_BUILTIN)
+      required_options=1
+      message="$(stdlib.__gettext "The value '\${option1}' is not a shell builtin!")"
       ;;
     IS_NOT_CHAR)
       required_options=1
