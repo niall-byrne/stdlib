@@ -10,7 +10,7 @@ stdlib.fn.query.is_fn() {
   [[ "${#@}" == "1" ]] || builtin return 127
   [[ -n "${1}" ]] || builtin return 126
 
-  if ! builtin declare -f "${1}" > /dev/null; then
+  if ! builtin declare -F "${1}" > /dev/null; then
     builtin return 1
   fi
   builtin return 0
