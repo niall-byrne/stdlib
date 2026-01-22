@@ -41,6 +41,7 @@ ${1}.mock.assert_any_call_is() {
   _STDLIB_ARGS_NULL_SAFE=("1")
 
   _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
+  _mock.__internal.security.assert.is_builtin "declare" || builtin return "\$?"
 
   _mock_object_match_count="\$(${1}.mock.__count_matches "\${1}")"
 
@@ -64,6 +65,7 @@ ${1}.mock.assert_call_n_is() {
   _testing.__protected stdlib.fn.args.require "2" "0" "\${@}" || builtin return "\$?"
   _testing.__protected stdlib.string.assert.is_digit "\${1}" || builtin return 126
   _testing.__protected stdlib.string.assert.not_equal "0" "\${1}" || builtin return 126
+  _mock.__internal.security.assert.is_builtin "declare" || builtin return "\$?"
 
   _mock_object_call_count="\$(${1}.mock.get.count)"
 
@@ -91,6 +93,7 @@ ${1}.mock.assert_called_once_with() {
   _STDLIB_ARGS_NULL_SAFE=("1")
 
   _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
+  _mock.__internal.security.assert.is_builtin "declare" || builtin return "\$?"
 
   ${1}.mock.assert_count_is "1"
 
@@ -118,6 +121,7 @@ ${1}.mock.assert_calls_are() {
   builtin local -a _mock_object_expected_mock_calls
 
   _mock_object_expected_mock_calls=("\${@}")
+  _mock.__internal.security.assert.is_builtin "declare" || builtin return "\$?"
 
   while IFS= builtin read -r _mock_object_call_definition; do
     builtin eval "\${_mock_object_call_definition}"
