@@ -14,8 +14,8 @@ setup() {
   @parametrize \
     "${1}" \
     "TEST_ARGS_DEFINITION;TEST_EXPECTED_RC;TEST_MESSAGE_ARG_DEFINITIONS" \
-    "no_args___;;127;ARGUMENT_REQUIREMENTS_VIOLATION|1|0 ARGUMENT_REQUIREMENTS_VIOLATION_DETAIL|0" \
-    "extra_arg_;1(expected call)|extra argument;127;ARGUMENT_REQUIREMENTS_VIOLATION|1|0 ARGUMENT_REQUIREMENTS_VIOLATION_DETAIL|2"
+    "no_args__________________;;127;ARGUMENT_REQUIREMENTS_VIOLATION|1|0 ARGUMENT_REQUIREMENTS_VIOLATION_DETAIL|0" \
+    "extra_arg________________;1(expected call)|extra argument;127;ARGUMENT_REQUIREMENTS_VIOLATION|1|0 ARGUMENT_REQUIREMENTS_VIOLATION_DETAIL|2"
 }
 
 test_stdlib_testing_mock_object_assert_any_call_is__@vary__returns_expected_status_code() {
@@ -56,12 +56,30 @@ test_stdlib_testing_mock_object_assert_any_call_is__@vary__generates_expected_lo
 @parametrize_with_invalid_arg_combos \
   test_stdlib_testing_mock_object_assert_any_call_is__@vary__generates_expected_log_messages
 
-test_stdlib_testing_mock_object_assert_any_call_is__valid_args__no_keywords____no_calls__value_absent____fails() {
+test_stdlib_testing_mock_object_assert_any_call_is__builtin_unavailable________returns_expected_status_code() {
+  _mock.create declare
+  _mock.create test_mock
+
+  _capture.rc test_mock.mock.assert_any_call_is "1(arg1)" 2> /dev/null || true
+
+  assert_rc "1"
+}
+
+test_stdlib_testing_mock_object_assert_any_call_is__builtin_unavailable________generates_expected_log_messages() {
+  _mock.create declare
   _mock.create test_mock
 
   _capture.assertion_failure test_mock.mock.assert_any_call_is "1(arg1)"
 
-  stdlib.testing.internal.logger.error.mock.get.calls
+  assert_equals \
+    "test_mock.mock.assert_any_call_is: $(_testing.mock.message.get "MOCK_REQUIRES_BUILTIN" "test_mock" "declare")" \
+    "${TEST_OUTPUT}"
+}
+
+test_stdlib_testing_mock_object_assert_any_call_is__valid_args__no_keywords____no_calls__value_absent____fails() {
+  _mock.create test_mock
+
+  _capture.assertion_failure test_mock.mock.assert_any_call_is "1(arg1)"
 
   assert_equals \
     "$(_testing.mock.message.get "MOCK_NOT_CALLED_WITH" "test_mock" "1(arg1)")

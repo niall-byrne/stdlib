@@ -14,10 +14,10 @@ setup() {
   @parametrize \
     "${1}" \
     "TEST_ARGS_DEFINITION;TEST_EXPECTED_RC;TEST_MESSAGE_ARG_DEFINITIONS" \
-    "no_args___________;;127;ARGUMENT_REQUIREMENTS_VIOLATION|2|0 ARGUMENT_REQUIREMENTS_VIOLATION_DETAIL|0" \
-    "extra_arg_________;1|1(expected call)|extra argument;127;ARGUMENT_REQUIREMENTS_VIOLATION|2|0 ARGUMENT_REQUIREMENTS_VIOLATION_DETAIL|3" \
-    "index_is_invalid__;a|1(expected call);126;IS_NOT_DIGIT|a" \
-    "index_is_zero_____;0|1(expected call);126;IS_EQUAL|0"
+    "no_args____________;;127;ARGUMENT_REQUIREMENTS_VIOLATION|2|0 ARGUMENT_REQUIREMENTS_VIOLATION_DETAIL|0" \
+    "extra_arg__________;1|1(expected call)|extra argument;127;ARGUMENT_REQUIREMENTS_VIOLATION|2|0 ARGUMENT_REQUIREMENTS_VIOLATION_DETAIL|3" \
+    "index_is_invalid___;a|1(expected call);126;IS_NOT_DIGIT|a" \
+    "index_is_zero______;0|1(expected call);126;IS_EQUAL|0"
 }
 
 test_stdlib_testing_mock_object_assert_call_n_is__@vary__returns_expected_status_code() {
@@ -58,7 +58,27 @@ test_stdlib_testing_mock_object_assert_call_n_is__@vary__generates_expected_log_
 @parametrize_with_invalid_arg_combos \
   test_stdlib_testing_mock_object_assert_call_n_is__@vary__generates_expected_log_messages
 
-test_stdlib_testing_mock_object_assert_call_n_is__valid_args__________no_keywords____no_calls__assert_call_1__fails() {
+test_stdlib_testing_mock_object_assert_call_n_is__builtin_unavailable__returns_expected_status_code() {
+  _mock.create declare
+  _mock.create test_mock
+
+  _capture.assertion_failure test_mock.mock.assert_call_n_is "1" "1(called)"
+
+  assert_equals \
+    "test_mock.mock.assert_call_n_is: $(_testing.mock.message.get "MOCK_REQUIRES_BUILTIN" "test_mock" "declare")" \
+    "${TEST_OUTPUT}"
+}
+
+test_stdlib_testing_mock_object_assert_call_n_is__builtin_unavailable__generates_expected_log_messages() {
+  _mock.create declare
+  _mock.create test_mock
+
+  _capture.rc test_mock.mock.assert_call_n_is "1" "1(called)" 2> /dev/null
+
+  assert_rc "1"
+}
+
+test_stdlib_testing_mock_object_assert_call_n_is__valid_args___________no_keywords____no_calls__assert_call_1__fails() {
   _mock.create test_mock
 
   _capture.assertion_failure test_mock.mock.assert_call_n_is "1" "1(called)"
@@ -68,7 +88,7 @@ test_stdlib_testing_mock_object_assert_call_n_is__valid_args__________no_keyword
     "${TEST_OUTPUT}"
 }
 
-test_stdlib_testing_mock_object_assert_call_n_is__valid_args__________with_keywords__no_calls__assert_call_1__fails() {
+test_stdlib_testing_mock_object_assert_call_n_is__valid_args___________with_keywords__no_calls__assert_call_1__fails() {
   _mock.create test_mock
   test_mock.mock.set.keywords "keyword1" "keyword2"
 
@@ -79,7 +99,7 @@ test_stdlib_testing_mock_object_assert_call_n_is__valid_args__________with_keywo
     "${TEST_OUTPUT}"
 }
 
-test_stdlib_testing_mock_object_assert_call_n_is__valid_args__________no_keywords____2_calls___assert_call_1__fails() {
+test_stdlib_testing_mock_object_assert_call_n_is__valid_args___________no_keywords____2_calls___assert_call_1__fails() {
   _mock.create test_mock
   test_mock arg1 arg2
   test_mock arg1 arg2
@@ -92,7 +112,7 @@ test_stdlib_testing_mock_object_assert_call_n_is__valid_args__________no_keyword
     "${TEST_OUTPUT}"
 }
 
-test_stdlib_testing_mock_object_assert_call_n_is__valid_args__________with_keywords__2_calls___assert_call_1__fails() {
+test_stdlib_testing_mock_object_assert_call_n_is__valid_args___________with_keywords__2_calls___assert_call_1__fails() {
   _mock.create test_mock
   test_mock.mock.set.keywords "keyword1" "keyword2"
   test_mock arg1 arg2
@@ -106,7 +126,7 @@ test_stdlib_testing_mock_object_assert_call_n_is__valid_args__________with_keywo
     "${TEST_OUTPUT}"
 }
 
-test_stdlib_testing_mock_object_assert_call_n_is__valid_args__________no_keywords____2_calls___assert_call_2__fails() {
+test_stdlib_testing_mock_object_assert_call_n_is__valid_args___________no_keywords____2_calls___assert_call_2__fails() {
   _mock.create test_mock
   test_mock arg1 arg2
   test_mock arg1 arg2
@@ -119,7 +139,7 @@ test_stdlib_testing_mock_object_assert_call_n_is__valid_args__________no_keyword
     "${TEST_OUTPUT}"
 }
 
-test_stdlib_testing_mock_object_assert_call_n_is__valid_args__________with_keywords__2_calls___assert_call_2__fails() {
+test_stdlib_testing_mock_object_assert_call_n_is__valid_args___________with_keywords__2_calls___assert_call_2__fails() {
   _mock.create test_mock
   test_mock.mock.set.keywords "keyword1" "keyword2"
   test_mock arg1 arg2
@@ -133,7 +153,7 @@ test_stdlib_testing_mock_object_assert_call_n_is__valid_args__________with_keywo
     "${TEST_OUTPUT}"
 }
 
-test_stdlib_testing_mock_object_assert_call_n_is__valid_args__________no_keywords____2_calls___assert_call_3__fails() {
+test_stdlib_testing_mock_object_assert_call_n_is__valid_args___________no_keywords____2_calls___assert_call_3__fails() {
   _mock.create test_mock
   test_mock arg1 arg2
   test_mock arg1 arg2
@@ -145,7 +165,7 @@ test_stdlib_testing_mock_object_assert_call_n_is__valid_args__________no_keyword
     "${TEST_OUTPUT}"
 }
 
-test_stdlib_testing_mock_object_assert_call_n_is__valid_args__________with_keywords__2_calls___assert_call_3__fails() {
+test_stdlib_testing_mock_object_assert_call_n_is__valid_args___________with_keywords__2_calls___assert_call_3__fails() {
   _mock.create test_mock
   test_mock.mock.set.keywords "keyword1" "keyword2"
   test_mock arg1 arg2
@@ -158,7 +178,7 @@ test_stdlib_testing_mock_object_assert_call_n_is__valid_args__________with_keywo
     "${TEST_OUTPUT}"
 }
 
-test_stdlib_testing_mock_object_assert_call_n_is__valid_args__________no_keywords____3_calls___assert_call_1__succeeds() {
+test_stdlib_testing_mock_object_assert_call_n_is__valid_args___________no_keywords____3_calls___assert_call_1__succeeds() {
   _mock.create test_mock
   test_mock
   test_mock
@@ -166,7 +186,7 @@ test_stdlib_testing_mock_object_assert_call_n_is__valid_args__________no_keyword
   test_mock.mock.assert_call_n_is "1" ""
 }
 
-test_stdlib_testing_mock_object_assert_call_n_is__valid_args__________with_keywords__3_calls___assert_call_1__succeeds() {
+test_stdlib_testing_mock_object_assert_call_n_is__valid_args___________with_keywords__3_calls___assert_call_1__succeeds() {
   _mock.create test_mock
   test_mock.mock.set.keywords "keyword1" "keyword2"
   test_mock
@@ -175,7 +195,7 @@ test_stdlib_testing_mock_object_assert_call_n_is__valid_args__________with_keywo
   test_mock.mock.assert_call_n_is "1" "keyword1(value1) keyword2(value2)"
 }
 
-test_stdlib_testing_mock_object_assert_call_n_is__valid_args__________no_keywords____3_calls___assert_call_2__succeeds() {
+test_stdlib_testing_mock_object_assert_call_n_is__valid_args___________no_keywords____3_calls___assert_call_2__succeeds() {
   _mock.create test_mock
   test_mock arg1 arg2
   test_mock arg1 arg2 successful
@@ -184,7 +204,7 @@ test_stdlib_testing_mock_object_assert_call_n_is__valid_args__________no_keyword
   test_mock.mock.assert_call_n_is "2" "1(arg1) 2(arg2) 3(successful)"
 }
 
-test_stdlib_testing_mock_object_assert_call_n_is__valid_args__________with_keywords__3_calls___assert_call_2__succeeds() {
+test_stdlib_testing_mock_object_assert_call_n_is__valid_args___________with_keywords__3_calls___assert_call_2__succeeds() {
   _mock.create test_mock
   test_mock.mock.set.keywords "keyword1" "keyword2"
   test_mock arg1 arg2

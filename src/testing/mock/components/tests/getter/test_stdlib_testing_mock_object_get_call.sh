@@ -14,10 +14,10 @@ setup() {
   @parametrize \
     "${1}" \
     "TEST_ARGS_DEFINITION;TEST_EXPECTED_RC;TEST_MESSAGE_ARG_DEFINITIONS" \
-    "no_args_________;;127;ARGUMENT_REQUIREMENTS_VIOLATION|1|0 ARGUMENT_REQUIREMENTS_VIOLATION_DETAIL|0" \
-    "extra_arg_______;1|extra argument;127;ARGUMENT_REQUIREMENTS_VIOLATION|1|0 ARGUMENT_REQUIREMENTS_VIOLATION_DETAIL|2" \
-    "index_is_invalid;a;126;IS_NOT_DIGIT|a" \
-    "index_is_zero___;0;126;IS_EQUAL|0"
+    "no_args____________;;127;ARGUMENT_REQUIREMENTS_VIOLATION|1|0 ARGUMENT_REQUIREMENTS_VIOLATION_DETAIL|0" \
+    "extra_arg__________;1|extra argument;127;ARGUMENT_REQUIREMENTS_VIOLATION|1|0 ARGUMENT_REQUIREMENTS_VIOLATION_DETAIL|2" \
+    "index_is_invalid___;a;126;IS_NOT_DIGIT|a" \
+    "index_is_zero______;0;126;IS_EQUAL|0"
 }
 
 test_stdlib_testing_mock_object_get_call__@vary__returns_expected_status_code() {
@@ -58,20 +58,40 @@ test_stdlib_testing_mock_object_get_call__@vary__generates_expected_log_messages
 @parametrize_with_invalid_arg_combos \
   test_stdlib_testing_mock_object_get_call__@vary__generates_expected_log_messages
 
-test_stdlib_testing_mock_object_get_call__valid_args________not_called__________________no_keywords____returns_correct_value() {
+test_stdlib_testing_mock_object_get_call__builtin_unavailable__returns_expected_status_code() {
+  _mock.create declare
+  _mock.create test_mock
+
+  _capture.rc test_mock.mock.get.call "1" 2> /dev/null
+
+  assert_rc "1"
+}
+
+test_stdlib_testing_mock_object_get_call__builtin_unavailable__generates_expected_log_messages() {
+  _mock.create declare
+  _mock.create test_mock
+
+  _capture.assertion_failure test_mock.mock.get.call "1"
+
+  assert_equals \
+    "test_mock.mock.get.call: $(_testing.mock.message.get "MOCK_REQUIRES_BUILTIN" "test_mock" "declare")" \
+    "${TEST_OUTPUT}"
+}
+
+test_stdlib_testing_mock_object_get_call__valid_args___________not_called__________________no_keywords____returns_correct_value() {
   _mock.create test_mock
 
   assert_null "$(test_mock.mock.get.call "1")"
 }
 
-test_stdlib_testing_mock_object_get_call__valid_args________not_called__________________with_keywords__returns_correct_value() {
+test_stdlib_testing_mock_object_get_call__valid_args___________not_called__________________with_keywords__returns_correct_value() {
   _mock.create test_mock
   test_mock.mock.set.keywords "keyword1" "keyword2"
 
   assert_null "$(test_mock.mock.get.call "1")"
 }
 
-test_stdlib_testing_mock_object_get_call__valid_args________called_with_digits__________no_keywords____returns_correct_value() {
+test_stdlib_testing_mock_object_get_call__valid_args___________called_with_digits__________no_keywords____returns_correct_value() {
   _mock.create test_mock
   test_mock 1 2 3
   test_mock 4 5 6
@@ -79,7 +99,7 @@ test_stdlib_testing_mock_object_get_call__valid_args________called_with_digits__
   assert_equals "1(4) 2(5) 3(6)" "$(test_mock.mock.get.call "2")"
 }
 
-test_stdlib_testing_mock_object_get_call__valid_args________called_with_digits__________with_keywords__returns_correct_value() {
+test_stdlib_testing_mock_object_get_call__valid_args___________called_with_digits__________with_keywords__returns_correct_value() {
   _mock.create test_mock
   test_mock.mock.set.keywords "keyword1" "keyword2"
   test_mock 1 2 3
@@ -88,7 +108,7 @@ test_stdlib_testing_mock_object_get_call__valid_args________called_with_digits__
   assert_equals "1(4) 2(5) 3(6) keyword1(value1) keyword2(value2)" "$(test_mock.mock.get.call "2")"
 }
 
-test_stdlib_testing_mock_object_get_call__valid_args________called_with_simple_strings__no_keywords____returns_correct_value() {
+test_stdlib_testing_mock_object_get_call__valid_args___________called_with_simple_strings__no_keywords____returns_correct_value() {
   _mock.create test_mock
   test_mock "one two three"
   test_mock "four five six"
@@ -96,7 +116,7 @@ test_stdlib_testing_mock_object_get_call__valid_args________called_with_simple_s
   assert_equals "1(four five six)" "$(test_mock.mock.get.call "2")"
 }
 
-test_stdlib_testing_mock_object_get_call__valid_args________called_with_simple_strings__with_keywords__returns_correct_value() {
+test_stdlib_testing_mock_object_get_call__valid_args___________called_with_simple_strings__with_keywords__returns_correct_value() {
   _mock.create test_mock
   test_mock.mock.set.keywords "keyword1"
   test_mock "one two three"
@@ -105,7 +125,7 @@ test_stdlib_testing_mock_object_get_call__valid_args________called_with_simple_s
   assert_equals "1(four five six) keyword1(value1)" "$(test_mock.mock.get.call "2")"
 }
 
-test_stdlib_testing_mock_object_get_call__valid_args________called_with_complex_string__no_keywords____returns_correct_value() {
+test_stdlib_testing_mock_object_get_call__valid_args___________called_with_complex_string__no_keywords____returns_correct_value() {
   _mock.create test_mock
   test_mock "one two"$'\n'"three"
   test_mock "four five"$'\n'"six"
@@ -113,7 +133,7 @@ test_stdlib_testing_mock_object_get_call__valid_args________called_with_complex_
   assert_equals "1(four five"$'\n'"six)" "$(test_mock.mock.get.call "2")"
 }
 
-test_stdlib_testing_mock_object_get_call__valid_args________called_with_complex_string__with_keywords__returns_correct_value() {
+test_stdlib_testing_mock_object_get_call__valid_args___________called_with_complex_string__with_keywords__returns_correct_value() {
   _mock.create test_mock
   test_mock.mock.set.keywords "keyword1" "keyword2"
   test_mock "one two"$'\n'"three"
