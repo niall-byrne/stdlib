@@ -43,12 +43,14 @@ setup() {
     "fs_path_is_not_a_file;FS_PATH_IS_NOT_A_FILE|/tmp/foo;The path '/tmp/foo' is not a valid filesystem file!" \
     "fs_path_is_not_a_folder;FS_PATH_IS_NOT_A_FOLDER|/tmp/foo;The path '/tmp/foo' is not a valid filesystem folder!" \
     "is_array;IS_ARRAY|value;The value 'value' is an array!" \
+    "is_builtin;IS_BUILTIN|value;The value 'value' is a shell builtin!" \
     "is_equal;IS_EQUAL|value;A value equal to 'value' cannot be used!" \
     "is_fn;IS_FN|value;The value 'value' is a function!" \
     "is_not_alphabetic;IS_NOT_ALPHABETIC|value;The value 'value' is not a alphabetic only string!" \
     "is_not_alpha_numeric;IS_NOT_ALPHA_NUMERIC|value;The value 'value' is not a alpha-numeric only string!" \
     "is_not_array;IS_NOT_ARRAY|value;The value 'value' is not an array!" \
     "is_not_boolean;IS_NOT_BOOLEAN|value;The value 'value' is not a string containing a boolean (0 or 1)!" \
+    "is_not_builtin;IS_NOT_BUILTIN|value;The value 'value' is not a shell builtin!" \
     "is_not_char;IS_NOT_CHAR|value;The value 'value' is not a string containing a single char!" \
     "is_not_digit;IS_NOT_DIGIT|value;The value 'value' is not a string containing a digit!" \
     "is_not_fn;IS_NOT_FN|value;The value 'value' is not a function!" \
@@ -119,6 +121,8 @@ setup() {
     "fs_path_is_not_a_folder_________________too_many_args;FS_PATH_IS_NOT_A_FOLDER|1|2" \
     "is_array________________________________no_args______;IS_ARRAY" \
     "is_array________________________________too_many_args;IS_ARRAY|1|2" \
+    "is_builtin______________________________no_args______;IS_BUILTIN" \
+    "is_builtin______________________________too_many_args;IS_BUILTIN|1|2" \
     "is_equal________________________________no_args______;IS_EQUAL" \
     "is_equal________________________________too_many_args;IS_EQUAL|1|2" \
     "is_fn___________________________________no_args______;IS_FN" \
@@ -131,6 +135,8 @@ setup() {
     "is_not_array____________________________too_many_args;IS_NOT_ARRAY|1|2" \
     "is_not_boolean__________________________no_args______;IS_NOT_BOOLEAN" \
     "is_not_boolean__________________________too_many_args;IS_NOT_BOOLEAN|1|2" \
+    "is_not_builtin__________________________no_args______;IS_NOT_BUILTIN" \
+    "is_not_builtin__________________________too_many_args;IS_NOT_BUILTIN|1|2" \
     "is_not_char_____________________________no_args______;IS_NOT_CHAR" \
     "is_not_char_____________________________too_many_args;IS_NOT_CHAR|1|2" \
     "is_not_digit____________________________no_args______;IS_NOT_DIGIT" \
