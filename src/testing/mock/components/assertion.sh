@@ -8,7 +8,7 @@ builtin export __STDLIB_TESTING_MOCK_COMPONENT
 
 # shellcheck disable=SC2034
 __STDLIB_TESTING_MOCK_COMPONENT="$(
-  "${_STDLIB_BINARY_CAT}" << EOF
+  "${_STDLIB_BINARY_CAT}" << 'EOF'
 
 ${1}.mock.__count_matches() {
   # $1: a set of call args as a string
