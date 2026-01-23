@@ -89,7 +89,10 @@ class TestDocumentationCheck(unittest.TestCase):
         self.assertIn("Non-standard @exitcode 126", errors_std[0])
         self.assertIn("Non-standard @exitcode 127", errors_std[1])
 
-        # Test "If" prefix rule
+    def test_exitcode_description(self):
+        filepath = os.path.join(self.assets_dir, "non_standard_exitcodes.sh")
+        functions = documentation_check.parse_file(filepath)
+
         rule_if = documentation_check.ExitCodeDescriptionRule()
         errors_if = rule_if.check(functions[0])
         # exitcode 126 and 127 in assets don't start with "If"
@@ -106,6 +109,21 @@ class TestDocumentationCheck(unittest.TestCase):
         self.assertEqual(len(errors), 2)
         self.assertIn("Missing @stderr tag", errors[0])
         self.assertIn("Missing @stdout tag", errors[1])
+
+    def test_missing_exitcode_configurable(self):
+        filepath = os.path.join(self.assets_dir, "valid.sh")
+        functions = documentation_check.parse_file(filepath)
+
+        # Override REQUIRED_EXIT_CODES
+        original_codes = documentation_check.REQUIRED_EXIT_CODES
+        try:
+            documentation_check.REQUIRED_EXIT_CODES = ["0", "1"]
+            rule = documentation_check.MissingExitCodeRule()
+            errors = rule.check(functions[0])
+            self.assertEqual(len(errors), 1)
+            self.assertIn("Missing @exitcode 1", errors[0])
+        finally:
+            documentation_check.REQUIRED_EXIT_CODES = original_codes
 
     @patch('sys.exit')
     @patch('sys.stdout', new_callable=StringIO)
