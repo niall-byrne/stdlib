@@ -1,3 +1,4 @@
+__pycache__
 *.po~
 .idea
 .cicd-tools/boxes
@@ -6,4 +7,3 @@
 !.vale/Vocab
 coverage
 locales/**/LC_MESSAGES/*.mo
-__pycache__
