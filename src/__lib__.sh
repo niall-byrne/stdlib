@@ -49,3 +49,5 @@ builtin source "${STDLIB_DIRECTORY}/security/__lib__.sh"
 builtin source "${STDLIB_DIRECTORY}/string/__lib__.sh"
 # source=src/trap/__lib__.sh
 builtin source "${STDLIB_DIRECTORY}/trap/__lib__.sh"
+# source=src/var/__lib__.sh
+builtin source "${STDLIB_DIRECTORY}/var/__lib__.sh"

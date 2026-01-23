@@ -623,6 +623,7 @@ ${1}.mock.set.keywords() {
   _mock_object_keywords=("\${@}")
 
   _testing.__protected stdlib.array.assert.not_contains "" _mock_object_keywords || builtin return 126
+  _testing.__protected stdlib.array.map.fn "$(_testing.__protected_name stdlib.var.assert.is_valid_name)" _mock_object_keywords || builtin return 126
 
   builtin eval "__${2}_mock_keywords=(\$(builtin printf '%q ' "\${@}"))"
 }
@@ -1150,7 +1151,13 @@ _testing.__protect_stdlib ()
 
 _testing.__protected ()
 {
-    _STDLIB_BUILTIN_BOOLEAN=1 "${1//"stdlib."/"stdlib.testing.internal."}" "${@:2}"
+    _STDLIB_BUILTIN_BOOLEAN=1 "$(_testing.__protected_name "${1}")" "${@:2}"
+}
+
+_testing.__protected_name ()
+{
+    builtin local stdlib_library_prefix="${_STDLIB_TESTING_STDLIB_PROTECT_PREFIX:-"stdlib"}";
+    builtin echo "${1//"${stdlib_library_prefix}."/"${stdlib_library_prefix}.testing.internal."}"
 }
 
 _testing.assert.message.get ()
