@@ -22,4 +22,9 @@ _t_runner_custom_execution_context() {
 }
 
 export -f _t_runner_custom_execution_context
+
+if [[ "${#@}" -eq 0 ]]; then
+  set -- "${@}" "src"
+fi
+
 "${_t_runner_working_directory}/../dist/t" "$@"
