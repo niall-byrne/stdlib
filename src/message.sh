@@ -212,6 +212,10 @@ stdlib.message.get() {
       required_options=0
       message="$(stdlib.__gettext "Callstack:")"
       ;;
+    VAR_NAME_INVALID)
+      required_options=1
+      message="$(stdlib.__gettext "The value '\${option1}' is not a valid variable name!")"
+      ;;
     "")
       required_options=0
       return_status=126
