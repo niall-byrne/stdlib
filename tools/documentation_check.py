@@ -203,7 +203,9 @@ class AssertionStderrRule(Rule):
 
 
 class MissingOutputTagsRule(Rule):
-    def _has_trigger(self, body: List[str], triggers: List[str], is_stdout: bool = False) -> bool:
+    def _has_trigger(
+        self, body: List[str], triggers: List[str], is_stdout: bool = False
+    ) -> bool:
         for line in body:
             if any(t in line for t in triggers):
                 # Specific check for stdout to avoid false positives
@@ -338,7 +340,9 @@ def main():
             file_errors = []
             for func in functions:
                 # Find the UndocumentedRule instance
-                undocumented_rule = next((r for r in rules if isinstance(r, UndocumentedRule)), None)
+                undocumented_rule = next(
+                    (r for r in rules if isinstance(r, UndocumentedRule)), None
+                )
                 if undocumented_rule:
                     undocumented_errors = undocumented_rule.check(func)
                     if undocumented_errors:

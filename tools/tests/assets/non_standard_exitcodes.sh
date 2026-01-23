@@ -1,3 +1,4 @@
+#!/bin/bash
 # @description Non standard exit codes.
 # @arg $1 string An argument.
 # @exitcode 0 If the operation succeeded.
