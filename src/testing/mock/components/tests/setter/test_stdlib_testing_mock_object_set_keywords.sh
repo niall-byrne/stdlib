@@ -14,8 +14,9 @@ setup() {
 
   @parametrize \
     "${1}" \
-    "TEST_ARGS_DEFINITION;TEST_EXPECTED_RC;TEST_MESSAGE_ARG_DEFINITION" \
-    "null_arg_;|;126;ARRAY_VALUE_FOUND||_mock_object_keywords"
+    "TEST_ARGS_DEFINITION;TEST_MESSAGE_ARG_DEFINITION;TEST_EXPECTED_RC" \
+    "null_arg____________;|;ARRAY_VALUE_FOUND||_mock_object_keywords;126" \
+    "invalid_keyword_name;valid_name|invalid name;VAR_NAME_INVALID|invalid name;126"
 }
 
 test_stdlib_testing_mock_object_set_keywords__@vary__returns_expected_status_code() {
@@ -66,9 +67,9 @@ test_stdlib_testing_mock_object_set_keywords__@vary__returns_correct_value() {
 @parametrize \
   test_stdlib_testing_mock_object_set_keywords__@vary__returns_correct_value \
   "TEST_ARGS;TEST_KEYWORD_ARGS;TEST_EXPECTED_CALL" \
-  "no_args____no_keywords;;;;" \
-  "one_arg____no_keywords;arg1;;1(arg1)" \
-  "two_args___no_keywords;arg1|arg2;;1(arg1) 2(arg2)" \
-  "one_arg____one_keyword;arg1;keyword1;1(arg1) keyword1(value1)" \
-  "two_args___one_keyword;arg1|arg2;keyword1;1(arg1) 2(arg2) keyword1(value1)" \
-  "two_args___two_keywords;arg1|arg2;keyword1|keyword2;1(arg1) 2(arg2) keyword1(value1) keyword2(value2)"
+  "no_args_______________no_keywords;;;;" \
+  "one_arg_______________no_keywords;arg1;;1(arg1)" \
+  "two_args______________no_keywords;arg1|arg2;;1(arg1) 2(arg2)" \
+  "one_arg_______________one_keyword;arg1;keyword1;1(arg1) keyword1(value1)" \
+  "two_args______________one_keyword;arg1|arg2;keyword1;1(arg1) 2(arg2) keyword1(value1)" \
+  "two_args______________two_keywords;arg1|arg2;keyword1|keyword2;1(arg1) 2(arg2) keyword1(value1) keyword2(value2)"
