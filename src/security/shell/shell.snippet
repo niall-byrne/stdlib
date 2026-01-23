@@ -1,8 +1,12 @@
 #!/bin/bash
 
+# @description Asserts that a shell command is a safe builtin.
+# @arg $1 string The command to verify safety on.
+# @exitcode 0 If the command is safe.
+# @exitcode 1 If the command is not safe or cannot be verified.
+# @stderr The error message if the assertion fails.
+# @internal
 stdlib.security.__shell.assert.is_safe() {
-  # $1: the command to verify safety on
-
   if [[ "$(stdlib.security.__shell.query.is_safe "${1}")" != "0" ]]; then
     /bin/echo "FATAL ERROR: The 'builtin' keyword could not be verified!  Cannot safely load stdlib!" >&2
     if [[ "${1}" == "return" ]]; then
@@ -13,6 +17,11 @@ stdlib.security.__shell.assert.is_safe() {
   return 0
 }
 
+# @description Checks if a shell command is a safe builtin.
+# @arg $1 string The command to check.
+# @exitcode 0 If the operation succeeded.
+# @stdout A "0" if safe, "1" otherwise.
+# @internal
 # shellcheck disable=SC2120
 stdlib.security.__shell.query.is_safe() {
   if ! unset "${1}" 2> /dev/null ||
