@@ -8,7 +8,7 @@ builtin export __STDLIB_TESTING_MOCK_COMPONENT
 
 # shellcheck disable=SC2034
 __STDLIB_TESTING_MOCK_COMPONENT="$(
-  "${_STDLIB_BINARY_CAT}" << EOF
+  "${_STDLIB_BINARY_CAT}" << 'EOF'
 ${1}() {
   builtin local _mock_object_pipe_input=""
   builtin local _mock_object_rc=0
