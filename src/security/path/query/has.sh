@@ -10,7 +10,7 @@ builtin set -eo pipefail
 # @exitcode 0 If the path has the correct group ownership.
 # @exitcode 1 If the path does not have the correct group ownership.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 stdlib.security.path.query.has_group() {
   builtin local required_gid
 
@@ -31,7 +31,7 @@ stdlib.security.path.query.has_group() {
 # @exitcode 0 If the path has the correct owner.
 # @exitcode 1 If the path does not have the correct owner.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 stdlib.security.path.query.has_owner() {
   builtin local required_uid
 

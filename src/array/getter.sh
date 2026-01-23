@@ -10,8 +10,8 @@ _STDLIB_ARRAY_BUFFER=""
 # @arg $1 string The name of the array.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
-# @set _STDLIB_ARRAY_BUFFER The last element of the array.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @set _STDLIB_ARRAY_BUFFER string The last element of the array.
 # @stdout The last element of the array.
 stdlib.array.get.last() {
   builtin local indirect_reference
@@ -33,8 +33,8 @@ stdlib.array.get.last() {
 # @arg $1 string The name of the array.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
-# @set _STDLIB_ARRAY_BUFFER The length of the array.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @set _STDLIB_ARRAY_BUFFER integer The length of the array.
 # @stdout The length of the array.
 stdlib.array.get.length() {
   builtin local indirect_reference
@@ -55,8 +55,8 @@ stdlib.array.get.length() {
 # @arg $1 string The name of the array.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
-# @set _STDLIB_ARRAY_BUFFER The length of the longest element.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @set _STDLIB_ARRAY_BUFFER integer The length of the longest element.
 # @stdout The length of the longest element.
 stdlib.array.get.longest() {
   builtin local indirect_reference
@@ -85,8 +85,8 @@ stdlib.array.get.longest() {
 # @arg $1 string The name of the array.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
-# @set _STDLIB_ARRAY_BUFFER The length of the shortest element.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @set _STDLIB_ARRAY_BUFFER integer The length of the shortest element.
 # @stdout The length of the shortest element.
 stdlib.array.get.shortest() {
   builtin local indirect_reference

@@ -9,7 +9,7 @@ builtin set -eo pipefail
 # @arg $1 string The colour to use.
 # @arg $2 string The source string.
 # @exitcode 0 If the operation succeeded.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stdout The coloured string.
 stdlib.string.colour_n() {
   builtin local -a _STDLIB_ARGS_NULL_SAFE
@@ -28,7 +28,7 @@ stdlib.string.colour_n() {
 # @arg $1 string The colour to use.
 # @arg $2 string The source string.
 # @exitcode 0 If the operation succeeded.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stdout The coloured string.
 stdlib.string.colour() {
   builtin local -a _STDLIB_ARGS_NULL_SAFE

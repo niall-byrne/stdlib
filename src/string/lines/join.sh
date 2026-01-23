@@ -8,7 +8,7 @@ builtin set -eo pipefail
 #     _STDLIB_DELIMITER: A char sequence to replace which joins the string.
 # @arg $1 string The string to process.
 # @exitcode 0 If the operation succeeded.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stdout The joined string.
 stdlib.string.lines.join() {
   builtin local -a _STDLIB_ARGS_NULL_SAFE

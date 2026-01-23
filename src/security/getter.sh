@@ -7,7 +7,7 @@ builtin set -eo pipefail
 # @description Returns the effective user ID (EUID).
 # @noargs
 # @exitcode 0 If the operation succeeded.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stdout The effective user ID.
 stdlib.security.get.euid() {
   [[ "${#@}" == "0" ]] || builtin return 127
@@ -19,7 +19,7 @@ stdlib.security.get.euid() {
 # @arg $1 string The group name.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stdout The group ID.
 stdlib.security.get.gid() {
   [[ "${#@}" == "1" ]] || builtin return 127
@@ -32,7 +32,7 @@ stdlib.security.get.gid() {
 # @arg $1 string The username.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stdout The user ID.
 stdlib.security.get.uid() {
   [[ "${#@}" == "1" ]] || builtin return 127
@@ -45,7 +45,7 @@ stdlib.security.get.uid() {
 # @noargs
 # @exitcode 0 If an unused UID was found.
 # @exitcode 1 If no unused UID was found.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stdout The first unused user ID.
 stdlib.security.get.unused_uid() {
   builtin local current_id

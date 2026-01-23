@@ -12,7 +12,7 @@ builtin set -eo pipefail
 # @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the operation failed.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stdout Success or suggestion messages.
 # @stderr The error message if the assertion fails.
 stdlib.security.path.assert.is_secure() {

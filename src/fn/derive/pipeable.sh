@@ -12,7 +12,7 @@ STDIN_SOURCE_SPECIFIER="${STDIN_SOURCE_SPECIFIER:-""}"
 # @arg $2 integer The number of arguments required by the function.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stdin The input to pass to the function if not provided as a positional argument.
 stdlib.fn.derive.pipeable() {
   builtin local derive_target_fn_name

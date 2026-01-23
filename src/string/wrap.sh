@@ -15,7 +15,7 @@ _STDLIB_WRAP_PREFIX_STRING=""
 # @arg $3 string The text to wrap.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stdout The wrapped text.
 stdlib.string.wrap() {
   builtin local -a _STDLIB_ARGS_NULL_SAFE

@@ -9,7 +9,7 @@ builtin set -eo pipefail
 # @arg $2 string The name of the array.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stdout The formatted elements.
 stdlib.array.map.format() {
   builtin local element
@@ -33,7 +33,7 @@ stdlib.array.map.format() {
 # @arg $2 string The name of the array.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stdout The results of applying the function to each element.
 stdlib.array.map.fn() {
   builtin local element

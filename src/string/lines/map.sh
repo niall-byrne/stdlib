@@ -9,7 +9,7 @@ builtin set -eo pipefail
 # @arg $1 string The printf format string.
 # @arg $2 string The input string to process.
 # @exitcode 0 If the operation succeeded.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stdout The formatted lines.
 stdlib.string.lines.map.format() {
   builtin local -a _STDLIB_ARGS_NULL_SAFE
@@ -45,7 +45,7 @@ stdlib.fn.derive.var "stdlib.string.lines.map.format"
 # @arg $2 string The input string to process.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stdout The mapped lines.
 stdlib.string.lines.map.fn() {
   builtin local -a _STDLIB_ARGS_NULL_SAFE

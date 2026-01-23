@@ -11,7 +11,7 @@ builtin set -eo pipefail
 # @arg $4 string The permission octal value to set.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stderr The error message if the operation fails.
 stdlib.security.path.secure() {
   stdlib.fn.args.require "4" "0" "${@}" || builtin return "$?"

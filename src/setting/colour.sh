@@ -9,7 +9,7 @@ _STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN=""
 # @description Initializes color output.
 # @noargs
 # @exitcode 0 If the operation succeeded.
-# @exitcode 127 If color initialization failed and silent fallback is disabled.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stderr The error message if initialization fails and silent fallback is disabled.
 stdlib.setting.colour.enable() {
   builtin local silent_fallback_boolean="${_STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN:-0}"

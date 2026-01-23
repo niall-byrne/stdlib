@@ -9,7 +9,7 @@ builtin set -eo pipefail
 # @arg $2 string The string to justify.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stdout The justified string.
 stdlib.string.justify.left() {
   builtin local -a _STDLIB_ARGS_NULL_SAFE
@@ -30,7 +30,7 @@ stdlib.fn.derive.var "stdlib.string.justify.left"
 # @arg $2 string The string to justify.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stdout The justified string.
 stdlib.string.justify.right() {
   builtin local -a _STDLIB_ARGS_NULL_SAFE

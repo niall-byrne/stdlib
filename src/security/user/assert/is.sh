@@ -8,7 +8,7 @@ builtin set -eo pipefail
 # @noargs
 # @exitcode 0 If the user is root.
 # @exitcode 1 If the user is not root.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stderr The error message if the assertion fails.
 stdlib.security.user.assert.is_root() {
   builtin local return_code=0

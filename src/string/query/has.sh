@@ -11,7 +11,7 @@ builtin set -eo pipefail
 # @exitcode 0 If the character matches the one at the index.
 # @exitcode 1 If the character does not match or if the operation failed.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 stdlib.string.query.has_char_n() {
   [[ "${#@}" == "3" ]] || builtin return 127
   stdlib.string.query.is_char "${1}" || builtin return "$?"
@@ -28,7 +28,7 @@ stdlib.string.query.has_char_n() {
 # @exitcode 0 If the string contains the substring.
 # @exitcode 1 If the string does not contain the substring.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 stdlib.string.query.has_substring() {
   [[ "${#@}" == "2" ]] || builtin return 127
   [[ -n "${1}" ]] || builtin return 126

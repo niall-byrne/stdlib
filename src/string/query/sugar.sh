@@ -10,7 +10,7 @@ builtin set -eo pipefail
 # @exitcode 0 If the string ends with the substring.
 # @exitcode 1 If the string does not end with the substring.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 stdlib.string.query.ends_with() {
   [[ "${#@}" == "2" ]] || builtin return 127
   [[ -n "${1}" ]] || builtin return 126
@@ -26,7 +26,7 @@ stdlib.string.query.ends_with() {
 # @exitcode 0 If the first character matches.
 # @exitcode 1 If the first character does not match or if the operation failed.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 stdlib.string.query.first_char_is() {
   [[ "${#@}" == "2" ]] || builtin return 127
   [[ "${#1}" == "1" ]] || builtin return 126
@@ -41,7 +41,7 @@ stdlib.string.query.first_char_is() {
 # @exitcode 0 If the last character matches.
 # @exitcode 1 If the last character does not match or if the operation failed.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 stdlib.string.query.last_char_is() {
   [[ "${#@}" == "2" ]] || builtin return 127
   [[ "${#1}" == "1" ]] || builtin return 126
@@ -56,7 +56,7 @@ stdlib.string.query.last_char_is() {
 # @exitcode 0 If the string starts with the substring.
 # @exitcode 1 If the string does not start with the substring.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 stdlib.string.query.starts_with() {
   [[ "${#@}" == "2" ]] || builtin return 127
   [[ -n "${1}" ]] || builtin return 126

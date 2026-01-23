@@ -10,7 +10,7 @@ builtin set -eo pipefail
 # @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the operation failed.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 stdlib.array.query.is_contains() {
   builtin local indirect_reference
   builtin local -a indirect_array
@@ -38,7 +38,7 @@ stdlib.array.query.is_contains() {
 # @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the operation failed.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 stdlib.array.query.is_equal() {
   builtin local indirect_reference_1
   builtin local -a indirect_array_1
@@ -73,7 +73,7 @@ stdlib.array.query.is_equal() {
 # @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the operation failed.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 stdlib.array.query.is_array() {
   [[ "${#@}" == "1" ]] || builtin return 127
   [[ -n "${1}" ]] || builtin return 126
@@ -88,7 +88,7 @@ stdlib.array.query.is_array() {
 # @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the operation failed.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 stdlib.array.query.is_empty() {
   builtin local indirect_reference
   builtin local -a indirect_array

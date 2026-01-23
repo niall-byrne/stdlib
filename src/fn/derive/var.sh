@@ -10,7 +10,7 @@ builtin set -eo pipefail
 # @arg $3 integer (optional, default="-1") The argument index for the variable's existing value.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 stdlib.fn.derive.var() {
   builtin local -a args_with_defaults
   builtin local derive_source_fn_name="${1}"

@@ -8,6 +8,7 @@ builtin set -eo pipefail
 # @arg $1 string The color name.
 # @exitcode 0 If the operation succeeded.
 # @stdout The global variable name for the color.
+# @stderr The warning message if the color is not defined.
 stdlib.setting.theme.get_colour() {
   builtin local theme_colour
 

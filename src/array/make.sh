@@ -11,7 +11,7 @@ builtin set -eo pipefail
 # @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the operation failed.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 stdlib.array.make.from_file() {
   stdlib.fn.args.require "3" "0" "${@}" || builtin return "$?"
   stdlib.io.path.assert.is_file "${3}" || builtin return 126
@@ -25,7 +25,7 @@ stdlib.array.make.from_file() {
 # @arg $3 string The source string.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 stdlib.array.make.from_string() {
   builtin local -a _STDLIB_ARGS_NULL_SAFE
 
@@ -42,7 +42,7 @@ stdlib.array.make.from_string() {
 # @arg $3 string The string to repeat.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 stdlib.array.make.from_string_n() {
   builtin local -a _STDLIB_ARGS_NULL_SAFE
   builtin local array_index

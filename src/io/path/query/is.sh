@@ -9,7 +9,7 @@ builtin set -eo pipefail
 # @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the operation failed.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 stdlib.io.path.query.is_exists() {
   [[ "${#@}" == "1" ]] || builtin return 127
   [[ -n "${1}" ]] || builtin return 126
@@ -21,7 +21,7 @@ stdlib.io.path.query.is_exists() {
 # @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the operation failed.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 stdlib.io.path.query.is_file() {
   [[ "${#@}" == "1" ]] || builtin return 127
   [[ -n "${1}" ]] || builtin return 126
@@ -33,7 +33,7 @@ stdlib.io.path.query.is_file() {
 # @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the operation failed.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 stdlib.io.path.query.is_folder() {
   [[ "${#@}" == "1" ]] || builtin return 127
   [[ -n "${1}" ]] || builtin return 126

@@ -9,7 +9,7 @@ builtin set -eo pipefail
 # @arg $2 string The substring to colour.
 # @arg $3 string The source string.
 # @exitcode 0 If the operation succeeded.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stdout The string with the coloured substring.
 stdlib.string.colour.substring() {
   builtin local -a _STDLIB_ARGS_NULL_SAFE
@@ -29,7 +29,7 @@ stdlib.string.colour.substring() {
 # @arg $2 string The substring to colour.
 # @arg $3 string The source string.
 # @exitcode 0 If the operation succeeded.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stdout The string with the coloured substrings.
 stdlib.string.colour.substrings() {
   builtin local -a _STDLIB_ARGS_NULL_SAFE

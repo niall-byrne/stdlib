@@ -8,7 +8,7 @@ builtin set -eo pipefail
 # @arg $1 string The string to check.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the operation failed.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stderr The error message if the assertion fails.
 stdlib.string.assert.is_alpha() {
   builtin local return_code=0
@@ -32,7 +32,7 @@ stdlib.string.assert.is_alpha() {
 # @arg $1 string The string to check.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the operation failed.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stderr The error message if the assertion fails.
 stdlib.string.assert.is_alpha_numeric() {
   builtin local return_code=0
@@ -56,7 +56,7 @@ stdlib.string.assert.is_alpha_numeric() {
 # @arg $1 string The string to check.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the operation failed.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stderr The error message if the assertion fails.
 stdlib.string.assert.is_boolean() {
   builtin local return_code=0
@@ -80,7 +80,7 @@ stdlib.string.assert.is_boolean() {
 # @arg $1 string The string to check.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the operation failed.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stderr The error message if the assertion fails.
 stdlib.string.assert.is_char() {
   builtin local return_code=0
@@ -104,7 +104,7 @@ stdlib.string.assert.is_char() {
 # @arg $1 string The string to check.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the operation failed.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stderr The error message if the assertion fails.
 stdlib.string.assert.is_digit() {
   builtin local return_code=0
@@ -128,7 +128,7 @@ stdlib.string.assert.is_digit() {
 # @arg $1 string The string to check.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the operation failed.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stderr The error message if the assertion fails.
 stdlib.string.assert.is_integer() {
   builtin local return_code=0
@@ -155,7 +155,7 @@ stdlib.string.assert.is_integer() {
 # @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the operation failed.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stderr The error message if the assertion fails.
 stdlib.string.assert.is_integer_with_range() {
   builtin local return_code=0
@@ -179,7 +179,7 @@ stdlib.string.assert.is_integer_with_range() {
 # @arg $1 string The string to check.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the operation failed.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stderr The error message if the assertion fails.
 stdlib.string.assert.is_octal_permission() {
   builtin local return_code=0
@@ -204,7 +204,7 @@ stdlib.string.assert.is_octal_permission() {
 # @arg $2 string The string to check.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the operation failed.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stderr The error message if the assertion fails.
 stdlib.string.assert.is_regex_match() {
   builtin local return_code=0
@@ -228,7 +228,7 @@ stdlib.string.assert.is_regex_match() {
 # @arg $1 string The string to check.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the operation failed.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stderr The error message if the assertion fails.
 stdlib.string.assert.is_string() {
   builtin local return_code=0

@@ -15,7 +15,7 @@ _STDLIB_ARGS_NULL_SAFE=()
 # @arg $@ list The list of argument values to check.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stderr The error message if the argument requirements are violated.
 stdlib.fn.args.require() {
   builtin local -a args_null_safe_array

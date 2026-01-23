@@ -11,7 +11,7 @@ _STDLIB_PASSWORD_BOOLEAN=""
 # @exitcode 0 If the user confirmed (pressed 'Y').
 # @exitcode 1 If the user declined (pressed 'n') or if the operation failed.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stdin The user's input.
 # @stdout The prompt message.
 stdlib.io.stdin.confirmation() {
@@ -39,7 +39,7 @@ stdlib.io.stdin.confirmation() {
 # @arg $1 string (optional, default="$(stdlib.message.get STDIN_DEFAULT_PAUSE_PROMPT)") The prompt to display.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stdin The user's input.
 # @stdout The prompt message.
 stdlib.io.stdin.pause() {
@@ -58,7 +58,7 @@ stdlib.io.stdin.pause() {
 # @arg $2 string (optional, default="$(stdlib.message.get STDIN_DEFAULT_VALUE_PROMPT)") The prompt to display.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments was provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stdin The user's input.
 # @stdout The prompt message.
 stdlib.io.stdin.prompt() {
