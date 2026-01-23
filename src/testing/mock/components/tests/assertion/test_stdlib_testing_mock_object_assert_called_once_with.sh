@@ -21,7 +21,7 @@ setup() {
 @parametrize_with_no_keywords() {
   # $1: the test function to parametrize
 
-  _PARAMETRIZE_FIELD_SEPARATOR="," @parametrize \
+  STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR="," @parametrize \
     "${1}" \
     "TEST_KEYWORDS,TEST_VALUE,TEST_ARG_STRING" \
     "simple__digit____,,1,1(1)" \
@@ -35,7 +35,7 @@ setup() {
 @parametrize_with_keywords() {
   # $1: the test function to parametrize
 
-  _PARAMETRIZE_FIELD_SEPARATOR="," @parametrize \
+  STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR="," @parametrize \
     "${1}" \
     "TEST_KEYWORDS,TEST_VALUE,TEST_ARG_STRING" \
     "simple__digit____,keyword1,1,1(1) keyword1(value1)" \
@@ -214,7 +214,7 @@ test_stdlib_testing_mock_object_assert_called_once_with__valid_args___________@v
     "${TEST_OUTPUT}"
 }
 
-_PARAMETRIZE_FIELD_SEPARATOR="," @parametrize \
+STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR="," @parametrize \
   test_stdlib_testing_mock_object_assert_called_once_with__valid_args___________@vary_______fails \
   "TEST_ARG_STRING,EXPECTED_COUNT" \
   "not_called______no_keywords__empty_string,,0" \

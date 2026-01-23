@@ -4,7 +4,7 @@
   # $1: the function to parametrize
   # $2: the function name under test
 
-  _PARAMETRIZE_FIELD_SEPARATOR=';' @parametrize \
+  STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR=';' @parametrize \
     "${1}" \
     "TEST_ARGS_DEFINITION;TEST_EXPECTED_RC;TEST_ERROR_CALL_DEFINITION;TEST_MESSAGE_ARG_DEFINITIONS" \
     "no args;;127;${2}|ARGUMENTS_INVALID;;" \
