@@ -28,9 +28,9 @@ setup() {
     "parametrize_error_duplicate_test_variant_name;PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_NAME;Duplicate test variant name!" \
     "parametrize_error_fn_does_not_exist;PARAMETRIZE_ERROR_FN_DOES_NOT_EXIST;It does not exist!" \
     "parametrize_error_parametrizer_fn_invalid;PARAMETRIZE_ERROR_PARAMETRIZER_FN_INVALID|my_func;The function 'my_func' cannot be used in a parametrize series!" \
-    "parametrize_error_parametrizer_fn_name___;PARAMETRIZE_ERROR_PARAMETRIZER_FN_NAME;It's name must be prefixed with '${_PARAMETRIZE_PARAMETRIZER_PREFIX}' !" \
+    "parametrize_error_parametrizer_fn_name___;PARAMETRIZE_ERROR_PARAMETRIZER_FN_NAME;It's name must be prefixed with '${STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX}' !" \
     "parametrize_error_test_fn_invalid;PARAMETRIZE_ERROR_TEST_FN_INVALID|my_func;The function 'my_func' cannot be parametrized." \
-    "parametrize_error_test_fn_name;PARAMETRIZE_ERROR_TEST_FN_NAME;It's name must start with 'test' and contain a '${_PARAMETRIZE_VARIANT_TAG}' tag, please rename this function!" \
+    "parametrize_error_test_fn_name;PARAMETRIZE_ERROR_TEST_FN_NAME;It's name must start with 'test' and contain a '${STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG}' tag, please rename this function!" \
     "parametrize_footer_scenario_values;PARAMETRIZE_FOOTER_SCENARIO_VALUES;== End Scenario Values ==" \
     "parametrize_header_scenario;PARAMETRIZE_HEADER_SCENARIO;Parametrize Scenario" \
     "parametrize_header_scenario_values;PARAMETRIZE_HEADER_SCENARIO_VALUES;== Begin Scenario Values ==" \

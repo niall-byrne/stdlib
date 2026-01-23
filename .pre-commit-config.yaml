@@ -194,3 +194,9 @@ repos:
         language: pygrep
         files: "^src/testing/.+\\.sh$"
         exclude: "^((.+/)*tests/.+\\.sh)$"
+      - id: testing-folder-global-variable-names
+        name: ensure source files in the testing folder use the correct global variable names
+        entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$)\\s*(?!_STDLIB_(ARGS_NULL_SAFE|BUILTIN_BOOLEAN)|IFS|LC_ALL|(__)*STDLIB_TESTING_|TEST_OUTPUT|TEST_RC)([A-Z_]+)=.+$"
+        language: pygrep
+        files: "^src/testing/.+\\.sh$"
+        exclude: "^((.+/)*tests/.+\\.sh)$"

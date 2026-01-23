@@ -31,8 +31,8 @@ test_parametrize_internal_configuration_parse__simple_scenario__sets_environment
     "VAR2"
     "VAR3"
   )
-  _PARAMETRIZE_FIXTURE_COMMAND_PREFIX="@fixture" \
-    _PARAMETRIZE_FIELD_SEPARATOR="," \
+  STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX="@fixture" \
+    STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR="," \
     @parametrize.__internal.configuration.parse \
     test_configuration \
     scenario_start_index \
@@ -49,8 +49,8 @@ test_parametrize_internal_configuration_parse__simple_scenario__sets_fixture_arr
     " fixture_command_2"
   )
 
-  _PARAMETRIZE_FIXTURE_COMMAND_PREFIX="@fixture" \
-    _PARAMETRIZE_FIELD_SEPARATOR="," \
+  STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX="@fixture" \
+    STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR="," \
     @parametrize.__internal.configuration.parse \
     test_configuration \
     scenario_start_index \
@@ -64,8 +64,8 @@ test_parametrize_internal_configuration_parse__simple_scenario__sets_fixture_arr
 test_parametrize_internal_configuration_parse__simple_scenario__sets_empty_fixture_array_correctly() {
   local expected_parsed_fixtures=()
 
-  _PARAMETRIZE_FIXTURE_COMMAND_PREFIX="@fixture" \
-    _PARAMETRIZE_FIELD_SEPARATOR="," \
+  STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX="@fixture" \
+    STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR="," \
     @parametrize.__internal.configuration.parse \
     test_configuration_without_fixtures \
     scenario_start_index \
@@ -77,8 +77,8 @@ test_parametrize_internal_configuration_parse__simple_scenario__sets_empty_fixtu
 }
 
 test_parametrize_internal_configuration_parse__simple_scenario__validates_each_scenario_correctly() {
-  _PARAMETRIZE_FIXTURE_COMMAND_PREFIX="@fixture" \
-    _PARAMETRIZE_FIELD_SEPARATOR="," \
+  STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX="@fixture" \
+    STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR="," \
     @parametrize.__internal.configuration.parse \
     test_configuration \
     scenario_start_index \
@@ -102,8 +102,8 @@ test_parametrize_internal_configuration_parse__simple_scenario__parses_each_scen
   # shellcheck disable=SC2016
   @parametrize.__internal.validate.scenario.mock.set.subcommand 'actual_parsed_scenarios+=("${parse_scenario_array[*]}")'
 
-  _PARAMETRIZE_FIXTURE_COMMAND_PREFIX="@fixture" \
-    _PARAMETRIZE_FIELD_SEPARATOR="," \
+  STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX="@fixture" \
+    STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR="," \
     @parametrize.__internal.configuration.parse \
     test_configuration \
     scenario_start_index \
@@ -115,8 +115,8 @@ test_parametrize_internal_configuration_parse__simple_scenario__parses_each_scen
 }
 
 test_parametrize_internal_configuration_parse__simple_scenario__sets_the_correct_index_for_the_start_of_scenario_configuration() {
-  _PARAMETRIZE_FIXTURE_COMMAND_PREFIX="@fixture" \
-    _PARAMETRIZE_FIELD_SEPARATOR="," \
+  STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX="@fixture" \
+    STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR="," \
     @parametrize.__internal.configuration.parse \
     test_configuration \
     scenario_start_index \
@@ -128,8 +128,8 @@ test_parametrize_internal_configuration_parse__simple_scenario__sets_the_correct
 }
 
 test_parametrize_internal_configuration_parse__simple_scenario__sets_the_correct_scenario_name_padding_value() {
-  _PARAMETRIZE_FIXTURE_COMMAND_PREFIX="@fixture" \
-    _PARAMETRIZE_FIELD_SEPARATOR="," \
+  STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX="@fixture" \
+    STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR="," \
     @parametrize.__internal.configuration.parse \
     test_configuration \
     scenario_start_index \
