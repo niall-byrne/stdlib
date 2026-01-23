@@ -4,11 +4,15 @@
 
 builtin set -eo pipefail
 
+# @description Creates a version of a function that reads from and writes to a variable.
+# @arg $1 string The name of the source function.
+# @arg $2 string (optional, default="${1}_var") The name of the new target function.
+# @arg $3 integer (optional, default=-1) The argument index for the variable's existing value.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stderr The error message if the operation fails.
 stdlib.fn.derive.var() {
-  # $1: the source function name
-  # $2: (optional) the new target function name
-  # $3: (optional) the argument index for the variable's existing value (defaults to the last value)
-
   builtin local -a args_with_defaults
   builtin local derive_source_fn_name="${1}"
   builtin local derive_target_fn_name
