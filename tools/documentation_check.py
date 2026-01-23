@@ -1,249 +1,385 @@
 import json
 import re
 import sys
+from dataclasses import dataclass
+from typing import Dict, List, Optional, Set
+
+# Configuration
+TAGS = [
+    "description",
+    "arg",
+    "noargs",
+    "exitcode",
+    "set",
+    "stdin",
+    "stdout",
+    "stderr",
+    "internal",
+]
+
+REGEX_FUNCTION_DEFINITION = r"^([a-zA-Z_@][a-zA-Z0-9._]*) *\(\) *\{"
+REGEX_DOC_TAGS = rf"@({'|'.join(TAGS)})"
+REGEX_PROCESS_SUBSTITUTION = r"[\$=]\(builtin echo"
+REGEX_ECHO_ASSIGNMENT = r"=\s*\"?builtin echo"
+
+MANDATORY_TAGS = ["description"]
+VALID_TYPES = ["string", "integer", "boolean", "array"]
+
+REQUIRED_EXIT_CODES = ["0"]
+
+STANDARDIZED_EXIT_CODES = {
+    "126": r"@exitcode 126 If an invalid argument has been provided\.",
+    "127": r"@exitcode 127 If the wrong number of arguments were provided\.",
+}
+
+STDERR_TRIGGERS = ["stdlib.logger.error", "stdlib.logger.warning", ">&2"]
+STDOUT_TRIGGERS = [
+    "stdlib.logger.info",
+    "stdlib.logger.success",
+    "stdlib.logger.notice",
+    "builtin echo",
+]
+
+SENTENCE_FORMAT_TAGS = [
+    "description",
+    "arg",
+    "noargs",
+    "exitcode",
+    "set",
+    "stdin",
+    "stdout",
+    "stderr",
+]
 
 
-def check_file(filepath):
-    with open(filepath, "r") as f:
-        content = f.read()
-        lines = content.splitlines()
+@dataclass
+class DocTag:
+    name: str
+    content: str
+    line: str
 
-    discrepancies = []
 
-    for i, line in enumerate(lines):
-        match = re.match(r"^([a-zA-Z_@][a-zA-Z0-9._]*) *\(\) *\{", line)
-        if match:
-            func_name = match.group(1)
+class BashFunction:
+    def __init__(
+        self,
+        name: str,
+        doc_lines: List[str],
+        body_lines: List[str],
+    ):
+        self.name = name
+        self.doc_lines = doc_lines
+        self.body_lines = body_lines
+        self.tags: List[DocTag] = []
+        self.global_var_lines: List[str] = []
+        self._extract_documentation()
 
-            doc_lines = []
-            j = i - 1
-            while j >= 0:
-                prev_line = lines[j].strip()
-                if prev_line.startswith("#"):
-                    doc_lines.insert(0, prev_line)
-                    j -= 1
-                elif (
-                    prev_line == ""
-                    or prev_line.startswith("builtin source")
-                    or prev_line.startswith("# shellcheck")
+    def _extract_documentation(self):
+        desc_started = False
+        for line in self.doc_lines:
+            tag_match = re.search(REGEX_DOC_TAGS, line)
+            if tag_match:
+                tag_name = tag_match.group(1)
+                content = line.split("@" + tag_name, 1)[1].strip()
+                self.tags.append(DocTag(name=tag_name, content=content, line=line))
+                desc_started = tag_name == "description"
+            elif desc_started:
+                if (
+                    ":" in line
+                    and line.strip().startswith("#")
+                    and not line.startswith("# @")
                 ):
-                    j -= 1
-                    continue
-                else:
-                    break
+                    self.global_var_lines.append(line)
+                elif line.startswith("# @"):
+                    desc_started = False
 
-            shdoc_present = any("@" in l for l in doc_lines)
-            if not shdoc_present:
-                discrepancies.append(f"{func_name}: Completely undocumented.")
+    def contains_tag(self, tag_name: str) -> bool:
+        return any(t.name == tag_name for t in self.tags)
+
+    def find_tags(self, tag_name: str) -> List[DocTag]:
+        return [t for t in self.tags if t.name == tag_name]
+
+
+class Rule:
+    def check(self, func: BashFunction) -> List[str]:
+        raise NotImplementedError
+
+
+class UndocumentedRule(Rule):
+    def check(self, func: BashFunction) -> List[str]:
+        if not any("@" in l for l in func.doc_lines):
+            return [f"{func.name}: Completely undocumented."]
+        return []
+
+
+class FieldOrderRule(Rule):
+    def check(self, func: BashFunction) -> List[str]:
+        actual_order = [t.name for t in func.tags if t.name in TAGS]
+        seen = []
+        for f in actual_order:
+            if f not in seen:
+                seen.append(f)
+
+        expected = [f for f in TAGS if f in seen]
+        if seen != expected:
+            return [
+                f"{func.name}: Incorrect field order. Found: {seen}, Expected: {expected}"
+            ]
+        return []
+
+
+class MandatoryFieldsRule(Rule):
+    def check(self, func: BashFunction) -> List[str]:
+        errors = [
+            f"{func.name}: Missing @{tag}"
+            for tag in MANDATORY_TAGS
+            if not func.contains_tag(tag)
+        ]
+        if not (func.contains_tag("arg") or func.contains_tag("noargs")):
+            errors.append(f"{func.name}: Missing @arg or @noargs")
+        return errors
+
+
+class MandatoryExitCodeRule(Rule):
+    def check(self, func: BashFunction) -> List[str]:
+        errors = []
+        for code in REQUIRED_EXIT_CODES:
+            if not any(
+                re.search(rf"@exitcode {code}", t.line)
+                for t in func.find_tags("exitcode")
+            ):
+                errors.append(f"{func.name}: Missing @exitcode {code}")
+        return errors
+
+
+class StandardExitCodesRule(Rule):
+    def check(self, func: BashFunction) -> List[str]:
+        errors = []
+        for tag in func.find_tags("exitcode"):
+            for code, pattern in STANDARDIZED_EXIT_CODES.items():
+                if code in tag.content and not re.search(pattern, tag.line):
+                    errors.append(
+                        f"{func.name}: Non-standard @exitcode {code} message. Found: '{tag.line.strip()}'"
+                    )
+        return errors
+
+
+class ExitCodeDescriptionRule(Rule):
+    def check(self, func: BashFunction) -> List[str]:
+        errors = []
+        for tag in func.find_tags("exitcode"):
+            m = re.search(r"@exitcode\s+\S+\s+(.*)", tag.line)
+            if m:
+                text = m.group(1).strip()
+                if text and not text.startswith("If"):
+                    errors.append(
+                        f"{func.name}: @exitcode description should start with 'If'. Found: '{text}'"
+                    )
+        return errors
+
+
+class TypeValidationRule(Rule):
+    def _validate_type(self, func_name: str, tag: DocTag) -> Optional[str]:
+        parts = tag.content.split()
+        if len(parts) < 2:
+            return f"{func_name}: Missing or invalid type in @{tag.name}. Found: '{tag.line.strip()}'"
+
+        tag_type = parts[1].split("(")[0]
+        if tag_type not in VALID_TYPES:
+            return f"{func_name}: Missing or invalid type in @{tag.name}. Found: '{tag.line.strip()}'"
+        return None
+
+    def check(self, func: BashFunction) -> List[str]:
+        errors = []
+        for tag_name in ["arg", "set"]:
+            for tag in func.find_tags(tag_name):
+                error = self._validate_type(func.name, tag)
+                if error:
+                    errors.append(error)
+        return errors
+
+
+class GlobalIndentationRule(Rule):
+    def check(self, func: BashFunction) -> List[str]:
+        return [
+            f"{func.name}: Global variable in @description should be indented with 4 spaces. Found: '{line.strip()}'"
+            for line in func.global_var_lines
+            if not line.startswith("#     ")
+        ]
+
+
+class AssertionStderrRule(Rule):
+    def check(self, func: BashFunction) -> List[str]:
+        if "assert" not in func.name:
+            return []
+
+        msg = "The error message if the assertion fails."
+        return [
+            f"{func.name}: @stderr for assertion should use '{msg}'. Found: '{tag.line.strip()}'"
+            for tag in func.find_tags("stderr")
+            if msg not in tag.content
+        ]
+
+
+class MissingOutputTagsRule(Rule):
+    def _has_trigger(
+        self, body: List[str], triggers: List[str], is_stdout: bool = False
+    ) -> bool:
+        for line in body:
+            if any(t in line for t in triggers):
+                # Specific check for stdout to avoid false positives
+                if is_stdout and "builtin echo" in line:
+                    if (
+                        ">&2" in line
+                        or "/dev/null" in line
+                        or line.strip().endswith("# noqa")
+                    ):
+                        continue
+                    if re.search(REGEX_PROCESS_SUBSTITUTION, line) or re.search(
+                        REGEX_ECHO_ASSIGNMENT, line
+                    ):
+                        continue
+                elif "/dev/null" in line or line.strip().endswith("# noqa"):
+                    continue
+                return True
+        return False
+
+    def check(self, func: BashFunction) -> List[str]:
+        errors = []
+        if not func.contains_tag("stderr") and self._has_trigger(
+            func.body_lines, STDERR_TRIGGERS, is_stdout=False
+        ):
+            errors.append(f"{func.name}: Missing @stderr tag")
+
+        if not func.contains_tag("stdout") and self._has_trigger(
+            func.body_lines, STDOUT_TRIGGERS, is_stdout=True
+        ):
+            errors.append(f"{func.name}: Missing @stdout tag")
+        return errors
+
+
+class SentenceFormatRule(Rule):
+    def _get_description_text(self, tag: DocTag) -> str:
+        if tag.name in ["arg", "set"]:
+            m = re.search(rf"@{tag.name}\s+\S+\s+\S+\s+(.*)", tag.line)
+            return m.group(1).strip() if m else ""
+        if tag.name == "exitcode":
+            m = re.search(r"@exitcode\s+\S+\s+(.*)", tag.line)
+            return m.group(1).strip() if m else ""
+        return tag.content
+
+    def check(self, func: BashFunction) -> List[str]:
+        errors = []
+        for tag in func.tags:
+            if tag.name not in SENTENCE_FORMAT_TAGS:
                 continue
 
-            fields = []
-            for dl in doc_lines:
-                m = re.search(
-                    r"@(description|arg|noargs|exitcode|set|stdin|stdout|stderr|internal)",
-                    dl,
+            text = self._get_description_text(tag)
+            if not text or text.startswith("("):
+                continue
+
+            if not text[0].isupper():
+                errors.append(
+                    f"{func.name}: @{tag.name} content should start with a capital letter. Found: '{text}'"
                 )
-                if m:
-                    fields.append(m.group(1))
-
-            # Order check
-            expected_order = [
-                "description",
-                "arg",
-                "noargs",
-                "exitcode",
-                "set",
-                "stdin",
-                "stdout",
-                "stderr",
-                "internal",
-            ]
-            actual_order = [f for f in fields if f in expected_order]
-            seen = set()
-            order_to_check = []
-            for f in actual_order:
-                if f not in seen:
-                    order_to_check.append(f)
-                    seen.add(f)
-
-            filtered_expected = [f for f in expected_order if f in seen]
-            if order_to_check != filtered_expected:
-                discrepancies.append(
-                    f"{func_name}: Incorrect field order. Found: {order_to_check}, Expected: {filtered_expected}"
+            if not text.endswith("."):
+                errors.append(
+                    f"{func.name}: @{tag.name} content should end with a period. Found: '{text}'"
                 )
+        return errors
 
-            # Mandatory fields
-            if "description" not in fields:
-                discrepancies.append(f"{func_name}: Missing @description")
-            if "arg" not in fields and "noargs" not in fields:
-                discrepancies.append(f"{func_name}: Missing @arg or @noargs")
-            if "internal" not in fields and "__" in func_name:
-                discrepancies.append(f"{func_name}: Missing @internal")
 
-            # @exitcode 0
-            has_exitcode_0 = any(re.search(r"@exitcode 0", dl) for dl in doc_lines)
-            if not has_exitcode_0:
-                discrepancies.append(f"{func_name}: Missing @exitcode 0")
+class InternalTagRule(Rule):
+    def check(self, func: BashFunction) -> List[str]:
+        if "__" in func.name and not func.contains_tag("internal"):
+            return [f"{func.name}: Missing @internal"]
+        return []
 
-            # Standardized exit codes 126 and 127
-            # Memory says "were provided" for both.
-            for dl in doc_lines:
-                if "@exitcode 126" in dl:
-                    if not re.search(
-                        r"@exitcode 126 If an invalid argument has been provided\.", dl
-                    ):
-                        discrepancies.append(
-                            f"{func_name}: Non-standard @exitcode 126 message. Found: '{dl.strip()}'"
-                        )
-                if "@exitcode 127" in dl:
-                    if not re.search(
-                        r"@exitcode 127 If the wrong number of arguments were provided\.",
-                        dl,
-                    ):
-                        discrepancies.append(
-                            f"{func_name}: Non-standard @exitcode 127 message. Found: '{dl.strip()}'"
-                        )
 
-            # Types in @arg and @set
-            valid_types = ["string", "integer", "boolean", "array"]
-            for dl in doc_lines:
-                if "@arg" in dl:
-                    m = re.search(r"@arg\s+\S+\s+(\S+)\s+", dl)
-                    if m:
-                        arg_type = m.group(1).split("(")[0]
-                        if arg_type not in valid_types:
-                            discrepancies.append(
-                                f"{func_name}: Missing or invalid type in @arg. Found: '{dl.strip()}'"
-                            )
-                    else:
-                        discrepancies.append(
-                            f"{func_name}: Missing type in @arg. Found: '{dl.strip()}'"
-                        )
-                if "@set" in dl:
-                    m = re.search(r"@set\s+\S+\s+(\S+)\s+", dl)
-                    if not m or m.group(1).split("(")[0] not in valid_types:
-                        discrepancies.append(
-                            f"{func_name}: Missing or invalid type in @set. Found: '{dl.strip()}'"
-                        )
+def parse_file(filepath: str) -> List[BashFunction]:
+    with open(filepath, "r") as f:
+        lines = f.read().splitlines()
 
-            # Global variable indentation in @description
-            desc_started = False
-            for dl in doc_lines:
-                if "@description" in dl:
-                    desc_started = True
-                    continue
-                if desc_started:
-                    if (
-                        dl.strip().startswith("#")
-                        and ":" in dl
-                        and not dl.startswith("# @")
-                    ):
-                        if not dl.startswith("#     "):
-                            discrepancies.append(
-                                f"{func_name}: Global variable in @description should be indented with 4 spaces. Found: '{dl.strip()}'"
-                            )
-                    elif dl.startswith("# @"):
-                        desc_started = False
+    functions = []
+    for i, line in enumerate(lines):
+        match = re.match(REGEX_FUNCTION_DEFINITION, line)
+        if not match:
+            continue
 
-            # @stderr for assertions
-            if "assert" in func_name:
-                for dl in doc_lines:
-                    if "@stderr" in dl:
-                        if "The error message if the assertion fails." not in dl:
-                            discrepancies.append(
-                                f"{func_name}: @stderr for assertion should use 'The error message if the assertion fails.'. Found: '{dl.strip()}'"
-                            )
+        func_name = match.group(1)
+        doc_lines = []
+        j = i - 1
+        while j >= 0:
+            prev_line = lines[j].strip()
+            if prev_line.startswith("#"):
+                doc_lines.insert(0, lines[j])
+                j -= 1
+            elif prev_line in ["", "# shellcheck"] or prev_line.startswith(
+                "builtin source"
+            ):
+                j -= 1
+            else:
+                break
 
-            # Check for missing @stderr tags for logger calls
-            body = []
-            depth = 0
-            for k in range(i, len(lines)):
-                body.append(lines[k])
-                depth += lines[k].count("{")
-                depth -= lines[k].count("}")
-                if depth == 0 and k > i:
-                    break
+        body_lines = []
+        depth = 0
+        for k in range(i, len(lines)):
+            body_lines.append(lines[k])
+            depth += lines[k].count("{")
+            depth -= lines[k].count("}")
+            if depth == 0 and k > i:
+                break
 
-            if "stderr" not in fields:
-                for body_line in body:
-                    if (
-                        "stdlib.logger.error" in body_line
-                        or "stdlib.logger.warning" in body_line
-                        or ">&2" in body_line
-                    ):
-                        if "/dev/null" not in body_line or not body_line.endswith(
-                            "# noqa"
-                        ):
-                            discrepancies.append(f"{func_name}: Missing @stderr tag")
-
-            if "stdout" not in fields:
-                for body_line in body:
-                    if (
-                        "stdlib.logger.info" in body_line
-                        or "stdlib.logger.success" in body_line
-                        or "stdlib.logger.notice" in body_line
-                        or (
-                            "builtin echo" in body_line
-                            and ">&2" not in body_line
-                            and "/dev/null" not in body_line
-                            and not body_line.endswith("# noqa")
-                        )
-                    ):
-                        discrepancies.append(f"{func_name}: Missing @stdout tag")
-
-            # Sentence format
-            for dl in doc_lines:
-                m = re.search(
-                    r"@(description|arg|noargs|exitcode|set|stdin|stdout|stderr)\s+(.*)",
-                    dl,
-                )
-                if m:
-                    field_type = m.group(1)
-                    content = m.group(2).strip()
-                    if field_type == "arg":
-                        parts = content.split(" ")
-                        if len(parts) > 2:
-                            text = " ".join(parts[2:])
-                        else:
-                            text = ""
-                    elif field_type == "set":
-                        parts = content.split(" ")
-                        if len(parts) > 1:
-                            text = " ".join(parts[2:])
-                        else:
-                            text = ""
-                    elif field_type == "exitcode":
-                        parts = content.split(" ", 1)
-                        if len(parts) > 1:
-                            text = parts[1]
-                        else:
-                            text = ""
-                    else:
-                        text = content
-
-                    if text and not text.startswith("("):
-                        if not text[0].isupper():
-                            discrepancies.append(
-                                f"{func_name}: @{field_type} content should start with a capital letter. Found: '{text}'"
-                            )
-                        if not text.endswith("."):
-                            discrepancies.append(
-                                f"{func_name}: @{field_type} content should end with a period. Found: '{text}'"
-                            )
-
-    return discrepancies
+        functions.append(BashFunction(func_name, doc_lines, body_lines))
+    return functions
 
 
 def main():
+    rules = [
+        UndocumentedRule(),
+        FieldOrderRule(),
+        MandatoryFieldsRule(),
+        MandatoryExitCodeRule(),
+        StandardExitCodesRule(),
+        ExitCodeDescriptionRule(),
+        TypeValidationRule(),
+        GlobalIndentationRule(),
+        AssertionStderrRule(),
+        MissingOutputTagsRule(),
+        SentenceFormatRule(),
+        InternalTagRule(),
+    ]
+
     all_discrepancies = {}
-
     for file in sys.argv[1:]:
-        if file.endswith(".sh") or file.endswith(".snippet"):
-            disc = check_file(file)
-            if disc:
-                all_discrepancies[file] = disc
+        if not (file.endswith(".sh") or file.endswith(".snippet")):
+            continue
 
-    if len(all_discrepancies) > 0:
+        try:
+            functions = parse_file(file)
+            file_errors = []
+            for func in functions:
+                # Find the UndocumentedRule instance
+                undocumented_rule = next(
+                    (r for r in rules if isinstance(r, UndocumentedRule)), None
+                )
+                if undocumented_rule:
+                    undocumented_errors = undocumented_rule.check(func)
+                    if undocumented_errors:
+                        file_errors.extend(undocumented_errors)
+                        continue
+
+                for rule in rules:
+                    if isinstance(rule, UndocumentedRule):
+                        continue
+                    file_errors.extend(rule.check(func))
+
+            if file_errors:
+                all_discrepancies[file] = file_errors
+        except Exception as e:
+            # Silently ignore files that cannot be parsed, but could be logged if needed
+            pass
+
+    if all_discrepancies:
         print(json.dumps(all_discrepancies, indent=2))
         sys.exit(1)
 

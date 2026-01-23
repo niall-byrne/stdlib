@@ -8,7 +8,7 @@ builtin set -eo pipefail
 # @arg $1 string The value to query for.
 # @arg $2 string The name of the array to query.
 # @exitcode 0 If the array contains the value.
-# @exitcode 1 Otherwise.
+# @exitcode 1 If the array does not contain the value.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stderr The error message if the operation fails.
@@ -37,7 +37,7 @@ stdlib.array.query.is_contains() {
 # @arg $1 string The name of the first array to compare.
 # @arg $2 string The name of the second array to compare.
 # @exitcode 0 If the arrays are equal.
-# @exitcode 1 Otherwise.
+# @exitcode 1 If the arrays are not equal.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stderr The error message if the operation fails.
@@ -73,7 +73,7 @@ stdlib.array.query.is_equal() {
 # @description Checks if a variable is an array.
 # @arg $1 string The name of the variable to check.
 # @exitcode 0 If the variable is an array.
-# @exitcode 1 Otherwise.
+# @exitcode 1 If the variable is not an array.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stderr The error message if the operation fails.
@@ -89,7 +89,7 @@ stdlib.array.query.is_array() {
 # @description Checks if an array is empty.
 # @arg $1 string The name of the array to check.
 # @exitcode 0 If the array is empty.
-# @exitcode 1 Otherwise.
+# @exitcode 1 If the array is not empty.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stderr The error message if the operation fails.

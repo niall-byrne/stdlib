@@ -9,7 +9,7 @@ builtin set -eo pipefail
 # @arg $2 integer The index to check at.
 # @arg $3 string The string to check.
 # @exitcode 0 If the character is at the index.
-# @exitcode 1 Otherwise.
+# @exitcode 1 If the character is not at the index.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 stdlib.string.query.has_char_n() {
@@ -26,7 +26,7 @@ stdlib.string.query.has_char_n() {
 # @arg $1 string The substring to check for.
 # @arg $2 string The string to check.
 # @exitcode 0 If the string contains the substring.
-# @exitcode 1 Otherwise.
+# @exitcode 1 If the string does not contain the substring.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 stdlib.string.query.has_substring() {

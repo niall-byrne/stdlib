@@ -10,7 +10,7 @@ builtin set -eo pipefail
 # @arg $3 string The required group name.
 # @arg $4 string The required octal permission value.
 # @exitcode 0 If the path is secure.
-# @exitcode 1 Otherwise.
+# @exitcode 1 If the path is not secure.
 # @exitcode 127 If the wrong number of arguments were provided.
 stdlib.security.path.query.is_secure() {
   [[ "${#@}" == "4" ]] || builtin return 127

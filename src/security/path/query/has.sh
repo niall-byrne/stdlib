@@ -8,7 +8,7 @@ builtin set -eo pipefail
 # @arg $1 string The path to check.
 # @arg $2 string The required group name.
 # @exitcode 0 If the path has the specified group ownership.
-# @exitcode 1 Otherwise.
+# @exitcode 1 If the path does not have the specified group ownership.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 stdlib.security.path.query.has_group() {
@@ -29,7 +29,7 @@ stdlib.security.path.query.has_group() {
 # @arg $1 string The path to check.
 # @arg $2 string The required user name.
 # @exitcode 0 If the path has the specified user ownership.
-# @exitcode 1 Otherwise.
+# @exitcode 1 If the path does not have the specified user ownership.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 stdlib.security.path.query.has_owner() {
@@ -50,7 +50,7 @@ stdlib.security.path.query.has_owner() {
 # @arg $1 string The path to check.
 # @arg $2 string The required octal permission value.
 # @exitcode 0 If the path has the specified permissions.
-# @exitcode 1 Otherwise.
+# @exitcode 1 If the path does not have the specified permissions.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 stdlib.security.path.query.has_permissions() {

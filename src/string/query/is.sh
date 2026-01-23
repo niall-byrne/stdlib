@@ -7,7 +7,7 @@ builtin set -eo pipefail
 # @description Checks if a string contains only alphabetic characters.
 # @arg $1 string The string to check.
 # @exitcode 0 If the string contains only alphabetic characters.
-# @exitcode 1 Otherwise.
+# @exitcode 1 If the string contains non-alphabetic characters.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 stdlib.string.query.is_alpha() {
@@ -28,7 +28,7 @@ stdlib.string.query.is_alpha() {
 # @description Checks if a string contains only alphanumeric characters.
 # @arg $1 string The string to check.
 # @exitcode 0 If the string contains only alphanumeric characters.
-# @exitcode 1 Otherwise.
+# @exitcode 1 If the string contains non-alphanumeric characters.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 stdlib.string.query.is_alpha_numeric() {
@@ -49,7 +49,7 @@ stdlib.string.query.is_alpha_numeric() {
 # @description Checks if a string is a boolean (0 or 1).
 # @arg $1 string The string to check.
 # @exitcode 0 If the string is a boolean.
-# @exitcode 1 Otherwise.
+# @exitcode 1 If the string is not a boolean.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 stdlib.string.query.is_boolean() {
@@ -70,7 +70,7 @@ stdlib.string.query.is_boolean() {
 # @description Checks if a string is a single character.
 # @arg $1 string The string to check.
 # @exitcode 0 If the string is a single character.
-# @exitcode 1 Otherwise.
+# @exitcode 1 If the string is not a single character.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 stdlib.string.query.is_char() {
@@ -82,7 +82,7 @@ stdlib.string.query.is_char() {
 # @description Checks if a string contains only digits.
 # @arg $1 string The string to check.
 # @exitcode 0 If the string contains only digits.
-# @exitcode 1 Otherwise.
+# @exitcode 1 If the string contains non-digit characters.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 stdlib.string.query.is_digit() {
@@ -103,7 +103,7 @@ stdlib.string.query.is_digit() {
 # @description Checks if a string is an integer.
 # @arg $1 string The string to check.
 # @exitcode 0 If the string is an integer.
-# @exitcode 1 Otherwise.
+# @exitcode 1 If the string is not an integer.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 stdlib.string.query.is_integer() {
@@ -122,7 +122,7 @@ stdlib.string.query.is_integer() {
 # @arg $2 integer The range end point.
 # @arg $3 string The string to check.
 # @exitcode 0 If the string is an integer within the range.
-# @exitcode 1 Otherwise.
+# @exitcode 1 If the string is not an integer within the range.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 stdlib.string.query.is_integer_with_range() {
@@ -143,7 +143,7 @@ stdlib.string.query.is_integer_with_range() {
 # @description Checks if a string is a valid octal permission (3 or 4 digits).
 # @arg $1 string The string to check.
 # @exitcode 0 If the string is a valid octal permission.
-# @exitcode 1 Otherwise.
+# @exitcode 1 If the string is not a valid octal permission.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 stdlib.string.query.is_octal_permission() {
@@ -166,7 +166,7 @@ stdlib.string.query.is_octal_permission() {
 # @arg $1 string The regular expression to use.
 # @arg $2 string The string to check.
 # @exitcode 0 If the string matches the regular expression.
-# @exitcode 1 Otherwise.
+# @exitcode 1 If the string does not match the regular expression.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 stdlib.string.query.is_regex_match() {
@@ -183,7 +183,7 @@ stdlib.string.query.is_regex_match() {
 # @description Checks if a value is a non-empty string.
 # @arg $1 string The value to check.
 # @exitcode 0 If the value is a non-empty string.
-# @exitcode 1 Otherwise.
+# @exitcode 1 If the value is an empty string.
 # @exitcode 127 If the wrong number of arguments were provided.
 stdlib.string.query.is_string() {
   [[ "${#@}" == "1" ]] || builtin return 127

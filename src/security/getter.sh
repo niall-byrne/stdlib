@@ -44,7 +44,7 @@ stdlib.security.get.uid() {
 # @description Gets the next available (unused) user ID.
 # @noargs
 # @exitcode 0 If an unused UID was found.
-# @exitcode 1 Otherwise.
+# @exitcode 1 If an unused UID was not found.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stdout The unused user ID.
 stdlib.security.get.unused_uid() {

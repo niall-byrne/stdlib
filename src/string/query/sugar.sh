@@ -8,7 +8,7 @@ builtin set -eo pipefail
 # @arg $1 string The substring to check for.
 # @arg $2 string The string to check.
 # @exitcode 0 If the string ends with the substring.
-# @exitcode 1 Otherwise.
+# @exitcode 1 If the string does not end with the substring.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 stdlib.string.query.ends_with() {
@@ -24,7 +24,7 @@ stdlib.string.query.ends_with() {
 # @arg $1 string The character to check for.
 # @arg $2 string The string to check.
 # @exitcode 0 If the first character matches.
-# @exitcode 1 Otherwise.
+# @exitcode 1 If the first character does not match.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 stdlib.string.query.first_char_is() {
@@ -39,7 +39,7 @@ stdlib.string.query.first_char_is() {
 # @arg $1 string The character to check for.
 # @arg $2 string The string to check.
 # @exitcode 0 If the last character matches.
-# @exitcode 1 Otherwise.
+# @exitcode 1 If the last character does not match.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 stdlib.string.query.last_char_is() {
@@ -54,7 +54,7 @@ stdlib.string.query.last_char_is() {
 # @arg $1 string The substring to check for.
 # @arg $2 string The string to check.
 # @exitcode 0 If the string starts with the substring.
-# @exitcode 1 Otherwise.
+# @exitcode 1 If the string does not start with the substring.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 stdlib.string.query.starts_with() {
