@@ -11,16 +11,16 @@
 }
 
 test_stdlib_testing_mock_internal_persistence_sequence_update__@vary__outputs_array_definition_to_persistence_file() {
-  local __MOCK_SEQUENCE=()
-  local __MOCK_SEQUENCE_PERSISTENCE_FILE="/dev/stderr"
-  local __MOCK_SEQUENCE_PERSISTED_ARRAY
+  local __STDLIB_TESTING_MOCK_SEQUENCE_ARRAY=()
+  local __STDLIB_TESTING_MOCK_SEQUENCE_FILENAME="/dev/stderr"
+  local __STDLIB_TESTING_MOCK_SEQUENCE_ARRAY_PERSISTED_ARRAY
 
-  stdlib.array.make.from_string __MOCK_SEQUENCE "|" "${TEST_EXISTING_SEQUENCE_DEFINITION}"
+  stdlib.array.make.from_string __STDLIB_TESTING_MOCK_SEQUENCE_ARRAY "|" "${TEST_EXISTING_SEQUENCE_DEFINITION}"
 
   _capture.stderr _mock.__internal.persistence.sequence.update
 
-  __MOCK_SEQUENCE_PERSISTED_ARRAY=("${__MOCK_SEQUENCE[@]}")
-  assert_output "$(declare -p __MOCK_SEQUENCE_PERSISTED_ARRAY)"
+  __STDLIB_TESTING_MOCK_SEQUENCE_ARRAY_PERSISTED_ARRAY=("${__STDLIB_TESTING_MOCK_SEQUENCE_ARRAY[@]}")
+  assert_output "$(declare -p __STDLIB_TESTING_MOCK_SEQUENCE_ARRAY_PERSISTED_ARRAY)"
 }
 
 @parametrize_with_sequences \

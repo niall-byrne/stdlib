@@ -4,14 +4,17 @@
 
 builtin set -eo pipefail
 
-_PARAMETRIZE_DEBUG="${PARAMETRIZE_DEBUG:-"0"}"
-_PARAMETRIZE_FIELD_SEPARATOR=";"
-_PARAMETRIZE_FIXTURE_COMMAND_PREFIX="@fixture "
-_PARAMETRIZE_PARAMETRIZER_PREFIX="@parametrize_with_"
-_PARAMETRIZE_SHOW_ORIGINAL_TEST_NAMES="0"
-_PARAMETRIZE_VARIANT_TAG="@vary"
+# shellcheck disable=SC2034
+{
+  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="${STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN:-"0"}"
+  STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR=";"
+  STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX="@fixture "
+  STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX="@parametrize_with_"
+  STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN="0"
+  STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG="@vary"
+}
 
-_PARAMETRIZE_GENERATED_FUNCTIONS=()
+__STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY=()
 
 @parametrize() {
   # $1: (required) the name of the test function to parametrize
@@ -72,7 +75,7 @@ _PARAMETRIZE_GENERATED_FUNCTIONS=()
 
   for ((parametrize_configuration_index = 0; "${parametrize_configuration_index}" < "${#parametrize_configuration[@]}"; parametrize_configuration_index++)); do
     parametrize_configuration_line="${parametrize_configuration[parametrize_configuration_index]}"
-    IFS="${_PARAMETRIZE_FIELD_SEPARATOR}" builtin read -ra array_scenario_values <<< "${parametrize_configuration_line}"
+    IFS="${STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR}" builtin read -ra array_scenario_values <<< "${parametrize_configuration_line}"
 
     test_function_variant_name="$(
       @parametrize.__internal.create.string.padded_test_fn_variant_name \
@@ -109,7 +112,7 @@ _PARAMETRIZE_GENERATED_FUNCTIONS=()
       array_fixture_commands \
       array_scenario_values
 
-    _PARAMETRIZE_GENERATED_FUNCTIONS+=("${test_function_variant_name}")
+    __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY+=("${test_function_variant_name}")
 
   done
 }

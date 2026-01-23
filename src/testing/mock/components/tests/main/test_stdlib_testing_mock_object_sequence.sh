@@ -25,16 +25,16 @@ teardown() {
 }
 
 _fixture_disable_tracking() {
-  __MOCK_SEQUENCE_TRACKING="0"
+  __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN="0"
 }
 
 _fixture_enable_tracking() {
-  __MOCK_SEQUENCE_TRACKING="1"
+  __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN="1"
 }
 
 # shellcheck disable=SC2034
 test_stdlib_testing_mock_object_sequence__@vary__updates_sequence() {
-  local __MOCK_SEQUENCE_TRACKING=""
+  local __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN=""
   local expected_sequence=()
   local commands=()
   local command
@@ -46,7 +46,7 @@ test_stdlib_testing_mock_object_sequence__@vary__updates_sequence() {
     "${command}"
   done
 
-  assert_array_equals expected_sequence __MOCK_SEQUENCE
+  assert_array_equals expected_sequence __STDLIB_TESTING_MOCK_SEQUENCE_ARRAY
 }
 
 @parametrize_with_sequence_tracking \

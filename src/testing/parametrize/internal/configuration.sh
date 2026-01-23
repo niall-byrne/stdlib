@@ -44,14 +44,14 @@ builtin set -eo pipefail
 
   while [[ -n "${1}" ]]; do
     ((parse_configuration_array_index = parse_configuration_array_index + 1))
-    if stdlib.string.query.starts_with "${_PARAMETRIZE_FIXTURE_COMMAND_PREFIX}" "${1}"; then
-      parse_fixture_commands_array+=("${1/"${_PARAMETRIZE_FIXTURE_COMMAND_PREFIX}"/}")
+    if stdlib.string.query.starts_with "${STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX}" "${1}"; then
+      parse_fixture_commands_array+=("${1/"${STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX}"/}")
       builtin shift
       builtin continue
     else
       _testing.__protected stdlib.array.make.from_string \
         "${parse_env_var_array_name?}" \
-        "${_PARAMETRIZE_FIELD_SEPARATOR}" \
+        "${STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR}" \
         "${1}"
       builtin shift
       builtin break
@@ -70,7 +70,7 @@ builtin set -eo pipefail
 
     _testing.__protected stdlib.array.make.from_string \
       parse_scenario_array \
-      "${_PARAMETRIZE_FIELD_SEPARATOR}" \
+      "${STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR}" \
       "${1}"
 
     @parametrize.__internal.validate.scenario \

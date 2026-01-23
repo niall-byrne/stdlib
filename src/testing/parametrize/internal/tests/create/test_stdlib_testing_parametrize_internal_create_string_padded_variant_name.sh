@@ -2,7 +2,7 @@
 
 # shellcheck disable=SC2034,SC2016
 test_parametrize_internal_create_padded_test_fn_variant_name__padding_20__outputs_correct_value() {
-  local _PARAMETRIZE_VARIANT_TAG="@vary"
+  local STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG="@vary"
 
   _capture.output @parametrize.__internal.create.string.padded_test_fn_variant_name \
     "test_mock_function_name_one__@vary__testing" \
@@ -14,7 +14,7 @@ test_parametrize_internal_create_padded_test_fn_variant_name__padding_20__output
 
 # shellcheck disable=SC2034,SC2016
 test_parametrize_internal_create_padded_test_fn_variant_name__padding_30__outputs_correct_value() {
-  local _PARAMETRIZE_VARIANT_TAG="@vary"
+  local STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG="@vary"
 
   _capture.output @parametrize.__internal.create.string.padded_test_fn_variant_name \
     "test_mock_function_name_two__@vary__testing" \

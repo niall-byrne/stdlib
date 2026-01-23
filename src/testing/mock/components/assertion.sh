@@ -4,10 +4,10 @@
 
 builtin set -eo pipefail
 
-builtin export CONTENT
+builtin export __STDLIB_TESTING_MOCK_COMPONENT
 
 # shellcheck disable=SC2034
-CONTENT="$(
+__STDLIB_TESTING_MOCK_COMPONENT="$(
   "${_STDLIB_BINARY_CAT}" << EOF
 
 ${1}.mock.__count_matches() {

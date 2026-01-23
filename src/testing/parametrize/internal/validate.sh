@@ -13,7 +13,7 @@ builtin set -eo pipefail
     builtin return 126
   fi
 
-  if ! stdlib.string.query.starts_with "${_PARAMETRIZE_PARAMETRIZER_PREFIX}" "${1}"; then
+  if ! stdlib.string.query.starts_with "${STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX}" "${1}"; then
     _testing.error "$(_testing.parametrize.message.get PARAMETRIZE_ERROR_PARAMETRIZER_FN_INVALID "${1}")"
     _testing.error "$(_testing.parametrize.message.get PARAMETRIZE_ERROR_PARAMETRIZER_FN_NAME)"
     builtin return 126
@@ -29,7 +29,7 @@ builtin set -eo pipefail
     builtin return 126
   fi
 
-  if ! stdlib.string.query.has_substring "${_PARAMETRIZE_VARIANT_TAG}" "${1}" ||
+  if ! stdlib.string.query.has_substring "${STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG}" "${1}" ||
     ! stdlib.string.query.starts_with "test" "${1}"; then
     _testing.error "$(_testing.parametrize.message.get PARAMETRIZE_ERROR_TEST_FN_INVALID "${1}")"
     _testing.error "$(_testing.parametrize.message.get PARAMETRIZE_ERROR_TEST_FN_NAME)"

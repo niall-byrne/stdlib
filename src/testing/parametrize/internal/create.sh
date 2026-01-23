@@ -23,7 +23,7 @@ builtin set -eo pipefail
   for ((variant_index = 1; variant_index <= "${#@}"; variant_index++)); do
     parametrizer_function_name="${!variant_index}"
     @parametrize.__internal.validate.fn_name.parametrizer "${parametrizer_function_name}" || builtin return 126
-    variant_tag="${parametrizer_function_name/${_PARAMETRIZE_PARAMETRIZER_PREFIX}/}"
+    variant_tag="${parametrizer_function_name/${STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX}/}"
     variants+=("${variant_tag}")
     if [[ "${#variant_tag}" -gt "${padding_value}" ]]; then
       padding_value="${#variant_tag}"
@@ -64,7 +64,7 @@ builtin set -eo pipefail
   builtin eval "
   ${test_function_variant_name}(){
   $(
-    if [[ "${_PARAMETRIZE_SHOW_ORIGINAL_TEST_NAMES}" == "1" ]]; then
+    if [[ "${STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN}" == "1" ]]; then
       builtin echo -e "builtin echo -ne '\n                $(
         _testing.__protected stdlib.string.colour \
           "${STDLIB_TESTING_THEME_PARAMETRIZE_ORIGINAL_TEST_NAMES}" \
@@ -91,7 +91,7 @@ builtin set -eo pipefail
       builtin printf "%s\n" "${array_indirect_fixture_commands[scenario_index]}"
     done
 
-    if [[ "${_PARAMETRIZE_DEBUG}" == "1" ]]; then
+    if [[ "${STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN}" == "1" ]]; then
       @parametrize.__internal.debug.message "${scenario_debug_message}"
     fi
   )
@@ -114,5 +114,5 @@ builtin set -eo pipefail
     padded_variant_name="${padded_variant_name// /_}"
   fi
 
-  builtin echo "${1/"${_PARAMETRIZE_VARIANT_TAG}"/"${padded_variant_name}"}"
+  builtin echo "${1/"${STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG}"/"${padded_variant_name}"}"
 }

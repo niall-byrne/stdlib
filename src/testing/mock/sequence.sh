@@ -4,8 +4,8 @@
 
 builtin set -eo pipefail
 
-__MOCK_SEQUENCE=()
-__MOCK_SEQUENCE_TRACKING="0"
+__STDLIB_TESTING_MOCK_SEQUENCE_ARRAY=()
+__STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN="0"
 
 _mock.sequence.assert_is() {
   # $@: the expected sequence of mock calls
@@ -20,7 +20,7 @@ _mock.sequence.assert_is() {
   _mock.sequence.record.stop
 
   _mock.__internal.persistence.sequence.retrieve
-  mock_sequence=("${__MOCK_SEQUENCE[@]}")
+  mock_sequence=("${__STDLIB_TESTING_MOCK_SEQUENCE_ARRAY[@]}")
 
   assert_array_equals expected_mock_sequence mock_sequence
 }
@@ -35,7 +35,7 @@ _mock.sequence.assert_is_empty() {
 
   _mock.__internal.persistence.sequence.retrieve
   # shellcheck disable=SC2034
-  mock_sequence=("${__MOCK_SEQUENCE[@]}")
+  mock_sequence=("${__STDLIB_TESTING_MOCK_SEQUENCE_ARRAY[@]}")
 
   assert_array_equals expected_mock_sequence mock_sequence
 }
@@ -46,13 +46,13 @@ _mock.sequence.clear() {
 
 _mock.sequence.record.start() {
   _mock.__internal.persistence.sequence.clear
-  __MOCK_SEQUENCE_TRACKING="1"
+  __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN="1"
 }
 
 _mock.sequence.record.stop() {
-  __MOCK_SEQUENCE_TRACKING="0"
+  __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN="0"
 }
 
 _mock.sequence.record.resume() {
-  __MOCK_SEQUENCE_TRACKING="1"
+  __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN="1"
 }
