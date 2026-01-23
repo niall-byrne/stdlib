@@ -16,9 +16,11 @@ builtin set -eo pipefail
 
 # Bootstrap Procedure
 
+# @description Sources a module file.
+# @arg $1 string The path to the module to import.
+# @exitcode 0 If the operation succeeded.
+# @internal
 bootstrap() {
-  # $1: the module to import
-
   # shellcheck source=/dev/null
   builtin source "${1}"
 }

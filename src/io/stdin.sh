@@ -6,9 +6,16 @@ builtin set -eo pipefail
 
 _STDLIB_PASSWORD_BOOLEAN=""
 
+# @description Prompts the user for a confirmation (Y/n).
+# @arg $1 string (optional, default=STDIN_DEFAULT_CONFIRMATION_PROMPT) The prompt to display.
+# @exitcode 0 If the user confirmed with 'Y'.
+# @exitcode 1 If the user declined with 'n'.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stdin The user input character.
+# @stdout The prompt and a newline after input.
+# @stderr The error message if the operation fails.
 stdlib.io.stdin.confirmation() {
-  # 1: (optional) the prompt to display
-
   builtin local input_char
   builtin local prompt="${1:-"$(stdlib.message.get STDIN_DEFAULT_CONFIRMATION_PROMPT)"}"
 
@@ -29,9 +36,15 @@ stdlib.io.stdin.confirmation() {
   done
 }
 
+# @description Pauses the script until the user presses a key.
+# @arg $1 string (optional, default=STDIN_DEFAULT_PAUSE_PROMPT) The prompt to display.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stdin The user input character.
+# @stdout The prompt.
+# @stderr The error message if the operation fails.
 stdlib.io.stdin.pause() {
-  # 1: (optional) the prompt to display
-
   builtin local input_char
   builtin local prompt="${1:-"$(stdlib.message.get STDIN_DEFAULT_PAUSE_PROMPT)"}"
 
@@ -41,12 +54,17 @@ stdlib.io.stdin.pause() {
   builtin read -rs -n 1 input_char
 }
 
+# @description Prompts the user for a value and saves it to a variable.
+#     _STDLIB_PASSWORD_BOOLEAN: A boolean (0 or 1) indicating if the input should be masked (e.g. for passwords).
+# @arg $1 string The variable name to save the input to.
+# @arg $2 string (optional, default=STDIN_DEFAULT_VALUE_PROMPT) The prompt to display.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stdin The user input.
+# @stdout The prompt.
+# @stderr The error message if the operation fails.
 stdlib.io.stdin.prompt() {
-  # 1: the variable name to save
-  # 2: (optional) the prompt to display
-  #
-  # _STDLIB_PASSWORD_BOOLEAN: set to 1 to mask password entry
-
   builtin local flags="-rp"
   builtin local prompt="${2:-"$(stdlib.message.get STDIN_DEFAULT_VALUE_PROMPT)"}"
   builtin local password="${_STDLIB_PASSWORD_BOOLEAN:-0}"

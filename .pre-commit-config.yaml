@@ -11,6 +11,18 @@ repos:
           - "-c"
           - "./.yamllint.yml"
         stages: [pre-commit]
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.0
+    hooks:
+      - id: ruff-check
+        alias: ruff-lint
+        types: ["python"]
+      - id: ruff-check
+        alias: ruff-fix
+        args:
+          - "--fix"
+        types: ["python"]
+        stages: ["manual"]
   - repo: https://github.com/cicd-tools-org/pre-commit.git
     rev: e58ac73ff0825ab646c16f4a1de308ec19fe5c7e
     hooks:
@@ -138,6 +150,14 @@ repos:
         language: system
         stages: [manual]
         pass_filenames: false
+        require_serial: true
+      - id: documentation-source-files
+        name: ensure source functions are correctly documented
+        entry: python tools/documentation_check.py
+        language: system
+        files: "^src/.+\\.sh$"
+        exclude: "^((.+/)*tests/.+\\.sh|src/testing/.+\\.sh)$"
+        pass_filenames: true
         require_serial: true
       - id: snippet-files-headers
         name: ensure snippet files have correct headers

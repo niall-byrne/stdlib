@@ -1,8 +1,12 @@
+__pycache__
 *.po~
 .idea
 .cicd-tools/boxes
 .cicd-tools/manifest.json
+.ruff_cache
 .vale/*
 !.vale/Vocab
+.venv
+.vscode
 coverage
 locales/**/LC_MESSAGES/*.mo

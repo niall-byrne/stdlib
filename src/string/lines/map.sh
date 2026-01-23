@@ -4,12 +4,15 @@
 
 builtin set -eo pipefail
 
+# @description Maps a format string over each line of a string.
+#     _STDLIB_DELIMITER: a char sequence to split the string with for processing (optional, default=$'\n')
+# @arg $1 string A valid printf format string.
+# @arg $2 string The input string to process.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stdout The formatted lines.
+# @stderr The error message if the operation fails.
 stdlib.string.lines.map.format() {
-  # $1: a valid print format string to apply to each line
-  # $2: the input string to process
-  #
-  # _STDLIB_DELIMITER:  a char sequence to split the string with for processing
-
   builtin local -a _STDLIB_ARGS_NULL_SAFE
   builtin local delimiter="${_STDLIB_DELIMITER:-$'\n'}"
   builtin local line=""
@@ -37,12 +40,16 @@ stdlib.fn.derive.pipeable "stdlib.string.lines.map.format" "2"
 
 stdlib.fn.derive.var "stdlib.string.lines.map.format"
 
+# @description Maps a function over each line of a string.
+#     _STDLIB_DELIMITER: a char sequence to split the string with for processing (optional, default=$'\n')
+# @arg $1 string The name of the function to apply to each line.
+# @arg $2 string The input string to process.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stdout The mapped lines.
+# @stderr The error message if the operation fails.
 stdlib.string.lines.map.fn() {
-  # $1: a valid function apply to each line
-  # $2: the input string to process
-  #
-  # _STDLIB_DELIMITER:  a char sequence to split the string with for processing
-
   builtin local -a _STDLIB_ARGS_NULL_SAFE
   builtin local delimiter="${_STDLIB_DELIMITER:-$'\n'}"
   builtin local line=""

@@ -4,9 +4,14 @@
 
 builtin set -eo pipefail
 
+# @description Asserts that a string is a valid variable name.
+# @arg $1 string The string to check.
+# @exitcode 0 If the assertion succeeded.
+# @exitcode 1 If the assertion failed.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stderr The error message if the assertion fails.
 stdlib.var.assert.is_valid_name() {
-  # $1: the var name to query
-
   builtin local return_code=0
 
   stdlib.var.query.is_valid_name "${@}" || return_code="$?"
