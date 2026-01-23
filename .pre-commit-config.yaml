@@ -176,6 +176,24 @@ repos:
         language: pygrep
         files: "^src/testing/.+\\.sh$"
         exclude: "^((.+/)*tests/.+\\.sh)$"
+      - id: source-files-testing-folder-global-variable-names
+        name: ensure source files in the testing folder use the correct global variable names
+        entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$)\\s*(?!_STDLIB_(ARGS_NULL_SAFE|BUILTIN_BOOLEAN)|IFS|LC_ALL|(__)*STDLIB_TESTING_|TEST_OUTPUT|TEST_RC)([A-Z_]+)=.+$"
+        language: pygrep
+        files: "^src/testing/.+\\.sh$"
+        exclude: "^((.+/)*tests/.+\\.sh)$"
+      - id: source-files-testing-folder-global-variable-names
+        name: ensure source files in the testing folder use the correct global variable names for arrays
+        entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$)\\s*([A-Z_]+)(?<!ARGS_NULL_SAFE)(?<!_ARRAY)=\\(.+$"
+        language: pygrep
+        files: "^src/testing/.+\\.sh$"
+        exclude: "^((.+/)*tests/.+\\.sh)$"
+      - id: source-files-testing-folder-global-variable-names
+        name: ensure source files in the testing folder use the correct global variable names for booleans
+        entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$)\\s*([A-Z_]+)(?<!_BOOLEAN)=(\"[01]\"|[01])$"
+        language: pygrep
+        files: "^src/testing/.+\\.sh$"
+        exclude: "^((.+/)*tests/.+\\.sh)$"
       - id: test-files-binaries
         name: ensure test files don't directly reference restricted binary commands
         entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$).*((?<=\\s|\\()|(?<=^))(cat|cut|grep|head|mktemp|rm|sed|sort|tail|tput|tr)((\\s|\\)).*$|$)"

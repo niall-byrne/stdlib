@@ -21,17 +21,17 @@ teardown_suite() {
 }
 
 test_stdlib_testing_mock_internal_persistence_sequence_retrieve__@vary__replaces_sequence_with_persisted_definition() {
-  local __MOCK_SEQUENCE=()
-  local __MOCK_SEQUENCE_PERSISTENCE_FILE="${mock_persistence_file}"
-  local __MOCK_SEQUENCE_PERSISTED_ARRAY=()
+  local __STDLIB_TESTING_MOCK_SEQUENCE_ARRAY=()
+  local __STDLIB_TESTING_MOCK_SEQUENCE_FILENAME="${mock_persistence_file}"
+  local __STDLIB_TESTING_MOCK_SEQUENCE_ARRAY_PERSISTED_ARRAY=()
 
-  stdlib.array.make.from_string __MOCK_SEQUENCE "|" "${TEST_EXISTING_SEQUENCE_DEFINITION}"
-  stdlib.array.make.from_string __MOCK_SEQUENCE_PERSISTED_ARRAY "|" "${TEST_PERSISTED_SEQUENCE_DEFINITION}"
-  declare -p __MOCK_SEQUENCE_PERSISTED_ARRAY > "${mock_persistence_file}"
+  stdlib.array.make.from_string __STDLIB_TESTING_MOCK_SEQUENCE_ARRAY "|" "${TEST_EXISTING_SEQUENCE_DEFINITION}"
+  stdlib.array.make.from_string __STDLIB_TESTING_MOCK_SEQUENCE_ARRAY_PERSISTED_ARRAY "|" "${TEST_PERSISTED_SEQUENCE_DEFINITION}"
+  declare -p __STDLIB_TESTING_MOCK_SEQUENCE_ARRAY_PERSISTED_ARRAY > "${mock_persistence_file}"
 
   _mock.__internal.persistence.sequence.retrieve
 
-  assert_array_equals __MOCK_SEQUENCE_PERSISTED_ARRAY __MOCK_SEQUENCE
+  assert_array_equals __STDLIB_TESTING_MOCK_SEQUENCE_ARRAY_PERSISTED_ARRAY __STDLIB_TESTING_MOCK_SEQUENCE_ARRAY
 }
 
 @parametrize_with_sequences \

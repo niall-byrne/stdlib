@@ -8,7 +8,7 @@ builtin set -eo pipefail
   # $1: the name of the test function to parametrize
   # $@: a series of parametrize functions to compose with this function
 
-  builtin local -a _PARAMETRIZE_GENERATED_FUNCTIONS
+  builtin local -a __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY
   builtin local original_test_function_name="${1}"
   builtin local parametrizer_fn
   builtin local -a parametrizer_fn_array
@@ -28,11 +28,11 @@ builtin set -eo pipefail
   for ((parametrizer_index = 0; parametrizer_index < "${#parametrizer_fn_array[@]}"; parametrizer_index++)); do
     parametrizer_fn="${parametrizer_fn_array[parametrizer_index]}"
     @parametrize.__internal.validate.fn_name.parametrizer "${parametrizer_fn}" || builtin return 126
-    _PARAMETRIZE_GENERATED_FUNCTIONS=()
+    __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY=()
     for parametrizer_fn_target in "${parametrizer_fn_targets[@]}"; do
       "${parametrizer_fn}" "${parametrizer_fn_target}"
     done
-    parametrizer_fn_targets=("${_PARAMETRIZE_GENERATED_FUNCTIONS[@]}")
+    parametrizer_fn_targets=("${__STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY[@]}")
   done
 
   builtin unset -f "${original_test_function_name}"
