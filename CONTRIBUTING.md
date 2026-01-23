@@ -126,8 +126,8 @@ Global variables, should be prefixed with `STDLIB_TESTING`, and should be in upp
 - `STDLIB_TESTING_PROTECT_PREFIX`
 
 There are a few global variables that store state and are not meant to be accessed by an end-user.  These are prefixed with `__STDLIB_TESTING` to  indicate they are private.  For example:
-- `__STDLIB_TESTING_MOCK_INSTANCES`
-- `__STDLIB_TESTING_MOCK_REGISTRY`
+- `__STDLIB_TESTING_MOCK_REGISTERED_INSTANCES_ARRAY`
+- `__STDLIB_TESTING_MOCK_REGISTRY_FILENAME`
 
 ##### Reserved Testing Global Variable Names
 

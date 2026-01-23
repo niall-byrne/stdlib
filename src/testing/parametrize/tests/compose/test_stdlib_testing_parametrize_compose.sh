@@ -29,7 +29,7 @@ teardown_suite() {
 @parametrize_with_simple_config_one() {
   # $1: the function you wish to parametrize
 
-  _PARAMETRIZE_DEBUG="" @parametrize \
+  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="" @parametrize \
     "${1}" \
     "${SIMPLE_CONFIG_ONE[@]}"
 }
@@ -37,7 +37,7 @@ teardown_suite() {
 @parametrize_with_simple_config_three() {
   # $1: the function you wish to parametrize
 
-  _PARAMETRIZE_DEBUG="" @parametrize \
+  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="" @parametrize \
     "${1}" \
     "${SIMPLE_CONFIG_THREE[@]}"
 }

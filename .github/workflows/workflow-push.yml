@@ -252,6 +252,8 @@ jobs:
             name: "Source Files Keywords Linting"
           - id: "source-files-testing-folder-function-names"
             name: "Source Files (src/testing) Function Name Linting"
+          - id: "source-files-testing-folder-global-variable-names"
+            name: "Source Files (src/testing) Global Variable Name Linting"
           - id: "test-files-binaries"
             name: "Test Files Binary Usage Linting"
           - id: "test-files-headers"

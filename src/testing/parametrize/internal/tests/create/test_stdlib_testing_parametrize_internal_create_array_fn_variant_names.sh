@@ -15,7 +15,7 @@ setup() {
 }
 
 test_parametrize_internal_create_fn_variant_tags__valid_args____creates_correct_variant_stack() {
-  local _PARAMETRIZE_PARAMETRIZER_PREFIX="@parametrize_with_"
+  local STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX="@parametrize_with_"
   local expected_stack_variants=(
     "variant_1"
     "variant_2"
@@ -32,7 +32,7 @@ test_parametrize_internal_create_fn_variant_tags__valid_args____creates_correct_
 }
 
 test_parametrize_internal_create_fn_variant_tags__valid_args____validates_each_variant_name() {
-  local _PARAMETRIZE_PARAMETRIZER_PREFIX="@parametrize_with_"
+  local STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX="@parametrize_with_"
 
   @parametrize.__internal.create.array.fn_variant_tags \
     test_padding_value \
@@ -46,7 +46,7 @@ test_parametrize_internal_create_fn_variant_tags__valid_args____validates_each_v
 }
 
 test_parametrize_internal_create_fn_variant_tags__valid_args____sets_correct_padding_value() {
-  local _PARAMETRIZE_PARAMETRIZER_PREFIX="@parametrize_with_"
+  local STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX="@parametrize_with_"
 
   @parametrize.__internal.create.array.fn_variant_tags \
     test_padding_value \
@@ -57,7 +57,7 @@ test_parametrize_internal_create_fn_variant_tags__valid_args____sets_correct_pad
 }
 
 test_parametrize_internal_create_fn_variant_tags__valid_args____returns_status_code_0() {
-  local _PARAMETRIZE_PARAMETRIZER_PREFIX="@parametrize_with_"
+  local STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX="@parametrize_with_"
 
   _capture.rc @parametrize.__internal.create.array.fn_variant_tags \
     test_padding_value \
@@ -68,7 +68,7 @@ test_parametrize_internal_create_fn_variant_tags__valid_args____returns_status_c
 }
 
 test_parametrize_internal_create_fn_variant_tags__invalid_args__returns_status_code_126() {
-  local _PARAMETRIZE_PARAMETRIZER_PREFIX="@parametrize_with_"
+  local STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX="@parametrize_with_"
   @parametrize.__internal.validate.fn_name.parametrizer.mock.set.rc 1
 
   _capture.rc @parametrize.__internal.create.array.fn_variant_tags \

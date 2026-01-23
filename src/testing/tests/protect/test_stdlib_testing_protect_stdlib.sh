@@ -9,7 +9,7 @@ _mock_stdlib.fn2() {
 }
 
 test_stdlib_testing_protect_stdlib__creates_new_internal_functions() {
-  _STDLIB_TESTING_STDLIB_PROTECT_PREFIX="_mock_stdlib" \
+  STDLIB_TESTING_PROTECT_PREFIX="_mock_stdlib" \
     _testing.__protect_stdlib
 
   assert_is_fn _mock_stdlib.testing.internal.fn1
@@ -17,7 +17,7 @@ test_stdlib_testing_protect_stdlib__creates_new_internal_functions() {
 }
 
 test_stdlib_testing_protect_stdlib__preserves_implementation() {
-  _STDLIB_TESTING_STDLIB_PROTECT_PREFIX="_mock_stdlib" \
+  STDLIB_TESTING_PROTECT_PREFIX="_mock_stdlib" \
     _testing.__protect_stdlib
 
   _capture.stdout _mock_stdlib.testing.internal.fn1
@@ -26,7 +26,7 @@ test_stdlib_testing_protect_stdlib__preserves_implementation() {
 }
 
 test_stdlib_testing_protect_stdlib__references_protected_functions() {
-  _STDLIB_TESTING_STDLIB_PROTECT_PREFIX="_mock_stdlib" \
+  STDLIB_TESTING_PROTECT_PREFIX="_mock_stdlib" \
     _testing.__protect_stdlib
 
   _mock.create _mock_stdlib.testing.internal.fn1
