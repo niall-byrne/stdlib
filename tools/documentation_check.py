@@ -2,7 +2,7 @@ import json
 import re
 import sys
 from dataclasses import dataclass
-from typing import Dict, List, Optional, Set
+from typing import List, Optional
 
 # Configuration
 TAGS = [
@@ -23,9 +23,9 @@ REGEX_PROCESS_SUBSTITUTION = r"[\$=]\(builtin echo"
 REGEX_ECHO_ASSIGNMENT = r"=\s*\"?builtin echo"
 
 MANDATORY_TAGS = ["description"]
-VALID_TYPES = ["string", "integer", "boolean", "array"]
+VARIABLE_TYPES = ["string", "integer", "boolean", "array"]
 
-REQUIRED_EXIT_CODES = ["0"]
+MANDATORY_EXIT_CODES = ["0"]
 
 STANDARDIZED_EXIT_CODES = {
     "126": r"@exitcode 126 If an invalid argument has been provided\.",
@@ -104,11 +104,31 @@ class Rule:
         raise NotImplementedError
 
 
-class UndocumentedRule(Rule):
+class AssertionStderrRule(Rule):
     def check(self, func: BashFunction) -> List[str]:
-        if not any("@" in l for l in func.doc_lines):
-            return [f"{func.name}: Completely undocumented."]
-        return []
+        if "assert" not in func.name:
+            return []
+
+        msg = "The error message if the assertion fails."
+        return [
+            f"{func.name}: @stderr for assertion should use '{msg}'. Found: '{tag.line.strip()}'"
+            for tag in func.find_tags("stderr")
+            if msg not in tag.content
+        ]
+
+
+class ExitCodeDescriptionRule(Rule):
+    def check(self, func: BashFunction) -> List[str]:
+        errors = []
+        for tag in func.find_tags("exitcode"):
+            m = re.search(r"@exitcode\s+\S+\s+(.*)", tag.line)
+            if m:
+                text = m.group(1).strip()
+                if text and not text.startswith("If"):
+                    errors.append(
+                        f"{func.name}: @exitcode description should start with 'If'. Found: '{text}'"
+                    )
+        return errors
 
 
 class FieldOrderRule(Rule):
@@ -127,6 +147,34 @@ class FieldOrderRule(Rule):
         return []
 
 
+class GlobalIndentationRule(Rule):
+    def check(self, func: BashFunction) -> List[str]:
+        return [
+            f"{func.name}: Global variable in @description should be indented with 4 spaces. Found: '{line.strip()}'"
+            for line in func.global_var_lines
+            if not line.startswith("#     ")
+        ]
+
+
+class InternalTagRule(Rule):
+    def check(self, func: BashFunction) -> List[str]:
+        if "__" in func.name and not func.contains_tag("internal"):
+            return [f"{func.name}: Missing @internal"]
+        return []
+
+
+class MandatoryExitCodeRule(Rule):
+    def check(self, func: BashFunction) -> List[str]:
+        errors = []
+        for code in MANDATORY_EXIT_CODES:
+            if not any(
+                re.search(rf"@exitcode {code}", t.line)
+                for t in func.find_tags("exitcode")
+            ):
+                errors.append(f"{func.name}: Missing @exitcode {code}")
+        return errors
+
+
 class MandatoryFieldsRule(Rule):
     def check(self, func: BashFunction) -> List[str]:
         errors = [
@@ -137,87 +185,6 @@ class MandatoryFieldsRule(Rule):
         if not (func.contains_tag("arg") or func.contains_tag("noargs")):
             errors.append(f"{func.name}: Missing @arg or @noargs")
         return errors
-
-
-class MandatoryExitCodeRule(Rule):
-    def check(self, func: BashFunction) -> List[str]:
-        errors = []
-        for code in REQUIRED_EXIT_CODES:
-            if not any(
-                re.search(rf"@exitcode {code}", t.line)
-                for t in func.find_tags("exitcode")
-            ):
-                errors.append(f"{func.name}: Missing @exitcode {code}")
-        return errors
-
-
-class StandardExitCodesRule(Rule):
-    def check(self, func: BashFunction) -> List[str]:
-        errors = []
-        for tag in func.find_tags("exitcode"):
-            for code, pattern in STANDARDIZED_EXIT_CODES.items():
-                if code in tag.content and not re.search(pattern, tag.line):
-                    errors.append(
-                        f"{func.name}: Non-standard @exitcode {code} message. Found: '{tag.line.strip()}'"
-                    )
-        return errors
-
-
-class ExitCodeDescriptionRule(Rule):
-    def check(self, func: BashFunction) -> List[str]:
-        errors = []
-        for tag in func.find_tags("exitcode"):
-            m = re.search(r"@exitcode\s+\S+\s+(.*)", tag.line)
-            if m:
-                text = m.group(1).strip()
-                if text and not text.startswith("If"):
-                    errors.append(
-                        f"{func.name}: @exitcode description should start with 'If'. Found: '{text}'"
-                    )
-        return errors
-
-
-class TypeValidationRule(Rule):
-    def _validate_type(self, func_name: str, tag: DocTag) -> Optional[str]:
-        parts = tag.content.split()
-        if len(parts) < 2:
-            return f"{func_name}: Missing or invalid type in @{tag.name}. Found: '{tag.line.strip()}'"
-
-        tag_type = parts[1].split("(")[0]
-        if tag_type not in VALID_TYPES:
-            return f"{func_name}: Missing or invalid type in @{tag.name}. Found: '{tag.line.strip()}'"
-        return None
-
-    def check(self, func: BashFunction) -> List[str]:
-        errors = []
-        for tag_name in ["arg", "set"]:
-            for tag in func.find_tags(tag_name):
-                error = self._validate_type(func.name, tag)
-                if error:
-                    errors.append(error)
-        return errors
-
-
-class GlobalIndentationRule(Rule):
-    def check(self, func: BashFunction) -> List[str]:
-        return [
-            f"{func.name}: Global variable in @description should be indented with 4 spaces. Found: '{line.strip()}'"
-            for line in func.global_var_lines
-            if not line.startswith("#     ")
-        ]
-
-
-class AssertionStderrRule(Rule):
-    def check(self, func: BashFunction) -> List[str]:
-        if "assert" not in func.name:
-            return []
-
-        msg = "The error message if the assertion fails."
-        return [
-            f"{func.name}: @stderr for assertion should use '{msg}'. Found: '{tag.line.strip()}'"
-            for tag in func.find_tags("stderr")
-            if msg not in tag.content
-        ]
 
 
 class MissingOutputTagsRule(Rule):
@@ -288,10 +255,43 @@ class SentenceFormatRule(Rule):
         return errors
 
 
-class InternalTagRule(Rule):
+class StandardExitCodesRule(Rule):
     def check(self, func: BashFunction) -> List[str]:
-        if "__" in func.name and not func.contains_tag("internal"):
-            return [f"{func.name}: Missing @internal"]
+        errors = []
+        for tag in func.find_tags("exitcode"):
+            for code, pattern in STANDARDIZED_EXIT_CODES.items():
+                if code in tag.content and not re.search(pattern, tag.line):
+                    errors.append(
+                        f"{func.name}: Non-standard @exitcode {code} message. Found: '{tag.line.strip()}'"
+                    )
+        return errors
+
+
+class TypeValidationRule(Rule):
+    def _validate_type(self, func_name: str, tag: DocTag) -> Optional[str]:
+        parts = tag.content.split()
+        if len(parts) < 2:
+            return f"{func_name}: Missing or invalid type in @{tag.name}. Found: '{tag.line.strip()}'"
+
+        tag_type = parts[1].split("(")[0]
+        if tag_type not in VARIABLE_TYPES:
+            return f"{func_name}: Missing or invalid type in @{tag.name}. Found: '{tag.line.strip()}'"
+        return None
+
+    def check(self, func: BashFunction) -> List[str]:
+        errors = []
+        for tag_name in ["arg", "set"]:
+            for tag in func.find_tags(tag_name):
+                error = self._validate_type(func.name, tag)
+                if error:
+                    errors.append(error)
+        return errors
+
+
+class UndocumentedRule(Rule):
+    def check(self, func: BashFunction) -> List[str]:
+        if not any("@" in l for l in func.doc_lines):
+            return [f"{func.name}: Completely undocumented."]
         return []
 
 
@@ -335,18 +335,18 @@ def parse_file(filepath: str) -> List[BashFunction]:
 
 def main():
     rules = [
-        UndocumentedRule(),
-        FieldOrderRule(),
-        MandatoryFieldsRule(),
-        MandatoryExitCodeRule(),
-        StandardExitCodesRule(),
-        ExitCodeDescriptionRule(),
-        TypeValidationRule(),
-        GlobalIndentationRule(),
         AssertionStderrRule(),
+        ExitCodeDescriptionRule(),
+        FieldOrderRule(),
+        GlobalIndentationRule(),
+        InternalTagRule(),
+        MandatoryExitCodeRule(),
+        MandatoryFieldsRule(),
         MissingOutputTagsRule(),
         SentenceFormatRule(),
-        InternalTagRule(),
+        StandardExitCodesRule(),
+        TypeValidationRule(),
+        UndocumentedRule(),
     ]
 
     all_discrepancies = {}

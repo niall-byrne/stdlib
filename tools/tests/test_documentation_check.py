@@ -10,6 +10,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 import documentation_check
 
+
 class TestDocumentationCheck(unittest.TestCase):
     def setUp(self):
         self.assets_dir = os.path.join(os.path.dirname(__file__), "assets")
@@ -36,7 +37,14 @@ class TestDocumentationCheck(unittest.TestCase):
         ]
 
         for func in functions:
-            undocumented_rule = next((r for r in rules if isinstance(r, documentation_check.UndocumentedRule)), None)
+            undocumented_rule = next(
+                (
+                    r
+                    for r in rules
+                    if isinstance(r, documentation_check.UndocumentedRule)
+                ),
+                None,
+            )
             if undocumented_rule:
                 undocumented_errors = undocumented_rule.check(func)
                 if undocumented_errors:
@@ -114,28 +122,29 @@ class TestDocumentationCheck(unittest.TestCase):
         filepath = os.path.join(self.assets_dir, "valid.sh")
         functions = documentation_check.parse_file(filepath)
 
-        # Override REQUIRED_EXIT_CODES
-        original_codes = documentation_check.REQUIRED_EXIT_CODES
+        # Override MANDATORY_EXIT_CODES
+        original_codes = documentation_check.MANDATORY_EXIT_CODES
         try:
-            documentation_check.REQUIRED_EXIT_CODES = ["0", "1"]
+            documentation_check.MANDATORY_EXIT_CODES = ["0", "1"]
             rule = documentation_check.MandatoryExitCodeRule()
             errors = rule.check(functions[0])
             self.assertEqual(len(errors), 1)
             self.assertIn("Missing @exitcode 1", errors[0])
         finally:
-            documentation_check.REQUIRED_EXIT_CODES = original_codes
+            documentation_check.MANDATORY_EXIT_CODES = original_codes
 
-    @patch('sys.exit')
-    @patch('sys.stdout', new_callable=StringIO)
+    @patch("sys.exit")
+    @patch("sys.stdout", new_callable=StringIO)
     def test_main_with_errors(self, mock_stdout, mock_exit):
         filepath = os.path.join(self.assets_dir, "undocumented.sh")
-        with patch('sys.argv', ['documentation_check.py', filepath]):
+        with patch("sys.argv", ["documentation_check.py", filepath]):
             documentation_check.main()
 
         mock_exit.assert_called_with(1)
         output = json.loads(mock_stdout.getvalue())
         self.assertIn(filepath, output)
         self.assertIn("Completely undocumented.", output[filepath][0])
+
 
 if __name__ == "__main__":
     unittest.main()
