@@ -4,8 +4,6 @@
 
 builtin set -eo pipefail
 
-# @internal
-# @set _STDLIB_ARRAY_BUFFER string The buffer containing the result of the last array getter operation.
 _STDLIB_ARRAY_BUFFER=""
 
 # @description Gets the last element of an array.

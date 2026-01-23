@@ -4,11 +4,7 @@
 
 builtin set -eo pipefail
 
-# @internal
-# @description A character that forces a line break in the text.
 _STDLIB_LINE_BREAK_CHAR=""
-# @internal
-# @description A string to insert when wrapping text.
 _STDLIB_WRAP_PREFIX_STRING=""
 
 # @description Wraps text to a specified width with padding.

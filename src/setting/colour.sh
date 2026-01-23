@@ -4,8 +4,6 @@
 
 builtin set -eo pipefail
 
-# @internal
-# @description Disables error message on initialization failure if set to "1".
 _STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN=""
 
 # @description Enables terminal colours.

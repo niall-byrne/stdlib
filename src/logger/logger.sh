@@ -4,12 +4,7 @@
 
 builtin set -eo pipefail
 
-# @internal
-# @description A prefix for the log message.
-#     If empty, it defaults to the name of the calling function.
 _STDLIB_LOGGING_MESSAGE_PREFIX=""
-# @internal
-# @description A list of function names that should be ignored when determining the message prefix.
 _STDLIB_LOGGING_DECORATORS=("_testing.__protected")
 
 # @description Prints a traceback of the current function calls.

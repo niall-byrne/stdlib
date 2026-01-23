@@ -4,8 +4,6 @@
 
 builtin set -eo pipefail
 
-# @internal
-# @description Whether to allow overriding builtins with external commands if set to "1".
 _STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=""
 
 # @description Executes a command as a builtin unless overriding is allowed.
