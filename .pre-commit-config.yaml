@@ -97,6 +97,10 @@ repos:
     hooks:
       - id: commitizen
         stages: [commit-msg]
+  - repo: https://github.com/psf/black-pre-commit-mirror
+    rev: 24.3.0
+    hooks:
+      - id: black
   - repo: https://github.com/python-jsonschema/check-jsonschema
     rev: 0.22.0
     hooks:
@@ -138,6 +142,14 @@ repos:
         language: system
         stages: [manual]
         pass_filenames: false
+        require_serial: true
+      - id: documentation-source-files
+        name: ensure source functions are correctly documented
+        entry: python tools/documentation_check.py
+        language: system
+        files: "^src/.+\\.sh$"
+        exclude: "^((.+/)*tests/.+\\.sh|src/testing/.+\\.sh)$"
+        pass_filenames: true
         require_serial: true
       - id: snippet-files-headers
         name: ensure snippet files have correct headers
