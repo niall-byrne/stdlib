@@ -6,3 +6,4 @@
 !.vale/Vocab
 coverage
 locales/**/LC_MESSAGES/*.mo
+__pycache__

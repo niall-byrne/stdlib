@@ -39,6 +39,17 @@ STDOUT_TRIGGERS = [
     "builtin echo",
 ]
 
+SENTENCE_FORMAT_TAGS = [
+    "description",
+    "arg",
+    "noargs",
+    "exitcode",
+    "set",
+    "stdin",
+    "stdout",
+    "stderr",
+]
+
 
 @dataclass
 class DocTag:
@@ -192,11 +203,11 @@ class AssertionStderrRule(Rule):
 
 
 class MissingOutputTagsRule(Rule):
-    def _has_trigger(self, body: List[str], triggers: List[str]) -> bool:
+    def _has_trigger(self, body: List[str], triggers: List[str], is_stdout: bool = False) -> bool:
         for line in body:
             if any(t in line for t in triggers):
                 # Specific check for stdout to avoid false positives
-                if "builtin echo" in line:
+                if is_stdout and "builtin echo" in line:
                     if (
                         ">&2" in line
                         or "/dev/null" in line
@@ -215,12 +226,12 @@ class MissingOutputTagsRule(Rule):
     def check(self, func: BashFunction) -> List[str]:
         errors = []
         if not func.contains_tag("stderr") and self._has_trigger(
-            func.body_lines, STDERR_TRIGGERS
+            func.body_lines, STDERR_TRIGGERS, is_stdout=False
         ):
             errors.append(f"{func.name}: Missing @stderr tag")
 
         if not func.contains_tag("stdout") and self._has_trigger(
-            func.body_lines, STDOUT_TRIGGERS
+            func.body_lines, STDOUT_TRIGGERS, is_stdout=True
         ):
             errors.append(f"{func.name}: Missing @stdout tag")
         return errors
@@ -238,18 +249,8 @@ class SentenceFormatRule(Rule):
 
     def check(self, func: BashFunction) -> List[str]:
         errors = []
-        check_tags = [
-            "description",
-            "arg",
-            "noargs",
-            "exitcode",
-            "set",
-            "stdin",
-            "stdout",
-            "stderr",
-        ]
         for tag in func.tags:
-            if tag.name not in check_tags:
+            if tag.name not in SENTENCE_FORMAT_TAGS:
                 continue
 
             text = self._get_description_text(tag)
@@ -336,17 +337,23 @@ def main():
             functions = parse_file(file)
             file_errors = []
             for func in functions:
-                undocumented_errors = rules[0].check(func)
-                if undocumented_errors:
-                    file_errors.extend(undocumented_errors)
-                    continue
+                # Find the UndocumentedRule instance
+                undocumented_rule = next((r for r in rules if isinstance(r, UndocumentedRule)), None)
+                if undocumented_rule:
+                    undocumented_errors = undocumented_rule.check(func)
+                    if undocumented_errors:
+                        file_errors.extend(undocumented_errors)
+                        continue
 
-                for rule in rules[1:]:
+                for rule in rules:
+                    if isinstance(rule, UndocumentedRule):
+                        continue
                     file_errors.extend(rule.check(func))
 
             if file_errors:
                 all_discrepancies[file] = file_errors
-        except Exception:
+        except Exception as e:
+            # Silently ignore files that cannot be parsed, but could be logged if needed
             pass
 
     if all_discrepancies:
