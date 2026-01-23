@@ -16,7 +16,7 @@ test_stdlib_testing_mock_object_set_side_effects__@vary__calls_side_effect_as_ex
   assert_equals "${TEST_EXPECTED_OUTPUT_3}" "${TEST_EMITTED_OUTPUT_3}"
 }
 
-#_PARAMETRIZE_DEBUG=1
+#STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN=1
 
 @parametrize \
   test_stdlib_testing_mock_object_set_side_effects__@vary__calls_side_effect_as_expected \
