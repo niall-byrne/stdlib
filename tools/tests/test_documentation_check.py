@@ -24,7 +24,7 @@ class TestDocumentationCheck(unittest.TestCase):
             documentation_check.UndocumentedRule(),
             documentation_check.FieldOrderRule(),
             documentation_check.MandatoryFieldsRule(),
-            documentation_check.MissingExitCodeRule(),
+            documentation_check.MandatoryExitCodeRule(),
             documentation_check.StandardExitCodesRule(),
             documentation_check.ExitCodeDescriptionRule(),
             documentation_check.TypeValidationRule(),
@@ -118,7 +118,7 @@ class TestDocumentationCheck(unittest.TestCase):
         original_codes = documentation_check.REQUIRED_EXIT_CODES
         try:
             documentation_check.REQUIRED_EXIT_CODES = ["0", "1"]
-            rule = documentation_check.MissingExitCodeRule()
+            rule = documentation_check.MandatoryExitCodeRule()
             errors = rule.check(functions[0])
             self.assertEqual(len(errors), 1)
             self.assertIn("Missing @exitcode 1", errors[0])

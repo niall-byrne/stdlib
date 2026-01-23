@@ -139,7 +139,7 @@ class MandatoryFieldsRule(Rule):
         return errors
 
 
-class MissingExitCodeRule(Rule):
+class MandatoryExitCodeRule(Rule):
     def check(self, func: BashFunction) -> List[str]:
         errors = []
         for code in REQUIRED_EXIT_CODES:
@@ -338,7 +338,7 @@ def main():
         UndocumentedRule(),
         FieldOrderRule(),
         MandatoryFieldsRule(),
-        MissingExitCodeRule(),
+        MandatoryExitCodeRule(),
         StandardExitCodesRule(),
         ExitCodeDescriptionRule(),
         TypeValidationRule(),
