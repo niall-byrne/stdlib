@@ -9,7 +9,7 @@ mock2.mock.mock_command() {
 }
 
 test_stdlib_testing_mock_internal_persistence_registry_apply_to_all__no_mocks__is_not_applied() {
-  local __MOCK_INSTANCES=()
+  local __STDLIB_TESTING_MOCK_REGISTERED_INSTANCES_ARRAY=()
 
   _capture.stdout _mock.__internal.persistence.registry.apply_to_all "mock_command"
 
@@ -17,7 +17,7 @@ test_stdlib_testing_mock_internal_persistence_registry_apply_to_all__no_mocks__i
 }
 
 test_stdlib_testing_mock_internal_persistence_registry_apply_to_all__two_mocks__applies_to_both() {
-  local __MOCK_INSTANCES=("mock1" "mock2")
+  local __STDLIB_TESTING_MOCK_REGISTERED_INSTANCES_ARRAY=("mock1" "mock2")
 
   _capture.stdout _mock.__internal.persistence.registry.apply_to_all "mock_command"
 
