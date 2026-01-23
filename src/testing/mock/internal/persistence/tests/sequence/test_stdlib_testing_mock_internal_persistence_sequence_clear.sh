@@ -1,7 +1,7 @@
 #!/bin/bash
 
 setup() {
-  __MOCK_SEQUENCE_TRACKING="0"
+  __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN="0"
 
   _mock.create _mock.__internal.persistence.sequence.update
 }
@@ -18,23 +18,23 @@ setup() {
 
 # shellcheck disable=SC2034
 test_stdlib_testing_mock_internal_persistence_sequence_clear__@vary__clears_array() {
-  local __MOCK_SEQUENCE=()
+  local __STDLIB_TESTING_MOCK_SEQUENCE_ARRAY=()
   local empty_array=()
 
-  stdlib.array.make.from_string __MOCK_SEQUENCE "|" "${TEST_EXISTING_SEQUENCE_DEFINITION}"
+  stdlib.array.make.from_string __STDLIB_TESTING_MOCK_SEQUENCE_ARRAY "|" "${TEST_EXISTING_SEQUENCE_DEFINITION}"
 
   _mock.__internal.persistence.sequence.clear
 
-  assert_array_equals empty_array __MOCK_SEQUENCE
+  assert_array_equals empty_array __STDLIB_TESTING_MOCK_SEQUENCE_ARRAY
 }
 
 @parametrize_with_sequences \
   test_stdlib_testing_mock_internal_persistence_sequence_clear__@vary__clears_array
 
 test_stdlib_testing_mock_internal_persistence_sequence_clear__@vary__calls_mocked_persistence_update() {
-  local __MOCK_SEQUENCE=()
+  local __STDLIB_TESTING_MOCK_SEQUENCE_ARRAY=()
 
-  stdlib.array.make.from_string __MOCK_SEQUENCE "|" "${TEST_EXISTING_SEQUENCE_DEFINITION}"
+  stdlib.array.make.from_string __STDLIB_TESTING_MOCK_SEQUENCE_ARRAY "|" "${TEST_EXISTING_SEQUENCE_DEFINITION}"
 
   _mock.__internal.persistence.sequence.clear
 
