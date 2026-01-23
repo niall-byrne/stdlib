@@ -4,10 +4,10 @@
 
 builtin set -eo pipefail
 
-_STDLIB_TESTING_STDLIB_PROTECT_PREFIX=""
+STDLIB_TESTING_PROTECT_PREFIX=""
 
 _testing.__protect_stdlib() {
-  builtin local stdlib_library_prefix="${_STDLIB_TESTING_STDLIB_PROTECT_PREFIX:-"stdlib"}"
+  builtin local stdlib_library_prefix="${STDLIB_TESTING_PROTECT_PREFIX:-"stdlib"}"
   builtin local stdlib_function_regex="${stdlib_library_prefix}\\..*"
 
   while IFS= builtin read -r stdlib_fn_name; do
@@ -26,7 +26,7 @@ _testing.__protected() {
 _testing.__protected_name() {
   # $@: the stdlib library to call
 
-  builtin local stdlib_library_prefix="${_STDLIB_TESTING_STDLIB_PROTECT_PREFIX:-"stdlib"}"
+  builtin local stdlib_library_prefix="${STDLIB_TESTING_PROTECT_PREFIX:-"stdlib"}"
 
   builtin echo "${1//"${stdlib_library_prefix}."/"${stdlib_library_prefix}.testing.internal."}"
 }

@@ -65,7 +65,7 @@ _mock.create() {
   fi
 
   if ! _testing.__protected stdlib.fn.query.is_valid_name "${1}" ||
-    _testing.__protected stdlib.array.query.is_contains "${1}" _MOCK_ATTRIBUTES_RESTRICTED; then
+    _testing.__protected stdlib.array.query.is_contains "${1}" __STDLIB_TESTING_MOCK_RESTRICTED_ATTRIBUTES; then
     _testing.error "${FUNCNAME[0]}: $(_testing.mock.message.get MOCK_TARGET_INVALID "${1}")"
     builtin return 126
   fi

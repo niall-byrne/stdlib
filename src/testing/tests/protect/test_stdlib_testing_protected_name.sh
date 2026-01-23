@@ -20,8 +20,9 @@
     "function_2;stdlib.fn2;stdlib.testing.internal.fn2"
 }
 
+# shellcheck disable=SC2034
 test_stdlib_testing_protected_name__custom__prefix__@vary__generates_correct_transformed_name() {
-  local _STDLIB_TESTING_STDLIB_PROTECT_PREFIX="custom"
+  local STDLIB_TESTING_PROTECT_PREFIX="custom"
 
   _capture.output _testing.__protected_name "${TEST_FUNCTION_NAME}"
 
