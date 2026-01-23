@@ -5,13 +5,7 @@ from dataclasses import dataclass
 from typing import Dict, List, Optional, Set
 
 # Configuration
-REGEX_FUNCTION_DEFINITION = r"^([a-zA-Z_@][a-zA-Z0-9._]*) *\(\) *\{"
-REGEX_DOC_TAGS = r"@(description|arg|noargs|exitcode|set|stdin|stdout|stderr|internal)"
-REGEX_EXITCODE_0 = r"@exitcode 0"
-REGEX_PROCESS_SUBSTITUTION = r"[\$=]\(builtin echo"
-REGEX_ECHO_ASSIGNMENT = r"=\s*\"?builtin echo"
-
-TAG_ORDER = [
+TAGS = [
     "description",
     "arg",
     "noargs",
@@ -23,8 +17,15 @@ TAG_ORDER = [
     "internal",
 ]
 
+REGEX_FUNCTION_DEFINITION = r"^([a-zA-Z_@][a-zA-Z0-9._]*) *\(\) *\{"
+REGEX_DOC_TAGS = rf"@({'|'.join(TAGS)})"
+REGEX_PROCESS_SUBSTITUTION = r"[\$=]\(builtin echo"
+REGEX_ECHO_ASSIGNMENT = r"=\s*\"?builtin echo"
+
 MANDATORY_TAGS = ["description"]
 VALID_TYPES = ["string", "integer", "boolean", "array"]
+
+REQUIRED_EXIT_CODES = ["0"]
 
 STANDARDIZED_EXIT_CODES = {
     "126": r"@exitcode 126 If an invalid argument has been provided\.",
@@ -112,13 +113,13 @@ class UndocumentedRule(Rule):
 
 class FieldOrderRule(Rule):
     def check(self, func: BashFunction) -> List[str]:
-        actual_order = [t.name for t in func.tags if t.name in TAG_ORDER]
+        actual_order = [t.name for t in func.tags if t.name in TAGS]
         seen = []
         for f in actual_order:
             if f not in seen:
                 seen.append(f)
 
-        expected = [f for f in TAG_ORDER if f in seen]
+        expected = [f for f in TAGS if f in seen]
         if seen != expected:
             return [
                 f"{func.name}: Incorrect field order. Found: {seen}, Expected: {expected}"
@@ -138,13 +139,16 @@ class MandatoryFieldsRule(Rule):
         return errors
 
 
-class ExitCode0Rule(Rule):
+class MissingExitCodeRule(Rule):
     def check(self, func: BashFunction) -> List[str]:
-        if not any(
-            re.search(REGEX_EXITCODE_0, t.line) for t in func.find_tags("exitcode")
-        ):
-            return [f"{func.name}: Missing @exitcode 0"]
-        return []
+        errors = []
+        for code in REQUIRED_EXIT_CODES:
+            if not any(
+                re.search(rf"@exitcode {code}", t.line)
+                for t in func.find_tags("exitcode")
+            ):
+                errors.append(f"{func.name}: Missing @exitcode {code}")
+        return errors
 
 
 class StandardExitCodesRule(Rule):
@@ -155,6 +159,20 @@ class StandardExitCodesRule(Rule):
                 if code in tag.content and not re.search(pattern, tag.line):
                     errors.append(
                         f"{func.name}: Non-standard @exitcode {code} message. Found: '{tag.line.strip()}'"
+                    )
+        return errors
+
+
+class ExitCodeDescriptionRule(Rule):
+    def check(self, func: BashFunction) -> List[str]:
+        errors = []
+        for tag in func.find_tags("exitcode"):
+            m = re.search(r"@exitcode\s+\S+\s+(.*)", tag.line)
+            if m:
+                text = m.group(1).strip()
+                if text and not text.startswith("If"):
+                    errors.append(
+                        f"{func.name}: @exitcode description should start with 'If'. Found: '{text}'"
                     )
         return errors
 
@@ -320,8 +338,9 @@ def main():
         UndocumentedRule(),
         FieldOrderRule(),
         MandatoryFieldsRule(),
-        ExitCode0Rule(),
+        MissingExitCodeRule(),
         StandardExitCodesRule(),
+        ExitCodeDescriptionRule(),
         TypeValidationRule(),
         GlobalIndentationRule(),
         AssertionStderrRule(),
