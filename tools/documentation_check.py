@@ -17,29 +17,12 @@ TAGS = [
     "internal",
 ]
 
-REGEX_FUNCTION_DEFINITION = r"^([a-zA-Z_@][a-zA-Z0-9._]*) *\(\) *\{"
-REGEX_DOC_TAGS = rf"@({'|'.join(TAGS)})"
-REGEX_PROCESS_SUBSTITUTION = r"[\$=]\(builtin echo"
-REGEX_ECHO_ASSIGNMENT = r"=\s*\"?builtin echo"
-
-MANDATORY_TAGS = ["description"]
-VARIABLE_TYPES = ["string", "integer", "boolean", "array"]
-
 MANDATORY_EXIT_CODES = ["0"]
-
-STANDARDIZED_EXIT_CODES = {
-    "126": r"@exitcode 126 If an invalid argument has been provided\.",
-    "127": r"@exitcode 127 If the wrong number of arguments were provided\.",
-}
-
-STDERR_TRIGGERS = ["stdlib.logger.error", "stdlib.logger.warning", ">&2"]
-STDOUT_TRIGGERS = [
-    "stdlib.logger.info",
-    "stdlib.logger.success",
-    "stdlib.logger.notice",
-    "builtin echo",
-]
-
+MANDATORY_TAGS = ["description"]
+REGEX_DOC_TAGS = rf"@({'|'.join(TAGS)})"
+REGEX_ECHO_ASSIGNMENT = r"=\s*\"?builtin echo"
+REGEX_FUNCTION_DEFINITION = r"^([a-zA-Z_@][a-zA-Z0-9._]*) *\(\) *\{"
+REGEX_PROCESS_SUBSTITUTION = r"[\$=]\(builtin echo"
 SENTENCE_FORMAT_TAGS = [
     "description",
     "arg",
@@ -50,6 +33,19 @@ SENTENCE_FORMAT_TAGS = [
     "stdout",
     "stderr",
 ]
+STANDARDIZED_EXIT_CODES = {
+    "126": r"@exitcode 126 If an invalid argument has been provided\.",
+    "127": r"@exitcode 127 If the wrong number of arguments were provided\.",
+}
+STDERR_TRIGGERS = ["stdlib.logger.error", "stdlib.logger.warning", ">&2"]
+STDOUT_TRIGGERS = [
+    "stdlib.logger.info",
+    "stdlib.logger.success",
+    "stdlib.logger.notice",
+    "builtin echo",
+]
+TRIGGER_IGNORE_COMMENT = "# noqa"
+VARIABLE_TYPES = ["string", "integer", "boolean", "array"]
 
 
 @dataclass
@@ -198,14 +194,16 @@ class MissingOutputTagsRule(Rule):
                     if (
                         ">&2" in line
                         or "/dev/null" in line
-                        or line.strip().endswith("# noqa")
+                        or line.strip().endswith(TRIGGER_IGNORE_COMMENT)
                     ):
                         continue
                     if re.search(REGEX_PROCESS_SUBSTITUTION, line) or re.search(
                         REGEX_ECHO_ASSIGNMENT, line
                     ):
                         continue
-                elif "/dev/null" in line or line.strip().endswith("# noqa"):
+                elif "/dev/null" in line or line.strip().endswith(
+                    TRIGGER_IGNORE_COMMENT
+                ):
                     continue
                 return True
         return False
@@ -334,7 +332,8 @@ def parse_file(filepath: str) -> List[BashFunction]:
 
 
 def main():
-    rules = [
+    undocumented_rule = UndocumentedRule()
+    validation_rules = [
         AssertionStderrRule(),
         ExitCodeDescriptionRule(),
         FieldOrderRule(),
@@ -346,38 +345,26 @@ def main():
         SentenceFormatRule(),
         StandardExitCodesRule(),
         TypeValidationRule(),
-        UndocumentedRule(),
     ]
 
     all_discrepancies = {}
     for file in sys.argv[1:]:
-        if not (file.endswith(".sh") or file.endswith(".snippet")):
-            continue
-
         try:
             functions = parse_file(file)
             file_errors = []
             for func in functions:
-                # Find the UndocumentedRule instance
-                undocumented_rule = next(
-                    (r for r in rules if isinstance(r, UndocumentedRule)), None
-                )
-                if undocumented_rule:
-                    undocumented_errors = undocumented_rule.check(func)
-                    if undocumented_errors:
-                        file_errors.extend(undocumented_errors)
-                        continue
+                undocumented_errors = undocumented_rule.check(func)
+                if undocumented_errors:
+                    file_errors.extend(undocumented_errors)
+                    continue
 
-                for rule in rules:
-                    if isinstance(rule, UndocumentedRule):
-                        continue
+                for rule in validation_rules:
                     file_errors.extend(rule.check(func))
 
             if file_errors:
                 all_discrepancies[file] = file_errors
         except Exception as e:
-            # Silently ignore files that cannot be parsed, but could be logged if needed
-            pass
+            all_discrepancies[file] = [f"File could not be parsed: {str(e)}"]
 
     if all_discrepancies:
         print(json.dumps(all_discrepancies, indent=2))

@@ -20,40 +20,29 @@ class TestDocumentationCheck(unittest.TestCase):
         functions = documentation_check.parse_file(filepath)
         self.assertEqual(len(functions), 1)
 
-        errors = []
-        rules = [
-            documentation_check.UndocumentedRule(),
-            documentation_check.FieldOrderRule(),
-            documentation_check.MandatoryFieldsRule(),
-            documentation_check.MandatoryExitCodeRule(),
-            documentation_check.StandardExitCodesRule(),
-            documentation_check.ExitCodeDescriptionRule(),
-            documentation_check.TypeValidationRule(),
-            documentation_check.GlobalIndentationRule(),
+        undocumented_rule = documentation_check.UndocumentedRule()
+        validation_rules = [
             documentation_check.AssertionStderrRule(),
+            documentation_check.ExitCodeDescriptionRule(),
+            documentation_check.FieldOrderRule(),
+            documentation_check.GlobalIndentationRule(),
+            documentation_check.InternalTagRule(),
+            documentation_check.MandatoryExitCodeRule(),
+            documentation_check.MandatoryFieldsRule(),
             documentation_check.MissingOutputTagsRule(),
             documentation_check.SentenceFormatRule(),
-            documentation_check.InternalTagRule(),
+            documentation_check.StandardExitCodesRule(),
+            documentation_check.TypeValidationRule(),
         ]
 
+        errors = []
         for func in functions:
-            undocumented_rule = next(
-                (
-                    r
-                    for r in rules
-                    if isinstance(r, documentation_check.UndocumentedRule)
-                ),
-                None,
-            )
-            if undocumented_rule:
-                undocumented_errors = undocumented_rule.check(func)
-                if undocumented_errors:
-                    errors.extend(undocumented_errors)
-                    continue
+            undocumented_errors = undocumented_rule.check(func)
+            if undocumented_errors:
+                errors.extend(undocumented_errors)
+                continue
 
-            for rule in rules:
-                if isinstance(rule, documentation_check.UndocumentedRule):
-                    continue
+            for rule in validation_rules:
                 errors.extend(rule.check(func))
 
         self.assertEqual(errors, [])
@@ -144,6 +133,18 @@ class TestDocumentationCheck(unittest.TestCase):
         output = json.loads(mock_stdout.getvalue())
         self.assertIn(filepath, output)
         self.assertIn("Completely undocumented.", output[filepath][0])
+
+    @patch("sys.exit")
+    @patch("sys.stdout", new_callable=StringIO)
+    def test_main_with_parse_error(self, mock_stdout, mock_exit):
+        filepath = "non_existent_file.sh"
+        with patch("sys.argv", ["documentation_check.py", filepath]):
+            documentation_check.main()
+
+        mock_exit.assert_called_with(1)
+        output = json.loads(mock_stdout.getvalue())
+        self.assertIn(filepath, output)
+        self.assertIn("File could not be parsed:", output[filepath][0])
 
 
 if __name__ == "__main__":
