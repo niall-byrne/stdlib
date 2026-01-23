@@ -4,7 +4,7 @@
 
 builtin set -eo pipefail
 
-_MOCK_ATTRIBUTES_RESTRICTED=(
+__STDLIB_TESTING_MOCK_RESTRICTED_ATTRIBUTES=(
   "builtin"
   "case"
   "do"
