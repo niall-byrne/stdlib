@@ -4,10 +4,14 @@
 
 builtin set -eo pipefail
 
+# @description Clones an existing function to a new name.
+# @arg $1 string The name of the function to clone.
+# @arg $2 string The name for the new function clone.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stderr The error message if the operation fails.
 stdlib.fn.derive.clone() {
-  # $1: the original function name
-  # $2: the function's new reference name
-
   builtin local function_name="${1}"
   builtin local function_reference="${2}"
 
@@ -17,7 +21,7 @@ stdlib.fn.derive.clone() {
   stdlib.fn.assert.is_valid_name "${function_reference}" || builtin return 126
 
   builtin eval "$(
-    builtin echo "${function_reference}()"
+    builtin echo "${function_reference}()" # noqa
     builtin declare -f "${function_name}" | "${_STDLIB_BINARY_TAIL}" -n +2
   )"
 }
