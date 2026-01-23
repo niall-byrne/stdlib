@@ -4,10 +4,15 @@
 
 builtin set -eo pipefail
 
+# @description Checks if an array contains a value.
+# @arg $1 string The value to query for.
+# @arg $2 string The name of the array to query.
+# @exitcode 0 If the array contains the value.
+# @exitcode 1 Otherwise.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stderr The error message if the operation fails.
 stdlib.array.query.is_contains() {
-  # $1: the value to query for
-  # $2: the array name to query
-
   builtin local indirect_reference
   builtin local -a indirect_array
   builtin local check_value
@@ -28,10 +33,15 @@ stdlib.array.query.is_contains() {
   builtin return 1
 }
 
+# @description Checks if two arrays are equal.
+# @arg $1 string The name of the first array to compare.
+# @arg $2 string The name of the second array to compare.
+# @exitcode 0 If the arrays are equal.
+# @exitcode 1 Otherwise.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stderr The error message if the operation fails.
 stdlib.array.query.is_equal() {
-  # $1: the name of the first array to compare
-  # $2: the name of the second array to compare
-
   builtin local indirect_reference_1
   builtin local -a indirect_array_1
   builtin local indirect_reference_2
@@ -60,9 +70,14 @@ stdlib.array.query.is_equal() {
   builtin return 0
 }
 
+# @description Checks if a variable is an array.
+# @arg $1 string The name of the variable to check.
+# @exitcode 0 If the variable is an array.
+# @exitcode 1 Otherwise.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stderr The error message if the operation fails.
 stdlib.array.query.is_array() {
-  # $1: the array name to query
-
   [[ "${#@}" == "1" ]] || builtin return 127
   [[ -n "${1}" ]] || builtin return 126
   if builtin declare -p "${1}" 2> /dev/null | "${_STDLIB_BINARY_GREP}" -q 'declare -a'; then # noqa
@@ -71,9 +86,14 @@ stdlib.array.query.is_array() {
   builtin return 1
 }
 
+# @description Checks if an array is empty.
+# @arg $1 string The name of the array to check.
+# @exitcode 0 If the array is empty.
+# @exitcode 1 Otherwise.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stderr The error message if the operation fails.
 stdlib.array.query.is_empty() {
-  # $1: the array name to query
-
   builtin local indirect_reference
   builtin local -a indirect_array
 

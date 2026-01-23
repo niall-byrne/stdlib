@@ -4,9 +4,13 @@
 
 builtin set -eo pipefail
 
+# @description Checks if a string is a valid variable name.
+# @arg $1 string The string to check.
+# @exitcode 0 If the string is a valid variable name.
+# @exitcode 1 Otherwise.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 stdlib.var.query.is_valid_name() {
-  # $1: the string to check for var compatibility
-
   [[ "${#@}" == "1" ]] || builtin return 127
   [[ -n "${1}" ]] || builtin return 126
 
