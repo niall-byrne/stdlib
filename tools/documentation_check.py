@@ -4,35 +4,47 @@ import sys
 from dataclasses import dataclass
 from typing import List, Optional
 
+
 # Configuration
-TAGS = [
-    "description",
-    "arg",
-    "noargs",
-    "exitcode",
-    "set",
-    "stdin",
-    "stdout",
-    "stderr",
-    "internal",
+@dataclass(frozen=True)
+class TagDefinition:
+    name: str
+    is_mandatory: bool = False
+    check_sentence_format: bool = False
+    has_types: bool = False
+
+
+class Tags:
+    DESCRIPTION = TagDefinition(
+        name="description", is_mandatory=True, check_sentence_format=True
+    )
+    ARG = TagDefinition(name="arg", check_sentence_format=True, has_types=True)
+    NOARGS = TagDefinition(name="noargs", check_sentence_format=True)
+    EXITCODE = TagDefinition(name="exitcode", check_sentence_format=True)
+    SET = TagDefinition(name="set", check_sentence_format=True, has_types=True)
+    STDIN = TagDefinition(name="stdin", check_sentence_format=True)
+    STDOUT = TagDefinition(name="stdout", check_sentence_format=True)
+    STDERR = TagDefinition(name="stderr", check_sentence_format=True)
+    INTERNAL = TagDefinition(name="internal")
+
+
+TAG_DEFINITIONS = [
+    Tags.DESCRIPTION,
+    Tags.ARG,
+    Tags.NOARGS,
+    Tags.EXITCODE,
+    Tags.SET,
+    Tags.STDIN,
+    Tags.STDOUT,
+    Tags.STDERR,
+    Tags.INTERNAL,
 ]
 
 MANDATORY_EXIT_CODES = ["0"]
-MANDATORY_TAGS = ["description"]
-REGEX_DOC_TAGS = rf"@({'|'.join(TAGS)})"
+REGEX_DOC_TAGS = rf"@({'|'.join([t.name for t in TAG_DEFINITIONS])})"
 REGEX_ECHO_ASSIGNMENT = r"=\s*\"?builtin echo"
 REGEX_FUNCTION_DEFINITION = r"^([a-zA-Z_@][a-zA-Z0-9._]*) *\(\) *\{"
 REGEX_PROCESS_SUBSTITUTION = r"[\$=]\(builtin echo"
-SENTENCE_FORMAT_TAGS = [
-    "description",
-    "arg",
-    "noargs",
-    "exitcode",
-    "set",
-    "stdin",
-    "stdout",
-    "stderr",
-]
 STANDARDIZED_EXIT_CODES = {
     "126": r"@exitcode 126 If an invalid argument has been provided\.",
     "127": r"@exitcode 127 If the wrong number of arguments were provided\.",
@@ -129,13 +141,14 @@ class ExitCodeDescriptionRule(Rule):
 
 class FieldOrderRule(Rule):
     def check(self, func: BashFunction) -> List[str]:
-        actual_order = [t.name for t in func.tags if t.name in TAGS]
+        tag_names = [t.name for t in TAG_DEFINITIONS]
+        actual_order = [t.name for t in func.tags if t.name in tag_names]
         seen = []
         for f in actual_order:
             if f not in seen:
                 seen.append(f)
 
-        expected = [f for f in TAGS if f in seen]
+        expected = [f for f in tag_names if f in seen]
         if seen != expected:
             return [
                 f"{func.name}: Incorrect field order. Found: {seen}, Expected: {expected}"
@@ -154,7 +167,7 @@ class GlobalIndentationRule(Rule):
 
 class InternalTagRule(Rule):
     def check(self, func: BashFunction) -> List[str]:
-        if "__" in func.name and not func.contains_tag("internal"):
+        if "__" in func.name and not func.contains_tag(Tags.INTERNAL.name):
             return [f"{func.name}: Missing @internal"]
         return []
 
@@ -174,11 +187,13 @@ class MandatoryExitCodeRule(Rule):
 class MandatoryFieldsRule(Rule):
     def check(self, func: BashFunction) -> List[str]:
         errors = [
-            f"{func.name}: Missing @{tag}"
-            for tag in MANDATORY_TAGS
-            if not func.contains_tag(tag)
+            f"{func.name}: Missing @{tag.name}"
+            for tag in TAG_DEFINITIONS
+            if tag.is_mandatory and not func.contains_tag(tag.name)
         ]
-        if not (func.contains_tag("arg") or func.contains_tag("noargs")):
+        if not (
+            func.contains_tag(Tags.ARG.name) or func.contains_tag(Tags.NOARGS.name)
+        ):
             errors.append(f"{func.name}: Missing @arg or @noargs")
         return errors
 
@@ -224,18 +239,19 @@ class MissingOutputTagsRule(Rule):
 
 class SentenceFormatRule(Rule):
     def _get_description_text(self, tag: DocTag) -> str:
-        if tag.name in ["arg", "set"]:
+        if tag.name in [Tags.ARG.name, Tags.SET.name]:
             m = re.search(rf"@{tag.name}\s+\S+\s+\S+\s+(.*)", tag.line)
             return m.group(1).strip() if m else ""
-        if tag.name == "exitcode":
+        if tag.name == Tags.EXITCODE.name:
             m = re.search(r"@exitcode\s+\S+\s+(.*)", tag.line)
             return m.group(1).strip() if m else ""
         return tag.content
 
     def check(self, func: BashFunction) -> List[str]:
         errors = []
+        sentence_tags = [t.name for t in TAG_DEFINITIONS if t.check_sentence_format]
         for tag in func.tags:
-            if tag.name not in SENTENCE_FORMAT_TAGS:
+            if tag.name not in sentence_tags:
                 continue
 
             text = self._get_description_text(tag)
@@ -278,7 +294,8 @@ class TypeValidationRule(Rule):
 
     def check(self, func: BashFunction) -> List[str]:
         errors = []
-        for tag_name in ["arg", "set"]:
+        type_tags = [t.name for t in TAG_DEFINITIONS if t.has_types]
+        for tag_name in type_tags:
             for tag in func.find_tags(tag_name):
                 error = self._validate_type(func.name, tag)
                 if error:
