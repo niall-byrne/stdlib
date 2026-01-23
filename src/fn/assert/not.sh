@@ -4,9 +4,14 @@
 
 builtin set -eo pipefail
 
+# @description Asserts that a command is not a bash builtin.
+# @arg $1 string The command name to check.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 1 If the operation failed.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stderr The error message if the assertion fails.
 stdlib.fn.assert.not_builtin() {
-  # $1: the function name to assert does not exist
-
   builtin local return_code=0
 
   stdlib.fn.query.is_builtin "${@}" || return_code="$?"
@@ -27,9 +32,14 @@ stdlib.fn.assert.not_builtin() {
   builtin return "${return_code}"
 }
 
+# @description Asserts that a function name is not defined.
+# @arg $1 string The function name to check.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 1 If the operation failed.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stderr The error message if the assertion fails.
 stdlib.fn.assert.not_fn() {
-  # $1: the function name to assert does not exist
-
   builtin local return_code=0
 
   stdlib.fn.query.is_fn "${@}" || return_code="$?"
