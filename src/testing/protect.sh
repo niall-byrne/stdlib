@@ -20,5 +20,13 @@ _testing.__protected() {
   # $@: the stdlib library to call
 
   _STDLIB_BUILTIN_BOOLEAN=1 \
-    "${1//"stdlib."/"stdlib.testing.internal."}" "${@:2}"
+    "$(_testing.__protected_name "${1}")" "${@:2}"
+}
+
+_testing.__protected_name() {
+  # $@: the stdlib library to call
+
+  builtin local stdlib_library_prefix="${_STDLIB_TESTING_STDLIB_PROTECT_PREFIX:-"stdlib"}"
+
+  builtin echo "${1//"${stdlib_library_prefix}."/"${stdlib_library_prefix}.testing.internal."}"
 }
