@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: niall@niallbyrne.ca\n"
-"POT-Creation-Date: 2026-01-22 22:02+0000\n"
+"POT-Creation-Date: 2026-01-22 22:45+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -247,4 +247,9 @@ msgstr ""
 
 #: src/message.sh:213
 msgid "Callstack:"
+msgstr ""
+
+#: src/message.sh:217
+#, sh-format
+msgid "The value '${option1}' is not a valid variable name!"
 msgstr ""

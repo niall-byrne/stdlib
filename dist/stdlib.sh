@@ -1546,6 +1546,10 @@ stdlib.message.get ()
             required_options=0;
             message="$(stdlib.__gettext "Callstack:")"
         ;;
+        VAR_NAME_INVALID)
+            required_options=1;
+            message="$(stdlib.__gettext "The value '\${option1}' is not a valid variable name!")"
+        ;;
         "")
             required_options=0;
             return_status=126;
@@ -3351,6 +3355,38 @@ stdlib.trap.handler.exit.fn.register ()
     stdlib.fn.args.require "1" "0" "${@}" || builtin return "$?";
     stdlib.fn.assert.is_fn "${1}" || builtin return 126;
     STDLIB_HANDLER_EXIT+=("${1}")
+}
+
+stdlib.var.assert.is_valid_name ()
+{
+    builtin local return_code=0;
+    stdlib.var.query.is_valid_name "${@}" || return_code="$?";
+    case "${return_code}" in
+        0)
+
+        ;;
+        126 | 127)
+            stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+        ;;
+        *)
+            stdlib.logger.error "$(stdlib.message.get VAR_NAME_INVALID "${1}")"
+        ;;
+    esac;
+    builtin return "${return_code}"
+}
+
+stdlib.var.query.is_valid_name ()
+{
+    [[ "${#@}" == "1" ]] || builtin return 127;
+    [[ -n "${1}" ]] || builtin return 126;
+    case "${1}" in
+        *[!A-Za-z0-9_]*)
+            builtin return 1
+        ;;
+        *)
+            builtin return 0
+        ;;
+    esac
 }
 
 # this snippet is included by the build script:

@@ -18,6 +18,7 @@ ${1}.mock.set.keywords() {
   _mock_object_keywords=("\${@}")
 
   _testing.__protected stdlib.array.assert.not_contains "" _mock_object_keywords || builtin return 126
+  _testing.__protected stdlib.array.map.fn "$(_testing.__protected_name stdlib.var.assert.is_valid_name)" _mock_object_keywords || builtin return 126
 
   builtin eval "__${2}_mock_keywords=(\$(builtin printf '%q ' "\${@}"))"
 }
