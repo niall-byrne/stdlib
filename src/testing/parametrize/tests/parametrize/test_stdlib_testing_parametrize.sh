@@ -29,25 +29,25 @@ test_parametrize__1st_run_test_variants__valid_config__________@vary__populate_i
   scenario_name_receiver "${PARAMETRIZE_SCENARIO_NAME}"
 }
 
-_PARAMETRIZE_DEBUG="" @parametrize \
+STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="" @parametrize \
   test_parametrize__1st_run_test_variants__valid_config__________@vary__populate_indexes \
   "${SIMPLE_CONFIG_ONE[@]}"
 
 test_parametrize__1st_run_test_variants__invalid_args__________returns_status_code_127() {
-  PARAMETRIZE_DEBUG="" _capture.rc @parametrize
+  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="" _capture.rc @parametrize
 
   assert_rc "127"
 }
 
 test_parametrize__1st_run_test_variants__invalid_args__________logs_correct_error_message() {
-  PARAMETRIZE_DEBUG="" _capture.rc @parametrize
+  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="" _capture.rc @parametrize
 
   _testing.error.mock.assert_called_once_with \
     "1(@parametrize: $(stdlib.message.get ARGUMENTS_INVALID))"
 }
 
 test_parametrize__1st_run_test_variants__invalid_config________returns_status_code_126() {
-  PARAMETRIZE_DEBUG="" _capture.rc @parametrize \
+  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="" _capture.rc @parametrize \
     test_function_mock_@vary \
     "${INVALID_CONFIG_ONE[@]}" 2> /dev/null
 
@@ -55,7 +55,7 @@ test_parametrize__1st_run_test_variants__invalid_config________returns_status_co
 }
 
 test_parametrize__1st_run_test_variants__invalid_config________logs_correct_error_message() {
-  PARAMETRIZE_DEBUG="" @parametrize \
+  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="" @parametrize \
     test_function_mock_@vary \
     "${INVALID_CONFIG_ONE[@]}" 2> /dev/null
 
@@ -64,7 +64,7 @@ test_parametrize__1st_run_test_variants__invalid_config________logs_correct_erro
 }
 
 test_parametrize__1st_run_test_variants__invalid_config________generates_correct_stderr() {
-  PARAMETRIZE_DEBUG="" _capture.stderr @parametrize \
+  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="" _capture.stderr @parametrize \
     test_function_mock_@vary \
     "${INVALID_CONFIG_ONE[@]}"
 
@@ -75,7 +75,7 @@ test_parametrize__1st_run_test_variants__invalid_config________generates_correct
 }
 
 test_parametrize__1st_run_test_variants__invalid_test_fn_______returns_status_code_126() {
-  PARAMETRIZE_DEBUG="" _capture.rc @parametrize \
+  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="" _capture.rc @parametrize \
     invalid_test_fn \
     "${SIMPLE_CONFIG_ONE[@]}" 2> /dev/null
 
@@ -83,7 +83,7 @@ test_parametrize__1st_run_test_variants__invalid_test_fn_______returns_status_co
 }
 
 test_parametrize__1st_run_test_variants__invalid_test_fn_______logs_correct_error_message() {
-  PARAMETRIZE_DEBUG="" @parametrize \
+  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="" @parametrize \
     invalid_test_fn \
     "${SIMPLE_CONFIG_ONE[@]}" 2> /dev/null
 
@@ -93,7 +93,7 @@ test_parametrize__1st_run_test_variants__invalid_test_fn_______logs_correct_erro
 }
 
 test_parametrize__1st_run_test_variants__non_existent_test_fn__returns_status_code_126() {
-  PARAMETRIZE_DEBUG="" _capture.rc @parametrize \
+  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="" _capture.rc @parametrize \
     test_non_existent_@vary \
     "${SIMPLE_CONFIG_ONE[@]}" 2> /dev/null
 
@@ -101,7 +101,7 @@ test_parametrize__1st_run_test_variants__non_existent_test_fn__returns_status_co
 }
 
 test_parametrize__1st_run_test_variants__non_existent_test_fn__logs_correct_error_message() {
-  PARAMETRIZE_DEBUG="" @parametrize \
+  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="" @parametrize \
     test_non_existent_@vary \
     "${SIMPLE_CONFIG_ONE[@]}" 2> /dev/null
 
@@ -111,7 +111,7 @@ test_parametrize__1st_run_test_variants__non_existent_test_fn__logs_correct_erro
 }
 
 test_parametrize__1st_run_test_variants__duplicate_variant_____generates_correct_stderr() {
-  PARAMETRIZE_DEBUG="" _capture.stderr @parametrize \
+  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="" _capture.stderr @parametrize \
     test_function_mock_@vary \
     "${INVALID_CONFIG_TWO[@]}"
 
@@ -120,7 +120,7 @@ $(_testing.parametrize.message.get PARAMETRIZE_PREFIX_VARIANT_NAME): '$(stdlib.s
 }
 
 test_parametrize__1st_run_test_variants__duplicate_variant_____logs_correct_error_message() {
-  PARAMETRIZE_DEBUG="" @parametrize \
+  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="" @parametrize \
     test_function_mock_@vary \
     "${INVALID_CONFIG_TWO[@]}" 2> /dev/null
 
@@ -130,7 +130,7 @@ test_parametrize__1st_run_test_variants__duplicate_variant_____logs_correct_erro
 }
 
 test_parametrize__1st_run_test_variants__duplicate_variant_____returns_status_code_126() {
-  PARAMETRIZE_DEBUG="" _capture.rc @parametrize \
+  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="" _capture.rc @parametrize \
     test_function_mock_@vary \
     "${INVALID_CONFIG_TWO[@]}" 2> /dev/null
 
