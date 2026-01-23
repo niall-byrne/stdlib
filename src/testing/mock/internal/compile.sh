@@ -26,7 +26,9 @@ _mock.__internal.compile() {
 
     for mock_component in "${mock_component_file_set[@]}"; do
       builtin echo -e "\n\n# === component start =========================="
-      "${_STDLIB_BINARY_SED}" -e "1,11d" "${mock_component}" | "${_STDLIB_BINARY_HEAD}" -n -2
+      builtin source "${mock_component}"
+      builtin echo "${__STDLIB_TESTING_MOCK_COMPONENT}"
+      builtin unset __STDLIB_TESTING_MOCK_COMPONENT
       builtin echo -e "# === component end ============================\n\n"
     done
 
