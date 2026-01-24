@@ -1,17 +1,27 @@
 import json
 import re
 import sys
-from dataclasses import dataclass
 from typing import List, Optional, Dict
 
 
 # Configuration
-@dataclass(frozen=True)
 class TagDefinition:
-    name: str
-    is_mandatory: bool = False
-    check_sentence_format: bool = False
-    has_types: bool = False
+    def __init__(
+        self,
+        name: str,
+        is_mandatory: bool = False,
+        check_sentence_format: bool = False,
+        has_types: bool = False,
+    ):
+        self.name = name
+        self.is_mandatory = is_mandatory
+        self.check_sentence_format = check_sentence_format
+        self.has_types = has_types
+
+    def __eq__(self, other):
+        if not isinstance(other, TagDefinition):
+            return False
+        return self.name == other.name
 
     @property
     def description_pattern(self) -> str:
@@ -36,16 +46,28 @@ class Tags:
     INTERNAL = TagDefinition(name="internal")
 
     @classmethod
-    @property
-    def sequence(cls) -> List[TagDefinition]:
-        return [v for v in cls.__dict__.values() if isinstance(v, TagDefinition)]
+    def get_sequence(cls) -> List[TagDefinition]:
+        return [
+            cls.DESCRIPTION,
+            cls.ARG,
+            cls.NOARGS,
+            cls.EXITCODE,
+            cls.SET,
+            cls.STDIN,
+            cls.STDOUT,
+            cls.STDERR,
+            cls.INTERNAL,
+        ]
 
 
+TAG_SEQUENCE = Tags.get_sequence()
 MANDATORY_EXIT_CODES = ["0"]
-REGEX_DOC_TAGS = rf"@({'|'.join([t.name for t in Tags.sequence])})"
+MANDATORY_TAGS = [t for t in TAG_SEQUENCE if t.is_mandatory]
+REGEX_DOC_TAGS = rf"@({'|'.join([t.name for t in TAG_SEQUENCE])})"
 REGEX_ECHO_ASSIGNMENT = r"=\s*\"?builtin echo"
 REGEX_FUNCTION_DEFINITION = r"^([a-zA-Z_@][a-zA-Z0-9._]*) *\(\) *\{"
 REGEX_PROCESS_SUBSTITUTION = r"[\$=]\(builtin echo"
+SENTENCE_FORMAT_TAGS = [t for t in TAG_SEQUENCE if t.check_sentence_format]
 STANDARDIZED_EXIT_CODES = {
     "126": rf"@{Tags.EXITCODE.name} 126 If an invalid argument has been provided\.",
     "127": rf"@{Tags.EXITCODE.name} 127 If the wrong number of arguments were provided\.",
@@ -58,18 +80,19 @@ STDOUT_TRIGGERS = [
     "builtin echo",
 ]
 TRIGGER_IGNORE_COMMENT = "# noqa"
+TYPE_TAGS = [t for t in TAG_SEQUENCE if t.has_types]
 VARIABLE_TYPES = ["string", "integer", "boolean", "array"]
 
 
-@dataclass
 class DocTag:
-    tag_def: TagDefinition
-    content: str
-    line: str
+    def __init__(self, tag_def: TagDefinition, content: str, line: str):
+        self.tag_def = tag_def
+        self.content = content
+        self.line = line
 
 
 class BashFunction:
-    TAG_MAP: Dict[str, TagDefinition] = {t.name: t for t in Tags.sequence}
+    TAG_MAP: Dict[str, TagDefinition] = {t.name: t for t in TAG_SEQUENCE}
 
     def __init__(
         self,
@@ -106,10 +129,10 @@ class BashFunction:
                     desc_started = False
 
     def contains_tag(self, tag_def: TagDefinition) -> bool:
-        return any(t.tag_def == tag_def for t in self.doc_tags)
+        return any(doc_tag.tag_def == tag_def for doc_tag in self.doc_tags)
 
     def find_tags(self, tag_def: TagDefinition) -> List[DocTag]:
-        return [t for t in self.doc_tags if t.tag_def == tag_def]
+        return [doc_tag for doc_tag in self.doc_tags if doc_tag.tag_def == tag_def]
 
 
 class Rule:
@@ -126,7 +149,7 @@ class AssertionStderrRule(Rule):
         return [
             f"{func.name}: @{Tags.STDERR.name} for assertion should use '{msg}'. Found: '{doc_tag.line.strip()}'"
             for doc_tag in func.find_tags(Tags.STDERR)
-            if msg not in doc_tag.content
+            if msg in doc_tag.content
         ]
 
 
@@ -146,7 +169,7 @@ class ExitCodeDescriptionRule(Rule):
 
 class FieldOrderRule(Rule):
     def check(self, func: BashFunction) -> List[str]:
-        tag_names = [tag_def.name for tag_def in Tags.sequence]
+        tag_names = [tag_def.name for tag_def in TAG_SEQUENCE]
         actual_order = [
             doc_tag.tag_def.name
             for doc_tag in func.doc_tags
@@ -197,8 +220,8 @@ class MandatoryFieldsRule(Rule):
     def check(self, func: BashFunction) -> List[str]:
         errors = [
             f"{func.name}: Missing @{tag_def.name}"
-            for tag_def in Tags.sequence
-            if tag_def.is_mandatory and not func.contains_tag(tag_def)
+            for tag_def in MANDATORY_TAGS
+            if not func.contains_tag(tag_def)
         ]
         if not (func.contains_tag(Tags.ARG) or func.contains_tag(Tags.NOARGS)):
             errors.append(
@@ -252,9 +275,8 @@ class SentenceFormatRule(Rule):
 
     def check(self, func: BashFunction) -> List[str]:
         errors = []
-        sentence_tags = [t.name for t in Tags.sequence if t.check_sentence_format]
         for doc_tag in func.doc_tags:
-            if doc_tag.tag_def.name not in sentence_tags:
+            if doc_tag.tag_def not in SENTENCE_FORMAT_TAGS:
                 continue
 
             text = self._get_description_text(doc_tag)
@@ -297,8 +319,7 @@ class TypeValidationRule(Rule):
 
     def check(self, func: BashFunction) -> List[str]:
         errors = []
-        type_tags = [t for t in Tags.sequence if t.has_types]
-        for tag_def in type_tags:
+        for tag_def in TYPE_TAGS:
             for doc_tag in func.find_tags(tag_def):
                 error = self._validate_type(func.name, doc_tag)
                 if error:
