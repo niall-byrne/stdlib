@@ -169,6 +169,24 @@ repos:
         name: ensure source files don't directly reference restricted binary commands
         entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$).*((?<=\\s|\\()|(?<=^))(cat|cut|grep|head|mktemp|rm|sed|sort|tail|tput|tr)((\\s|\\)).*$|$)"
         language: pygrep
+        files: "^src/.+\\.(sh|snippet)$"
+        exclude: "^((.+/)*tests/.+\\.sh)$"
+      - id: source-files-global-variable-names
+        name: ensure source files use the correct global variable name format
+        entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$)\\s*(?!IFS|LC_ALL|(__)*STDLIB_|TEST_OUTPUT|TEST_RC|TEXTDOMAIN|TEXTDOMAINDIR)([A-Z_]+)=.+$"
+        language: pygrep
+        files: "^src/.+\\.sh$"
+        exclude: "^((.+/)*tests/.+\\.sh)$"
+      - id: source-files-global-variable-names
+        name: ensure source files with global variable names for arrays end in _ARRAY
+        entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$)\\s*([A-Z_]+)(?<!_ARRAY)=\\(.+$"
+        language: pygrep
+        files: "^src/.+\\.sh$"
+        exclude: "^((.+/)*tests/.+\\.sh)$"
+      - id: source-files-global-variable-names
+        name: ensure source files with global variable names for booleans end in _BOOLEAN
+        entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$)\\s*([A-Z_]+)(?<!_BOOLEAN)=(\"[01]\"|[01])$"
+        language: pygrep
         files: "^src/.+\\.sh$"
         exclude: "^((.+/)*tests/.+\\.sh)$"
       - id: source-files-headers
@@ -187,24 +205,6 @@ repos:
       - id: source-files-testing-folder-function-names
         name: ensure source files in the testing folder use the correct function names
         entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$)(?!((assert_|_capture\\.)[a-z_]+)|((__)*\\$\\{1\\}|@parametrize)|((?!.+\\._[^_].+)((__)*\\$\\{1\\}|_testing|_mock|@parametrize))\\.[a-z_.]+).*\\(\\) {$"
-        language: pygrep
-        files: "^src/testing/.+\\.sh$"
-        exclude: "^((.+/)*tests/.+\\.sh)$"
-      - id: source-files-testing-folder-global-variable-names
-        name: ensure source files in the testing folder use the correct global variable names
-        entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$)\\s*(?!_STDLIB_(ARGS_NULL_SAFE|BUILTIN_BOOLEAN)|IFS|LC_ALL|(__)*STDLIB_TESTING_|TEST_OUTPUT|TEST_RC)([A-Z_]+)=.+$"
-        language: pygrep
-        files: "^src/testing/.+\\.sh$"
-        exclude: "^((.+/)*tests/.+\\.sh)$"
-      - id: source-files-testing-folder-global-variable-names
-        name: ensure source files in the testing folder use the correct global variable names for arrays
-        entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$)\\s*([A-Z_]+)(?<!ARGS_NULL_SAFE)(?<!_ARRAY)=\\(.+$"
-        language: pygrep
-        files: "^src/testing/.+\\.sh$"
-        exclude: "^((.+/)*tests/.+\\.sh)$"
-      - id: source-files-testing-folder-global-variable-names
-        name: ensure source files in the testing folder use the correct global variable names for booleans
-        entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$)\\s*([A-Z_]+)(?<!_BOOLEAN)=(\"[01]\"|[01])$"
         language: pygrep
         files: "^src/testing/.+\\.sh$"
         exclude: "^((.+/)*tests/.+\\.sh)$"

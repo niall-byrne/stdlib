@@ -49,13 +49,13 @@ test_stdlib_string_lines_map_format__valid_args_______________default_delimiter_
 }
 
 test_stdlib_string_lines_map_format__valid_args_______________custom__delimiter__single_line__applies_printf() {
-  _STDLIB_DELIMITER="|" _capture.output_raw stdlib.string.lines.map.format "# %s" "new line"
+  STDLIB_LINE_BREAK_DELIMITER="|" _capture.output_raw stdlib.string.lines.map.format "# %s" "new line"
 
   assert_output "# new line"
 }
 
 test_stdlib_string_lines_map_format__valid_args_______________custom__delimiter__multi_line___applies_printf() {
-  _STDLIB_DELIMITER="|" _capture.output_raw stdlib.string.lines.map.format "# %s" "pipe|delimited|line"
+  STDLIB_LINE_BREAK_DELIMITER="|" _capture.output_raw stdlib.string.lines.map.format "# %s" "pipe|delimited|line"
 
   assert_output "# pipe|# delimited|# line"$'\n'
 }

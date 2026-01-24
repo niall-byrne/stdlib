@@ -70,7 +70,7 @@ Global variables should be prefixed with `STDLIB`, and should be in upper snake-
 - `STDLIB_BINARY_CAT`
 
 There are a few global variables that store state, and are not meant to be accessed by an end-user.  These are prefixed with `__STDLIB`, indicating they are private.  For example:
-- `__STDLIB_LOGGING_DECORATORS`
+- `__STDLIB_LOGGING_DECORATORS_ARRAY`
 
 Global variables are often used as a "modifying option" for function behaviour.  If they are performing this role should have a global definition in the most appropriate file so that the variable is included in the [packaging process](#creating-a-distributable).
 ### Production Centralization of Messages
@@ -307,7 +307,7 @@ The [stdlib.logger.error](src/logger/logger.sh) function's description shows thi
 
 ```sh
 # @description Logs an error message.
-#   * _STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
+#   * STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
 #   * STDLIB_THEME_LOGGER_ERROR: The colour to use for the message (default="LIGHT_RED").
 ```
 
@@ -341,7 +341,7 @@ An example function with a single string argument and a consumed global variable
 
 ```sh
 # @description Logs an error message.
-#   * _STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
+#   * STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
 #   * STDLIB_THEME_LOGGER_ERROR: The colour to use for the message (default="LIGHT_RED").
 # @arg $1 string The message to log.
 # @exitcode 0 If the operation succeeded.
