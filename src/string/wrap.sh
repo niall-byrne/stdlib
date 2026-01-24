@@ -65,4 +65,15 @@ stdlib.string.wrap() {
   builtin echo -e "${output%?}"
 }
 
+# @description A derivative of stdlib.string.wrap that can read from stdin.
+# @arg $1 integer The left-side padding.
+# @arg $2 integer The right-side wrap limit.
+# @arg $3 string (optional, default="-") The text to wrap, by default this function reads from stdin.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stdin The text to wrap.
+# @stdout The wrapped text.
+# @stderr The error message if the operation fails.
+stdlib.string.wrap_pipe() { :; }
 stdlib.fn.derive.pipeable "stdlib.string.wrap" "3"
