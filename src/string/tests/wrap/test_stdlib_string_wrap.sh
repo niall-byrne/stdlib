@@ -53,8 +53,8 @@ test_stdlib_string_wrap__valid_args_______arg___@vary__correct_output() {
   stdlib.array.make.from_string args "|" "${TEST_ARGS_DEFINITION}"
   TEST_EXPECTED="${TEST_EXPECTED//'<br>'/$'\n'}"
 
-  _STDLIB_LINE_BREAK_CHAR="${TEST_LINE_BREAK_CHAR}" \
-    _STDLIB_WRAP_PREFIX_STRING="${TEST_PREFIX_STRING}" \
+  STDLIB_LINE_BREAK_FORCE_CHAR="${TEST_LINE_BREAK_CHAR}" \
+    STDLIB_WRAP_PREFIX="${TEST_PREFIX_STRING}" \
     _capture.output stdlib.string.wrap "${args[@]}"
 
   assert_output "${TEST_EXPECTED}"

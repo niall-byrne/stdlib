@@ -12,7 +12,7 @@ __STDLIB_TESTING_MOCK_COMPONENT="$(
 ${1}.mock.set.keywords() {
   # $@: the keyword names to assign to the mock
 
-  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
   builtin local -a _mock_object_keywords
 
   _mock_object_keywords=("\${@}")
@@ -27,7 +27,7 @@ ${1}.mock.set.keywords() {
 ${1}.mock.set.pipeable() {
   # $1: the boolean to enable or disable the pipeable attribute
 
-  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
 
   _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
   _testing.__protected stdlib.string.assert.is_boolean "\${1}" || builtin return 126
@@ -37,7 +37,7 @@ ${1}.mock.set.pipeable() {
 
 ${1}.mock.set.rc() {
   # $1: the return code to make the mock return
-  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
 
   _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
   _testing.__protected stdlib.string.assert.is_integer_with_range "0" "255" "\${1}" || builtin return 126
@@ -60,10 +60,10 @@ ${1}.mock.set.side_effects() {
 ${1}.mock.set.stderr() {
   # $1: the value to make the mock emit to stderr
 
-  builtin local -a _STDLIB_ARGS_NULL_SAFE
-  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
+  builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
 
-  _STDLIB_ARGS_NULL_SAFE=("1")
+  STDLIB_ARGS_NULL_SAFE_ARRAY=("1")
 
   _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
 
@@ -73,10 +73,10 @@ ${1}.mock.set.stderr() {
 ${1}.mock.set.stdout() {
   # $1: the value to make the mock emit to stdout
 
-  builtin local -a _STDLIB_ARGS_NULL_SAFE
-  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
+  builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
 
-  _STDLIB_ARGS_NULL_SAFE=("1")
+  STDLIB_ARGS_NULL_SAFE_ARRAY=("1")
 
   _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
 

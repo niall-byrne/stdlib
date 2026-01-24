@@ -35,14 +35,15 @@ _mock.arg_string.make.from_array() {
 _mock.arg_string.make.from_string() {
   # $1: the string to generate an arg string from
   # $2: an optional array name to generate keyword args from
-  # _STDLIB_DELIMITER: a char sequence to split the string with, defaults to ' '
+  # STDLIB_LINE_BREAK_DELIMITER: a char sequence to split the string with, defaults to ' '
 
-  builtin local -a _STDLIB_ARGS_NULL_SAFE
+  builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
   builtin local -a _mock_args_array
   builtin local -a _mock_arg_string_args
-  builtin local _mock_separator="${_STDLIB_DELIMITER:- }"
+  builtin local _mock_separator="${STDLIB_LINE_BREAK_DELIMITER:- }"
 
-  _STDLIB_ARGS_NULL_SAFE=("2")
+  # shellcheck disable=SC2034
+  STDLIB_ARGS_NULL_SAFE_ARRAY=("2")
   _mock_arg_string_args=("_mock_args_array")
 
   _testing.__protected stdlib.fn.args.require "1" "1" "${@}" || builtin return 127

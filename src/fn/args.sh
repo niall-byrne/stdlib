@@ -4,12 +4,12 @@
 
 builtin set -eo pipefail
 
-_STDLIB_ARGS_CALLER_FN_NAME=""
-_STDLIB_ARGS_NULL_SAFE=()
+STDLIB_ARGS_CALLER_FN_NAME=""
+STDLIB_ARGS_NULL_SAFE_ARRAY=()
 
 # @description Validates the presence and number of arguments for a function.
-#   * _STDLIB_ARGS_CALLER_FN_NAME: A string presented as the name of the calling function in logging messages (default="${FUNCNAME[1]}").
-#   * _STDLIB_ARGS_NULL_SAFE: An array of argument indexes that are null safe, meaning they can be empty values (default=()).
+#   * STDLIB_ARGS_CALLER_FN_NAME: A string presented as the name of the calling function in logging messages (default="${FUNCNAME[1]}").
+#   * STDLIB_ARGS_NULL_SAFE_ARRAY: An array of argument indexes that are null safe, meaning they can be empty values (default=()).
 # @arg $1 integer The number of required arguments.
 # @arg $2 integer The number of optional arguments.
 # @arg $@ array The list of argument values to check.
@@ -19,10 +19,11 @@ _STDLIB_ARGS_NULL_SAFE=()
 # @stderr The error message if the operation fails.
 stdlib.fn.args.require() {
   builtin local -a args_null_safe_array
-  builtin local _STDLIB_LOGGING_MESSAGE_PREFIX="${_STDLIB_ARGS_CALLER_FN_NAME:-"${FUNCNAME[1]}"}"
+  # shellcheck disable=SC2034
+  builtin local STDLIB_LOGGING_MESSAGE_PREFIX="${STDLIB_ARGS_CALLER_FN_NAME:-"${FUNCNAME[1]}"}"
 
   # shellcheck disable=SC2034
-  args_null_safe_array=("${_STDLIB_ARGS_NULL_SAFE[@]}")
+  args_null_safe_array=("${STDLIB_ARGS_NULL_SAFE_ARRAY[@]}")
 
   builtin local arg_index=1
   builtin local args_optional_count="${2}"

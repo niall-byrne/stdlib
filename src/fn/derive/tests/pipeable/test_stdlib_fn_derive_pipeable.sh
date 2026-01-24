@@ -69,7 +69,7 @@ test_stdlib_fn_derive_pipeable__valid_args____example_fn_with_args____________st
 }
 
 test_stdlib_fn_derive_pipeable__valid_args____example_fn_with_args____________stdin_placeholder_arg_position_1__specified_placeholder__handles_piped_input_as_expected() {
-  STDIN_SOURCE_SPECIFIER='*' stdlib.fn.derive.pipeable "_example_subtract_fn" "2"
+  STDLIB_PIPEABLE_STDIN_SOURCE_SPECIFIER='*' stdlib.fn.derive.pipeable "_example_subtract_fn" "2"
 
   TEST_OUTPUT="$(echo "3" | _example_subtract_fn_pipe '*' "2")"
 
@@ -85,7 +85,7 @@ test_stdlib_fn_derive_pipeable__valid_args____example_fn_with_args____________st
 }
 
 test_stdlib_fn_derive_pipeable__valid_args____example_fn_with_args____________stdin_placeholder_arg_position_2__specified_placeholder__handles_piped_input_as_expected() {
-  STDIN_SOURCE_SPECIFIER='*' stdlib.fn.derive.pipeable "_example_subtract_fn" "2"
+  STDLIB_PIPEABLE_STDIN_SOURCE_SPECIFIER='*' stdlib.fn.derive.pipeable "_example_subtract_fn" "2"
 
   TEST_OUTPUT="$(echo "4" | _example_subtract_fn_pipe "2" '*')"
 

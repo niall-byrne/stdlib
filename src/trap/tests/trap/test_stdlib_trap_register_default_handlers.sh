@@ -24,8 +24,8 @@ setup() {
   @parametrize \
     "${1}" \
     "TEST_HANDLER_NAME;TEST_HANDLER_ARRAY" \
-    "creates_err_handler_;stdlib.trap.handler.err.fn;STDLIB_HANDLER_ERR" \
-    "creates_exit_handler;stdlib.trap.handler.exit.fn;STDLIB_HANDLER_EXIT"
+    "creates_err_handler_;stdlib.trap.handler.err.fn;STDLIB_HANDLER_ERR_FN_ARRAY" \
+    "creates_exit_handler;stdlib.trap.handler.exit.fn;STDLIB_HANDLER_EXIT_FN_ARRAY"
 }
 
 test_stdlib_trap_register_default_handlers__@vary__creates_clean_up_fn() {
@@ -33,7 +33,7 @@ test_stdlib_trap_register_default_handlers__@vary__creates_clean_up_fn() {
     stdlib.trap.__register_default_handlers
 
   stdlib.trap.create.clean_up_fn.mock.assert_called_once_with \
-    "1(stdlib.trap.fn.clean_up_on_exit) 2(STDLIB_CLEANUP_FN)"
+    "1(stdlib.trap.fn.clean_up_on_exit) 2(STDLIB_CLEANUP_FN_TARGETS_ARRAY)"
 }
 
 @parametrize_with_traceback_setting \

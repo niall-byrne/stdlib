@@ -13,10 +13,10 @@ builtin set -eo pipefail
 # @stdout The coloured string without a newline.
 # @stderr The error message if the operation fails.
 stdlib.string.colour_n() {
-  builtin local -a _STDLIB_ARGS_NULL_SAFE
+  builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
   builtin local string_colour
 
-  _STDLIB_ARGS_NULL_SAFE=("2")
+  STDLIB_ARGS_NULL_SAFE_ARRAY=("2")
 
   stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?"
 
@@ -33,10 +33,10 @@ stdlib.string.colour_n() {
 # @stdout The coloured string with a newline.
 # @stderr The error message if the operation fails.
 stdlib.string.colour() {
-  builtin local -a _STDLIB_ARGS_NULL_SAFE
+  builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
   builtin local string_output
 
-  _STDLIB_ARGS_NULL_SAFE=("2")
+  STDLIB_ARGS_NULL_SAFE_ARRAY=("2")
 
   stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?"
 
