@@ -18,10 +18,10 @@ stdlib.string.assert.is_alpha() {
   case "${return_code}" in
     0) ;; # KCOV_EXCLUDE_LINE
     127)
-      stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
       ;;
     *)
-      stdlib.logger.error "$(stdlib.message.get IS_NOT_ALPHABETIC "${1}")"
+      stdlib.logger.error "$(stdlib.__message.get IS_NOT_ALPHABETIC "${1}")"
       ;;
   esac
 
@@ -42,10 +42,10 @@ stdlib.string.assert.is_alpha_numeric() {
   case "${return_code}" in
     0) ;; # KCOV_EXCLUDE_LINE
     127)
-      stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
       ;;
     *)
-      stdlib.logger.error "$(stdlib.message.get IS_NOT_ALPHA_NUMERIC "${1}")"
+      stdlib.logger.error "$(stdlib.__message.get IS_NOT_ALPHA_NUMERIC "${1}")"
       ;;
   esac
 
@@ -66,10 +66,10 @@ stdlib.string.assert.is_boolean() {
   case "${return_code}" in
     0) ;; # KCOV_EXCLUDE_LINE
     127)
-      stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
       ;;
     *)
-      stdlib.logger.error "$(stdlib.message.get IS_NOT_BOOLEAN "${1}")"
+      stdlib.logger.error "$(stdlib.__message.get IS_NOT_BOOLEAN "${1}")"
       ;;
   esac
 
@@ -90,10 +90,10 @@ stdlib.string.assert.is_char() {
   case "${return_code}" in
     0) ;; # KCOV_EXCLUDE_LINE
     127)
-      stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
       ;;
     *)
-      stdlib.logger.error "$(stdlib.message.get IS_NOT_CHAR "${1}")"
+      stdlib.logger.error "$(stdlib.__message.get IS_NOT_CHAR "${1}")"
       ;;
   esac
 
@@ -114,10 +114,10 @@ stdlib.string.assert.is_digit() {
   case "${return_code}" in
     0) ;; # KCOV_EXCLUDE_LINE
     127)
-      stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
       ;;
     *)
-      stdlib.logger.error "$(stdlib.message.get IS_NOT_DIGIT "${1}")"
+      stdlib.logger.error "$(stdlib.__message.get IS_NOT_DIGIT "${1}")"
       ;;
   esac
 
@@ -138,10 +138,10 @@ stdlib.string.assert.is_integer() {
   case "${return_code}" in
     0) ;; # KCOV_EXCLUDE_LINE
     127)
-      stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
       ;;
     *)
-      stdlib.logger.error "$(stdlib.message.get IS_NOT_INTEGER "${1}")"
+      stdlib.logger.error "$(stdlib.__message.get IS_NOT_INTEGER "${1}")"
       ;;
   esac
 
@@ -165,10 +165,10 @@ stdlib.string.assert.is_integer_with_range() {
   case "${return_code}" in
     0) ;; # KCOV_EXCLUDE_LINE
     126 | 127)
-      stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
       ;;
     *)
-      stdlib.logger.error "$(stdlib.message.get IS_NOT_INTEGER_IN_RANGE "${1}" "${2}" "${3}")"
+      stdlib.logger.error "$(stdlib.__message.get IS_NOT_INTEGER_IN_RANGE "${1}" "${2}" "${3}")"
       ;;
   esac
 
@@ -189,10 +189,10 @@ stdlib.string.assert.is_octal_permission() {
   case "${return_code}" in
     0) ;; # KCOV_EXCLUDE_LINE
     127)
-      stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
       ;;
     *)
-      stdlib.logger.error "$(stdlib.message.get IS_NOT_OCTAL_PERMISSION "${1}")"
+      stdlib.logger.error "$(stdlib.__message.get IS_NOT_OCTAL_PERMISSION "${1}")"
       ;;
   esac
 
@@ -214,10 +214,10 @@ stdlib.string.assert.is_regex_match() {
   case "${return_code}" in
     0) ;; # KCOV_EXCLUDE_LINE
     127)
-      stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
       ;;
     *)
-      stdlib.logger.error "$(stdlib.message.get REGEX_DOES_NOT_MATCH "${1}" "${2}")"
+      stdlib.logger.error "$(stdlib.__message.get REGEX_DOES_NOT_MATCH "${1}" "${2}")"
       ;;
   esac
 
@@ -238,10 +238,10 @@ stdlib.string.assert.is_string() {
   case "${return_code}" in
     0) ;; # KCOV_EXCLUDE_LINE
     127)
-      stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
       ;;
     *)
-      stdlib.logger.error "$(stdlib.message.get IS_NOT_SET_STRING "${1}")"
+      stdlib.logger.error "$(stdlib.__message.get IS_NOT_SET_STRING "${1}")"
       ;;
   esac
 

@@ -17,7 +17,7 @@ _STDLIB_PASSWORD_BOOLEAN=""
 # @stderr The error message if the operation fails.
 stdlib.io.stdin.confirmation() {
   builtin local input_char
-  builtin local prompt="${1:-"$(stdlib.message.get STDIN_DEFAULT_CONFIRMATION_PROMPT)"}"
+  builtin local prompt="${1:-"$(stdlib.__message.get STDIN_DEFAULT_CONFIRMATION_PROMPT)"}"
 
   stdlib.fn.args.require "0" "1" "${@}" || builtin return "$?"
 
@@ -46,7 +46,7 @@ stdlib.io.stdin.confirmation() {
 # @stderr The error message if the operation fails.
 stdlib.io.stdin.pause() {
   builtin local input_char
-  builtin local prompt="${1:-"$(stdlib.message.get STDIN_DEFAULT_PAUSE_PROMPT)"}"
+  builtin local prompt="${1:-"$(stdlib.__message.get STDIN_DEFAULT_PAUSE_PROMPT)"}"
 
   stdlib.fn.args.require "0" "1" "${@}" || builtin return "$?"
 
@@ -66,7 +66,7 @@ stdlib.io.stdin.pause() {
 # @stderr The error message if the operation fails.
 stdlib.io.stdin.prompt() {
   builtin local flags="-rp"
-  builtin local prompt="${2:-"$(stdlib.message.get STDIN_DEFAULT_VALUE_PROMPT)"}"
+  builtin local prompt="${2:-"$(stdlib.__message.get STDIN_DEFAULT_VALUE_PROMPT)"}"
   builtin local password="${_STDLIB_PASSWORD_BOOLEAN:-0}"
 
   stdlib.fn.args.require "1" "1" "${@}" || builtin return "$?"
@@ -77,9 +77,9 @@ stdlib.io.stdin.prompt() {
 
   while [[ -z "${!1}" ]]; do
     # shellcheck disable=SC2229,SC2162
-    stdlib.builtin.overridable read "${flags}" "${prompt}" "${1}"
+    stdlib.__builtin.overridable read "${flags}" "${prompt}" "${1}"
     if [[ "${password}" == "1" ]]; then
-      stdlib.builtin.overridable echo
+      stdlib.__builtin.overridable echo
     fi
   done
 }

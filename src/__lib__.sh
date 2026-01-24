@@ -20,22 +20,22 @@ builtin set -eo pipefail
 # @arg $1 string The path to the module to import.
 # @exitcode 0 If the operation succeeded.
 # @internal
-bootstrap() {
+stdlib.__bootstrap() {
   # shellcheck source=/dev/null
   builtin source "${1}"
 }
 
-bootstrap "${STDLIB_DIRECTORY}/binary.sh"
-bootstrap "${STDLIB_DIRECTORY}/builtin.sh"
-bootstrap "${STDLIB_DIRECTORY}/gettext.sh"
-bootstrap "${STDLIB_DIRECTORY}/gettext.snippet"
-bootstrap "${STDLIB_DIRECTORY}/message.sh"
-bootstrap "${STDLIB_DIRECTORY}/setting/__lib__.sh"
-bootstrap "${STDLIB_DIRECTORY}/string/colour/colour.sh"
-bootstrap "${STDLIB_DIRECTORY}/logger/logger.sh"
-bootstrap "${STDLIB_DIRECTORY}/string/query/__lib__.sh"
-bootstrap "${STDLIB_DIRECTORY}/string/assert/__lib__.sh"
-bootstrap "${STDLIB_DIRECTORY}/fn/__lib__.sh"
+stdlib.__bootstrap "${STDLIB_DIRECTORY}/binary.sh"
+stdlib.__bootstrap "${STDLIB_DIRECTORY}/builtin.sh"
+stdlib.__bootstrap "${STDLIB_DIRECTORY}/gettext.sh"
+stdlib.__bootstrap "${STDLIB_DIRECTORY}/gettext.snippet"
+stdlib.__bootstrap "${STDLIB_DIRECTORY}/message.sh"
+stdlib.__bootstrap "${STDLIB_DIRECTORY}/setting/__lib__.sh"
+stdlib.__bootstrap "${STDLIB_DIRECTORY}/string/colour/colour.sh"
+stdlib.__bootstrap "${STDLIB_DIRECTORY}/logger/logger.sh"
+stdlib.__bootstrap "${STDLIB_DIRECTORY}/string/query/__lib__.sh"
+stdlib.__bootstrap "${STDLIB_DIRECTORY}/string/assert/__lib__.sh"
+stdlib.__bootstrap "${STDLIB_DIRECTORY}/fn/__lib__.sh"
 
 # source=src/array/__lib__.sh
 builtin source "${STDLIB_DIRECTORY}/array/__lib__.sh"

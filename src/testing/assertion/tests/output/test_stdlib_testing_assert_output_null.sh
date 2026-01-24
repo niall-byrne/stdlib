@@ -8,7 +8,7 @@ test_stdlib_testing_assert_output_null__when_not_null__fails_as_expected() {
   _capture.assertion_failure assert_output_null
 
   assert_equals \
-    " $(_testing.assert.message.get ASSERT_ERROR_VALUE_NOT_NULL "not_null")"$'\n'" expected [] but was [not_null]" \
+    " $(_testing.assert.__message.get ASSERT_ERROR_VALUE_NOT_NULL "not_null")"$'\n'" expected [] but was [not_null]" \
     "${TEST_OUTPUT}"
 }
 
