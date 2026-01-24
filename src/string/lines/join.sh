@@ -23,7 +23,7 @@ stdlib.string.lines.join() {
 }
 
 # @description A pipeable version of stdlib.string.lines.join.
-# @arg $1 string (optional, default="-") The string to process.
+# @arg $1 string (optional, default="-") The string to process, the default behaviour reads from stdin.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stdin The string to process.

@@ -23,7 +23,7 @@ stdlib.string.pad.left() {
 
 # @description A pipeable version of stdlib.string.pad.left.
 # @arg $1 integer The number of spaces to pad with.
-# @arg $2 string (optional, default="-") The string to pad.
+# @arg $2 string (optional, default="-") The string to pad, the default behaviour reads from stdin.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stdin The string to pad.
@@ -60,7 +60,7 @@ stdlib.string.pad.right() {
 
 # @description A pipeable version of stdlib.string.pad.right.
 # @arg $1 integer The number of spaces to pad with.
-# @arg $2 string (optional, default="-") The string to pad.
+# @arg $2 string (optional, default="-") The string to pad, the default behaviour reads from stdin.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stdin The string to pad.
