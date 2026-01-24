@@ -49,7 +49,7 @@ __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS=()
   original_test_function_reference="__parametrized_original_function_definition_${1}"
 
   [[ "${#@}" -gt "1" ]] || {
-    _testing.error "${FUNCNAME[0]}: $(_testing.__protected stdlib.message.get ARGUMENTS_INVALID)"
+    _testing.error "${FUNCNAME[0]}: $(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)"
     builtin return 127
   }
   @parametrize.__internal.validate.fn_name.test "${original_test_function_name}" || builtin return "$?"
@@ -85,22 +85,22 @@ __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS=()
     )"
 
     if stdlib.fn.query.is_fn "${test_function_variant_name}"; then
-      _testing.error "$(_testing.parametrize.message.get PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_NAME)"
+      _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_NAME)"
       {
-        _testing.parametrize.message.get PARAMETRIZE_PREFIX_TEST_NAME
+        _testing.parametrize.__message.get PARAMETRIZE_PREFIX_TEST_NAME
         builtin echo ": '$(
           _testing.__protected stdlib.string.colour \
             "${STDLIB_TESTING_THEME_PARAMETRIZE_HIGHLIGHT}" \
             "${original_test_function_name}"
         )'"
-        _testing.parametrize.message.get PARAMETRIZE_PREFIX_VARIANT_NAME
+        _testing.parametrize.__message.get PARAMETRIZE_PREFIX_VARIANT_NAME
         builtin echo ": '$(
           _testing.__protected stdlib.string.colour \
             "${STDLIB_TESTING_THEME_PARAMETRIZE_HIGHLIGHT}" \
             "${test_function_variant_name}"
         )'"
       } >&2 # KCOV_EXCLUDE_LINE
-      _testing.error "$(_testing.parametrize.message.get PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_DETAIL)"
+      _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_DETAIL)"
       builtin return 126
     fi
 

@@ -11,7 +11,7 @@ assert_null() {
 
   assert_equals "" \
     "${_stdlib_test_value}" \
-    " $(_testing.assert.message.get ASSERT_ERROR_VALUE_NOT_NULL "${_stdlib_test_value}")"
+    " $(_testing.assert.__message.get ASSERT_ERROR_VALUE_NOT_NULL "${_stdlib_test_value}")"
 }
 
 assert_not_null() {
@@ -21,5 +21,5 @@ assert_not_null() {
 
   assert_not_equals "" \
     "${_stdlib_test_value}" \
-    " $(_testing.assert.message.get ASSERT_ERROR_VALUE_NULL)"
+    " $(_testing.assert.__message.get ASSERT_ERROR_VALUE_NULL)"
 }

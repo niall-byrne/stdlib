@@ -14,7 +14,8 @@ _STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=""
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stdout The output of the command.
 # @stderr The error output of the command.
-stdlib.builtin.overridable() {
+# @internal
+stdlib.__builtin.overridable() {
   builtin local use_builtin_boolean="${_STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN:-0}"
 
   if [[ "${use_builtin_boolean}" == "0" ]]; then

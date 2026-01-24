@@ -9,5 +9,5 @@ STDLIB_TEXTDOMAINDIR="${STDLIB_TEXTDOMAINDIR-$(dirname -- "${BASH_SOURCE[0]}/loc
 }
 
 set +e
-stdlib.builtin.overridable source gettext.sh 2> /dev/null || stdlib.__gettext.fallback
+stdlib.__builtin.overridable source gettext.sh 2> /dev/null || stdlib.__gettext.fallback
 set -e

@@ -98,6 +98,21 @@ declare -- _STDLIB_WRAP_PREFIX_STRING=""
 
 # stdlib function definitions
 
+stdlib.__bootstrap ()
+{
+    builtin source "${1}"
+}
+
+stdlib.__builtin.overridable ()
+{
+    builtin local use_builtin_boolean="${_STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN:-0}";
+    if [[ "${use_builtin_boolean}" == "0" ]]; then
+        builtin "${@}";
+    else
+        "${@}";
+    fi
+}
+
 stdlib.__gettext ()
 {
     stdlib.__gettext.call "stdlib" "${1}"
@@ -137,6 +152,232 @@ EOF
     builtin eval "${fallback_function_definition}"
 }
 
+stdlib.__message.get ()
+{
+    builtin local key="${1}";
+    builtin local message;
+    {
+        builtin local option1="${2}";
+        builtin local option2="${3}";
+        builtin local option3="${4}"
+    };
+    builtin local required_options=0;
+    builtin local return_status=0;
+    case "${key}" in
+        ARGUMENT_REQUIREMENTS_VIOLATION)
+            required_options=2;
+            message="$(stdlib.__gettext "Expected '\${option1}' required argument(s) and '\${option2}' optional argument(s).")"
+        ;;
+        ARGUMENT_REQUIREMENTS_VIOLATION_DETAIL)
+            required_options=1;
+            message="$(stdlib.__gettext "Received '\${option1}' argument(s)!")"
+        ;;
+        ARGUMENT_REQUIREMENTS_VIOLATION_NULL)
+            required_options=1;
+            message="$(stdlib.__gettext "Argument '\${option1}' was null and is not null safe!")"
+        ;;
+        ARGUMENTS_INVALID)
+            required_options=0;
+            message="$(stdlib.__gettext "Invalid arguments provided!")"
+        ;;
+        ARRAY_ARE_EQUAL)
+            required_options=2;
+            message="$(stdlib.__gettext "The arrays '\${option1}' and '\${option2}' are equal!")"
+        ;;
+        ARRAY_ELEMENT_MISMATCH)
+            required_options=3;
+            message="$(stdlib.__gettext "At index '\${option2}': the array '\${option1}' has element '\${option3}'")"
+        ;;
+        ARRAY_IS_EMPTY)
+            required_options=1;
+            message="$(stdlib.__gettext "The array '\${option1}' is empty!")"
+        ;;
+        ARRAY_IS_NOT_EMPTY)
+            required_options=1;
+            message="$(stdlib.__gettext "The array '\${option1}' is not empty!")"
+        ;;
+        ARRAY_LENGTH_MISMATCH)
+            required_options=2;
+            message="$(stdlib.__gettext "The array '\${option1}' has length '\${option2}'")"
+        ;;
+        ARRAY_VALUE_FOUND)
+            required_options=2;
+            message="$(stdlib.__gettext "The value '\${option1}' is found in the '\${option2}' array!")"
+        ;;
+        ARRAY_VALUE_NOT_FOUND)
+            required_options=2;
+            message="$(stdlib.__gettext "The value '\${option1}' is not found in the '\${option2}' array!")"
+        ;;
+        COLOUR_INITIALIZE_ERROR)
+            required_options=0;
+            message="$(stdlib.__gettext "Terminal colours could not be initialized!")"
+        ;;
+        COLOUR_INITIALIZE_ERROR_TERM)
+            required_options=0;
+            message="$(stdlib.__gettext "Consider checking the 'TERM' environment variable.")"
+        ;;
+        COLOUR_NOT_DEFINED)
+            required_options=1;
+            message="$(stdlib.__gettext "The colour '\${option1}' is not defined!")"
+        ;;
+        FN_NAME_INVALID)
+            required_options=1;
+            message="$(stdlib.__gettext "The value '\${option1}' is not a valid function name!")"
+        ;;
+        FS_PATH_DOES_NOT_EXIST)
+            required_options=1;
+            message="$(stdlib.__gettext "The path '\${option1}' does not exist on the filesystem!")"
+        ;;
+        FS_PATH_EXISTS)
+            required_options=1;
+            message="$(stdlib.__gettext "The path '\${option1}' exists on the filesystem!")"
+        ;;
+        FS_PATH_IS_NOT_A_FILE)
+            required_options=1;
+            message="$(stdlib.__gettext "The path '\${option1}' is not a valid filesystem file!")"
+        ;;
+        FS_PATH_IS_NOT_A_FOLDER)
+            required_options=1;
+            message="$(stdlib.__gettext "The path '\${option1}' is not a valid filesystem folder!")"
+        ;;
+        IS_ARRAY)
+            required_options=1;
+            message="$(stdlib.__gettext "The value '\${option1}' is an array!")"
+        ;;
+        IS_BUILTIN)
+            required_options=1;
+            message="$(stdlib.__gettext "The value '\${option1}' is a shell builtin!")"
+        ;;
+        IS_EQUAL)
+            required_options=1;
+            message="$(stdlib.__gettext "A value equal to '\${option1}' cannot be used!")"
+        ;;
+        IS_FN)
+            required_options=1;
+            message="$(stdlib.__gettext "The value '\${option1}' is a function!")"
+        ;;
+        IS_NOT_ALPHABETIC)
+            required_options=1;
+            message="$(stdlib.__gettext "The value '\${option1}' is not a alphabetic only string!")"
+        ;;
+        IS_NOT_ALPHA_NUMERIC)
+            required_options=1;
+            message="$(stdlib.__gettext "The value '\${option1}' is not a alpha-numeric only string!")"
+        ;;
+        IS_NOT_ARRAY)
+            required_options=1;
+            message="$(stdlib.__gettext "The value '\${option1}' is not an array!")"
+        ;;
+        IS_NOT_BOOLEAN)
+            required_options=1;
+            message="$(stdlib.__gettext "The value '\${option1}' is not a string containing a boolean (0 or 1)!")"
+        ;;
+        IS_NOT_BUILTIN)
+            required_options=1;
+            message="$(stdlib.__gettext "The value '\${option1}' is not a shell builtin!")"
+        ;;
+        IS_NOT_CHAR)
+            required_options=1;
+            message="$(stdlib.__gettext "The value '\${option1}' is not a string containing a single char!")"
+        ;;
+        IS_NOT_DIGIT)
+            required_options=1;
+            message="$(stdlib.__gettext "The value '\${option1}' is not a string containing a digit!")"
+        ;;
+        IS_NOT_FN)
+            required_options=1;
+            message="$(stdlib.__gettext "The value '\${option1}' is not a function!")"
+        ;;
+        IS_NOT_INTEGER)
+            required_options=1;
+            message="$(stdlib.__gettext "The value '\${option1}' is not a string containing an integer!")"
+        ;;
+        IS_NOT_INTEGER_IN_RANGE)
+            required_options=3;
+            message="$(stdlib.__gettext "The value '\${option3}' is not a string containing an integer in the inclusive range \${option1} to \${option2}!")"
+        ;;
+        IS_NOT_OCTAL_PERMISSION)
+            required_options=1;
+            message="$(stdlib.__gettext "The value '\${option1}' is not a string containing an octal file permission!")"
+        ;;
+        IS_NOT_SET_STRING)
+            required_options=1;
+            message="$(stdlib.__gettext "The value '\${option1}' is not a set string!")"
+        ;;
+        REGEX_DOES_NOT_MATCH)
+            required_options=2;
+            message="$(stdlib.__gettext "The regex '\${option1}' does not match the value '\${option2}'!")"
+        ;;
+        SECURITY_INSECURE_GROUP_OWNERSHIP)
+            required_options=1;
+            message="$(stdlib.__gettext "SECURITY: The group ownership on '\${option1}' is not secure!")"
+        ;;
+        SECURITY_INSECURE_OWNERSHIP)
+            required_options=1;
+            message="$(stdlib.__gettext "SECURITY: The ownership on '\${option1}' is not secure!")"
+        ;;
+        SECURITY_INSECURE_PERMISSIONS)
+            required_options=1;
+            message="$(stdlib.__gettext "SECURITY: The permissions on '\${option1}' are not secure!")"
+        ;;
+        SECURITY_MUST_BE_RUN_AS_ROOT)
+            required_options=0;
+            message="$(stdlib.__gettext "SECURITY: This script must be run as root.")"
+        ;;
+        SECURITY_SUGGEST_CHGRP)
+            required_options=2;
+            message="$(stdlib.__gettext "Please consider running: sudo chgrp '\${option1}' '\${option2}'")"
+        ;;
+        SECURITY_SUGGEST_CHMOD)
+            required_options=2;
+            message="$(stdlib.__gettext "Please consider running: sudo chmod '\${option1}' '\${option2}'")"
+        ;;
+        SECURITY_SUGGEST_CHOWN)
+            required_options=2;
+            message="$(stdlib.__gettext "Please consider running: sudo chown '\${option1}' '\${option2}'")"
+        ;;
+        STDIN_DEFAULT_CONFIRMATION_PROMPT)
+            required_options=0;
+            message="$(stdlib.__gettext "Are you sure you wish to proceed (Y/n) ?") "
+        ;;
+        STDIN_DEFAULT_PAUSE_PROMPT)
+            required_options=0;
+            message="$(stdlib.__gettext "Press any key to continue ...") "
+        ;;
+        STDIN_DEFAULT_VALUE_PROMPT)
+            required_options=0;
+            message="$(stdlib.__gettext "Enter a value:") "
+        ;;
+        TRACEBACK_HEADER)
+            required_options=0;
+            message="$(stdlib.__gettext "Callstack:")"
+        ;;
+        VAR_NAME_INVALID)
+            required_options=1;
+            message="$(stdlib.__gettext "The value '\${option1}' is not a valid variable name!")"
+        ;;
+        "")
+            required_options=0;
+            return_status=126;
+            message="$(stdlib.__message.get ARGUMENTS_INVALID)"
+        ;;
+        *)
+            required_options=0;
+            return_status=126;
+            message="$(stdlib.__gettext "Unknown message key '${key}'")"
+        ;;
+    esac;
+    (("${#@}" == 1 + required_options)) || {
+        stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)";
+        builtin return 127
+    };
+    ((return_status == 0)) || {
+        stdlib.logger.error "${message}";
+        builtin return ${return_status}
+    };
+    builtin echo -n "${message}"
+}
+
 stdlib.array.assert.is_array ()
 {
     builtin local _stdlib_return_code=0;
@@ -146,10 +387,10 @@ stdlib.array.assert.is_array ()
 
         ;;
         127)
-            stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
         *)
-            stdlib.logger.error "$(stdlib.message.get IS_NOT_ARRAY "${1}")"
+            stdlib.logger.error "$(stdlib.__message.get IS_NOT_ARRAY "${1}")"
         ;;
     esac;
     builtin return "${_stdlib_return_code}"
@@ -164,10 +405,10 @@ stdlib.array.assert.is_contains ()
 
         ;;
         126 | 127)
-            stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
         *)
-            stdlib.logger.error "$(stdlib.message.get ARRAY_VALUE_NOT_FOUND "${1}" "${2}")"
+            stdlib.logger.error "$(stdlib.__message.get ARRAY_VALUE_NOT_FOUND "${1}" "${2}")"
         ;;
     esac;
     builtin return "${_stdlib_return_code}"
@@ -182,13 +423,13 @@ stdlib.array.assert.is_empty ()
 
         ;;
         1)
-            stdlib.logger.error "$(stdlib.message.get ARRAY_IS_NOT_EMPTY "${1}")"
+            stdlib.logger.error "$(stdlib.__message.get ARRAY_IS_NOT_EMPTY "${1}")"
         ;;
         126)
-            stdlib.logger.error "$(stdlib.message.get IS_NOT_ARRAY "${1}")"
+            stdlib.logger.error "$(stdlib.__message.get IS_NOT_ARRAY "${1}")"
         ;;
         127)
-            stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
     esac;
     builtin return "${_stdlib_return_code}"
@@ -205,7 +446,7 @@ stdlib.array.assert.is_equal ()
     builtin local _stdlib_indirect_reference_1;
     builtin local _stdlib_indirect_reference_2;
     [[ "${#@}" == "2" ]] || {
-        stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)";
+        stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)";
         builtin return 127
     };
     stdlib.array.assert.is_array "${1}" || builtin return 126;
@@ -215,8 +456,8 @@ stdlib.array.assert.is_equal ()
     _stdlib_indirect_reference_2="${_stdlib_array_name_2}[@]";
     _stdlib_indirect_array_2=("${!_stdlib_indirect_reference_2}");
     if [[ "${#_stdlib_indirect_array_1[@]}" != "${#_stdlib_indirect_array_2[@]}" ]]; then
-        _stdlib_comparison_errors_array+=("$(stdlib.message.get ARRAY_LENGTH_MISMATCH "${_stdlib_array_name_1}" "${#_stdlib_indirect_array_1[@]}")");
-        _stdlib_comparison_errors_array+=("$(stdlib.message.get ARRAY_LENGTH_MISMATCH "${_stdlib_array_name_2}" "${#_stdlib_indirect_array_2[@]}")");
+        _stdlib_comparison_errors_array+=("$(stdlib.__message.get ARRAY_LENGTH_MISMATCH "${_stdlib_array_name_1}" "${#_stdlib_indirect_array_1[@]}")");
+        _stdlib_comparison_errors_array+=("$(stdlib.__message.get ARRAY_LENGTH_MISMATCH "${_stdlib_array_name_2}" "${#_stdlib_indirect_array_2[@]}")");
     fi;
     for ((_stdlib_array_index = 0; _stdlib_array_index < "${#_stdlib_indirect_array_1[@]}"; _stdlib_array_index++))
     do
@@ -224,8 +465,8 @@ stdlib.array.assert.is_equal ()
             builtin break;
         fi;
         if [[ "${_stdlib_indirect_array_1[_stdlib_array_index]}" != "${_stdlib_indirect_array_2[_stdlib_array_index]}" ]]; then
-            _stdlib_comparison_errors_array+=("$(stdlib.message.get ARRAY_ELEMENT_MISMATCH "${_stdlib_array_name_1}" "${_stdlib_array_index}" "${_stdlib_indirect_array_1[_stdlib_array_index]}")");
-            _stdlib_comparison_errors_array+=("$(stdlib.message.get ARRAY_ELEMENT_MISMATCH "${_stdlib_array_name_2}" "${_stdlib_array_index}" "${_stdlib_indirect_array_2[_stdlib_array_index]}")");
+            _stdlib_comparison_errors_array+=("$(stdlib.__message.get ARRAY_ELEMENT_MISMATCH "${_stdlib_array_name_1}" "${_stdlib_array_index}" "${_stdlib_indirect_array_1[_stdlib_array_index]}")");
+            _stdlib_comparison_errors_array+=("$(stdlib.__message.get ARRAY_ELEMENT_MISMATCH "${_stdlib_array_name_2}" "${_stdlib_array_index}" "${_stdlib_indirect_array_2[_stdlib_array_index]}")");
         fi;
     done;
     if [[ "${#_stdlib_comparison_errors_array[@]}" -gt "0" ]]; then
@@ -244,14 +485,14 @@ stdlib.array.assert.not_array ()
     stdlib.array.query.is_array "${@}" || _stdlib_return_code="$?";
     case "${_stdlib_return_code}" in
         0)
-            stdlib.logger.error "$(stdlib.message.get IS_ARRAY "${1}")";
+            stdlib.logger.error "$(stdlib.__message.get IS_ARRAY "${1}")";
             builtin return 1
         ;;
         1)
             builtin return 0
         ;;
         *)
-            stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
     esac;
     builtin return "${_stdlib_return_code}"
@@ -266,10 +507,10 @@ stdlib.array.assert.not_contains ()
             builtin return 0
         ;;
         126 | 127)
-            stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
         *)
-            stdlib.logger.error "$(stdlib.message.get ARRAY_VALUE_FOUND "${1}" "${2}")";
+            stdlib.logger.error "$(stdlib.__message.get ARRAY_VALUE_FOUND "${1}" "${2}")";
             builtin return 1
         ;;
     esac;
@@ -282,17 +523,17 @@ stdlib.array.assert.not_empty ()
     stdlib.array.query.is_empty "${@}" || _stdlib_return_code="$?";
     case "${_stdlib_return_code}" in
         0)
-            stdlib.logger.error "$(stdlib.message.get ARRAY_IS_EMPTY "${1}")";
+            stdlib.logger.error "$(stdlib.__message.get ARRAY_IS_EMPTY "${1}")";
             builtin return 1
         ;;
         1)
             builtin return 0
         ;;
         126)
-            stdlib.logger.error "$(stdlib.message.get IS_NOT_ARRAY "${1}")"
+            stdlib.logger.error "$(stdlib.__message.get IS_NOT_ARRAY "${1}")"
         ;;
         127)
-            stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
     esac;
     builtin return "${_stdlib_return_code}"
@@ -308,7 +549,7 @@ stdlib.array.assert.not_equal ()
     builtin local _stdlib_indirect_reference_1;
     builtin local _stdlib_indirect_reference_2;
     [[ "${#@}" == "2" ]] || {
-        stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)";
+        stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)";
         builtin return 127
     };
     stdlib.array.assert.is_array "${1}" || builtin return 126;
@@ -326,7 +567,7 @@ stdlib.array.assert.not_equal ()
             builtin return 0;
         fi;
     done;
-    stdlib.logger.error "$(stdlib.message.get ARRAY_ARE_EQUAL "${_stdlib_array_name_1}" "${_stdlib_array_name_2}")";
+    stdlib.logger.error "$(stdlib.__message.get ARRAY_ARE_EQUAL "${_stdlib_array_name_1}" "${_stdlib_array_name_2}")";
     builtin return 1
 }
 
@@ -687,16 +928,6 @@ stdlib.array.query.is_equal ()
     builtin return 0
 }
 
-stdlib.builtin.overridable ()
-{
-    builtin local use_builtin_boolean="${_STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN:-0}";
-    if [[ "${use_builtin_boolean}" == "0" ]]; then
-        builtin "${@}";
-    else
-        "${@}";
-    fi
-}
-
 stdlib.fn.args.require ()
 {
     builtin local -a args_null_safe_array;
@@ -710,16 +941,16 @@ stdlib.fn.args.require ()
     stdlib.array.assert.is_array args_null_safe_array || builtin return 126;
     builtin shift 2;
     if (("${#@}" < "${args_required_count}" || "${#@}" > "${args_required_count}" + "${args_optional_count}")); then
-        stdlib.logger.error "$(stdlib.message.get ARGUMENT_REQUIREMENTS_VIOLATION "${args_required_count}" "${args_optional_count}")";
-        stdlib.logger.error "$(stdlib.message.get ARGUMENT_REQUIREMENTS_VIOLATION_DETAIL "${#@}")";
+        stdlib.logger.error "$(stdlib.__message.get ARGUMENT_REQUIREMENTS_VIOLATION "${args_required_count}" "${args_optional_count}")";
+        stdlib.logger.error "$(stdlib.__message.get ARGUMENT_REQUIREMENTS_VIOLATION_DETAIL "${#@}")";
         builtin return 127;
     fi;
     for ((arg_index = 1; arg_index <= "${#@}"; arg_index++))
     do
         if [[ -z "${!arg_index}" ]]; then
             if ! stdlib.array.query.is_contains "${arg_index}" args_null_safe_array; then
-                stdlib.logger.error "$(stdlib.message.get ARGUMENT_REQUIREMENTS_VIOLATION "${args_required_count}" "${args_optional_count}")";
-                stdlib.logger.error "$(stdlib.message.get ARGUMENT_REQUIREMENTS_VIOLATION_NULL "${arg_index}")";
+                stdlib.logger.error "$(stdlib.__message.get ARGUMENT_REQUIREMENTS_VIOLATION "${args_required_count}" "${args_optional_count}")";
+                stdlib.logger.error "$(stdlib.__message.get ARGUMENT_REQUIREMENTS_VIOLATION_NULL "${arg_index}")";
                 builtin return 126;
             fi;
         fi;
@@ -735,10 +966,10 @@ stdlib.fn.assert.is_builtin ()
 
         ;;
         127)
-            stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
         *)
-            stdlib.logger.error "$(stdlib.message.get IS_NOT_BUILTIN "${1}")"
+            stdlib.logger.error "$(stdlib.__message.get IS_NOT_BUILTIN "${1}")"
         ;;
     esac;
     builtin return "${return_code}"
@@ -753,10 +984,10 @@ stdlib.fn.assert.is_fn ()
 
         ;;
         127)
-            stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
         *)
-            stdlib.logger.error "$(stdlib.message.get IS_NOT_FN "${1}")"
+            stdlib.logger.error "$(stdlib.__message.get IS_NOT_FN "${1}")"
         ;;
     esac;
     builtin return "${return_code}"
@@ -771,10 +1002,10 @@ stdlib.fn.assert.is_valid_name ()
 
         ;;
         126 | 127)
-            stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
         *)
-            stdlib.logger.error "$(stdlib.message.get FN_NAME_INVALID "${1}")"
+            stdlib.logger.error "$(stdlib.__message.get FN_NAME_INVALID "${1}")"
         ;;
     esac;
     builtin return "${return_code}"
@@ -786,14 +1017,14 @@ stdlib.fn.assert.not_builtin ()
     stdlib.fn.query.is_builtin "${@}" || return_code="$?";
     case "${return_code}" in
         0)
-            stdlib.logger.error "$(stdlib.message.get IS_BUILTIN "${1}")";
+            stdlib.logger.error "$(stdlib.__message.get IS_BUILTIN "${1}")";
             builtin return 1
         ;;
         1)
             builtin return 0
         ;;
         127)
-            stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
     esac;
     builtin return "${return_code}"
@@ -805,14 +1036,14 @@ stdlib.fn.assert.not_fn ()
     stdlib.fn.query.is_fn "${@}" || return_code="$?";
     case "${return_code}" in
         0)
-            stdlib.logger.error "$(stdlib.message.get IS_FN "${1}")";
+            stdlib.logger.error "$(stdlib.__message.get IS_FN "${1}")";
             builtin return 1
         ;;
         1)
             builtin return 0
         ;;
         127)
-            stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
     esac;
     builtin return "${return_code}"
@@ -984,10 +1215,10 @@ stdlib.io.path.assert.is_exists ()
 
         ;;
         126 | 127)
-            stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
         *)
-            stdlib.logger.error "$(stdlib.message.get FS_PATH_DOES_NOT_EXIST "${1}")"
+            stdlib.logger.error "$(stdlib.__message.get FS_PATH_DOES_NOT_EXIST "${1}")"
         ;;
     esac;
     builtin return "${return_code}"
@@ -1002,10 +1233,10 @@ stdlib.io.path.assert.is_file ()
 
         ;;
         126 | 127)
-            stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
         *)
-            stdlib.logger.error "$(stdlib.message.get FS_PATH_IS_NOT_A_FILE "${1}")"
+            stdlib.logger.error "$(stdlib.__message.get FS_PATH_IS_NOT_A_FILE "${1}")"
         ;;
     esac;
     builtin return "${return_code}"
@@ -1020,10 +1251,10 @@ stdlib.io.path.assert.is_folder ()
 
         ;;
         126 | 127)
-            stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
         *)
-            stdlib.logger.error "$(stdlib.message.get FS_PATH_IS_NOT_A_FOLDER "${1}")"
+            stdlib.logger.error "$(stdlib.__message.get FS_PATH_IS_NOT_A_FOLDER "${1}")"
         ;;
     esac;
     builtin return "${return_code}"
@@ -1035,14 +1266,14 @@ stdlib.io.path.assert.not_exists ()
     stdlib.io.path.query.is_exists "${@}" || return_code="$?";
     case "${return_code}" in
         0)
-            stdlib.logger.error "$(stdlib.message.get FS_PATH_EXISTS "${1}")";
+            stdlib.logger.error "$(stdlib.__message.get FS_PATH_EXISTS "${1}")";
             builtin return 1
         ;;
         1)
             builtin return 0
         ;;
         *)
-            stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
     esac;
     builtin return "${return_code}"
@@ -1052,27 +1283,27 @@ stdlib.io.path.query.is_exists ()
 {
     [[ "${#@}" == "1" ]] || builtin return 127;
     [[ -n "${1}" ]] || builtin return 126;
-    stdlib.builtin.overridable test -e "${1}" || builtin return 1
+    stdlib.__builtin.overridable test -e "${1}" || builtin return 1
 }
 
 stdlib.io.path.query.is_file ()
 {
     [[ "${#@}" == "1" ]] || builtin return 127;
     [[ -n "${1}" ]] || builtin return 126;
-    stdlib.builtin.overridable test -f "${1}" || builtin return 1
+    stdlib.__builtin.overridable test -f "${1}" || builtin return 1
 }
 
 stdlib.io.path.query.is_folder ()
 {
     [[ "${#@}" == "1" ]] || builtin return 127;
     [[ -n "${1}" ]] || builtin return 126;
-    stdlib.builtin.overridable test -d "${1}" || builtin return 1
+    stdlib.__builtin.overridable test -d "${1}" || builtin return 1
 }
 
 stdlib.io.stdin.confirmation ()
 {
     builtin local input_char;
-    builtin local prompt="${1:-"$(stdlib.message.get STDIN_DEFAULT_CONFIRMATION_PROMPT)"}";
+    builtin local prompt="${1:-"$(stdlib.__message.get STDIN_DEFAULT_CONFIRMATION_PROMPT)"}";
     stdlib.fn.args.require "0" "1" "${@}" || builtin return "$?";
     builtin echo -en "${prompt}";
     while builtin true; do
@@ -1091,7 +1322,7 @@ stdlib.io.stdin.confirmation ()
 stdlib.io.stdin.pause ()
 {
     builtin local input_char;
-    builtin local prompt="${1:-"$(stdlib.message.get STDIN_DEFAULT_PAUSE_PROMPT)"}";
+    builtin local prompt="${1:-"$(stdlib.__message.get STDIN_DEFAULT_PAUSE_PROMPT)"}";
     stdlib.fn.args.require "0" "1" "${@}" || builtin return "$?";
     builtin echo -en "${prompt}";
     builtin read -rs -n 1 input_char
@@ -1100,16 +1331,16 @@ stdlib.io.stdin.pause ()
 stdlib.io.stdin.prompt ()
 {
     builtin local flags="-rp";
-    builtin local prompt="${2:-"$(stdlib.message.get STDIN_DEFAULT_VALUE_PROMPT)"}";
+    builtin local prompt="${2:-"$(stdlib.__message.get STDIN_DEFAULT_VALUE_PROMPT)"}";
     builtin local password="${_STDLIB_PASSWORD_BOOLEAN:-0}";
     stdlib.fn.args.require "1" "1" "${@}" || builtin return "$?";
     if [[ "${password}" == "1" ]]; then
         flags="-rsp";
     fi;
     while [[ -z "${!1}" ]]; do
-        stdlib.builtin.overridable read "${flags}" "${prompt}" "${1}";
+        stdlib.__builtin.overridable read "${flags}" "${prompt}" "${1}";
         if [[ "${password}" == "1" ]]; then
-            stdlib.builtin.overridable echo;
+            stdlib.__builtin.overridable echo;
         fi;
     done
 }
@@ -1301,7 +1532,7 @@ stdlib.logger.traceback ()
 {
     builtin local fn_name_index;
     builtin local fn_name_indent=">";
-    stdlib.message.get TRACEBACK_HEADER;
+    stdlib.__message.get TRACEBACK_HEADER;
     builtin echo;
     for ((fn_name_index = ("${#FUNCNAME[@]}" - 1); fn_name_index > 1; fn_name_index--))
     do
@@ -1353,232 +1584,6 @@ stdlib.logger.warning_pipe ()
         mutate_received_args[mutate_pipe_input_index]="${mutate_pipe_input}";
     fi;
     "stdlib.logger.warning" "${mutate_received_args[@]}"
-}
-
-stdlib.message.get ()
-{
-    builtin local key="${1}";
-    builtin local message;
-    {
-        builtin local option1="${2}";
-        builtin local option2="${3}";
-        builtin local option3="${4}"
-    };
-    builtin local required_options=0;
-    builtin local return_status=0;
-    case "${key}" in
-        ARGUMENT_REQUIREMENTS_VIOLATION)
-            required_options=2;
-            message="$(stdlib.__gettext "Expected '\${option1}' required argument(s) and '\${option2}' optional argument(s).")"
-        ;;
-        ARGUMENT_REQUIREMENTS_VIOLATION_DETAIL)
-            required_options=1;
-            message="$(stdlib.__gettext "Received '\${option1}' argument(s)!")"
-        ;;
-        ARGUMENT_REQUIREMENTS_VIOLATION_NULL)
-            required_options=1;
-            message="$(stdlib.__gettext "Argument '\${option1}' was null and is not null safe!")"
-        ;;
-        ARGUMENTS_INVALID)
-            required_options=0;
-            message="$(stdlib.__gettext "Invalid arguments provided!")"
-        ;;
-        ARRAY_ARE_EQUAL)
-            required_options=2;
-            message="$(stdlib.__gettext "The arrays '\${option1}' and '\${option2}' are equal!")"
-        ;;
-        ARRAY_ELEMENT_MISMATCH)
-            required_options=3;
-            message="$(stdlib.__gettext "At index '\${option2}': the array '\${option1}' has element '\${option3}'")"
-        ;;
-        ARRAY_IS_EMPTY)
-            required_options=1;
-            message="$(stdlib.__gettext "The array '\${option1}' is empty!")"
-        ;;
-        ARRAY_IS_NOT_EMPTY)
-            required_options=1;
-            message="$(stdlib.__gettext "The array '\${option1}' is not empty!")"
-        ;;
-        ARRAY_LENGTH_MISMATCH)
-            required_options=2;
-            message="$(stdlib.__gettext "The array '\${option1}' has length '\${option2}'")"
-        ;;
-        ARRAY_VALUE_FOUND)
-            required_options=2;
-            message="$(stdlib.__gettext "The value '\${option1}' is found in the '\${option2}' array!")"
-        ;;
-        ARRAY_VALUE_NOT_FOUND)
-            required_options=2;
-            message="$(stdlib.__gettext "The value '\${option1}' is not found in the '\${option2}' array!")"
-        ;;
-        COLOUR_INITIALIZE_ERROR)
-            required_options=0;
-            message="$(stdlib.__gettext "Terminal colours could not be initialized!")"
-        ;;
-        COLOUR_INITIALIZE_ERROR_TERM)
-            required_options=0;
-            message="$(stdlib.__gettext "Consider checking the 'TERM' environment variable.")"
-        ;;
-        COLOUR_NOT_DEFINED)
-            required_options=1;
-            message="$(stdlib.__gettext "The colour '\${option1}' is not defined!")"
-        ;;
-        FN_NAME_INVALID)
-            required_options=1;
-            message="$(stdlib.__gettext "The value '\${option1}' is not a valid function name!")"
-        ;;
-        FS_PATH_DOES_NOT_EXIST)
-            required_options=1;
-            message="$(stdlib.__gettext "The path '\${option1}' does not exist on the filesystem!")"
-        ;;
-        FS_PATH_EXISTS)
-            required_options=1;
-            message="$(stdlib.__gettext "The path '\${option1}' exists on the filesystem!")"
-        ;;
-        FS_PATH_IS_NOT_A_FILE)
-            required_options=1;
-            message="$(stdlib.__gettext "The path '\${option1}' is not a valid filesystem file!")"
-        ;;
-        FS_PATH_IS_NOT_A_FOLDER)
-            required_options=1;
-            message="$(stdlib.__gettext "The path '\${option1}' is not a valid filesystem folder!")"
-        ;;
-        IS_ARRAY)
-            required_options=1;
-            message="$(stdlib.__gettext "The value '\${option1}' is an array!")"
-        ;;
-        IS_BUILTIN)
-            required_options=1;
-            message="$(stdlib.__gettext "The value '\${option1}' is a shell builtin!")"
-        ;;
-        IS_EQUAL)
-            required_options=1;
-            message="$(stdlib.__gettext "A value equal to '\${option1}' cannot be used!")"
-        ;;
-        IS_FN)
-            required_options=1;
-            message="$(stdlib.__gettext "The value '\${option1}' is a function!")"
-        ;;
-        IS_NOT_ALPHABETIC)
-            required_options=1;
-            message="$(stdlib.__gettext "The value '\${option1}' is not a alphabetic only string!")"
-        ;;
-        IS_NOT_ALPHA_NUMERIC)
-            required_options=1;
-            message="$(stdlib.__gettext "The value '\${option1}' is not a alpha-numeric only string!")"
-        ;;
-        IS_NOT_ARRAY)
-            required_options=1;
-            message="$(stdlib.__gettext "The value '\${option1}' is not an array!")"
-        ;;
-        IS_NOT_BOOLEAN)
-            required_options=1;
-            message="$(stdlib.__gettext "The value '\${option1}' is not a string containing a boolean (0 or 1)!")"
-        ;;
-        IS_NOT_BUILTIN)
-            required_options=1;
-            message="$(stdlib.__gettext "The value '\${option1}' is not a shell builtin!")"
-        ;;
-        IS_NOT_CHAR)
-            required_options=1;
-            message="$(stdlib.__gettext "The value '\${option1}' is not a string containing a single char!")"
-        ;;
-        IS_NOT_DIGIT)
-            required_options=1;
-            message="$(stdlib.__gettext "The value '\${option1}' is not a string containing a digit!")"
-        ;;
-        IS_NOT_FN)
-            required_options=1;
-            message="$(stdlib.__gettext "The value '\${option1}' is not a function!")"
-        ;;
-        IS_NOT_INTEGER)
-            required_options=1;
-            message="$(stdlib.__gettext "The value '\${option1}' is not a string containing an integer!")"
-        ;;
-        IS_NOT_INTEGER_IN_RANGE)
-            required_options=3;
-            message="$(stdlib.__gettext "The value '\${option3}' is not a string containing an integer in the inclusive range \${option1} to \${option2}!")"
-        ;;
-        IS_NOT_OCTAL_PERMISSION)
-            required_options=1;
-            message="$(stdlib.__gettext "The value '\${option1}' is not a string containing an octal file permission!")"
-        ;;
-        IS_NOT_SET_STRING)
-            required_options=1;
-            message="$(stdlib.__gettext "The value '\${option1}' is not a set string!")"
-        ;;
-        REGEX_DOES_NOT_MATCH)
-            required_options=2;
-            message="$(stdlib.__gettext "The regex '\${option1}' does not match the value '\${option2}'!")"
-        ;;
-        SECURITY_INSECURE_GROUP_OWNERSHIP)
-            required_options=1;
-            message="$(stdlib.__gettext "SECURITY: The group ownership on '\${option1}' is not secure!")"
-        ;;
-        SECURITY_INSECURE_OWNERSHIP)
-            required_options=1;
-            message="$(stdlib.__gettext "SECURITY: The ownership on '\${option1}' is not secure!")"
-        ;;
-        SECURITY_INSECURE_PERMISSIONS)
-            required_options=1;
-            message="$(stdlib.__gettext "SECURITY: The permissions on '\${option1}' are not secure!")"
-        ;;
-        SECURITY_MUST_BE_RUN_AS_ROOT)
-            required_options=0;
-            message="$(stdlib.__gettext "SECURITY: This script must be run as root.")"
-        ;;
-        SECURITY_SUGGEST_CHGRP)
-            required_options=2;
-            message="$(stdlib.__gettext "Please consider running: sudo chgrp '\${option1}' '\${option2}'")"
-        ;;
-        SECURITY_SUGGEST_CHMOD)
-            required_options=2;
-            message="$(stdlib.__gettext "Please consider running: sudo chmod '\${option1}' '\${option2}'")"
-        ;;
-        SECURITY_SUGGEST_CHOWN)
-            required_options=2;
-            message="$(stdlib.__gettext "Please consider running: sudo chown '\${option1}' '\${option2}'")"
-        ;;
-        STDIN_DEFAULT_CONFIRMATION_PROMPT)
-            required_options=0;
-            message="$(stdlib.__gettext "Are you sure you wish to proceed (Y/n) ?") "
-        ;;
-        STDIN_DEFAULT_PAUSE_PROMPT)
-            required_options=0;
-            message="$(stdlib.__gettext "Press any key to continue ...") "
-        ;;
-        STDIN_DEFAULT_VALUE_PROMPT)
-            required_options=0;
-            message="$(stdlib.__gettext "Enter a value:") "
-        ;;
-        TRACEBACK_HEADER)
-            required_options=0;
-            message="$(stdlib.__gettext "Callstack:")"
-        ;;
-        VAR_NAME_INVALID)
-            required_options=1;
-            message="$(stdlib.__gettext "The value '\${option1}' is not a valid variable name!")"
-        ;;
-        "")
-            required_options=0;
-            return_status=126;
-            message="$(stdlib.message.get ARGUMENTS_INVALID)"
-        ;;
-        *)
-            required_options=0;
-            return_status=126;
-            message="$(stdlib.__gettext "Unknown message key '${key}'")"
-        ;;
-    esac;
-    (("${#@}" == 1 + required_options)) || {
-        stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)";
-        builtin return 127
-    };
-    ((return_status == 0)) || {
-        stdlib.logger.error "${message}";
-        builtin return ${return_status}
-    };
-    builtin echo -n "${message}"
 }
 
 stdlib.security.__shell.query.is_safe ()
@@ -1646,11 +1651,11 @@ stdlib.security.path.assert.has_group ()
 
         ;;
         1)
-            stdlib.logger.error "$(stdlib.message.get SECURITY_INSECURE_GROUP_OWNERSHIP "${1}")";
-            stdlib.logger.info "$(stdlib.message.get SECURITY_SUGGEST_CHGRP "${2}" "${1}")"
+            stdlib.logger.error "$(stdlib.__message.get SECURITY_INSECURE_GROUP_OWNERSHIP "${1}")";
+            stdlib.logger.info "$(stdlib.__message.get SECURITY_SUGGEST_CHGRP "${2}" "${1}")"
         ;;
         *)
-            stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
     esac;
     builtin return "${return_code}"
@@ -1665,11 +1670,11 @@ stdlib.security.path.assert.has_owner ()
 
         ;;
         1)
-            stdlib.logger.error "$(stdlib.message.get SECURITY_INSECURE_OWNERSHIP "${1}")";
-            stdlib.logger.info "$(stdlib.message.get SECURITY_SUGGEST_CHOWN "${2}" "${1}")"
+            stdlib.logger.error "$(stdlib.__message.get SECURITY_INSECURE_OWNERSHIP "${1}")";
+            stdlib.logger.info "$(stdlib.__message.get SECURITY_SUGGEST_CHOWN "${2}" "${1}")"
         ;;
         *)
-            stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
     esac;
     builtin return "${return_code}"
@@ -1684,11 +1689,11 @@ stdlib.security.path.assert.has_permissions ()
 
         ;;
         1)
-            stdlib.logger.error "$(stdlib.message.get SECURITY_INSECURE_PERMISSIONS "${1}")";
-            stdlib.logger.info "$(stdlib.message.get SECURITY_SUGGEST_CHMOD "${2}" "${1}")"
+            stdlib.logger.error "$(stdlib.__message.get SECURITY_INSECURE_PERMISSIONS "${1}")";
+            stdlib.logger.info "$(stdlib.__message.get SECURITY_SUGGEST_CHMOD "${2}" "${1}")"
         ;;
         *)
-            stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
     esac;
     builtin return "${return_code}"
@@ -1782,10 +1787,10 @@ stdlib.security.user.assert.is_root ()
 
         ;;
         1)
-            stdlib.logger.error "$(stdlib.message.get SECURITY_MUST_BE_RUN_AS_ROOT)"
+            stdlib.logger.error "$(stdlib.__message.get SECURITY_MUST_BE_RUN_AS_ROOT)"
         ;;
         *)
-            stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
     esac;
     builtin return "${return_code}"
@@ -1824,9 +1829,9 @@ stdlib.setting.colour.enable ()
 stdlib.setting.colour.enable._generate_error_message ()
 {
     builtin local error_message="";
-    error_message+="$(stdlib.message.get COLOUR_INITIALIZE_ERROR)\n";
+    error_message+="$(stdlib.__message.get COLOUR_INITIALIZE_ERROR)\n";
     if [[ -z "${TERM}" ]]; then
-        error_message+="$(stdlib.message.get COLOUR_INITIALIZE_ERROR_TERM)\n";
+        error_message+="$(stdlib.__message.get COLOUR_INITIALIZE_ERROR_TERM)\n";
     fi;
     builtin echo -en "${error_message}" 1>&2
 }
@@ -1903,7 +1908,7 @@ stdlib.setting.theme.get_colour ()
     builtin local theme_colour;
     theme_colour="STDLIB_COLOUR_${1}";
     if [[ -z "${!theme_colour+set}" ]]; then
-        stdlib.logger.warning "$(stdlib.message.get COLOUR_NOT_DEFINED "${1}")";
+        stdlib.logger.warning "$(stdlib.__message.get COLOUR_NOT_DEFINED "${1}")";
     fi;
     builtin echo "${theme_colour}"
 }
@@ -1922,10 +1927,10 @@ stdlib.string.assert.is_alpha ()
 
         ;;
         127)
-            stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
         *)
-            stdlib.logger.error "$(stdlib.message.get IS_NOT_ALPHABETIC "${1}")"
+            stdlib.logger.error "$(stdlib.__message.get IS_NOT_ALPHABETIC "${1}")"
         ;;
     esac;
     builtin return "${return_code}"
@@ -1940,10 +1945,10 @@ stdlib.string.assert.is_alpha_numeric ()
 
         ;;
         127)
-            stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
         *)
-            stdlib.logger.error "$(stdlib.message.get IS_NOT_ALPHA_NUMERIC "${1}")"
+            stdlib.logger.error "$(stdlib.__message.get IS_NOT_ALPHA_NUMERIC "${1}")"
         ;;
     esac;
     builtin return "${return_code}"
@@ -1958,10 +1963,10 @@ stdlib.string.assert.is_boolean ()
 
         ;;
         127)
-            stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
         *)
-            stdlib.logger.error "$(stdlib.message.get IS_NOT_BOOLEAN "${1}")"
+            stdlib.logger.error "$(stdlib.__message.get IS_NOT_BOOLEAN "${1}")"
         ;;
     esac;
     builtin return "${return_code}"
@@ -1976,10 +1981,10 @@ stdlib.string.assert.is_char ()
 
         ;;
         127)
-            stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
         *)
-            stdlib.logger.error "$(stdlib.message.get IS_NOT_CHAR "${1}")"
+            stdlib.logger.error "$(stdlib.__message.get IS_NOT_CHAR "${1}")"
         ;;
     esac;
     builtin return "${return_code}"
@@ -1994,10 +1999,10 @@ stdlib.string.assert.is_digit ()
 
         ;;
         127)
-            stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
         *)
-            stdlib.logger.error "$(stdlib.message.get IS_NOT_DIGIT "${1}")"
+            stdlib.logger.error "$(stdlib.__message.get IS_NOT_DIGIT "${1}")"
         ;;
     esac;
     builtin return "${return_code}"
@@ -2012,10 +2017,10 @@ stdlib.string.assert.is_integer ()
 
         ;;
         127)
-            stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
         *)
-            stdlib.logger.error "$(stdlib.message.get IS_NOT_INTEGER "${1}")"
+            stdlib.logger.error "$(stdlib.__message.get IS_NOT_INTEGER "${1}")"
         ;;
     esac;
     builtin return "${return_code}"
@@ -2030,10 +2035,10 @@ stdlib.string.assert.is_integer_with_range ()
 
         ;;
         126 | 127)
-            stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
         *)
-            stdlib.logger.error "$(stdlib.message.get IS_NOT_INTEGER_IN_RANGE "${1}" "${2}" "${3}")"
+            stdlib.logger.error "$(stdlib.__message.get IS_NOT_INTEGER_IN_RANGE "${1}" "${2}" "${3}")"
         ;;
     esac;
     builtin return "${return_code}"
@@ -2048,10 +2053,10 @@ stdlib.string.assert.is_octal_permission ()
 
         ;;
         127)
-            stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
         *)
-            stdlib.logger.error "$(stdlib.message.get IS_NOT_OCTAL_PERMISSION "${1}")"
+            stdlib.logger.error "$(stdlib.__message.get IS_NOT_OCTAL_PERMISSION "${1}")"
         ;;
     esac;
     builtin return "${return_code}"
@@ -2066,10 +2071,10 @@ stdlib.string.assert.is_regex_match ()
 
         ;;
         127)
-            stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
         *)
-            stdlib.logger.error "$(stdlib.message.get REGEX_DOES_NOT_MATCH "${1}" "${2}")"
+            stdlib.logger.error "$(stdlib.__message.get REGEX_DOES_NOT_MATCH "${1}" "${2}")"
         ;;
     esac;
     builtin return "${return_code}"
@@ -2084,10 +2089,10 @@ stdlib.string.assert.is_string ()
 
         ;;
         127)
-            stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
         *)
-            stdlib.logger.error "$(stdlib.message.get IS_NOT_SET_STRING "${1}")"
+            stdlib.logger.error "$(stdlib.__message.get IS_NOT_SET_STRING "${1}")"
         ;;
     esac;
     builtin return "${return_code}"
@@ -2104,10 +2109,10 @@ stdlib.string.assert.not_equal ()
 
         ;;
         126 | 127)
-            stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
         *)
-            stdlib.logger.error "$(stdlib.message.get IS_EQUAL "${1}")"
+            stdlib.logger.error "$(stdlib.__message.get IS_EQUAL "${1}")"
         ;;
     esac;
     builtin return "${return_code}"
@@ -3375,10 +3380,10 @@ stdlib.var.assert.is_valid_name ()
 
         ;;
         126 | 127)
-            stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
         *)
-            stdlib.logger.error "$(stdlib.message.get VAR_NAME_INVALID "${1}")"
+            stdlib.logger.error "$(stdlib.__message.get VAR_NAME_INVALID "${1}")"
         ;;
     esac;
     builtin return "${return_code}"
@@ -3409,7 +3414,7 @@ STDLIB_TEXTDOMAINDIR="${STDLIB_TEXTDOMAINDIR-$(dirname -- "${BASH_SOURCE[0]}/loc
 }
 
 set +e
-stdlib.builtin.overridable source gettext.sh 2> /dev/null || stdlib.__gettext.fallback
+stdlib.__builtin.overridable source gettext.sh 2> /dev/null || stdlib.__gettext.fallback
 set -e
 
 # this snippet is included by the build script:

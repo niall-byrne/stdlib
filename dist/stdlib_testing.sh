@@ -48,7 +48,7 @@ declare -a __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS=()
     original_test_function_name="${1}";
     original_test_function_reference="__parametrized_original_function_definition_${1}";
     [[ "${#@}" -gt "1" ]] || {
-        _testing.error "${FUNCNAME[0]}: $(_testing.__protected stdlib.message.get ARGUMENTS_INVALID)";
+        _testing.error "${FUNCNAME[0]}: $(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)";
         builtin return 127
     };
     @parametrize.__internal.validate.fn_name.test "${original_test_function_name}" || builtin return "$?";
@@ -64,14 +64,14 @@ declare -a __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS=()
         IFS="${STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR}" builtin read -ra array_scenario_values <<< "${parametrize_configuration_line}";
         test_function_variant_name="$(@parametrize.__internal.create.string.padded_test_fn_variant_name "${original_test_function_name}" "${array_scenario_values[0]}" "${test_function_variant_padding_value}")";
         if stdlib.fn.query.is_fn "${test_function_variant_name}"; then
-            _testing.error "$(_testing.parametrize.message.get PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_NAME)";
+            _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_NAME)";
             {
-                _testing.parametrize.message.get PARAMETRIZE_PREFIX_TEST_NAME;
+                _testing.parametrize.__message.get PARAMETRIZE_PREFIX_TEST_NAME;
                 builtin echo ": '$(_testing.__protected stdlib.string.colour "${STDLIB_TESTING_THEME_PARAMETRIZE_HIGHLIGHT}" "${original_test_function_name}")'";
-                _testing.parametrize.message.get PARAMETRIZE_PREFIX_VARIANT_NAME;
+                _testing.parametrize.__message.get PARAMETRIZE_PREFIX_VARIANT_NAME;
                 builtin echo ": '$(_testing.__protected stdlib.string.colour "${STDLIB_TESTING_THEME_PARAMETRIZE_HIGHLIGHT}" "${test_function_variant_name}")'"
             } 1>&2;
-            _testing.error "$(_testing.parametrize.message.get PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_DETAIL)";
+            _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_DETAIL)";
             builtin return 126;
         fi;
         @parametrize.__internal.create.fn.test_variant "${test_function_variant_name}" "${original_test_function_name}" "${original_test_function_reference}" array_environment_variables array_fixture_commands array_scenario_values;
@@ -185,7 +185,7 @@ fi
 builtin echo "  builtin printf -v \"PARAMETRIZE_SCENARIO_NAME\" \"%s\" \"${array_indirect_scenario_definition[0]}\""
 scenario_debug_message+='
 '
-scenario_debug_message+="$(_testing.parametrize.message.get PARAMETRIZE_HEADER_SCENARIO): "
+scenario_debug_message+="$(_testing.parametrize.__message.get PARAMETRIZE_HEADER_SCENARIO): "
 scenario_debug_message+="\"${array_indirect_scenario_definition[0]}\""
 scenario_debug_message+='
 '
@@ -197,7 +197,7 @@ builtin echo "  builtin printf -v \"${array_indirect_environment_variables[scena
 done
 for ((scenario_index = 0; scenario_index < "${#array_indirect_fixture_commands[@]}"; scenario_index++))
 do
-    scenario_debug_message+="$(_testing.parametrize.message.get PARAMETRIZE_PREFIX_FIXTURE_COMMAND): "
+    scenario_debug_message+="$(_testing.parametrize.__message.get PARAMETRIZE_PREFIX_FIXTURE_COMMAND): "
 scenario_debug_message+="\"${array_indirect_fixture_commands[scenario_index]}\""
 scenario_debug_message+='
 '
@@ -230,13 +230,13 @@ fi)
 @parametrize.__internal.validate.fn_name.parametrizer ()
 {
     if ! stdlib.fn.query.is_fn "${1}"; then
-        _testing.error "$(_testing.parametrize.message.get PARAMETRIZE_ERROR_PARAMETRIZER_FN_INVALID "${1}")";
-        _testing.error "$(_testing.parametrize.message.get PARAMETRIZE_ERROR_FN_DOES_NOT_EXIST)";
+        _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_PARAMETRIZER_FN_INVALID "${1}")";
+        _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_FN_DOES_NOT_EXIST)";
         builtin return 126;
     fi;
     if ! stdlib.string.query.starts_with "${STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX}" "${1}"; then
-        _testing.error "$(_testing.parametrize.message.get PARAMETRIZE_ERROR_PARAMETRIZER_FN_INVALID "${1}")";
-        _testing.error "$(_testing.parametrize.message.get PARAMETRIZE_ERROR_PARAMETRIZER_FN_NAME)";
+        _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_PARAMETRIZER_FN_INVALID "${1}")";
+        _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_PARAMETRIZER_FN_NAME)";
         builtin return 126;
     fi
 }
@@ -244,13 +244,13 @@ fi)
 @parametrize.__internal.validate.fn_name.test ()
 {
     if ! stdlib.fn.query.is_fn "${1}"; then
-        _testing.error "$(_testing.parametrize.message.get PARAMETRIZE_ERROR_TEST_FN_INVALID "${1}")";
-        _testing.error "$(_testing.parametrize.message.get PARAMETRIZE_ERROR_FN_DOES_NOT_EXIST)";
+        _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_TEST_FN_INVALID "${1}")";
+        _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_FN_DOES_NOT_EXIST)";
         builtin return 126;
     fi;
     if ! stdlib.string.query.has_substring "${STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG}" "${1}" || ! stdlib.string.query.starts_with "test" "${1}"; then
-        _testing.error "$(_testing.parametrize.message.get PARAMETRIZE_ERROR_TEST_FN_INVALID "${1}")";
-        _testing.error "$(_testing.parametrize.message.get PARAMETRIZE_ERROR_TEST_FN_NAME)";
+        _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_TEST_FN_INVALID "${1}")";
+        _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_TEST_FN_NAME)";
         builtin return 126;
     fi
 }
@@ -272,16 +272,16 @@ fi)
     builtin local validation_index;
     if (("${#validate_scenario_indirect_array[@]}" != "${#validate_env_var_indirect_array[@]}" + 1)); then
         {
-            _testing.parametrize.message.get PARAMETRIZE_HEADER_SCENARIO_VALUES;
+            _testing.parametrize.__message.get PARAMETRIZE_HEADER_SCENARIO_VALUES;
             builtin echo;
             for ((validation_index = 0; validation_index < "${#validate_env_var_indirect_array[@]}"; validation_index++))
             do
                 builtin echo "  ${validate_env_var_indirect_array[validation_index]} = ${validate_scenario_indirect_array[validation_index + 1]}";
             done;
-            _testing.parametrize.message.get PARAMETRIZE_FOOTER_SCENARIO_VALUES;
+            _testing.parametrize.__message.get PARAMETRIZE_FOOTER_SCENARIO_VALUES;
             builtin echo
         } 1>&2;
-        _testing.error "$(_testing.parametrize.message.get PARAMETRIZE_CONFIGURATION_ERROR)" "$(_testing.parametrize.message.get PARAMETRIZE_PREFIX_SCENARIO_NAME): ${validate_scenario_indirect_array[0]}" "$(_testing.parametrize.message.get PARAMETRIZE_PREFIX_SCENARIO_VARIABLE): ${validate_env_var_indirect_array[*]} = ${#validate_env_var_indirect_array[@]} variables" "$(_testing.parametrize.message.get PARAMETRIZE_PREFIX_SCENARIO_VALUES): ${validate_scenario_indirect_array[*]:1} = $((${#validate_scenario_indirect_array[@]} - 1)) values" "$(_testing.parametrize.message.get PARAMETRIZE_PREFIX_FIXTURE_COMMANDS): $(builtin printf "'%s' " "${validate_fixture_indirect_command_array[@]}")";
+        _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_CONFIGURATION_ERROR)" "$(_testing.parametrize.__message.get PARAMETRIZE_PREFIX_SCENARIO_NAME): ${validate_scenario_indirect_array[0]}" "$(_testing.parametrize.__message.get PARAMETRIZE_PREFIX_SCENARIO_VARIABLE): ${validate_env_var_indirect_array[*]} = ${#validate_env_var_indirect_array[@]} variables" "$(_testing.parametrize.__message.get PARAMETRIZE_PREFIX_SCENARIO_VALUES): ${validate_scenario_indirect_array[*]:1} = $((${#validate_scenario_indirect_array[@]} - 1)) values" "$(_testing.parametrize.__message.get PARAMETRIZE_PREFIX_FIXTURE_COMMANDS): $(builtin printf "'%s' " "${validate_fixture_indirect_command_array[@]}")";
         builtin return 126;
     fi
 }
@@ -298,7 +298,7 @@ fi)
     original_test_function_name="${1}";
     parametrizer_fn_array=("${@:2}");
     [[ "${#@}" -gt "1" ]] || {
-        _testing.error "${FUNCNAME[0]}: $(_testing.__protected stdlib.message.get ARGUMENTS_INVALID)";
+        _testing.error "${FUNCNAME[0]}: $(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)";
         builtin return 127
     };
     @parametrize.__internal.validate.fn_name.test "${original_test_function_name}" || builtin return 126;
@@ -324,7 +324,7 @@ fi)
     builtin local parametrizer_index=0;
     parametrizer_fn_array=("${@:2}");
     [[ "${#@}" -gt "1" ]] || {
-        _testing.error "${FUNCNAME[0]}: $(_testing.__protected stdlib.message.get ARGUMENTS_INVALID)";
+        _testing.error "${FUNCNAME[0]}: $(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)";
         builtin return 127
     };
     @parametrize.__internal.validate.fn_name.test "${original_test_function_name}" || builtin return 126;
@@ -353,7 +353,7 @@ _capture.assertion_failure ()
     builtin wait "$!";
     rc="$?";
     if [[ ${rc} -eq 0 ]]; then
-        fail " $(_testing.assert.message.get ASSERT_ERROR_DID_NOT_FAIL "${1}")";
+        fail " $(_testing.assert.__message.get ASSERT_ERROR_DID_NOT_FAIL "${1}")";
     fi;
     TEST_OUTPUT="$(builtin echo "${output}" | "${_STDLIB_BINARY_SED}" -E '/^FAILURE/d' | "${_STDLIB_BINARY_SED}" -E "/${STDLIB_TESTING_TRACEBACK_REGEX}/d")"
 }
@@ -737,7 +737,7 @@ ${1}.mock.assert_any_call_is() {
 
   _mock_object_match_count="\$(${1}.mock.__count_matches "\${1}")"
 
-  assert_not_equals     "0"     "\${_mock_object_match_count}"     "\$(_testing.mock.message.get "MOCK_NOT_CALLED_WITH" "${1}" "\${1}")"
+  assert_not_equals     "0"     "\${_mock_object_match_count}"     "\$(_testing.mock.__message.get "MOCK_NOT_CALLED_WITH" "${1}" "\${1}")"
 }
 
 ${1}.mock.assert_call_n_is() {
@@ -759,12 +759,12 @@ ${1}.mock.assert_call_n_is() {
   _mock_object_call_count="\$(${1}.mock.get.count)"
 
   if [[ "\${_mock_object_call_count}" -lt "\${1}" ]]; then
-    fail       "\$(_testing.mock.message.get MOCK_CALLED_N_TIMES "${1}" "\${_mock_object_call_count}")"
+    fail       "\$(_testing.mock.__message.get MOCK_CALLED_N_TIMES "${1}" "\${_mock_object_call_count}")"
   fi
 
   _mock_object_arg_string_actual="\$("${1}.mock.get.call" "\${1}")"
 
-  assert_equals     "\${2}"     "\${_mock_object_arg_string_actual}"     "\$(_testing.mock.message.get MOCK_CALL_N_NOT_AS_EXPECTED "${1}" "\${1}")"
+  assert_equals     "\${2}"     "\${_mock_object_arg_string_actual}"     "\$(_testing.mock.__message.get MOCK_CALL_N_NOT_AS_EXPECTED "${1}" "\${1}")"
 }
 
 ${1}.mock.assert_called_once_with() {
@@ -786,10 +786,10 @@ ${1}.mock.assert_called_once_with() {
 
   if [[ "\${_mock_object_match_count}" != "1" ]]; then
     _mock_object_arg_string_actual="\$(${1}.mock.get.call "1")"
-    builtin echo       "\$(_testing.mock.message.get MOCK_CALL_ACTUAL_PREFIX): [\${_mock_object_arg_string_actual}]"
+    builtin echo       "\$(_testing.mock.__message.get MOCK_CALL_ACTUAL_PREFIX): [\${_mock_object_arg_string_actual}]"
   fi
 
-  assert_equals     "1"     "\${_mock_object_match_count}"     "\$(_testing.mock.message.get MOCK_NOT_CALLED_ONCE_WITH "${1}" "\${1}")"
+  assert_equals     "1"     "\${_mock_object_match_count}"     "\$(_testing.mock.__message.get MOCK_NOT_CALLED_ONCE_WITH "${1}" "\${1}")"
 }
 
 ${1}.mock.assert_calls_are() {
@@ -809,16 +809,16 @@ ${1}.mock.assert_calls_are() {
     builtin printf -v _mock_object_arg_string_expected "%q" "\${_mock_object_expected_mock_calls[_mock_object_call_index]}"
     builtin printf -v _mock_object_arg_string_actual "%q" "\${_mock_object_call_array[*]}"
 
-    assert_equals       "\${_mock_object_arg_string_expected}"       "\${_mock_object_arg_string_actual}"       "\$(_testing.mock.message.get MOCK_CALL_N_NOT_AS_EXPECTED "${1}" "\$((_mock_object_call_index + 1))")"
+    assert_equals       "\${_mock_object_arg_string_expected}"       "\${_mock_object_arg_string_actual}"       "\$(_testing.mock.__message.get MOCK_CALL_N_NOT_AS_EXPECTED "${1}" "\$((_mock_object_call_index + 1))")"
     ((_mock_object_call_index++))
   done < "\${__${2}_mock_calls_file}" || builtin true
 
   if [[ "\${_mock_object_call_index}" == 0 ]] && [[ "\${#@}" != 0 ]]; then
-    fail "\$(_testing.mock.message.get "MOCK_NOT_CALLED" "${1}")"
+    fail "\$(_testing.mock.__message.get "MOCK_NOT_CALLED" "${1}")"
   fi
 
   if [[ "\${_mock_object_call_index}" < "\${#_mock_object_expected_mock_calls[@]}" ]]; then
-    fail "\$(_testing.mock.message.get MOCK_CALLED_N_TIMES "${1}" "\$((_mock_object_call_index))")"
+    fail "\$(_testing.mock.__message.get MOCK_CALLED_N_TIMES "${1}" "\$((_mock_object_call_index))")"
   fi
 }
 
@@ -833,7 +833,7 @@ ${1}.mock.assert_count_is() {
 
   _mock_object_call_count="\$("${1}.mock.get.count")"
 
-  assert_equals     "\${1}"     "\${_mock_object_call_count}"     "\$(_testing.mock.message.get "MOCK_CALLED_N_TIMES" "${1}" "\${_mock_object_call_count}")"
+  assert_equals     "\${1}"     "\${_mock_object_call_count}"     "\$(_testing.mock.__message.get "MOCK_CALLED_N_TIMES" "${1}" "\${_mock_object_call_count}")"
 }
 
 ${1}.mock.assert_not_called() {
@@ -844,7 +844,7 @@ ${1}.mock.assert_not_called() {
 
   _mock_object_call_count="\$(${1}.mock.get.count)"
 
-  assert_equals     "0"     "\${_mock_object_call_count}"     "\$(_testing.mock.message.get "MOCK_CALLED_N_TIMES" "${1}" "\${_mock_object_call_count}")"
+  assert_equals     "0"     "\${_mock_object_call_count}"     "\$(_testing.mock.__message.get "MOCK_CALLED_N_TIMES" "${1}" "\${_mock_object_call_count}")"
 }
 # === component end ============================
 
@@ -973,10 +973,10 @@ _mock.__internal.security.assert.is_builtin ()
 
         ;;
         127)
-            _testing.error "${FUNCNAME[0]}: $(_testing.__protected stdlib.message.get ARGUMENTS_INVALID)"
+            _testing.error "${FUNCNAME[0]}: $(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
         *)
-            _testing.error "${FUNCNAME[1]}: $(_testing.mock.message.get MOCK_REQUIRES_BUILTIN "${requesting_mock}" "${1}")"
+            _testing.error "${FUNCNAME[1]}: $(_testing.mock.__message.get MOCK_REQUIRES_BUILTIN "${requesting_mock}" "${1}")"
         ;;
     esac;
     builtin return "${return_code}"
@@ -1040,11 +1040,11 @@ _mock.create ()
     builtin local _mock_attribute;
     builtin local _mock_restricted_attribute_boolean=0;
     if [[ "${#@}" != 1 ]] || [[ -z "${1}" ]]; then
-        _testing.error "${FUNCNAME[0]}: $(_testing.__protected stdlib.message.get ARGUMENTS_INVALID)";
+        _testing.error "${FUNCNAME[0]}: $(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)";
         builtin return 127;
     fi;
     if ! _testing.__protected stdlib.fn.query.is_valid_name "${1}" || _testing.__protected stdlib.array.query.is_contains "${1}" __STDLIB_TESTING_MOCK_RESTRICTED_ATTRIBUTES; then
-        _testing.error "${FUNCNAME[0]}: $(_testing.mock.message.get MOCK_TARGET_INVALID "${1}")";
+        _testing.error "${FUNCNAME[0]}: $(_testing.mock.__message.get MOCK_TARGET_INVALID "${1}")";
         builtin return 126;
     fi;
     builtin printf -v "_mock_escaped_fn_name" "%q" "${1}";
@@ -1130,13 +1130,71 @@ _testing.__assertion.value.check ()
     builtin local value_name="${1}";
     builtin local assertion_name="${FUNCNAME[1]}";
     if [[ -z "${value_name}" ]]; then
-        fail " '${assertion_name}' $(_testing.__protected stdlib.message.get ARGUMENTS_INVALID)";
+        fail " '${assertion_name}' $(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)";
     fi
 }
 
 _testing.__gettext ()
 {
     stdlib.__gettext.call "stdlib_testing" "${1}"
+}
+
+_testing.__message.get ()
+{
+    builtin local key="${1}";
+    builtin local message;
+    builtin local option1="${2}";
+    builtin local required_options=0;
+    builtin local return_status=0;
+    case "${key}" in
+        DEBUG_DIFF_FOOTER)
+            required_options=0;
+            message="$(_testing.__gettext "== End Debug Diff ==")"
+        ;;
+        DEBUG_DIFF_HEADER)
+            required_options=0;
+            message="$(_testing.__gettext "== Start Debug Diff ==")"
+        ;;
+        DEBUG_DIFF_PREFIX)
+            required_options=0;
+            message="$(_testing.__gettext "Diff")"
+        ;;
+        DEBUG_DIFF_PREFIX_ACTUAL)
+            required_options=0;
+            message="$(_testing.__gettext "ACTUAL")"
+        ;;
+        DEBUG_DIFF_PREFIX_EXPECTED)
+            required_options=0;
+            message="$(_testing.__gettext "EXPECTED")"
+        ;;
+        LOAD_MODULE_NOT_FOUND)
+            required_options=1;
+            message="$(_testing.__gettext "The module '\${option1}' could not be found!")"
+        ;;
+        LOAD_MODULE_NOTIFICATION)
+            required_options=1;
+            message="$(_testing.__gettext "Loading module '\${option1}' ...")"
+        ;;
+        "")
+            required_options=0;
+            return_status=126;
+            message="$(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)"
+        ;;
+        *)
+            required_options=0;
+            return_status=126;
+            message="$(_testing.__gettext "Unknown message key '\${key}'")"
+        ;;
+    esac;
+    (("${#@}" == 1 + required_options)) || {
+        message="$(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)";
+        return_status=127
+    };
+    ((return_status == 0)) || {
+        _testing.__protected stdlib.logger.error "${message}";
+        builtin return ${return_status}
+    };
+    builtin echo -n "${message}"
 }
 
 _testing.__protect_stdlib ()
@@ -1160,7 +1218,7 @@ _testing.__protected_name ()
     builtin echo "${1//"${stdlib_library_prefix}."/"${stdlib_library_prefix}.testing.internal."}"
 }
 
-_testing.assert.message.get ()
+_testing.assert.__message.get ()
 {
     builtin local key="${1}";
     builtin local message;
@@ -1218,7 +1276,7 @@ _testing.assert.message.get ()
         "")
             required_options=0;
             return_status=126;
-            message="$(_testing.__protected stdlib.message.get ARGUMENTS_INVALID)"
+            message="$(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
         *)
             required_options=0;
@@ -1227,7 +1285,7 @@ _testing.assert.message.get ()
         ;;
     esac;
     (("${#@}" == 1 + required_options)) || {
-        message="$(_testing.__protected stdlib.message.get ARGUMENTS_INVALID)";
+        message="$(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)";
         return_status=127
     };
     ((return_status == 0)) || {
@@ -1251,12 +1309,12 @@ _testing.fixtures.debug.diff ()
 {
     builtin local debug_colour;
     debug_colour="$(stdlib.setting.theme.get_colour "${STDLIB_TESTING_THEME_DEBUG_FIXTURE}")";
-    builtin printf "%s\n" "$(_testing.message.get DEBUG_DIFF_HEADER)";
-    builtin printf "${!debug_colour}%s${STDLIB_COLOUR_NC}\n%q\n" "$(_testing.message.get DEBUG_DIFF_PREFIX_EXPECTED):" "${1}";
-    builtin printf "${!debug_colour}%s${STDLIB_COLOUR_NC}\n%q\n" "$(_testing.message.get DEBUG_DIFF_PREFIX_ACTUAL):" "${2}";
-    builtin printf "${!debug_colour}%s${STDLIB_COLOUR_NC}\n" "$(_testing.message.get DEBUG_DIFF_PREFIX):";
+    builtin printf "%s\n" "$(_testing.__message.get DEBUG_DIFF_HEADER)";
+    builtin printf "${!debug_colour}%s${STDLIB_COLOUR_NC}\n%q\n" "$(_testing.__message.get DEBUG_DIFF_PREFIX_EXPECTED):" "${1}";
+    builtin printf "${!debug_colour}%s${STDLIB_COLOUR_NC}\n%q\n" "$(_testing.__message.get DEBUG_DIFF_PREFIX_ACTUAL):" "${2}";
+    builtin printf "${!debug_colour}%s${STDLIB_COLOUR_NC}\n" "$(_testing.__message.get DEBUG_DIFF_PREFIX):";
     diff <(builtin printf "%s" "${1}") <(builtin printf "%s" "${2}");
-    builtin printf "%s\n" "$(_testing.message.get DEBUG_DIFF_FOOTER)"
+    builtin printf "%s\n" "$(_testing.__message.get DEBUG_DIFF_FOOTER)"
 }
 
 _testing.fixtures.random.name ()
@@ -1269,75 +1327,17 @@ _testing.fixtures.random.name ()
 _testing.load ()
 {
     [[ "${#@}" == 1 ]] || {
-        _testing.error "_testing.load: $(_testing.__protected stdlib.message.get ARGUMENTS_INVALID)";
+        _testing.error "_testing.load: $(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)";
         builtin return 127
     };
-    _testing.__protected stdlib.string.colour "${STDLIB_TESTING_THEME_LOAD}" "    $(_testing.message.get LOAD_MODULE_NOTIFICATION "${1}")";
+    _testing.__protected stdlib.string.colour "${STDLIB_TESTING_THEME_LOAD}" "    $(_testing.__message.get LOAD_MODULE_NOTIFICATION "${1}")";
     . "${1}" 2> /dev/null || {
-        _testing.error "$(_testing.message.get LOAD_MODULE_NOT_FOUND "${1}")";
+        _testing.error "$(_testing.__message.get LOAD_MODULE_NOT_FOUND "${1}")";
         builtin return 126
     }
 }
 
-_testing.message.get ()
-{
-    builtin local key="${1}";
-    builtin local message;
-    builtin local option1="${2}";
-    builtin local required_options=0;
-    builtin local return_status=0;
-    case "${key}" in
-        DEBUG_DIFF_FOOTER)
-            required_options=0;
-            message="$(_testing.__gettext "== End Debug Diff ==")"
-        ;;
-        DEBUG_DIFF_HEADER)
-            required_options=0;
-            message="$(_testing.__gettext "== Start Debug Diff ==")"
-        ;;
-        DEBUG_DIFF_PREFIX)
-            required_options=0;
-            message="$(_testing.__gettext "Diff")"
-        ;;
-        DEBUG_DIFF_PREFIX_ACTUAL)
-            required_options=0;
-            message="$(_testing.__gettext "ACTUAL")"
-        ;;
-        DEBUG_DIFF_PREFIX_EXPECTED)
-            required_options=0;
-            message="$(_testing.__gettext "EXPECTED")"
-        ;;
-        LOAD_MODULE_NOT_FOUND)
-            required_options=1;
-            message="$(_testing.__gettext "The module '\${option1}' could not be found!")"
-        ;;
-        LOAD_MODULE_NOTIFICATION)
-            required_options=1;
-            message="$(_testing.__gettext "Loading module '\${option1}' ...")"
-        ;;
-        "")
-            required_options=0;
-            return_status=126;
-            message="$(_testing.__protected stdlib.message.get ARGUMENTS_INVALID)"
-        ;;
-        *)
-            required_options=0;
-            return_status=126;
-            message="$(_testing.__gettext "Unknown message key '\${key}'")"
-        ;;
-    esac;
-    (("${#@}" == 1 + required_options)) || {
-        message="$(_testing.__protected stdlib.message.get ARGUMENTS_INVALID)";
-        return_status=127
-    };
-    ((return_status == 0)) || {
-        _testing.__protected stdlib.logger.error "${message}";
-        builtin return ${return_status}
-    };
-    builtin echo -n "${message}"
-}
-
-_testing.mock.message.get ()
+_testing.mock.__message.get ()
 {
     builtin local key="${1}";
     builtin local message;
@@ -1383,7 +1383,7 @@ _testing.mock.message.get ()
         "")
             required_options=0;
             return_status=126;
-            message="$(_testing.__protected stdlib.message.get ARGUMENTS_INVALID)"
+            message="$(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
         *)
             required_options=0;
@@ -1392,7 +1392,7 @@ _testing.mock.message.get ()
         ;;
     esac;
     (("${#@}" - 1 == required_options)) || {
-        message="$(_testing.__protected stdlib.message.get ARGUMENTS_INVALID)";
+        message="$(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)";
         return_status=127
     };
     ((return_status == 0)) || {
@@ -1402,7 +1402,7 @@ _testing.mock.message.get ()
     builtin echo -n "${message}"
 }
 
-_testing.parametrize.message.get ()
+_testing.parametrize.__message.get ()
 {
     builtin local key="${1}";
     builtin local message;
@@ -1485,7 +1485,7 @@ _testing.parametrize.message.get ()
         "")
             required_options=0;
             return_status=126;
-            message="$(_testing.__protected stdlib.message.get ARGUMENTS_INVALID)"
+            message="$(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
         *)
             required_options=0;
@@ -1494,7 +1494,7 @@ _testing.parametrize.message.get ()
         ;;
     esac;
     (("${#@}" == 1 + required_options)) || {
-        message="$(_testing.__protected stdlib.message.get ARGUMENTS_INVALID)";
+        message="$(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)";
         return_status=127
     };
     ((return_status == 0)) || {
@@ -1518,7 +1518,7 @@ assert_array_equals ()
 assert_array_length ()
 {
     if [[ $# -ne 2 ]]; then
-        fail " $(_testing.assert.message.get ASSERT_ERROR_INSUFFICIENT_ARGS assert_array_length)";
+        fail " $(_testing.assert.__message.get ASSERT_ERROR_INSUFFICIENT_ARGS assert_array_length)";
     fi;
     builtin local _stdlib_expected_length="${1}";
     builtin local _stdlib_indirect_reference;
@@ -1528,7 +1528,7 @@ assert_array_length ()
     _testing.__protected assert_is_array "${_stdlib_variable_name}";
     _stdlib_indirect_reference="${_stdlib_variable_name}[@]";
     _stdlib_indirect_array=("${!_stdlib_indirect_reference}");
-    assert_equals "${_stdlib_expected_length}" "${#_stdlib_indirect_array[*]}" || fail " $(_testing.assert.message.get ASSERT_ERROR_ARRAY_LENGTH_NON_MATCHING "${_stdlib_expected_length}" "${#_stdlib_indirect_array[*]}")"
+    assert_equals "${_stdlib_expected_length}" "${#_stdlib_indirect_array[*]}" || fail " $(_testing.assert.__message.get ASSERT_ERROR_ARRAY_LENGTH_NON_MATCHING "${_stdlib_expected_length}" "${#_stdlib_indirect_array[*]}")"
 }
 
 assert_is_array ()
@@ -1556,42 +1556,42 @@ assert_is_fn ()
 assert_not_null ()
 {
     builtin local _stdlib_test_value="${1}";
-    assert_not_equals "" "${_stdlib_test_value}" " $(_testing.assert.message.get ASSERT_ERROR_VALUE_NULL)"
+    assert_not_equals "" "${_stdlib_test_value}" " $(_testing.assert.__message.get ASSERT_ERROR_VALUE_NULL)"
 }
 
 assert_null ()
 {
     builtin local _stdlib_test_value="${1}";
-    assert_equals "" "${_stdlib_test_value}" " $(_testing.assert.message.get ASSERT_ERROR_VALUE_NOT_NULL "${_stdlib_test_value}")"
+    assert_equals "" "${_stdlib_test_value}" " $(_testing.assert.__message.get ASSERT_ERROR_VALUE_NOT_NULL "${_stdlib_test_value}")"
 }
 
 assert_output ()
 {
     if [[ -z "${TEST_OUTPUT}" ]]; then
-        fail " $(_testing.assert.message.get ASSERT_ERROR_OUTPUT_NULL)";
+        fail " $(_testing.assert.__message.get ASSERT_ERROR_OUTPUT_NULL)";
     fi;
-    assert_equals "${1}" "${TEST_OUTPUT}" " $(_testing.assert.message.get ASSERT_ERROR_OUTPUT_NON_MATCHING)"
+    assert_equals "${1}" "${TEST_OUTPUT}" " $(_testing.assert.__message.get ASSERT_ERROR_OUTPUT_NON_MATCHING)"
 }
 
 assert_output_null ()
 {
-    assert_equals "" "${TEST_OUTPUT}" " $(_testing.assert.message.get ASSERT_ERROR_VALUE_NOT_NULL "${TEST_OUTPUT}")"
+    assert_equals "" "${TEST_OUTPUT}" " $(_testing.assert.__message.get ASSERT_ERROR_VALUE_NOT_NULL "${TEST_OUTPUT}")"
 }
 
 assert_output_raw ()
 {
     if [[ -z "${TEST_OUTPUT}" ]]; then
-        fail " $(_testing.assert.message.get ASSERT_ERROR_OUTPUT_NULL)";
+        fail " $(_testing.assert.__message.get ASSERT_ERROR_OUTPUT_NULL)";
     fi;
-    assert_equals "${1}" "${TEST_OUTPUT}" " $(_testing.assert.message.get ASSERT_ERROR_OUTPUT_NON_MATCHING)"
+    assert_equals "${1}" "${TEST_OUTPUT}" " $(_testing.assert.__message.get ASSERT_ERROR_OUTPUT_NON_MATCHING)"
 }
 
 assert_rc ()
 {
     if [[ -z "${TEST_RC}" ]]; then
-        fail " $(_testing.assert.message.get ASSERT_ERROR_RC_NULL)";
+        fail " $(_testing.assert.__message.get ASSERT_ERROR_RC_NULL)";
     fi;
-    assert_equals "${1}" "${TEST_RC}" " $(_testing.assert.message.get ASSERT_ERROR_RC_NON_MATCHING)"
+    assert_equals "${1}" "${TEST_RC}" " $(_testing.assert.__message.get ASSERT_ERROR_RC_NON_MATCHING)"
 }
 
 assert_snapshot ()
@@ -1600,10 +1600,10 @@ assert_snapshot ()
     builtin local _stdlib_snapshot_filename="${1}";
     _testing.__assertion.value.check "${_stdlib_snapshot_filename}";
     if [[ ! -f "${_stdlib_snapshot_filename}" ]]; then
-        fail " $(_testing.assert.message.get ASSERT_ERROR_FILE_NOT_FOUND "${_stdlib_snapshot_filename}")";
+        fail " $(_testing.assert.__message.get ASSERT_ERROR_FILE_NOT_FOUND "${_stdlib_snapshot_filename}")";
     fi;
     _stdlib_expected_output="$(< "${_stdlib_snapshot_filename}")";
-    assert_equals "${_stdlib_expected_output}" "${TEST_OUTPUT}" " $(_testing.assert.message.get ASSERT_ERROR_SNAPSHOT_NON_MATCHING "${_stdlib_snapshot_filename}")"
+    assert_equals "${_stdlib_expected_output}" "${TEST_OUTPUT}" " $(_testing.assert.__message.get ASSERT_ERROR_SNAPSHOT_NON_MATCHING "${_stdlib_snapshot_filename}")"
 }
 
 # this snippet is included by the build script:
