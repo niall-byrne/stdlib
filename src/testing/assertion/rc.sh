@@ -8,10 +8,10 @@ assert_rc() {
   # $1: the expected return code
 
   if [[ -z "${TEST_RC}" ]]; then
-    fail " $(_testing.assert.message.get ASSERT_ERROR_RC_NULL)"
+    fail " $(_testing.assert.__message.get ASSERT_ERROR_RC_NULL)"
   fi
 
   assert_equals "${1}" \
     "${TEST_RC}" \
-    " $(_testing.assert.message.get ASSERT_ERROR_RC_NON_MATCHING)"
+    " $(_testing.assert.__message.get ASSERT_ERROR_RC_NON_MATCHING)"
 }

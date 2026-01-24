@@ -60,13 +60,13 @@ _mock.create() {
   # TODO: add a test to ensure declare is not overridden as that will protect the mock functionality
 
   if [[ "${#@}" != 1 ]] || [[ -z "${1}" ]]; then
-    _testing.error "${FUNCNAME[0]}: $(_testing.__protected stdlib.message.get ARGUMENTS_INVALID)"
+    _testing.error "${FUNCNAME[0]}: $(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)"
     builtin return 127
   fi
 
   if ! _testing.__protected stdlib.fn.query.is_valid_name "${1}" ||
     _testing.__protected stdlib.array.query.is_contains "${1}" __STDLIB_TESTING_MOCK_RESTRICTED_ATTRIBUTES; then
-    _testing.error "${FUNCNAME[0]}: $(_testing.mock.message.get MOCK_TARGET_INVALID "${1}")"
+    _testing.error "${FUNCNAME[0]}: $(_testing.mock.__message.get MOCK_TARGET_INVALID "${1}")"
     builtin return 126
   fi
 

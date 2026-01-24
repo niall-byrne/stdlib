@@ -14,7 +14,8 @@ builtin set -eo pipefail
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stdout The retrieved and interpolated message.
 # @stderr The error message if the operation fails.
-stdlib.message.get() {
+# @internal
+stdlib.__message.get() {
   builtin local key="${1}"
   builtin local message
 
@@ -224,7 +225,7 @@ stdlib.message.get() {
     "")
       required_options=0
       return_status=126
-      message="$(stdlib.message.get ARGUMENTS_INVALID)"
+      message="$(stdlib.__message.get ARGUMENTS_INVALID)"
       ;;
     *)
       required_options=0
@@ -234,7 +235,7 @@ stdlib.message.get() {
   esac
 
   (("${#@}" == 1 + required_options)) || {
-    stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+    stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
     builtin return 127
   }
 

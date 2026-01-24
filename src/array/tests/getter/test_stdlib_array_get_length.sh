@@ -69,7 +69,7 @@ test_stdlib_array_get_length__@vary__logs_error() {
   stdlib.array.make.from_string message_arg_definitions " " "${TEST_MESSAGE_ARG_DEFINITIONS}"
   for message_arg_definition in "${message_arg_definitions[@]}"; do
     stdlib.array.make.from_string message_args "|" "${message_arg_definition}"
-    expected_log_messages+=("1($(stdlib.message.get "${message_args[@]}"))")
+    expected_log_messages+=("1($(stdlib.__message.get "${message_args[@]}"))")
   done
 
   stdlib.array.get.length "${args[@]}" > /dev/null

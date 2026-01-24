@@ -58,11 +58,11 @@ test_parametrize_internal_create_fn_test_variant__debug_enabled___calls_debug_as
     test_array_scenario_definition
 
   @parametrize.__internal.debug.message.mock.assert_called_once_with "1(
-$(_testing.parametrize.message.get PARAMETRIZE_HEADER_SCENARIO): \"${test_array_scenario_definition[0]}\"
+$(_testing.parametrize.__message.get PARAMETRIZE_HEADER_SCENARIO): \"${test_array_scenario_definition[0]}\"
 VAR1: \"value 1\"
 VAR2: \"value 2\"
-$(_testing.parametrize.message.get PARAMETRIZE_PREFIX_FIXTURE_COMMAND): \"test_fixture1\"
-$(_testing.parametrize.message.get PARAMETRIZE_PREFIX_FIXTURE_COMMAND): \"test_fixture2\"
+$(_testing.parametrize.__message.get PARAMETRIZE_PREFIX_FIXTURE_COMMAND): \"test_fixture1\"
+$(_testing.parametrize.__message.get PARAMETRIZE_PREFIX_FIXTURE_COMMAND): \"test_fixture2\"
 )"
 }
 
