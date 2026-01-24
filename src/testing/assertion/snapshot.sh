@@ -13,12 +13,12 @@ assert_snapshot() {
   _testing.__assertion.value.check "${_stdlib_snapshot_filename}"
 
   if [[ ! -f "${_stdlib_snapshot_filename}" ]]; then
-    fail " $(_testing.assert.message.get ASSERT_ERROR_FILE_NOT_FOUND "${_stdlib_snapshot_filename}")"
+    fail " $(_testing.assert.__message.get ASSERT_ERROR_FILE_NOT_FOUND "${_stdlib_snapshot_filename}")"
   fi
 
   _stdlib_expected_output="$(< "${_stdlib_snapshot_filename}")"
 
   assert_equals "${_stdlib_expected_output}" \
     "${TEST_OUTPUT}" \
-    " $(_testing.assert.message.get ASSERT_ERROR_SNAPSHOT_NON_MATCHING "${_stdlib_snapshot_filename}")"
+    " $(_testing.assert.__message.get ASSERT_ERROR_SNAPSHOT_NON_MATCHING "${_stdlib_snapshot_filename}")"
 }
