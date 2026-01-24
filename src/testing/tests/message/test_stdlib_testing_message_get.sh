@@ -55,7 +55,7 @@ test_stdlib_testing_message_get__@vary() {
 
   stdlib.array.make.from_string args "|" "${TEST_ARGS_DEFINITION}"
 
-  _capture.rc _testing.message.get "${args[@]}" > /dev/null
+  _capture.rc _testing.__message.get "${args[@]}" > /dev/null
 
   assert_rc "${TEST_EXPECTED_RC}"
 }
@@ -69,7 +69,7 @@ test_stdlib_testing_message_get__valid_argument________________@vary_____returns
 
   stdlib.array.make.from_string args "|" "${TEST_ARGS_DEFINITION}"
 
-  _capture.stdout _testing.message.get "${args[@]}"
+  _capture.stdout _testing.__message.get "${args[@]}"
 
   assert_equals "${TEST_EXPECTED_STDOUT}" "${TEST_OUTPUT}"
 }
@@ -78,7 +78,7 @@ test_stdlib_testing_message_get__valid_argument________________@vary_____returns
   test_stdlib_testing_message_get__valid_argument________________@vary_____returns_correct_message
 
 test_stdlib_testing_message_get__invalid_arguments_____________returns_error_message() {
-  _capture.stdout _testing.message.get "NON_EXISTENT_KEY"
+  _capture.stdout _testing.__message.get "NON_EXISTENT_KEY"
 
   stdlib.testing.internal.logger.error.mock.assert_called_once_with \
     "1(Unknown message key 'NON_EXISTENT_KEY')"
@@ -90,7 +90,7 @@ test_stdlib_testing_message_get__invalid_arg_count_____________@vary__returns_co
 
   stdlib.array.make.from_string args "|" "${TEST_ARGS_DEFINITION}"
 
-  _capture.stdout _testing.message.get "${args[@]}"
+  _capture.stdout _testing.__message.get "${args[@]}"
 
   stdlib.testing.internal.logger.error.mock.assert_called_once_with \
     "1(Invalid arguments provided!)"

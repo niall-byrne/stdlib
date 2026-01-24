@@ -35,16 +35,16 @@ stdlib.fn.args.require() {
   builtin shift 2
 
   if (("${#@}" < "${args_required_count}" || "${#@}" > "${args_required_count}" + "${args_optional_count}")); then
-    stdlib.logger.error "$(stdlib.message.get ARGUMENT_REQUIREMENTS_VIOLATION "${args_required_count}" "${args_optional_count}")"
-    stdlib.logger.error "$(stdlib.message.get ARGUMENT_REQUIREMENTS_VIOLATION_DETAIL "${#@}")"
+    stdlib.logger.error "$(stdlib.__message.get ARGUMENT_REQUIREMENTS_VIOLATION "${args_required_count}" "${args_optional_count}")"
+    stdlib.logger.error "$(stdlib.__message.get ARGUMENT_REQUIREMENTS_VIOLATION_DETAIL "${#@}")"
     builtin return 127
   fi
 
   for ((arg_index = 1; arg_index <= "${#@}"; arg_index++)); do
     if [[ -z "${!arg_index}" ]]; then
       if ! stdlib.array.query.is_contains "${arg_index}" args_null_safe_array; then
-        stdlib.logger.error "$(stdlib.message.get ARGUMENT_REQUIREMENTS_VIOLATION "${args_required_count}" "${args_optional_count}")"
-        stdlib.logger.error "$(stdlib.message.get ARGUMENT_REQUIREMENTS_VIOLATION_NULL "${arg_index}")"
+        stdlib.logger.error "$(stdlib.__message.get ARGUMENT_REQUIREMENTS_VIOLATION "${args_required_count}" "${args_optional_count}")"
+        stdlib.logger.error "$(stdlib.__message.get ARGUMENT_REQUIREMENTS_VIOLATION_NULL "${arg_index}")"
         builtin return 126
       fi
     fi

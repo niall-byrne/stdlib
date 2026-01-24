@@ -19,7 +19,7 @@ builtin set -eo pipefail
   parametrizer_fn_array=("${@:2}")
 
   [[ "${#@}" -gt "1" ]] || {
-    _testing.error "${FUNCNAME[0]}: $(_testing.__protected stdlib.message.get ARGUMENTS_INVALID)"
+    _testing.error "${FUNCNAME[0]}: $(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)"
     builtin return 127
   }
   @parametrize.__internal.validate.fn_name.test "${original_test_function_name}" || builtin return 126

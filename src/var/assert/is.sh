@@ -19,10 +19,10 @@ stdlib.var.assert.is_valid_name() {
   case "${return_code}" in
     0) ;; # KCOV_EXCLUDE_LINE
     126 | 127)
-      stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
       ;;
     *)
-      stdlib.logger.error "$(stdlib.message.get VAR_NAME_INVALID "${1}")"
+      stdlib.logger.error "$(stdlib.__message.get VAR_NAME_INVALID "${1}")"
       ;;
   esac
 
