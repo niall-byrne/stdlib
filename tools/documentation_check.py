@@ -69,6 +69,8 @@ class DocTag:
 
 
 class BashFunction:
+    TAG_MAP: Dict[str, TagDefinition] = {t.name: t for t in Tags.sequence}
+
     def __init__(
         self,
         name: str,
@@ -78,20 +80,19 @@ class BashFunction:
         self.name = name
         self.doc_lines = doc_lines
         self.body_lines = body_lines
-        self.tags: List[DocTag] = []
+        self.doc_tags: List[DocTag] = []
         self.global_var_lines: List[str] = []
         self._extract_documentation()
 
     def _extract_documentation(self):
         desc_started = False
-        tag_map = {t.name: t for t in Tags.sequence}
         for line in self.doc_lines:
             tag_match = re.search(REGEX_DOC_TAGS, line)
             if tag_match:
                 tag_name = tag_match.group(1)
                 content = line.split("@" + tag_name, 1)[1].strip()
-                self.tags.append(
-                    DocTag(tag=tag_map[tag_name], content=content, line=line)
+                self.doc_tags.append(
+                    DocTag(tag=self.TAG_MAP[tag_name], content=content, line=line)
                 )
                 desc_started = tag_name == Tags.DESCRIPTION.name
             elif desc_started:
@@ -104,11 +105,11 @@ class BashFunction:
                 elif line.startswith("# @"):
                     desc_started = False
 
-    def contains_tag(self, tag_name: str) -> bool:
-        return any(t.tag.name == tag_name for t in self.tags)
+    def contains_tag(self, tag_def: TagDefinition) -> bool:
+        return any(t.tag == tag_def for t in self.doc_tags)
 
-    def find_tags(self, tag_name: str) -> List[DocTag]:
-        return [t for t in self.tags if t.tag.name == tag_name]
+    def find_tags(self, tag_def: TagDefinition) -> List[DocTag]:
+        return [t for t in self.doc_tags if t.tag == tag_def]
 
 
 class Rule:
@@ -123,17 +124,17 @@ class AssertionStderrRule(Rule):
 
         msg = "The error message if the assertion fails."
         return [
-            f"{func.name}: @{Tags.STDERR.name} for assertion should use '{msg}'. Found: '{tag.line.strip()}'"
-            for tag in func.find_tags(Tags.STDERR.name)
-            if msg not in tag.content
+            f"{func.name}: @{Tags.STDERR.name} for assertion should use '{msg}'. Found: '{doc_tag.line.strip()}'"
+            for doc_tag in func.find_tags(Tags.STDERR)
+            if msg not in doc_tag.content
         ]
 
 
 class ExitCodeDescriptionRule(Rule):
     def check(self, func: BashFunction) -> List[str]:
         errors = []
-        for tag in func.find_tags(Tags.EXITCODE.name):
-            m = re.search(tag.tag.description_pattern, tag.line)
+        for doc_tag in func.find_tags(Tags.EXITCODE):
+            m = re.search(doc_tag.tag.description_pattern, doc_tag.line)
             if m:
                 text = m.group(1).strip()
                 if text and not text.startswith("If"):
@@ -145,14 +146,18 @@ class ExitCodeDescriptionRule(Rule):
 
 class FieldOrderRule(Rule):
     def check(self, func: BashFunction) -> List[str]:
-        tag_names = [t.name for t in Tags.sequence]
-        actual_order = [t.tag.name for t in func.tags if t.tag.name in tag_names]
+        tag_names = [tag_def.name for tag_def in Tags.sequence]
+        actual_order = [
+            doc_tag.tag.name
+            for doc_tag in func.doc_tags
+            if doc_tag.tag.name in tag_names
+        ]
         seen = []
-        for f in actual_order:
-            if f not in seen:
-                seen.append(f)
+        for tag_name in actual_order:
+            if tag_name not in seen:
+                seen.append(tag_name)
 
-        expected = [f for f in tag_names if f in seen]
+        expected = [tag_name for tag_name in tag_names if tag_name in seen]
         if seen != expected:
             return [
                 f"{func.name}: Incorrect field order. Found: {seen}, Expected: {expected}"
@@ -171,7 +176,7 @@ class GlobalIndentationRule(Rule):
 
 class InternalTagRule(Rule):
     def check(self, func: BashFunction) -> List[str]:
-        if "__" in func.name and not func.contains_tag(Tags.INTERNAL.name):
+        if "__" in func.name and not func.contains_tag(Tags.INTERNAL):
             return [f"{func.name}: Missing @{Tags.INTERNAL.name}"]
         return []
 
@@ -181,8 +186,8 @@ class MandatoryExitCodeRule(Rule):
         errors = []
         for code in MANDATORY_EXIT_CODES:
             if not any(
-                re.search(rf"@{Tags.EXITCODE.name} {code}", t.line)
-                for t in func.find_tags(Tags.EXITCODE.name)
+                re.search(rf"@{Tags.EXITCODE.name} {code}", doc_tag.line)
+                for doc_tag in func.find_tags(Tags.EXITCODE)
             ):
                 errors.append(f"{func.name}: Missing @{Tags.EXITCODE.name} {code}")
         return errors
@@ -191,13 +196,11 @@ class MandatoryExitCodeRule(Rule):
 class MandatoryFieldsRule(Rule):
     def check(self, func: BashFunction) -> List[str]:
         errors = [
-            f"{func.name}: Missing @{tag.name}"
-            for tag in Tags.sequence
-            if tag.is_mandatory and not func.contains_tag(tag.name)
+            f"{func.name}: Missing @{tag_def.name}"
+            for tag_def in Tags.sequence
+            if tag_def.is_mandatory and not func.contains_tag(tag_def)
         ]
-        if not (
-            func.contains_tag(Tags.ARG.name) or func.contains_tag(Tags.NOARGS.name)
-        ):
+        if not (func.contains_tag(Tags.ARG) or func.contains_tag(Tags.NOARGS)):
             errors.append(
                 f"{func.name}: Missing @{Tags.ARG.name} or @{Tags.NOARGS.name}"
             )
@@ -210,7 +213,6 @@ class MissingOutputTagsRule(Rule):
     ) -> bool:
         for line in body:
             if any(t in line for t in triggers):
-                # Specific check for stdout to avoid false positives
                 if is_stdout and "builtin echo" in line:
                     if (
                         ">&2" in line
@@ -231,12 +233,12 @@ class MissingOutputTagsRule(Rule):
 
     def check(self, func: BashFunction) -> List[str]:
         errors = []
-        if not func.contains_tag(Tags.STDERR.name) and self._has_trigger(
+        if not func.contains_tag(Tags.STDERR) and self._has_trigger(
             func.body_lines, STDERR_TRIGGERS, is_stdout=False
         ):
             errors.append(f"{func.name}: Missing @{Tags.STDERR.name} tag")
 
-        if not func.contains_tag(Tags.STDOUT.name) and self._has_trigger(
+        if not func.contains_tag(Tags.STDOUT) and self._has_trigger(
             func.body_lines, STDOUT_TRIGGERS, is_stdout=True
         ):
             errors.append(f"{func.name}: Missing @{Tags.STDOUT.name} tag")
@@ -244,28 +246,28 @@ class MissingOutputTagsRule(Rule):
 
 
 class SentenceFormatRule(Rule):
-    def _get_description_text(self, tag: DocTag) -> str:
-        m = re.search(tag.tag.description_pattern, tag.line)
+    def _get_description_text(self, doc_tag: DocTag) -> str:
+        m = re.search(doc_tag.tag.description_pattern, doc_tag.line)
         return m.group(1).strip() if m else ""
 
     def check(self, func: BashFunction) -> List[str]:
         errors = []
         sentence_tags = [t.name for t in Tags.sequence if t.check_sentence_format]
-        for tag in func.tags:
-            if tag.tag.name not in sentence_tags:
+        for doc_tag in func.doc_tags:
+            if doc_tag.tag.name not in sentence_tags:
                 continue
 
-            text = self._get_description_text(tag)
+            text = self._get_description_text(doc_tag)
             if not text or text.startswith("("):
                 continue
 
             if not text[0].isupper():
                 errors.append(
-                    f"{func.name}: @{tag.tag.name} content should start with a capital letter. Found: '{text}'"
+                    f"{func.name}: @{doc_tag.tag.name} content should start with a capital letter. Found: '{text}'"
                 )
             if not text.endswith("."):
                 errors.append(
-                    f"{func.name}: @{tag.tag.name} content should end with a period. Found: '{text}'"
+                    f"{func.name}: @{doc_tag.tag.name} content should end with a period. Found: '{text}'"
                 )
         return errors
 
@@ -273,32 +275,32 @@ class SentenceFormatRule(Rule):
 class StandardExitCodesRule(Rule):
     def check(self, func: BashFunction) -> List[str]:
         errors = []
-        for tag in func.find_tags(Tags.EXITCODE.name):
+        for doc_tag in func.find_tags(Tags.EXITCODE):
             for code, pattern in STANDARDIZED_EXIT_CODES.items():
-                if code in tag.content and not re.search(pattern, tag.line):
+                if code in doc_tag.content and not re.search(pattern, doc_tag.line):
                     errors.append(
-                        f"{func.name}: Non-standard @{Tags.EXITCODE.name} {code} message. Found: '{tag.line.strip()}'"
+                        f"{func.name}: Non-standard @{Tags.EXITCODE.name} {code} message. Found: '{doc_tag.line.strip()}'"
                     )
         return errors
 
 
 class TypeValidationRule(Rule):
-    def _validate_type(self, func_name: str, tag: DocTag) -> Optional[str]:
-        parts = tag.content.split()
+    def _validate_type(self, func_name: str, doc_tag: DocTag) -> Optional[str]:
+        parts = doc_tag.content.split()
         if len(parts) < 2:
-            return f"{func_name}: Missing or invalid type in @{tag.tag.name}. Found: '{tag.line.strip()}'"
+            return f"{func_name}: Missing or invalid type in @{doc_tag.tag.name}. Found: '{doc_tag.line.strip()}'"
 
         tag_type = parts[1].split("(")[0]
         if tag_type not in VARIABLE_TYPES:
-            return f"{func_name}: Missing or invalid type in @{tag.tag.name}. Found: '{tag.line.strip()}'"
+            return f"{func_name}: Missing or invalid type in @{doc_tag.tag.name}. Found: '{doc_tag.line.strip()}'"
         return None
 
     def check(self, func: BashFunction) -> List[str]:
         errors = []
-        type_tags = [t.name for t in Tags.sequence if t.has_types]
-        for tag_name in type_tags:
-            for tag in func.find_tags(tag_name):
-                error = self._validate_type(func.name, tag)
+        type_tags = [t for t in Tags.sequence if t.has_types]
+        for tag_def in type_tags:
+            for doc_tag in func.find_tags(tag_def):
+                error = self._validate_type(func.name, doc_tag)
                 if error:
                     errors.append(error)
         return errors
