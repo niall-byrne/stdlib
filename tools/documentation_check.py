@@ -63,7 +63,7 @@ VARIABLE_TYPES = ["string", "integer", "boolean", "array"]
 
 @dataclass
 class DocTag:
-    tag: TagDefinition
+    tag_def: TagDefinition
     content: str
     line: str
 
@@ -92,7 +92,7 @@ class BashFunction:
                 tag_name = tag_match.group(1)
                 content = line.split("@" + tag_name, 1)[1].strip()
                 self.doc_tags.append(
-                    DocTag(tag=self.TAG_MAP[tag_name], content=content, line=line)
+                    DocTag(tag_def=self.TAG_MAP[tag_name], content=content, line=line)
                 )
                 desc_started = tag_name == Tags.DESCRIPTION.name
             elif desc_started:
@@ -106,10 +106,10 @@ class BashFunction:
                     desc_started = False
 
     def contains_tag(self, tag_def: TagDefinition) -> bool:
-        return any(t.tag == tag_def for t in self.doc_tags)
+        return any(t.tag_def == tag_def for t in self.doc_tags)
 
     def find_tags(self, tag_def: TagDefinition) -> List[DocTag]:
-        return [t for t in self.doc_tags if t.tag == tag_def]
+        return [t for t in self.doc_tags if t.tag_def == tag_def]
 
 
 class Rule:
@@ -134,7 +134,7 @@ class ExitCodeDescriptionRule(Rule):
     def check(self, func: BashFunction) -> List[str]:
         errors = []
         for doc_tag in func.find_tags(Tags.EXITCODE):
-            m = re.search(doc_tag.tag.description_pattern, doc_tag.line)
+            m = re.search(doc_tag.tag_def.description_pattern, doc_tag.line)
             if m:
                 text = m.group(1).strip()
                 if text and not text.startswith("If"):
@@ -148,9 +148,9 @@ class FieldOrderRule(Rule):
     def check(self, func: BashFunction) -> List[str]:
         tag_names = [tag_def.name for tag_def in Tags.sequence]
         actual_order = [
-            doc_tag.tag.name
+            doc_tag.tag_def.name
             for doc_tag in func.doc_tags
-            if doc_tag.tag.name in tag_names
+            if doc_tag.tag_def.name in tag_names
         ]
         seen = []
         for tag_name in actual_order:
@@ -247,14 +247,14 @@ class MissingOutputTagsRule(Rule):
 
 class SentenceFormatRule(Rule):
     def _get_description_text(self, doc_tag: DocTag) -> str:
-        m = re.search(doc_tag.tag.description_pattern, doc_tag.line)
+        m = re.search(doc_tag.tag_def.description_pattern, doc_tag.line)
         return m.group(1).strip() if m else ""
 
     def check(self, func: BashFunction) -> List[str]:
         errors = []
         sentence_tags = [t.name for t in Tags.sequence if t.check_sentence_format]
         for doc_tag in func.doc_tags:
-            if doc_tag.tag.name not in sentence_tags:
+            if doc_tag.tag_def.name not in sentence_tags:
                 continue
 
             text = self._get_description_text(doc_tag)
@@ -263,11 +263,11 @@ class SentenceFormatRule(Rule):
 
             if not text[0].isupper():
                 errors.append(
-                    f"{func.name}: @{doc_tag.tag.name} content should start with a capital letter. Found: '{text}'"
+                    f"{func.name}: @{doc_tag.tag_def.name} content should start with a capital letter. Found: '{text}'"
                 )
             if not text.endswith("."):
                 errors.append(
-                    f"{func.name}: @{doc_tag.tag.name} content should end with a period. Found: '{text}'"
+                    f"{func.name}: @{doc_tag.tag_def.name} content should end with a period. Found: '{text}'"
                 )
         return errors
 
@@ -288,11 +288,11 @@ class TypeValidationRule(Rule):
     def _validate_type(self, func_name: str, doc_tag: DocTag) -> Optional[str]:
         parts = doc_tag.content.split()
         if len(parts) < 2:
-            return f"{func_name}: Missing or invalid type in @{doc_tag.tag.name}. Found: '{doc_tag.line.strip()}'"
+            return f"{func_name}: Missing or invalid type in @{doc_tag.tag_def.name}. Found: '{doc_tag.line.strip()}'"
 
         tag_type = parts[1].split("(")[0]
         if tag_type not in VARIABLE_TYPES:
-            return f"{func_name}: Missing or invalid type in @{doc_tag.tag.name}. Found: '{doc_tag.line.strip()}'"
+            return f"{func_name}: Missing or invalid type in @{doc_tag.tag_def.name}. Found: '{doc_tag.line.strip()}'"
         return None
 
     def check(self, func: BashFunction) -> List[str]:
