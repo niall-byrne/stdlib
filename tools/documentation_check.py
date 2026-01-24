@@ -4,7 +4,139 @@ import sys
 from typing import Dict, List, Optional, Tuple, Callable
 
 
-# Data Classes
+# Dataclasses
+class BashFunction:
+    def __init__(
+        self,
+        name: str,
+        doc_lines: List[str],
+        body_lines: List[str],
+        start_line: int,
+        end_line: int,
+    ):
+        self.name = name
+        self.doc_lines = doc_lines
+        self.body_lines = body_lines
+        self.start_line = start_line
+        self.end_line = end_line
+        self.derive_call: Optional["DeriveCall"] = None
+        self.doc_tags: List["DocTag"] = []
+        self.global_var_lines: List[str] = []
+        self._tag_map = {t.name: t for t in Tags.get_sequence()}
+        self._extract_documentation()
+
+    def _extract_documentation(self):
+        desc_started = False
+        for line in self.doc_lines:
+            tag_match = re.search(REGEX_DOC_TAGS, line)
+            if tag_match:
+                tag_name = tag_match.group(1)
+                content = line.split("@" + tag_name, 1)[1].strip()
+                self.doc_tags.append(
+                    DocTag(tag_def=self._tag_map[tag_name], content=content, line=line)
+                )
+                desc_started = tag_name == Tags.DESCRIPTION.name
+            elif desc_started:
+                if (
+                    ":" in line
+                    and line.strip().startswith("#")
+                    and not line.startswith("# @")
+                ):
+                    self.global_var_lines.append(line)
+                elif line.startswith("# @"):
+                    desc_started = False
+
+    def contains_tag(self, tag_def: "TagDefinition") -> bool:
+        return any(doc_tag.tag_def == tag_def for doc_tag in self.doc_tags)
+
+    def find_tags(self, tag_def: "TagDefinition") -> List["DocTag"]:
+        return [doc_tag for doc_tag in self.doc_tags if doc_tag.tag_def == tag_def]
+
+    def find_arg_by_index(self, index_str: str) -> Optional["DocTag"]:
+        arg_tags = self.find_tags(Tags.ARG)
+        if not index_str.lstrip("-").isdigit():
+            return None
+        idx = int(index_str)
+        if idx > 0:
+            prefix = f"${idx}"
+            for tag in arg_tags:
+                if tag.content.startswith(prefix):
+                    return tag
+        elif idx < 0:
+            try:
+                return arg_tags[idx]
+            except IndexError:
+                pass
+        return None
+
+
+class DeriveCall:
+    def __init__(
+        self,
+        definition: "DeriveDefinition",
+        source: str,
+        target: str,
+        arg_index: str,
+        line_number: int,
+    ):
+        self.definition = definition
+        self.source = source
+        self.target = target
+        self.arg_index = arg_index
+        self.line_number = line_number
+        self.linked_function: Optional["BashFunction"] = None
+
+    @classmethod
+    def from_line(cls, line: str, line_number: int) -> Optional["DeriveCall"]:
+        for dd in DERIVE_DEFINITIONS:
+            match = re.search(dd.regex, line)
+            if match:
+                return cls(
+                    definition=dd,
+                    source=dd.get_source(match),
+                    target=dd.get_target(match),
+                    arg_index=dd.get_arg_index(match),
+                    line_number=line_number,
+                )
+        return None
+
+    def link(self, functions: List["BashFunction"]):
+        for func in functions:
+            if func.end_line == self.line_number - 1:
+                func.derive_call = self
+                self.linked_function = func
+                break
+
+
+class DeriveDefinition:
+    def __init__(
+        self,
+        type_name: str,
+        regex: str,
+        expected_desc_template: str,
+        get_source: Callable[[re.Match], str],
+        get_target: Callable[[re.Match], str],
+        get_arg_index: Callable[[re.Match], str],
+        arg_desc_requirement: Optional[str] = None,
+        arg_desc_suffix: Optional[str] = None,
+    ):
+        self.type_name = type_name
+        self.regex = regex
+        self.expected_desc_template = expected_desc_template
+        self.get_source = get_source
+        self.get_target = get_target
+        self.get_arg_index = get_arg_index
+        self.arg_desc_requirement = arg_desc_requirement
+        self.arg_desc_suffix = arg_desc_suffix
+
+
+class DocTag:
+    def __init__(self, tag_def: "TagDefinition", content: str, line: str):
+        self.tag_def = tag_def
+        self.content = content
+        self.line = line
+
+
 class TagDefinition:
     def __init__(
         self,
@@ -60,143 +192,6 @@ class Tags:
         ]
 
 
-class DeriveDefinition:
-    """A data container for derivation configurations."""
-
-    def __init__(
-        self,
-        type_name: str,
-        regex: str,
-        expected_desc_template: str,
-        get_source: Callable[[re.Match], str],
-        get_target: Callable[[re.Match], str],
-        get_arg_index: Callable[[re.Match], str],
-        arg_desc_requirement: Optional[str] = None,
-        arg_desc_suffix: Optional[str] = None,
-    ):
-        self.type_name = type_name
-        self.regex = regex
-        self.expected_desc_template = expected_desc_template
-        self.get_source = get_source
-        self.get_target = get_target
-        self.get_arg_index = get_arg_index
-        self.arg_desc_requirement = arg_desc_requirement
-        self.arg_desc_suffix = arg_desc_suffix
-
-
-class DocTag:
-    def __init__(self, tag_def: TagDefinition, content: str, line: str):
-        self.tag_def = tag_def
-        self.content = content
-        self.line = line
-
-
-class DeriveCall:
-    def __init__(
-        self,
-        definition: "DeriveDefinition",
-        source: str,
-        target: str,
-        arg_index: str,
-        line_number: int,
-    ):
-        self.definition = definition
-        self.source = source
-        self.target = target
-        self.arg_index = arg_index
-        self.line_number = line_number
-        self.linked_function: Optional["BashFunction"] = None
-
-    @classmethod
-    def from_line(cls, line: str, line_number: int) -> Optional["DeriveCall"]:
-        for dd in DERIVE_DEFINITIONS:
-            match = re.search(dd.regex, line)
-            if match:
-                return cls(
-                    definition=dd,
-                    source=dd.get_source(match),
-                    target=dd.get_target(match),
-                    arg_index=dd.get_arg_index(match),
-                    line_number=line_number,
-                )
-        return None
-
-    def link(self, functions: List["BashFunction"]):
-        for func in functions:
-            if func.end_line == self.line_number - 1:
-                func.derive_call = self
-                self.linked_function = func
-                break
-
-
-class BashFunction:
-    TAG_MAP: Dict[str, TagDefinition] = {t.name: t for t in Tags.get_sequence()}
-
-    def __init__(
-        self,
-        name: str,
-        doc_lines: List[str],
-        body_lines: List[str],
-        start_line: int,
-        end_line: int,
-    ):
-        self.name = name
-        self.doc_lines = doc_lines
-        self.body_lines = body_lines
-        self.start_line = start_line
-        self.end_line = end_line
-        self.derive_call: Optional[DeriveCall] = None
-        self.doc_tags: List[DocTag] = []
-        self.global_var_lines: List[str] = []
-        self._extract_documentation()
-
-    def _extract_documentation(self):
-        desc_started = False
-        for line in self.doc_lines:
-            tag_match = re.search(REGEX_DOC_TAGS, line)
-            if tag_match:
-                tag_name = tag_match.group(1)
-                content = line.split("@" + tag_name, 1)[1].strip()
-                self.doc_tags.append(
-                    DocTag(tag_def=self.TAG_MAP[tag_name], content=content, line=line)
-                )
-                desc_started = tag_name == Tags.DESCRIPTION.name
-            elif desc_started:
-                if (
-                    ":" in line
-                    and line.strip().startswith("#")
-                    and not line.startswith("# @")
-                ):
-                    self.global_var_lines.append(line)
-                elif line.startswith("# @"):
-                    desc_started = False
-
-    def contains_tag(self, tag_def: TagDefinition) -> bool:
-        return any(doc_tag.tag_def == tag_def for doc_tag in self.doc_tags)
-
-    def find_tags(self, tag_def: TagDefinition) -> List[DocTag]:
-        return [doc_tag for doc_tag in self.doc_tags if doc_tag.tag_def == tag_def]
-
-    def find_arg_by_index(self, index_str: str) -> Optional[DocTag]:
-        """Finds an @arg tag by its positional prefix (e.g. $1) or array index."""
-        arg_tags = self.find_tags(Tags.ARG)
-        if not index_str.lstrip("-").isdigit():
-            return None
-
-        idx = int(index_str)
-        if idx > 0:
-            prefix = f"${idx}"
-            for tag in arg_tags:
-                if tag.content.startswith(prefix):
-                    return tag
-        elif idx < 0:
-            try:
-                return arg_tags[idx]
-            except IndexError:
-                pass
-        return None
-
-
 # Configuration
 DERIVE_DEFINITIONS: List[DeriveDefinition] = [
     DeriveDefinition(
@@ -218,60 +213,45 @@ DERIVE_DEFINITIONS: List[DeriveDefinition] = [
         arg_desc_requirement="The name of the variable to read from and write to.",
     ),
 ]
-
-TAG_SEQUENCE = Tags.get_sequence()
-
 MANDATORY_EXIT_CODES = ["0"]
-
-MANDATORY_TAGS = [t for t in TAG_SEQUENCE if t.is_mandatory]
-
-REGEX_DOC_TAGS = rf"@({'|'.join([t.name for t in TAG_SEQUENCE])})"
-
+MANDATORY_TAGS = [t for t in Tags.get_sequence() if t.is_mandatory]
+REGEX_DOC_TAGS = rf"@({'|'.join([t.name for t in Tags.get_sequence()])})"
 REGEX_ECHO_ASSIGNMENT = r"=\s*\"?builtin echo"
-
 REGEX_FUNCTION_DEFINITION = r"^([a-zA-Z_@][a-zA-Z0-9._]*) *\(\) *\{"
-
 REGEX_PROCESS_SUBSTITUTION = r"[\$=]\(builtin echo"
-
-SENTENCE_FORMAT_TAGS = [t for t in TAG_SEQUENCE if t.check_sentence_format]
-
+SENTENCE_FORMAT_TAGS = [t for t in Tags.get_sequence() if t.check_sentence_format]
 STANDARDIZED_EXIT_CODES = {
     "126": rf"@{Tags.EXITCODE.name} 126 If an invalid argument has been provided\.",
     "127": rf"@{Tags.EXITCODE.name} 127 If the wrong number of arguments were provided\.",
 }
-
 STDERR_TRIGGERS = ["stdlib.logger.error", "stdlib.logger.warning", ">&2"]
-
 STDOUT_TRIGGERS = [
     "stdlib.logger.info",
     "stdlib.logger.success",
     "stdlib.logger.notice",
     "builtin echo",
 ]
-
 TRIGGER_IGNORE_COMMENT = "# noqa"
-
-TYPE_TAGS = [t for t in TAG_SEQUENCE if t.has_types]
-
+TYPE_TAGS = [t for t in Tags.get_sequence() if t.has_types]
 VARIABLE_TYPES = ["string", "integer", "boolean", "array"]
 
 
-# Rules
-class Rule:
-    def check(self, func: BashFunction) -> List[str]:
-        raise NotImplementedError
-
-
+# Rule Bases
 class DeriveRule:
     def check(self, call: DeriveCall) -> List[str]:
         raise NotImplementedError
 
 
+class Rule:
+    def check(self, func: BashFunction) -> List[str]:
+        raise NotImplementedError
+
+
+# Rules
 class AssertionStderrRule(Rule):
     def check(self, func: BashFunction) -> List[str]:
         if "assert" not in func.name:
             return []
-
         msg = "The error message if the assertion fails."
         return [
             f"{func.name}: @{Tags.STDERR.name} for assertion should use '{msg}'. Found: '{doc_tag.line.strip()}'"
@@ -284,16 +264,13 @@ class DeriveStubArgRule(Rule):
     def check(self, func: BashFunction) -> List[str]:
         if not func.derive_call:
             return []
-
         call = func.derive_call
         dd = call.definition
         if not (dd.arg_desc_requirement or dd.arg_desc_suffix):
             return []
-
         target_tag = func.find_arg_by_index(call.arg_index)
         if not target_tag:
             return self._check_fallback(func, dd)
-
         errors = []
         if (
             dd.arg_desc_requirement
@@ -329,11 +306,9 @@ class DeriveStubDescriptionRule(Rule):
     def check(self, func: BashFunction) -> List[str]:
         if not func.derive_call:
             return []
-
         call = func.derive_call
         dd = call.definition
         expected_desc = dd.expected_desc_template.format(source=call.source)
-
         desc_tags = func.find_tags(Tags.DESCRIPTION)
         if not any(expected_desc in tag.content for tag in desc_tags):
             return [
@@ -369,7 +344,7 @@ class ExitCodeDescriptionRule(Rule):
 
 class FieldOrderRule(Rule):
     def check(self, func: BashFunction) -> List[str]:
-        tag_names = [tag_def.name for tag_def in TAG_SEQUENCE]
+        tag_names = [tag_def.name for tag_def in Tags.get_sequence()]
         actual_order = [
             doc_tag.tag_def.name
             for doc_tag in func.doc_tags
@@ -379,7 +354,6 @@ class FieldOrderRule(Rule):
         for tag_name in actual_order:
             if tag_name not in seen:
                 seen.append(tag_name)
-
         expected = [tag_name for tag_name in tag_names if tag_name in seen]
         if seen != expected:
             return [
@@ -469,7 +443,6 @@ class MissingOutputTagsRule(Rule):
             func.body_lines, STDERR_TRIGGERS, is_stdout=False
         ):
             errors.append(f"{func.name}: Missing @{Tags.STDERR.name} tag")
-
         if not func.contains_tag(Tags.STDOUT) and self._has_trigger(
             func.body_lines, STDOUT_TRIGGERS, is_stdout=True
         ):
@@ -487,11 +460,9 @@ class SentenceFormatRule(Rule):
         for doc_tag in func.doc_tags:
             if doc_tag.tag_def not in SENTENCE_FORMAT_TAGS:
                 continue
-
             text = self._get_description_text(doc_tag)
             if not text or text.startswith("("):
                 continue
-
             if not text[0].isupper():
                 errors.append(
                     f"{func.name}: @{doc_tag.tag_def.name} content should start with a capital letter. Found: '{text}'"
@@ -520,7 +491,6 @@ class TypeValidationRule(Rule):
         parts = doc_tag.content.split()
         if len(parts) < 2:
             return f"{func_name}: Missing or invalid type in @{doc_tag.tag_def.name}. Found: '{doc_tag.line.strip()}'"
-
         tag_type = parts[1].split("(")[0]
         if tag_type not in VARIABLE_TYPES:
             return f"{func_name}: Missing or invalid type in @{doc_tag.tag_def.name}. Found: '{doc_tag.line.strip()}'"
@@ -543,20 +513,15 @@ class UndocumentedRule(Rule):
         return []
 
 
-# Utilities
 def parse_file(filepath: str) -> Tuple[List[BashFunction], List[DeriveCall]]:
     with open(filepath, "r") as f:
         lines = f.read().splitlines()
-
     functions: List[BashFunction] = []
     all_derive_calls: List[DeriveCall] = []
     doc_buffer: List[str] = []
-
     i = 0
     while i < len(lines):
         line = lines[i]
-
-        # Handle documentation lines
         if line.strip().startswith("#"):
             if not (
                 line.strip().startswith("# shellcheck")
@@ -565,20 +530,15 @@ def parse_file(filepath: str) -> Tuple[List[BashFunction], List[DeriveCall]]:
                 doc_buffer.append(line)
             i += 1
             continue
-
-        # Handle derive calls
         call = DeriveCall.from_line(line, i)
         if call:
             all_derive_calls.append(call)
-            # Link to the last function if it was on the previous line
             if functions and functions[-1].end_line == i - 1:
                 functions[-1].derive_call = call
                 call.linked_function = functions[-1]
             i += 1
             doc_buffer = []
             continue
-
-        # Handle function definitions
         match = re.match(REGEX_FUNCTION_DEFINITION, line)
         if match:
             func_name = match.group(1)
@@ -592,7 +552,6 @@ def parse_file(filepath: str) -> Tuple[List[BashFunction], List[DeriveCall]]:
                 if depth == 0:
                     break
                 i += 1
-
             functions.append(
                 BashFunction(
                     func_name,
@@ -605,21 +564,23 @@ def parse_file(filepath: str) -> Tuple[List[BashFunction], List[DeriveCall]]:
             doc_buffer = []
             i += 1
             continue
-
-        # Non-documentation, non-function, non-derivation line
         if line.strip() and not (
             line.strip().startswith("# shellcheck")
             or line.strip().startswith("builtin source")
         ):
             doc_buffer = []
-
         i += 1
-
     return functions, all_derive_calls
 
 
 def main():
-    undocumented_rule = UndocumentedRule()
+    derive_rules = [
+        DeriveStubNamingRule(),
+        MissingDeriveStubRule(),
+    ]
+    undocumented_rule = [
+        UndocumentedRule(),
+    ]
     validation_rules = [
         AssertionStderrRule(),
         DeriveStubArgRule(),
@@ -635,34 +596,27 @@ def main():
         StandardExitCodesRule(),
         TypeValidationRule(),
     ]
-    derive_rules = [
-        DeriveStubNamingRule(),
-        MissingDeriveStubRule(),
-    ]
-
     all_discrepancies: Dict[str, List[str]] = {}
     for file in sys.argv[1:]:
         try:
             functions, derive_calls = parse_file(file)
             file_errors = []
             for func in functions:
-                undocumented_errors = undocumented_rule.check(func)
+                undocumented_errors = []
+                for rule in undocumented_rule:
+                    undocumented_errors.extend(rule.check(func))
                 if undocumented_errors:
                     file_errors.extend(undocumented_errors)
                     continue
-
                 for rule in validation_rules:
                     file_errors.extend(rule.check(func))
-
             for call in derive_calls:
                 for rule in derive_rules:
                     file_errors.extend(rule.check(call))
-
             if file_errors:
                 all_discrepancies[file] = file_errors
         except Exception as e:
             all_discrepancies[file] = [f"File could not be parsed: {str(e)}"]
-
     if all_discrepancies:
         print(json.dumps(all_discrepancies, indent=2))
         sys.exit(1)
@@ -671,5 +625,4 @@ def main():
 if __name__ == "__main__":
     if sys.version_info < (3, 6):
         raise SystemExit("Python 3.6 or greater is required.")
-
     main()
