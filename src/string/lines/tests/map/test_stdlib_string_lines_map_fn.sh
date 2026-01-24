@@ -52,13 +52,13 @@ test_stdlib_string_lines_map_fn__valid_args____________default_delimiter__multi_
 }
 
 test_stdlib_string_lines_map_fn__valid_args____________custom__delimiter__single_line__applies_fn() {
-  _STDLIB_DELIMITER="|" _capture.output_raw stdlib.string.lines.map.fn _uppercase "new line"
+  STDLIB_LINE_BREAK_DELIMITER="|" _capture.output_raw stdlib.string.lines.map.fn _uppercase "new line"
 
   assert_output "UPPERCASE: NEW LINE"$'\n'
 }
 
 test_stdlib_string_lines_map_fn__valid_args____________custom__delimiter__multi_line___applies_fn() {
-  _STDLIB_DELIMITER="|" _capture.output_raw stdlib.string.lines.map.fn _uppercase "pipe|delimited|line"
+  STDLIB_LINE_BREAK_DELIMITER="|" _capture.output_raw stdlib.string.lines.map.fn _uppercase "pipe|delimited|line"
 
   assert_output "UPPERCASE: PIPE|UPPERCASE: DELIMITED|UPPERCASE: LINE"$'\n'
 }

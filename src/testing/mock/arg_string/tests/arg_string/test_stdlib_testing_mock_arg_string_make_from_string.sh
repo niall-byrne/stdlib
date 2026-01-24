@@ -53,7 +53,7 @@ setup_suite() {
 
 test_stdlib_testing_mock_arg_string_make_from_string__@vary__returns_expected_status_code() {
   local args=()
-  [[ "${TEST_SEPERATOR}" != "" ]] && local _STDLIB_DELIMITER="${TEST_SEPERATOR}"
+  [[ "${TEST_SEPERATOR}" != "" ]] && local STDLIB_LINE_BREAK_DELIMITER="${TEST_SEPERATOR}"
 
   _mock.create stdlib.testing.internal.logger.error
   stdlib.array.make.from_string args "|" "${TEST_ARGS_DEFINITION}"
@@ -68,7 +68,7 @@ test_stdlib_testing_mock_arg_string_make_from_string__@vary__returns_expected_st
 
 test_stdlib_testing_mock_arg_string_make_from_string__@vary__generates_correct_arg_string() {
   local args=()
-  [[ "${TEST_SEPERATOR}" != "" ]] && local _STDLIB_DELIMITER="${TEST_SEPERATOR}"
+  [[ "${TEST_SEPERATOR}" != "" ]] && local STDLIB_LINE_BREAK_DELIMITER="${TEST_SEPERATOR}"
 
   stdlib.array.make.from_string args "|" "${TEST_ARGS_DEFINITION}"
 

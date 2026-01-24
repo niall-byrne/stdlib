@@ -3,7 +3,7 @@
 # shellcheck disable=SC2034
 setup() {
   _mock.create stdlib.testing.internal.logger.error
-  stdlib.testing.internal.logger.error.mock.set.keywords "_STDLIB_ARGS_CALLER_FN_NAME"
+  stdlib.testing.internal.logger.error.mock.set.keywords "STDLIB_ARGS_CALLER_FN_NAME"
   keyword1="value1"
   keyword2="value2"
 }
@@ -43,7 +43,7 @@ test_stdlib_testing_mock_object_get_keywords__@vary__generates_expected_log_mess
   stdlib.array.make.from_string message_arg_definitions " " "${TEST_MESSAGE_ARG_DEFINITIONS}"
   for message_arg_definition in "${message_arg_definitions[@]}"; do
     stdlib.array.make.from_string message_args "|" "${message_arg_definition}"
-    expected_log_messages+=("1($(stdlib.__message.get "${message_args[@]}")) _STDLIB_ARGS_CALLER_FN_NAME(test_mock.mock.get.keywords)")
+    expected_log_messages+=("1($(stdlib.__message.get "${message_args[@]}")) STDLIB_ARGS_CALLER_FN_NAME(test_mock.mock.get.keywords)")
   done
 
   test_mock.mock.get.keywords "${args[@]}"

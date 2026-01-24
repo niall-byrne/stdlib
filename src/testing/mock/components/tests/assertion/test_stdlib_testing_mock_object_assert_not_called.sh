@@ -2,7 +2,7 @@
 
 setup() {
   _mock.create stdlib.testing.internal.logger.error
-  stdlib.testing.internal.logger.error.mock.set.keywords "_STDLIB_ARGS_CALLER_FN_NAME"
+  stdlib.testing.internal.logger.error.mock.set.keywords "STDLIB_ARGS_CALLER_FN_NAME"
 }
 
 test_stdlib_testing_mock_object_assert_not_called__with_args_____returns_status_code_127() {
@@ -19,8 +19,8 @@ test_stdlib_testing_mock_object_assert_not_called__with_args_____generates_expec
   _capture.rc test_mock.mock.assert_not_called extra_arg
 
   stdlib.testing.internal.logger.error.mock.assert_calls_are \
-    "1($(stdlib.__message.get ARGUMENT_REQUIREMENTS_VIOLATION 0 0)) _STDLIB_ARGS_CALLER_FN_NAME(test_mock.mock.assert_not_called)" \
-    "1($(stdlib.__message.get ARGUMENT_REQUIREMENTS_VIOLATION_DETAIL 1)) _STDLIB_ARGS_CALLER_FN_NAME(test_mock.mock.assert_not_called)"
+    "1($(stdlib.__message.get ARGUMENT_REQUIREMENTS_VIOLATION 0 0)) STDLIB_ARGS_CALLER_FN_NAME(test_mock.mock.assert_not_called)" \
+    "1($(stdlib.__message.get ARGUMENT_REQUIREMENTS_VIOLATION_DETAIL 1)) STDLIB_ARGS_CALLER_FN_NAME(test_mock.mock.assert_not_called)"
 }
 
 test_stdlib_testing_mock_object_assert_not_called__no_calls______succeeds() {

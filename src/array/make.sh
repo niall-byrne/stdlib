@@ -28,9 +28,10 @@ stdlib.array.make.from_file() {
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stderr The error message if the operation fails.
 stdlib.array.make.from_string() {
-  builtin local -a _STDLIB_ARGS_NULL_SAFE
+  builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
 
-  _STDLIB_ARGS_NULL_SAFE=("3")
+  # shellcheck disable=SC2034
+  STDLIB_ARGS_NULL_SAFE_ARRAY=("3")
 
   stdlib.fn.args.require "3" "0" "${@}" || builtin return "$?"
 
@@ -46,10 +47,11 @@ stdlib.array.make.from_string() {
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stderr The error message if the operation fails.
 stdlib.array.make.from_string_n() {
-  builtin local -a _STDLIB_ARGS_NULL_SAFE
+  builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
   builtin local array_index
 
-  _STDLIB_ARGS_NULL_SAFE=("3")
+  # shellcheck disable=SC2034
+  STDLIB_ARGS_NULL_SAFE_ARRAY=("3")
 
   stdlib.fn.args.require "3" "0" "${@}" || builtin return "$?"
   stdlib.string.assert.is_digit "${2}" || builtin return 126

@@ -12,12 +12,13 @@ builtin set -eo pipefail
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stderr The error message if the operation fails.
 stdlib.array.mutate.append() {
-  builtin local -a _STDLIB_ARGS_NULL_SAFE
+  builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
   builtin local -a indirect_array
   builtin local indirect_array_index
   builtin local indirect_reference
 
-  _STDLIB_ARGS_NULL_SAFE=("1")
+  # shellcheck disable=SC2034
+  STDLIB_ARGS_NULL_SAFE_ARRAY=("1")
 
   stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?"
   stdlib.array.assert.is_array "${2}" || builtin return 126
@@ -139,11 +140,12 @@ stdlib.array.mutate.format() {
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stderr The error message if the operation fails.
 stdlib.array.mutate.insert() {
-  builtin local -a _STDLIB_ARGS_NULL_SAFE
+  builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
   builtin local -a indirect_array
   builtin local indirect_reference
 
-  _STDLIB_ARGS_NULL_SAFE=("1")
+  # shellcheck disable=SC2034
+  STDLIB_ARGS_NULL_SAFE_ARRAY=("1")
 
   stdlib.fn.args.require "3" "0" "${@}" || builtin return "$?"
   stdlib.array.assert.is_array "${3}" || builtin return 126
@@ -165,12 +167,13 @@ stdlib.array.mutate.insert() {
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stderr The error message if the operation fails.
 stdlib.array.mutate.prepend() {
-  builtin local -a _STDLIB_ARGS_NULL_SAFE
+  builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
   builtin local -a indirect_array
   builtin local indirect_array_index
   builtin local indirect_reference
 
-  _STDLIB_ARGS_NULL_SAFE=("1")
+  # shellcheck disable=SC2034
+  STDLIB_ARGS_NULL_SAFE_ARRAY=("1")
 
   stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?"
   stdlib.array.assert.is_array "${2}" || builtin return 126
