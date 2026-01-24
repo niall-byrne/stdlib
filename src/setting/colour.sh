@@ -38,9 +38,9 @@ stdlib.setting.colour.enable() {
 stdlib.setting.colour.enable._generate_error_message() {
   builtin local error_message=""
 
-  error_message+="$(stdlib.message.get COLOUR_INITIALIZE_ERROR)\n"
+  error_message+="$(stdlib.__message.get COLOUR_INITIALIZE_ERROR)\n"
   if [[ -z "${TERM}" ]]; then
-    error_message+="$(stdlib.message.get COLOUR_INITIALIZE_ERROR_TERM)\n"
+    error_message+="$(stdlib.__message.get COLOUR_INITIALIZE_ERROR_TERM)\n"
   fi
 
   builtin echo -en "${error_message}" >&2

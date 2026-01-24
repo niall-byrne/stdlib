@@ -44,7 +44,7 @@ test_stdlib_testing_mock_object_assert_count_is__@vary__generates_expected_log_m
   stdlib.array.make.from_string message_arg_definitions " " "${TEST_MESSAGE_ARG_DEFINITIONS}"
   for message_arg_definition in "${message_arg_definitions[@]}"; do
     stdlib.array.make.from_string message_args "|" "${message_arg_definition}"
-    expected_log_messages+=("1($(stdlib.message.get "${message_args[@]}")) _STDLIB_ARGS_CALLER_FN_NAME(test_mock.mock.assert_count_is)")
+    expected_log_messages+=("1($(stdlib.__message.get "${message_args[@]}")) _STDLIB_ARGS_CALLER_FN_NAME(test_mock.mock.assert_count_is)")
   done
   test_mock.mock.assert_count_is "${args[@]}"
 
@@ -61,7 +61,7 @@ test_stdlib_testing_mock_object_assert_count_is__valid_args__________not_called_
   _capture.assertion_failure test_mock.mock.assert_count_is "1"
 
   assert_equals \
-    "$(_testing.mock.message.get "MOCK_CALLED_N_TIMES" "test_mock" "0")
+    "$(_testing.mock.__message.get "MOCK_CALLED_N_TIMES" "test_mock" "0")
  expected [1] but was [0]" \
     "${TEST_OUTPUT}"
 }
@@ -75,7 +75,7 @@ test_stdlib_testing_mock_object_assert_count_is__valid_args__________called_3_ti
   _capture.assertion_failure test_mock.mock.assert_count_is "2"
 
   assert_equals \
-    "$(_testing.mock.message.get "MOCK_CALLED_N_TIMES" "test_mock" "3")
+    "$(_testing.mock.__message.get "MOCK_CALLED_N_TIMES" "test_mock" "3")
  expected [2] but was [3]" \
     "${TEST_OUTPUT}"
 }

@@ -15,7 +15,7 @@ stdlib.setting.theme.get_colour() {
   theme_colour="STDLIB_COLOUR_${1}"
 
   if [[ -z "${!theme_colour+set}" ]]; then
-    stdlib.logger.warning "$(stdlib.message.get COLOUR_NOT_DEFINED "${1}")"
+    stdlib.logger.warning "$(stdlib.__message.get COLOUR_NOT_DEFINED "${1}")"
   fi
 
   builtin echo "${theme_colour}"

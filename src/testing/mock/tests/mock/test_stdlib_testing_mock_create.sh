@@ -44,7 +44,7 @@ test_stdlib_testing_mock_create__@vary_____________generates_expected_error_logs
   _mock.create "${args[@]}"
 
   _testing.error.mock.assert_calls_are \
-    "1(_mock.create: $(stdlib.message.get "${message_args[@]}"))"
+    "1(_mock.create: $(stdlib.__message.get "${message_args[@]}"))"
 }
 
 @parametrize_with_invalid_args \
@@ -60,7 +60,7 @@ test_stdlib_testing_mock_create__restricted_name_______logs_error_message() {
   _mock.create while
 
   _testing.error.mock.assert_calls_are \
-    "1(_mock.create: $(_testing.mock.message.get MOCK_TARGET_INVALID "while"))"
+    "1(_mock.create: $(_testing.mock.__message.get MOCK_TARGET_INVALID "while"))"
 }
 
 test_stdlib_testing_mock_create__binary__invalid_name__returns_status_code_126() {
@@ -80,7 +80,7 @@ test_stdlib_testing_mock_create__binary__invalid_name__logs_error_message() {
   _mock.create ls
 
   _testing.error.mock.assert_calls_are \
-    "1(_mock.create: $(_testing.mock.message.get MOCK_TARGET_INVALID "ls"))"
+    "1(_mock.create: $(_testing.mock.__message.get MOCK_TARGET_INVALID "ls"))"
 }
 
 test_stdlib_testing_mock_create__binary__valid_name____without_mock_create___original_implementation_is_called() {
@@ -114,7 +114,7 @@ test_stdlib_testing_mock_create__fn______invalid_name__logs_error_message() {
   _mock.create _echo_fn
 
   _testing.error.mock.assert_calls_are \
-    "1(_mock.create: $(_testing.mock.message.get MOCK_TARGET_INVALID "_echo_fn"))"
+    "1(_mock.create: $(_testing.mock.__message.get MOCK_TARGET_INVALID "_echo_fn"))"
 }
 
 test_stdlib_testing_mock_create__fn______valid_name____without_mock_create___original_implementation_is_called() {

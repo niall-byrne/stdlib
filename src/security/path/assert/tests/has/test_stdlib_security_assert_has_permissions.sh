@@ -44,7 +44,7 @@ test_stdlib_security_path_assert_has_permissions__@vary___________logs_expected_
   stdlib.security.path.assert.has_permissions "${args[@]}" > /dev/null
 
   stdlib.logger.error.mock.assert_called_once_with \
-    "1($(stdlib.message.get ARGUMENTS_INVALID))"
+    "1($(stdlib.__message.get ARGUMENTS_INVALID))"
 }
 
 @parametrize_with_arg_combos \
@@ -54,9 +54,9 @@ test_stdlib_security_path_assert_has_permissions__valid_args_________non_matchin
   stdlib.security.path.assert.has_permissions "/etc" "644" 2> /dev/null
 
   stdlib.logger.error.mock.assert_called_once_with \
-    "1($(stdlib.message.get SECURITY_INSECURE_PERMISSIONS "/etc"))"
+    "1($(stdlib.__message.get SECURITY_INSECURE_PERMISSIONS "/etc"))"
   stdlib.logger.info.mock.assert_called_once_with \
-    "1($(stdlib.message.get SECURITY_SUGGEST_CHMOD "644" "/etc"))"
+    "1($(stdlib.__message.get SECURITY_SUGGEST_CHMOD "644" "/etc"))"
 }
 
 test_stdlib_security_path_assert_has_permissions__valid_args_________non_matching__returns_status_code_1() {

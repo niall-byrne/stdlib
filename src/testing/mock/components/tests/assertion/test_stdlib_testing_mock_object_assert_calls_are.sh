@@ -22,7 +22,7 @@ test_stdlib_testing_mock_object_assert_calls_are__builtin_unavailable__generates
   _capture.assertion_failure test_mock.mock.assert_calls_are "1(arg)"
 
   assert_equals \
-    "test_mock.mock.assert_calls_are: $(_testing.mock.message.get "MOCK_REQUIRES_BUILTIN" "test_mock" "declare")" \
+    "test_mock.mock.assert_calls_are: $(_testing.mock.__message.get "MOCK_REQUIRES_BUILTIN" "test_mock" "declare")" \
     "${TEST_OUTPUT}"
 }
 
@@ -47,7 +47,7 @@ test_stdlib_testing_mock_object_assert_calls_are__not_called___________single_ca
 
   _capture.assertion_failure test_mock.mock.assert_calls_are "${EXPECTED_CALLS[@]}"
 
-  assert_output "$(_testing.mock.message.get "MOCK_NOT_CALLED" "test_mock")"
+  assert_output "$(_testing.mock.__message.get "MOCK_NOT_CALLED" "test_mock")"
 }
 
 test_stdlib_testing_mock_object_assert_calls_are__not_called___________single_call_____with_keywords__index_0___fails() {
@@ -59,7 +59,7 @@ test_stdlib_testing_mock_object_assert_calls_are__not_called___________single_ca
 
   _capture.assertion_failure test_mock.mock.assert_calls_are "${EXPECTED_CALLS[@]}"
 
-  assert_output "$(_testing.mock.message.get "MOCK_NOT_CALLED" "test_mock")"
+  assert_output "$(_testing.mock.__message.get "MOCK_NOT_CALLED" "test_mock")"
 }
 
 test_stdlib_testing_mock_object_assert_calls_are__no_args______________single_call_____no_keywords____matching__succeeds() {
@@ -96,7 +96,7 @@ test_stdlib_testing_mock_object_assert_calls_are__no_args______________single_ca
   _capture.assertion_failure test_mock.mock.assert_calls_are "${EXPECTED_CALLS[@]}"
 
   assert_output \
-    "$(_testing.mock.message.get MOCK_CALL_N_NOT_AS_EXPECTED "test_mock" "1")
+    "$(_testing.mock.__message.get MOCK_CALL_N_NOT_AS_EXPECTED "test_mock" "1")
  expected [1\(arg1\)] but was ['']"
 }
 
@@ -112,7 +112,7 @@ test_stdlib_testing_mock_object_assert_calls_are__no_args______________single_ca
   _capture.assertion_failure test_mock.mock.assert_calls_are "${EXPECTED_CALLS[@]}"
 
   assert_output \
-    "$(_testing.mock.message.get MOCK_CALL_N_NOT_AS_EXPECTED "test_mock" "1")
+    "$(_testing.mock.__message.get MOCK_CALL_N_NOT_AS_EXPECTED "test_mock" "1")
  expected [1\(arg1\)\ keyword1\(value1\)\ keyword2\(value2\)] but was [keyword1\(value1\)\ keyword2\(value2\)]"
 }
 
@@ -162,7 +162,7 @@ test_stdlib_testing_mock_object_assert_calls_are__no_args______________multiple_
   _capture.assertion_failure test_mock.mock.assert_calls_are "${EXPECTED_CALLS[@]}"
 
   assert_output \
-    "$(_testing.mock.message.get MOCK_CALL_N_NOT_AS_EXPECTED "test_mock" "2")
+    "$(_testing.mock.__message.get MOCK_CALL_N_NOT_AS_EXPECTED "test_mock" "2")
  expected [1\(arg1\)] but was ['']"
 }
 
@@ -182,7 +182,7 @@ test_stdlib_testing_mock_object_assert_calls_are__no_args______________multiple_
   _capture.assertion_failure test_mock.mock.assert_calls_are "${EXPECTED_CALLS[@]}"
 
   assert_output \
-    "$(_testing.mock.message.get MOCK_CALL_N_NOT_AS_EXPECTED "test_mock" "2")
+    "$(_testing.mock.__message.get MOCK_CALL_N_NOT_AS_EXPECTED "test_mock" "2")
  expected [1\(arg1\)\ keyword1\(value1\)\ keyword2\(value2\)] but was [keyword1\(value1\)\ keyword2\(value2\)]"
 }
 
@@ -220,7 +220,7 @@ test_stdlib_testing_mock_object_assert_calls_are__single_arg___________single_ca
   _capture.assertion_failure test_mock.mock.assert_calls_are "${EXPECTED_CALLS[@]}"
 
   assert_output \
-    "$(_testing.mock.message.get MOCK_CALL_N_NOT_AS_EXPECTED "test_mock" "1")
+    "$(_testing.mock.__message.get MOCK_CALL_N_NOT_AS_EXPECTED "test_mock" "1")
  expected [1\(arg1\)] but was [$'1(call 1; call1
 call1 call1 \\'\";)']"
 }
@@ -237,7 +237,7 @@ test_stdlib_testing_mock_object_assert_calls_are__single_arg___________single_ca
   _capture.assertion_failure test_mock.mock.assert_calls_are "${EXPECTED_CALLS[@]}"
 
   assert_output \
-    "$(_testing.mock.message.get MOCK_CALL_N_NOT_AS_EXPECTED "test_mock" "1")
+    "$(_testing.mock.__message.get MOCK_CALL_N_NOT_AS_EXPECTED "test_mock" "1")
  expected [1\(arg1\)\ keyword1\(value1\)\ keyword2\(value2\)] but was [$'1(call 1; call1
 call1 call1 \\'\";) keyword1(value1) keyword2(value2)']"
 }
@@ -255,7 +255,7 @@ test_stdlib_testing_mock_object_assert_calls_are__single_arg___________single_ca
   _capture.assertion_failure test_mock.mock.assert_calls_are "${EXPECTED_CALLS[@]}"
 
   assert_output \
-    "$(_testing.mock.message.get MOCK_CALLED_N_TIMES "test_mock" "1")"
+    "$(_testing.mock.__message.get MOCK_CALLED_N_TIMES "test_mock" "1")"
 }
 
 test_stdlib_testing_mock_object_assert_calls_are__single_arg___________single_call_____with_keywords__extra_____fails() {
@@ -270,7 +270,7 @@ test_stdlib_testing_mock_object_assert_calls_are__single_arg___________single_ca
   _capture.assertion_failure test_mock.mock.assert_calls_are "${EXPECTED_CALLS[@]}"
 
   assert_output \
-    "$(_testing.mock.message.get MOCK_CALLED_N_TIMES "test_mock" "1")"
+    "$(_testing.mock.__message.get MOCK_CALLED_N_TIMES "test_mock" "1")"
 }
 
 test_stdlib_testing_mock_object_assert_calls_are__single_arg___________multiple_calls__no_keywords____matching__succeeds() {
@@ -319,7 +319,7 @@ test_stdlib_testing_mock_object_assert_calls_are__single_arg___________multiple_
   _capture.assertion_failure test_mock.mock.assert_calls_are "${EXPECTED_CALLS[@]}"
 
   assert_output \
-    "$(_testing.mock.message.get MOCK_CALL_N_NOT_AS_EXPECTED "test_mock" "3")
+    "$(_testing.mock.__message.get MOCK_CALL_N_NOT_AS_EXPECTED "test_mock" "3")
  expected [$'1(call 3; call3
 call3 call3 \\'\"; - does not match)'] but was [$'1(call 3; call3
 call3 call3 \\'\";)']"
@@ -341,7 +341,7 @@ test_stdlib_testing_mock_object_assert_calls_are__single_arg___________multiple_
   _capture.assertion_failure test_mock.mock.assert_calls_are "${EXPECTED_CALLS[@]}"
 
   assert_output \
-    "$(_testing.mock.message.get MOCK_CALL_N_NOT_AS_EXPECTED "test_mock" "3")
+    "$(_testing.mock.__message.get MOCK_CALL_N_NOT_AS_EXPECTED "test_mock" "3")
  expected [$'1(call 3; call3
 call3 call3 \\'\"; - does not match) keyword1(value1) keyword2(value2)'] but was [$'1(call 3; call3
 call3 call3 \\'\";) keyword1(value1) keyword2(value2)']"
@@ -363,7 +363,7 @@ test_stdlib_testing_mock_object_assert_calls_are__single_arg___________multiple_
   _capture.assertion_failure test_mock.mock.assert_calls_are "${EXPECTED_CALLS[@]}"
 
   assert_output \
-    "$(_testing.mock.message.get MOCK_CALLED_N_TIMES "test_mock" "3")"
+    "$(_testing.mock.__message.get MOCK_CALLED_N_TIMES "test_mock" "3")"
 }
 
 test_stdlib_testing_mock_object_assert_calls_are__single_arg___________multiple_calls__with_keywords__extra___fails() {
@@ -383,7 +383,7 @@ test_stdlib_testing_mock_object_assert_calls_are__single_arg___________multiple_
   _capture.assertion_failure test_mock.mock.assert_calls_are "${EXPECTED_CALLS[@]}"
 
   assert_output \
-    "$(_testing.mock.message.get MOCK_CALLED_N_TIMES "test_mock" "3")"
+    "$(_testing.mock.__message.get MOCK_CALLED_N_TIMES "test_mock" "3")"
 }
 
 test_stdlib_testing_mock_object_assert_calls_are__double_args__________multiple_calls__no_keywords____matching__succeeds() {
@@ -428,7 +428,7 @@ test_stdlib_testing_mock_object_assert_calls_are__double_args__________single_ca
   _capture.assertion_failure test_mock.mock.assert_calls_are "${EXPECTED_CALLS[@]}"
 
   assert_output \
-    "$(_testing.mock.message.get MOCK_CALL_N_NOT_AS_EXPECTED "test_mock" "1")
+    "$(_testing.mock.__message.get MOCK_CALL_N_NOT_AS_EXPECTED "test_mock" "1")
  expected [$'1(call 1; call1
 call1 call1 \\'\";) 2(call1arg2 - does not match)'] but was [$'1(call 1; call1
 call1 call1 \\'\";) 2(call1arg2)']"
@@ -446,7 +446,7 @@ test_stdlib_testing_mock_object_assert_calls_are__double_args__________single_ca
   _capture.assertion_failure test_mock.mock.assert_calls_are "${EXPECTED_CALLS[@]}"
 
   assert_output \
-    "$(_testing.mock.message.get MOCK_CALL_N_NOT_AS_EXPECTED "test_mock" "1")
+    "$(_testing.mock.__message.get MOCK_CALL_N_NOT_AS_EXPECTED "test_mock" "1")
  expected [$'1(call 1; call1
 call1 call1 \\'\";) 2(call1arg2 - does not match) keyword1(value1) keyword2(value2)'] but was [$'1(call 1; call1
 call1 call1 \\'\";) 2(call1arg2) keyword1(value1) keyword2(value2)']"
@@ -467,7 +467,7 @@ test_stdlib_testing_mock_object_assert_calls_are__double_args__________multiple_
   _capture.assertion_failure test_mock.mock.assert_calls_are "${EXPECTED_CALLS[@]}"
 
   assert_output \
-    "$(_testing.mock.message.get MOCK_CALL_N_NOT_AS_EXPECTED "test_mock" "1")
+    "$(_testing.mock.__message.get MOCK_CALL_N_NOT_AS_EXPECTED "test_mock" "1")
  expected [$'1(call 1; call1
 call1 call1 \\'\";) 2(call1arg2 - does not match)'] but was [$'1(call 1; call1
 call1 call1 \\'\";) 2(call1arg2)']"
@@ -489,7 +489,7 @@ test_stdlib_testing_mock_object_assert_calls_are__double_args__________multiple_
   _capture.assertion_failure test_mock.mock.assert_calls_are "${EXPECTED_CALLS[@]}"
 
   assert_output \
-    "$(_testing.mock.message.get MOCK_CALL_N_NOT_AS_EXPECTED "test_mock" "1")
+    "$(_testing.mock.__message.get MOCK_CALL_N_NOT_AS_EXPECTED "test_mock" "1")
  expected [$'1(call 1; call1
 call1 call1 \\'\";) 2(call1arg2 - does not match) keyword1(value1) keyword2(value2)'] but was [$'1(call 1; call1
 call1 call1 \\'\";) 2(call1arg2) keyword1(value1) keyword2(value2)']"
@@ -510,7 +510,7 @@ test_stdlib_testing_mock_object_assert_calls_are__double_args__________multiple_
   _capture.assertion_failure test_mock.mock.assert_calls_are "${EXPECTED_CALLS[@]}"
 
   assert_output \
-    "$(_testing.mock.message.get MOCK_CALL_N_NOT_AS_EXPECTED "test_mock" "2")
+    "$(_testing.mock.__message.get MOCK_CALL_N_NOT_AS_EXPECTED "test_mock" "2")
  expected [$'1(call 2; call2
 call2 call2 \\'\";) 2(call2arg2 - does not match)'] but was [$'1(call 2; call2
 call2 call2 \\'\";) 2(call2arg2)']"
@@ -532,7 +532,7 @@ test_stdlib_testing_mock_object_assert_calls_are__double_args__________multiple_
   _capture.assertion_failure test_mock.mock.assert_calls_are "${EXPECTED_CALLS[@]}"
 
   assert_output \
-    "$(_testing.mock.message.get MOCK_CALL_N_NOT_AS_EXPECTED "test_mock" "2")
+    "$(_testing.mock.__message.get MOCK_CALL_N_NOT_AS_EXPECTED "test_mock" "2")
  expected [$'1(call 2; call2
 call2 call2 \\'\";) 2(call2arg2 - does not match) keyword1(value1) keyword2(value2)'] but was [$'1(call 2; call2
 call2 call2 \\'\";) 2(call2arg2) keyword1(value1) keyword2(value2)']"
@@ -553,7 +553,7 @@ test_stdlib_testing_mock_object_assert_calls_are__double_args__________multiple_
   _capture.assertion_failure test_mock.mock.assert_calls_are "${EXPECTED_CALLS[@]}"
 
   assert_output \
-    "$(_testing.mock.message.get MOCK_CALL_N_NOT_AS_EXPECTED "test_mock" "3")
+    "$(_testing.mock.__message.get MOCK_CALL_N_NOT_AS_EXPECTED "test_mock" "3")
  expected [$'1(call 3; call3
 call3 call3 \\'\";) 2(call3arg2 - does not match)'] but was [$'1(call 3; call3
 call3 call3 \\'\";) 2(call3arg2)']"
@@ -575,7 +575,7 @@ test_stdlib_testing_mock_object_assert_calls_are__double_args__________multiple_
   _capture.assertion_failure test_mock.mock.assert_calls_are "${EXPECTED_CALLS[@]}"
 
   assert_output \
-    "$(_testing.mock.message.get MOCK_CALL_N_NOT_AS_EXPECTED "test_mock" "3")
+    "$(_testing.mock.__message.get MOCK_CALL_N_NOT_AS_EXPECTED "test_mock" "3")
  expected [$'1(call 3; call3
 call3 call3 \\'\";) 2(call3arg2 - does not match) keyword1(value1) keyword2(value2)'] but was [$'1(call 3; call3
 call3 call3 \\'\";) 2(call3arg2) keyword1(value1) keyword2(value2)']"

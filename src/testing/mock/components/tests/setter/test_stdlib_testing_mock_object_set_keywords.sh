@@ -44,7 +44,7 @@ test_stdlib_testing_mock_object_set_keywords__@vary__generates_expected_log_mess
   test_mock.mock.set.keywords "${args[@]}"
 
   stdlib.testing.internal.logger.error.mock.assert_calls_are \
-    "1($(stdlib.message.get "${message_args[@]}")) _STDLIB_ARGS_CALLER_FN_NAME(test_mock.mock.set.keywords)"
+    "1($(stdlib.__message.get "${message_args[@]}")) _STDLIB_ARGS_CALLER_FN_NAME(test_mock.mock.set.keywords)"
 }
 
 @parametrize_with_invalid_arg_combos \

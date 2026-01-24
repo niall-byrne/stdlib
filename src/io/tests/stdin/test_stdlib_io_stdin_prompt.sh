@@ -27,7 +27,7 @@ teardown() {
 
   local default_prompt_value
 
-  default_prompt_value="$(stdlib.message.get STDIN_DEFAULT_VALUE_PROMPT)"
+  default_prompt_value="$(stdlib.__message.get STDIN_DEFAULT_VALUE_PROMPT)"
 
   @parametrize \
     "${1}" \

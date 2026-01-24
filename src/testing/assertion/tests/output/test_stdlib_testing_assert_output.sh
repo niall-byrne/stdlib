@@ -8,7 +8,7 @@ test_stdlib_testing_assert_output__missing_value____________fails() {
   _capture.assertion_failure assert_output "test string"
 
   assert_equals \
-    " $(_testing.assert.message.get ASSERT_ERROR_OUTPUT_NULL)" \
+    " $(_testing.assert.__message.get ASSERT_ERROR_OUTPUT_NULL)" \
     "${TEST_OUTPUT}"
 }
 
@@ -20,7 +20,7 @@ test_stdlib_testing_assert_output__incorrect_value__________fails() {
   _capture.assertion_failure assert_output "wrong string"
 
   assert_equals \
-    " $(_testing.assert.message.get ASSERT_ERROR_OUTPUT_NON_MATCHING)"$'\n'" expected [wrong string] but was [test string]" \
+    " $(_testing.assert.__message.get ASSERT_ERROR_OUTPUT_NON_MATCHING)"$'\n'" expected [wrong string] but was [test string]" \
     "${TEST_OUTPUT}"
 }
 

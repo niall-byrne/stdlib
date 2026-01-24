@@ -13,7 +13,7 @@ builtin set -eo pipefail
 stdlib.io.path.query.is_exists() {
   [[ "${#@}" == "1" ]] || builtin return 127
   [[ -n "${1}" ]] || builtin return 126
-  stdlib.builtin.overridable test -e "${1}" || builtin return 1
+  stdlib.__builtin.overridable test -e "${1}" || builtin return 1
 }
 
 # @description Checks if a path is a file.
@@ -25,7 +25,7 @@ stdlib.io.path.query.is_exists() {
 stdlib.io.path.query.is_file() {
   [[ "${#@}" == "1" ]] || builtin return 127
   [[ -n "${1}" ]] || builtin return 126
-  stdlib.builtin.overridable test -f "${1}" || builtin return 1
+  stdlib.__builtin.overridable test -f "${1}" || builtin return 1
 }
 
 # @description Checks if a path is a folder.
@@ -37,5 +37,5 @@ stdlib.io.path.query.is_file() {
 stdlib.io.path.query.is_folder() {
   [[ "${#@}" == "1" ]] || builtin return 127
   [[ -n "${1}" ]] || builtin return 126
-  stdlib.builtin.overridable test -d "${1}" || builtin return 1
+  stdlib.__builtin.overridable test -d "${1}" || builtin return 1
 }

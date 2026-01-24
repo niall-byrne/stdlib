@@ -72,5 +72,5 @@ test_stdlib_colour_n__valid_args______invalid_colour___________logs_warning() {
   _capture.stdout_raw stdlib.string.colour_n "NON_EXISTENT" "${TEST_INPUT}"
 
   stdlib.logger.warning.mock.assert_called_once_with \
-    "1($(stdlib.message.get COLOUR_NOT_DEFINED NON_EXISTENT))"
+    "1($(stdlib.__message.get COLOUR_NOT_DEFINED NON_EXISTENT))"
 }

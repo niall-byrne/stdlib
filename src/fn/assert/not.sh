@@ -18,14 +18,14 @@ stdlib.fn.assert.not_builtin() {
 
   case "${return_code}" in
     0)
-      stdlib.logger.error "$(stdlib.message.get IS_BUILTIN "${1}")"
+      stdlib.logger.error "$(stdlib.__message.get IS_BUILTIN "${1}")"
       builtin return 1
       ;;
     1)
       builtin return 0
       ;;
     127)
-      stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
       ;;
   esac
 
@@ -46,14 +46,14 @@ stdlib.fn.assert.not_fn() {
 
   case "${return_code}" in
     0)
-      stdlib.logger.error "$(stdlib.message.get IS_FN "${1}")"
+      stdlib.logger.error "$(stdlib.__message.get IS_FN "${1}")"
       builtin return 1
       ;;
     1)
       builtin return 0
       ;;
     127)
-      stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
       ;;
   esac
 

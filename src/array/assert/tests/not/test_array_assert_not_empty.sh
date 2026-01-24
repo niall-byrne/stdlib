@@ -57,7 +57,7 @@ test_stdlib_array_assert_is_not_empty__@vary__logs_an_error() {
   stdlib.array.assert.not_empty "${args[@]}"
 
   stdlib.logger.error.mock.assert_called_once_with \
-    "1($(stdlib.message.get "${message_args[@]}"))"
+    "1($(stdlib.__message.get "${message_args[@]}"))"
 }
 
 @parametrize_with_error_messages \

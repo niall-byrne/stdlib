@@ -18,10 +18,10 @@ stdlib.array.assert.is_array() {
   case "${_stdlib_return_code}" in
     0) ;; # KCOV_EXCLUDE_LINE
     127)
-      stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
       ;;
     *)
-      stdlib.logger.error "$(stdlib.message.get IS_NOT_ARRAY "${1}")"
+      stdlib.logger.error "$(stdlib.__message.get IS_NOT_ARRAY "${1}")"
       ;;
   esac
 
@@ -44,10 +44,10 @@ stdlib.array.assert.is_contains() {
   case "${_stdlib_return_code}" in
     0) ;; # KCOV_EXCLUDE_LINE
     126 | 127)
-      stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
       ;;
     *)
-      stdlib.logger.error "$(stdlib.message.get ARRAY_VALUE_NOT_FOUND "${1}" "${2}")"
+      stdlib.logger.error "$(stdlib.__message.get ARRAY_VALUE_NOT_FOUND "${1}" "${2}")"
       ;;
   esac
 
@@ -69,13 +69,13 @@ stdlib.array.assert.is_empty() {
   case "${_stdlib_return_code}" in
     0) ;; # KCOV_EXCLUDE_LINE
     1)
-      stdlib.logger.error "$(stdlib.message.get ARRAY_IS_NOT_EMPTY "${1}")"
+      stdlib.logger.error "$(stdlib.__message.get ARRAY_IS_NOT_EMPTY "${1}")"
       ;;
     126)
-      stdlib.logger.error "$(stdlib.message.get IS_NOT_ARRAY "${1}")"
+      stdlib.logger.error "$(stdlib.__message.get IS_NOT_ARRAY "${1}")"
       ;;
     127)
-      stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
       ;;
   esac
 
@@ -101,7 +101,7 @@ stdlib.array.assert.is_equal() {
   builtin local _stdlib_indirect_reference_2
 
   [[ "${#@}" == "2" ]] || {
-    stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+    stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
     builtin return 127
   }
   stdlib.array.assert.is_array "${1}" || builtin return 126
@@ -113,8 +113,8 @@ stdlib.array.assert.is_equal() {
   _stdlib_indirect_array_2=("${!_stdlib_indirect_reference_2}")
 
   if [[ "${#_stdlib_indirect_array_1[@]}" != "${#_stdlib_indirect_array_2[@]}" ]]; then
-    _stdlib_comparison_errors_array+=("$(stdlib.message.get ARRAY_LENGTH_MISMATCH "${_stdlib_array_name_1}" "${#_stdlib_indirect_array_1[@]}")")
-    _stdlib_comparison_errors_array+=("$(stdlib.message.get ARRAY_LENGTH_MISMATCH "${_stdlib_array_name_2}" "${#_stdlib_indirect_array_2[@]}")")
+    _stdlib_comparison_errors_array+=("$(stdlib.__message.get ARRAY_LENGTH_MISMATCH "${_stdlib_array_name_1}" "${#_stdlib_indirect_array_1[@]}")")
+    _stdlib_comparison_errors_array+=("$(stdlib.__message.get ARRAY_LENGTH_MISMATCH "${_stdlib_array_name_2}" "${#_stdlib_indirect_array_2[@]}")")
   fi
 
   for ((_stdlib_array_index = 0; _stdlib_array_index < "${#_stdlib_indirect_array_1[@]}"; _stdlib_array_index++)); do
@@ -122,8 +122,8 @@ stdlib.array.assert.is_equal() {
       builtin break
     fi
     if [[ "${_stdlib_indirect_array_1[_stdlib_array_index]}" != "${_stdlib_indirect_array_2[_stdlib_array_index]}" ]]; then
-      _stdlib_comparison_errors_array+=("$(stdlib.message.get ARRAY_ELEMENT_MISMATCH "${_stdlib_array_name_1}" "${_stdlib_array_index}" "${_stdlib_indirect_array_1[_stdlib_array_index]}")")
-      _stdlib_comparison_errors_array+=("$(stdlib.message.get ARRAY_ELEMENT_MISMATCH "${_stdlib_array_name_2}" "${_stdlib_array_index}" "${_stdlib_indirect_array_2[_stdlib_array_index]}")")
+      _stdlib_comparison_errors_array+=("$(stdlib.__message.get ARRAY_ELEMENT_MISMATCH "${_stdlib_array_name_1}" "${_stdlib_array_index}" "${_stdlib_indirect_array_1[_stdlib_array_index]}")")
+      _stdlib_comparison_errors_array+=("$(stdlib.__message.get ARRAY_ELEMENT_MISMATCH "${_stdlib_array_name_2}" "${_stdlib_array_index}" "${_stdlib_indirect_array_2[_stdlib_array_index]}")")
     fi
   done
 

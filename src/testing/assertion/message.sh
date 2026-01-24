@@ -4,7 +4,7 @@
 
 builtin set -eo pipefail
 
-_testing.assert.message.get() {
+_testing.assert.__message.get() {
   # $1: the message key to retrieve
   # $2: interpolation option 1
   # $3: interpolation option 2
@@ -70,7 +70,7 @@ _testing.assert.message.get() {
     "")
       required_options=0
       return_status=126
-      message="$(_testing.__protected stdlib.message.get ARGUMENTS_INVALID)"
+      message="$(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)"
       ;;
     *)
       required_options=0
@@ -80,7 +80,7 @@ _testing.assert.message.get() {
   esac
 
   (("${#@}" == 1 + required_options)) || {
-    message="$(_testing.__protected stdlib.message.get ARGUMENTS_INVALID)"
+    message="$(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)"
     return_status=127
   }
 

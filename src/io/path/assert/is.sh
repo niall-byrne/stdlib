@@ -19,10 +19,10 @@ stdlib.io.path.assert.is_exists() {
   case "${return_code}" in
     0) ;; # KCOV_EXCLUDE_LINE
     126 | 127)
-      stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
       ;;
     *)
-      stdlib.logger.error "$(stdlib.message.get FS_PATH_DOES_NOT_EXIST "${1}")"
+      stdlib.logger.error "$(stdlib.__message.get FS_PATH_DOES_NOT_EXIST "${1}")"
       ;;
   esac
 
@@ -44,10 +44,10 @@ stdlib.io.path.assert.is_file() {
   case "${return_code}" in
     0) ;; # KCOV_EXCLUDE_LINE
     126 | 127)
-      stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
       ;;
     *)
-      stdlib.logger.error "$(stdlib.message.get FS_PATH_IS_NOT_A_FILE "${1}")"
+      stdlib.logger.error "$(stdlib.__message.get FS_PATH_IS_NOT_A_FILE "${1}")"
       ;;
   esac
 
@@ -69,10 +69,10 @@ stdlib.io.path.assert.is_folder() {
   case "${return_code}" in
     0) ;; # KCOV_EXCLUDE_LINE
     126 | 127)
-      stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
       ;;
     *)
-      stdlib.logger.error "$(stdlib.message.get FS_PATH_IS_NOT_A_FOLDER "${1}")"
+      stdlib.logger.error "$(stdlib.__message.get FS_PATH_IS_NOT_A_FOLDER "${1}")"
       ;;
   esac
 

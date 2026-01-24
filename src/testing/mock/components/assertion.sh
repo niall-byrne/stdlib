@@ -48,7 +48,7 @@ ${1}.mock.assert_any_call_is() {
   assert_not_equals \
     "0" \
     "\${_mock_object_match_count}" \
-    "\$(_testing.mock.message.get "MOCK_NOT_CALLED_WITH" "${1}" "\${1}")"
+    "\$(_testing.mock.__message.get "MOCK_NOT_CALLED_WITH" "${1}" "\${1}")"
 }
 
 ${1}.mock.assert_call_n_is() {
@@ -71,7 +71,7 @@ ${1}.mock.assert_call_n_is() {
 
   if [[ "\${_mock_object_call_count}" -lt "\${1}" ]]; then
     fail \
-      "\$(_testing.mock.message.get MOCK_CALLED_N_TIMES "${1}" "\${_mock_object_call_count}")"
+      "\$(_testing.mock.__message.get MOCK_CALLED_N_TIMES "${1}" "\${_mock_object_call_count}")"
   fi
 
   _mock_object_arg_string_actual="\$("${1}.mock.get.call" "\${1}")"
@@ -79,7 +79,7 @@ ${1}.mock.assert_call_n_is() {
   assert_equals \
     "\${2}" \
     "\${_mock_object_arg_string_actual}" \
-    "\$(_testing.mock.message.get MOCK_CALL_N_NOT_AS_EXPECTED "${1}" "\${1}")"
+    "\$(_testing.mock.__message.get MOCK_CALL_N_NOT_AS_EXPECTED "${1}" "\${1}")"
 }
 
 ${1}.mock.assert_called_once_with() {
@@ -102,13 +102,13 @@ ${1}.mock.assert_called_once_with() {
   if [[ "\${_mock_object_match_count}" != "1" ]]; then
     _mock_object_arg_string_actual="\$(${1}.mock.get.call "1")"
     builtin echo \
-      "\$(_testing.mock.message.get MOCK_CALL_ACTUAL_PREFIX): [\${_mock_object_arg_string_actual}]"
+      "\$(_testing.mock.__message.get MOCK_CALL_ACTUAL_PREFIX): [\${_mock_object_arg_string_actual}]"
   fi
 
   assert_equals \
     "1" \
     "\${_mock_object_match_count}" \
-    "\$(_testing.mock.message.get MOCK_NOT_CALLED_ONCE_WITH "${1}" "\${1}")"
+    "\$(_testing.mock.__message.get MOCK_NOT_CALLED_ONCE_WITH "${1}" "\${1}")"
 }
 
 ${1}.mock.assert_calls_are() {
@@ -131,16 +131,16 @@ ${1}.mock.assert_calls_are() {
     assert_equals \
       "\${_mock_object_arg_string_expected}" \
       "\${_mock_object_arg_string_actual}" \
-      "\$(_testing.mock.message.get MOCK_CALL_N_NOT_AS_EXPECTED "${1}" "\$((_mock_object_call_index + 1))")"
+      "\$(_testing.mock.__message.get MOCK_CALL_N_NOT_AS_EXPECTED "${1}" "\$((_mock_object_call_index + 1))")"
     ((_mock_object_call_index++))
   done < "\${__${2}_mock_calls_file}" || builtin true
 
   if [[ "\${_mock_object_call_index}" == 0 ]] && [[ "\${#@}" != 0 ]]; then
-    fail "\$(_testing.mock.message.get "MOCK_NOT_CALLED" "${1}")"
+    fail "\$(_testing.mock.__message.get "MOCK_NOT_CALLED" "${1}")"
   fi
 
   if [[ "\${_mock_object_call_index}" < "\${#_mock_object_expected_mock_calls[@]}" ]]; then
-    fail "\$(_testing.mock.message.get MOCK_CALLED_N_TIMES "${1}" "\$((_mock_object_call_index))")"
+    fail "\$(_testing.mock.__message.get MOCK_CALLED_N_TIMES "${1}" "\$((_mock_object_call_index))")"
   fi
 }
 
@@ -158,7 +158,7 @@ ${1}.mock.assert_count_is() {
   assert_equals \
     "\${1}" \
     "\${_mock_object_call_count}" \
-    "\$(_testing.mock.message.get "MOCK_CALLED_N_TIMES" "${1}" "\${_mock_object_call_count}")"
+    "\$(_testing.mock.__message.get "MOCK_CALLED_N_TIMES" "${1}" "\${_mock_object_call_count}")"
 }
 
 ${1}.mock.assert_not_called() {
@@ -172,7 +172,7 @@ ${1}.mock.assert_not_called() {
   assert_equals \
     "0" \
     "\${_mock_object_call_count}" \
-    "\$(_testing.mock.message.get "MOCK_CALLED_N_TIMES" "${1}" "\${_mock_object_call_count}")"
+    "\$(_testing.mock.__message.get "MOCK_CALLED_N_TIMES" "${1}" "\${_mock_object_call_count}")"
 }
 EOF
 )"

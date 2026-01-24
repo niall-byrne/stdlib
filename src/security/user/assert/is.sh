@@ -18,10 +18,10 @@ stdlib.security.user.assert.is_root() {
   case "${return_code}" in
     0) ;; # KCOV_EXCLUDE_LINE
     1)
-      stdlib.logger.error "$(stdlib.message.get SECURITY_MUST_BE_RUN_AS_ROOT)"
+      stdlib.logger.error "$(stdlib.__message.get SECURITY_MUST_BE_RUN_AS_ROOT)"
       ;;
     *)
-      stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
       ;;
   esac
 

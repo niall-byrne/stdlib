@@ -19,10 +19,10 @@ stdlib.fn.assert.is_builtin() {
   case "${return_code}" in
     0) ;; # KCOV_EXCLUDE_LINE
     127)
-      stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
       ;;
     *)
-      stdlib.logger.error "$(stdlib.message.get IS_NOT_BUILTIN "${1}")"
+      stdlib.logger.error "$(stdlib.__message.get IS_NOT_BUILTIN "${1}")"
       ;;
   esac
 
@@ -44,10 +44,10 @@ stdlib.fn.assert.is_fn() {
   case "${return_code}" in
     0) ;; # KCOV_EXCLUDE_LINE
     127)
-      stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
       ;;
     *)
-      stdlib.logger.error "$(stdlib.message.get IS_NOT_FN "${1}")"
+      stdlib.logger.error "$(stdlib.__message.get IS_NOT_FN "${1}")"
       ;;
   esac
 
@@ -69,10 +69,10 @@ stdlib.fn.assert.is_valid_name() {
   case "${return_code}" in
     0) ;; # KCOV_EXCLUDE_LINE
     126 | 127)
-      stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
       ;;
     *)
-      stdlib.logger.error "$(stdlib.message.get FN_NAME_INVALID "${1}")"
+      stdlib.logger.error "$(stdlib.__message.get FN_NAME_INVALID "${1}")"
       ;;
   esac
 

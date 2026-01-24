@@ -21,11 +21,11 @@ stdlib.security.path.assert.has_group() {
   case "${return_code}" in
     0) ;; # KCOV_EXCLUDE_LINE
     1)
-      stdlib.logger.error "$(stdlib.message.get SECURITY_INSECURE_GROUP_OWNERSHIP "${1}")"
-      stdlib.logger.info "$(stdlib.message.get SECURITY_SUGGEST_CHGRP "${2}" "${1}")"
+      stdlib.logger.error "$(stdlib.__message.get SECURITY_INSECURE_GROUP_OWNERSHIP "${1}")"
+      stdlib.logger.info "$(stdlib.__message.get SECURITY_SUGGEST_CHGRP "${2}" "${1}")"
       ;;
     *)
-      stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
       ;;
   esac
 
@@ -49,11 +49,11 @@ stdlib.security.path.assert.has_owner() {
   case "${return_code}" in
     0) ;; # KCOV_EXCLUDE_LINE
     1)
-      stdlib.logger.error "$(stdlib.message.get SECURITY_INSECURE_OWNERSHIP "${1}")"
-      stdlib.logger.info "$(stdlib.message.get SECURITY_SUGGEST_CHOWN "${2}" "${1}")"
+      stdlib.logger.error "$(stdlib.__message.get SECURITY_INSECURE_OWNERSHIP "${1}")"
+      stdlib.logger.info "$(stdlib.__message.get SECURITY_SUGGEST_CHOWN "${2}" "${1}")"
       ;;
     *)
-      stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
       ;;
   esac
 
@@ -77,11 +77,11 @@ stdlib.security.path.assert.has_permissions() {
   case "${return_code}" in
     0) ;; # KCOV_EXCLUDE_LINE
     1)
-      stdlib.logger.error "$(stdlib.message.get SECURITY_INSECURE_PERMISSIONS "${1}")"
-      stdlib.logger.info "$(stdlib.message.get SECURITY_SUGGEST_CHMOD "${2}" "${1}")"
+      stdlib.logger.error "$(stdlib.__message.get SECURITY_INSECURE_PERMISSIONS "${1}")"
+      stdlib.logger.info "$(stdlib.__message.get SECURITY_SUGGEST_CHMOD "${2}" "${1}")"
       ;;
     *)
-      stdlib.logger.error "$(stdlib.message.get ARGUMENTS_INVALID)"
+      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
       ;;
   esac
 

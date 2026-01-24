@@ -46,7 +46,7 @@ test_stdlib_testing_mock_object_get_call__@vary__generates_expected_log_messages
   stdlib.array.make.from_string message_arg_definitions " " "${TEST_MESSAGE_ARG_DEFINITIONS}"
   for message_arg_definition in "${message_arg_definitions[@]}"; do
     stdlib.array.make.from_string message_args "|" "${message_arg_definition}"
-    expected_log_messages+=("1($(stdlib.message.get "${message_args[@]}")) _STDLIB_ARGS_CALLER_FN_NAME(test_mock.mock.get.call)")
+    expected_log_messages+=("1($(stdlib.__message.get "${message_args[@]}")) _STDLIB_ARGS_CALLER_FN_NAME(test_mock.mock.get.call)")
   done
 
   test_mock.mock.get.call "${args[@]}"
@@ -74,7 +74,7 @@ test_stdlib_testing_mock_object_get_call__builtin_unavailable__generates_expecte
   _capture.assertion_failure test_mock.mock.get.call "1"
 
   assert_equals \
-    "test_mock.mock.get.call: $(_testing.mock.message.get "MOCK_REQUIRES_BUILTIN" "test_mock" "declare")" \
+    "test_mock.mock.get.call: $(_testing.mock.__message.get "MOCK_REQUIRES_BUILTIN" "test_mock" "declare")" \
     "${TEST_OUTPUT}"
 }
 

@@ -40,7 +40,7 @@ test_stdlib_io_stdin_confirmation__@vary__returns_expected_status_code() {
 test_stdlib_io_stdin_confirmation__valid_key_strokes____________default_prompt__displays_prompt_as_expected() {
   _capture.output stdlib.io.stdin.confirmation <<< "Y"
 
-  assert_output "$(stdlib.message.get STDIN_DEFAULT_CONFIRMATION_PROMPT)"
+  assert_output "$(stdlib.__message.get STDIN_DEFAULT_CONFIRMATION_PROMPT)"
 }
 
 test_stdlib_io_stdin_confirmation__valid_key_strokes____________custom_prompt___displays_prompt_as_expected() {

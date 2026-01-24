@@ -4,7 +4,7 @@
 
 builtin set -eo pipefail
 
-_testing.mock.message.get() {
+_testing.mock.__message.get() {
   # $1: the message key to retrieve
   # $2: interpolation option 1
   # $3: interpolation option 2
@@ -57,7 +57,7 @@ _testing.mock.message.get() {
     "")
       required_options=0
       return_status=126
-      message="$(_testing.__protected stdlib.message.get ARGUMENTS_INVALID)"
+      message="$(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)"
       ;;
     *)
       required_options=0
@@ -67,7 +67,7 @@ _testing.mock.message.get() {
   esac
 
   (("${#@}" - 1 == required_options)) || {
-    message="$(_testing.__protected stdlib.message.get ARGUMENTS_INVALID)"
+    message="$(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)"
     return_status=127
   }
 

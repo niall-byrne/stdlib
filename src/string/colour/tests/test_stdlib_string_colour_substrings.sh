@@ -70,5 +70,5 @@ test_stdlib_colour_substrings__valid_args______non_existent_____________correct_
   _capture.stdout_raw stdlib.string.colour.substrings "NON_EXISTENT" "string" "${TEST_INPUT}"
 
   stdlib.logger.warning.mock.assert_called_once_with \
-    "1($(stdlib.message.get COLOUR_NOT_DEFINED NON_EXISTENT))"
+    "1($(stdlib.__message.get COLOUR_NOT_DEFINED NON_EXISTENT))"
 }
