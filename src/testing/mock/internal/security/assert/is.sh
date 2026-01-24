@@ -4,9 +4,13 @@
 
 builtin set -eo pipefail
 
+# @description Asserts that a function is a builtin and not overridden.
+# @arg $1 string The function name to check.
+# @exitcode 0 If the function is a builtin.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stderr The error message if the operation fails.
+# @internal
 _mock.__internal.security.assert.is_builtin() {
-  # $1: the function name to query
-
   builtin local return_code=0
   builtin local requesting_mock="${FUNCNAME[1]%.mock*}"
 

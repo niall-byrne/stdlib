@@ -19,9 +19,12 @@ builtin source "${STDLIB_DIRECTORY}/testing/assertion/rc.sh"
 # shellcheck source=src/testing/assertion/snapshot.sh
 builtin source "${STDLIB_DIRECTORY}/testing/assertion/snapshot.sh"
 
+# @description Checks if a value is provided to an assertion.
+# @arg $1 string The variable name to check.
+# @exitcode 0 If the operation succeeded.
+# @stderr The error message if the assertion fails.
+# @internal
 _testing.__assertion.value.check() {
-  # $1: the variable to check
-
   builtin local value_name="${1}"
   builtin local assertion_name="${FUNCNAME[1]}"
 

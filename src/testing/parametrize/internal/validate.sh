@@ -4,9 +4,13 @@
 
 builtin set -eo pipefail
 
+# @description Validates a parametrizer function name.
+# @arg $1 string The parametrizer function name to validate.
+# @exitcode 0 If the name is valid.
+# @exitcode 126 If an invalid argument has been provided.
+# @stderr The error message if the operation fails.
+# @internal
 @parametrize.__internal.validate.fn_name.parametrizer() {
-  # $1: the parametrizer function name to validate
-
   if ! stdlib.fn.query.is_fn "${1}"; then
     _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_PARAMETRIZER_FN_INVALID "${1}")"
     _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_FN_DOES_NOT_EXIST)"
@@ -20,9 +24,13 @@ builtin set -eo pipefail
   fi
 }
 
+# @description Validates a test function name for parametrization.
+# @arg $1 string The test function name to validate.
+# @exitcode 0 If the name is valid.
+# @exitcode 126 If an invalid argument has been provided.
+# @stderr The error message if the operation fails.
+# @internal
 @parametrize.__internal.validate.fn_name.test() {
-  # $1: the test function name to validate
-
   if ! stdlib.fn.query.is_fn "${1}"; then
     _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_TEST_FN_INVALID "${1}")"
     _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_FN_DOES_NOT_EXIST)"
@@ -37,11 +45,15 @@ builtin set -eo pipefail
   fi
 }
 
+# @description Validates a test scenario configuration.
+# @arg $1 string The name of the array containing environment variables.
+# @arg $2 string The name of the array containing fixture commands.
+# @arg $3 string The name of the array containing the scenario configuration.
+# @exitcode 0 If the scenario is valid.
+# @exitcode 126 If an invalid argument has been provided.
+# @stderr The error message if the operation fails.
+# @internal
 @parametrize.__internal.validate.scenario() {
-  # $1: the name of the array containing the environment variable names
-  # $2: the name of the array containing the fixture commands
-  # $3: the name of the array containing the scenario configuration
-
   builtin local validate_env_var_indirect_array_reference
   builtin local -a validate_env_var_indirect_array
   builtin local validate_fixture_indirect_command_array_reference
@@ -61,12 +73,12 @@ builtin set -eo pipefail
   if (("${#validate_scenario_indirect_array[@]}" != "${#validate_env_var_indirect_array[@]}" + 1)); then
     {
       _testing.parametrize.__message.get PARAMETRIZE_HEADER_SCENARIO_VALUES
-      builtin echo
+      builtin echo # noqa
       for ((validation_index = 0; validation_index < "${#validate_env_var_indirect_array[@]}"; validation_index++)); do
-        builtin echo "  ${validate_env_var_indirect_array[validation_index]} = ${validate_scenario_indirect_array[validation_index + 1]}"
+        builtin echo "  ${validate_env_var_indirect_array[validation_index]} = ${validate_scenario_indirect_array[validation_index + 1]}" # noqa
       done
       _testing.parametrize.__message.get PARAMETRIZE_FOOTER_SCENARIO_VALUES
-      builtin echo
+      builtin echo # noqa
     } >&2 # KCOV_EXCLUDE_LINE
     _testing.error \
       "$(_testing.parametrize.__message.get PARAMETRIZE_CONFIGURATION_ERROR)" \

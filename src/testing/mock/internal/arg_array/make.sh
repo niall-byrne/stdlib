@@ -4,11 +4,14 @@
 
 builtin set -eo pipefail
 
+# @description Generates a mock argument array from positional and keyword arguments.
+# @arg $1 string The name of the array to create.
+# @arg $2 string The name of the array containing positional arguments.
+# @arg $3 string (optional) The name of the array containing keyword arguments.
+# @exitcode 0 If the operation succeeded.
+# @set $1 array The generated mock argument array.
+# @internal
 _mock.__internal.arg_array.make.from_array() {
-  # $1: the name of the array to create
-  # $2: the array name to generate an arg string from
-  # $3: an optional array name to generate keyword args from
-
   builtin local -a _mock_arg_array
   builtin local _mock_array_index
   builtin local _mock_arg_element
@@ -47,6 +50,11 @@ _mock.__internal.arg_array.make.from_array() {
   fi
 }
 
+# @description Generates a string representation of an array element for a keyword argument.
+# @noargs
+# @exitcode 0 If the operation succeeded.
+# @stdout The string representation of the array element.
+# @internal
 _mock.__internal.arg_array.make.element.from_array() {
   builtin local _mock_keyword_array_arg_indirect_reference
   builtin local -a _mock_keyword_array_arg

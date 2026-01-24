@@ -4,13 +4,15 @@
 
 builtin set -eo pipefail
 
+# @description Parses the parametrization configuration.
+# @arg $1 string The name of the array containing the configuration.
+# @arg $2 string The name of the variable to store the scenario start index.
+# @arg $3 string The name of the array to store environment variables.
+# @arg $4 string The name of the array to store fixture commands.
+# @arg $5 string The name of the variable to store the variant padding value.
+# @exitcode 0 If the operation succeeded.
+# @internal
 @parametrize.__internal.configuration.parse() {
-  # $1: the name of the array containing the configuration to parse
-  # $2: the name of the variable to store the configuration index where scenarios begin
-  # $3: the name of the array in which to store the environment variables
-  # $4: the name of the array in which to store the fixture commands
-  # $5: the name of the variable to store the variant padding value
-
   builtin local parse_configuration_array_indirect_reference
   builtin local -a parse_configuration_array
   builtin local parse_configuration_array_index=0
@@ -38,8 +40,11 @@ builtin set -eo pipefail
   builtin printf -v "${5}" "%s" "${parse_variant_padding_value}"
 }
 
+# @description Parses the header of the parametrization configuration.
+# @arg $@ array The configuration lines.
+# @exitcode 0 If the operation succeeded.
+# @internal
 @parametrize.__internal.configuration.parse_header() {
-  # $@: the parametrize configuration to parse the header from
   # consumes and modifies the local variables from @parametrize.__internal.configuration.parse
 
   while [[ -n "${1}" ]]; do
@@ -59,8 +64,11 @@ builtin set -eo pipefail
   done
 }
 
+# @description Parses the scenarios of the parametrization configuration.
+# @arg $@ array The configuration lines.
+# @exitcode 0 If the operation succeeded.
+# @internal
 @parametrize.__internal.configuration.parse_scenarios() {
-  # $@: the parametrize configuration to parse scenarios from
   # consumes and modifies the local variables from @parametrize.__internal.configuration.parse
 
   builtin local -a parse_scenario_array

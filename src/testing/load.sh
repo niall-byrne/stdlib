@@ -4,9 +4,15 @@
 
 builtin set -eo pipefail
 
+# @description Loads a module with error support.
+#     STDLIB_TESTING_THEME_LOAD: The colour to use for the load notification.
+# @arg $1 string The path to the module to load.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stdout The load notification message.
+# @stderr The error message if the operation fails.
 _testing.load() {
-  # $1: the module to source with error support
-
   [[ "${#@}" == 1 ]] || {
     _testing.error "_testing.load: $(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)"
     builtin return 127

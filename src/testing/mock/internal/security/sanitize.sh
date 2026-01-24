@@ -4,9 +4,12 @@
 
 builtin set -eo pipefail
 
+# @description Sanitizes a function name by replacing special characters.
+# @arg $1 string The function name to sanitize.
+# @exitcode 0 If the operation succeeded.
+# @stdout The sanitized function name.
+# @internal
 _mock.__internal.security.sanitize.fn_name() {
-  # $1: the function name to sanitize
-
   builtin local _fn_name_sanitized
   builtin local _fn_name_original="${1}"
 

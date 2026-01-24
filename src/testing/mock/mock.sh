@@ -49,9 +49,13 @@ builtin set -eo pipefail
 #                                           - NOTE: calling any _mock.sequence assertion will also stop recording
 # _mock.sequence.record.resume              - resumes recording all mock calls without clearing the existing sequence
 
+# @description Creates a new mock object.
+# @arg $1 string The name of the mock to create.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stderr The error message if the operation fails.
 _mock.create() {
-  # $1: the variable name to create
-
   builtin local _mock_sanitized_fn_name
   builtin local _mock_escaped_fn_name
   builtin local _mock_attribute
@@ -81,9 +85,11 @@ _mock.create() {
   _mock.__generate_mock "${_mock_escaped_fn_name}" "${_mock_sanitized_fn_name}"
 }
 
+# @description Deletes a mock object and restores its original implementation if it existed.
+# @arg $1 string The name of the mock to delete.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 127 If the wrong number of arguments were provided.
 _mock.delete() {
-  # $1: the mock name to delete (restoring the original implementation)
-
   _testing.__protected stdlib.fn.assert.is_fn "${1}" || builtin return 127
   _testing.__protected stdlib.fn.assert.is_fn "${1}.mock.set.subcommand" || builtin return 127
 
@@ -100,16 +106,25 @@ _mock.delete() {
   fi
 }
 
+# @description Clears all calls made to all existing mocks.
+# @noargs
+# @exitcode 0 If the operation succeeded.
 _mock.clear_all() {
   _mock.__internal.persistence.registry.apply_to_all "clear"
 }
 
+# @description Registers a cleanup function to be called on script exit.
+# @noargs
+# @exitcode 0 If the operation succeeded.
 _mock.register_cleanup() {
   if builtin declare -F stdlib.trap.handler.exit.fn.register > /dev/null; then
     stdlib.trap.handler.exit.fn.register _mock.__internal.persistence.registry.cleanup
   fi
 }
 
+# @description Resets all existing mocks, clearing all calls and set values.
+# @noargs
+# @exitcode 0 If the operation succeeded.
 _mock.reset_all() {
   _mock.__internal.persistence.registry.apply_to_all "reset"
 }

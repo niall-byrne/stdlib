@@ -4,10 +4,13 @@
 
 builtin set -eo pipefail
 
+# @description Creates mocks for all stdlib logger functions.
+# @noargs
+# @exitcode 0 If the operation succeeded.
 _testing.fixtures.mock.logger() {
-  _mock.create stdlib.logger.error
-  _mock.create stdlib.logger.warning
-  _mock.create stdlib.logger.info
-  _mock.create stdlib.logger.notice
-  _mock.create stdlib.logger.success
+  _mock.create stdlib.logger.error # noqa
+  _mock.create stdlib.logger.warning # noqa
+  _mock.create stdlib.logger.info # noqa
+  _mock.create stdlib.logger.notice # noqa
+  _mock.create stdlib.logger.success # noqa
 }

@@ -16,17 +16,20 @@ builtin set -eo pipefail
 
 __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS=()
 
+# @description Parametrizes a test function with multiple scenarios.
+#     STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN: Whether to show debug info.
+#     STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR: The separator for scenarios.
+#     STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX: The prefix for fixture commands.
+#     STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX: The prefix for parametrizer functions.
+#     STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN: Whether to show original test names.
+#     STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG: The tag to replace in the test name.
+# @arg $1 string The name of the test function to parametrize.
+# @arg $@ array The parametrization configuration (fixtures, variables, scenarios).
+# @exitcode 0 If the operation succeeded.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stderr The error message if the operation fails.
 @parametrize() {
-  # $1: (required) the name of the test function to parametrize
-  # $@: (optional) test fixtures (or setup commands to execute) before test execution begins.
-  #     These commands can have access to the variables that have been parametrized for
-  #     more complex scenario generation.
-  #     i.e. "@fixture function_name" or "@fixture echo hello"
-  # $X: (required) a comma separate list of variable names
-  #     i.e. VAR1,VAR2,VAR3
-  # $@: (required) a comma separated list of a scenario name, and values comprising a test scenario
-  #     i.e. SCENARIO_NAME,VALUE1,VALUE2,VALUE3
-
   # shellcheck disable=SC2034
   {
     builtin local -a array_environment_variables
@@ -88,13 +91,13 @@ __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS=()
       _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_NAME)"
       {
         _testing.parametrize.__message.get PARAMETRIZE_PREFIX_TEST_NAME
-        builtin echo ": '$(
+        builtin echo ": '$( # noqa
           _testing.__protected stdlib.string.colour \
             "${STDLIB_TESTING_THEME_PARAMETRIZE_HIGHLIGHT}" \
             "${original_test_function_name}"
         )'"
         _testing.parametrize.__message.get PARAMETRIZE_PREFIX_VARIANT_NAME
-        builtin echo ": '$(
+        builtin echo ": '$( # noqa
           _testing.__protected stdlib.string.colour \
             "${STDLIB_TESTING_THEME_PARAMETRIZE_HIGHLIGHT}" \
             "${test_function_variant_name}"

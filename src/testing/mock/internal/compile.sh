@@ -4,6 +4,10 @@
 
 builtin set -eo pipefail
 
+# @description Compiles the mock generation function from its components.
+# @noargs
+# @exitcode 0 If the operation succeeded.
+# @internal
 _mock.__internal.compile() {
   builtin local mock_component
   builtin local -a mock_component_file_set
@@ -20,6 +24,11 @@ _mock.__internal.compile() {
 
   # shellcheck disable=SC1090
   builtin source <({
+    builtin echo "# @description Generates a mock object implementation."
+    builtin echo "# @arg \$1 string The escaped mock name."
+    builtin echo "# @arg \$2 string The sanitized mock name."
+    builtin echo "# @exitcode 0 If the operation succeeded."
+    builtin echo "# @internal"
     builtin echo "_mock.__generate_mock() {"
     builtin echo "  _mock.__internal.persistence.registry.add_mock \"\${1}\" \"\${2}\""
     builtin echo "builtin eval \"\$(\"${_STDLIB_BINARY_CAT}\" <<EOF"
