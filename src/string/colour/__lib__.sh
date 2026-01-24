@@ -11,7 +11,7 @@ builtin source "${STDLIB_DIRECTORY}/string/colour/substring.sh"
 
 # @description A pipeable version of stdlib.string.colour_n.
 # @arg $1 string The name of the colour to use.
-# @arg $2 string (optional, default="-") The string to colour, the default behaviour reads from stdin.
+# @arg $2 string (optional, default="-") The string to colour, by default this function reads from stdin.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stdin The string to colour.
@@ -31,7 +31,7 @@ stdlib.fn.derive.var "stdlib.string.colour_n" "stdlib.string.colour_var"
 
 # @description A pipeable version of stdlib.string.colour.
 # @arg $1 string The name of the colour to use.
-# @arg $2 string (optional, default="-") The string to colour, the default behaviour reads from stdin.
+# @arg $2 string (optional, default="-") The string to colour, by default this function reads from stdin.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stdin The string to colour.
@@ -43,7 +43,7 @@ stdlib.fn.derive.pipeable "stdlib.string.colour" "2"
 # @description A pipeable version of stdlib.string.colour.substring.
 # @arg $1 string The name of the colour to use.
 # @arg $2 string The substring to colour.
-# @arg $3 string (optional, default="-") The source string, the default behaviour reads from stdin.
+# @arg $3 string (optional, default="-") The source string, by default this function reads from stdin.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stdin The source string.
@@ -65,7 +65,7 @@ stdlib.fn.derive.var "stdlib.string.colour.substring"
 # @description A pipeable version of stdlib.string.colour.substrings.
 # @arg $1 string The name of the colour to use.
 # @arg $2 string The substring to colour.
-# @arg $3 string (optional, default="-") The source string, the default behaviour reads from stdin.
+# @arg $3 string (optional, default="-") The source string, by default this function reads from stdin.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stdin The source string.

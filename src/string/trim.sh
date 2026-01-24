@@ -23,7 +23,7 @@ stdlib.string.trim.left() {
 }
 
 # @description A pipeable version of stdlib.string.trim.left.
-# @arg $1 string (optional, default="-") The string to trim, the default behaviour reads from stdin.
+# @arg $1 string (optional, default="-") The string to trim, by default this function reads from stdin.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stdin The string to trim.
@@ -59,7 +59,7 @@ stdlib.string.trim.right() {
 }
 
 # @description A pipeable version of stdlib.string.trim.right.
-# @arg $1 string (optional, default="-") The string to trim, the default behaviour reads from stdin.
+# @arg $1 string (optional, default="-") The string to trim, by default this function reads from stdin.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stdin The string to trim.

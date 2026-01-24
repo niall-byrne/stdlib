@@ -68,7 +68,7 @@ stdlib.string.wrap() {
 # @description A pipeable version of stdlib.string.wrap.
 # @arg $1 integer The left-side padding.
 # @arg $2 integer The right-side wrap limit.
-# @arg $3 string (optional, default="-") The text to wrap, the default behaviour reads from stdin.
+# @arg $3 string (optional, default="-") The text to wrap, by default this function reads from stdin.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.

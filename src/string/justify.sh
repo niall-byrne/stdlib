@@ -23,7 +23,7 @@ stdlib.string.justify.left() {
 
 # @description A pipeable version of stdlib.string.justify.left.
 # @arg $1 integer The column width to justify to.
-# @arg $2 string (optional, default="-") The string to justify, the default behaviour reads from stdin.
+# @arg $2 string (optional, default="-") The string to justify, by default this function reads from stdin.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stdin The string to justify.
@@ -60,7 +60,7 @@ stdlib.string.justify.right() {
 
 # @description A pipeable version of stdlib.string.justify.right.
 # @arg $1 integer The column width to justify to.
-# @arg $2 string (optional, default="-") The string to justify, the default behaviour reads from stdin.
+# @arg $2 string (optional, default="-") The string to justify, by default this function reads from stdin.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stdin The string to justify.

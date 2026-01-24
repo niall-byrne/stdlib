@@ -38,7 +38,7 @@ stdlib.string.lines.map.format() {
 
 # @description A pipeable version of stdlib.string.lines.map.format.
 # @arg $1 string A valid printf format string.
-# @arg $2 string (optional, default="-") The input string to process, the default behaviour reads from stdin.
+# @arg $2 string (optional, default="-") The input string to process, by default this function reads from stdin.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stdin The input string to process.
@@ -90,7 +90,7 @@ stdlib.string.lines.map.fn() {
 
 # @description A pipeable version of stdlib.string.lines.map.fn.
 # @arg $1 string The name of the function to apply to each line.
-# @arg $2 string (optional, default="-") The input string to process, the default behaviour reads from stdin.
+# @arg $2 string (optional, default="-") The input string to process, by default this function reads from stdin.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
