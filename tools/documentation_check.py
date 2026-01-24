@@ -27,21 +27,24 @@ class Tags:
     STDERR = TagDefinition(name="stderr", check_sentence_format=True)
     INTERNAL = TagDefinition(name="internal")
 
+    @classmethod
+    @property
+    def sequence(cls) -> List[TagDefinition]:
+        return [
+            cls.DESCRIPTION,
+            cls.ARG,
+            cls.NOARGS,
+            cls.EXITCODE,
+            cls.SET,
+            cls.STDIN,
+            cls.STDOUT,
+            cls.STDERR,
+            cls.INTERNAL,
+        ]
 
-TAG_DEFINITIONS = [
-    Tags.DESCRIPTION,
-    Tags.ARG,
-    Tags.NOARGS,
-    Tags.EXITCODE,
-    Tags.SET,
-    Tags.STDIN,
-    Tags.STDOUT,
-    Tags.STDERR,
-    Tags.INTERNAL,
-]
 
 MANDATORY_EXIT_CODES = ["0"]
-REGEX_DOC_TAGS = rf"@({'|'.join([t.name for t in TAG_DEFINITIONS])})"
+REGEX_DOC_TAGS = rf"@({'|'.join([t.name for t in Tags.sequence])})"
 REGEX_ECHO_ASSIGNMENT = r"=\s*\"?builtin echo"
 REGEX_FUNCTION_DEFINITION = r"^([a-zA-Z_@][a-zA-Z0-9._]*) *\(\) *\{"
 REGEX_PROCESS_SUBSTITUTION = r"[\$=]\(builtin echo"
@@ -141,7 +144,7 @@ class ExitCodeDescriptionRule(Rule):
 
 class FieldOrderRule(Rule):
     def check(self, func: BashFunction) -> List[str]:
-        tag_names = [t.name for t in TAG_DEFINITIONS]
+        tag_names = [t.name for t in Tags.sequence]
         actual_order = [t.name for t in func.tags if t.name in tag_names]
         seen = []
         for f in actual_order:
@@ -188,7 +191,7 @@ class MandatoryFieldsRule(Rule):
     def check(self, func: BashFunction) -> List[str]:
         errors = [
             f"{func.name}: Missing @{tag.name}"
-            for tag in TAG_DEFINITIONS
+            for tag in Tags.sequence
             if tag.is_mandatory and not func.contains_tag(tag.name)
         ]
         if not (
@@ -249,7 +252,7 @@ class SentenceFormatRule(Rule):
 
     def check(self, func: BashFunction) -> List[str]:
         errors = []
-        sentence_tags = [t.name for t in TAG_DEFINITIONS if t.check_sentence_format]
+        sentence_tags = [t.name for t in Tags.sequence if t.check_sentence_format]
         for tag in func.tags:
             if tag.name not in sentence_tags:
                 continue
@@ -294,7 +297,7 @@ class TypeValidationRule(Rule):
 
     def check(self, func: BashFunction) -> List[str]:
         errors = []
-        type_tags = [t.name for t in TAG_DEFINITIONS if t.has_types]
+        type_tags = [t.name for t in Tags.sequence if t.has_types]
         for tag_name in type_tags:
             for tag in func.find_tags(tag_name):
                 error = self._validate_type(func.name, tag)
