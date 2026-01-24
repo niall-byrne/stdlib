@@ -1,7 +1,7 @@
 import json
 import re
 import sys
-from typing import List, Optional, Dict, Tuple
+from typing import List, Optional, Dict, Tuple, Callable
 
 
 # Configuration
@@ -67,75 +67,48 @@ REGEX_DOC_TAGS = rf"@({'|'.join([t.name for t in TAG_SEQUENCE])})"
 
 
 class DeriveDefinition:
+    """A data container for derivation configurations."""
+
     def __init__(
         self,
         type_name: str,
-        suffix: str,
+        regex: str,
         expected_desc_template: str,
+        get_source: Callable[[re.Match], str],
+        get_target: Callable[[re.Match], str],
+        get_arg_index: Callable[[re.Match], str],
         arg_desc_requirement: Optional[str] = None,
         arg_desc_suffix: Optional[str] = None,
     ):
         self.type_name = type_name
-        self.suffix = suffix
+        self.regex = regex
         self.expected_desc_template = expected_desc_template
+        self.get_source = get_source
+        self.get_target = get_target
+        self.get_arg_index = get_arg_index
         self.arg_desc_requirement = arg_desc_requirement
         self.arg_desc_suffix = arg_desc_suffix
 
-    def parse_call(self, line: str, line_number: int) -> Optional["DeriveCall"]:
-        raise NotImplementedError
-
-
-class PipeableDeriveDefinition(DeriveDefinition):
-    def __init__(self):
-        super().__init__(
-            type_name="pipeable",
-            suffix="_pipe",
-            expected_desc_template="A derivative of {source} that can read from stdin.",
-            arg_desc_suffix=", by default this function reads from stdin.",
-        )
-        self.regex = rf'stdlib\.(?:fn\.)?derive\.pipeable\s+"([^"]+)"\s+"([^"]+)"'
-
-    def parse_call(self, line: str, line_number: int) -> Optional["DeriveCall"]:
-        match = re.search(self.regex, line)
-        if match:
-            source = match.group(1)
-            return DeriveCall(
-                definition=self,
-                source=source,
-                target=source + self.suffix,
-                arg_index=match.group(2),
-                line_number=line_number,
-            )
-        return None
-
-
-class VarDeriveDefinition(DeriveDefinition):
-    def __init__(self):
-        super().__init__(
-            type_name="var",
-            suffix="_var",
-            expected_desc_template="A derivative of {source} that can read from and write to a variable.",
-            arg_desc_requirement="The name of the variable to read from and write to.",
-        )
-        self.regex = rf'stdlib\.(?:fn\.)?derive\.var\s+"([^"]+)"(?:\s+"([^"]+)")?(?:\s+"([^"]+)")?'
-
-    def parse_call(self, line: str, line_number: int) -> Optional["DeriveCall"]:
-        match = re.search(self.regex, line)
-        if match:
-            source = match.group(1)
-            return DeriveCall(
-                definition=self,
-                source=source,
-                target=match.group(2) or (source + self.suffix),
-                arg_index=match.group(3) or "-1",
-                line_number=line_number,
-            )
-        return None
-
 
 DERIVE_DEFINITIONS: List[DeriveDefinition] = [
-    PipeableDeriveDefinition(),
-    VarDeriveDefinition(),
+    DeriveDefinition(
+        type_name="pipeable",
+        regex=rf'stdlib\.(?:fn\.)?derive\.pipeable\s+"([^"]+)"\s+"([^"]+)"',
+        expected_desc_template="A derivative of {source} that can read from stdin.",
+        get_source=lambda m: m.group(1),
+        get_target=lambda m: m.group(1) + "_pipe",
+        get_arg_index=lambda m: m.group(2),
+        arg_desc_suffix=", by default this function reads from stdin.",
+    ),
+    DeriveDefinition(
+        type_name="var",
+        regex=rf'stdlib\.(?:fn\.)?derive\.var\s+"([^"]+)"(?:\s+"([^"]+)")?(?:\s+"([^"]+)")?',
+        expected_desc_template="A derivative of {source} that can read from and write to a variable.",
+        get_source=lambda m: m.group(1),
+        get_target=lambda m: m.group(2) or (m.group(1) + "_var"),
+        get_arg_index=lambda m: m.group(3) or "-1",
+        arg_desc_requirement="The name of the variable to read from and write to.",
+    ),
 ]
 REGEX_ECHO_ASSIGNMENT = r"=\s*\"?builtin echo"
 REGEX_FUNCTION_DEFINITION = r"^([a-zA-Z_@][a-zA-Z0-9._]*) *\(\) *\{"
@@ -167,7 +140,7 @@ class DocTag:
 class DeriveCall:
     def __init__(
         self,
-        definition: DeriveDefinition,
+        definition: "DeriveDefinition",
         source: str,
         target: str,
         arg_index: str,
@@ -179,6 +152,27 @@ class DeriveCall:
         self.arg_index = arg_index
         self.line_number = line_number
         self.linked_function: Optional["BashFunction"] = None
+
+    @classmethod
+    def from_line(cls, line: str, line_number: int) -> Optional["DeriveCall"]:
+        for dd in DERIVE_DEFINITIONS:
+            match = re.search(dd.regex, line)
+            if match:
+                return cls(
+                    definition=dd,
+                    source=dd.get_source(match),
+                    target=dd.get_target(match),
+                    arg_index=dd.get_arg_index(match),
+                    line_number=line_number,
+                )
+        return None
+
+    def link(self, functions: List["BashFunction"]):
+        for func in functions:
+            if func.end_line == self.line_number - 1:
+                func.derive_call = self
+                self.linked_function = func
+                break
 
 
 class BashFunction:
@@ -244,7 +238,7 @@ class MissingDeriveStubRule(DeriveRule):
     def check(self, call: DeriveCall) -> List[str]:
         if not call.linked_function:
             return [
-                f"Line {call.line_number + 1}: Missing stub function for derivation call."
+                f"Line {call.line_number + 1}: Missing stub function for derive call."
             ]
         return []
 
@@ -323,11 +317,8 @@ class DeriveStubRule(Rule):
                     errors.append(
                         f"{func.name}: @arg at index {arg_index_str} description should match '{dd.arg_desc_requirement}'"
                     )
-                if (
+                if dd.arg_desc_suffix and not target_tag.content.strip().endswith(
                     dd.arg_desc_suffix
-                    and not target_tag.content.strip().endswith(
-                        dd.arg_desc_suffix
-                    )
                 ):
                     errors.append(
                         f"{func.name}: @arg at index {arg_index_str} description should end with '{dd.arg_desc_suffix}'"
@@ -534,53 +525,72 @@ def parse_file(filepath: str) -> Tuple[List[BashFunction], List[DeriveCall]]:
     with open(filepath, "r") as f:
         lines = f.read().splitlines()
 
-    functions = []
-    for i, line in enumerate(lines):
-        match = re.match(REGEX_FUNCTION_DEFINITION, line)
-        if not match:
+    functions: List[BashFunction] = []
+    all_derive_calls: List[DeriveCall] = []
+    doc_buffer: List[str] = []
+
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+
+        # Handle documentation lines
+        if line.strip().startswith("#"):
+            if not (
+                line.strip().startswith("# shellcheck")
+                or line.strip().startswith("#!/")
+            ):
+                doc_buffer.append(line)
+            i += 1
             continue
 
-        func_name = match.group(1)
-        doc_lines = []
-        j = i - 1
-        while j >= 0:
-            prev_line = lines[j].strip()
-            if prev_line.startswith("#"):
-                doc_lines.insert(0, lines[j])
-                j -= 1
-            elif prev_line in ["", "# shellcheck"] or prev_line.startswith(
-                "builtin source"
-            ):
-                j -= 1
-            else:
-                break
+        # Handle derive calls
+        call = DeriveCall.from_line(line, i)
+        if call:
+            all_derive_calls.append(call)
+            # Link to the last function if it was on the previous line
+            if functions and functions[-1].end_line == i - 1:
+                functions[-1].derive_call = call
+                call.linked_function = functions[-1]
+            i += 1
+            doc_buffer = []
+            continue
 
-        body_lines = []
-        depth = 0
-        k = i
-        for k in range(i, len(lines)):
-            body_lines.append(lines[k])
-            depth += lines[k].count("{")
-            depth -= lines[k].count("}")
-            if depth == 0:
-                break
+        # Handle function definitions
+        match = re.match(REGEX_FUNCTION_DEFINITION, line)
+        if match:
+            func_name = match.group(1)
+            start_line = i
+            body_lines = []
+            depth = 0
+            while i < len(lines):
+                body_lines.append(lines[i])
+                depth += lines[i].count("{")
+                depth -= lines[i].count("}")
+                if depth == 0:
+                    break
+                i += 1
 
-        functions.append(
-            BashFunction(func_name, doc_lines, body_lines, start_line=i, end_line=k)
-        )
+            functions.append(
+                BashFunction(
+                    func_name,
+                    doc_buffer,
+                    body_lines,
+                    start_line=start_line,
+                    end_line=i,
+                )
+            )
+            doc_buffer = []
+            i += 1
+            continue
 
-    all_derive_calls = []
-    for i, line in enumerate(lines):
-        for dd in DERIVE_DEFINITIONS:
-            call = dd.parse_call(line, i)
-            if call:
-                all_derive_calls.append(call)
-                for func in functions:
-                    if func.end_line == i - 1:
-                        func.derive_call = call
-                        call.linked_function = func
-                        break
-                break
+        # Non-documentation, non-function, non-derivation line
+        if line.strip() and not (
+            line.strip().startswith("# shellcheck")
+            or line.strip().startswith("builtin source")
+        ):
+            doc_buffer = []
+
+        i += 1
 
     return functions, all_derive_calls
 
