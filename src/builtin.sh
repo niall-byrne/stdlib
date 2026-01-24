@@ -4,10 +4,10 @@
 
 builtin set -eo pipefail
 
-_STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=""
+STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=""
 
 # @description Executes a command as a builtin unless overriding is allowed.
-#   * _STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN: Enables overriding builtins (default="0").
+#   * STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN: Enables overriding builtins (default="0").
 # @arg $1 string The command to execute.
 # @arg $@ array The arguments to the command.
 # @exitcode 0 If the operation succeeded.
@@ -16,7 +16,7 @@ _STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=""
 # @stderr The error output of the command.
 # @internal
 stdlib.__builtin.overridable() {
-  builtin local use_builtin_boolean="${_STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN:-0}"
+  builtin local use_builtin_boolean="${STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN:-0}"
 
   if [[ "${use_builtin_boolean}" == "0" ]]; then
     builtin "${@}"

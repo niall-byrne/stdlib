@@ -8,7 +8,8 @@ setup() {
 }
 
 test_stdlib_setting_colour_enable__tput_fails_____silent_fallback___does_not_generate_error_message() {
-  local _STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="1"
+  # shellcheck disable=SC2034
+  local STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="1"
   local TERM=""
 
   stdlib.setting.colour.enable
@@ -17,7 +18,8 @@ test_stdlib_setting_colour_enable__tput_fails_____silent_fallback___does_not_gen
 }
 
 test_stdlib_setting_colour_enable__tput_fails_____silent_fallback___disables_colours() {
-  local _STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="1"
+  # shellcheck disable=SC2034
+  local STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="1"
   local TERM=""
 
   _capture.rc stdlib.setting.colour.enable
@@ -26,7 +28,8 @@ test_stdlib_setting_colour_enable__tput_fails_____silent_fallback___disables_col
 }
 
 test_stdlib_setting_colour_enable__tput_fails_____silent_fallback___returns_status_code_0() {
-  local _STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="1"
+  # shellcheck disable=SC2034
+  local STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="1"
   local TERM=""
 
   _capture.rc stdlib.setting.colour.enable
@@ -35,7 +38,8 @@ test_stdlib_setting_colour_enable__tput_fails_____silent_fallback___returns_stat
 }
 
 test_stdlib_setting_colour_enable__tput_fails_____silent_fallback___does_not_set_call_colour_values() {
-  local _STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="1"
+  # shellcheck disable=SC2034
+  local STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="1"
   local TERM=""
   local colour
 
@@ -52,7 +56,8 @@ test_stdlib_setting_colour_enable__tput_fails_____silent_fallback___does_not_set
 }
 
 test_stdlib_setting_colour_enable__tput_fails_____verbose_failure___generates_error_message() {
-  local _STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="0"
+  # shellcheck disable=SC2034
+  local STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="0"
   local TERM=""
 
   stdlib.setting.colour.enable
@@ -61,7 +66,8 @@ test_stdlib_setting_colour_enable__tput_fails_____verbose_failure___generates_er
 }
 
 test_stdlib_setting_colour_enable__tput_fails_____verbose_failure___does_not_disable_colours() {
-  local _STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="0"
+  # shellcheck disable=SC2034
+  local STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="0"
   local TERM=""
 
   _capture.rc stdlib.setting.colour.enable
@@ -70,7 +76,8 @@ test_stdlib_setting_colour_enable__tput_fails_____verbose_failure___does_not_dis
 }
 
 test_stdlib_setting_colour_enable__tput_fails_____verbose_failure___returns_status_code_127() {
-  local _STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="0"
+  # shellcheck disable=SC2034
+  local STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="0"
   local TERM=""
 
   _capture.rc stdlib.setting.colour.enable
@@ -79,7 +86,8 @@ test_stdlib_setting_colour_enable__tput_fails_____verbose_failure___returns_stat
 }
 
 test_stdlib_setting_colour_enable__tput_fails_____verbose_failure___does_not_set_call_colour_values() {
-  local _STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="0"
+  # shellcheck disable=SC2034
+  local STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="0"
   local TERM=""
   local colour
 
@@ -96,7 +104,8 @@ test_stdlib_setting_colour_enable__tput_fails_____verbose_failure___does_not_set
 }
 
 test_stdlib_setting_colour_enable__tput_succeeds__silent_fallback___does_not_generate_error_message() {
-  local _STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="1"
+  # shellcheck disable=SC2034
+  local STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="1"
   local TERM="xterm"
 
   stdlib.setting.colour.enable
@@ -105,7 +114,8 @@ test_stdlib_setting_colour_enable__tput_succeeds__silent_fallback___does_not_gen
 }
 
 test_stdlib_setting_colour_enable__tput_succeeds__silent_fallback___does_not_disable_colours() {
-  local _STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="1"
+  # shellcheck disable=SC2034
+  local STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="1"
   local TERM="xterm"
 
   _capture.rc stdlib.setting.colour.enable
@@ -114,7 +124,8 @@ test_stdlib_setting_colour_enable__tput_succeeds__silent_fallback___does_not_dis
 }
 
 test_stdlib_setting_colour_enable__tput_succeeds__silent_fallback___returns_status_code_0() {
-  local _STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="1"
+  # shellcheck disable=SC2034
+  local STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="1"
   local TERM="xterm"
 
   _capture.rc stdlib.setting.colour.enable
@@ -123,7 +134,8 @@ test_stdlib_setting_colour_enable__tput_succeeds__silent_fallback___returns_stat
 }
 
 test_stdlib_setting_colour_enable__tput_succeeds__silent_fallback___sets_all_colour_variables_to_non_null_values() {
-  local _STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="1"
+  # shellcheck disable=SC2034
+  local STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="1"
   local TERM="xterm"
   local colour
 
@@ -141,7 +153,8 @@ test_stdlib_setting_colour_enable__tput_succeeds__silent_fallback___sets_all_col
 }
 
 test_stdlib_setting_colour_enable__tput_succeeds__verbose_failure___does_not_generate_error_message() {
-  local _STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="0"
+  # shellcheck disable=SC2034
+  local STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="0"
   local TERM="xterm"
 
   stdlib.setting.colour.enable
@@ -150,7 +163,8 @@ test_stdlib_setting_colour_enable__tput_succeeds__verbose_failure___does_not_gen
 }
 
 test_stdlib_setting_colour_enable__tput_succeeds__verbose_failure___does_not_disable_colours() {
-  local _STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="1"
+  # shellcheck disable=SC2034
+  local STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="1"
   local TERM="xterm"
 
   _capture.rc stdlib.setting.colour.enable
@@ -159,7 +173,8 @@ test_stdlib_setting_colour_enable__tput_succeeds__verbose_failure___does_not_dis
 }
 
 test_stdlib_setting_colour_enable__tput_succeeds__verbose_failure___returns_status_code_0() {
-  local _STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="0"
+  # shellcheck disable=SC2034
+  local STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="0"
   local TERM="xterm"
 
   _capture.rc stdlib.setting.colour.enable
@@ -168,7 +183,8 @@ test_stdlib_setting_colour_enable__tput_succeeds__verbose_failure___returns_stat
 }
 
 test_stdlib_setting_colour_enable__tput_succeeds__verbose_failure___sets_all_colour_variables_to_non_null_values() {
-  local _STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="0"
+  # shellcheck disable=SC2034
+  local STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="0"
   local TERM="xterm"
   local colour
 

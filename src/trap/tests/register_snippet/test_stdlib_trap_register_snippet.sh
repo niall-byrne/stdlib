@@ -1,13 +1,15 @@
 #!/bin/bash
 
+# shellcheck disable=SC2034
 setup() {
   _mock.create stdlib.trap.__register_default_handlers
   _mock.create trap
-  _STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=1
+
+  STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=1
 }
 
 teardown() {
-  unset _STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN
+  unset STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN
 }
 
 test_stdlib_trap_register_snippet__sourced__creates_the_default_handlers() {

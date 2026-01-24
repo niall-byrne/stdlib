@@ -331,7 +331,7 @@ Gets the last element of an array.
 
 #### Variables set
 
-* **_STDLIB_ARRAY_BUFFER** (string): The last element of the array.
+* **STDLIB_ARRAY_BUFFER** (string): The last element of the array.
 
 #### Exit codes
 
@@ -357,7 +357,7 @@ Gets the length of an array.
 
 #### Variables set
 
-* **_STDLIB_ARRAY_BUFFER** (integer): The length of the array.
+* **STDLIB_ARRAY_BUFFER** (integer): The length of the array.
 
 #### Exit codes
 
@@ -383,7 +383,7 @@ Gets the length of the longest element in an array.
 
 #### Variables set
 
-* **_STDLIB_ARRAY_BUFFER** (integer): The length of the longest element.
+* **STDLIB_ARRAY_BUFFER** (integer): The length of the longest element.
 
 #### Exit codes
 
@@ -409,7 +409,7 @@ Gets the length of the shortest element in an array.
 
 #### Variables set
 
-* **_STDLIB_ARRAY_BUFFER** (integer): The length of the shortest element.
+* **STDLIB_ARRAY_BUFFER** (integer): The length of the shortest element.
 
 #### Exit codes
 
@@ -764,8 +764,8 @@ Checks if an array is empty.
 ### stdlib.fn.args.require
 
 Validates the presence and number of arguments for a function.
-* _STDLIB_ARGS_CALLER_FN_NAME: A string presented as the name of the calling function in logging messages (default="${FUNCNAME[1]}").
-* _STDLIB_ARGS_NULL_SAFE: An array of argument indexes that are null safe, meaning they can be empty values (default=()).
+* STDLIB_ARGS_CALLER_FN_NAME: A string presented as the name of the calling function in logging messages (default="${FUNCNAME[1]}").
+* STDLIB_ARGS_NULL_SAFE_ARRAY: An array of argument indexes that are null safe, meaning they can be empty values (default=()).
 
 #### Arguments
 
@@ -904,7 +904,7 @@ Clones an existing function to a new name.
 ### stdlib.fn.derive.pipeable
 
 Creates a pipeable version of an existing function.
-* STDIN_SOURCE_SPECIFIER: A string used to specify the position of stdin in the arguments (default='-').
+* STDLIB_PIPEABLE_STDIN_SOURCE_SPECIFIER: A string used to specify the position of stdin in the arguments (default='-').
 
 #### Arguments
 
@@ -1163,7 +1163,7 @@ Pauses the script until the user presses a key.
 ### stdlib.io.stdin.prompt
 
 Prompts the user for a value and saves it to a variable.
-* _STDLIB_PASSWORD_BOOLEAN: Indicates if the input should be masked, i.e. for passwords (default="0").
+* STDLIB_STDIN_PASSWORD_MASK_BOOLEAN: Indicates if the input should be masked, i.e. for passwords (default="0").
 
 #### Arguments
 
@@ -1305,7 +1305,7 @@ _Function has no arguments._
 ### stdlib.logger.error
 
 Logs an error message.
-* _STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
+* STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
 * STDLIB_THEME_LOGGER_ERROR: The colour to use for the message (default="LIGHT_RED").
 
 #### Arguments
@@ -1323,7 +1323,7 @@ Logs an error message.
 ### stdlib.logger.warning
 
 Logs a warning message.
-* _STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
+* STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
 * STDLIB_THEME_LOGGER_WARNING: The colour to use for the message (default="YELLOW").
 
 #### Arguments
@@ -1341,7 +1341,7 @@ Logs a warning message.
 ### stdlib.logger.info
 
 Logs an informational message.
-* _STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
+* STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
 * STDLIB_THEME_LOGGER_INFO: The colour to use for the message (default="WHITE").
 
 #### Arguments
@@ -1359,7 +1359,7 @@ Logs an informational message.
 ### stdlib.logger.notice
 
 Logs a notice message.
-* _STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
+* STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
 * STDLIB_THEME_LOGGER_NOTICE: The colour to use for the message (default="GREY").
 
 #### Arguments
@@ -1377,7 +1377,7 @@ Logs a notice message.
 ### stdlib.logger.success
 
 Logs a success message.
-* _STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
+* STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
 * STDLIB_THEME_LOGGER_SUCCESS: The colour to use for the message (default="GREEN").
 
 #### Arguments
@@ -1709,7 +1709,7 @@ _Function has no arguments._
 ### stdlib.setting.colour.enable
 
 Enables terminal colours.
-* _STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN: Disables the error message on failure (default="0").
+* STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN: Disables the error message on failure (default="0").
 
 _Function has no arguments._
 
@@ -2431,7 +2431,7 @@ A derivative of stdlib.string.justify.right that can read from and write to a va
 ### stdlib.string.lines.join
 
 Joins lines in a string by removing a delimiter.
-* _STDLIB_DELIMITER: A line break char sequence which is replaced to join the string (default=$'\n').
+* STDLIB_LINE_BREAK_DELIMITER: A line break char sequence which is replaced to join the string (default=$'\n').
 
 #### Arguments
 
@@ -2495,7 +2495,7 @@ A derivative of stdlib.string.lines.join that can read from and write to a varia
 ### stdlib.string.lines.map.format
 
 Maps a format string over each line of a string.
-* _STDLIB_DELIMITER: A line break char sequence to split the string with for processing (default=$'\n').
+* STDLIB_LINE_BREAK_DELIMITER: A line break char sequence to split the string with for processing (default=$'\n').
 
 #### Arguments
 
@@ -2562,7 +2562,7 @@ A derivative of stdlib.string.lines.map.format that can read from and write to a
 ### stdlib.string.lines.map.fn
 
 Maps a function over each line of a string.
-* _STDLIB_DELIMITER: A line break char sequence to split the string with for processing (default=$'\n').
+* STDLIB_LINE_BREAK_DELIMITER: A line break char sequence to split the string with for processing (default=$'\n').
 
 #### Arguments
 
@@ -3139,8 +3139,8 @@ A derivative of stdlib.string.trim.right that can read from and write to a varia
 ### stdlib.string.wrap
 
 Wraps text to a specified width with padding.
-* _STDLIB_LINE_BREAK_CHAR: A char that 'forces' a line break in the output text (default="*").
-* _STDLIB_WRAP_PREFIX_STRING: A string to insert when wrapping text (default="").
+* STDLIB_LINE_BREAK_FORCE_CHAR: A char that 'forces' a line break in the output text (default="*").
+* STDLIB_WRAP_PREFIX: A string to insert when wrapping text (default="").
 
 #### Arguments
 
@@ -3232,7 +3232,7 @@ Creates a trap handler function and a registration function.
 ### stdlib.trap.fn.clean_up_on_exit
 
 A handler function that removes files when called (by default this handler is registered to the exit signal).
-* STDLIB_CLEANUP_FN: An array used to store file names targeted by the clean_up_on_exit function (default=()).
+* STDLIB_CLEANUP_FN_TARGETS_ARRAY: An array used to store file names targeted by the clean_up_on_exit function (default=()).
 
 _Function has no arguments._
 
@@ -3243,7 +3243,7 @@ _Function has no arguments._
 ### stdlib.trap.handler.err.fn
 
 A handler function that is invoked on an error trap.
-* STDLIB_HANDLER_ERR: An array containing a list of functions that are run on error (default=()).
+* STDLIB_HANDLER_ERR_FN_ARRAY: An array containing a list of functions that are run on error (default=()).
 
 _Function has no arguments._
 
@@ -3259,7 +3259,7 @@ _Function has no arguments._
 
 #### Variables set
 
-* **STDLIB_HANDLER_ERR** (array): An array containing a list of functions that are run on error.
+* **STDLIB_HANDLER_ERR_FN_ARRAY** (array): An array containing a list of functions that are run on error.
 
 #### Exit codes
 
@@ -3268,7 +3268,7 @@ _Function has no arguments._
 ### stdlib.trap.handler.exit.fn
 
 A handler function that is invoked on an exit trap.
-* STDLIB_HANDLER_EXIT: An array containing a list of functions that are run on an exit call (default=("stdlib.trap.fn.clean_up_on_exit")).
+* STDLIB_HANDLER_EXIT_FN_ARRAY: An array containing a list of functions that are run on an exit call (default=("stdlib.trap.fn.clean_up_on_exit")).
 
 _Function has no arguments._
 
@@ -3284,7 +3284,7 @@ _Function has no arguments._
 
 #### Variables set
 
-* **STDLIB_HANDLER_EXIT** (array): An array containing a list of functions that are run on an exit call.
+* **STDLIB_HANDLER_EXIT_FN_ARRAY** (array): An array containing a list of functions that are run on an exit call.
 
 #### Exit codes
 

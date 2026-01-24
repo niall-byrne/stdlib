@@ -4,7 +4,7 @@
 setup() {
   _mock.create test_mock
   _mock.create stdlib.testing.internal.logger.error
-  stdlib.testing.internal.logger.error.mock.set.keywords "_STDLIB_ARGS_CALLER_FN_NAME"
+  stdlib.testing.internal.logger.error.mock.set.keywords "STDLIB_ARGS_CALLER_FN_NAME"
   keyword1="value1"
   keyword2="value2"
 }
@@ -44,7 +44,7 @@ test_stdlib_testing_mock_object_set_keywords__@vary__generates_expected_log_mess
   test_mock.mock.set.keywords "${args[@]}"
 
   stdlib.testing.internal.logger.error.mock.assert_calls_are \
-    "1($(stdlib.__message.get "${message_args[@]}")) _STDLIB_ARGS_CALLER_FN_NAME(test_mock.mock.set.keywords)"
+    "1($(stdlib.__message.get "${message_args[@]}")) STDLIB_ARGS_CALLER_FN_NAME(test_mock.mock.set.keywords)"
 }
 
 @parametrize_with_invalid_arg_combos \

@@ -40,7 +40,7 @@ test_stdlib_string_lines_join__valid_args_____arg___windows_line_ending__correct
   TEST_EXPECTED="string1 string2 string3 "
   TEST_INPUT="string1 "$'\r\n'"string2 "$'\r\n'"string3 "$'\r\n'
 
-  _STDLIB_DELIMITER=$'\r\n' _capture.output stdlib.string.lines.join "${TEST_INPUT}"
+  STDLIB_LINE_BREAK_DELIMITER=$'\r\n' _capture.output stdlib.string.lines.join "${TEST_INPUT}"
 
   assert_output "${TEST_EXPECTED}"
 }
@@ -48,7 +48,7 @@ test_stdlib_string_lines_join__valid_args_____arg___windows_line_ending__correct
 test_stdlib_string_lines_join__null_input_____arg___windows_line_ending__correct_output() {
   TEST_INPUT=""
 
-  _STDLIB_DELIMITER=$'\r\n' _capture.output stdlib.string.lines.join "${TEST_INPUT}"
+  STDLIB_LINE_BREAK_DELIMITER=$'\r\n' _capture.output stdlib.string.lines.join "${TEST_INPUT}"
 
   assert_output_null
 }

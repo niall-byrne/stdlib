@@ -12,9 +12,10 @@ builtin set -eo pipefail
 # @stdout The left-justified string.
 # @stderr The error message if the operation fails.
 stdlib.string.justify.left() {
-  builtin local -a _STDLIB_ARGS_NULL_SAFE
+  builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
 
-  _STDLIB_ARGS_NULL_SAFE=("2")
+  # shellcheck disable=SC2034
+  STDLIB_ARGS_NULL_SAFE_ARRAY=("2")
 
   stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?"
 
@@ -49,9 +50,10 @@ stdlib.fn.derive.var "stdlib.string.justify.left"
 # @stdout The right-justified string.
 # @stderr The error message if the operation fails.
 stdlib.string.justify.right() {
-  builtin local -a _STDLIB_ARGS_NULL_SAFE
+  builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
 
-  _STDLIB_ARGS_NULL_SAFE=("2")
+  # shellcheck disable=SC2034
+  STDLIB_ARGS_NULL_SAFE_ARRAY=("2")
 
   stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?"
 

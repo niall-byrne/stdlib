@@ -4,8 +4,8 @@
 
 builtin set -eo pipefail
 
-_STDLIB_LOGGING_MESSAGE_PREFIX=""
-_STDLIB_LOGGING_DECORATORS=("_testing.__protected")
+STDLIB_LOGGING_MESSAGE_PREFIX=""
+__STDLIB_LOGGING_DECORATORS_ARRAY=("_testing.__protected")
 
 # @description Prints a traceback of the current function calls.
 # @noargs
@@ -25,7 +25,7 @@ stdlib.logger.traceback() {
 }
 
 # @description Logs an error message.
-#   * _STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
+#   * STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
 #   * STDLIB_THEME_LOGGER_ERROR: The colour to use for the message (default="LIGHT_RED").
 # @arg $1 string The message to log.
 # @exitcode 0 If the operation succeeded.
@@ -38,7 +38,7 @@ stdlib.logger.error() {
 }
 
 # @description Logs a warning message.
-#   * _STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
+#   * STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
 #   * STDLIB_THEME_LOGGER_WARNING: The colour to use for the message (default="YELLOW").
 # @arg $1 string The message to log.
 # @exitcode 0 If the operation succeeded.
@@ -51,7 +51,7 @@ stdlib.logger.warning() {
 }
 
 # @description Logs an informational message.
-#   * _STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
+#   * STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
 #   * STDLIB_THEME_LOGGER_INFO: The colour to use for the message (default="WHITE").
 # @arg $1 string The message to log.
 # @exitcode 0 If the operation succeeded.
@@ -62,7 +62,7 @@ stdlib.logger.info() {
 }
 
 # @description Logs a notice message.
-#   * _STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
+#   * STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
 #   * STDLIB_THEME_LOGGER_NOTICE: The colour to use for the message (default="GREY").
 # @arg $1 string The message to log.
 # @exitcode 0 If the operation succeeded.
@@ -73,7 +73,7 @@ stdlib.logger.notice() {
 }
 
 # @description Logs a success message.
-#   * _STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
+#   * STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
 #   * STDLIB_THEME_LOGGER_SUCCESS: The colour to use for the message (default="GREEN").
 # @arg $1 string The message to log.
 # @exitcode 0 If the operation succeeded.
@@ -89,8 +89,8 @@ stdlib.logger.success() {
 # @stdout The message prefix.
 # @internal
 stdlib.logger.__message_prefix() {
-  builtin local message_prefix="${_STDLIB_LOGGING_MESSAGE_PREFIX:-${FUNCNAME[3]}}"
-  if stdlib.array.query.is_contains "${message_prefix}" _STDLIB_LOGGING_DECORATORS; then
+  builtin local message_prefix="${STDLIB_LOGGING_MESSAGE_PREFIX:-${FUNCNAME[3]}}"
+  if stdlib.array.query.is_contains "${message_prefix}" __STDLIB_LOGGING_DECORATORS_ARRAY; then
     message_prefix="${FUNCNAME[4]}"
   fi
 

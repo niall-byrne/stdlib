@@ -13,10 +13,11 @@ builtin set -eo pipefail
 # @stdout The string with the first occurrence of the substring coloured.
 # @stderr The error message if the operation fails.
 stdlib.string.colour.substring() {
-  builtin local -a _STDLIB_ARGS_NULL_SAFE
+  builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
   builtin local string_colour
 
-  _STDLIB_ARGS_NULL_SAFE=("2" "3")
+  # shellcheck disable=SC2034
+  STDLIB_ARGS_NULL_SAFE_ARRAY=("2" "3")
 
   stdlib.fn.args.require "3" "0" "${@}" || builtin return "$?"
 
@@ -34,10 +35,11 @@ stdlib.string.colour.substring() {
 # @stdout The string with all occurrences of the substring coloured.
 # @stderr The error message if the operation fails.
 stdlib.string.colour.substrings() {
-  builtin local -a _STDLIB_ARGS_NULL_SAFE
+  builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
   builtin local string_colour
 
-  _STDLIB_ARGS_NULL_SAFE=("2" "3")
+  # shellcheck disable=SC2034
+  STDLIB_ARGS_NULL_SAFE_ARRAY=("2" "3")
 
   stdlib.fn.args.require "3" "0" "${@}" || builtin return "$?"
 
