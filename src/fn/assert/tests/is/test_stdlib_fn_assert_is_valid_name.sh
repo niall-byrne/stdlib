@@ -60,7 +60,7 @@ test_stdlib_fn_assert_is_valid_name__@vary__logs_an_error() {
   stdlib.fn.assert.is_valid_name "${args[@]}"
 
   stdlib.logger.error.mock.assert_called_once_with \
-    "1($(stdlib.message.get "${message_args[@]}"))"
+    "1($(stdlib.__message.get "${message_args[@]}"))"
 }
 
 @parametrize_with_error_messages \

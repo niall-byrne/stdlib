@@ -4,7 +4,7 @@
 test_stdlib_logger_traceback__mock_call_stack__generates_correct_stdout() {
   _capture.stdout_raw stdlib.logger.traceback
 
-  assert_matches "$(stdlib.message.get TRACEBACK_HEADER)
+  assert_matches "$(stdlib.__message.get TRACEBACK_HEADER)
 >  .+t:[0-9]+:main\(\)
 >>  .+t:[0-9]+:_t_runner_main\(\)
 >>>  .+t:[0-9]+:(_t_runner_execution_context|_t_runner_custom_execution_context)\(\)

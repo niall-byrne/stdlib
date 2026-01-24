@@ -6,7 +6,7 @@ test_stdlib_testing_assert_snapshot__file_does_not_exist__fails() {
   _capture.assertion_failure assert_snapshot "non_existent_file"
 
   assert_equals \
-    " $(_testing.assert.message.get ASSERT_ERROR_FILE_NOT_FOUND "non_existent_file")" \
+    " $(_testing.assert.__message.get ASSERT_ERROR_FILE_NOT_FOUND "non_existent_file")" \
     "${TEST_OUTPUT}"
 }
 
@@ -21,7 +21,7 @@ test_stdlib_testing_assert_snapshot__file_exists__________does_not_match__fails(
   _capture.assertion_failure assert_snapshot "${snapshot_file}"
 
   assert_equals \
-    " $(_testing.assert.message.get ASSERT_ERROR_SNAPSHOT_NON_MATCHING "${snapshot_file}")"$'\n'" expected [${expected_content}] but was [${original_test_output}]" \
+    " $(_testing.assert.__message.get ASSERT_ERROR_SNAPSHOT_NON_MATCHING "${snapshot_file}")"$'\n'" expected [${expected_content}] but was [${original_test_output}]" \
     "${TEST_OUTPUT}"
 }
 
