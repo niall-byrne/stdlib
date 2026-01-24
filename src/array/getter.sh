@@ -4,14 +4,14 @@
 
 builtin set -eo pipefail
 
-_STDLIB_ARRAY_BUFFER=""
+STDLIB_ARRAY_BUFFER=""
 
 # @description Gets the last element of an array.
 # @arg $1 string The name of the array.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
-# @set _STDLIB_ARRAY_BUFFER string The last element of the array.
+# @set STDLIB_ARRAY_BUFFER string The last element of the array.
 # @stdout The last element of the array.
 # @stderr The error message if the operation fails.
 stdlib.array.get.last() {
@@ -26,8 +26,8 @@ stdlib.array.get.last() {
   indirect_array=("${!indirect_reference}")
   indirect_array_last_element_index="$(("${#indirect_array[@]}" - 1))"
 
-  _STDLIB_ARRAY_BUFFER="${indirect_array[indirect_array_last_element_index]}"
-  builtin echo "${_STDLIB_ARRAY_BUFFER}"
+  STDLIB_ARRAY_BUFFER="${indirect_array[indirect_array_last_element_index]}"
+  builtin echo "${STDLIB_ARRAY_BUFFER}"
 }
 
 # @description Gets the length of an array.
@@ -35,7 +35,7 @@ stdlib.array.get.last() {
 # @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
-# @set _STDLIB_ARRAY_BUFFER integer The length of the array.
+# @set STDLIB_ARRAY_BUFFER integer The length of the array.
 # @stdout The length of the array.
 # @stderr The error message if the operation fails.
 stdlib.array.get.length() {
@@ -49,8 +49,8 @@ stdlib.array.get.length() {
   indirect_reference="${1}[@]"
   indirect_array=("${!indirect_reference}")
 
-  _STDLIB_ARRAY_BUFFER="${#indirect_array[@]}"
-  builtin echo "${_STDLIB_ARRAY_BUFFER}"
+  STDLIB_ARRAY_BUFFER="${#indirect_array[@]}"
+  builtin echo "${STDLIB_ARRAY_BUFFER}"
 }
 
 # @description Gets the length of the longest element in an array.
@@ -58,7 +58,7 @@ stdlib.array.get.length() {
 # @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
-# @set _STDLIB_ARRAY_BUFFER integer The length of the longest element.
+# @set STDLIB_ARRAY_BUFFER integer The length of the longest element.
 # @stdout The length of the longest element.
 # @stderr The error message if the operation fails.
 stdlib.array.get.longest() {
@@ -80,8 +80,8 @@ stdlib.array.get.longest() {
     fi
   done
 
-  _STDLIB_ARRAY_BUFFER="${longest_array_element_length}"
-  builtin echo "${_STDLIB_ARRAY_BUFFER}"
+  STDLIB_ARRAY_BUFFER="${longest_array_element_length}"
+  builtin echo "${STDLIB_ARRAY_BUFFER}"
 }
 
 # @description Gets the length of the shortest element in an array.
@@ -89,7 +89,7 @@ stdlib.array.get.longest() {
 # @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
-# @set _STDLIB_ARRAY_BUFFER integer The length of the shortest element.
+# @set STDLIB_ARRAY_BUFFER integer The length of the shortest element.
 # @stdout The length of the shortest element.
 # @stderr The error message if the operation fails.
 stdlib.array.get.shortest() {
@@ -112,6 +112,6 @@ stdlib.array.get.shortest() {
     fi
   done
 
-  _STDLIB_ARRAY_BUFFER="${shortest_array_element_length}"
-  builtin echo "${_STDLIB_ARRAY_BUFFER}"
+  STDLIB_ARRAY_BUFFER="${shortest_array_element_length}"
+  builtin echo "${STDLIB_ARRAY_BUFFER}"
 }
