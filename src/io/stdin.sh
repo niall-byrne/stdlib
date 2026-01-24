@@ -4,7 +4,7 @@
 
 builtin set -eo pipefail
 
-_STDLIB_PASSWORD_BOOLEAN=""
+STDLIB_STDIN_PASSWORD_MASK_BOOLEAN=""
 
 # @description Prompts the user for a confirmation (Y/n).
 # @arg $1 string (optional, default=STDIN_DEFAULT_CONFIRMATION_PROMPT) The prompt to display.
@@ -55,7 +55,7 @@ stdlib.io.stdin.pause() {
 }
 
 # @description Prompts the user for a value and saves it to a variable.
-#   * _STDLIB_PASSWORD_BOOLEAN: Indicates if the input should be masked, i.e. for passwords (default="0").
+#   * STDLIB_STDIN_PASSWORD_MASK_BOOLEAN: Indicates if the input should be masked, i.e. for passwords (default="0").
 # @arg $1 string The variable name to save the input to.
 # @arg $2 string (optional, default=STDIN_DEFAULT_VALUE_PROMPT) The prompt to display.
 # @exitcode 0 If the operation succeeded.
@@ -67,7 +67,7 @@ stdlib.io.stdin.pause() {
 stdlib.io.stdin.prompt() {
   builtin local flags="-rp"
   builtin local prompt="${2:-"$(stdlib.__message.get STDIN_DEFAULT_VALUE_PROMPT)"}"
-  builtin local password="${_STDLIB_PASSWORD_BOOLEAN:-0}"
+  builtin local password="${STDLIB_STDIN_PASSWORD_MASK_BOOLEAN:-0}"
 
   stdlib.fn.args.require "1" "1" "${@}" || builtin return "$?"
 
