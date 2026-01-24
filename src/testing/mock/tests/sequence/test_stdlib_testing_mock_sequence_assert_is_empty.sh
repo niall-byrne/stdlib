@@ -15,11 +15,12 @@ test_stdlib_testing_mock_sequence_assert_is_empty__sequence_not_empty__fails() {
 
   assert_equals \
     " $(
-      local _STDLIB_LOGGING_MESSAGE_PREFIX
+      # shellcheck disable=SC2034
+      local STDLIB_LOGGING_MESSAGE_PREFIX
 
-      _STDLIB_LOGGING_MESSAGE_PREFIX="assert_array_equals" \
+      STDLIB_LOGGING_MESSAGE_PREFIX="assert_array_equals" \
         stdlib.logger.error "$(stdlib.__message.get ARRAY_LENGTH_MISMATCH "expected_mock_sequence" "0")" 2>&1
-      _STDLIB_LOGGING_MESSAGE_PREFIX=" assert_array_equals" \
+      STDLIB_LOGGING_MESSAGE_PREFIX=" assert_array_equals" \
         stdlib.logger.error "$(stdlib.__message.get ARRAY_LENGTH_MISMATCH "mock_sequence" "2")" 2>&1
     )" \
     "${TEST_OUTPUT}"
