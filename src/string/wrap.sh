@@ -4,12 +4,12 @@
 
 builtin set -eo pipefail
 
-_STDLIB_LINE_BREAK_CHAR=""
-_STDLIB_WRAP_PREFIX_STRING=""
+STDLIB_LINE_BREAK_FORCE_CHAR=""
+STDLIB_WRAP_PREFIX=""
 
 # @description Wraps text to a specified width with padding.
-#   * _STDLIB_LINE_BREAK_CHAR: A char that 'forces' a line break in the output text (default="*").
-#   * _STDLIB_WRAP_PREFIX_STRING: A string to insert when wrapping text (default="").
+#   * STDLIB_LINE_BREAK_FORCE_CHAR: A char that 'forces' a line break in the output text (default="*").
+#   * STDLIB_WRAP_PREFIX: A string to insert when wrapping text (default="").
 # @arg $1 integer The left-side padding.
 # @arg $2 integer The right-side wrap limit.
 # @arg $3 string The text to wrap.
@@ -19,9 +19,9 @@ _STDLIB_WRAP_PREFIX_STRING=""
 # @stdout The wrapped text.
 # @stderr The error message if the operation fails.
 stdlib.string.wrap() {
-  builtin local -a _STDLIB_ARGS_NULL_SAFE
-  builtin local wrap_indent_string="${_STDLIB_WRAP_PREFIX_STRING:-""}"
-  builtin local forced_line_break_char="${_STDLIB_LINE_BREAK_CHAR:-*}"
+  builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
+  builtin local wrap_indent_string="${STDLIB_WRAP_PREFIX:-""}"
+  builtin local forced_line_break_char="${STDLIB_LINE_BREAK_FORCE_CHAR:-*}"
 
   builtin local current_line=""
   builtin local current_line_length=0
@@ -32,7 +32,8 @@ stdlib.string.wrap() {
   builtin local wrap_limit=0
   builtin local wrap_indent_length="${#wrap_indent_string}"
 
-  _STDLIB_ARGS_NULL_SAFE=("3")
+  # shellcheck disable=SC2034
+  STDLIB_ARGS_NULL_SAFE_ARRAY=("3")
 
   stdlib.fn.args.require "3" "0" "${@}" || builtin return "$?"
   stdlib.string.assert.is_digit "${1}" || builtin return 126

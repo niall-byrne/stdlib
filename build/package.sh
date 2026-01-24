@@ -24,7 +24,7 @@ __package_test_stdlib() {
   # shellcheck source=/dev/null
   source "${STDLIB_RELEASE}"
 
-  _STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="1" stdlib.setting.colour.enable
+  STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="1" stdlib.setting.colour.enable
   stdlib.logger.success "The stdlib library was successfully packaged."
 }
 
@@ -34,7 +34,7 @@ __package_test_stdlib_testing() {
   # shellcheck source=/dev/null
   source "${STDLIB_TESTING_RELEASE}"
 
-  _STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="1" stdlib.setting.colour.enable
+  STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="1" stdlib.setting.colour.enable
   stdlib.logger.success "The stdlib testing library was successfully packaged."
 }
 
@@ -46,7 +46,7 @@ __package_translate() {
   # shellcheck source=/dev/null
   source "${STDLIB_RELEASE}"
 
-  _STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="1" stdlib.setting.colour.enable
+  STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="1" stdlib.setting.colour.enable
   stdlib.logger.success "The translations were successfully packaged."
 }
 

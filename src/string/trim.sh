@@ -11,9 +11,10 @@ builtin set -eo pipefail
 # @stdout The trimmed string.
 # @stderr The error message if the operation fails.
 stdlib.string.trim.left() {
-  builtin local -a _STDLIB_ARGS_NULL_SAFE
+  builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
 
-  _STDLIB_ARGS_NULL_SAFE=("1")
+  # shellcheck disable=SC2034
+  STDLIB_ARGS_NULL_SAFE_ARRAY=("1")
 
   stdlib.fn.args.require "1" "0" "${@}" || builtin return "$?"
 
@@ -47,9 +48,10 @@ stdlib.fn.derive.var "stdlib.string.trim.left"
 # @stdout The trimmed string.
 # @stderr The error message if the operation fails.
 stdlib.string.trim.right() {
-  builtin local -a _STDLIB_ARGS_NULL_SAFE
+  builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
 
-  _STDLIB_ARGS_NULL_SAFE=("1")
+  # shellcheck disable=SC2034
+  STDLIB_ARGS_NULL_SAFE_ARRAY=("1")
 
   stdlib.fn.args.require "1" "0" "${@}" || builtin return "$?"
 

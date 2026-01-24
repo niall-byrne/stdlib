@@ -19,7 +19,7 @@ _testing.__protect_stdlib() {
 _testing.__protected() {
   # $@: the stdlib library to call
 
-  _STDLIB_BUILTIN_BOOLEAN=1 \
+  STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=1 \
     "$(_testing.__protected_name "${1}")" "${@:2}"
 }
 

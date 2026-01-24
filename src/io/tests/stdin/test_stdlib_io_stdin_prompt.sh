@@ -2,11 +2,13 @@
 
 setup() {
   _mock.create stdlib.logger.error
-  _STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=1
+
+  # shellcheck disable=SC2034
+  STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=1
 }
 
 teardown() {
-  unset _STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN
+  unset STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN
 }
 
 @parametrize_with_args_and_status_codes() {
@@ -60,7 +62,7 @@ test_stdlib_io_stdin_prompt__@vary__calls_read_as_expected() {
   _mock.create read
   read.mock.set.subcommand "input_var='value'"
 
-  _STDLIB_PASSWORD_BOOLEAN="${TEST_PASSWORD_BOOLEAN}" \
+  STDLIB_STDIN_PASSWORD_MASK_BOOLEAN="${TEST_PASSWORD_BOOLEAN}" \
     stdlib.io.stdin.prompt "${args[@]}" > /dev/null
 
   read.mock.assert_called_once_with "${expected_read_args[*]}"
@@ -73,7 +75,7 @@ test_stdlib_io_stdin_prompt__@vary__stores_the_stdin() {
   local args=()
   local input_var
 
-  _STDLIB_PASSWORD_BOOLEAN="${TEST_PASSWORD_BOOLEAN}" \
+  STDLIB_STDIN_PASSWORD_MASK_BOOLEAN="${TEST_PASSWORD_BOOLEAN}" \
     stdlib.array.make.from_string args "|" "${TEST_ARGS_DEFINITION}"
 
   stdlib.io.stdin.prompt "${args[@]}" <<< "mocked stdin" > /dev/null
@@ -95,7 +97,7 @@ test_stdlib_io_stdin_prompt__@vary__appends_extra_carriage_return() {
 
   _mock.create echo
 
-  _STDLIB_PASSWORD_BOOLEAN="${TEST_PASSWORD_BOOLEAN}" \
+  STDLIB_STDIN_PASSWORD_MASK_BOOLEAN="${TEST_PASSWORD_BOOLEAN}" \
     stdlib.io.stdin.prompt "${args[@]}" <<< "mocked stdin"
 
   mock_echo_call_count=$(echo.mock.get.count)

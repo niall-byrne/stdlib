@@ -47,7 +47,11 @@ builtin set -Eeo pipefail
 
 # stdlib variable definitions
 
-declare -a STDLIB_CLEANUP_FN=()
+declare -- STDLIB_ARGS_CALLER_FN_NAME=""
+declare -a STDLIB_ARGS_NULL_SAFE_ARRAY=()
+declare -- STDLIB_ARRAY_BUFFER=""
+declare -- STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=""
+declare -a STDLIB_CLEANUP_FN_TARGETS_ARRAY=()
 declare -- STDLIB_COLOUR_BLACK=""
 declare -- STDLIB_COLOUR_BLUE=""
 declare -- STDLIB_COLOUR_CYAN=""
@@ -63,21 +67,25 @@ declare -- STDLIB_COLOUR_LIGHT_YELLOW=""
 declare -- STDLIB_COLOUR_NC=""
 declare -- STDLIB_COLOUR_PURPLE=""
 declare -- STDLIB_COLOUR_RED=""
+declare -- STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN=""
 declare -- STDLIB_COLOUR_WHITE=""
 declare -- STDLIB_COLOUR_YELLOW=""
 declare -a STDLIB_DEFERRED_FN_ARRAY=()
 declare -a STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY=()
-declare -a STDLIB_HANDLER_ERR=()
-declare -a STDLIB_HANDLER_EXIT=([0]="stdlib.trap.fn.clean_up_on_exit")
+declare -a STDLIB_HANDLER_ERR_FN_ARRAY=()
+declare -a STDLIB_HANDLER_EXIT_FN_ARRAY=([0]="stdlib.trap.fn.clean_up_on_exit")
+declare -- STDLIB_LINE_BREAK_DELIMITER=""
+declare -- STDLIB_LINE_BREAK_FORCE_CHAR=""
+declare -- STDLIB_LOGGING_MESSAGE_PREFIX=""
+declare -- STDLIB_PIPEABLE_STDIN_SOURCE_SPECIFIER=""
+declare -- STDLIB_STDIN_PASSWORD_MASK_BOOLEAN=""
 declare -- STDLIB_THEME_LOGGER_ERROR="LIGHT_RED"
 declare -- STDLIB_THEME_LOGGER_INFO="WHITE"
 declare -- STDLIB_THEME_LOGGER_NOTICE="GREY"
 declare -- STDLIB_THEME_LOGGER_SUCCESS="GREEN"
 declare -- STDLIB_THEME_LOGGER_WARNING="YELLOW"
 declare -- STDLIB_TRACEBACK_DISABLE_BOOLEAN="1"
-declare -- _STDLIB_ARGS_CALLER_FN_NAME=""
-declare -a _STDLIB_ARGS_NULL_SAFE=()
-declare -- _STDLIB_ARRAY_BUFFER=""
+declare -- STDLIB_WRAP_PREFIX=""
 declare -- _STDLIB_BINARY_CAT="/usr/bin/cat"
 declare -- _STDLIB_BINARY_CUT="/usr/bin/cut"
 declare -- _STDLIB_BINARY_GREP="/usr/bin/grep"
@@ -89,20 +97,13 @@ declare -- _STDLIB_BINARY_SORT="/usr/bin/sort"
 declare -- _STDLIB_BINARY_TAIL="/usr/bin/tail"
 declare -- _STDLIB_BINARY_TPUT="/usr/bin/tput"
 declare -- _STDLIB_BINARY_TR="/usr/bin/tr"
-declare -- _STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=""
-declare -- _STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN=""
-declare -- _STDLIB_DELIMITER=""
-declare -- _STDLIB_LINE_BREAK_CHAR=""
-declare -a _STDLIB_LOGGING_DECORATORS=([0]="_testing.__protected")
-declare -- _STDLIB_LOGGING_MESSAGE_PREFIX=""
-declare -- _STDLIB_PASSWORD_BOOLEAN=""
-declare -- _STDLIB_WRAP_PREFIX_STRING=""
+declare -a __STDLIB_LOGGING_DECORATORS_ARRAY=([0]="_testing.__protected")
 
 # stdlib function definitions
 
 stdlib.__builtin.overridable ()
 {
-    builtin local use_builtin_boolean="${_STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN:-0}";
+    builtin local use_builtin_boolean="${STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN:-0}";
     if [[ "${use_builtin_boolean}" == "0" ]]; then
         builtin "${@}";
     else
@@ -578,8 +579,8 @@ stdlib.array.get.last ()
     indirect_reference="${1}[@]";
     indirect_array=("${!indirect_reference}");
     indirect_array_last_element_index="$(("${#indirect_array[@]}" - 1))";
-    _STDLIB_ARRAY_BUFFER="${indirect_array[indirect_array_last_element_index]}";
-    builtin echo "${_STDLIB_ARRAY_BUFFER}"
+    STDLIB_ARRAY_BUFFER="${indirect_array[indirect_array_last_element_index]}";
+    builtin echo "${STDLIB_ARRAY_BUFFER}"
 }
 
 stdlib.array.get.length ()
@@ -591,8 +592,8 @@ stdlib.array.get.length ()
     stdlib.array.assert.is_array "${1}" || builtin return 126;
     indirect_reference="${1}[@]";
     indirect_array=("${!indirect_reference}");
-    _STDLIB_ARRAY_BUFFER="${#indirect_array[@]}";
-    builtin echo "${_STDLIB_ARRAY_BUFFER}"
+    STDLIB_ARRAY_BUFFER="${#indirect_array[@]}";
+    builtin echo "${STDLIB_ARRAY_BUFFER}"
 }
 
 stdlib.array.get.longest ()
@@ -612,8 +613,8 @@ stdlib.array.get.longest ()
             longest_array_element_length="${#current_array_element}";
         fi;
     done;
-    _STDLIB_ARRAY_BUFFER="${longest_array_element_length}";
-    builtin echo "${_STDLIB_ARRAY_BUFFER}"
+    STDLIB_ARRAY_BUFFER="${longest_array_element_length}";
+    builtin echo "${STDLIB_ARRAY_BUFFER}"
 }
 
 stdlib.array.get.shortest ()
@@ -633,8 +634,8 @@ stdlib.array.get.shortest ()
             shortest_array_element_length="${#current_array_element}";
         fi;
     done;
-    _STDLIB_ARRAY_BUFFER="${shortest_array_element_length}";
-    builtin echo "${_STDLIB_ARRAY_BUFFER}"
+    STDLIB_ARRAY_BUFFER="${shortest_array_element_length}";
+    builtin echo "${STDLIB_ARRAY_BUFFER}"
 }
 
 stdlib.array.make.from_file ()
@@ -646,17 +647,17 @@ stdlib.array.make.from_file ()
 
 stdlib.array.make.from_string ()
 {
-    builtin local -a _STDLIB_ARGS_NULL_SAFE;
-    _STDLIB_ARGS_NULL_SAFE=("3");
+    builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
+    STDLIB_ARGS_NULL_SAFE_ARRAY=("3");
     stdlib.fn.args.require "3" "0" "${@}" || builtin return "$?";
     IFS="${2}" builtin read -d "" -ra "${1}" < <(builtin echo -n "${3}") || builtin return 0
 }
 
 stdlib.array.make.from_string_n ()
 {
-    builtin local -a _STDLIB_ARGS_NULL_SAFE;
+    builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
     builtin local array_index;
-    _STDLIB_ARGS_NULL_SAFE=("3");
+    STDLIB_ARGS_NULL_SAFE_ARRAY=("3");
     stdlib.fn.args.require "3" "0" "${@}" || builtin return "$?";
     stdlib.string.assert.is_digit "${2}" || builtin return 126;
     for ((array_index = 0; array_index < "${2}"; array_index++))
@@ -698,11 +699,11 @@ stdlib.array.map.format ()
 
 stdlib.array.mutate.append ()
 {
-    builtin local -a _STDLIB_ARGS_NULL_SAFE;
+    builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
     builtin local -a indirect_array;
     builtin local indirect_array_index;
     builtin local indirect_reference;
-    _STDLIB_ARGS_NULL_SAFE=("1");
+    STDLIB_ARGS_NULL_SAFE_ARRAY=("1");
     stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?";
     stdlib.array.assert.is_array "${2}" || builtin return 126;
     indirect_reference="${2}[@]";
@@ -785,10 +786,10 @@ stdlib.array.mutate.format ()
 
 stdlib.array.mutate.insert ()
 {
-    builtin local -a _STDLIB_ARGS_NULL_SAFE;
+    builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
     builtin local -a indirect_array;
     builtin local indirect_reference;
-    _STDLIB_ARGS_NULL_SAFE=("1");
+    STDLIB_ARGS_NULL_SAFE_ARRAY=("1");
     stdlib.fn.args.require "3" "0" "${@}" || builtin return "$?";
     stdlib.array.assert.is_array "${3}" || builtin return 126;
     indirect_reference="${3}[@]";
@@ -800,11 +801,11 @@ stdlib.array.mutate.insert ()
 
 stdlib.array.mutate.prepend ()
 {
-    builtin local -a _STDLIB_ARGS_NULL_SAFE;
+    builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
     builtin local -a indirect_array;
     builtin local indirect_array_index;
     builtin local indirect_reference;
-    _STDLIB_ARGS_NULL_SAFE=("1");
+    STDLIB_ARGS_NULL_SAFE_ARRAY=("1");
     stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?";
     stdlib.array.assert.is_array "${2}" || builtin return 126;
     indirect_reference="${2}[@]";
@@ -968,8 +969,8 @@ EOF
 stdlib.fn.args.require ()
 {
     builtin local -a args_null_safe_array;
-    builtin local _STDLIB_LOGGING_MESSAGE_PREFIX="${_STDLIB_ARGS_CALLER_FN_NAME:-"${FUNCNAME[1]}"}";
-    args_null_safe_array=("${_STDLIB_ARGS_NULL_SAFE[@]}");
+    builtin local STDLIB_LOGGING_MESSAGE_PREFIX="${STDLIB_ARGS_CALLER_FN_NAME:-"${FUNCNAME[1]}"}";
+    args_null_safe_array=("${STDLIB_ARGS_NULL_SAFE_ARRAY[@]}");
     builtin local arg_index=1;
     builtin local args_optional_count="${2}";
     builtin local args_required_count="${1}";
@@ -1101,7 +1102,7 @@ builtin declare -f "${function_name}" | "${_STDLIB_BINARY_TAIL}" -n +2)"
 stdlib.fn.derive.pipeable ()
 {
     builtin local derive_target_fn_name;
-    builtin local stdin_source_specifier="${STDIN_SOURCE_SPECIFIER:-"-"}";
+    builtin local stdin_source_specifier="${STDLIB_PIPEABLE_STDIN_SOURCE_SPECIFIER:-"-"}";
     stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?";
     stdlib.fn.assert.is_fn "${1}" || builtin return 126;
     stdlib.string.assert.is_digit "${2}" || builtin return 126;
@@ -1369,7 +1370,7 @@ stdlib.io.stdin.prompt ()
 {
     builtin local flags="-rp";
     builtin local prompt="${2:-"$(stdlib.__message.get STDIN_DEFAULT_VALUE_PROMPT)"}";
-    builtin local password="${_STDLIB_PASSWORD_BOOLEAN:-0}";
+    builtin local password="${STDLIB_STDIN_PASSWORD_MASK_BOOLEAN:-0}";
     stdlib.fn.args.require "1" "1" "${@}" || builtin return "$?";
     if [[ "${password}" == "1" ]]; then
         flags="-rsp";
@@ -1384,8 +1385,8 @@ stdlib.io.stdin.prompt ()
 
 stdlib.logger.__message_prefix ()
 {
-    builtin local message_prefix="${_STDLIB_LOGGING_MESSAGE_PREFIX:-${FUNCNAME[3]}}";
-    if stdlib.array.query.is_contains "${message_prefix}" _STDLIB_LOGGING_DECORATORS; then
+    builtin local message_prefix="${STDLIB_LOGGING_MESSAGE_PREFIX:-${FUNCNAME[3]}}";
+    if stdlib.array.query.is_contains "${message_prefix}" __STDLIB_LOGGING_DECORATORS_ARRAY; then
         message_prefix="${FUNCNAME[4]}";
     fi;
     builtin echo -n "${message_prefix}: "
@@ -1849,7 +1850,7 @@ stdlib.setting.colour.disable ()
 
 stdlib.setting.colour.enable ()
 {
-    builtin local silent_fallback_boolean="${_STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN:-0}";
+    builtin local silent_fallback_boolean="${STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN:-0}";
     builtin local error_message="";
     if ! "${_STDLIB_BINARY_TPUT}" init 2> /dev/null; then
         if [[ "${silent_fallback_boolean}" != "1" ]]; then
@@ -2157,9 +2158,9 @@ stdlib.string.assert.not_equal ()
 
 stdlib.string.colour ()
 {
-    builtin local -a _STDLIB_ARGS_NULL_SAFE;
+    builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
     builtin local string_output;
-    _STDLIB_ARGS_NULL_SAFE=("2");
+    STDLIB_ARGS_NULL_SAFE_ARRAY=("2");
     stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?";
     string_output="$(stdlib.string.colour_n "${1}" "${2}")";
     builtin echo -e "${string_output}"
@@ -2167,9 +2168,9 @@ stdlib.string.colour ()
 
 stdlib.string.colour.substring ()
 {
-    builtin local -a _STDLIB_ARGS_NULL_SAFE;
+    builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
     builtin local string_colour;
-    _STDLIB_ARGS_NULL_SAFE=("2" "3");
+    STDLIB_ARGS_NULL_SAFE_ARRAY=("2" "3");
     stdlib.fn.args.require "3" "0" "${@}" || builtin return "$?";
     string_colour="$(stdlib.setting.theme.get_colour "${1}")";
     builtin echo -e "${3/${2}/${!string_colour}${2}${STDLIB_COLOUR_NC}}"
@@ -2236,9 +2237,9 @@ stdlib.string.colour.substring_var ()
 
 stdlib.string.colour.substrings ()
 {
-    builtin local -a _STDLIB_ARGS_NULL_SAFE;
+    builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
     builtin local string_colour;
-    _STDLIB_ARGS_NULL_SAFE=("2" "3");
+    STDLIB_ARGS_NULL_SAFE_ARRAY=("2" "3");
     stdlib.fn.args.require "3" "0" "${@}" || builtin return "$?";
     string_colour="$(stdlib.setting.theme.get_colour "${1}")";
     builtin echo -e "${3//${2}/${!string_colour}${2}${STDLIB_COLOUR_NC}}"
@@ -2305,9 +2306,9 @@ stdlib.string.colour.substrings_var ()
 
 stdlib.string.colour_n ()
 {
-    builtin local -a _STDLIB_ARGS_NULL_SAFE;
+    builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
     builtin local string_colour;
-    _STDLIB_ARGS_NULL_SAFE=("2");
+    STDLIB_ARGS_NULL_SAFE_ARRAY=("2");
     stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?";
     string_colour="$(stdlib.setting.theme.get_colour "${1}")";
     builtin echo -ne "${!string_colour}${2}${STDLIB_COLOUR_NC}"
@@ -2411,8 +2412,8 @@ stdlib.string.colour_var ()
 
 stdlib.string.justify.left ()
 {
-    builtin local -a _STDLIB_ARGS_NULL_SAFE;
-    _STDLIB_ARGS_NULL_SAFE=("2");
+    builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
+    STDLIB_ARGS_NULL_SAFE_ARRAY=("2");
     stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?";
     builtin printf "%-${1}b"'
 ' "${2}"
@@ -2479,8 +2480,8 @@ stdlib.string.justify.left_var ()
 
 stdlib.string.justify.right ()
 {
-    builtin local -a _STDLIB_ARGS_NULL_SAFE;
-    _STDLIB_ARGS_NULL_SAFE=("2");
+    builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
+    STDLIB_ARGS_NULL_SAFE_ARRAY=("2");
     stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?";
     builtin printf "%${1}s"'
 ' "${2}"
@@ -2547,10 +2548,10 @@ stdlib.string.justify.right_var ()
 
 stdlib.string.lines.join ()
 {
-    builtin local -a _STDLIB_ARGS_NULL_SAFE;
-    builtin local delimiter="${_STDLIB_DELIMITER:-
+    builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
+    builtin local delimiter="${STDLIB_LINE_BREAK_DELIMITER:-
 }";
-    _STDLIB_ARGS_NULL_SAFE=("1");
+    STDLIB_ARGS_NULL_SAFE_ARRAY=("1");
     stdlib.fn.args.require "1" "0" "${@}" || builtin return "$?";
     builtin printf '%s\n' "${1//${delimiter}/}"
 }
@@ -2616,12 +2617,12 @@ stdlib.string.lines.join_var ()
 
 stdlib.string.lines.map.fn ()
 {
-    builtin local -a _STDLIB_ARGS_NULL_SAFE;
-    builtin local delimiter="${_STDLIB_DELIMITER:-
+    builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
+    builtin local delimiter="${STDLIB_LINE_BREAK_DELIMITER:-
 }";
     builtin local line="";
     builtin local output="";
-    _STDLIB_ARGS_NULL_SAFE=("2");
+    STDLIB_ARGS_NULL_SAFE_ARRAY=("2");
     stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?";
     stdlib.fn.assert.is_fn "${1}" || builtin return 126;
     if ! stdlib.string.query.has_substring "${delimiter}" "${2}"; then
@@ -2695,12 +2696,12 @@ stdlib.string.lines.map.fn_var ()
 
 stdlib.string.lines.map.format ()
 {
-    builtin local -a _STDLIB_ARGS_NULL_SAFE;
-    builtin local delimiter="${_STDLIB_DELIMITER:-
+    builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
+    builtin local delimiter="${STDLIB_LINE_BREAK_DELIMITER:-
 }";
     builtin local line="";
     builtin local output="";
-    _STDLIB_ARGS_NULL_SAFE=("2");
+    STDLIB_ARGS_NULL_SAFE_ARRAY=("2");
     stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?";
     if ! stdlib.string.query.has_substring "${delimiter}" "${2}"; then
         builtin printf "${1}" "${2}";
@@ -2773,8 +2774,8 @@ stdlib.string.lines.map.format_var ()
 
 stdlib.string.pad.left ()
 {
-    builtin local -a _STDLIB_ARGS_NULL_SAFE;
-    _STDLIB_ARGS_NULL_SAFE=("2");
+    builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
+    STDLIB_ARGS_NULL_SAFE_ARRAY=("2");
     stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?";
     builtin printf "%*s%s"'
 ' "${1}" " " "${2}"
@@ -2841,8 +2842,8 @@ stdlib.string.pad.left_var ()
 
 stdlib.string.pad.right ()
 {
-    builtin local -a _STDLIB_ARGS_NULL_SAFE;
-    _STDLIB_ARGS_NULL_SAFE=("2");
+    builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
+    STDLIB_ARGS_NULL_SAFE_ARRAY=("2");
     stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?";
     builtin printf "%s%*s"'
 ' "${2}" "${1}" " "
@@ -3091,8 +3092,8 @@ stdlib.string.query.starts_with ()
 
 stdlib.string.trim.left ()
 {
-    builtin local -a _STDLIB_ARGS_NULL_SAFE;
-    _STDLIB_ARGS_NULL_SAFE=("1");
+    builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
+    STDLIB_ARGS_NULL_SAFE_ARRAY=("1");
     stdlib.fn.args.require "1" "0" "${@}" || builtin return "$?";
     builtin shopt -s extglob;
     builtin printf '%s\n' "${1##+([[:space:]])}";
@@ -3160,8 +3161,8 @@ stdlib.string.trim.left_var ()
 
 stdlib.string.trim.right ()
 {
-    builtin local -a _STDLIB_ARGS_NULL_SAFE;
-    _STDLIB_ARGS_NULL_SAFE=("1");
+    builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
+    STDLIB_ARGS_NULL_SAFE_ARRAY=("1");
     stdlib.fn.args.require "1" "0" "${@}" || builtin return "$?";
     builtin shopt -s extglob;
     builtin printf '%s\n' "${1%%+([[:space:]])}";
@@ -3229,9 +3230,9 @@ stdlib.string.trim.right_var ()
 
 stdlib.string.wrap ()
 {
-    builtin local -a _STDLIB_ARGS_NULL_SAFE;
-    builtin local wrap_indent_string="${_STDLIB_WRAP_PREFIX_STRING:-""}";
-    builtin local forced_line_break_char="${_STDLIB_LINE_BREAK_CHAR:-*}";
+    builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
+    builtin local wrap_indent_string="${STDLIB_WRAP_PREFIX:-""}";
+    builtin local forced_line_break_char="${STDLIB_LINE_BREAK_FORCE_CHAR:-*}";
     builtin local current_line="";
     builtin local current_line_length=0;
     builtin local current_word="";
@@ -3240,7 +3241,7 @@ stdlib.string.wrap ()
     builtin local output="";
     builtin local wrap_limit=0;
     builtin local wrap_indent_length="${#wrap_indent_string}";
-    _STDLIB_ARGS_NULL_SAFE=("3");
+    STDLIB_ARGS_NULL_SAFE_ARRAY=("3");
     stdlib.fn.args.require "3" "0" "${@}" || builtin return "$?";
     stdlib.string.assert.is_digit "${1}" || builtin return 126;
     stdlib.string.assert.is_digit "${2}" || builtin return 126;
@@ -3307,9 +3308,9 @@ stdlib.string.wrap_pipe ()
 
 stdlib.trap.__register_default_handlers ()
 {
-    stdlib.trap.create.handler "stdlib.trap.handler.err.fn" STDLIB_HANDLER_ERR;
-    stdlib.trap.create.handler "stdlib.trap.handler.exit.fn" STDLIB_HANDLER_EXIT;
-    stdlib.trap.create.clean_up_fn "stdlib.trap.fn.clean_up_on_exit" STDLIB_CLEANUP_FN;
+    stdlib.trap.create.handler "stdlib.trap.handler.err.fn" STDLIB_HANDLER_ERR_FN_ARRAY;
+    stdlib.trap.create.handler "stdlib.trap.handler.exit.fn" STDLIB_HANDLER_EXIT_FN_ARRAY;
+    stdlib.trap.create.clean_up_fn "stdlib.trap.fn.clean_up_on_exit" STDLIB_CLEANUP_FN_TARGETS_ARRAY;
     stdlib.trap.handler.exit.fn.register "stdlib.trap.fn.clean_up_on_exit";
     if [[ "${STDLIB_TRACEBACK_DISABLE_BOOLEAN}" -eq "0" ]]; then
         stdlib.trap.handler.err.fn.register stdlib.logger.traceback;
@@ -3377,7 +3378,7 @@ stdlib.trap.fn.clean_up_on_exit ()
 {
     builtin local clean_up_path;
     [[ "${#@}" -eq 0 ]] || builtin return 127;
-    for clean_up_path in "${STDLIB_CLEANUP_FN[@]}";
+    for clean_up_path in "${STDLIB_CLEANUP_FN_TARGETS_ARRAY[@]}";
     do
         if stdlib.io.path.query.is_exists "${clean_up_path}"; then
             "/usr/bin/rm" "-f" "${clean_up_path}";
@@ -3389,7 +3390,7 @@ stdlib.trap.handler.err.fn ()
 {
     builtin local trap_handler_fn;
     [[ "${#@}" -eq 0 ]] || builtin return 127;
-    for trap_handler_fn in "${STDLIB_HANDLER_ERR[@]}";
+    for trap_handler_fn in "${STDLIB_HANDLER_ERR_FN_ARRAY[@]}";
     do
         "${trap_handler_fn}";
     done
@@ -3399,14 +3400,14 @@ stdlib.trap.handler.err.fn.register ()
 {
     stdlib.fn.args.require "1" "0" "${@}" || builtin return "$?";
     stdlib.fn.assert.is_fn "${1}" || builtin return 126;
-    STDLIB_HANDLER_ERR+=("${1}")
+    STDLIB_HANDLER_ERR_FN_ARRAY+=("${1}")
 }
 
 stdlib.trap.handler.exit.fn ()
 {
     builtin local trap_handler_fn;
     [[ "${#@}" -eq 0 ]] || builtin return 127;
-    for trap_handler_fn in "${STDLIB_HANDLER_EXIT[@]}";
+    for trap_handler_fn in "${STDLIB_HANDLER_EXIT_FN_ARRAY[@]}";
     do
         "${trap_handler_fn}";
     done
@@ -3416,7 +3417,7 @@ stdlib.trap.handler.exit.fn.register ()
 {
     stdlib.fn.args.require "1" "0" "${@}" || builtin return "$?";
     stdlib.fn.assert.is_fn "${1}" || builtin return 126;
-    STDLIB_HANDLER_EXIT+=("${1}")
+    STDLIB_HANDLER_EXIT_FN_ARRAY+=("${1}")
 }
 
 stdlib.var.assert.is_valid_name ()

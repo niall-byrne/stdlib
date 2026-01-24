@@ -29,7 +29,7 @@ ${1}.mock.__get_apply_to_matching_mock_calls() {
 ${1}.mock.get.call() {
   # $1: the call to retrieve
 
-  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
   builtin local _mock_object_escaped_args
 
   _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
@@ -45,7 +45,7 @@ ${1}.mock.get.call() {
 }
 
 ${1}.mock.get.calls() {
-  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
   builtin local _mock_object_escaped_args
 
   _testing.__protected stdlib.fn.args.require "0" "0" "\${@}" || builtin return "\$?"
@@ -57,7 +57,7 @@ ${1}.mock.get.calls() {
 }
 
 ${1}.mock.get.count() {
-  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
 
   _testing.__protected stdlib.fn.args.require "0" "0" "\${@}" || builtin return "\$?"
 
@@ -65,7 +65,7 @@ ${1}.mock.get.count() {
 }
 
 ${1}.mock.get.keywords() {
-  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
 
   _testing.__protected stdlib.fn.args.require "0" "0" "\${@}" || builtin return "\$?"
 
