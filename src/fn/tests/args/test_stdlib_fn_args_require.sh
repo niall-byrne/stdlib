@@ -76,7 +76,7 @@ test_stdlib_fn_args_require__@vary__default_function_name_____generates_correct_
   IFS=" " read -ra message_arg_definitions <<< "${TEST_MESSAGE_ARG_DEFINITIONS}"
   for message_arg_definition in "${message_arg_definitions[@]}"; do
     IFS="|" read -ra message_args <<< "${message_arg_definition}"
-    expected_log_messages+=("1($(stdlib.message.get "${message_args[@]}")) _STDLIB_LOGGING_MESSAGE_PREFIX(${FUNCNAME[0]})")
+    expected_log_messages+=("1($(stdlib.__message.get "${message_args[@]}")) _STDLIB_LOGGING_MESSAGE_PREFIX(${FUNCNAME[0]})")
   done
 
   stdlib.fn.args.require "${TEST_ARGS_REQUIRED}" "${TEST_ARGS_OPTIONAL}" "${args[@]}"
@@ -101,7 +101,7 @@ test_stdlib_fn_args_require__@vary__overridden_function_name__generates_correct_
   IFS=" " read -ra message_arg_definitions <<< "${TEST_MESSAGE_ARG_DEFINITIONS}"
   for message_arg_definition in "${message_arg_definitions[@]}"; do
     IFS="|" read -ra message_args <<< "${message_arg_definition}"
-    expected_log_messages+=("1($(stdlib.message.get "${message_args[@]}")) _STDLIB_LOGGING_MESSAGE_PREFIX(override logging message prefix)")
+    expected_log_messages+=("1($(stdlib.__message.get "${message_args[@]}")) _STDLIB_LOGGING_MESSAGE_PREFIX(override logging message prefix)")
   done
 
   stdlib.fn.args.require "${TEST_ARGS_REQUIRED}" "${TEST_ARGS_OPTIONAL}" "${args[@]}"

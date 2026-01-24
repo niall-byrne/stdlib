@@ -43,7 +43,7 @@ test_stdlib_security_path_assert_has_owner__@vary___________logs_expected_messag
   stdlib.security.path.assert.has_owner "${args[@]}" > /dev/null
 
   stdlib.logger.error.mock.assert_called_once_with \
-    "1($(stdlib.message.get ARGUMENTS_INVALID))"
+    "1($(stdlib.__message.get ARGUMENTS_INVALID))"
 }
 
 @parametrize_with_arg_combos \
@@ -53,9 +53,9 @@ test_stdlib_security_path_assert_has_owner__valid_args_________non_matching__log
   stdlib.security.path.assert.has_owner "/etc" "user1" 2> /dev/null
 
   stdlib.logger.error.mock.assert_called_once_with \
-    "1($(stdlib.message.get SECURITY_INSECURE_OWNERSHIP "/etc"))"
+    "1($(stdlib.__message.get SECURITY_INSECURE_OWNERSHIP "/etc"))"
   stdlib.logger.info.mock.assert_called_once_with \
-    "1($(stdlib.message.get SECURITY_SUGGEST_CHOWN "user1" "/etc"))"
+    "1($(stdlib.__message.get SECURITY_SUGGEST_CHOWN "user1" "/etc"))"
 }
 
 test_stdlib_security_path_assert_has_owner__valid_args_________non_matching__returns_status_code_1() {
