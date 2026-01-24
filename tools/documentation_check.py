@@ -1,10 +1,10 @@
 import json
 import re
 import sys
-from typing import List, Optional, Dict, Tuple, Callable
+from typing import Dict, List, Optional, Tuple, Callable
 
 
-# Configuration
+# Data Classes
 class TagDefinition:
     def __init__(
         self,
@@ -60,12 +60,6 @@ class Tags:
         ]
 
 
-TAG_SEQUENCE = Tags.get_sequence()
-MANDATORY_EXIT_CODES = ["0"]
-MANDATORY_TAGS = [t for t in TAG_SEQUENCE if t.is_mandatory]
-REGEX_DOC_TAGS = rf"@({'|'.join([t.name for t in TAG_SEQUENCE])})"
-
-
 class DeriveDefinition:
     """A data container for derivation configurations."""
 
@@ -88,46 +82,6 @@ class DeriveDefinition:
         self.get_arg_index = get_arg_index
         self.arg_desc_requirement = arg_desc_requirement
         self.arg_desc_suffix = arg_desc_suffix
-
-
-DERIVE_DEFINITIONS: List[DeriveDefinition] = [
-    DeriveDefinition(
-        type_name="pipeable",
-        regex=rf'stdlib\.(?:fn\.)?derive\.pipeable\s+"([^"]+)"\s+"([^"]+)"',
-        expected_desc_template="A derivative of {source} that can read from stdin.",
-        get_source=lambda m: m.group(1),
-        get_target=lambda m: m.group(1) + "_pipe",
-        get_arg_index=lambda m: m.group(2),
-        arg_desc_suffix=", by default this function reads from stdin.",
-    ),
-    DeriveDefinition(
-        type_name="var",
-        regex=rf'stdlib\.(?:fn\.)?derive\.var\s+"([^"]+)"(?:\s+"([^"]+)")?(?:\s+"([^"]+)")?',
-        expected_desc_template="A derivative of {source} that can read from and write to a variable.",
-        get_source=lambda m: m.group(1),
-        get_target=lambda m: m.group(2) or (m.group(1) + "_var"),
-        get_arg_index=lambda m: m.group(3) or "-1",
-        arg_desc_requirement="The name of the variable to read from and write to.",
-    ),
-]
-REGEX_ECHO_ASSIGNMENT = r"=\s*\"?builtin echo"
-REGEX_FUNCTION_DEFINITION = r"^([a-zA-Z_@][a-zA-Z0-9._]*) *\(\) *\{"
-REGEX_PROCESS_SUBSTITUTION = r"[\$=]\(builtin echo"
-SENTENCE_FORMAT_TAGS = [t for t in TAG_SEQUENCE if t.check_sentence_format]
-STANDARDIZED_EXIT_CODES = {
-    "126": rf"@{Tags.EXITCODE.name} 126 If an invalid argument has been provided\.",
-    "127": rf"@{Tags.EXITCODE.name} 127 If the wrong number of arguments were provided\.",
-}
-STDERR_TRIGGERS = ["stdlib.logger.error", "stdlib.logger.warning", ">&2"]
-STDOUT_TRIGGERS = [
-    "stdlib.logger.info",
-    "stdlib.logger.success",
-    "stdlib.logger.notice",
-    "builtin echo",
-]
-TRIGGER_IGNORE_COMMENT = "# noqa"
-TYPE_TAGS = [t for t in TAG_SEQUENCE if t.has_types]
-VARIABLE_TYPES = ["string", "integer", "boolean", "array"]
 
 
 class DocTag:
@@ -176,7 +130,7 @@ class DeriveCall:
 
 
 class BashFunction:
-    TAG_MAP: Dict[str, TagDefinition] = {t.name: t for t in TAG_SEQUENCE}
+    TAG_MAP: Dict[str, TagDefinition] = {t.name: t for t in Tags.get_sequence()}
 
     def __init__(
         self,
@@ -243,6 +197,66 @@ class BashFunction:
         return None
 
 
+# Configuration
+DERIVE_DEFINITIONS: List[DeriveDefinition] = [
+    DeriveDefinition(
+        type_name="pipeable",
+        regex=rf'stdlib\.(?:fn\.)?derive\.pipeable\s+"([^"]+)"\s+"([^"]+)"',
+        expected_desc_template="A derivative of {source} that can read from stdin.",
+        get_source=lambda m: m.group(1),
+        get_target=lambda m: m.group(1) + "_pipe",
+        get_arg_index=lambda m: m.group(2),
+        arg_desc_suffix=", by default this function reads from stdin.",
+    ),
+    DeriveDefinition(
+        type_name="var",
+        regex=rf'stdlib\.(?:fn\.)?derive\.var\s+"([^"]+)"(?:\s+"([^"]+)")?(?:\s+"([^"]+)")?',
+        expected_desc_template="A derivative of {source} that can read from and write to a variable.",
+        get_source=lambda m: m.group(1),
+        get_target=lambda m: m.group(2) or (m.group(1) + "_var"),
+        get_arg_index=lambda m: m.group(3) or "-1",
+        arg_desc_requirement="The name of the variable to read from and write to.",
+    ),
+]
+
+TAG_SEQUENCE = Tags.get_sequence()
+
+MANDATORY_EXIT_CODES = ["0"]
+
+MANDATORY_TAGS = [t for t in TAG_SEQUENCE if t.is_mandatory]
+
+REGEX_DOC_TAGS = rf"@({'|'.join([t.name for t in TAG_SEQUENCE])})"
+
+REGEX_ECHO_ASSIGNMENT = r"=\s*\"?builtin echo"
+
+REGEX_FUNCTION_DEFINITION = r"^([a-zA-Z_@][a-zA-Z0-9._]*) *\(\) *\{"
+
+REGEX_PROCESS_SUBSTITUTION = r"[\$=]\(builtin echo"
+
+SENTENCE_FORMAT_TAGS = [t for t in TAG_SEQUENCE if t.check_sentence_format]
+
+STANDARDIZED_EXIT_CODES = {
+    "126": rf"@{Tags.EXITCODE.name} 126 If an invalid argument has been provided\.",
+    "127": rf"@{Tags.EXITCODE.name} 127 If the wrong number of arguments were provided\.",
+}
+
+STDERR_TRIGGERS = ["stdlib.logger.error", "stdlib.logger.warning", ">&2"]
+
+STDOUT_TRIGGERS = [
+    "stdlib.logger.info",
+    "stdlib.logger.success",
+    "stdlib.logger.notice",
+    "builtin echo",
+]
+
+TRIGGER_IGNORE_COMMENT = "# noqa"
+
+TYPE_TAGS = [t for t in TAG_SEQUENCE if t.has_types]
+
+VARIABLE_TYPES = ["string", "integer", "boolean", "array"]
+
+
+# Rules
 class Rule:
     def check(self, func: BashFunction) -> List[str]:
         raise NotImplementedError
@@ -253,41 +267,17 @@ class DeriveRule:
         raise NotImplementedError
 
 
-class MissingDeriveStubRule(DeriveRule):
-    def check(self, call: DeriveCall) -> List[str]:
-        if not call.linked_function:
-            return [
-                f"Line {call.line_number + 1}: Missing stub function for derive call."
-            ]
-        return []
-
-
-class DeriveStubNamingRule(DeriveRule):
-    def check(self, call: DeriveCall) -> List[str]:
-        if not call.linked_function:
-            return []
-        if call.linked_function.name != call.target:
-            return [
-                f"Line {call.line_number + 1}: Stub function name '{call.linked_function.name}' does not match expected target '{call.target}'."
-            ]
-        return []
-
-
-class DeriveStubDescriptionRule(Rule):
+class AssertionStderrRule(Rule):
     def check(self, func: BashFunction) -> List[str]:
-        if not func.derive_call:
+        if "assert" not in func.name:
             return []
 
-        call = func.derive_call
-        dd = call.definition
-        expected_desc = dd.expected_desc_template.format(source=call.source)
-
-        desc_tags = func.find_tags(Tags.DESCRIPTION)
-        if not any(expected_desc in tag.content for tag in desc_tags):
-            return [
-                f"{func.name}: Derived {dd.type_name} description should match '{expected_desc}'"
-            ]
-        return []
+        msg = "The error message if the assertion fails."
+        return [
+            f"{func.name}: @{Tags.STDERR.name} for assertion should use '{msg}'. Found: '{doc_tag.line.strip()}'"
+            for doc_tag in func.find_tags(Tags.STDERR)
+            if msg not in doc_tag.content
+        ]
 
 
 class DeriveStubArgRule(Rule):
@@ -335,17 +325,32 @@ class DeriveStubArgRule(Rule):
         return []
 
 
-class AssertionStderrRule(Rule):
+class DeriveStubDescriptionRule(Rule):
     def check(self, func: BashFunction) -> List[str]:
-        if "assert" not in func.name:
+        if not func.derive_call:
             return []
 
-        msg = "The error message if the assertion fails."
-        return [
-            f"{func.name}: @{Tags.STDERR.name} for assertion should use '{msg}'. Found: '{doc_tag.line.strip()}'"
-            for doc_tag in func.find_tags(Tags.STDERR)
-            if msg not in doc_tag.content
-        ]
+        call = func.derive_call
+        dd = call.definition
+        expected_desc = dd.expected_desc_template.format(source=call.source)
+
+        desc_tags = func.find_tags(Tags.DESCRIPTION)
+        if not any(expected_desc in tag.content for tag in desc_tags):
+            return [
+                f"{func.name}: Derived {dd.type_name} description should match '{expected_desc}'"
+            ]
+        return []
+
+
+class DeriveStubNamingRule(DeriveRule):
+    def check(self, call: DeriveCall) -> List[str]:
+        if not call.linked_function:
+            return []
+        if call.linked_function.name != call.target:
+            return [
+                f"Line {call.line_number + 1}: Stub function name '{call.linked_function.name}' does not match expected target '{call.target}'."
+            ]
+        return []
 
 
 class ExitCodeDescriptionRule(Rule):
@@ -423,6 +428,15 @@ class MandatoryFieldsRule(Rule):
                 f"{func.name}: Missing @{Tags.ARG.name} or @{Tags.NOARGS.name}"
             )
         return errors
+
+
+class MissingDeriveStubRule(DeriveRule):
+    def check(self, call: DeriveCall) -> List[str]:
+        if not call.linked_function:
+            return [
+                f"Line {call.line_number + 1}: Missing stub function for derive call."
+            ]
+        return []
 
 
 class MissingOutputTagsRule(Rule):
@@ -529,6 +543,7 @@ class UndocumentedRule(Rule):
         return []
 
 
+# Utilities
 def parse_file(filepath: str) -> Tuple[List[BashFunction], List[DeriveCall]]:
     with open(filepath, "r") as f:
         lines = f.read().splitlines()
@@ -607,6 +622,8 @@ def main():
     undocumented_rule = UndocumentedRule()
     validation_rules = [
         AssertionStderrRule(),
+        DeriveStubArgRule(),
+        DeriveStubDescriptionRule(),
         ExitCodeDescriptionRule(),
         FieldOrderRule(),
         GlobalIndentationRule(),
@@ -617,12 +634,10 @@ def main():
         SentenceFormatRule(),
         StandardExitCodesRule(),
         TypeValidationRule(),
-        DeriveStubDescriptionRule(),
-        DeriveStubArgRule(),
     ]
     derive_rules = [
-        MissingDeriveStubRule(),
         DeriveStubNamingRule(),
+        MissingDeriveStubRule(),
     ]
 
     all_discrepancies: Dict[str, List[str]] = {}
