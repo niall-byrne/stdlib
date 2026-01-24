@@ -5,7 +5,7 @@ test_stdlib_setting_colour_enable_generate_error_message__term_set______generate
 
   _capture.stderr_raw stdlib.setting.colour.enable._generate_error_message
 
-  assert_output "$(stdlib.message.get COLOUR_INITIALIZE_ERROR)"$'\n'
+  assert_output "$(stdlib.__message.get COLOUR_INITIALIZE_ERROR)"$'\n'
 }
 
 test_stdlib_setting_colour_enable_generate_error_message__term_not_set__generates_expected_stderr() {
@@ -13,7 +13,7 @@ test_stdlib_setting_colour_enable_generate_error_message__term_not_set__generate
 
   _capture.stderr_raw stdlib.setting.colour.enable._generate_error_message
 
-  assert_output "$(stdlib.message.get COLOUR_INITIALIZE_ERROR)
-$(stdlib.message.get COLOUR_INITIALIZE_ERROR_TERM)
+  assert_output "$(stdlib.__message.get COLOUR_INITIALIZE_ERROR)
+$(stdlib.__message.get COLOUR_INITIALIZE_ERROR_TERM)
 "
 }

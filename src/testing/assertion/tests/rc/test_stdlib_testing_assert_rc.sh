@@ -8,7 +8,7 @@ test_stdlib_testing_assert_rc__missing_value____fails() {
   _capture.assertion_failure assert_rc "0"
 
   assert_equals \
-    " $(_testing.assert.message.get ASSERT_ERROR_RC_NULL)" \
+    " $(_testing.assert.__message.get ASSERT_ERROR_RC_NULL)" \
     "${TEST_OUTPUT}"
 }
 
@@ -20,7 +20,7 @@ test_stdlib_testing_assert_rc__incorrect_value__fails() {
   _capture.assertion_failure assert_rc "0"
 
   assert_equals \
-    " $(_testing.assert.message.get ASSERT_ERROR_RC_NON_MATCHING)"$'\n'" expected [0] but was [127]" \
+    " $(_testing.assert.__message.get ASSERT_ERROR_RC_NON_MATCHING)"$'\n'" expected [0] but was [127]" \
     "${TEST_OUTPUT}"
 }
 

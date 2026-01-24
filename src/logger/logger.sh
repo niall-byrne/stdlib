@@ -15,7 +15,7 @@ stdlib.logger.traceback() {
   builtin local fn_name_index
   builtin local fn_name_indent=">"
 
-  stdlib.message.get TRACEBACK_HEADER
+  stdlib.__message.get TRACEBACK_HEADER
   builtin echo
 
   for ((fn_name_index = ("${#FUNCNAME[@]}" - 1); fn_name_index > 1; fn_name_index--)); do

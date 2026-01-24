@@ -3,7 +3,7 @@
 test_stdlib_builtin_overridable__default_behaviour______________does_not_allow_override() {
   _mock.create echo
 
-  stdlib.builtin.overridable echo "hello" > /dev/null
+  stdlib.__builtin.overridable echo "hello" > /dev/null
 
   echo.mock.assert_not_called
 
@@ -14,7 +14,7 @@ test_stdlib_builtin_overridable__environment_variable_set_to_1__allows_override(
   _mock.create echo
 
   _STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=1 \
-    stdlib.builtin.overridable echo "hello" > /dev/null
+    stdlib.__builtin.overridable echo "hello" > /dev/null
 
   echo.mock.assert_called_once_with "1(hello)"
 
@@ -25,7 +25,7 @@ test_stdlib_builtin_overridable__environment_variable_set_to_0__does_not_allow_o
   _mock.create echo
 
   _STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=0 \
-    stdlib.builtin.overridable echo "hello" > /dev/null
+    stdlib.__builtin.overridable echo "hello" > /dev/null
 
   echo.mock.assert_not_called
 
