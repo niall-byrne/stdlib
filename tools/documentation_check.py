@@ -223,6 +223,25 @@ class BashFunction:
     def find_tags(self, tag_def: TagDefinition) -> List[DocTag]:
         return [doc_tag for doc_tag in self.doc_tags if doc_tag.tag_def == tag_def]
 
+    def find_arg_by_index(self, index_str: str) -> Optional[DocTag]:
+        """Finds an @arg tag by its positional prefix (e.g. $1) or array index."""
+        arg_tags = self.find_tags(Tags.ARG)
+        if not index_str.lstrip("-").isdigit():
+            return None
+
+        idx = int(index_str)
+        if idx > 0:
+            prefix = f"${idx}"
+            for tag in arg_tags:
+                if tag.content.startswith(prefix):
+                    return tag
+        elif idx < 0:
+            try:
+                return arg_tags[idx]
+            except IndexError:
+                pass
+        return None
+
 
 class Rule:
     def check(self, func: BashFunction) -> List[str]:
@@ -254,77 +273,66 @@ class DeriveStubNamingRule(DeriveRule):
         return []
 
 
-class DeriveStubRule(Rule):
+class DeriveStubDescriptionRule(Rule):
     def check(self, func: BashFunction) -> List[str]:
         if not func.derive_call:
             return []
 
         call = func.derive_call
         dd = call.definition
-        errors = []
-        source = call.source
-        expected_desc = dd.expected_desc_template.format(source=source)
+        expected_desc = dd.expected_desc_template.format(source=call.source)
 
-        # Check description
         desc_tags = func.find_tags(Tags.DESCRIPTION)
         if not any(expected_desc in tag.content for tag in desc_tags):
-            errors.append(
+            return [
                 f"{func.name}: Derived {dd.type_name} description should match '{expected_desc}'"
+            ]
+        return []
+
+
+class DeriveStubArgRule(Rule):
+    def check(self, func: BashFunction) -> List[str]:
+        if not func.derive_call:
+            return []
+
+        call = func.derive_call
+        dd = call.definition
+        if not (dd.arg_desc_requirement or dd.arg_desc_suffix):
+            return []
+
+        target_tag = func.find_arg_by_index(call.arg_index)
+        if not target_tag:
+            return self._check_fallback(func, dd)
+
+        errors = []
+        if (
+            dd.arg_desc_requirement
+            and dd.arg_desc_requirement not in target_tag.content
+        ):
+            errors.append(
+                f"{func.name}: @arg at index {call.arg_index} description should match '{dd.arg_desc_requirement}'"
             )
-
-        # Check @arg
-        if dd.arg_desc_requirement or dd.arg_desc_suffix:
-            arg_tags = func.find_tags(Tags.ARG)
-            arg_index_str = call.arg_index
-
-            target_tag = None
-            if arg_index_str.lstrip("-").isdigit():
-                arg_idx = int(arg_index_str)
-                if arg_idx > 0:
-                    prefix = f"${arg_idx}"
-                    for tag in arg_tags:
-                        if tag.content.startswith(prefix):
-                            target_tag = tag
-                            break
-                elif arg_idx < 0 and arg_tags:
-                    try:
-                        target_tag = arg_tags[arg_idx]
-                    except IndexError:
-                        pass
-
-            if not target_tag:
-                # Fallback: look for requirement/suffix in any @arg
-                if dd.arg_desc_requirement:
-                    if not any(
-                        dd.arg_desc_requirement in tag.content for tag in arg_tags
-                    ):
-                        errors.append(
-                            f"{func.name}: Missing @arg with description '{dd.arg_desc_requirement}'"
-                        )
-                elif dd.arg_desc_suffix:
-                    if not any(
-                        tag.content.strip().endswith(dd.arg_desc_suffix)
-                        for tag in arg_tags
-                    ):
-                        errors.append(
-                            f"{func.name}: Missing @arg ending with '{dd.arg_desc_suffix}'"
-                        )
-            else:
-                if (
-                    dd.arg_desc_requirement
-                    and dd.arg_desc_requirement not in target_tag.content
-                ):
-                    errors.append(
-                        f"{func.name}: @arg at index {arg_index_str} description should match '{dd.arg_desc_requirement}'"
-                    )
-                if dd.arg_desc_suffix and not target_tag.content.strip().endswith(
-                    dd.arg_desc_suffix
-                ):
-                    errors.append(
-                        f"{func.name}: @arg at index {arg_index_str} description should end with '{dd.arg_desc_suffix}'"
-                    )
-
+        if dd.arg_desc_suffix and not target_tag.content.strip().endswith(
+            dd.arg_desc_suffix
+        ):
+            errors.append(
+                f"{func.name}: @arg at index {call.arg_index} description should end with '{dd.arg_desc_suffix}'"
+            )
         return errors
+
+    def _check_fallback(self, func: BashFunction, dd: DeriveDefinition) -> List[str]:
+        arg_tags = func.find_tags(Tags.ARG)
+        if dd.arg_desc_requirement:
+            if not any(dd.arg_desc_requirement in tag.content for tag in arg_tags):
+                return [
+                    f"{func.name}: Missing @arg with description '{dd.arg_desc_requirement}'"
+                ]
+        elif dd.arg_desc_suffix:
+            if not any(
+                tag.content.strip().endswith(dd.arg_desc_suffix) for tag in arg_tags
+            ):
+                return [f"{func.name}: Missing @arg ending with '{dd.arg_desc_suffix}'"]
+        return []
 
 
 class AssertionStderrRule(Rule):
@@ -609,7 +617,8 @@ def main():
         SentenceFormatRule(),
         StandardExitCodesRule(),
         TypeValidationRule(),
-        DeriveStubRule(),
+        DeriveStubDescriptionRule(),
+        DeriveStubArgRule(),
     ]
     derive_rules = [
         MissingDeriveStubRule(),
