@@ -20,7 +20,7 @@ _capture.assertion_failure() {
   rc="$?"
 
   if [[ ${rc} -eq 0 ]]; then
-    fail " $(_testing.assert.message.get ASSERT_ERROR_DID_NOT_FAIL "${1}")"
+    fail " $(_testing.assert.__message.get ASSERT_ERROR_DID_NOT_FAIL "${1}")"
   fi
 
   # shellcheck disable=SC2034

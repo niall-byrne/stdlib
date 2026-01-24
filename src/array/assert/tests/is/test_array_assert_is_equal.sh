@@ -79,7 +79,7 @@ test_stdlib_array_assert_is_equal__@vary__logs_an_error() {
   stdlib.array.make.from_string message_arg_definitions " " "${TEST_MESSAGE_ARG_DEFINITIONS}"
   for message_arg_definition in "${message_arg_definitions[@]}"; do
     stdlib.array.make.from_string message_args "|" "${message_arg_definition}"
-    expected_log_messages+=("1($(stdlib.message.get "${message_args[@]}"))")
+    expected_log_messages+=("1($(stdlib.__message.get "${message_args[@]}"))")
   done
 
   stdlib.array.assert.is_equal "${args[@]}"
