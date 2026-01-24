@@ -6,5 +6,5 @@ if [[ "${STDLIB_TRACEBACK_DISABLE_BOOLEAN}" -eq "0" ]]; then
   stdlib.trap.handler.err.fn.register stdlib.logger.traceback
 fi
 
-stdlib.builtin.overridable trap stdlib.trap.handler.err.fn ERR
-stdlib.builtin.overridable trap stdlib.trap.handler.exit.fn EXIT
+stdlib.__builtin.overridable trap stdlib.trap.handler.err.fn ERR
+stdlib.__builtin.overridable trap stdlib.trap.handler.exit.fn EXIT

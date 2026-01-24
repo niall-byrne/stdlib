@@ -44,7 +44,7 @@ test_stdlib_testing_mock_object_assert_any_call_is__@vary__generates_expected_lo
   stdlib.array.make.from_string message_arg_definitions " " "${TEST_MESSAGE_ARG_DEFINITIONS}"
   for message_arg_definition in "${message_arg_definitions[@]}"; do
     stdlib.array.make.from_string message_args "|" "${message_arg_definition}"
-    expected_log_messages+=("1($(stdlib.message.get "${message_args[@]}")) _STDLIB_ARGS_CALLER_FN_NAME(test_mock.mock.assert_any_call_is)")
+    expected_log_messages+=("1($(stdlib.__message.get "${message_args[@]}")) _STDLIB_ARGS_CALLER_FN_NAME(test_mock.mock.assert_any_call_is)")
   done
 
   test_mock.mock.assert_any_call_is "${args[@]}"
@@ -72,7 +72,7 @@ test_stdlib_testing_mock_object_assert_any_call_is__builtin_unavailable________g
   _capture.assertion_failure test_mock.mock.assert_any_call_is "1(arg1)"
 
   assert_equals \
-    "test_mock.mock.assert_any_call_is: $(_testing.mock.message.get "MOCK_REQUIRES_BUILTIN" "test_mock" "declare")" \
+    "test_mock.mock.assert_any_call_is: $(_testing.mock.__message.get "MOCK_REQUIRES_BUILTIN" "test_mock" "declare")" \
     "${TEST_OUTPUT}"
 }
 
@@ -82,7 +82,7 @@ test_stdlib_testing_mock_object_assert_any_call_is__valid_args__no_keywords____n
   _capture.assertion_failure test_mock.mock.assert_any_call_is "1(arg1)"
 
   assert_equals \
-    "$(_testing.mock.message.get "MOCK_NOT_CALLED_WITH" "test_mock" "1(arg1)")
+    "$(_testing.mock.__message.get "MOCK_NOT_CALLED_WITH" "test_mock" "1(arg1)")
  expected different value than [0] but was the same" \
     "${TEST_OUTPUT}"
 }
@@ -94,7 +94,7 @@ test_stdlib_testing_mock_object_assert_any_call_is__valid_args__with_keywords__n
   _capture.assertion_failure test_mock.mock.assert_any_call_is "1(arg1)"
 
   assert_equals \
-    "$(_testing.mock.message.get "MOCK_NOT_CALLED_WITH" "test_mock" "1(arg1)")
+    "$(_testing.mock.__message.get "MOCK_NOT_CALLED_WITH" "test_mock" "1(arg1)")
  expected different value than [0] but was the same" \
     "${TEST_OUTPUT}"
 }
@@ -106,7 +106,7 @@ test_stdlib_testing_mock_object_assert_any_call_is__valid_args__no_keywords____1
   _capture.assertion_failure test_mock.mock.assert_any_call_is "1(arg1)"
 
   assert_equals \
-    "$(_testing.mock.message.get "MOCK_NOT_CALLED_WITH" "test_mock" "1(arg1)")
+    "$(_testing.mock.__message.get "MOCK_NOT_CALLED_WITH" "test_mock" "1(arg1)")
  expected different value than [0] but was the same" \
     "${TEST_OUTPUT}"
 }
@@ -119,7 +119,7 @@ test_stdlib_testing_mock_object_assert_any_call_is__valid_args__with_keywords__1
   _capture.assertion_failure test_mock.mock.assert_any_call_is "1(arg1)"
 
   assert_equals \
-    "$(_testing.mock.message.get "MOCK_NOT_CALLED_WITH" "test_mock" "1(arg1)")
+    "$(_testing.mock.__message.get "MOCK_NOT_CALLED_WITH" "test_mock" "1(arg1)")
  expected different value than [0] but was the same" \
     "${TEST_OUTPUT}"
 }
@@ -147,7 +147,7 @@ test_stdlib_testing_mock_object_assert_any_call_is__valid_args__no_keywords____2
   _capture.assertion_failure test_mock.mock.assert_any_call_is "1(arg1)"
 
   assert_equals \
-    "$(_testing.mock.message.get "MOCK_NOT_CALLED_WITH" "test_mock" "1(arg1)")
+    "$(_testing.mock.__message.get "MOCK_NOT_CALLED_WITH" "test_mock" "1(arg1)")
  expected different value than [0] but was the same" \
     "${TEST_OUTPUT}"
 }
@@ -161,7 +161,7 @@ test_stdlib_testing_mock_object_assert_any_call_is__valid_args__with_keywords__2
   _capture.assertion_failure test_mock.mock.assert_any_call_is "1(arg1)"
 
   assert_equals \
-    "$(_testing.mock.message.get "MOCK_NOT_CALLED_WITH" "test_mock" "1(arg1)")
+    "$(_testing.mock.__message.get "MOCK_NOT_CALLED_WITH" "test_mock" "1(arg1)")
  expected different value than [0] but was the same" \
     "${TEST_OUTPUT}"
 }
