@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: niall@niallbyrne.ca\n"
-"POT-Creation-Date: 2026-01-24 16:50+0000\n"
+"POT-Creation-Date: 2026-01-24 18:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,239 +17,239 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/message.sh:34
+#: src/message.sh:35
 #, sh-format
 msgid ""
 "Expected '${option1}' required argument(s) and '${option2}' optional "
 "argument(s)."
 msgstr ""
 
-#: src/message.sh:38
+#: src/message.sh:39
 #, sh-format
 msgid "Received '${option1}' argument(s)!"
 msgstr ""
 
-#: src/message.sh:42
+#: src/message.sh:43
 #, sh-format
 msgid "Argument '${option1}' was null and is not null safe!"
 msgstr ""
 
-#: src/message.sh:46
+#: src/message.sh:47
 msgid "Invalid arguments provided!"
 msgstr ""
 
-#: src/message.sh:50
+#: src/message.sh:51
 #, sh-format
 msgid "The arrays '${option1}' and '${option2}' are equal!"
 msgstr ""
 
-#: src/message.sh:54
+#: src/message.sh:55
 #, sh-format
 msgid "At index '${option2}': the array '${option1}' has element '${option3}'"
 msgstr ""
 
-#: src/message.sh:58
+#: src/message.sh:59
 #, sh-format
 msgid "The array '${option1}' is empty!"
 msgstr ""
 
-#: src/message.sh:62
+#: src/message.sh:63
 #, sh-format
 msgid "The array '${option1}' is not empty!"
 msgstr ""
 
-#: src/message.sh:66
+#: src/message.sh:67
 #, sh-format
 msgid "The array '${option1}' has length '${option2}'"
 msgstr ""
 
-#: src/message.sh:70
+#: src/message.sh:71
 #, sh-format
 msgid "The value '${option1}' is found in the '${option2}' array!"
 msgstr ""
 
-#: src/message.sh:74
+#: src/message.sh:75
 #, sh-format
 msgid "The value '${option1}' is not found in the '${option2}' array!"
 msgstr ""
 
-#: src/message.sh:78
+#: src/message.sh:79
 msgid "Terminal colours could not be initialized!"
 msgstr ""
 
-#: src/message.sh:82
+#: src/message.sh:83
 msgid "Consider checking the 'TERM' environment variable."
 msgstr ""
 
-#: src/message.sh:86
+#: src/message.sh:87
 #, sh-format
 msgid "The colour '${option1}' is not defined!"
 msgstr ""
 
-#: src/message.sh:90
+#: src/message.sh:91
 #, sh-format
 msgid "The value '${option1}' is not a valid function name!"
 msgstr ""
 
-#: src/message.sh:94
+#: src/message.sh:95
 #, sh-format
 msgid "The path '${option1}' does not exist on the filesystem!"
 msgstr ""
 
-#: src/message.sh:98
+#: src/message.sh:99
 #, sh-format
 msgid "The path '${option1}' exists on the filesystem!"
 msgstr ""
 
-#: src/message.sh:102
+#: src/message.sh:103
 #, sh-format
 msgid "The path '${option1}' is not a valid filesystem file!"
 msgstr ""
 
-#: src/message.sh:106
+#: src/message.sh:107
 #, sh-format
 msgid "The path '${option1}' is not a valid filesystem folder!"
 msgstr ""
 
-#: src/message.sh:110
+#: src/message.sh:111
 #, sh-format
 msgid "The value '${option1}' is an array!"
 msgstr ""
 
-#: src/message.sh:114
+#: src/message.sh:115
 #, sh-format
 msgid "The value '${option1}' is a shell builtin!"
 msgstr ""
 
-#: src/message.sh:118
+#: src/message.sh:119
 #, sh-format
 msgid "A value equal to '${option1}' cannot be used!"
 msgstr ""
 
-#: src/message.sh:122
+#: src/message.sh:123
 #, sh-format
 msgid "The value '${option1}' is a function!"
 msgstr ""
 
-#: src/message.sh:126
+#: src/message.sh:127
 #, sh-format
 msgid "The value '${option1}' is not a alphabetic only string!"
 msgstr ""
 
-#: src/message.sh:130
+#: src/message.sh:131
 #, sh-format
 msgid "The value '${option1}' is not a alpha-numeric only string!"
 msgstr ""
 
-#: src/message.sh:134
+#: src/message.sh:135
 #, sh-format
 msgid "The value '${option1}' is not an array!"
 msgstr ""
 
-#: src/message.sh:138
+#: src/message.sh:139
 #, sh-format
 msgid "The value '${option1}' is not a string containing a boolean (0 or 1)!"
 msgstr ""
 
-#: src/message.sh:142
+#: src/message.sh:143
 #, sh-format
 msgid "The value '${option1}' is not a shell builtin!"
 msgstr ""
 
-#: src/message.sh:146
+#: src/message.sh:147
 #, sh-format
 msgid "The value '${option1}' is not a string containing a single char!"
 msgstr ""
 
-#: src/message.sh:150
+#: src/message.sh:151
 #, sh-format
 msgid "The value '${option1}' is not a string containing a digit!"
 msgstr ""
 
-#: src/message.sh:154
+#: src/message.sh:155
 #, sh-format
 msgid "The value '${option1}' is not a function!"
 msgstr ""
 
-#: src/message.sh:158
+#: src/message.sh:159
 #, sh-format
 msgid "The value '${option1}' is not a string containing an integer!"
 msgstr ""
 
-#: src/message.sh:162
+#: src/message.sh:163
 #, sh-format
 msgid ""
 "The value '${option3}' is not a string containing an integer in the "
 "inclusive range ${option1} to ${option2}!"
 msgstr ""
 
-#: src/message.sh:166
+#: src/message.sh:167
 #, sh-format
 msgid ""
 "The value '${option1}' is not a string containing an octal file permission!"
 msgstr ""
 
-#: src/message.sh:170
+#: src/message.sh:171
 #, sh-format
 msgid "The value '${option1}' is not a set string!"
 msgstr ""
 
-#: src/message.sh:174
+#: src/message.sh:175
 #, sh-format
 msgid "The regex '${option1}' does not match the value '${option2}'!"
 msgstr ""
 
-#: src/message.sh:178
+#: src/message.sh:179
 #, sh-format
 msgid "SECURITY: The group ownership on '${option1}' is not secure!"
 msgstr ""
 
-#: src/message.sh:182
+#: src/message.sh:183
 #, sh-format
 msgid "SECURITY: The ownership on '${option1}' is not secure!"
 msgstr ""
 
-#: src/message.sh:186
+#: src/message.sh:187
 #, sh-format
 msgid "SECURITY: The permissions on '${option1}' are not secure!"
 msgstr ""
 
-#: src/message.sh:190
+#: src/message.sh:191
 msgid "SECURITY: This script must be run as root."
 msgstr ""
 
-#: src/message.sh:194
+#: src/message.sh:195
 #, sh-format
 msgid "Please consider running: sudo chgrp '${option1}' '${option2}'"
 msgstr ""
 
-#: src/message.sh:198
+#: src/message.sh:199
 #, sh-format
 msgid "Please consider running: sudo chmod '${option1}' '${option2}'"
 msgstr ""
 
-#: src/message.sh:202
+#: src/message.sh:203
 #, sh-format
 msgid "Please consider running: sudo chown '${option1}' '${option2}'"
 msgstr ""
 
-#: src/message.sh:206
+#: src/message.sh:207
 msgid "Are you sure you wish to proceed (Y/n) ?"
 msgstr ""
 
-#: src/message.sh:210
+#: src/message.sh:211
 msgid "Press any key to continue ..."
 msgstr ""
 
-#: src/message.sh:214
+#: src/message.sh:215
 msgid "Enter a value:"
 msgstr ""
 
-#: src/message.sh:218
+#: src/message.sh:219
 msgid "Callstack:"
 msgstr ""
 
-#: src/message.sh:222
+#: src/message.sh:223
 #, sh-format
 msgid "The value '${option1}' is not a valid variable name!"
 msgstr ""

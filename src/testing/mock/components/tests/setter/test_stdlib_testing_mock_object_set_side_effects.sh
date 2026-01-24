@@ -42,6 +42,6 @@ test_stdlib_testing_mock_object_set_side_effects__builtin_unavailable__generates
   _capture.assertion_failure test_mock.mock.set.side_effects "echo stdout_side_effect_message"
 
   assert_equals \
-    "test_mock.mock.set.side_effects: $(_testing.mock.message.get "MOCK_REQUIRES_BUILTIN" "test_mock" "declare")" \
+    "test_mock.mock.set.side_effects: $(_testing.mock.__message.get "MOCK_REQUIRES_BUILTIN" "test_mock" "declare")" \
     "${TEST_OUTPUT}"
 }

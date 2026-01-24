@@ -43,7 +43,7 @@ test_stdlib_security_path_assert_has_group__@vary___________logs_expected_messag
   stdlib.security.path.assert.has_group "${args[@]}" > /dev/null
 
   stdlib.logger.error.mock.assert_called_once_with \
-    "1($(stdlib.message.get ARGUMENTS_INVALID))"
+    "1($(stdlib.__message.get ARGUMENTS_INVALID))"
 }
 
 @parametrize_with_arg_combos \
@@ -53,9 +53,9 @@ test_stdlib_security_path_assert_has_group__valid_args_________non_matching__log
   stdlib.security.path.assert.has_group "/etc" "group1" 2> /dev/null
 
   stdlib.logger.error.mock.assert_called_once_with \
-    "1($(stdlib.message.get SECURITY_INSECURE_GROUP_OWNERSHIP "/etc"))"
+    "1($(stdlib.__message.get SECURITY_INSECURE_GROUP_OWNERSHIP "/etc"))"
   stdlib.logger.info.mock.assert_called_once_with \
-    "1($(stdlib.message.get SECURITY_SUGGEST_CHGRP "group1" "/etc"))"
+    "1($(stdlib.__message.get SECURITY_SUGGEST_CHGRP "group1" "/etc"))"
 }
 
 test_stdlib_security_path_assert_has_group__valid_args_________non_matching__returns_status_code_1() {

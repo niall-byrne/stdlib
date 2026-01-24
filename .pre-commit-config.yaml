@@ -178,7 +178,7 @@ repos:
         files: "^src/trap/trap.sh$"
       - id: source-files-keywords
         name: ensure source files use builtins prefaced with the 'builtin' command
-        entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$).*(?<!builtin )(?<!stdlib\\.builtin\\.overridable )((?<=\\s|\\()|(?<=^))(alias|bg|bind|break|caller|cd|command|compgen|complete|continue|declare|dirs|disown|echo|enable|eval|exec|exit|export|false|fc|fg|getopts|hash|help|history|jobs|kill|let|local|logout|popd|printf|pushd|pwd|read|readonly|return|set|shift|shopt|source|suspend|test|times|trap|true|type|typeset|ulimit|umask|unalias|unset|wait)((\\s|\\)).*$|$)"
+        entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$).*(?<!builtin )(?<!stdlib\\.__builtin\\.overridable )((?<=\\s|\\()|(?<=^))(alias|bg|bind|break|caller|cd|command|compgen|complete|continue|declare|dirs|disown|echo|enable|eval|exec|exit|export|false|fc|fg|getopts|hash|help|history|jobs|kill|let|local|logout|popd|printf|pushd|pwd|read|readonly|return|set|shift|shopt|source|suspend|test|times|trap|true|type|typeset|ulimit|umask|unalias|unset|wait)((\\s|\\)).*$|$)"
         language: pygrep
         files: "^src/.+\\.sh$"
         exclude: "^((.+/)*tests/.+\\.sh)$"

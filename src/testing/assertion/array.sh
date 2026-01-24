@@ -22,7 +22,7 @@ assert_array_length() {
   # $2: the variable name
 
   if [[ $# -ne 2 ]]; then
-    fail " $(_testing.assert.message.get ASSERT_ERROR_INSUFFICIENT_ARGS assert_array_length)"
+    fail " $(_testing.assert.__message.get ASSERT_ERROR_INSUFFICIENT_ARGS assert_array_length)"
   fi
 
   builtin local _stdlib_expected_length="${1}"
@@ -38,7 +38,7 @@ assert_array_length() {
 
   assert_equals "${_stdlib_expected_length}" \
     "${#_stdlib_indirect_array[*]}" ||
-    fail " $(_testing.assert.message.get ASSERT_ERROR_ARRAY_LENGTH_NON_MATCHING "${_stdlib_expected_length}" "${#_stdlib_indirect_array[*]}")"
+    fail " $(_testing.assert.__message.get ASSERT_ERROR_ARRAY_LENGTH_NON_MATCHING "${_stdlib_expected_length}" "${#_stdlib_indirect_array[*]}")"
 }
 
 assert_is_array() {

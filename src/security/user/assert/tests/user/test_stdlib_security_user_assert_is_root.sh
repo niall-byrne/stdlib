@@ -19,7 +19,7 @@ test_stdlib_security_user_assert_is_root__invalid_args__logs_an_error() {
   stdlib.security.user.assert.is_root
 
   stdlib.logger.error.mock.assert_called_once_with \
-    "1($(stdlib.message.get ARGUMENTS_INVALID))"
+    "1($(stdlib.__message.get ARGUMENTS_INVALID))"
 }
 
 test_stdlib_security_user_assert_is_root__valid_args____euid_not_zero__logs_error_messages() {
@@ -28,7 +28,7 @@ test_stdlib_security_user_assert_is_root__valid_args____euid_not_zero__logs_erro
   stdlib.security.user.assert.is_root
 
   stdlib.logger.error.mock.assert_called_once_with \
-    "1($(stdlib.message.get SECURITY_MUST_BE_RUN_AS_ROOT))"
+    "1($(stdlib.__message.get SECURITY_MUST_BE_RUN_AS_ROOT))"
 }
 
 test_stdlib_security_user_assert_is_root__valid_args____euid_not_zero__returns_status_code_1() {
