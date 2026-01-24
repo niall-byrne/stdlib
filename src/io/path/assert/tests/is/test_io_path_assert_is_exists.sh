@@ -51,7 +51,7 @@ test_stdlib_io_path_assert_is_exists__@vary__logs_an_error() {
   stdlib.io.path.assert.is_exists "${args[@]}" > /dev/null
 
   stdlib.logger.error.mock.assert_called_once_with \
-    "1($(stdlib.message.get "${message_args[@]}"))"
+    "1($(stdlib.__message.get "${message_args[@]}"))"
 }
 
 @parametrize_with_error_messages \

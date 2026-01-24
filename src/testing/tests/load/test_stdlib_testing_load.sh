@@ -42,7 +42,7 @@ test_stdlib_testing_load__@vary__logs_error_message() {
 
   _testing.load "${args[@]}"
 
-  _testing.error.mock.assert_called_once_with "1(_testing.load: $(stdlib.message.get "${message_args[@]}"))"
+  _testing.error.mock.assert_called_once_with "1(_testing.load: $(stdlib.__message.get "${message_args[@]}"))"
 }
 
 @parametrize_with_invalid_args \
@@ -51,7 +51,7 @@ test_stdlib_testing_load__@vary__logs_error_message() {
 test_stdlib_testing_load__no_error______loads_module() {
   _capture.output _testing.load "__fixtures__/mock_load_target.sh"
 
-  assert_output "${!expected_colour}    $(_testing.message.get LOAD_MODULE_NOTIFICATION "__fixtures__/mock_load_target.sh")${STDLIB_COLOUR_NC}
+  assert_output "${!expected_colour}    $(_testing.__message.get LOAD_MODULE_NOTIFICATION "__fixtures__/mock_load_target.sh")${STDLIB_COLOUR_NC}
 Loaded!"
 }
 
@@ -64,7 +64,7 @@ test_stdlib_testing_load__no_error______returns_status_code_0() {
 test_stdlib_testing_load__with_error____display_error_message() {
   _capture.output _testing.load "non-existent_target.sh"
 
-  _testing.error.mock.assert_called_once_with "1($(_testing.message.get LOAD_MODULE_NOT_FOUND "non-existent_target.sh"))"
+  _testing.error.mock.assert_called_once_with "1($(_testing.__message.get LOAD_MODULE_NOT_FOUND "non-existent_target.sh"))"
 }
 
 test_stdlib_testing_load__with_error____returns_status_code_126() {

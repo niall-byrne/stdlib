@@ -72,7 +72,7 @@ test_stdlib_testing_mock_object_assert_called_once_with__@vary__generates_expect
   stdlib.array.make.from_string message_arg_definitions " " "${TEST_MESSAGE_ARG_DEFINITIONS}"
   for message_arg_definition in "${message_arg_definitions[@]}"; do
     stdlib.array.make.from_string message_args "|" "${message_arg_definition}"
-    expected_log_messages+=("1($(stdlib.message.get "${message_args[@]}")) _STDLIB_ARGS_CALLER_FN_NAME(test_mock.mock.assert_called_once_with)")
+    expected_log_messages+=("1($(stdlib.__message.get "${message_args[@]}")) _STDLIB_ARGS_CALLER_FN_NAME(test_mock.mock.assert_called_once_with)")
   done
 
   test_mock.mock.assert_called_once_with "${args[@]}"
@@ -100,7 +100,7 @@ test_stdlib_testing_mock_object_assert_called_once_with__builtin_unavailable__ge
   _capture.assertion_failure test_mock.mock.assert_called_once_with ""
 
   assert_equals \
-    "test_mock.mock.assert_called_once_with: $(_testing.mock.message.get "MOCK_REQUIRES_BUILTIN" "test_mock" "declare")" \
+    "test_mock.mock.assert_called_once_with: $(_testing.mock.__message.get "MOCK_REQUIRES_BUILTIN" "test_mock" "declare")" \
     "${TEST_OUTPUT}"
 }
 
@@ -131,8 +131,8 @@ test_stdlib_testing_mock_object_assert_called_once_with__valid_args___________ca
   _capture.assertion_failure test_mock.mock.assert_called_once_with "1(arg1)"
 
   assert_equals \
-    "$(_testing.mock.message.get MOCK_CALL_ACTUAL_PREFIX): []
-$(_testing.mock.message.get MOCK_NOT_CALLED_ONCE_WITH "test_mock" "1(arg1)")
+    "$(_testing.mock.__message.get MOCK_CALL_ACTUAL_PREFIX): []
+$(_testing.mock.__message.get MOCK_NOT_CALLED_ONCE_WITH "test_mock" "1(arg1)")
  expected [1] but was [0]" \
     "${TEST_OUTPUT}"
 }
@@ -148,8 +148,8 @@ test_stdlib_testing_mock_object_assert_called_once_with__valid_args___________ca
   _capture.assertion_failure test_mock.mock.assert_called_once_with "1(arg1)"
 
   assert_equals \
-    "$(_testing.mock.message.get MOCK_CALL_ACTUAL_PREFIX): [keyword1(value1) keyword2(value2)]
-$(_testing.mock.message.get MOCK_NOT_CALLED_ONCE_WITH "test_mock" "1(arg1)")
+    "$(_testing.mock.__message.get MOCK_CALL_ACTUAL_PREFIX): [keyword1(value1) keyword2(value2)]
+$(_testing.mock.__message.get MOCK_NOT_CALLED_ONCE_WITH "test_mock" "1(arg1)")
  expected [1] but was [0]" \
     "${TEST_OUTPUT}"
 }
@@ -188,8 +188,8 @@ test_stdlib_testing_mock_object_assert_called_once_with__valid_args___________ca
   _capture.assertion_failure test_mock.mock.assert_called_once_with "${TEST_ARG_STRING}"
 
   assert_equals \
-    "$(_testing.mock.message.get MOCK_CALL_ACTUAL_PREFIX): [${expected_call}]
-$(_testing.mock.message.get MOCK_NOT_CALLED_ONCE_WITH "test_mock" "${TEST_ARG_STRING}")
+    "$(_testing.mock.__message.get MOCK_CALL_ACTUAL_PREFIX): [${expected_call}]
+$(_testing.mock.__message.get MOCK_NOT_CALLED_ONCE_WITH "test_mock" "${TEST_ARG_STRING}")
  expected [1] but was [0]" \
     "${TEST_OUTPUT}"
 }
@@ -210,7 +210,7 @@ test_stdlib_testing_mock_object_assert_called_once_with__valid_args___________@v
   _capture.assertion_failure test_mock.mock.assert_called_once_with "${TEST_ARG_STRING}"
 
   assert_equals \
-    "$(_testing.mock.message.get MOCK_CALLED_N_TIMES "test_mock" "5")"$'\n'" expected [1] but was [5]" \
+    "$(_testing.mock.__message.get MOCK_CALLED_N_TIMES "test_mock" "5")"$'\n'" expected [1] but was [5]" \
     "${TEST_OUTPUT}"
 }
 

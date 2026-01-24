@@ -79,12 +79,12 @@ test_parametrize_compose__1st_run_test_variants__@vary__logs_expected_message() 
   stdlib.array.make.from_string args "|" "${TEST_ARGS_DEFINITION}"
   if [[ -n "${TEST_ERROR_CALL_DEFINITION}" ]]; then
     stdlib.array.make.from_string message_args "|" "${TEST_ERROR_CALL_DEFINITION}"
-    expected_log_messages+=("1(${message_args[0]}: $(stdlib.message.get "${message_args[@]:1}"))")
+    expected_log_messages+=("1(${message_args[0]}: $(stdlib.__message.get "${message_args[@]:1}"))")
   fi
   stdlib.array.make.from_string message_arg_definitions " " "${TEST_MESSAGE_ARG_DEFINITIONS}"
   for message_arg_definition in "${message_arg_definitions[@]}"; do
     stdlib.array.make.from_string message_args "|" "${message_arg_definition}"
-    expected_log_messages+=("1($(_testing.parametrize.message.get "${message_args[@]}"))")
+    expected_log_messages+=("1($(_testing.parametrize.__message.get "${message_args[@]}"))")
   done
 
   @parametrize.compose "${args[@]}" > /dev/null

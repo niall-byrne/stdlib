@@ -75,7 +75,7 @@ builtin set -eo pipefail
     builtin echo "  builtin printf -v \"PARAMETRIZE_SCENARIO_NAME\" \"%s\" \"${array_indirect_scenario_definition[0]}\""
 
     scenario_debug_message+=$'\n'
-    scenario_debug_message+="$(_testing.parametrize.message.get PARAMETRIZE_HEADER_SCENARIO): "
+    scenario_debug_message+="$(_testing.parametrize.__message.get PARAMETRIZE_HEADER_SCENARIO): "
     scenario_debug_message+="\"${array_indirect_scenario_definition[0]}\""
     scenario_debug_message+=$'\n'
 
@@ -85,7 +85,7 @@ builtin set -eo pipefail
     done
 
     for ((scenario_index = 0; scenario_index < "${#array_indirect_fixture_commands[@]}"; scenario_index++)); do
-      scenario_debug_message+="$(_testing.parametrize.message.get PARAMETRIZE_PREFIX_FIXTURE_COMMAND): "
+      scenario_debug_message+="$(_testing.parametrize.__message.get PARAMETRIZE_PREFIX_FIXTURE_COMMAND): "
       scenario_debug_message+="\"${array_indirect_fixture_commands[scenario_index]}\""
       scenario_debug_message+=$'\n'
       builtin printf "%s\n" "${array_indirect_fixture_commands[scenario_index]}"

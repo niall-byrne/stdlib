@@ -63,7 +63,7 @@ test_stdlib_fn_assert_is_builtin__@vary__logs_an_error() {
   _capture.rc stdlib.fn.assert.is_builtin "${args[@]}" > /dev/null
 
   stdlib.logger.error.mock.assert_called_once_with \
-    "1($(stdlib.message.get "${message_args[@]}"))"
+    "1($(stdlib.__message.get "${message_args[@]}"))"
 }
 
 @parametrize_with_error_messages \

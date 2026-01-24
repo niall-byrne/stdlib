@@ -109,7 +109,7 @@ In general most functions in the testing folder follow the [standard production 
 
 The prefix `_testing` should be used.  For example:
 - `_testing.load`
-- `_testing.message.get`
+- `_testing.__message.get`
 
 Similarly to the rest of the production code, private functions include a double underscore. For example:
 - `_testing.__protected`

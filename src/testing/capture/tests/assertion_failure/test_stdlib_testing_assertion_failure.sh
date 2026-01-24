@@ -6,7 +6,7 @@ test_stdlib_testing_capture_assertion_failure__does_not_fail__generates_correct_
   _capture.assertion_failure assert_equals 1 1
 
   assert_equals fail.mock.get.count "1"
-  fail.mock.assert_call_n_is 1 "1($(_testing.assert.message.get ASSERT_ERROR_DID_NOT_FAIL "assert_equals")"
+  fail.mock.assert_call_n_is 1 "1($(_testing.assert.__message.get ASSERT_ERROR_DID_NOT_FAIL "assert_equals")"
 
   _mock.delete fail
 }
