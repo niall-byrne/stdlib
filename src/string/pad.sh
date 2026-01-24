@@ -21,8 +21,24 @@ stdlib.string.pad.left() {
   builtin printf "%*s%s"$'\n' "${1}" " " "${2}"
 }
 
+# @description A pipeable version of stdlib.string.pad.left.
+# @arg $1 integer The number of spaces to pad with.
+# @arg $2 string (optional, default="-") The string to pad.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stdin The string to pad.
+# @stdout The padded string.
+# @stderr The error message if the operation fails.
+stdlib.string.pad.left_pipe() { :; }
 stdlib.fn.derive.pipeable "stdlib.string.pad.left" "2"
 
+# @description A version of stdlib.string.pad.left that reads from and writes to a variable.
+# @arg $1 integer The number of spaces to pad with.
+# @arg $2 string The name of the variable to read from and write to.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stderr The error message if the operation fails.
+stdlib.string.pad.left_var() { :; }
 stdlib.fn.derive.var "stdlib.string.pad.left"
 
 # @description Pads a string on the right with a specified number of spaces.
@@ -42,6 +58,22 @@ stdlib.string.pad.right() {
   builtin printf "%s%*s"$'\n' "${2}" "${1}" " "
 }
 
+# @description A pipeable version of stdlib.string.pad.right.
+# @arg $1 integer The number of spaces to pad with.
+# @arg $2 string (optional, default="-") The string to pad.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stdin The string to pad.
+# @stdout The padded string.
+# @stderr The error message if the operation fails.
+stdlib.string.pad.right_pipe() { :; }
 stdlib.fn.derive.pipeable "stdlib.string.pad.right" "2"
 
+# @description A version of stdlib.string.pad.right that reads from and writes to a variable.
+# @arg $1 integer The number of spaces to pad with.
+# @arg $2 string The name of the variable to read from and write to.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stderr The error message if the operation fails.
+stdlib.string.pad.right_var() { :; }
 stdlib.fn.derive.var "stdlib.string.pad.right"
