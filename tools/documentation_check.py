@@ -606,9 +606,9 @@ def main():
         TypeValidationRule(),
     ]
     all_discrepancies: Dict[str, List[str]] = {}
-    for file in sys.argv[1:]:
+    for filepath in sys.argv[1:]:
         try:
-            functions, derive_calls = parse_file(file)
+            functions, derive_calls = parse_file(filepath)
             file_errors = []
             for func in functions:
                 undocumented_errors = []
@@ -623,9 +623,11 @@ def main():
                 for rule in derive_rules:
                     file_errors.extend(rule.check(call))
             if file_errors:
-                all_discrepancies[file] = file_errors
+                all_discrepancies[filepath] = file_errors
         except Exception as exception:
-            all_discrepancies[file] = [f"File could not be parsed: {str(exception)}"]
+            all_discrepancies[filepath] = [
+                f"File could not be parsed: {str(exception)}"
+            ]
     if all_discrepancies:
         print(json.dumps(all_discrepancies, indent=2))
         sys.exit(1)
