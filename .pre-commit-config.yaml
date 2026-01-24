@@ -161,8 +161,14 @@ repos:
         name: ensure source files don't directly reference restricted binary commands
         entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$).*((?<=\\s|\\()|(?<=^))(cat|cut|grep|head|mktemp|rm|sed|sort|tail|tput|tr)((\\s|\\)).*$|$)"
         language: pygrep
-        files: "^src/.+\\.sh$"
+        files: "^src/.+\\.(sh|snippet)$"
         exclude: "^((.+/)*tests/.+\\.sh)$"
+      - id: source-files-global-variable-names
+        name: ensure source files in the testing folder use the correct global variable names
+        entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$)\\s*(?!(__)*STDLIB_|TEXTDOMAIN|TEXTDOMAINDIR)([A-Z_]+)=.+$"
+        language: pygrep
+        files: "^src/.+\\.sh$"
+        exclude: "^((.+/)*tests/.+\\.sh|src/testing/.+\\.sh)$"
       - id: source-files-headers
         name: ensure source files have correct headers
         entry: "\\A(?!#!/bin/bash\n(# shellcheck disable=.+\n){0,1}\n# stdlib.+\nbuiltin set -eo pipefail\n).+\\Z"
