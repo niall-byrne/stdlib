@@ -27,12 +27,14 @@ dataclass
 dataclasses
 doc_tag
 doc_tags
+documentation_check
 extensibility
 jules
 maintainability
 modularization
 parametrizer
 parametrizers
+pre-commit
 pytest's
 regexes
 shdoc
@@ -43,3 +45,4 @@ stdout
 subclasses
 subfolder
 tag_def
+vocab
