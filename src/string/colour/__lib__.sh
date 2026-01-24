@@ -9,7 +9,7 @@ builtin source "${STDLIB_DIRECTORY}/string/colour/colour.sh"
 # shellcheck source=src/string/colour/substring.sh
 builtin source "${STDLIB_DIRECTORY}/string/colour/substring.sh"
 
-# @description A pipeable version of stdlib.string.colour_n.
+# @description A derivative of stdlib.string.colour_n that can read from stdin.
 # @arg $1 string The name of the colour to use.
 # @arg $2 string (optional, default="-") The string to colour, by default this function reads from stdin.
 # @exitcode 0 If the operation succeeded.
@@ -20,7 +20,7 @@ builtin source "${STDLIB_DIRECTORY}/string/colour/substring.sh"
 stdlib.string.colour_n_pipe() { :; }
 stdlib.fn.derive.pipeable "stdlib.string.colour_n" "2"
 
-# @description A version of stdlib.string.colour_n that reads from and writes to a variable.
+# @description A derivative of stdlib.string.colour_n that can read from and write to a variable.
 # @arg $1 string The name of the colour to use.
 # @arg $2 string The name of the variable to read from and write to.
 # @exitcode 0 If the operation succeeded.
@@ -29,7 +29,7 @@ stdlib.fn.derive.pipeable "stdlib.string.colour_n" "2"
 stdlib.string.colour_var() { :; }
 stdlib.fn.derive.var "stdlib.string.colour_n" "stdlib.string.colour_var"
 
-# @description A pipeable version of stdlib.string.colour.
+# @description A derivative of stdlib.string.colour that can read from stdin.
 # @arg $1 string The name of the colour to use.
 # @arg $2 string (optional, default="-") The string to colour, by default this function reads from stdin.
 # @exitcode 0 If the operation succeeded.
@@ -40,7 +40,7 @@ stdlib.fn.derive.var "stdlib.string.colour_n" "stdlib.string.colour_var"
 stdlib.string.colour_pipe() { :; }
 stdlib.fn.derive.pipeable "stdlib.string.colour" "2"
 
-# @description A pipeable version of stdlib.string.colour.substring.
+# @description A derivative of stdlib.string.colour.substring that can read from stdin.
 # @arg $1 string The name of the colour to use.
 # @arg $2 string The substring to colour.
 # @arg $3 string (optional, default="-") The source string, by default this function reads from stdin.
@@ -52,7 +52,7 @@ stdlib.fn.derive.pipeable "stdlib.string.colour" "2"
 stdlib.string.colour.substring_pipe() { :; }
 stdlib.fn.derive.pipeable "stdlib.string.colour.substring" "3"
 
-# @description A version of stdlib.string.colour.substring that reads from and writes to a variable.
+# @description A derivative of stdlib.string.colour.substring that can read from and write to a variable.
 # @arg $1 string The name of the colour to use.
 # @arg $2 string The substring to colour.
 # @arg $3 string The name of the variable to read from and write to.
@@ -62,7 +62,7 @@ stdlib.fn.derive.pipeable "stdlib.string.colour.substring" "3"
 stdlib.string.colour.substring_var() { :; }
 stdlib.fn.derive.var "stdlib.string.colour.substring"
 
-# @description A pipeable version of stdlib.string.colour.substrings.
+# @description A derivative of stdlib.string.colour.substrings that can read from stdin.
 # @arg $1 string The name of the colour to use.
 # @arg $2 string The substring to colour.
 # @arg $3 string (optional, default="-") The source string, by default this function reads from stdin.
@@ -74,7 +74,7 @@ stdlib.fn.derive.var "stdlib.string.colour.substring"
 stdlib.string.colour.substrings_pipe() { :; }
 stdlib.fn.derive.pipeable "stdlib.string.colour.substrings" "3"
 
-# @description A version of stdlib.string.colour.substrings that reads from and writes to a variable.
+# @description A derivative of stdlib.string.colour.substrings that can read from and write to a variable.
 # @arg $1 string The name of the colour to use.
 # @arg $2 string The substring to colour.
 # @arg $3 string The name of the variable to read from and write to.

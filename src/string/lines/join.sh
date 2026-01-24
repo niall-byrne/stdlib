@@ -22,7 +22,7 @@ stdlib.string.lines.join() {
   builtin printf '%s\n' "${1//${delimiter}/}"
 }
 
-# @description A pipeable version of stdlib.string.lines.join.
+# @description A derivative of stdlib.string.lines.join that can read from stdin.
 # @arg $1 string (optional, default="-") The string to process, by default this function reads from stdin.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 127 If the wrong number of arguments were provided.
@@ -32,7 +32,7 @@ stdlib.string.lines.join() {
 stdlib.string.lines.join_pipe() { :; }
 stdlib.fn.derive.pipeable "stdlib.string.lines.join" "1"
 
-# @description A version of stdlib.string.lines.join that reads from and writes to a variable.
+# @description A derivative of stdlib.string.lines.join that can read from and write to a variable.
 # @arg $1 string The name of the variable to read from and write to.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 127 If the wrong number of arguments were provided.

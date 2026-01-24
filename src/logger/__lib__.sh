@@ -7,7 +7,7 @@ builtin set -eo pipefail
 # shellcheck source=src/logger/logger.sh
 builtin source "${STDLIB_DIRECTORY}/logger/logger.sh"
 
-# @description A pipeable version of stdlib.logger.error.
+# @description A derivative of stdlib.logger.error that can read from stdin.
 # @arg $1 string (optional, default="-") The message to log, by default this function reads from stdin.
 # @exitcode 0 If the operation succeeded.
 # @stdin The message to log.
@@ -15,7 +15,7 @@ builtin source "${STDLIB_DIRECTORY}/logger/logger.sh"
 stdlib.logger.error_pipe() { :; }
 stdlib.fn.derive.pipeable "stdlib.logger.error" "1"
 
-# @description A pipeable version of stdlib.logger.warning.
+# @description A derivative of stdlib.logger.warning that can read from stdin.
 # @arg $1 string (optional, default="-") The message to log, by default this function reads from stdin.
 # @exitcode 0 If the operation succeeded.
 # @stdin The message to log.
@@ -23,7 +23,7 @@ stdlib.fn.derive.pipeable "stdlib.logger.error" "1"
 stdlib.logger.warning_pipe() { :; }
 stdlib.fn.derive.pipeable "stdlib.logger.warning" "1"
 
-# @description A pipeable version of stdlib.logger.info.
+# @description A derivative of stdlib.logger.info that can read from stdin.
 # @arg $1 string (optional, default="-") The message to log, by default this function reads from stdin.
 # @exitcode 0 If the operation succeeded.
 # @stdin The message to log.
@@ -31,7 +31,7 @@ stdlib.fn.derive.pipeable "stdlib.logger.warning" "1"
 stdlib.logger.info_pipe() { :; }
 stdlib.fn.derive.pipeable "stdlib.logger.info" "1"
 
-# @description A pipeable version of stdlib.logger.success.
+# @description A derivative of stdlib.logger.success that can read from stdin.
 # @arg $1 string (optional, default="-") The message to log, by default this function reads from stdin.
 # @exitcode 0 If the operation succeeded.
 # @stdin The message to log.
@@ -39,7 +39,7 @@ stdlib.fn.derive.pipeable "stdlib.logger.info" "1"
 stdlib.logger.success_pipe() { :; }
 stdlib.fn.derive.pipeable "stdlib.logger.success" "1"
 
-# @description A pipeable version of stdlib.logger.notice.
+# @description A derivative of stdlib.logger.notice that can read from stdin.
 # @arg $1 string (optional, default="-") The message to log, by default this function reads from stdin.
 # @exitcode 0 If the operation succeeded.
 # @stdin The message to log.

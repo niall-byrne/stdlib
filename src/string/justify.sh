@@ -21,7 +21,7 @@ stdlib.string.justify.left() {
   builtin printf "%-${1}b"$'\n' "${2}"
 }
 
-# @description A pipeable version of stdlib.string.justify.left.
+# @description A derivative of stdlib.string.justify.left that can read from stdin.
 # @arg $1 integer The column width to justify to.
 # @arg $2 string (optional, default="-") The string to justify, by default this function reads from stdin.
 # @exitcode 0 If the operation succeeded.
@@ -32,7 +32,7 @@ stdlib.string.justify.left() {
 stdlib.string.justify.left_pipe() { :; }
 stdlib.fn.derive.pipeable "stdlib.string.justify.left" "2"
 
-# @description A version of stdlib.string.justify.left that reads from and writes to a variable.
+# @description A derivative of stdlib.string.justify.left that can read from and write to a variable.
 # @arg $1 integer The column width to justify to.
 # @arg $2 string The name of the variable to read from and write to.
 # @exitcode 0 If the operation succeeded.
@@ -58,7 +58,7 @@ stdlib.string.justify.right() {
   builtin printf "%${1}s"$'\n' "${2}"
 }
 
-# @description A pipeable version of stdlib.string.justify.right.
+# @description A derivative of stdlib.string.justify.right that can read from stdin.
 # @arg $1 integer The column width to justify to.
 # @arg $2 string (optional, default="-") The string to justify, by default this function reads from stdin.
 # @exitcode 0 If the operation succeeded.
@@ -69,7 +69,7 @@ stdlib.string.justify.right() {
 stdlib.string.justify.right_pipe() { :; }
 stdlib.fn.derive.pipeable "stdlib.string.justify.right" "2"
 
-# @description A version of stdlib.string.justify.right that reads from and writes to a variable.
+# @description A derivative of stdlib.string.justify.right that can read from and write to a variable.
 # @arg $1 integer The column width to justify to.
 # @arg $2 string The name of the variable to read from and write to.
 # @exitcode 0 If the operation succeeded.

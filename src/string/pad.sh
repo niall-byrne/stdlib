@@ -21,7 +21,7 @@ stdlib.string.pad.left() {
   builtin printf "%*s%s"$'\n' "${1}" " " "${2}"
 }
 
-# @description A pipeable version of stdlib.string.pad.left.
+# @description A derivative of stdlib.string.pad.left that can read from stdin.
 # @arg $1 integer The number of spaces to pad with.
 # @arg $2 string (optional, default="-") The string to pad, by default this function reads from stdin.
 # @exitcode 0 If the operation succeeded.
@@ -32,7 +32,7 @@ stdlib.string.pad.left() {
 stdlib.string.pad.left_pipe() { :; }
 stdlib.fn.derive.pipeable "stdlib.string.pad.left" "2"
 
-# @description A version of stdlib.string.pad.left that reads from and writes to a variable.
+# @description A derivative of stdlib.string.pad.left that can read from and write to a variable.
 # @arg $1 integer The number of spaces to pad with.
 # @arg $2 string The name of the variable to read from and write to.
 # @exitcode 0 If the operation succeeded.
@@ -58,7 +58,7 @@ stdlib.string.pad.right() {
   builtin printf "%s%*s"$'\n' "${2}" "${1}" " "
 }
 
-# @description A pipeable version of stdlib.string.pad.right.
+# @description A derivative of stdlib.string.pad.right that can read from stdin.
 # @arg $1 integer The number of spaces to pad with.
 # @arg $2 string (optional, default="-") The string to pad, by default this function reads from stdin.
 # @exitcode 0 If the operation succeeded.
@@ -69,7 +69,7 @@ stdlib.string.pad.right() {
 stdlib.string.pad.right_pipe() { :; }
 stdlib.fn.derive.pipeable "stdlib.string.pad.right" "2"
 
-# @description A version of stdlib.string.pad.right that reads from and writes to a variable.
+# @description A derivative of stdlib.string.pad.right that can read from and write to a variable.
 # @arg $1 integer The number of spaces to pad with.
 # @arg $2 string The name of the variable to read from and write to.
 # @exitcode 0 If the operation succeeded.

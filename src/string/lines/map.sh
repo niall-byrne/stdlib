@@ -36,7 +36,7 @@ stdlib.string.lines.map.format() {
   builtin echo -e "${output%?}"
 }
 
-# @description A pipeable version of stdlib.string.lines.map.format.
+# @description A derivative of stdlib.string.lines.map.format that can read from stdin.
 # @arg $1 string A valid printf format string.
 # @arg $2 string (optional, default="-") The input string to process, by default this function reads from stdin.
 # @exitcode 0 If the operation succeeded.
@@ -47,7 +47,7 @@ stdlib.string.lines.map.format() {
 stdlib.string.lines.map.format_pipe() { :; }
 stdlib.fn.derive.pipeable "stdlib.string.lines.map.format" "2"
 
-# @description A version of stdlib.string.lines.map.format that reads from and writes to a variable.
+# @description A derivative of stdlib.string.lines.map.format that can read from and write to a variable.
 # @arg $1 string A valid printf format string.
 # @arg $2 string The name of the variable to read from and write to.
 # @exitcode 0 If the operation succeeded.
@@ -88,7 +88,7 @@ stdlib.string.lines.map.fn() {
   builtin echo -e "${output%?}"
 }
 
-# @description A pipeable version of stdlib.string.lines.map.fn.
+# @description A derivative of stdlib.string.lines.map.fn that can read from stdin.
 # @arg $1 string The name of the function to apply to each line.
 # @arg $2 string (optional, default="-") The input string to process, by default this function reads from stdin.
 # @exitcode 0 If the operation succeeded.
@@ -100,7 +100,7 @@ stdlib.string.lines.map.fn() {
 stdlib.string.lines.map.fn_pipe() { :; }
 stdlib.fn.derive.pipeable "stdlib.string.lines.map.fn" "2"
 
-# @description A version of stdlib.string.lines.map.fn that reads from and writes to a variable.
+# @description A derivative of stdlib.string.lines.map.fn that can read from and write to a variable.
 # @arg $1 string The name of the function to apply to each line.
 # @arg $2 string The name of the variable to read from and write to.
 # @exitcode 0 If the operation succeeded.
