@@ -25,11 +25,11 @@ test_stdlib_testing_mock_sequence_assert_is__wrong_arg_count__fails() {
 
   assert_equals \
     " $(
-      local _STDLIB_LOGGING_MESSAGE_PREFIX
+      local STDLIB_LOGGING_MESSAGE_PREFIX
 
-      _STDLIB_LOGGING_MESSAGE_PREFIX="assert_array_equals" \
+      STDLIB_LOGGING_MESSAGE_PREFIX="assert_array_equals" \
         stdlib.logger.error "$(stdlib.__message.get ARRAY_LENGTH_MISMATCH "expected_mock_sequence" "1")" 2>&1
-      _STDLIB_LOGGING_MESSAGE_PREFIX=" assert_array_equals" \
+      STDLIB_LOGGING_MESSAGE_PREFIX=" assert_array_equals" \
         stdlib.logger.error "$(stdlib.__message.get ARRAY_LENGTH_MISMATCH "mock_sequence" "3")" 2>&1
     )" \
     "${TEST_OUTPUT}"
@@ -44,11 +44,12 @@ test_stdlib_testing_mock_sequence_assert_is__wrong_arg_order__fails() {
 
   assert_equals \
     " $(
-      local _STDLIB_LOGGING_MESSAGE_PREFIX
+      # shellcheck disable=SC2034
+      local STDLIB_LOGGING_MESSAGE_PREFIX
 
-      _STDLIB_LOGGING_MESSAGE_PREFIX="assert_array_equals" \
+      STDLIB_LOGGING_MESSAGE_PREFIX="assert_array_equals" \
         stdlib.logger.error "$(stdlib.__message.get ARRAY_ELEMENT_MISMATCH "expected_mock_sequence" "0" "mock1")" 2>&1
-      _STDLIB_LOGGING_MESSAGE_PREFIX=" assert_array_equals" \
+      STDLIB_LOGGING_MESSAGE_PREFIX=" assert_array_equals" \
         stdlib.logger.error "$(stdlib.__message.get ARRAY_ELEMENT_MISMATCH "mock_sequence" "0" "mock3")" 2>&1
     )" \
     "${TEST_OUTPUT}"

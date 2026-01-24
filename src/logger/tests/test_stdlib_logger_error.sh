@@ -18,14 +18,14 @@ test_stdlib_logger_error__specified_prefix__correct_stderr() {
   TEST_EXPECTED="specified prefix: ${!expected_colour}test string${STDLIB_COLOUR_NC}"$'\n'
   TEST_INPUT="test string"
 
-  _STDLIB_LOGGING_MESSAGE_PREFIX="specified prefix" \
+  STDLIB_LOGGING_MESSAGE_PREFIX="specified prefix" \
     _capture.stderr_raw stdlib.logger.error "${TEST_INPUT}"
 
   assert_output "${TEST_EXPECTED}"
 }
 
 test_stdlib_logger_error__decorator_prefix__correct_stderr() {
-  local _STDLIB_LOGGING_DECORATORS=("${FUNCNAME[0]}")
+  local __STDLIB_LOGGING_DECORATORS_ARRAY=("${FUNCNAME[0]}")
 
   TEST_EXPECTED="${FUNCNAME[1]}: ${!expected_colour}test string${STDLIB_COLOUR_NC}"$'\n'
   TEST_INPUT="test string"
