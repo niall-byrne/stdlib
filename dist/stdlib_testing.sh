@@ -570,7 +570,7 @@ ${1}.mock.__get_apply_to_matching_mock_calls() {
 ${1}.mock.get.call() {
   # $1: the call to retrieve
 
-  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
   builtin local _mock_object_escaped_args
 
   _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
@@ -584,7 +584,7 @@ ${1}.mock.get.call() {
 }
 
 ${1}.mock.get.calls() {
-  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
   builtin local _mock_object_escaped_args
 
   _testing.__protected stdlib.fn.args.require "0" "0" "\${@}" || builtin return "\$?"
@@ -594,7 +594,7 @@ ${1}.mock.get.calls() {
 }
 
 ${1}.mock.get.count() {
-  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
 
   _testing.__protected stdlib.fn.args.require "0" "0" "\${@}" || builtin return "\$?"
 
@@ -602,7 +602,7 @@ ${1}.mock.get.count() {
 }
 
 ${1}.mock.get.keywords() {
-  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
 
   _testing.__protected stdlib.fn.args.require "0" "0" "\${@}" || builtin return "\$?"
 
@@ -617,7 +617,7 @@ ${1}.mock.get.keywords() {
 ${1}.mock.set.keywords() {
   # $@: the keyword names to assign to the mock
 
-  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
   builtin local -a _mock_object_keywords
 
   _mock_object_keywords=("\${@}")
@@ -632,7 +632,7 @@ ${1}.mock.set.keywords() {
 ${1}.mock.set.pipeable() {
   # $1: the boolean to enable or disable the pipeable attribute
 
-  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
 
   _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
   _testing.__protected stdlib.string.assert.is_boolean "\${1}" || builtin return 126
@@ -642,7 +642,7 @@ ${1}.mock.set.pipeable() {
 
 ${1}.mock.set.rc() {
   # $1: the return code to make the mock return
-  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
 
   _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
   _testing.__protected stdlib.string.assert.is_integer_with_range "0" "255" "\${1}" || builtin return 126
@@ -665,10 +665,10 @@ ${1}.mock.set.side_effects() {
 ${1}.mock.set.stderr() {
   # $1: the value to make the mock emit to stderr
 
-  builtin local -a _STDLIB_ARGS_NULL_SAFE
-  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
+  builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
 
-  _STDLIB_ARGS_NULL_SAFE=("1")
+  STDLIB_ARGS_NULL_SAFE_ARRAY=("1")
 
   _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
 
@@ -678,10 +678,10 @@ ${1}.mock.set.stderr() {
 ${1}.mock.set.stdout() {
   # $1: the value to make the mock emit to stdout
 
-  builtin local -a _STDLIB_ARGS_NULL_SAFE
-  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
+  builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
 
-  _STDLIB_ARGS_NULL_SAFE=("1")
+  STDLIB_ARGS_NULL_SAFE_ARRAY=("1")
 
   _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
 
@@ -726,11 +726,11 @@ ${1}.mock.__count_matches() {
 ${1}.mock.assert_any_call_is() {
   # $1: a set of call args as a string
 
-  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
-  builtin local -a _STDLIB_ARGS_NULL_SAFE
+  builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
   builtin local _mock_object_match_count
 
-  _STDLIB_ARGS_NULL_SAFE=("1")
+  STDLIB_ARGS_NULL_SAFE_ARRAY=("1")
 
   _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
   _mock.__internal.security.assert.is_builtin "declare" || builtin return "\$?"
@@ -744,12 +744,12 @@ ${1}.mock.assert_call_n_is() {
   # $1: the call count to assert
   # $2: a set of call args as a string
 
-  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
-  builtin local -a _STDLIB_ARGS_NULL_SAFE
+  builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
   builtin local _mock_object_arg_string_actual
   builtin local _mock_object_call_count
 
-  _STDLIB_ARGS_NULL_SAFE=("2")
+  STDLIB_ARGS_NULL_SAFE_ARRAY=("2")
 
   _testing.__protected stdlib.fn.args.require "2" "0" "\${@}" || builtin return "\$?"
   _testing.__protected stdlib.string.assert.is_digit "\${1}" || builtin return 126
@@ -770,12 +770,12 @@ ${1}.mock.assert_call_n_is() {
 ${1}.mock.assert_called_once_with() {
   # $1: a set of call args as a string
 
-  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
-  builtin local -a _STDLIB_ARGS_NULL_SAFE
+  builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
   builtin local _mock_object_arg_string_actual
   builtin local _mock_object_match_count
 
-  _STDLIB_ARGS_NULL_SAFE=("1")
+  STDLIB_ARGS_NULL_SAFE_ARRAY=("1")
 
   _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
   _mock.__internal.security.assert.is_builtin "declare" || builtin return "\$?"
@@ -825,7 +825,7 @@ ${1}.mock.assert_calls_are() {
 ${1}.mock.assert_count_is() {
   # $1: the call count to assert
 
-  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
   builtin local _mock_object_call_count
 
   _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
@@ -837,7 +837,7 @@ ${1}.mock.assert_count_is() {
 }
 
 ${1}.mock.assert_not_called() {
-  builtin local _STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
   builtin local _mock_object_call_count
 
   _testing.__protected stdlib.fn.args.require "0" "0" "\${@}" || builtin return "\$?"
@@ -1014,11 +1014,11 @@ _mock.arg_string.make.from_array ()
 
 _mock.arg_string.make.from_string ()
 {
-    builtin local -a _STDLIB_ARGS_NULL_SAFE;
+    builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
     builtin local -a _mock_args_array;
     builtin local -a _mock_arg_string_args;
-    builtin local _mock_separator="${_STDLIB_DELIMITER:- }";
-    _STDLIB_ARGS_NULL_SAFE=("2");
+    builtin local _mock_separator="${STDLIB_LINE_BREAK_DELIMITER:- }";
+    STDLIB_ARGS_NULL_SAFE_ARRAY=("2");
     _mock_arg_string_args=("_mock_args_array");
     _testing.__protected stdlib.fn.args.require "1" "1" "${@}" || builtin return 127;
     if [[ -n "${2}" ]]; then
@@ -1209,7 +1209,7 @@ _testing.__protect_stdlib ()
 
 _testing.__protected ()
 {
-    _STDLIB_BUILTIN_BOOLEAN=1 "$(_testing.__protected_name "${1}")" "${@:2}"
+    STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=1 "$(_testing.__protected_name "${1}")" "${@:2}"
 }
 
 _testing.__protected_name ()

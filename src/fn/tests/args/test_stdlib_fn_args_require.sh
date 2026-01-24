@@ -2,7 +2,7 @@
 
 setup() {
   _mock.create stdlib.logger.error
-  stdlib.logger.error.mock.set.keywords "_STDLIB_LOGGING_MESSAGE_PREFIX"
+  stdlib.logger.error.mock.set.keywords "STDLIB_LOGGING_MESSAGE_PREFIX"
 }
 
 @parametrize_with_required_arg_returns_codes() {
@@ -47,11 +47,11 @@ setup() {
 }
 
 test_stdlib_fn_args_require__@vary__@vary() {
-  local _STDLIB_ARGS_NULL_SAFE=()
+  local STDLIB_ARGS_NULL_SAFE_ARRAY=()
   local args=()
 
   IFS="|" read -ra args <<< "${TEST_ARGS_DEFINITION}"
-  IFS="|" read -ra _STDLIB_ARGS_NULL_SAFE <<< "${TEST_ARGS_NULL_SAFE_DEFINITION}"
+  IFS="|" read -ra STDLIB_ARGS_NULL_SAFE_ARRAY <<< "${TEST_ARGS_NULL_SAFE_DEFINITION}"
 
   _capture.rc stdlib.fn.args.require "${TEST_ARGS_REQUIRED}" "${TEST_ARGS_OPTIONAL}" "${args[@]}"
 
@@ -64,19 +64,19 @@ test_stdlib_fn_args_require__@vary__@vary() {
   @parametrize_with_optional_arg_return_codes
 
 test_stdlib_fn_args_require__@vary__default_function_name_____generates_correct_error_logs() {
-  local _STDLIB_ARGS_NULL_SAFE=()
-  local _STDLIB_ARGS_CALLER_FN_NAME=""
+  local STDLIB_ARGS_NULL_SAFE_ARRAY=()
+  local STDLIB_ARGS_CALLER_FN_NAME=""
   local args=()
   local message_arg_definition
   local message_arg_definitions=()
   local message_args=()
 
   IFS="|" read -ra args <<< "${TEST_ARGS_DEFINITION}"
-  IFS="|" read -ra _STDLIB_ARGS_NULL_SAFE <<< "${TEST_ARGS_NULL_SAFE_DEFINITION}"
+  IFS="|" read -ra STDLIB_ARGS_NULL_SAFE_ARRAY <<< "${TEST_ARGS_NULL_SAFE_DEFINITION}"
   IFS=" " read -ra message_arg_definitions <<< "${TEST_MESSAGE_ARG_DEFINITIONS}"
   for message_arg_definition in "${message_arg_definitions[@]}"; do
     IFS="|" read -ra message_args <<< "${message_arg_definition}"
-    expected_log_messages+=("1($(stdlib.__message.get "${message_args[@]}")) _STDLIB_LOGGING_MESSAGE_PREFIX(${FUNCNAME[0]})")
+    expected_log_messages+=("1($(stdlib.__message.get "${message_args[@]}")) STDLIB_LOGGING_MESSAGE_PREFIX(${FUNCNAME[0]})")
   done
 
   stdlib.fn.args.require "${TEST_ARGS_REQUIRED}" "${TEST_ARGS_OPTIONAL}" "${args[@]}"
@@ -88,20 +88,21 @@ test_stdlib_fn_args_require__@vary__default_function_name_____generates_correct_
 @parametrize_with_error_logs \
   test_stdlib_fn_args_require__@vary__default_function_name_____generates_correct_error_logs
 
+# shellcheck disable=SC2034
 test_stdlib_fn_args_require__@vary__overridden_function_name__generates_correct_error_logs() {
-  local _STDLIB_ARGS_NULL_SAFE=()
-  local _STDLIB_ARGS_CALLER_FN_NAME="override logging message prefix"
+  local STDLIB_ARGS_NULL_SAFE_ARRAY=()
+  local STDLIB_ARGS_CALLER_FN_NAME="override logging message prefix"
   local args=()
   local message_arg_definition
   local message_arg_definitions=()
   local message_args=()
 
   IFS="|" read -ra args <<< "${TEST_ARGS_DEFINITION}"
-  IFS="|" read -ra _STDLIB_ARGS_NULL_SAFE <<< "${TEST_ARGS_NULL_SAFE_DEFINITION}"
+  IFS="|" read -ra STDLIB_ARGS_NULL_SAFE_ARRAY <<< "${TEST_ARGS_NULL_SAFE_DEFINITION}"
   IFS=" " read -ra message_arg_definitions <<< "${TEST_MESSAGE_ARG_DEFINITIONS}"
   for message_arg_definition in "${message_arg_definitions[@]}"; do
     IFS="|" read -ra message_args <<< "${message_arg_definition}"
-    expected_log_messages+=("1($(stdlib.__message.get "${message_args[@]}")) _STDLIB_LOGGING_MESSAGE_PREFIX(override logging message prefix)")
+    expected_log_messages+=("1($(stdlib.__message.get "${message_args[@]}")) STDLIB_LOGGING_MESSAGE_PREFIX(override logging message prefix)")
   done
 
   stdlib.fn.args.require "${TEST_ARGS_REQUIRED}" "${TEST_ARGS_OPTIONAL}" "${args[@]}"
