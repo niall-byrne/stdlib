@@ -77,7 +77,7 @@ test_stdlib_testing_mock_internal_security_assert_is_builtin__@vary__logs_an_inv
   _capture.rc fake.mock.object.method _mock.__internal.security.assert.is_builtin "${args[@]}"
 
   _testing.error.mock.assert_called_once_with \
-    "1(_mock.__internal.security.assert.is_builtin: $(stdlib.message.get "${message_args[@]}"))"
+    "1(_mock.__internal.security.assert.is_builtin: $(stdlib.__message.get "${message_args[@]}"))"
 }
 
 @parametrize_with_invalid_arguments \
@@ -93,7 +93,7 @@ test_stdlib_testing_mock_internal_security_assert_is_builtin__@vary__logs_an_ass
   fake.mock.object.method _mock.__internal.security.assert.is_builtin "${args[@]}"
 
   _testing.error.mock.assert_called_once_with \
-    "1(fake.mock.object.method: $(_testing.mock.message.get "${message_args[@]}"))"
+    "1(fake.mock.object.method: $(_testing.mock.__message.get "${message_args[@]}"))"
 }
 
 @parametrize_with_error_messages \
