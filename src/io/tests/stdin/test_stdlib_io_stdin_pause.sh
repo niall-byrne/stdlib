@@ -19,7 +19,7 @@ test_stdlib_io_stdin_pause__extra_arg____returns_expected_status_code() {
 test_stdlib_io_stdin_pause__valid_args___default_prompt__displays_prompt_as_expected() {
   _capture.output stdlib.io.stdin.pause <<< " "
 
-  assert_output "$(stdlib.message.get STDIN_DEFAULT_PAUSE_PROMPT)"
+  assert_output "$(stdlib.__message.get STDIN_DEFAULT_PAUSE_PROMPT)"
 }
 
 test_stdlib_io_stdin_pause__valid_args___custom_prompt___displays_prompt_as_expected() {

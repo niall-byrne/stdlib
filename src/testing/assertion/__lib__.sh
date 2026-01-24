@@ -26,6 +26,6 @@ _testing.__assertion.value.check() {
   builtin local assertion_name="${FUNCNAME[1]}"
 
   if [[ -z "${value_name}" ]]; then
-    fail " '${assertion_name}' $(_testing.__protected stdlib.message.get ARGUMENTS_INVALID)"
+    fail " '${assertion_name}' $(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)"
   fi
 }
