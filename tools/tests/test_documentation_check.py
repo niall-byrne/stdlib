@@ -14,7 +14,9 @@ from documentation_check import Tags
 
 class TestDocumentationCheck(unittest.TestCase):
     def setUp(self):
-        self.assets_dir = os.path.join(os.path.dirname(__file__), "assets")
+        self.assets_dir = os.path.join(
+            os.path.dirname(__file__), "assets/documentation"
+        )
 
     def test_valid_file(self):
         filepath = os.path.join(self.assets_dir, "valid.sh")

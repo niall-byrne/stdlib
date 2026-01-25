@@ -268,6 +268,8 @@ jobs:
             name: "Source Files Binary Usage Linting"
           - id: "source-files-function-names"
             name: "Source Files Function Name Linting"
+          - id: "source-files-function-order"
+            name: "Source Files Function Order Linting"
           - id: "source-files-global-variable-names"
             name: "Source Files Global Variable Name Linting"
           - id: "source-files-headers"

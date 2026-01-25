@@ -177,6 +177,14 @@ repos:
         language: pygrep
         files: "^src/.+\\.sh$"
         exclude: "^((.+/)*tests/.+\\.sh|src/testing/.+\\.sh)$"
+      - id: source-files-function-order
+        name: ensure source files have functions in alphabetical order
+        entry: python tools/function_order_check.py
+        language: system
+        files: "^src/.+\\.(sh|snippet)$"
+        exclude: "^((.+/)*tests/.+\\.sh)$"
+        pass_filenames: true
+        require_serial: true
       - id: source-files-global-variable-names
         name: ensure source files use the correct global variable name format
         entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$)\\s*(?!IFS|LC_ALL|(__)*STDLIB_|TEST_OUTPUT|TEST_RC|TEXTDOMAIN|TEXTDOMAINDIR)([A-Z_]+)=.+$"
