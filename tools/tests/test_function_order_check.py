@@ -22,39 +22,51 @@ class TestFunctionOrderCheck(unittest.TestCase):
         # __ maps to ~ (126)
 
         # Letters < _
-        self.assertTrue(function_order_check.custom_sort_key("a") < function_order_check.custom_sort_key("_"))
-        self.assertTrue(function_order_check.custom_sort_key("z") < function_order_check.custom_sort_key("_"))
+        self.assertTrue(function_order_check.BashFile._custom_sort_key("a") < function_order_check.BashFile._custom_sort_key("_"))
+        self.assertTrue(function_order_check.BashFile._custom_sort_key("z") < function_order_check.BashFile._custom_sort_key("_"))
 
         # _ < .
-        self.assertTrue(function_order_check.custom_sort_key("_") < function_order_check.custom_sort_key("."))
+        self.assertTrue(function_order_check.BashFile._custom_sort_key("_") < function_order_check.BashFile._custom_sort_key("."))
 
         # . < __
-        self.assertTrue(function_order_check.custom_sort_key(".") < function_order_check.custom_sort_key("__"))
+        self.assertTrue(function_order_check.BashFile._custom_sort_key(".") < function_order_check.BashFile._custom_sort_key("__"))
 
         # Complex cases
-        self.assertTrue(function_order_check.custom_sort_key("stdlib.a") < function_order_check.custom_sort_key("stdlib.a_pipe"))
-        self.assertTrue(function_order_check.custom_sort_key("stdlib.a_pipe") < function_order_check.custom_sort_key("stdlib.a.b"))
-        self.assertTrue(function_order_check.custom_sort_key("stdlib.a.b") < function_order_check.custom_sort_key("stdlib.a__private"))
+        self.assertTrue(function_order_check.BashFile._custom_sort_key("stdlib.a") < function_order_check.BashFile._custom_sort_key("stdlib.a_pipe"))
+        self.assertTrue(function_order_check.BashFile._custom_sort_key("stdlib.a_pipe") < function_order_check.BashFile._custom_sort_key("stdlib.a.b"))
+        self.assertTrue(function_order_check.BashFile._custom_sort_key("stdlib.a.b") < function_order_check.BashFile._custom_sort_key("stdlib.a__private"))
+
+    def test_bash_file_parse(self):
+        filepath = os.path.join(self.assets_dir, "sorted.sh")
+        bash_file = function_order_check.BashFile(filepath)
+        self.assertEqual(len(bash_file.functions), 3)
+        self.assertEqual(bash_file.functions[0].name, "stdlib.a")
+        self.assertEqual(bash_file.functions[1].name, "stdlib.b")
+        self.assertEqual(bash_file.functions[2].name, "stdlib.__private")
 
     def test_sorted_file(self):
         filepath = os.path.join(self.assets_dir, "sorted.sh")
-        errors = function_order_check.check_order(filepath)
+        bash_file = function_order_check.BashFile(filepath)
+        errors = bash_file.get_sorting_errors()
         self.assertEqual(errors, [])
 
     def test_unsorted_file(self):
         filepath = os.path.join(self.assets_dir, "unsorted.sh")
-        errors = function_order_check.check_order(filepath)
+        bash_file = function_order_check.BashFile(filepath)
+        errors = bash_file.get_sorting_errors()
         self.assertTrue(len(errors) > 0)
         self.assertIn("Functions are not in alphabetical order", errors[0])
 
     def test_underscores_file(self):
         filepath = os.path.join(self.assets_dir, "underscores.sh")
-        errors = function_order_check.check_order(filepath)
+        bash_file = function_order_check.BashFile(filepath)
+        errors = bash_file.get_sorting_errors()
         self.assertEqual(errors, [])
 
     def test_private_at_bottom(self):
         filepath = os.path.join(self.assets_dir, "private_at_bottom.sh")
-        errors = function_order_check.check_order(filepath)
+        bash_file = function_order_check.BashFile(filepath)
+        errors = bash_file.get_sorting_errors()
         self.assertEqual(errors, [])
 
     @patch("sys.exit")
