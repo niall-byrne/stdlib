@@ -7,9 +7,9 @@ builtin set -eo pipefail
 _STDLIB_ARGS_CALLER_FN_NAME=""
 _STDLIB_ARGS_NULL_SAFE=()
 
-# @description Validates the number and presence of arguments for a function.
-#     _STDLIB_ARGS_CALLER_FN_NAME: A string to override the name of the calling function in logging messages.
-#     _STDLIB_ARGS_NULL_SAFE: An array of argument indexes that are "null safe" (they can be empty values).
+# @description Validates the presence and number of arguments for a function.
+#   * _STDLIB_ARGS_CALLER_FN_NAME: A string presented as the name of the calling function in logging messages (default="${FUNCNAME[1]}").
+#   * _STDLIB_ARGS_NULL_SAFE: An array of argument indexes that are null safe, meaning they can be empty values (default=empty array).
 # @arg $1 integer The number of required arguments.
 # @arg $2 integer The number of optional arguments.
 # @arg $@ array The list of argument values to check.
