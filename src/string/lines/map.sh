@@ -5,7 +5,7 @@
 builtin set -eo pipefail
 
 # @description Maps a format string over each line of a string.
-#     _STDLIB_DELIMITER: a char sequence to split the string with for processing (optional, default=$'\n')
+#   * _STDLIB_DELIMITER: A line break char sequence to split the string with for processing (default=$'\n').
 # @arg $1 string A valid printf format string.
 # @arg $2 string The input string to process.
 # @exitcode 0 If the operation succeeded.
@@ -57,7 +57,7 @@ stdlib.string.lines.map.format_var() { :; }
 stdlib.fn.derive.var "stdlib.string.lines.map.format"
 
 # @description Maps a function over each line of a string.
-#     _STDLIB_DELIMITER: a char sequence to split the string with for processing (optional, default=$'\n')
+#   * _STDLIB_DELIMITER: A line break char sequence to split the string with for processing (default=$'\n').
 # @arg $1 string The name of the function to apply to each line.
 # @arg $2 string The input string to process.
 # @exitcode 0 If the operation succeeded.
