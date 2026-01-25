@@ -171,6 +171,14 @@ repos:
         language: pygrep
         files: "^src/.+\\.(sh|snippet)$"
         exclude: "^((.+/)*tests/.+\\.sh)$"
+      - id: source-files-function-order
+        name: ensure source files have functions in alphabetical order
+        entry: ./tools/audit_functions.sh
+        language: system
+        files: "^src/.+\\.(sh|snippet)$"
+        exclude: "^((.+/)*tests/.+\\.sh)$"
+        pass_filenames: true
+        require_serial: true
       - id: source-files-global-variable-names
         name: ensure source files in the testing folder use the correct global variable names
         entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$)\\s*(?!(__)*STDLIB_|TEXTDOMAIN|TEXTDOMAINDIR)([A-Z_]+)=.+$"
