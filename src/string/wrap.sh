@@ -8,8 +8,8 @@ _STDLIB_LINE_BREAK_CHAR=""
 _STDLIB_WRAP_PREFIX_STRING=""
 
 # @description Wraps text to a specified width with padding.
-#     _STDLIB_LINE_BREAK_CHAR a char that forces a line break in the text (optional, default="*")
-#     _STDLIB_WRAP_PREFIX_STRING a string to insert when wrapping text (optional, default="")
+#   * _STDLIB_LINE_BREAK_CHAR: A char that 'forces' a line break in the output text (default="*").
+#   * _STDLIB_WRAP_PREFIX_STRING: A string to insert when wrapping text (default="").
 # @arg $1 integer The left-side padding.
 # @arg $2 integer The right-side wrap limit.
 # @arg $3 string The text to wrap.
