@@ -55,7 +55,7 @@ stdlib.io.stdin.pause() {
 }
 
 # @description Prompts the user for a value and saves it to a variable.
-#     _STDLIB_PASSWORD_BOOLEAN: A boolean (0 or 1) indicating if the input should be masked (e.g. for passwords).
+#   * _STDLIB_PASSWORD_BOOLEAN: Indicates if the input should be masked, i.e. for passwords (default="0").
 # @arg $1 string The variable name to save the input to.
 # @arg $2 string (optional, default=STDIN_DEFAULT_VALUE_PROMPT) The prompt to display.
 # @exitcode 0 If the operation succeeded.
