@@ -70,7 +70,7 @@ Global variables should be prefixed with `STDLIB`, and should be in upper snake-
 - `STDLIB_BINARY_CAT`
 
 There are a few global variables that store state, and are not meant to be accessed by an end-user.  These are prefixed with `__STDLIB`, indicating they are private.  For example:
-- `__STDLIB_LOGGING_DECORATORS`
+- `__STDLIB_LOGGING_DECORATORS_ARRAY`
 
 Global variables are often used as a "modifying option" for function behaviour.  If they are performing this role, they should have a global definition in the most appropriate file so that the variable is included in the [packaging process](#creating-a-distributable).
 ### Production Centralization of Messages
@@ -298,7 +298,18 @@ The fields should appear in this exact order for consistency in the documentatio
 
 Many of these functions consume global variables as "options" that modify their behaviour.
 
-Please detail this inside the `@description` entries with 4 space indented lines (5 total spaces from the comment marker '#').
+Please detail these modifier global variables inside subsequent lines after the `@description` entry:
+- Use a 2 space indent and create an asterisk list entry. (This is 3 total spaces from the comment marker '#').
+- Include the name of the global variable in uppercase letters followed by a colon, and a capitalized proper sentence that describes it.
+- At the end of the sentence include a bracketed descriptor that defines the default value of this global variable.
+
+The [stdlib.logger.error](src/logger/logger.sh) function's description shows this in practice:
+
+```sh
+# @description Logs an error message.
+#   * STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
+#   * STDLIB_THEME_LOGGER_ERROR: The colour to use for the message (default="LIGHT_RED").
+```
 
 ### Documenting Exit Codes
 
@@ -329,10 +340,11 @@ Any function that can return 126, or 127 should use the same exact language for 
 An example function with a single string argument and a consumed global variable:
 
 ```sh
-# @description Prints an error message to stderr.
-#     STDLIB_THEME_LOGGER_ERROR: The colour to use for the message.
-# @arg $1 string The message to print.
-# @exitcode 0 If the message was printed successfully.
+# @description Logs an error message.
+#   * STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
+#   * STDLIB_THEME_LOGGER_ERROR: The colour to use for the message (default="LIGHT_RED").
+# @arg $1 string The message to log.
+# @exitcode 0 If the operation succeeded.
 # @stderr The error message.
 ```
 

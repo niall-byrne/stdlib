@@ -7,7 +7,7 @@ builtin set -eo pipefail
 _STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN=""
 
 # @description Enables terminal colours.
-#     _STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN disable error message on initialization failure (optional, default="0")
+#   * _STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN: Disables the error message on failure (default="0").
 # @noargs
 # @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the operation failed.
