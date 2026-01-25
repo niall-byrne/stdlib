@@ -158,7 +158,7 @@ class TestDocumentationCheck(unittest.TestCase):
         rules = [
             documentation_check.DeriveStubDescriptionRule(),
             documentation_check.DeriveStubArgRule(),
-            documentation_check.DeriveStubStdinRule(),
+            documentation_check.DeriveStubRequiredTagsRule(),
         ]
         derive_rules = [
             documentation_check.MissingDeriveStubRule(),
@@ -183,7 +183,7 @@ class TestDocumentationCheck(unittest.TestCase):
         rules = [
             documentation_check.DeriveStubDescriptionRule(),
             documentation_check.DeriveStubArgRule(),
-            documentation_check.DeriveStubStdinRule(),
+            documentation_check.DeriveStubRequiredTagsRule(),
         ]
         derive_rules = [
             documentation_check.MissingDeriveStubRule(),

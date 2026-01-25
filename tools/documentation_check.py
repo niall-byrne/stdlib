@@ -119,7 +119,7 @@ class DeriveDefinition:
         get_arg_index: Callable[[re.Match], str],
         arg_desc_requirement: Optional[str] = None,
         arg_desc_suffix: Optional[str] = None,
-        stdin_required: bool = False,
+        required_tags: Optional[List["TagDefinition"]] = None,
     ):
         self.type_name = type_name
         self.regex = regex
@@ -129,7 +129,7 @@ class DeriveDefinition:
         self.get_arg_index = get_arg_index
         self.arg_desc_requirement = arg_desc_requirement
         self.arg_desc_suffix = arg_desc_suffix
-        self.stdin_required = stdin_required
+        self.required_tags = required_tags or []
 
 
 class DocTag:
@@ -204,7 +204,7 @@ DERIVE_DEFINITIONS: List[DeriveDefinition] = [
         get_target=lambda match: match.group(1) + "_pipe",
         get_arg_index=lambda match: match.group(2),
         arg_desc_suffix=", by default this function reads from stdin.",
-        stdin_required=True,
+        required_tags=[Tags.STDIN],
     ),
     DeriveDefinition(
         type_name="var",
@@ -331,16 +331,18 @@ class DeriveStubDescriptionRule(Rule):
         return []
 
 
-class DeriveStubStdinRule(Rule):
+class DeriveStubRequiredTagsRule(Rule):
     def check(self, func: BashFunction) -> List[str]:
         if not func.derive_call:
             return []
         call = func.derive_call
-        if call.definition.stdin_required and not func.contains_tag(Tags.STDIN):
-            return [
-                f"{func.name}: Missing @{Tags.STDIN.name} tag for pipeable derivative"
-            ]
-        return []
+        errors = []
+        for tag_def in call.definition.required_tags:
+            if not func.contains_tag(tag_def):
+                errors.append(
+                    f"{func.name}: Missing @{tag_def.name} tag for {call.definition.type_name} derivative"
+                )
+        return errors
 
 
 class DeriveStubNamingRule(DeriveRule):
@@ -611,7 +613,7 @@ def main():
         AssertionStderrRule(),
         DeriveStubArgRule(),
         DeriveStubDescriptionRule(),
-        DeriveStubStdinRule(),
+        DeriveStubRequiredTagsRule(),
         ExitCodeDescriptionRule(),
         FieldOrderRule(),
         GlobalIndentationRule(),
