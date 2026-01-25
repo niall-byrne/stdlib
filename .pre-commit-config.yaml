@@ -173,7 +173,7 @@ repos:
         exclude: "^((.+/)*tests/.+\\.sh)$"
       - id: source-files-function-order
         name: ensure source files have functions in alphabetical order
-        entry: ./tools/audit_functions.sh
+        entry: python tools/function_order_check.py
         language: system
         files: "^src/.+\\.(sh|snippet)$"
         exclude: "^((.+/)*tests/.+\\.sh)$"
