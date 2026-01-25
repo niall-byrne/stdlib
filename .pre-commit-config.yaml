@@ -143,6 +143,14 @@ repos:
         stages: [manual]
         pass_filenames: false
         require_serial: true
+      - id: documentation-build
+        name: build documentation using shdoc
+        entry: bash -c "TEST_CONTAINER_DISABLE_TTY=1 ./container.sh run bash build/docs.sh REFERENCE.md \"${@}\""
+        language: system
+        files: "^src/.+\\.sh$"
+        exclude: "^((.+/)*tests/.+\\.sh)$"
+        pass_filenames: true
+        require_serial: true
       - id: documentation-source-files
         name: ensure source functions are correctly documented
         entry: python tools/documentation_check.py

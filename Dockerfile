@@ -45,6 +45,7 @@ RUN \
   && cd "$(mktemp -d)" \
   && git clone --recursive https://github.com/reconquest/shdoc \
   && cd shdoc \
+  && git checkout 12c379229afe1ef5548acb487639ca71112cb4e0 \
   && make install \
   && rm -rf "${PWD}"
 
