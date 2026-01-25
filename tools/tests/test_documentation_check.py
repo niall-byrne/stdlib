@@ -26,7 +26,8 @@ class TestDocumentationCheck(unittest.TestCase):
             documentation_check.AssertionStderrRule(),
             documentation_check.ExitCodeDescriptionRule(),
             documentation_check.FieldOrderRule(),
-            documentation_check.GlobalIndentationRule(),
+            documentation_check.GlobalVariableModifierFormatRule(),
+            documentation_check.GlobalVariableModifierIndentRule(),
             documentation_check.InternalTagRule(),
             documentation_check.MandatoryExitCodeRule(),
             documentation_check.MandatoryFieldsRule(),
@@ -61,6 +62,57 @@ class TestDocumentationCheck(unittest.TestCase):
         rule = documentation_check.MandatoryFieldsRule()
         errors = rule.check(functions[0])
         self.assertIn(f"Missing @{Tags.DESCRIPTION.name}", errors[0])
+
+    def test_invalid_description_global_variable_format(self):
+        filepath = os.path.join(self.assets_dir, "invalid_description.sh")
+        functions, _ = documentation_check.parse_file(filepath)
+        rule = documentation_check.GlobalVariableModifierFormatRule()
+        errors = []
+        for func in functions:
+            errors.extend(rule.check(func))
+        self.assertEqual(len(errors), 3)
+        self.assertIn(
+            f"stdlib.invalid_description_no_global_variable_capital: Global variable description in "
+            f"@{Tags.DESCRIPTION.name} "
+            f"should start with a capital letter. "
+            f"Found: '#   * _INVALID_GLOBAL_VARIABLE: this variable is not formatted correctly (default=1).'",
+            errors[0],
+        )
+        self.assertIn(
+            f"stdlib.invalid_description_no_global_variable_period: Global variable description in "
+            f"@{Tags.DESCRIPTION.name} "
+            f"should end with a period. "
+            f"Found: '#   * _INVALID_GLOBAL_VARIABLE: This variable is not formatted correctly (default=1)'",
+            errors[1],
+        )
+        self.assertIn(
+            f"stdlib.invalid_description_no_global_variable_default: Global variable description in "
+            f"@{Tags.DESCRIPTION.name} "
+            f"should detail a default value. "
+            f"Found: '#   * _INVALID_GLOBAL_VARIABLE: This variable is not formatted correctly.'",
+            errors[2],
+        )
+
+    def test_invalid_description_global_variable_indent(self):
+        filepath = os.path.join(self.assets_dir, "invalid_description.sh")
+        functions, _ = documentation_check.parse_file(filepath)
+        rule = documentation_check.GlobalVariableModifierIndentRule()
+        errors = []
+        for func in functions:
+            errors.extend(rule.check(func))
+        self.assertEqual(len(errors), 2)
+        self.assertIn(
+            f"stdlib.invalid_description_no_global_variable_list: Global variable in @{Tags.DESCRIPTION.name} "
+            f"should be in 2 space indented asterisk list format. "
+            f"Found: '#     _INVALID_GLOBAL_VARIABLE: This variable is not formatted correctly.'",
+            errors[0],
+        )
+        self.assertIn(
+            f"stdlib.invalid_description_no_global_variable_colon: Global variable in @{Tags.DESCRIPTION.name} "
+            f"should be in uppercase characters followed by a colon. "
+            f"Found: '#   * _INVALID_GLOBAL_VARIABLE This variable is not formatted correctly.'",
+            errors[1],
+        )
 
     def test_incorrect_order(self):
         filepath = os.path.join(self.assets_dir, "incorrect_order.sh")
