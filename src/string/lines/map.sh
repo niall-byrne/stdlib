@@ -5,7 +5,7 @@
 builtin set -eo pipefail
 
 # @description Maps a format string over each line of a string.
-#     _STDLIB_DELIMITER: a char to split the string with for processing (optional, default=$'\n')
+#   * _STDLIB_DELIMITER: A line break char to split the string with for processing (default=$'\n').
 # @arg $1 string A valid printf format string.
 # @arg $2 string The input string to process.
 # @exitcode 0 If the operation succeeded.
@@ -38,6 +38,7 @@ stdlib.string.lines.map.format() {
 }
 
 # @description A derivative of stdlib.string.lines.map.format that can read from stdin.
+#   * _STDLIB_DELIMITER: A line break to split the string with for processing (default=$'\n').
 # @arg $1 string A valid printf format string.
 # @arg $2 string (optional, default="-") The input string to process, by default this function reads from stdin.
 # @exitcode 0 If the operation succeeded.
@@ -49,6 +50,7 @@ stdlib.string.lines.map.format_pipe() { :; }
 stdlib.fn.derive.pipeable "stdlib.string.lines.map.format" "2"
 
 # @description A derivative of stdlib.string.lines.map.format that can read from and write to a variable.
+#   * _STDLIB_DELIMITER: A line break to split the string with for processing (default=$'\n').
 # @arg $1 string A valid printf format string.
 # @arg $2 string The name of the variable to read from and write to.
 # @exitcode 0 If the operation succeeded.
@@ -58,7 +60,7 @@ stdlib.string.lines.map.format_var() { :; }
 stdlib.fn.derive.var "stdlib.string.lines.map.format"
 
 # @description Maps a function over each line of a string.
-#     _STDLIB_DELIMITER: a char to split the string with for processing (optional, default=$'\n')
+#   * _STDLIB_DELIMITER: A line break to split the string with for processing (default=$'\n').
 # @arg $1 string The name of the function to apply to each line.
 # @arg $2 string The input string to process.
 # @exitcode 0 If the operation succeeded.
@@ -91,6 +93,7 @@ stdlib.string.lines.map.fn() {
 }
 
 # @description A derivative of stdlib.string.lines.map.fn that can read from stdin.
+#   * _STDLIB_DELIMITER: A line break to split the string with for processing (default=$'\n').
 # @arg $1 string The name of the function to apply to each line.
 # @arg $2 string (optional, default="-") The input string to process, by default this function reads from stdin.
 # @exitcode 0 If the operation succeeded.
@@ -103,6 +106,7 @@ stdlib.string.lines.map.fn_pipe() { :; }
 stdlib.fn.derive.pipeable "stdlib.string.lines.map.fn" "2"
 
 # @description A derivative of stdlib.string.lines.map.fn that can read from and write to a variable.
+#   * _STDLIB_DELIMITER: A line break to split the string with for processing (default=$'\n').
 # @arg $1 string The name of the function to apply to each line.
 # @arg $2 string The name of the variable to read from and write to.
 # @exitcode 0 If the operation succeeded.
