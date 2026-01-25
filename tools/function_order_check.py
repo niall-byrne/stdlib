@@ -17,10 +17,13 @@ class BashFunction:
 
 def custom_sort_key(name: str) -> str:
     """
-    Custom sort key to ensure '_' sorts after 'a-z'.
-    We replace '_' with '{' (ASCII 123) which follows 'z' (ASCII 122).
+    Custom sort key to ensure: Letters < _ < . < __
+    We map these to characters following 'z' (ASCII 122):
+    - _  -> | (ASCII 124)
+    - .  -> } (ASCII 125)
+    - __ -> ~ (ASCII 126)
     """
-    return name.replace("_", "{")
+    return name.replace("__", "~").replace("_", "|").replace(".", "}")
 
 
 def parse_functions(filepath: str) -> List[BashFunction]:
@@ -56,7 +59,7 @@ def check_order(filepath: str) -> List[str]:
 
     if func_names != sorted_names:
         return [
-            f"Functions are not in alphabetical order (with '_' after 'a-z').",
+            f"Functions are not in alphabetical order (refining: Letters < _ < . < __).",
             f"Current: {func_names}",
             f"Expected: {sorted_names}"
         ]

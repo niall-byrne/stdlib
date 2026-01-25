@@ -16,9 +16,25 @@ class TestFunctionOrderCheck(unittest.TestCase):
         self.assets_dir = os.path.join(os.path.dirname(__file__), "assets", "function_order")
 
     def test_custom_sort_key(self):
+        # Letters < _ < . < __
+        # _ maps to | (124)
+        # . maps to } (125)
+        # __ maps to ~ (126)
+
+        # Letters < _
         self.assertTrue(function_order_check.custom_sort_key("a") < function_order_check.custom_sort_key("_"))
         self.assertTrue(function_order_check.custom_sort_key("z") < function_order_check.custom_sort_key("_"))
-        self.assertTrue(function_order_check.custom_sort_key("stdlib.a") < function_order_check.custom_sort_key("stdlib.__b"))
+
+        # _ < .
+        self.assertTrue(function_order_check.custom_sort_key("_") < function_order_check.custom_sort_key("."))
+
+        # . < __
+        self.assertTrue(function_order_check.custom_sort_key(".") < function_order_check.custom_sort_key("__"))
+
+        # Complex cases
+        self.assertTrue(function_order_check.custom_sort_key("stdlib.a") < function_order_check.custom_sort_key("stdlib.a_pipe"))
+        self.assertTrue(function_order_check.custom_sort_key("stdlib.a_pipe") < function_order_check.custom_sort_key("stdlib.a.b"))
+        self.assertTrue(function_order_check.custom_sort_key("stdlib.a.b") < function_order_check.custom_sort_key("stdlib.a__private"))
 
     def test_sorted_file(self):
         filepath = os.path.join(self.assets_dir, "sorted.sh")
@@ -30,6 +46,11 @@ class TestFunctionOrderCheck(unittest.TestCase):
         errors = function_order_check.check_order(filepath)
         self.assertTrue(len(errors) > 0)
         self.assertIn("Functions are not in alphabetical order", errors[0])
+
+    def test_underscores_file(self):
+        filepath = os.path.join(self.assets_dir, "underscores.sh")
+        errors = function_order_check.check_order(filepath)
+        self.assertEqual(errors, [])
 
     def test_private_at_bottom(self):
         filepath = os.path.join(self.assets_dir, "private_at_bottom.sh")

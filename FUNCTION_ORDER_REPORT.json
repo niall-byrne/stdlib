@@ -1,71 +1,71 @@
 {
   "src/array/map.sh": [
-    "Functions are not in alphabetical order (with '_' after 'a-z').",
+    "Functions are not in alphabetical order (refining: Letters < _ < . < __).",
     "Current: ['stdlib.array.map.format', 'stdlib.array.map.fn']",
     "Expected: ['stdlib.array.map.fn', 'stdlib.array.map.format']"
   ],
   "src/array/mutate.sh": [
-    "Functions are not in alphabetical order (with '_' after 'a-z').",
+    "Functions are not in alphabetical order (refining: Letters < _ < . < __).",
     "Current: ['stdlib.array.mutate.append', 'stdlib.array.mutate.fn', 'stdlib.array.mutate.filter', 'stdlib.array.mutate.format', 'stdlib.array.mutate.insert', 'stdlib.array.mutate.prepend', 'stdlib.array.mutate.remove', 'stdlib.array.mutate.reverse']",
     "Expected: ['stdlib.array.mutate.append', 'stdlib.array.mutate.filter', 'stdlib.array.mutate.fn', 'stdlib.array.mutate.format', 'stdlib.array.mutate.insert', 'stdlib.array.mutate.prepend', 'stdlib.array.mutate.remove', 'stdlib.array.mutate.reverse']"
   ],
   "src/array/query/is.sh": [
-    "Functions are not in alphabetical order (with '_' after 'a-z').",
+    "Functions are not in alphabetical order (refining: Letters < _ < . < __).",
     "Current: ['stdlib.array.query.is_contains', 'stdlib.array.query.is_equal', 'stdlib.array.query.is_array', 'stdlib.array.query.is_empty']",
     "Expected: ['stdlib.array.query.is_array', 'stdlib.array.query.is_contains', 'stdlib.array.query.is_empty', 'stdlib.array.query.is_equal']"
   ],
   "src/logger/__lib__.sh": [
-    "Functions are not in alphabetical order (with '_' after 'a-z').",
+    "Functions are not in alphabetical order (refining: Letters < _ < . < __).",
     "Current: ['stdlib.logger.error_pipe', 'stdlib.logger.warning_pipe', 'stdlib.logger.info_pipe', 'stdlib.logger.success_pipe', 'stdlib.logger.notice_pipe']",
     "Expected: ['stdlib.logger.error_pipe', 'stdlib.logger.info_pipe', 'stdlib.logger.notice_pipe', 'stdlib.logger.success_pipe', 'stdlib.logger.warning_pipe']"
   ],
   "src/logger/logger.sh": [
-    "Functions are not in alphabetical order (with '_' after 'a-z').",
+    "Functions are not in alphabetical order (refining: Letters < _ < . < __).",
     "Current: ['stdlib.logger.traceback', 'stdlib.logger.error', 'stdlib.logger.warning', 'stdlib.logger.info', 'stdlib.logger.notice', 'stdlib.logger.success', 'stdlib.logger.__message_prefix']",
     "Expected: ['stdlib.logger.error', 'stdlib.logger.info', 'stdlib.logger.notice', 'stdlib.logger.success', 'stdlib.logger.traceback', 'stdlib.logger.warning', 'stdlib.logger.__message_prefix']"
   ],
   "src/setting/colour.sh": [
-    "Functions are not in alphabetical order (with '_' after 'a-z').",
+    "Functions are not in alphabetical order (refining: Letters < _ < . < __).",
     "Current: ['stdlib.setting.colour.enable', 'stdlib.setting.colour.enable._generate_error_message', 'stdlib.setting.colour.disable']",
     "Expected: ['stdlib.setting.colour.disable', 'stdlib.setting.colour.enable', 'stdlib.setting.colour.enable._generate_error_message']"
   ],
   "src/string/colour/__lib__.sh": [
-    "Functions are not in alphabetical order (with '_' after 'a-z').",
+    "Functions are not in alphabetical order (refining: Letters < _ < . < __).",
     "Current: ['stdlib.string.colour_n_pipe', 'stdlib.string.colour_var', 'stdlib.string.colour_pipe', 'stdlib.string.colour.substring_pipe', 'stdlib.string.colour.substring_var', 'stdlib.string.colour.substrings_pipe', 'stdlib.string.colour.substrings_var']",
-    "Expected: ['stdlib.string.colour.substrings_pipe', 'stdlib.string.colour.substrings_var', 'stdlib.string.colour.substring_pipe', 'stdlib.string.colour.substring_var', 'stdlib.string.colour_n_pipe', 'stdlib.string.colour_pipe', 'stdlib.string.colour_var']"
+    "Expected: ['stdlib.string.colour_n_pipe', 'stdlib.string.colour_pipe', 'stdlib.string.colour_var', 'stdlib.string.colour.substrings_pipe', 'stdlib.string.colour.substrings_var', 'stdlib.string.colour.substring_pipe', 'stdlib.string.colour.substring_var']"
   ],
   "src/string/colour/colour.sh": [
-    "Functions are not in alphabetical order (with '_' after 'a-z').",
+    "Functions are not in alphabetical order (refining: Letters < _ < . < __).",
     "Current: ['stdlib.string.colour_n', 'stdlib.string.colour']",
     "Expected: ['stdlib.string.colour', 'stdlib.string.colour_n']"
   ],
   "src/string/lines/map.sh": [
-    "Functions are not in alphabetical order (with '_' after 'a-z').",
+    "Functions are not in alphabetical order (refining: Letters < _ < . < __).",
     "Current: ['stdlib.string.lines.map.format', 'stdlib.string.lines.map.format_pipe', 'stdlib.string.lines.map.format_var', 'stdlib.string.lines.map.fn', 'stdlib.string.lines.map.fn_pipe', 'stdlib.string.lines.map.fn_var']",
     "Expected: ['stdlib.string.lines.map.fn', 'stdlib.string.lines.map.fn_pipe', 'stdlib.string.lines.map.fn_var', 'stdlib.string.lines.map.format', 'stdlib.string.lines.map.format_pipe', 'stdlib.string.lines.map.format_var']"
   ],
   "src/testing/assertion/null.sh": [
-    "Functions are not in alphabetical order (with '_' after 'a-z').",
+    "Functions are not in alphabetical order (refining: Letters < _ < . < __).",
     "Current: ['assert_null', 'assert_not_null']",
     "Expected: ['assert_not_null', 'assert_null']"
   ],
   "src/testing/mock/internal/arg_array/make.sh": [
-    "Functions are not in alphabetical order (with '_' after 'a-z').",
+    "Functions are not in alphabetical order (refining: Letters < _ < . < __).",
     "Current: ['_mock.__internal.arg_array.make.from_array', '_mock.__internal.arg_array.make.element.from_array']",
     "Expected: ['_mock.__internal.arg_array.make.element.from_array', '_mock.__internal.arg_array.make.from_array']"
   ],
   "src/testing/mock/mock.sh": [
-    "Functions are not in alphabetical order (with '_' after 'a-z').",
+    "Functions are not in alphabetical order (refining: Letters < _ < . < __).",
     "Current: ['_mock.create', '_mock.delete', '_mock.clear_all', '_mock.register_cleanup', '_mock.reset_all']",
     "Expected: ['_mock.clear_all', '_mock.create', '_mock.delete', '_mock.register_cleanup', '_mock.reset_all']"
   ],
   "src/testing/mock/sequence.sh": [
-    "Functions are not in alphabetical order (with '_' after 'a-z').",
+    "Functions are not in alphabetical order (refining: Letters < _ < . < __).",
     "Current: ['_mock.sequence.assert_is', '_mock.sequence.assert_is_empty', '_mock.sequence.clear', '_mock.sequence.record.start', '_mock.sequence.record.stop', '_mock.sequence.record.resume']",
     "Expected: ['_mock.sequence.assert_is', '_mock.sequence.assert_is_empty', '_mock.sequence.clear', '_mock.sequence.record.resume', '_mock.sequence.record.start', '_mock.sequence.record.stop']"
   ],
   "src/testing/protect.sh": [
-    "Functions are not in alphabetical order (with '_' after 'a-z').",
+    "Functions are not in alphabetical order (refining: Letters < _ < . < __).",
     "Current: ['_testing.__protect_stdlib', '_testing.__protected', '_testing.__protected_name']",
     "Expected: ['_testing.__protected', '_testing.__protected_name', '_testing.__protect_stdlib']"
   ]
