@@ -1,0 +1,224 @@
+[
+  {
+    "file": "src/array/map.sh",
+    "current": [
+      "stdlib.array.map.format",
+      "stdlib.array.map.fn"
+    ],
+    "expected": [
+      "stdlib.array.map.fn",
+      "stdlib.array.map.format"
+    ]
+  },
+  {
+    "file": "src/array/mutate.sh",
+    "current": [
+      "stdlib.array.mutate.append",
+      "stdlib.array.mutate.fn",
+      "stdlib.array.mutate.filter",
+      "stdlib.array.mutate.format",
+      "stdlib.array.mutate.insert",
+      "stdlib.array.mutate.prepend",
+      "stdlib.array.mutate.remove",
+      "stdlib.array.mutate.reverse"
+    ],
+    "expected": [
+      "stdlib.array.mutate.append",
+      "stdlib.array.mutate.filter",
+      "stdlib.array.mutate.fn",
+      "stdlib.array.mutate.format",
+      "stdlib.array.mutate.insert",
+      "stdlib.array.mutate.prepend",
+      "stdlib.array.mutate.remove",
+      "stdlib.array.mutate.reverse"
+    ]
+  },
+  {
+    "file": "src/array/query/is.sh",
+    "current": [
+      "stdlib.array.query.is_contains",
+      "stdlib.array.query.is_equal",
+      "stdlib.array.query.is_array",
+      "stdlib.array.query.is_empty"
+    ],
+    "expected": [
+      "stdlib.array.query.is_array",
+      "stdlib.array.query.is_contains",
+      "stdlib.array.query.is_empty",
+      "stdlib.array.query.is_equal"
+    ]
+  },
+  {
+    "file": "src/logger/__lib__.sh",
+    "current": [
+      "stdlib.logger.error_pipe",
+      "stdlib.logger.warning_pipe",
+      "stdlib.logger.info_pipe",
+      "stdlib.logger.success_pipe",
+      "stdlib.logger.notice_pipe"
+    ],
+    "expected": [
+      "stdlib.logger.error_pipe",
+      "stdlib.logger.info_pipe",
+      "stdlib.logger.notice_pipe",
+      "stdlib.logger.success_pipe",
+      "stdlib.logger.warning_pipe"
+    ]
+  },
+  {
+    "file": "src/logger/logger.sh",
+    "current": [
+      "stdlib.logger.traceback",
+      "stdlib.logger.error",
+      "stdlib.logger.warning",
+      "stdlib.logger.info",
+      "stdlib.logger.notice",
+      "stdlib.logger.success",
+      "stdlib.logger.__message_prefix"
+    ],
+    "expected": [
+      "stdlib.logger.error",
+      "stdlib.logger.info",
+      "stdlib.logger.notice",
+      "stdlib.logger.success",
+      "stdlib.logger.traceback",
+      "stdlib.logger.warning",
+      "stdlib.logger.__message_prefix"
+    ]
+  },
+  {
+    "file": "src/setting/colour.sh",
+    "current": [
+      "stdlib.setting.colour.enable",
+      "stdlib.setting.colour.enable._generate_error_message",
+      "stdlib.setting.colour.disable"
+    ],
+    "expected": [
+      "stdlib.setting.colour.disable",
+      "stdlib.setting.colour.enable",
+      "stdlib.setting.colour.enable._generate_error_message"
+    ]
+  },
+  {
+    "file": "src/string/colour/__lib__.sh",
+    "current": [
+      "stdlib.string.colour_n_pipe",
+      "stdlib.string.colour_var",
+      "stdlib.string.colour_pipe",
+      "stdlib.string.colour.substring_pipe",
+      "stdlib.string.colour.substring_var",
+      "stdlib.string.colour.substrings_pipe",
+      "stdlib.string.colour.substrings_var"
+    ],
+    "expected": [
+      "stdlib.string.colour.substrings_pipe",
+      "stdlib.string.colour.substrings_var",
+      "stdlib.string.colour.substring_pipe",
+      "stdlib.string.colour.substring_var",
+      "stdlib.string.colour_n_pipe",
+      "stdlib.string.colour_pipe",
+      "stdlib.string.colour_var"
+    ]
+  },
+  {
+    "file": "src/string/colour/colour.sh",
+    "current": [
+      "stdlib.string.colour_n",
+      "stdlib.string.colour"
+    ],
+    "expected": [
+      "stdlib.string.colour",
+      "stdlib.string.colour_n"
+    ]
+  },
+  {
+    "file": "src/string/lines/map.sh",
+    "current": [
+      "stdlib.string.lines.map.format",
+      "stdlib.string.lines.map.format_pipe",
+      "stdlib.string.lines.map.format_var",
+      "stdlib.string.lines.map.fn",
+      "stdlib.string.lines.map.fn_pipe",
+      "stdlib.string.lines.map.fn_var"
+    ],
+    "expected": [
+      "stdlib.string.lines.map.fn",
+      "stdlib.string.lines.map.fn_pipe",
+      "stdlib.string.lines.map.fn_var",
+      "stdlib.string.lines.map.format",
+      "stdlib.string.lines.map.format_pipe",
+      "stdlib.string.lines.map.format_var"
+    ]
+  },
+  {
+    "file": "src/testing/assertion/null.sh",
+    "current": [
+      "assert_null",
+      "assert_not_null"
+    ],
+    "expected": [
+      "assert_not_null",
+      "assert_null"
+    ]
+  },
+  {
+    "file": "src/testing/mock/internal/arg_array/make.sh",
+    "current": [
+      "_mock.__internal.arg_array.make.from_array",
+      "_mock.__internal.arg_array.make.element.from_array"
+    ],
+    "expected": [
+      "_mock.__internal.arg_array.make.element.from_array",
+      "_mock.__internal.arg_array.make.from_array"
+    ]
+  },
+  {
+    "file": "src/testing/mock/mock.sh",
+    "current": [
+      "_mock.create",
+      "_mock.delete",
+      "_mock.clear_all",
+      "_mock.register_cleanup",
+      "_mock.reset_all"
+    ],
+    "expected": [
+      "_mock.clear_all",
+      "_mock.create",
+      "_mock.delete",
+      "_mock.register_cleanup",
+      "_mock.reset_all"
+    ]
+  },
+  {
+    "file": "src/testing/mock/sequence.sh",
+    "current": [
+      "_mock.sequence.assert_is",
+      "_mock.sequence.assert_is_empty",
+      "_mock.sequence.clear",
+      "_mock.sequence.record.start",
+      "_mock.sequence.record.stop",
+      "_mock.sequence.record.resume"
+    ],
+    "expected": [
+      "_mock.sequence.assert_is",
+      "_mock.sequence.assert_is_empty",
+      "_mock.sequence.clear",
+      "_mock.sequence.record.resume",
+      "_mock.sequence.record.start",
+      "_mock.sequence.record.stop"
+    ]
+  },
+  {
+    "file": "src/testing/protect.sh",
+    "current": [
+      "_testing.__protect_stdlib",
+      "_testing.__protected",
+      "_testing.__protected_name"
+    ],
+    "expected": [
+      "_testing.__protected",
+      "_testing.__protected_name",
+      "_testing.__protect_stdlib"
+    ]
+  }
+]
