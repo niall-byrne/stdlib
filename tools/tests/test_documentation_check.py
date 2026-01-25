@@ -158,6 +158,7 @@ class TestDocumentationCheck(unittest.TestCase):
         rules = [
             documentation_check.DeriveStubDescriptionRule(),
             documentation_check.DeriveStubArgRule(),
+            documentation_check.DeriveStubStdinRule(),
         ]
         derive_rules = [
             documentation_check.MissingDeriveStubRule(),
@@ -182,6 +183,7 @@ class TestDocumentationCheck(unittest.TestCase):
         rules = [
             documentation_check.DeriveStubDescriptionRule(),
             documentation_check.DeriveStubArgRule(),
+            documentation_check.DeriveStubStdinRule(),
         ]
         derive_rules = [
             documentation_check.MissingDeriveStubRule(),
@@ -197,12 +199,25 @@ class TestDocumentationCheck(unittest.TestCase):
             for rule in derive_rules:
                 all_errors.extend(rule.check(call))
 
-        self.assertEqual(len(all_errors), 5)
-        self.assertIn("description should match", all_errors[0])
-        self.assertIn("description should end with", all_errors[1])
-        self.assertIn("description should match", all_errors[2])
-        self.assertIn("Missing stub function", all_errors[3])
-        self.assertIn("does not match expected target", all_errors[4])
+        self.assertEqual(len(all_errors), 8)
+
+        # We check that all expected error patterns are present
+        error_patterns = [
+            "description should match",  # Description error for left_pipe
+            "description should end with",  # Arg error for left_pipe
+            "Missing @stdin tag",  # Stdin error for left_pipe
+            "description should match",  # Arg error for left_var
+            "Missing stub function",  # Missing stub for right_pipe
+            "does not match expected target",  # Naming error for wrong_name_var
+            "Missing @stdin tag",  # Stdin error for left_pipe_no_stdin
+            "does not match expected target",  # Naming error for left_pipe_no_stdin
+        ]
+
+        for pattern in error_patterns:
+            self.assertTrue(
+                any(pattern in e for e in all_errors),
+                f"Pattern '{pattern}' not found in errors",
+            )
 
 
 if __name__ == "__main__":

@@ -119,6 +119,7 @@ class DeriveDefinition:
         get_arg_index: Callable[[re.Match], str],
         arg_desc_requirement: Optional[str] = None,
         arg_desc_suffix: Optional[str] = None,
+        stdin_required: bool = False,
     ):
         self.type_name = type_name
         self.regex = regex
@@ -128,6 +129,7 @@ class DeriveDefinition:
         self.get_arg_index = get_arg_index
         self.arg_desc_requirement = arg_desc_requirement
         self.arg_desc_suffix = arg_desc_suffix
+        self.stdin_required = stdin_required
 
 
 class DocTag:
@@ -202,6 +204,7 @@ DERIVE_DEFINITIONS: List[DeriveDefinition] = [
         get_target=lambda match: match.group(1) + "_pipe",
         get_arg_index=lambda match: match.group(2),
         arg_desc_suffix=", by default this function reads from stdin.",
+        stdin_required=True,
     ),
     DeriveDefinition(
         type_name="var",
@@ -215,7 +218,9 @@ DERIVE_DEFINITIONS: List[DeriveDefinition] = [
 ]
 MANDATORY_EXIT_CODES = ["0"]
 MANDATORY_TAGS = [tag_def for tag_def in Tags.get_sequence() if tag_def.is_mandatory]
-REGEX_DOC_TAGS = rf"@({'|'.join([tag_def.name for tag_def in Tags.get_sequence()])})"
+REGEX_DOC_TAGS = (
+    rf"^#\s*@({'|'.join([tag_def.name for tag_def in Tags.get_sequence()])})"
+)
 REGEX_ECHO_ASSIGNMENT = r"=\s*\"?builtin echo"
 REGEX_FUNCTION_DEFINITION = r"^([a-zA-Z_@][a-zA-Z0-9._]*) *\(\) *\{"
 REGEX_PROCESS_SUBSTITUTION = r"[\$=]\(builtin echo"
@@ -322,6 +327,18 @@ class DeriveStubDescriptionRule(Rule):
         if not any(expected_desc in tag.content for tag in desc_tags):
             return [
                 f"{func.name}: Derived {derive_def.type_name} description should match '{expected_desc}'"
+            ]
+        return []
+
+
+class DeriveStubStdinRule(Rule):
+    def check(self, func: BashFunction) -> List[str]:
+        if not func.derive_call:
+            return []
+        call = func.derive_call
+        if call.definition.stdin_required and not func.contains_tag(Tags.STDIN):
+            return [
+                f"{func.name}: Missing @{Tags.STDIN.name} tag for pipeable derivative"
             ]
         return []
 
@@ -594,6 +611,7 @@ def main():
         AssertionStderrRule(),
         DeriveStubArgRule(),
         DeriveStubDescriptionRule(),
+        DeriveStubStdinRule(),
         ExitCodeDescriptionRule(),
         FieldOrderRule(),
         GlobalIndentationRule(),
