@@ -73,16 +73,9 @@ def main():
     """
     files_to_check = sys.argv[1:]
 
-    # If no files provided, audit the src/ directory
     if not files_to_check:
-        src_dir = "src"
-        for root, _, files in os.walk(src_dir):
-            if "tests" in root:
-                continue
-            for file in files:
-                if file.endswith(".sh") or file.endswith(".snippet"):
-                    files_to_check.append(os.path.join(root, file))
-        files_to_check.sort()
+        print("Error: No files provided for auditing. Please provide at least one file path.", file=sys.stderr)
+        sys.exit(1)
 
     all_discrepancies: Dict[str, List[str]] = {}
 

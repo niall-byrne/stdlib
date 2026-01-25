@@ -78,6 +78,15 @@ class TestFunctionOrderCheck(unittest.TestCase):
         mock_exit.assert_not_called()
         self.assertEqual(mock_stdout.getvalue(), "")
 
+    @patch("sys.exit")
+    @patch("sys.stderr", new_callable=StringIO)
+    def test_main_no_args(self, mock_stderr, mock_exit):
+        with patch("sys.argv", ["function_order_check.py"]):
+            function_order_check.main()
+
+        mock_exit.assert_called_with(1)
+        self.assertIn("Error: No files provided", mock_stderr.getvalue())
+
 
 if __name__ == "__main__":
     unittest.main()
