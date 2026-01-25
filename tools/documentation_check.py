@@ -46,8 +46,7 @@ class BashFunction:
                         line=line))
                 desc_started = tag_name == Tags.DESCRIPTION.name
             elif desc_started:
-                if (":" in line and line.strip().startswith("#")
-                        and not line.startswith("# @")):
+                if line.strip().startswith("#") and not line.startswith("# @"):
                     self.global_var_lines.append(line)
                 elif line.startswith("# @"):
                     desc_started = False
@@ -276,6 +275,7 @@ DERIVE_DEFINITIONS: List[DeriveDefinition] = [
         "The name of the variable to read from and write to.",
     ),
 ]
+GLOBAL_VARIABLE_PREFIX = r"#   * "
 MANDATORY_EXIT_CODES = ["0"]
 MANDATORY_TAGS = [
     tag_def for tag_def in Tags.get_sequence() if tag_def.is_mandatory
@@ -284,6 +284,10 @@ REGEX_DOC_TAGS = (
     rf"^#\s*@({'|'.join([tag_def.name for tag_def in Tags.get_sequence()])})")
 REGEX_ECHO_ASSIGNMENT = r"=\s*\"?builtin echo"
 REGEX_FUNCTION_DEFINITION = r"^([a-zA-Z_@][a-zA-Z0-9._]*) *\(\) *\{"
+REGEX_GLOBAL_VARIABLE_MODIFIER_NAME = r"[A-Z_]+: "
+REGEX_GLOBAL_VARIABLE_MODIFIER_DESCRIPTION = (
+    rf"^{re.escape(GLOBAL_VARIABLE_PREFIX)}[A-Z_]+: (.+)$")
+REGEX_GLOBAL_VARIABLE_MODIFIER_DESCRIPTION_DEFAULT = r"^.+\(default=.+\)\.*$"
 REGEX_PROCESS_SUBSTITUTION = r"[\$=]\(builtin echo"
 SENTENCE_FORMAT_TAGS = [
     tag_def for tag_def in Tags.get_sequence() if tag_def.check_sentence_format
@@ -484,16 +488,57 @@ class FieldOrderRule(Rule):
         return []
 
 
-class GlobalIndentationRule(Rule):
-    """A rule that checks the indentation of global variable descriptions."""
+class GlobalVariableModifierFormatRule(Rule):
+    """A rule that checks formatting of global variable mod descriptions."""
 
     def check(self, func: BashFunction) -> List[str]:
         """Validate the given BASH function."""
-        return [
-            f"{func.name}: Global variable in @{Tags.DESCRIPTION.name} should "
-            f"be indented with 4 spaces. Found: '{line.strip()}'"
-            for line in func.global_var_lines if not line.startswith("#     ")
-        ]
+        errors = []
+        for line in func.global_var_lines:
+            match = re.match(REGEX_GLOBAL_VARIABLE_MODIFIER_DESCRIPTION,
+                             line.strip(), re.DOTALL)
+            if match:
+                if not match.group(1)[0].isupper():
+                    errors.append(
+                        f"{func.name}: Global variable description in "
+                        f"@{Tags.DESCRIPTION.name} "
+                        f"should start with a capital letter. "
+                        f"Found: '{line.strip()}'")
+                if not match.group(1).endswith("."):
+                    errors.append(
+                        f"{func.name}: Global variable description in "
+                        f"@{Tags.DESCRIPTION.name} "
+                        f"should end with a period. Found: '{line.strip()}'")
+                if not re.match(
+                        REGEX_GLOBAL_VARIABLE_MODIFIER_DESCRIPTION_DEFAULT,
+                        match.group(1)):
+                    errors.append(
+                        f"{func.name}: Global variable description in "
+                        f"@{Tags.DESCRIPTION.name} "
+                        f"should detail a default value. "
+                        f"Found: '{line.strip()}'")
+        return errors
+
+
+class GlobalVariableModifierIndentRule(Rule):
+    """A rule that checks indentation of global variable mod descriptions."""
+
+    def check(self, func: BashFunction) -> List[str]:
+        """Validate the given BASH function."""
+        errors = []
+        for line in func.global_var_lines:
+            if not line.startswith(GLOBAL_VARIABLE_PREFIX):
+                errors.append(
+                    f"{func.name}: Global variable in @{Tags.DESCRIPTION.name} "
+                    f"should be in 2 space indented asterisk list format. "
+                    f"Found: '{line.strip()}'")
+            if not re.search(REGEX_GLOBAL_VARIABLE_MODIFIER_NAME,
+                             line.strip()):
+                errors.append(
+                    f"{func.name}: Global variable in @{Tags.DESCRIPTION.name} "
+                    f"should be in uppercase characters followed by a colon. "
+                    f"Found: '{line.strip()}'")
+        return errors
 
 
 class InternalTagRule(Rule):
@@ -754,7 +799,8 @@ def main():
         DeriveStubRequiredTagsRule(),
         ExitCodeDescriptionRule(),
         FieldOrderRule(),
-        GlobalIndentationRule(),
+        GlobalVariableModifierFormatRule(),
+        GlobalVariableModifierIndentRule(),
         InternalTagRule(),
         MandatoryExitCodeRule(),
         MandatoryTagRule(),
