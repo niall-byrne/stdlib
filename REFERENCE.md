@@ -2490,7 +2490,7 @@ A derivative of stdlib.string.lines.join that can read from and write to a varia
 ### stdlib.string.lines.map.format
 
 Maps a format string over each line of a string.
-* _STDLIB_DELIMITER: A line break char sequence to split the string with for processing (default=$'\n').
+* _STDLIB_DELIMITER: A line break char to split the string with for processing (default=$'\n').
 
 #### Arguments
 
@@ -2513,6 +2513,7 @@ Maps a format string over each line of a string.
 ### stdlib.string.lines.map.format_pipe
 
 A derivative of stdlib.string.lines.map.format that can read from stdin.
+* _STDLIB_DELIMITER: A line break to split the string with for processing (default=$'\n').
 
 #### Arguments
 
@@ -2539,6 +2540,7 @@ A derivative of stdlib.string.lines.map.format that can read from stdin.
 ### stdlib.string.lines.map.format_var
 
 A derivative of stdlib.string.lines.map.format that can read from and write to a variable.
+* _STDLIB_DELIMITER: A line break to split the string with for processing (default=$'\n').
 
 #### Arguments
 
@@ -2557,7 +2559,7 @@ A derivative of stdlib.string.lines.map.format that can read from and write to a
 ### stdlib.string.lines.map.fn
 
 Maps a function over each line of a string.
-* _STDLIB_DELIMITER: A line break char sequence to split the string with for processing (default=$'\n').
+* _STDLIB_DELIMITER: A line break to split the string with for processing (default=$'\n').
 
 #### Arguments
 
@@ -2581,6 +2583,7 @@ Maps a function over each line of a string.
 ### stdlib.string.lines.map.fn_pipe
 
 A derivative of stdlib.string.lines.map.fn that can read from stdin.
+* _STDLIB_DELIMITER: A line break to split the string with for processing (default=$'\n').
 
 #### Arguments
 
@@ -2608,6 +2611,7 @@ A derivative of stdlib.string.lines.map.fn that can read from stdin.
 ### stdlib.string.lines.map.fn_var
 
 A derivative of stdlib.string.lines.map.fn that can read from and write to a variable.
+* _STDLIB_DELIMITER: A line break to split the string with for processing (default=$'\n').
 
 #### Arguments
 
