@@ -1,7 +1,7 @@
 #!/bin/bash
 
 setup() {
-  _mock.create stdlib.trap.create.clean_up_fn
+  _mock.create stdlib.trap.create.cleanup_fn
   _mock.create stdlib.trap.create.handler
 
   _mock.create stdlib.trap.handler.exit.fn.register
@@ -28,16 +28,16 @@ setup() {
     "creates_exit_handler;stdlib.trap.handler.exit.fn;STDLIB_HANDLER_EXIT_FN_ARRAY"
 }
 
-test_stdlib_trap_register_default_handlers__@vary__creates_clean_up_fn() {
+test_stdlib_trap_register_default_handlers__@vary__creates_cleanup_fn() {
   STDLIB_TRACEBACK_DISABLE_BOOLEAN="${TEST_TRACEBACK_VALUE}" \
     stdlib.trap.__register_default_handlers
 
-  stdlib.trap.create.clean_up_fn.mock.assert_called_once_with \
-    "1(stdlib.trap.fn.clean_up_on_exit) 2(STDLIB_CLEANUP_FN_TARGETS_ARRAY)"
+  stdlib.trap.create.cleanup_fn.mock.assert_called_once_with \
+    "1(stdlib.trap.fn.cleanup_on_exit) 2(STDLIB_CLEANUP_FN_TARGETS_ARRAY)"
 }
 
 @parametrize_with_traceback_setting \
-  test_stdlib_trap_register_default_handlers__@vary__creates_clean_up_fn
+  test_stdlib_trap_register_default_handlers__@vary__creates_cleanup_fn
 
 test_stdlib_trap_register_default_handlers__@vary__@vary() {
   STDLIB_TRACEBACK_DISABLE_BOOLEAN="${TEST_TRACEBACK_VALUE}" \
@@ -53,16 +53,16 @@ test_stdlib_trap_register_default_handlers__@vary__@vary() {
   @parametrize_with_traceback_setting \
   @parametrize_with_handlers
 
-test_stdlib_trap_register_default_handlers__@vary__registers_clean_up_fn() {
+test_stdlib_trap_register_default_handlers__@vary__registers_cleanup_fn() {
   STDLIB_TRACEBACK_DISABLE_BOOLEAN="${TEST_TRACEBACK_VALUE}" \
     stdlib.trap.__register_default_handlers
 
   stdlib.trap.handler.exit.fn.register.mock.assert_called_once_with \
-    "1(stdlib.trap.fn.clean_up_on_exit)"
+    "1(stdlib.trap.fn.cleanup_on_exit)"
 }
 
 @parametrize_with_traceback_setting \
-  test_stdlib_trap_register_default_handlers__@vary__registers_clean_up_fn
+  test_stdlib_trap_register_default_handlers__@vary__registers_cleanup_fn
 
 test_stdlib_trap_register_default_handlers__traceback_disabled__stdlib_logger_traceback_is_not_registered() {
   STDLIB_TRACEBACK_DISABLE_BOOLEAN="1" \

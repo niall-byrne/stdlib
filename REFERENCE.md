@@ -157,9 +157,9 @@
 * [stdlib.string.trim.right_var](#stdlibstringtrimright_var)
 * [stdlib.string.wrap](#stdlibstringwrap)
 * [stdlib.string.wrap_pipe](#stdlibstringwrap_pipe)
-* [stdlib.trap.create.clean_up_fn](#stdlibtrapcreateclean_up_fn)
+* [stdlib.trap.create.cleanup_fn](#stdlibtrapcreatecleanup_fn)
 * [stdlib.trap.create.handler](#stdlibtrapcreatehandler)
-* [stdlib.trap.fn.clean_up_on_exit](#stdlibtrapfnclean_up_on_exit)
+* [stdlib.trap.fn.cleanup_on_exit](#stdlibtrapfncleanup_on_exit)
 * [stdlib.trap.handler.err.fn](#stdlibtraphandlererrfn)
 * [stdlib.trap.handler.err.fn.register](#stdlibtraphandlererrfnregister)
 * [stdlib.trap.handler.exit.fn](#stdlibtraphandlerexitfn)
@@ -3190,7 +3190,7 @@ A derivative of stdlib.string.wrap that can read from stdin.
 
 * The error message if the operation fails.
 
-### stdlib.trap.create.clean_up_fn
+### stdlib.trap.create.cleanup_fn
 
 Creates a cleanup function that removes filesystem objects.
 
@@ -3229,10 +3229,10 @@ Creates a trap handler function and a registration function.
 
 * The error message if the operation fails.
 
-### stdlib.trap.fn.clean_up_on_exit
+### stdlib.trap.fn.cleanup_on_exit
 
 A handler function that removes files when called (by default this handler is registered to the exit signal).
-* STDLIB_CLEANUP_FN_TARGETS_ARRAY: An array used to store file names targeted by the clean_up_on_exit function (default=()).
+* STDLIB_CLEANUP_FN_TARGETS_ARRAY: An array used to store file names targeted by the cleanup_on_exit function (default=()).
 
 _Function has no arguments._
 
@@ -3268,7 +3268,7 @@ _Function has no arguments._
 ### stdlib.trap.handler.exit.fn
 
 A handler function that is invoked on an exit trap.
-* STDLIB_HANDLER_EXIT_FN_ARRAY: An array containing a list of functions that are run on an exit call (default=("stdlib.trap.fn.clean_up_on_exit")).
+* STDLIB_HANDLER_EXIT_FN_ARRAY: An array containing a list of functions that are run on an exit call (default=("stdlib.trap.fn.cleanup_on_exit")).
 
 _Function has no arguments._
 
