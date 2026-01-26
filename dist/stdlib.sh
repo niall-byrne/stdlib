@@ -43,7 +43,7 @@ stdlib.security.__shell.assert.is_safe type || return "$?"
 stdlib.security.__shell.assert.is_safe unset || return "$?"
 stdlib.security.__shell.assert.is_safe builtin || return "$?"
 
-builtin set -eo pipefail
+builtin set -Eeo pipefail
 
 # stdlib variable definitions
 
@@ -65,8 +65,10 @@ declare -- STDLIB_COLOUR_PURPLE=""
 declare -- STDLIB_COLOUR_RED=""
 declare -- STDLIB_COLOUR_WHITE=""
 declare -- STDLIB_COLOUR_YELLOW=""
+declare -a STDLIB_DEFERRED_FN_ARRAY=()
+declare -a STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY=()
 declare -a STDLIB_HANDLER_ERR=()
-declare -a STDLIB_HANDLER_EXIT=()
+declare -a STDLIB_HANDLER_EXIT=([0]="stdlib.trap.fn.clean_up_on_exit")
 declare -- STDLIB_THEME_LOGGER_ERROR="LIGHT_RED"
 declare -- STDLIB_THEME_LOGGER_INFO="WHITE"
 declare -- STDLIB_THEME_LOGGER_NOTICE="GREY"
@@ -97,11 +99,6 @@ declare -- _STDLIB_PASSWORD_BOOLEAN=""
 declare -- _STDLIB_WRAP_PREFIX_STRING=""
 
 # stdlib function definitions
-
-stdlib.__bootstrap ()
-{
-    builtin source "${1}"
-}
 
 stdlib.__builtin.overridable ()
 {
@@ -926,6 +923,46 @@ stdlib.array.query.is_equal ()
         builtin test "${indirect_array_1[array_index]}" == "${indirect_array_2[array_index]}" || builtin return 1;
     done;
     builtin return 0
+}
+
+stdlib.deferred.__defer ()
+{
+    builtin local func="${1}";
+    builtin local deferred_function_call="stdlib.__deferred.call.${#STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY[*]}";
+    builtin shift;
+    builtin eval "$("${_STDLIB_BINARY_CAT}" <<EOF
+${deferred_function_call}() {
+  "${func}" ${@}
+}
+EOF
+)";
+    STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY+=("${deferred_function_call}")
+}
+
+stdlib.deferred.__execute ()
+{
+    builtin local func;
+    for func in "${STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY[@]}";
+    do
+        "${func}";
+        builtin unset -f "${func}";
+    done;
+    STDLIB_DEFERRED_FN_ARRAY=();
+    STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY=()
+}
+
+stdlib.deferred.__initialize ()
+{
+    builtin local func;
+    for func in "${STDLIB_DEFERRED_FN_ARRAY[@]}";
+    do
+        builtin eval "$("${_STDLIB_BINARY_CAT}" <<EOF
+${func}() {
+  stdlib.deferred.__defer "${func}" "\${@}"
+}
+EOF
+)";
+    done
 }
 
 stdlib.fn.args.require ()
@@ -3268,6 +3305,17 @@ stdlib.string.wrap_pipe ()
     "stdlib.string.wrap" "${mutate_received_args[@]}"
 }
 
+stdlib.trap.__register_default_handlers ()
+{
+    stdlib.trap.create.handler "stdlib.trap.handler.err.fn" STDLIB_HANDLER_ERR;
+    stdlib.trap.create.handler "stdlib.trap.handler.exit.fn" STDLIB_HANDLER_EXIT;
+    stdlib.trap.create.clean_up_fn "stdlib.trap.fn.clean_up_on_exit" STDLIB_CLEANUP_FN;
+    stdlib.trap.handler.exit.fn.register "stdlib.trap.fn.clean_up_on_exit";
+    if [[ "${STDLIB_TRACEBACK_DISABLE_BOOLEAN}" -eq "0" ]]; then
+        stdlib.trap.handler.err.fn.register stdlib.logger.traceback;
+    fi
+}
+
 stdlib.trap.create.clean_up_fn ()
 {
     builtin local rm_flags="-f";
@@ -3419,11 +3467,7 @@ set -e
 
 # this snippet is included by the build script:
 # src/trap/register.snippet
-stdlib.trap.handler.exit.fn.register "stdlib.trap.fn.clean_up_on_exit"
-
-if [[ "${STDLIB_TRACEBACK_DISABLE_BOOLEAN}" -eq "0" ]]; then
-  stdlib.trap.handler.err.fn.register stdlib.logger.traceback
-fi
+stdlib.trap.__register_default_handlers
 
 trap stdlib.trap.handler.err.fn ERR
 trap stdlib.trap.handler.exit.fn EXIT
