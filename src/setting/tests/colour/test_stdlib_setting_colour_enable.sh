@@ -3,7 +3,7 @@
 _testing.load "${STDLIB_DIRECTORY}/setting/tests/colour/__fixtures__/colour.sh"
 
 setup() {
-  _mock.create stdlib.setting.colour.enable._generate_error_message
+  _mock.create stdlib.setting.colour.enable.__generate_error_message
   _mock.create stdlib.setting.colour.disable
 }
 
@@ -14,7 +14,7 @@ test_stdlib_setting_colour_enable__tput_fails_____silent_fallback___does_not_gen
 
   stdlib.setting.colour.enable
 
-  stdlib.setting.colour.enable._generate_error_message.mock.assert_not_called
+  stdlib.setting.colour.enable.__generate_error_message.mock.assert_not_called
 }
 
 test_stdlib_setting_colour_enable__tput_fails_____silent_fallback___disables_colours() {
@@ -62,7 +62,7 @@ test_stdlib_setting_colour_enable__tput_fails_____verbose_failure___generates_er
 
   stdlib.setting.colour.enable
 
-  stdlib.setting.colour.enable._generate_error_message.mock.assert_called_once_with ""
+  stdlib.setting.colour.enable.__generate_error_message.mock.assert_called_once_with ""
 }
 
 test_stdlib_setting_colour_enable__tput_fails_____verbose_failure___does_not_disable_colours() {
@@ -110,7 +110,7 @@ test_stdlib_setting_colour_enable__tput_succeeds__silent_fallback___does_not_gen
 
   stdlib.setting.colour.enable
 
-  stdlib.setting.colour.enable._generate_error_message.mock.assert_not_called
+  stdlib.setting.colour.enable.__generate_error_message.mock.assert_not_called
 }
 
 test_stdlib_setting_colour_enable__tput_succeeds__silent_fallback___does_not_disable_colours() {
@@ -159,7 +159,7 @@ test_stdlib_setting_colour_enable__tput_succeeds__verbose_failure___does_not_gen
 
   stdlib.setting.colour.enable
 
-  stdlib.setting.colour.enable._generate_error_message.mock.assert_not_called
+  stdlib.setting.colour.enable.__generate_error_message.mock.assert_not_called
 }
 
 test_stdlib_setting_colour_enable__tput_succeeds__verbose_failure___does_not_disable_colours() {
