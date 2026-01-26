@@ -73,7 +73,7 @@ declare -- STDLIB_COLOUR_YELLOW=""
 declare -a STDLIB_DEFERRED_FN_ARRAY=()
 declare -a STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY=()
 declare -a STDLIB_HANDLER_ERR_FN_ARRAY=()
-declare -a STDLIB_HANDLER_EXIT_FN_ARRAY=([0]="stdlib.trap.fn.clean_up_on_exit")
+declare -a STDLIB_HANDLER_EXIT_FN_ARRAY=([0]="stdlib.trap.fn.cleanup_on_exit")
 declare -- STDLIB_LINE_BREAK_DELIMITER=""
 declare -- STDLIB_LINE_BREAK_FORCE_CHAR=""
 declare -- STDLIB_LOGGING_MESSAGE_PREFIX=""
@@ -3310,14 +3310,14 @@ stdlib.trap.__register_default_handlers ()
 {
     stdlib.trap.create.handler "stdlib.trap.handler.err.fn" STDLIB_HANDLER_ERR_FN_ARRAY;
     stdlib.trap.create.handler "stdlib.trap.handler.exit.fn" STDLIB_HANDLER_EXIT_FN_ARRAY;
-    stdlib.trap.create.clean_up_fn "stdlib.trap.fn.clean_up_on_exit" STDLIB_CLEANUP_FN_TARGETS_ARRAY;
-    stdlib.trap.handler.exit.fn.register "stdlib.trap.fn.clean_up_on_exit";
+    stdlib.trap.create.cleanup_fn "stdlib.trap.fn.cleanup_on_exit" STDLIB_CLEANUP_FN_TARGETS_ARRAY;
+    stdlib.trap.handler.exit.fn.register "stdlib.trap.fn.cleanup_on_exit";
     if [[ "${STDLIB_TRACEBACK_DISABLE_BOOLEAN}" -eq "0" ]]; then
         stdlib.trap.handler.err.fn.register stdlib.logger.traceback;
     fi
 }
 
-stdlib.trap.create.clean_up_fn ()
+stdlib.trap.create.cleanup_fn ()
 {
     builtin local rm_flags="-f";
     builtin local recursive_deletes="${3:-0}";
@@ -3374,7 +3374,7 @@ EOF
 )"
 }
 
-stdlib.trap.fn.clean_up_on_exit ()
+stdlib.trap.fn.cleanup_on_exit ()
 {
     builtin local clean_up_path;
     [[ "${#@}" -eq 0 ]] || builtin return 127;

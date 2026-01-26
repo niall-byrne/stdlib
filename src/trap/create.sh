@@ -12,7 +12,7 @@ builtin set -eo pipefail
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stderr The error message if the operation fails.
-stdlib.trap.create.clean_up_fn() {
+stdlib.trap.create.cleanup_fn() {
   builtin local rm_flags="-f"
   builtin local recursive_deletes="${3:-0}"
 
