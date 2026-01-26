@@ -11,8 +11,6 @@ _t_runner_working_directory="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev
 _t_runner_custom_execution_context() {
   # shellcheck source=src/__lib__.sh
   source "${_t_runner_working_directory}/../src/__lib__.sh"
-  # shellcheck source=src/trap/register.snippet
-  source "${_t_runner_working_directory}/../src/trap/register.snippet"
   # shellcheck source=src/testing/__lib__.sh
   source "${_t_runner_working_directory}/../src/testing/__lib__.sh"
   # shellcheck source=src/testing/mock/mock.snippet

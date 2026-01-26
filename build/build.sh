@@ -20,7 +20,7 @@ __build_generate_step_1_stdlib_file_header() {
   __build_add_snippet src/security/shell/shell.snippet
 
   echo
-  echo "builtin set -eo pipefail"
+  echo "builtin set -Eeo pipefail"
 }
 
 __build_generate_step_1_testing_file_header() {

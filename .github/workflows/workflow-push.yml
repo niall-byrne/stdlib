@@ -268,8 +268,6 @@ jobs:
             name: "Source Files Binary Usage Linting"
           - id: "source-files-headers"
             name: "Source Files Header Linting"
-          - id: "source-files-headers-\\(exporting-traps\\)"
-            name: "Source Files (Exporting Traps) Header Linting"
           - id: "source-files-keywords"
             name: "Source Files Keywords Linting"
           - id: "source-files-testing-folder-function-names"
