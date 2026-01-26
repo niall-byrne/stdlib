@@ -177,13 +177,7 @@ repos:
         args: [--multiline]
         language: pygrep
         files: "^src/.+\\.sh$"
-        exclude: "^((.+/)*tests/.+\\.sh|src/trap/trap.sh)$"
-      - id: source-files-headers-(exporting-traps)
-        name: ensure source files exporting traps have correct headers
-        entry: "\\A(?!#!/bin/bash\n(# shellcheck disable=.+\n){0,1}\n# stdlib.+\nbuiltin set -Eeo pipefail\n).+\\Z"
-        args: [--multiline]
-        language: pygrep
-        files: "^src/trap/trap.sh$"
+        exclude: "^((.+/)*tests/.+\\.sh)$"
       - id: source-files-keywords
         name: ensure source files use builtins prefaced with the 'builtin' command
         entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$).*(?<!builtin )(?<!stdlib\\.__builtin\\.overridable )((?<=\\s|\\()|(?<=^))(alias|bg|bind|break|caller|cd|command|compgen|complete|continue|declare|dirs|disown|echo|enable|eval|exec|exit|export|false|fc|fg|getopts|hash|help|history|jobs|kill|let|local|logout|popd|printf|pushd|pwd|read|readonly|return|set|shift|shopt|source|suspend|test|times|trap|true|type|typeset|ulimit|umask|unalias|unset|wait)((\\s|\\)).*$|$)"
