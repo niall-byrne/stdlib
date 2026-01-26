@@ -171,6 +171,12 @@ repos:
         language: pygrep
         files: "^src/.+\\.(sh|snippet)$"
         exclude: "^((.+/)*tests/.+\\.sh)$"
+      - id: source-files-function-names
+        name: ensure source files use the correct function names
+        entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$)(?!\\s*(\\$\\{1\\}|\\$\\{[a-z_]+\\}))(?!\\s*(stdlib)(?!.*\\._[^_].+)\\.[a-z_\\.]+).*\\(\\) {$"
+        language: pygrep
+        files: "^src/.+\\.sh$"
+        exclude: "^((.+/)*tests/.+\\.sh|src/testing/.+\\.sh)$"
       - id: source-files-global-variable-names
         name: ensure source files use the correct global variable name format
         entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$)\\s*(?!IFS|LC_ALL|(__)*STDLIB_|TEST_OUTPUT|TEST_RC|TEXTDOMAIN|TEXTDOMAINDIR)([A-Z_]+)=.+$"

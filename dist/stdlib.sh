@@ -1854,7 +1854,7 @@ stdlib.setting.colour.enable ()
     builtin local error_message="";
     if ! "${_STDLIB_BINARY_TPUT}" init 2> /dev/null; then
         if [[ "${silent_fallback_boolean}" != "1" ]]; then
-            stdlib.setting.colour.enable._generate_error_message;
+            stdlib.setting.colour.enable.__generate_error_message;
             builtin return 1;
         fi;
         stdlib.setting.colour.disable;
@@ -1864,7 +1864,7 @@ stdlib.setting.colour.enable ()
     stdlib.setting.theme.load
 }
 
-stdlib.setting.colour.enable._generate_error_message ()
+stdlib.setting.colour.enable.__generate_error_message ()
 {
     builtin local error_message="";
     error_message+="$(stdlib.__message.get COLOUR_INITIALIZE_ERROR)\n";
