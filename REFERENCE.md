@@ -159,6 +159,11 @@
 * [stdlib.string.wrap_pipe](#stdlibstringwrap_pipe)
 * [stdlib.trap.create.clean_up_fn](#stdlibtrapcreateclean_up_fn)
 * [stdlib.trap.create.handler](#stdlibtrapcreatehandler)
+* [stdlib.trap.fn.clean_up_on_exit](#stdlibtrapfnclean_up_on_exit)
+* [stdlib.trap.handler.err.fn](#stdlibtraphandlererrfn)
+* [stdlib.trap.handler.err.fn.register](#stdlibtraphandlererrfnregister)
+* [stdlib.trap.handler.exit.fn](#stdlibtraphandlerexitfn)
+* [stdlib.trap.handler.exit.fn.register](#stdlibtraphandlerexitfnregister)
 * [stdlib.var.assert.is_valid_name](#stdlibvarassertis_valid_name)
 * [stdlib.var.query.is_valid_name](#stdlibvarqueryis_valid_name)
 
@@ -3223,6 +3228,67 @@ Creates a trap handler function and a registration function.
 #### Output on stderr
 
 * The error message if the operation fails.
+
+### stdlib.trap.fn.clean_up_on_exit
+
+A handler function that removes files when called (by default this handler is registered to the exit signal).
+* STDLIB_CLEANUP_FN: An array used to store file names targeted by the clean_up_on_exit function (default=()).
+
+_Function has no arguments._
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+
+### stdlib.trap.handler.err.fn
+
+A handler function that is invoked on an error trap.
+* STDLIB_HANDLER_ERR: An array containing a list of functions that are run on error (default=()).
+
+_Function has no arguments._
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+
+### stdlib.trap.handler.err.fn.register
+
+Adds a function to the error handler, which will be invoked (without args) during an error.
+
+_Function has no arguments._
+
+#### Variables set
+
+* **STDLIB_HANDLER_ERR** (array): An array containing a list of functions that are run on error.
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+
+### stdlib.trap.handler.exit.fn
+
+A handler function that is invoked on an exit trap.
+* STDLIB_HANDLER_EXIT: An array containing a list of functions that are run on an exit call (default=("stdlib.trap.fn.clean_up_on_exit")).
+
+_Function has no arguments._
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+
+### stdlib.trap.handler.exit.fn.register
+
+Adds a function to the exit handler, which will be invoked (without args) during an exit call.
+
+_Function has no arguments._
+
+#### Variables set
+
+* **STDLIB_HANDLER_EXIT** (array): An array containing a list of functions that are run on an exit call.
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
 
 ### stdlib.var.assert.is_valid_name
 

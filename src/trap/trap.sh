@@ -13,6 +13,36 @@ STDLIB_HANDLER_EXIT=()
 # shellcheck disable=SC2034
 STDLIB_CLEANUP_FN=()
 
+# @description A handler function that removes files when called (by default this handler is registered to the exit signal).
+#   * STDLIB_CLEANUP_FN: An array used to store file names targeted by the clean_up_on_exit function (default=()).
+# @noargs
+# @exitcode 0 If the operation succeeded.
+stdlib.trap.fn.clean_up_on_exit() { :; }
+
+# @description A handler function that is invoked on an error trap.
+#   * STDLIB_HANDLER_ERR: An array containing a list of functions that are run on error (default=()).
+# @noargs
+# @exitcode 0 If the operation succeeded.
+stdlib.trap.handler.err.fn() { :; }
+
+# @description Adds a function to the error handler, which will be invoked (without args) during an error.
+# @noargs
+# @exitcode 0 If the operation succeeded.
+# @set STDLIB_HANDLER_ERR array An array containing a list of functions that are run on error.
+stdlib.trap.handler.err.fn.register() { :; }
+
+# @description A handler function that is invoked on an exit trap.
+#   * STDLIB_HANDLER_EXIT: An array containing a list of functions that are run on an exit call (default=("stdlib.trap.fn.clean_up_on_exit")).
+# @noargs
+# @exitcode 0 If the operation succeeded.
+stdlib.trap.handler.exit.fn() { :; }
+
+# @description Adds a function to the exit handler, which will be invoked (without args) during an exit call.
+# @noargs
+# @exitcode 0 If the operation succeeded.
+# @set STDLIB_HANDLER_EXIT array An array containing a list of functions that are run on an exit call.
+stdlib.trap.handler.exit.fn.register() { :; }
+
 # @description Creates the default trap handlers for stdlib.
 #   * STDLIB_CLEANUP_FN: An array used to store file names targeted by the clean_up_on_exit function (default=()).
 #   * STDLIB_HANDLER_ERR: An array used to store error handler functions (default=()).
