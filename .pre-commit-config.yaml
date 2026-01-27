@@ -156,7 +156,7 @@ repos:
         entry: python tools/documentation_check.py
         language: system
         files: "^src/.+\\.sh"
-        exclude: "^((.+/)*tests/.+\\.sh|src/testing/(?!mock/components).+\\.sh)$"
+        exclude: "^((.+/)*tests/.+\\.sh)$"
         pass_filenames: true
         require_serial: true
       - id: snippet-files-headers
