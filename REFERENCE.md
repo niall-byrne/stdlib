@@ -157,7 +157,6 @@
 * [stdlib.string.trim.right_var](#stdlibstringtrimright_var)
 * [stdlib.string.wrap](#stdlibstringwrap)
 * [stdlib.string.wrap_pipe](#stdlibstringwrap_pipe)
-* [stdlib.trap.create.cleanup_fn](#stdlibtrapcreatecleanup_fn)
 * [stdlib.trap.create.handler](#stdlibtrapcreatehandler)
 * [stdlib.trap.fn.cleanup_on_exit](#stdlibtrapfncleanup_on_exit)
 * [stdlib.trap.handler.err.fn](#stdlibtraphandlererrfn)
@@ -3185,26 +3184,6 @@ A derivative of stdlib.string.wrap that can read from stdin.
 #### Output on stdout
 
 * The wrapped text.
-
-#### Output on stderr
-
-* The error message if the operation fails.
-
-### stdlib.trap.create.cleanup_fn
-
-Creates a cleanup function that removes filesystem objects.
-
-#### Arguments
-
-* **$1** (string): The name of the cleanup function to create.
-* **$2** (string): The name of the array tracking filesystem objects to cleanup.
-* **$3** (boolean): (optional, default="0") Whether to perform recursive deletes.
-
-#### Exit codes
-
-* **0**: If the operation succeeded.
-* **126**: If an invalid argument has been provided.
-* **127**: If the wrong number of arguments were provided.
 
 #### Output on stderr
 
