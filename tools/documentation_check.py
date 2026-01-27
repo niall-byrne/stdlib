@@ -219,13 +219,14 @@ REGEX_DOC_TAGS = (
     rf"^#\s*@({'|'.join([tag_def.name for tag_def in Tags.get_sequence()])})"
 )
 REGEX_ECHO_ASSIGNMENT = r"=\s*\"?builtin echo"
-REGEX_FUNCTION_DEFINITION = r"^([a-zA-Z_@][a-zA-Z0-9._]*) *\(\) *\{"
-REGEX_GLOBAL_VARIABLE_MODIFIER_NAME = r"[A-Z_]+: "
+REGEX_FUNCTION_DEFINITION = r"^(([a-zA-Z_@]|\$\{1\}\.)[a-zA-Z0-9._]*) *\(\) *\{"
+REGEX_GLOBAL_VARIABLE_MODIFIER_NAME = r"(__\$\{2\}[a-z_]+|[A-Z_]+): "
 REGEX_GLOBAL_VARIABLE_MODIFIER_DESCRIPTION = (
-    rf"^{re.escape(GLOBAL_VARIABLE_PREFIX)}[A-Z_]+: (.+)$"
+    rf"^{re.escape(GLOBAL_VARIABLE_PREFIX)}{REGEX_GLOBAL_VARIABLE_MODIFIER_NAME}(.+)$"
 )
 REGEX_GLOBAL_VARIABLE_MODIFIER_DESCRIPTION_DEFAULT = r"^.+\(default=.+\)\.*$"
 REGEX_PROCESS_SUBSTITUTION = r"[\$=]\(builtin echo"
+REGEX_SKIP_PROCESSING = r"\s*# noqa$"
 SENTENCE_FORMAT_TAGS = [
     tag_def for tag_def in Tags.get_sequence() if tag_def.check_sentence_format
 ]
@@ -400,18 +401,18 @@ class GlobalVariableModifierFormatRule(Rule):
                 REGEX_GLOBAL_VARIABLE_MODIFIER_DESCRIPTION, line.strip(), re.DOTALL
             )
             if match:
-                if not match.group(1)[0].isupper():
+                if not match.group(2)[0].isupper():
                     errors.append(
                         f"{func.name}: Global variable description in @{Tags.DESCRIPTION.name} "
                         f"should start with a capital letter. Found: '{line.strip()}'"
                     )
-                if not match.group(1).endswith("."):
+                if not match.group(2).endswith("."):
                     errors.append(
                         f"{func.name}: Global variable description in @{Tags.DESCRIPTION.name} "
                         f"should end with a period. Found: '{line.strip()}'"
                     )
                 if not re.match(
-                    REGEX_GLOBAL_VARIABLE_MODIFIER_DESCRIPTION_DEFAULT, match.group(1)
+                    REGEX_GLOBAL_VARIABLE_MODIFIER_DESCRIPTION_DEFAULT, match.group(2)
                 ):
                     errors.append(
                         f"{func.name}: Global variable description in @{Tags.DESCRIPTION.name} "
