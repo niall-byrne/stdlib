@@ -19,20 +19,20 @@
 * [stdlib.array.make.from_file](#stdlibarraymakefrom_file)
 * [stdlib.array.make.from_string](#stdlibarraymakefrom_string)
 * [stdlib.array.make.from_string_n](#stdlibarraymakefrom_string_n)
-* [stdlib.array.map.format](#stdlibarraymapformat)
 * [stdlib.array.map.fn](#stdlibarraymapfn)
+* [stdlib.array.map.format](#stdlibarraymapformat)
 * [stdlib.array.mutate.append](#stdlibarraymutateappend)
-* [stdlib.array.mutate.fn](#stdlibarraymutatefn)
 * [stdlib.array.mutate.filter](#stdlibarraymutatefilter)
+* [stdlib.array.mutate.fn](#stdlibarraymutatefn)
 * [stdlib.array.mutate.format](#stdlibarraymutateformat)
 * [stdlib.array.mutate.insert](#stdlibarraymutateinsert)
 * [stdlib.array.mutate.prepend](#stdlibarraymutateprepend)
 * [stdlib.array.mutate.remove](#stdlibarraymutateremove)
 * [stdlib.array.mutate.reverse](#stdlibarraymutatereverse)
-* [stdlib.array.query.is_contains](#stdlibarrayqueryis_contains)
-* [stdlib.array.query.is_equal](#stdlibarrayqueryis_equal)
 * [stdlib.array.query.is_array](#stdlibarrayqueryis_array)
+* [stdlib.array.query.is_contains](#stdlibarrayqueryis_contains)
 * [stdlib.array.query.is_empty](#stdlibarrayqueryis_empty)
+* [stdlib.array.query.is_equal](#stdlibarrayqueryis_equal)
 * [stdlib.fn.args.require](#stdlibfnargsrequire)
 * [stdlib.fn.assert.is_builtin](#stdlibfnassertis_builtin)
 * [stdlib.fn.assert.is_fn](#stdlibfnassertis_fn)
@@ -55,17 +55,17 @@
 * [stdlib.io.stdin.confirmation](#stdlibiostdinconfirmation)
 * [stdlib.io.stdin.pause](#stdlibiostdinpause)
 * [stdlib.io.stdin.prompt](#stdlibiostdinprompt)
-* [stdlib.logger.error_pipe](#stdlibloggererror_pipe)
-* [stdlib.logger.warning_pipe](#stdlibloggerwarning_pipe)
-* [stdlib.logger.info_pipe](#stdlibloggerinfo_pipe)
-* [stdlib.logger.success_pipe](#stdlibloggersuccess_pipe)
-* [stdlib.logger.notice_pipe](#stdlibloggernotice_pipe)
-* [stdlib.logger.traceback](#stdlibloggertraceback)
 * [stdlib.logger.error](#stdlibloggererror)
-* [stdlib.logger.warning](#stdlibloggerwarning)
+* [stdlib.logger.error_pipe](#stdlibloggererror_pipe)
 * [stdlib.logger.info](#stdlibloggerinfo)
+* [stdlib.logger.info_pipe](#stdlibloggerinfo_pipe)
 * [stdlib.logger.notice](#stdlibloggernotice)
+* [stdlib.logger.notice_pipe](#stdlibloggernotice_pipe)
 * [stdlib.logger.success](#stdlibloggersuccess)
+* [stdlib.logger.success_pipe](#stdlibloggersuccess_pipe)
+* [stdlib.logger.traceback](#stdlibloggertraceback)
+* [stdlib.logger.warning](#stdlibloggerwarning)
+* [stdlib.logger.warning_pipe](#stdlibloggerwarning_pipe)
 * [stdlib.security.get.euid](#stdlibsecuritygeteuid)
 * [stdlib.security.get.gid](#stdlibsecuritygetgid)
 * [stdlib.security.get.uid](#stdlibsecuritygetuid)
@@ -83,8 +83,8 @@
 * [stdlib.security.path.secure](#stdlibsecuritypathsecure)
 * [stdlib.security.user.assert.is_root](#stdlibsecurityuserassertis_root)
 * [stdlib.security.user.query.is_root](#stdlibsecurityuserqueryis_root)
-* [stdlib.setting.colour.enable](#stdlibsettingcolourenable)
 * [stdlib.setting.colour.disable](#stdlibsettingcolourdisable)
+* [stdlib.setting.colour.enable](#stdlibsettingcolourenable)
 * [stdlib.setting.colour.state.disabled](#stdlibsettingcolourstatedisabled)
 * [stdlib.setting.colour.state.enabled](#stdlibsettingcolourstateenabled)
 * [stdlib.setting.colour.state.theme](#stdlibsettingcolourstatetheme)
@@ -101,17 +101,17 @@
 * [stdlib.string.assert.is_regex_match](#stdlibstringassertis_regex_match)
 * [stdlib.string.assert.is_string](#stdlibstringassertis_string)
 * [stdlib.string.assert.not_equal](#stdlibstringassertnot_equal)
-* [stdlib.string.colour_n](#stdlibstringcolour_n)
 * [stdlib.string.colour](#stdlibstringcolour)
+* [stdlib.string.colour_n](#stdlibstringcolour_n)
 * [stdlib.string.colour_n_pipe](#stdlibstringcolour_n_pipe)
-* [stdlib.string.colour_var](#stdlibstringcolour_var)
 * [stdlib.string.colour_pipe](#stdlibstringcolour_pipe)
+* [stdlib.string.colour_var](#stdlibstringcolour_var)
+* [stdlib.string.colour.substring](#stdlibstringcoloursubstring)
 * [stdlib.string.colour.substring_pipe](#stdlibstringcoloursubstring_pipe)
 * [stdlib.string.colour.substring_var](#stdlibstringcoloursubstring_var)
+* [stdlib.string.colour.substrings](#stdlibstringcoloursubstrings)
 * [stdlib.string.colour.substrings_pipe](#stdlibstringcoloursubstrings_pipe)
 * [stdlib.string.colour.substrings_var](#stdlibstringcoloursubstrings_var)
-* [stdlib.string.colour.substring](#stdlibstringcoloursubstring)
-* [stdlib.string.colour.substrings](#stdlibstringcoloursubstrings)
 * [stdlib.string.justify.left](#stdlibstringjustifyleft)
 * [stdlib.string.justify.left_pipe](#stdlibstringjustifyleft_pipe)
 * [stdlib.string.justify.left_var](#stdlibstringjustifyleft_var)
@@ -121,12 +121,12 @@
 * [stdlib.string.lines.join](#stdlibstringlinesjoin)
 * [stdlib.string.lines.join_pipe](#stdlibstringlinesjoin_pipe)
 * [stdlib.string.lines.join_var](#stdlibstringlinesjoin_var)
-* [stdlib.string.lines.map.format](#stdlibstringlinesmapformat)
-* [stdlib.string.lines.map.format_pipe](#stdlibstringlinesmapformat_pipe)
-* [stdlib.string.lines.map.format_var](#stdlibstringlinesmapformat_var)
 * [stdlib.string.lines.map.fn](#stdlibstringlinesmapfn)
 * [stdlib.string.lines.map.fn_pipe](#stdlibstringlinesmapfn_pipe)
 * [stdlib.string.lines.map.fn_var](#stdlibstringlinesmapfn_var)
+* [stdlib.string.lines.map.format](#stdlibstringlinesmapformat)
+* [stdlib.string.lines.map.format_pipe](#stdlibstringlinesmapformat_pipe)
+* [stdlib.string.lines.map.format_var](#stdlibstringlinesmapformat_var)
 * [stdlib.string.pad.left](#stdlibstringpadleft)
 * [stdlib.string.pad.left_pipe](#stdlibstringpadleft_pipe)
 * [stdlib.string.pad.left_var](#stdlibstringpadleft_var)
@@ -484,29 +484,6 @@ Creates an array by repeating a string a specified number of times.
 
 * The error message if the operation fails.
 
-### stdlib.array.map.format
-
-Maps a format string over each element of an array and prints the result.
-
-#### Arguments
-
-* **$1** (string): A valid printf format string.
-* **$2** (string): The name of the array to process.
-
-#### Exit codes
-
-* **0**: If the operation succeeded.
-* **126**: If an invalid argument has been provided.
-* **127**: If the wrong number of arguments were provided.
-
-#### Output on stdout
-
-* The formatted elements of the array.
-
-#### Output on stderr
-
-* The error message if the operation fails.
-
 ### stdlib.array.map.fn
 
 Maps a function over each element of an array.
@@ -525,6 +502,29 @@ Maps a function over each element of an array.
 #### Output on stdout
 
 * Any output from the mapped function.
+
+#### Output on stderr
+
+* The error message if the operation fails.
+
+### stdlib.array.map.format
+
+Maps a format string over each element of an array and prints the result.
+
+#### Arguments
+
+* **$1** (string): A valid printf format string.
+* **$2** (string): The name of the array to process.
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+* **126**: If an invalid argument has been provided.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stdout
+
+* The formatted elements of the array.
 
 #### Output on stderr
 
@@ -549,13 +549,13 @@ Appends a string to each element of an array.
 
 * The error message if the operation fails.
 
-### stdlib.array.mutate.fn
+### stdlib.array.mutate.filter
 
-Replaces each element of an array with the output of a function.
+Filters an array in place using a filter function.
 
 #### Arguments
 
-* **$1** (string): The name of the function to apply to each element.
+* **$1** (string): The name of the filter function.
 * **$2** (string): The name of the array to modify.
 
 #### Exit codes
@@ -568,13 +568,13 @@ Replaces each element of an array with the output of a function.
 
 * The error message if the operation fails.
 
-### stdlib.array.mutate.filter
+### stdlib.array.mutate.fn
 
-Filters an array in place using a filter function.
+Replaces each element of an array with the output of a function.
 
 #### Arguments
 
-* **$1** (string): The name of the filter function.
+* **$1** (string): The name of the function to apply to each element.
 * **$2** (string): The name of the array to modify.
 
 #### Exit codes
@@ -682,6 +682,25 @@ Reverses the elements of an array in place.
 
 * The error message if the operation fails.
 
+### stdlib.array.query.is_array
+
+Checks if a variable is an array.
+
+#### Arguments
+
+* **$1** (string): The name of the variable to check.
+
+#### Exit codes
+
+* **0**: If the variable is an array.
+* **1**: If the variable is not an array.
+* **126**: If an invalid argument has been provided.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stderr
+
+* The error message if the operation fails.
+
 ### stdlib.array.query.is_contains
 
 Checks if an array contains a value.
@@ -702,6 +721,25 @@ Checks if an array contains a value.
 
 * The error message if the operation fails.
 
+### stdlib.array.query.is_empty
+
+Checks if an array is empty.
+
+#### Arguments
+
+* **$1** (string): The name of the array to check.
+
+#### Exit codes
+
+* **0**: If the array is empty.
+* **1**: If the array is not empty.
+* **126**: If an invalid argument has been provided.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stderr
+
+* The error message if the operation fails.
+
 ### stdlib.array.query.is_equal
 
 Checks if two arrays are equal.
@@ -715,44 +753,6 @@ Checks if two arrays are equal.
 
 * **0**: If the arrays are equal.
 * **1**: If the arrays are not equal.
-* **126**: If an invalid argument has been provided.
-* **127**: If the wrong number of arguments were provided.
-
-#### Output on stderr
-
-* The error message if the operation fails.
-
-### stdlib.array.query.is_array
-
-Checks if a variable is an array.
-
-#### Arguments
-
-* **$1** (string): The name of the variable to check.
-
-#### Exit codes
-
-* **0**: If the variable is an array.
-* **1**: If the variable is not an array.
-* **126**: If an invalid argument has been provided.
-* **127**: If the wrong number of arguments were provided.
-
-#### Output on stderr
-
-* The error message if the operation fails.
-
-### stdlib.array.query.is_empty
-
-Checks if an array is empty.
-
-#### Arguments
-
-* **$1** (string): The name of the array to check.
-
-#### Exit codes
-
-* **0**: If the array is empty.
-* **1**: If the array is not empty.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 
@@ -1187,6 +1187,24 @@ Prompts the user for a value and saves it to a variable.
 
 * The error message if the operation fails.
 
+### stdlib.logger.error
+
+Logs an error message.
+* STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
+* STDLIB_THEME_LOGGER_ERROR: The colour to use for the message (default="LIGHT_RED").
+
+#### Arguments
+
+* **$1** (string): The message to log.
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+
+#### Output on stderr
+
+* The error message.
+
 ### stdlib.logger.error_pipe
 
 A derivative of stdlib.logger.error that can read from stdin.
@@ -1207,25 +1225,23 @@ A derivative of stdlib.logger.error that can read from stdin.
 
 * The error message.
 
-### stdlib.logger.warning_pipe
+### stdlib.logger.info
 
-A derivative of stdlib.logger.warning that can read from stdin.
+Logs an informational message.
+* STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
+* STDLIB_THEME_LOGGER_INFO: The colour to use for the message (default="WHITE").
 
 #### Arguments
 
-* **$1** (string): (optional, default="-") The message to log, by default this function reads from stdin.
+* **$1** (string): The message to log.
 
 #### Exit codes
 
 * **0**: If the operation succeeded.
 
-#### Input on stdin
+#### Output on stdout
 
-* The message to log.
-
-#### Output on stderr
-
-* The warning message.
+* The informational message.
 
 ### stdlib.logger.info_pipe
 
@@ -1242,114 +1258,6 @@ A derivative of stdlib.logger.info that can read from stdin.
 #### Input on stdin
 
 * The message to log.
-
-#### Output on stdout
-
-* The informational message.
-
-### stdlib.logger.success_pipe
-
-A derivative of stdlib.logger.success that can read from stdin.
-
-#### Arguments
-
-* **$1** (string): (optional, default="-") The message to log, by default this function reads from stdin.
-
-#### Exit codes
-
-* **0**: If the operation succeeded.
-
-#### Input on stdin
-
-* The message to log.
-
-#### Output on stdout
-
-* The success message.
-
-### stdlib.logger.notice_pipe
-
-A derivative of stdlib.logger.notice that can read from stdin.
-
-#### Arguments
-
-* **$1** (string): (optional, default="-") The message to log, by default this function reads from stdin.
-
-#### Exit codes
-
-* **0**: If the operation succeeded.
-
-#### Input on stdin
-
-* The message to log.
-
-#### Output on stdout
-
-* The notice message.
-
-### stdlib.logger.traceback
-
-Prints a traceback of the current function calls.
-
-_Function has no arguments._
-
-#### Exit codes
-
-* **0**: If the operation succeeded.
-
-#### Output on stdout
-
-* The traceback information.
-
-### stdlib.logger.error
-
-Logs an error message.
-* STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
-* STDLIB_THEME_LOGGER_ERROR: The colour to use for the message (default="LIGHT_RED").
-
-#### Arguments
-
-* **$1** (string): The message to log.
-
-#### Exit codes
-
-* **0**: If the operation succeeded.
-
-#### Output on stderr
-
-* The error message.
-
-### stdlib.logger.warning
-
-Logs a warning message.
-* STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
-* STDLIB_THEME_LOGGER_WARNING: The colour to use for the message (default="YELLOW").
-
-#### Arguments
-
-* **$1** (string): The message to log.
-
-#### Exit codes
-
-* **0**: If the operation succeeded.
-
-#### Output on stderr
-
-* The warning message.
-
-### stdlib.logger.info
-
-Logs an informational message.
-* STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
-* STDLIB_THEME_LOGGER_INFO: The colour to use for the message (default="WHITE").
-
-#### Arguments
-
-* **$1** (string): The message to log.
-
-#### Exit codes
-
-* **0**: If the operation succeeded.
 
 #### Output on stdout
 
@@ -1373,6 +1281,26 @@ Logs a notice message.
 
 * The notice message.
 
+### stdlib.logger.notice_pipe
+
+A derivative of stdlib.logger.notice that can read from stdin.
+
+#### Arguments
+
+* **$1** (string): (optional, default="-") The message to log, by default this function reads from stdin.
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+
+#### Input on stdin
+
+* The message to log.
+
+#### Output on stdout
+
+* The notice message.
+
 ### stdlib.logger.success
 
 Logs a success message.
@@ -1390,6 +1318,78 @@ Logs a success message.
 #### Output on stdout
 
 * The success message.
+
+### stdlib.logger.success_pipe
+
+A derivative of stdlib.logger.success that can read from stdin.
+
+#### Arguments
+
+* **$1** (string): (optional, default="-") The message to log, by default this function reads from stdin.
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+
+#### Input on stdin
+
+* The message to log.
+
+#### Output on stdout
+
+* The success message.
+
+### stdlib.logger.traceback
+
+Prints a traceback of the current function calls.
+
+_Function has no arguments._
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+
+#### Output on stdout
+
+* The traceback information.
+
+### stdlib.logger.warning
+
+Logs a warning message.
+* STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
+* STDLIB_THEME_LOGGER_WARNING: The colour to use for the message (default="YELLOW").
+
+#### Arguments
+
+* **$1** (string): The message to log.
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+
+#### Output on stderr
+
+* The warning message.
+
+### stdlib.logger.warning_pipe
+
+A derivative of stdlib.logger.warning that can read from stdin.
+
+#### Arguments
+
+* **$1** (string): (optional, default="-") The message to log, by default this function reads from stdin.
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+
+#### Input on stdin
+
+* The message to log.
+
+#### Output on stderr
+
+* The warning message.
 
 ### stdlib.security.get.euid
 
@@ -1705,6 +1705,16 @@ _Function has no arguments._
 * **1**: If the current user is not root.
 * **127**: If the wrong number of arguments were provided.
 
+### stdlib.setting.colour.disable
+
+Disables terminal colours.
+
+_Function has no arguments._
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+
 ### stdlib.setting.colour.enable
 
 Enables terminal colours.
@@ -1720,16 +1730,6 @@ _Function has no arguments._
 #### Output on stderr
 
 * The error message if the operation fails.
-
-### stdlib.setting.colour.disable
-
-Disables terminal colours.
-
-_Function has no arguments._
-
-#### Exit codes
-
-* **0**: If the operation succeeded.
 
 ### stdlib.setting.colour.state.disabled
 
@@ -2043,28 +2043,6 @@ Asserts that two strings are not equal.
 
 * The error message if the assertion fails.
 
-### stdlib.string.colour_n
-
-Colours a string and prints it without a newline.
-
-#### Arguments
-
-* **$1** (string): The name of the colour to use.
-* **$2** (string): The string to colour.
-
-#### Exit codes
-
-* **0**: If the operation succeeded.
-* **127**: If the wrong number of arguments were provided.
-
-#### Output on stdout
-
-* The coloured string without a newline.
-
-#### Output on stderr
-
-* The error message if the operation fails.
-
 ### stdlib.string.colour
 
 Colours a string and prints it with a newline.
@@ -2082,6 +2060,28 @@ Colours a string and prints it with a newline.
 #### Output on stdout
 
 * The coloured string with a newline.
+
+#### Output on stderr
+
+* The error message if the operation fails.
+
+### stdlib.string.colour_n
+
+Colours a string and prints it without a newline.
+
+#### Arguments
+
+* **$1** (string): The name of the colour to use.
+* **$2** (string): The string to colour.
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stdout
+
+* The coloured string without a newline.
 
 #### Output on stderr
 
@@ -2113,24 +2113,6 @@ A derivative of stdlib.string.colour_n that can read from stdin.
 
 * The error message if the operation fails.
 
-### stdlib.string.colour_var
-
-A derivative of stdlib.string.colour_n that can read from and write to a variable.
-
-#### Arguments
-
-* **$1** (string): The name of the colour to use.
-* **$2** (string): The name of the variable to read from and write to.
-
-#### Exit codes
-
-* **0**: If the operation succeeded.
-* **127**: If the wrong number of arguments were provided.
-
-#### Output on stderr
-
-* The error message if the operation fails.
-
 ### stdlib.string.colour_pipe
 
 A derivative of stdlib.string.colour that can read from stdin.
@@ -2152,6 +2134,47 @@ A derivative of stdlib.string.colour that can read from stdin.
 #### Output on stdout
 
 * The coloured string with a newline.
+
+#### Output on stderr
+
+* The error message if the operation fails.
+
+### stdlib.string.colour_var
+
+A derivative of stdlib.string.colour_n that can read from and write to a variable.
+
+#### Arguments
+
+* **$1** (string): The name of the colour to use.
+* **$2** (string): The name of the variable to read from and write to.
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stderr
+
+* The error message if the operation fails.
+
+### stdlib.string.colour.substring
+
+Colours the first occurrence of a substring in a string.
+
+#### Arguments
+
+* **$1** (string): The name of the colour to use.
+* **$2** (string): The substring to colour.
+* **$3** (string): The source string.
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stdout
+
+* The string with the first occurrence of the substring coloured.
 
 #### Output on stderr
 
@@ -2203,6 +2226,29 @@ A derivative of stdlib.string.colour.substring that can read from and write to a
 
 * The error message if the operation fails.
 
+### stdlib.string.colour.substrings
+
+Colours all occurrences of a substring in a string.
+
+#### Arguments
+
+* **$1** (string): The name of the colour to use.
+* **$2** (string): The substring to colour.
+* **$3** (string): The source string.
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stdout
+
+* The string with all occurrences of the substring coloured.
+
+#### Output on stderr
+
+* The error message if the operation fails.
+
 ### stdlib.string.colour.substrings_pipe
 
 A derivative of stdlib.string.colour.substrings that can read from stdin.
@@ -2244,52 +2290,6 @@ A derivative of stdlib.string.colour.substrings that can read from and write to 
 
 * **0**: If the operation succeeded.
 * **127**: If the wrong number of arguments were provided.
-
-#### Output on stderr
-
-* The error message if the operation fails.
-
-### stdlib.string.colour.substring
-
-Colours the first occurrence of a substring in a string.
-
-#### Arguments
-
-* **$1** (string): The name of the colour to use.
-* **$2** (string): The substring to colour.
-* **$3** (string): The source string.
-
-#### Exit codes
-
-* **0**: If the operation succeeded.
-* **127**: If the wrong number of arguments were provided.
-
-#### Output on stdout
-
-* The string with the first occurrence of the substring coloured.
-
-#### Output on stderr
-
-* The error message if the operation fails.
-
-### stdlib.string.colour.substrings
-
-Colours all occurrences of a substring in a string.
-
-#### Arguments
-
-* **$1** (string): The name of the colour to use.
-* **$2** (string): The substring to colour.
-* **$3** (string): The source string.
-
-#### Exit codes
-
-* **0**: If the operation succeeded.
-* **127**: If the wrong number of arguments were provided.
-
-#### Output on stdout
-
-* The string with all occurrences of the substring coloured.
 
 #### Output on stderr
 
@@ -2491,73 +2491,6 @@ A derivative of stdlib.string.lines.join that can read from and write to a varia
 
 * The error message if the operation fails.
 
-### stdlib.string.lines.map.format
-
-Maps a format string over each line of a string.
-* STDLIB_LINE_BREAK_DELIMITER: A line break char sequence to split the string with for processing (default=$'\n').
-
-#### Arguments
-
-* **$1** (string): A valid printf format string.
-* **$2** (string): The input string to process.
-
-#### Exit codes
-
-* **0**: If the operation succeeded.
-* **127**: If the wrong number of arguments were provided.
-
-#### Output on stdout
-
-* The formatted lines.
-
-#### Output on stderr
-
-* The error message if the operation fails.
-
-### stdlib.string.lines.map.format_pipe
-
-A derivative of stdlib.string.lines.map.format that can read from stdin.
-
-#### Arguments
-
-* **$1** (string): A valid printf format string.
-* **$2** (string): (optional, default="-") The input string to process, by default this function reads from stdin.
-
-#### Exit codes
-
-* **0**: If the operation succeeded.
-* **127**: If the wrong number of arguments were provided.
-
-#### Input on stdin
-
-* The input string to process.
-
-#### Output on stdout
-
-* The formatted lines.
-
-#### Output on stderr
-
-* The error message if the operation fails.
-
-### stdlib.string.lines.map.format_var
-
-A derivative of stdlib.string.lines.map.format that can read from and write to a variable.
-
-#### Arguments
-
-* **$1** (string): A valid printf format string.
-* **$2** (string): The name of the variable to read from and write to.
-
-#### Exit codes
-
-* **0**: If the operation succeeded.
-* **127**: If the wrong number of arguments were provided.
-
-#### Output on stderr
-
-* The error message if the operation fails.
-
 ### stdlib.string.lines.map.fn
 
 Maps a function over each line of a string.
@@ -2622,6 +2555,73 @@ A derivative of stdlib.string.lines.map.fn that can read from and write to a var
 
 * **0**: If the operation succeeded.
 * **126**: If an invalid argument has been provided.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stderr
+
+* The error message if the operation fails.
+
+### stdlib.string.lines.map.format
+
+Maps a format string over each line of a string.
+* STDLIB_LINE_BREAK_DELIMITER: A line break char sequence to split the string with for processing (default=$'\n').
+
+#### Arguments
+
+* **$1** (string): A valid printf format string.
+* **$2** (string): The input string to process.
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stdout
+
+* The formatted lines.
+
+#### Output on stderr
+
+* The error message if the operation fails.
+
+### stdlib.string.lines.map.format_pipe
+
+A derivative of stdlib.string.lines.map.format that can read from stdin.
+
+#### Arguments
+
+* **$1** (string): A valid printf format string.
+* **$2** (string): (optional, default="-") The input string to process, by default this function reads from stdin.
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+* **127**: If the wrong number of arguments were provided.
+
+#### Input on stdin
+
+* The input string to process.
+
+#### Output on stdout
+
+* The formatted lines.
+
+#### Output on stderr
+
+* The error message if the operation fails.
+
+### stdlib.string.lines.map.format_var
+
+A derivative of stdlib.string.lines.map.format that can read from and write to a variable.
+
+#### Arguments
+
+* **$1** (string): A valid printf format string.
+* **$2** (string): The name of the variable to read from and write to.
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
 * **127**: If the wrong number of arguments were provided.
 
 #### Output on stderr

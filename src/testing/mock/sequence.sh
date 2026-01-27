@@ -44,6 +44,10 @@ _mock.sequence.clear() {
   _mock.__internal.persistence.sequence.clear
 }
 
+_mock.sequence.record.resume() {
+  __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN="1"
+}
+
 _mock.sequence.record.start() {
   _mock.__internal.persistence.sequence.clear
   __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN="1"
@@ -51,8 +55,4 @@ _mock.sequence.record.start() {
 
 _mock.sequence.record.stop() {
   __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN="0"
-}
-
-_mock.sequence.record.resume() {
-  __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN="1"
 }
