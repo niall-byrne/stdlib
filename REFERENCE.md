@@ -56,16 +56,16 @@
 * [stdlib.io.stdin.pause](#stdlibiostdinpause)
 * [stdlib.io.stdin.prompt](#stdlibiostdinprompt)
 * [stdlib.logger.error_pipe](#stdlibloggererror_pipe)
-* [stdlib.logger.warning_pipe](#stdlibloggerwarning_pipe)
 * [stdlib.logger.info_pipe](#stdlibloggerinfo_pipe)
-* [stdlib.logger.success_pipe](#stdlibloggersuccess_pipe)
 * [stdlib.logger.notice_pipe](#stdlibloggernotice_pipe)
-* [stdlib.logger.traceback](#stdlibloggertraceback)
+* [stdlib.logger.success_pipe](#stdlibloggersuccess_pipe)
+* [stdlib.logger.warning_pipe](#stdlibloggerwarning_pipe)
 * [stdlib.logger.error](#stdlibloggererror)
-* [stdlib.logger.warning](#stdlibloggerwarning)
 * [stdlib.logger.info](#stdlibloggerinfo)
 * [stdlib.logger.notice](#stdlibloggernotice)
 * [stdlib.logger.success](#stdlibloggersuccess)
+* [stdlib.logger.traceback](#stdlibloggertraceback)
+* [stdlib.logger.warning](#stdlibloggerwarning)
 * [stdlib.security.get.euid](#stdlibsecuritygeteuid)
 * [stdlib.security.get.gid](#stdlibsecuritygetgid)
 * [stdlib.security.get.uid](#stdlibsecuritygetuid)
@@ -83,8 +83,8 @@
 * [stdlib.security.path.secure](#stdlibsecuritypathsecure)
 * [stdlib.security.user.assert.is_root](#stdlibsecurityuserassertis_root)
 * [stdlib.security.user.query.is_root](#stdlibsecurityuserqueryis_root)
-* [stdlib.setting.colour.enable](#stdlibsettingcolourenable)
 * [stdlib.setting.colour.disable](#stdlibsettingcolourdisable)
+* [stdlib.setting.colour.enable](#stdlibsettingcolourenable)
 * [stdlib.setting.colour.state.disabled](#stdlibsettingcolourstatedisabled)
 * [stdlib.setting.colour.state.enabled](#stdlibsettingcolourstateenabled)
 * [stdlib.setting.colour.state.theme](#stdlibsettingcolourstatetheme)
@@ -101,8 +101,6 @@
 * [stdlib.string.assert.is_regex_match](#stdlibstringassertis_regex_match)
 * [stdlib.string.assert.is_string](#stdlibstringassertis_string)
 * [stdlib.string.assert.not_equal](#stdlibstringassertnot_equal)
-* [stdlib.string.colour_n](#stdlibstringcolour_n)
-* [stdlib.string.colour](#stdlibstringcolour)
 * [stdlib.string.colour_n_pipe](#stdlibstringcolour_n_pipe)
 * [stdlib.string.colour_var](#stdlibstringcolour_var)
 * [stdlib.string.colour_pipe](#stdlibstringcolour_pipe)
@@ -110,6 +108,8 @@
 * [stdlib.string.colour.substring_var](#stdlibstringcoloursubstring_var)
 * [stdlib.string.colour.substrings_pipe](#stdlibstringcoloursubstrings_pipe)
 * [stdlib.string.colour.substrings_var](#stdlibstringcoloursubstrings_var)
+* [stdlib.string.colour_n](#stdlibstringcolour_n)
+* [stdlib.string.colour](#stdlibstringcolour)
 * [stdlib.string.colour.substring](#stdlibstringcoloursubstring)
 * [stdlib.string.colour.substrings](#stdlibstringcoloursubstrings)
 * [stdlib.string.justify.left](#stdlibstringjustifyleft)
@@ -1207,26 +1207,6 @@ A derivative of stdlib.logger.error that can read from stdin.
 
 * The error message.
 
-### stdlib.logger.warning_pipe
-
-A derivative of stdlib.logger.warning that can read from stdin.
-
-#### Arguments
-
-* **$1** (string): (optional, default="-") The message to log, by default this function reads from stdin.
-
-#### Exit codes
-
-* **0**: If the operation succeeded.
-
-#### Input on stdin
-
-* The message to log.
-
-#### Output on stderr
-
-* The warning message.
-
 ### stdlib.logger.info_pipe
 
 A derivative of stdlib.logger.info that can read from stdin.
@@ -1246,26 +1226,6 @@ A derivative of stdlib.logger.info that can read from stdin.
 #### Output on stdout
 
 * The informational message.
-
-### stdlib.logger.success_pipe
-
-A derivative of stdlib.logger.success that can read from stdin.
-
-#### Arguments
-
-* **$1** (string): (optional, default="-") The message to log, by default this function reads from stdin.
-
-#### Exit codes
-
-* **0**: If the operation succeeded.
-
-#### Input on stdin
-
-* The message to log.
-
-#### Output on stdout
-
-* The success message.
 
 ### stdlib.logger.notice_pipe
 
@@ -1287,19 +1247,45 @@ A derivative of stdlib.logger.notice that can read from stdin.
 
 * The notice message.
 
-### stdlib.logger.traceback
+### stdlib.logger.success_pipe
 
-Prints a traceback of the current function calls.
+A derivative of stdlib.logger.success that can read from stdin.
 
-_Function has no arguments._
+#### Arguments
+
+* **$1** (string): (optional, default="-") The message to log, by default this function reads from stdin.
 
 #### Exit codes
 
 * **0**: If the operation succeeded.
 
+#### Input on stdin
+
+* The message to log.
+
 #### Output on stdout
 
-* The traceback information.
+* The success message.
+
+### stdlib.logger.warning_pipe
+
+A derivative of stdlib.logger.warning that can read from stdin.
+
+#### Arguments
+
+* **$1** (string): (optional, default="-") The message to log, by default this function reads from stdin.
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+
+#### Input on stdin
+
+* The message to log.
+
+#### Output on stderr
+
+* The warning message.
 
 ### stdlib.logger.error
 
@@ -1318,24 +1304,6 @@ Logs an error message.
 #### Output on stderr
 
 * The error message.
-
-### stdlib.logger.warning
-
-Logs a warning message.
-* STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
-* STDLIB_THEME_LOGGER_WARNING: The colour to use for the message (default="YELLOW").
-
-#### Arguments
-
-* **$1** (string): The message to log.
-
-#### Exit codes
-
-* **0**: If the operation succeeded.
-
-#### Output on stderr
-
-* The warning message.
 
 ### stdlib.logger.info
 
@@ -1390,6 +1358,38 @@ Logs a success message.
 #### Output on stdout
 
 * The success message.
+
+### stdlib.logger.traceback
+
+Prints a traceback of the current function calls.
+
+_Function has no arguments._
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+
+#### Output on stdout
+
+* The traceback information.
+
+### stdlib.logger.warning
+
+Logs a warning message.
+* STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
+* STDLIB_THEME_LOGGER_WARNING: The colour to use for the message (default="YELLOW").
+
+#### Arguments
+
+* **$1** (string): The message to log.
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+
+#### Output on stderr
+
+* The warning message.
 
 ### stdlib.security.get.euid
 
@@ -1705,6 +1705,16 @@ _Function has no arguments._
 * **1**: If the current user is not root.
 * **127**: If the wrong number of arguments were provided.
 
+### stdlib.setting.colour.disable
+
+Disables terminal colours.
+
+_Function has no arguments._
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+
 ### stdlib.setting.colour.enable
 
 Enables terminal colours.
@@ -1720,16 +1730,6 @@ _Function has no arguments._
 #### Output on stderr
 
 * The error message if the operation fails.
-
-### stdlib.setting.colour.disable
-
-Disables terminal colours.
-
-_Function has no arguments._
-
-#### Exit codes
-
-* **0**: If the operation succeeded.
 
 ### stdlib.setting.colour.state.disabled
 
@@ -2043,50 +2043,6 @@ Asserts that two strings are not equal.
 
 * The error message if the assertion fails.
 
-### stdlib.string.colour_n
-
-Colours a string and prints it without a newline.
-
-#### Arguments
-
-* **$1** (string): The name of the colour to use.
-* **$2** (string): The string to colour.
-
-#### Exit codes
-
-* **0**: If the operation succeeded.
-* **127**: If the wrong number of arguments were provided.
-
-#### Output on stdout
-
-* The coloured string without a newline.
-
-#### Output on stderr
-
-* The error message if the operation fails.
-
-### stdlib.string.colour
-
-Colours a string and prints it with a newline.
-
-#### Arguments
-
-* **$1** (string): The name of the colour to use.
-* **$2** (string): The string to colour.
-
-#### Exit codes
-
-* **0**: If the operation succeeded.
-* **127**: If the wrong number of arguments were provided.
-
-#### Output on stdout
-
-* The coloured string with a newline.
-
-#### Output on stderr
-
-* The error message if the operation fails.
-
 ### stdlib.string.colour_n_pipe
 
 A derivative of stdlib.string.colour_n that can read from stdin.
@@ -2244,6 +2200,50 @@ A derivative of stdlib.string.colour.substrings that can read from and write to 
 
 * **0**: If the operation succeeded.
 * **127**: If the wrong number of arguments were provided.
+
+#### Output on stderr
+
+* The error message if the operation fails.
+
+### stdlib.string.colour_n
+
+Colours a string and prints it without a newline.
+
+#### Arguments
+
+* **$1** (string): The name of the colour to use.
+* **$2** (string): The string to colour.
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stdout
+
+* The coloured string without a newline.
+
+#### Output on stderr
+
+* The error message if the operation fails.
+
+### stdlib.string.colour
+
+Colours a string and prints it with a newline.
+
+#### Arguments
+
+* **$1** (string): The name of the colour to use.
+* **$2** (string): The string to colour.
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stdout
+
+* The coloured string with a newline.
 
 #### Output on stderr
 
@@ -3138,7 +3138,7 @@ A derivative of stdlib.string.trim.right that can read from and write to a varia
 ### stdlib.string.wrap
 
 Wraps text to a specified width with padding.
-* STDLIB_LINE_BREAK_FORCE_CHAR: A char that 'forces' a line break in the output text (default="*").
+* STDLIB_LINE_BREAK_FORCE_CHAR: A character that 'forces' a line break in the output text (default="*").
 * STDLIB_WRAP_PREFIX: A string to insert when wrapping text (default="").
 
 #### Arguments

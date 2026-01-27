@@ -39,7 +39,7 @@ A placeholder function that takes the place of a specific function or binary dur
 
 #### Exit codes
 
-* **0**: If the operation is successful.
+* **0**: If the operation succeeded.
 * **1**: If the mock is configured to it can emit 1 or any exit code (default="0").
 
 #### Input on stdin
@@ -62,17 +62,17 @@ _Function has no arguments._
 
 #### Exit codes
 
-* **0**: If the operation is successful.
+* **0**: If the operation succeeded.
 
 ### object.mock.reset
 
-Clears the mock's call history and configured side effects as well as it's configured exit code, stdout, stderr and subcommand properties.
+Clears the mock's call history and configured side effects as well as its configured exit code, stdout, stderr and subcommand properties.
 
 _Function has no arguments._
 
 #### Exit codes
 
-* **0**: If the operation is successful.
+* **0**: If the operation succeeded.
 
 ### object.mock.assert_any_call_is
 
@@ -84,7 +84,7 @@ Asserts any call in the mock's call history matches the given arg string.
 
 #### Exit codes
 
-* **0**: If the operation is successful.
+* **0**: If the operation succeeded.
 * **1**: If the assertion failed.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
@@ -104,7 +104,7 @@ Asserts a call at a specific index in the mock's call history matches the given 
 
 #### Exit codes
 
-* **0**: If the operation is successful.
+* **0**: If the operation succeeded.
 * **1**: If the assertion failed.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
@@ -123,14 +123,10 @@ Asserts the mock was called once with a call matching the given arg string.
 
 #### Exit codes
 
-* **0**: If the operation is successful.
+* **0**: If the operation succeeded.
 * **1**: If the assertion failed.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
-
-#### Output on stdout
-
-* The actual first arg string this mock was called with, if the assertion fails.
 
 #### Output on stderr
 
@@ -138,7 +134,7 @@ Asserts the mock was called once with a call matching the given arg string.
 
 ### object.mock.assert_calls_are
 
-Asserts the mock's call history matches the given arg strings.  (Call this function without args to assert this mock was not called at all).
+Asserts the mock's call history matches the given arg strings. (Call this function without args to assert this mock was not called at all).
 
 #### Arguments
 
@@ -146,7 +142,7 @@ Asserts the mock's call history matches the given arg strings.  (Call this funct
 
 #### Exit codes
 
-* **0**: If the operation is successful.
+* **0**: If the operation succeeded.
 * **1**: If the assertion failed.
 
 #### Output on stderr
@@ -163,7 +159,7 @@ Asserts the mock was called the number of times specified by the given count.
 
 #### Exit codes
 
-* **0**: If the operation is successful.
+* **0**: If the operation succeeded.
 * **1**: If the assertion failed.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
@@ -180,7 +176,7 @@ _Function has no arguments._
 
 #### Exit codes
 
-* **0**: If the operation is successful.
+* **0**: If the operation succeeded.
 * **1**: If the assertion failed.
 * **127**: If the wrong number of arguments were provided.
 
@@ -198,7 +194,7 @@ This function will retrieve the call at the specified index from the mock's call
 
 #### Exit codes
 
-* **0**: If the operation is successful.
+* **0**: If the operation succeeded.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 
@@ -218,7 +214,7 @@ _Function has no arguments._
 
 #### Exit codes
 
-* **0**: If the operation is successful.
+* **0**: If the operation succeeded.
 * **127**: If the wrong number of arguments were provided.
 
 #### Output on stdout
@@ -237,12 +233,12 @@ _Function has no arguments._
 
 #### Exit codes
 
-* **0**: If the operation is successful.
+* **0**: If the operation succeeded.
 * **127**: If the wrong number of arguments were provided.
 
 #### Output on stdout
 
-* A count of the the number of times this mock has been called.
+* A count of the number of times this mock has been called.
 
 #### Output on stderr
 
@@ -250,13 +246,13 @@ _Function has no arguments._
 
 ### object.mock.get.keywords
 
-This function will retrieve the keywords assigned to this mock.  (These keywords are variables who's value is recorded during each mock call).
+This function will retrieve the keywords assigned to this mock. (These keywords are variables whose value is recorded during each mock call).
 
 _Function has no arguments._
 
 #### Exit codes
 
-* **0**: If the operation is successful.
+* **0**: If the operation succeeded.
 * **127**: If the wrong number of arguments were provided.
 
 #### Output on stdout
@@ -269,7 +265,7 @@ _Function has no arguments._
 
 ### object.mock.set.keywords
 
-This function will set the keywords assigned to this mock.  (These keywords are variables who's value is recorded during each mock call).
+This function will set the keywords assigned to this mock. (These keywords are variables whose value is recorded during each mock call).
 
 #### Arguments
 
@@ -281,7 +277,7 @@ This function will set the keywords assigned to this mock.  (These keywords are 
 
 #### Exit codes
 
-* **0**: If the operation is successful.
+* **0**: If the operation succeeded.
 * **126**: If an invalid argument has been provided.
 
 #### Output on stderr
@@ -290,7 +286,7 @@ This function will set the keywords assigned to this mock.  (These keywords are 
 
 ### object.mock.set.pipeable
 
-This function will toggle the 'pipeable' behaviour of the mock.  Turning this on allows the mock to receive stdin.
+This function will toggle the 'pipeable' behaviour of the mock. Turning this on allows the mock to receive stdin.
 
 #### Arguments
 
@@ -302,7 +298,7 @@ This function will toggle the 'pipeable' behaviour of the mock.  Turning this on
 
 #### Exit codes
 
-* **0**: If the operation is successful.
+* **0**: If the operation succeeded.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 
@@ -312,11 +308,11 @@ This function will toggle the 'pipeable' behaviour of the mock.  Turning this on
 
 ### object.mock.set.rc
 
-This function will set the return code (exit code) of the mock.  This behaviour can be overridden by configuring side effects or a subcommand.
+This function will set the return code (exit code) of the mock. This behaviour can be overridden by configuring side effects or a subcommand.
 
 #### Arguments
 
-* **$1** (integer): This is the return code (or exit code) you wish the mock to emit.  (Please note that any non-zero number emitted by the side effects or subcommand configured on this mock will be override this value and be returned instead).
+* **$1** (integer): This is the return code (or exit code) you wish the mock to emit. (Please note that any non-zero number emitted by the side effects or subcommand configured on this mock will override this value and be returned instead).
 
 #### Variables set
 
@@ -324,7 +320,7 @@ This function will set the return code (exit code) of the mock.  This behaviour 
 
 #### Exit codes
 
-* **0**: If the operation is successful.
+* **0**: If the operation succeeded.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 
@@ -334,11 +330,11 @@ This function will set the return code (exit code) of the mock.  This behaviour 
 
 ### object.mock.set.side_effects
 
-This function will set the side effects of the mock.  These are a series of one or more commands the mock will execute each time it's called.
+This function will set the side effects of the mock. These are a series of one or more commands the mock will execute each time it's called.
 
 #### Arguments
 
-* **...** (array): This is a series commands the mock will execute each time it's called. (Call this function without any arguments to disable this feature).
+* **...** (array): This is a series of commands the mock will execute each time it's called. (Call this function without any arguments to disable this feature).
 
 #### Variables set
 
@@ -346,7 +342,7 @@ This function will set the side effects of the mock.  These are a series of one 
 
 #### Exit codes
 
-* **0**: If the operation is successful.
+* **0**: If the operation succeeded.
 * **126**: If an invalid argument has been provided.
 
 #### Output on stderr
@@ -367,7 +363,7 @@ This function will set the stderr this mock will emit when called.
 
 #### Exit codes
 
-* **0**: If the operation is successful.
+* **0**: If the operation succeeded.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 
@@ -389,22 +385,22 @@ This function will set the stdout this mock will emit when called.
 
 #### Exit codes
 
-* **0**: If the operation is successful.
+* **0**: If the operation succeeded.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 
-#### Output on stdout
+#### Output on stderr
 
 * The error message if the operation fails.
 
 ### object.mock.set.subcommand
 
-This function will set the subcommand this mock will call when the mock is called.  All arguments passed to the mock are also passed to the subcommand.
+This function will set the subcommand this mock will call when the mock is called. All arguments passed to the mock are also passed to the subcommand.
 
 #### Arguments
 
-* **...** (array): This is a series commands the mock will execute each time it's called.  This is distinct from side effects in that the subcommand will receive all arguments sent to the mock itself.
+* **...** (array): This is a series of commands the mock will execute each time it's called. This is distinct from side effects in that the subcommand will receive all arguments sent to the mock itself.
 
 #### Exit codes
 
-* **0**: If the operation is successful.
+* **0**: If the operation succeeded.

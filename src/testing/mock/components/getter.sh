@@ -10,10 +10,10 @@ builtin export __STDLIB_TESTING_MOCK_COMPONENT
 __STDLIB_TESTING_MOCK_COMPONENT="$(
   "${_STDLIB_BINARY_CAT}" << 'EOF'
 
-# @description This function will iterate through each call made with this mock, and evaluate a given conditional command.  If this command passes, then the subsequent given commands are then executed.
+# @description This function will iterate through each call made with this mock, and evaluate a given conditional command. If this command passes, then the subsequent given commands are then executed.
 # @arg $1 string An escaped bash command that can be safely evaluated as the function iterates through each mock call.
 # @arg $@ array Additional bash commands that will be evaluated and executed if the comparison succeeds.
-# @exitcode 0 If the operation is successful.
+# @exitcode 0 If the operation succeeded.
 # @internal
 ${1}.mock.__get_apply_to_matching_mock_calls() {
   builtin local _mock_object_call_file_index=1
@@ -31,7 +31,7 @@ ${1}.mock.__get_apply_to_matching_mock_calls() {
 
 # @description This function will retrieve the call at the specified index from the mock's call history.
 # @arg $1 integer An index (from 1) in the mock's call history to retrieve.
-# @exitcode 0 If the operation is successful.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stdout The specified mock call as an arg string.
@@ -56,7 +56,7 @@ ${1}.mock.get.call() {
 
 # @description This function will retrieve all calls from the mock's call history.
 # @noargs
-# @exitcode 0 If the operation is successful.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stdout All calls made by this mock as new line separated arg strings.
 # @stderr The error message if the operation fails.
@@ -74,9 +74,9 @@ ${1}.mock.get.calls() {
 
 # @description This function will retrieve a count of the number of times this mock has been called.
 # @noargs
-# @exitcode 0 If the operation is successful.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 127 If the wrong number of arguments were provided.
-# @stdout A count of the the number of times this mock has been called.
+# @stdout A count of the number of times this mock has been called.
 # @stderr The error message if the operation fails.
 ${1}.mock.get.count() {
   builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
@@ -86,9 +86,9 @@ ${1}.mock.get.count() {
   < "\${__${2}_mock_calls_file}" wc -l
 }
 
-# @description This function will retrieve the keywords assigned to this mock.  (These keywords are variables who's value is recorded during each mock call).
+# @description This function will retrieve the keywords assigned to this mock. (These keywords are variables whose value is recorded during each mock call).
 # @noargs
-# @exitcode 0 If the operation is successful.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stdout The keywords currently assigned to this mock.
 # @stderr The error message if the operation fails.

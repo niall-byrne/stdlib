@@ -14,7 +14,7 @@ __STDLIB_TESTING_MOCK_COMPONENT="$(
 #   * __${2}_mock_pipeable: This boolean determines if the mock should read from stdin (default="0").
 #   * __${2}_mock_rc: This is the exit code the mock is configured to return (default="0").
 # @arg $@ array These are the arguments that are passed to the original function or binary.
-# @exitcode 0 If the operation is successful.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the mock is configured to it can emit 1 or any exit code (default="0").
 # @stdin The mock can be configured to receive arguments from stdin.
 # @stdout The mock can be configured to emit stdout.
@@ -46,16 +46,16 @@ ${1}() {
 
 # @description Clears the mock's call history and configured side effects.
 # @noargs
-# @exitcode 0 If the operation is successful.
+# @exitcode 0 If the operation succeeded.
 ${1}.mock.clear() {
   builtin local -a _mock_object_side_effects
   builtin echo -n "" > "\${__${2}_mock_calls_file}"  # noqa
   builtin declare -p _mock_object_side_effects > "\${__${2}_mock_side_effects_file}"
 }
 
-# @description Clears the mock's call history and configured side effects as well as it's configured exit code, stdout, stderr and subcommand properties.
+# @description Clears the mock's call history and configured side effects as well as its configured exit code, stdout, stderr and subcommand properties.
 # @noargs
-# @exitcode 0 If the operation is successful.
+# @exitcode 0 If the operation succeeded.
 ${1}.mock.reset() {
   ${1}.mock.clear
   __${2}_mock_rc=""

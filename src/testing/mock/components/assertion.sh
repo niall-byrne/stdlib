@@ -12,7 +12,7 @@ __STDLIB_TESTING_MOCK_COMPONENT="$(
 
 # @description Counts the number of times a mock has been called with a given arg string.
 # @arg $1 string The arg string to compare against the mock's call history.
-# @exitcode 0 If the operation is successful.
+# @exitcode 0 If the operation succeeded.
 # @stdout The count of matches identified.
 # @internal
 ${1}.mock.__count_matches() {
@@ -36,7 +36,7 @@ ${1}.mock.__count_matches() {
 
 # @description Asserts any call in the mock's call history matches the given arg string.
 # @arg $1 string The arg string to compare against the mock's call history.
-# @exitcode 0 If the operation is successful.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the assertion failed.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
@@ -62,7 +62,7 @@ ${1}.mock.assert_any_call_is() {
 # @description Asserts a call at a specific index in the mock's call history matches the given arg string.
 # @arg $1 integer An index (from 1) in the mock's call history to compare against.
 # @arg $2 string The arg string to compare against the mock's call history.
-# @exitcode 0 If the operation is successful.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the assertion failed.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
@@ -100,11 +100,10 @@ ${1}.mock.assert_call_n_is() {
 
 # @description Asserts the mock was called once with a call matching the given arg string.
 # @arg $1 string The arg string to compare against the mock's call history.
-# @exitcode 0 If the operation is successful.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the assertion failed.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
-# @stdout The actual first arg string this mock was called with, if the assertion fails.
 # @stderr The error message if the assertion fails.
 ${1}.mock.assert_called_once_with() {
   builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
@@ -133,9 +132,9 @@ ${1}.mock.assert_called_once_with() {
     "\$(_testing.mock.__message.get MOCK_NOT_CALLED_ONCE_WITH "${1}" "\${1}")"
 }
 
-# @description Asserts the mock's call history matches the given arg strings.  (Call this function without args to assert this mock was not called at all).
+# @description Asserts the mock's call history matches the given arg strings. (Call this function without args to assert this mock was not called at all).
 # @arg $@ array An array of arg strings that is expected to match the mock's call history.
-# @exitcode 0 If the operation is successful.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the assertion failed.
 # @stderr The error message if the assertion fails.
 ${1}.mock.assert_calls_are() {
@@ -171,7 +170,7 @@ ${1}.mock.assert_calls_are() {
 
 # @description Asserts the mock was called the number of times specified by the given count.
 # @arg $1 integer A positive integer representing the expected number of times this mock was called.
-# @exitcode 0 If the operation is successful.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the assertion failed.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
@@ -195,7 +194,7 @@ ${1}.mock.assert_count_is() {
 
 # @description Asserts the mock was not called.
 # @noargs
-# @exitcode 0 If the operation is successful.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the assertion failed.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stderr The error message if the assertion fails.
