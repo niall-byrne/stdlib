@@ -4,6 +4,7 @@ Parametrizers
 Parametrizing
 Pipeable
 Prepends
+SHDOC
 STDLIB
 _fixture
 _object_mock_keywords
