@@ -4,6 +4,13 @@
 
 builtin set -eo pipefail
 
+# @description Creates mocks for all stdlib.logger functions.
+# @noargs
+# @exitcode 0 If the logger mocks were created successfully.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stdout The informational messages.
+# @stderr The error message if the operation fails.
 _testing.fixtures.mock.logger() {
   _mock.create stdlib.logger.error
   _mock.create stdlib.logger.warning
