@@ -6,6 +6,9 @@ Pipeable
 Prepends
 STDLIB
 _fixture
+_object_mock_keywords
+_object_mock_rc
+_object_mock_stderr
 _pipe
 assert_array_equals
 assert_array_length
@@ -25,6 +28,7 @@ capture_assertion_failure
 cleanup_on_exit
 fn
 jules
+mock's
 parametrizer
 parametrizers
 pipeable
@@ -34,6 +38,7 @@ shdoc
 src
 stdlib
 stdout
+subcommand
 subfolder
 substring
 traceback
