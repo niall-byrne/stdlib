@@ -4,6 +4,22 @@
 
 builtin set -eo pipefail
 
+# @description Checks if a variable is an array.
+# @arg $1 string The name of the variable to check.
+# @exitcode 0 If the variable is an array.
+# @exitcode 1 If the variable is not an array.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stderr The error message if the operation fails.
+stdlib.array.query.is_array() {
+  [[ "${#@}" == "1" ]] || builtin return 127
+  [[ -n "${1}" ]] || builtin return 126
+  if builtin declare -p "${1}" 2> /dev/null | "${_STDLIB_BINARY_GREP}" -q 'declare -a'; then # noqa
+    builtin return 0
+  fi
+  builtin return 1
+}
+
 # @description Checks if an array contains a value.
 # @arg $1 string The value to query for.
 # @arg $2 string The name of the array to query.
@@ -30,6 +46,29 @@ stdlib.array.query.is_contains() {
     fi
   done
 
+  builtin return 1
+}
+
+# @description Checks if an array is empty.
+# @arg $1 string The name of the array to check.
+# @exitcode 0 If the array is empty.
+# @exitcode 1 If the array is not empty.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stderr The error message if the operation fails.
+stdlib.array.query.is_empty() {
+  builtin local indirect_reference
+  builtin local -a indirect_array
+
+  [[ "${#@}" == "1" ]] || builtin return 127
+  stdlib.array.query.is_array "${1}" || builtin return 126
+
+  indirect_reference="${1}[@]"
+  indirect_array=("${!indirect_reference}")
+
+  if [[ "${#indirect_array[@]}" == "0" ]]; then
+    builtin return 0
+  fi
   builtin return 1
 }
 
@@ -68,43 +107,4 @@ stdlib.array.query.is_equal() {
   done
 
   builtin return 0
-}
-
-# @description Checks if a variable is an array.
-# @arg $1 string The name of the variable to check.
-# @exitcode 0 If the variable is an array.
-# @exitcode 1 If the variable is not an array.
-# @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments were provided.
-# @stderr The error message if the operation fails.
-stdlib.array.query.is_array() {
-  [[ "${#@}" == "1" ]] || builtin return 127
-  [[ -n "${1}" ]] || builtin return 126
-  if builtin declare -p "${1}" 2> /dev/null | "${_STDLIB_BINARY_GREP}" -q 'declare -a'; then # noqa
-    builtin return 0
-  fi
-  builtin return 1
-}
-
-# @description Checks if an array is empty.
-# @arg $1 string The name of the array to check.
-# @exitcode 0 If the array is empty.
-# @exitcode 1 If the array is not empty.
-# @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments were provided.
-# @stderr The error message if the operation fails.
-stdlib.array.query.is_empty() {
-  builtin local indirect_reference
-  builtin local -a indirect_array
-
-  [[ "${#@}" == "1" ]] || builtin return 127
-  stdlib.array.query.is_array "${1}" || builtin return 126
-
-  indirect_reference="${1}[@]"
-  indirect_array=("${!indirect_reference}")
-
-  if [[ "${#indirect_array[@]}" == "0" ]]; then
-    builtin return 0
-  fi
-  builtin return 1
 }

@@ -4,16 +4,6 @@
 
 builtin set -eo pipefail
 
-assert_null() {
-  # $1: the value to check
-
-  builtin local _stdlib_test_value="${1}"
-
-  assert_equals "" \
-    "${_stdlib_test_value}" \
-    " $(_testing.assert.__message.get ASSERT_ERROR_VALUE_NOT_NULL "${_stdlib_test_value}")"
-}
-
 assert_not_null() {
   # $1: the value to check
 
@@ -22,4 +12,14 @@ assert_not_null() {
   assert_not_equals "" \
     "${_stdlib_test_value}" \
     " $(_testing.assert.__message.get ASSERT_ERROR_VALUE_NULL)"
+}
+
+assert_null() {
+  # $1: the value to check
+
+  builtin local _stdlib_test_value="${1}"
+
+  assert_equals "" \
+    "${_stdlib_test_value}" \
+    " $(_testing.assert.__message.get ASSERT_ERROR_VALUE_NOT_NULL "${_stdlib_test_value}")"
 }
