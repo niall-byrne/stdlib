@@ -4,10 +4,13 @@
 
 builtin set -eo pipefail
 
+# @description Prints a diff between two values for debugging.
+#   * STDLIB_TESTING_THEME_DEBUG_FIXTURE: The colour to use for the debug output (default="GREY").
+# @arg $1 string The expected value.
+# @arg $2 string The actual value.
+# @exitcode 0 If the operation succeeded.
+# @stdout The debug diff output.
 _testing.fixtures.debug.diff() {
-  # $1: the expected value to compare against
-  # $2: the actual value to compare with
-
   builtin local debug_colour
 
   debug_colour="$(stdlib.setting.theme.get_colour "${STDLIB_TESTING_THEME_DEBUG_FIXTURE}")"

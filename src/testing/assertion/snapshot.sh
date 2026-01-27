@@ -4,9 +4,11 @@
 
 builtin set -eo pipefail
 
+# @description Asserts that the captured output matches a snapshot file.
+# @arg $1 string A path relative to the test directory containing a text file.
+# @exitcode 0 If the operation succeeded.
+# @stderr The error message if the assertion fails.
 assert_snapshot() {
-  # $1: a path relative to the test directory containing a text file
-
   builtin local _stdlib_expected_output
   builtin local _stdlib_snapshot_filename="${1}"
 

@@ -4,16 +4,20 @@
 
 builtin set -eo pipefail
 
+# @description Captures the stdout and stderr of a command.
+# @arg $@ array The command to execute.
+# @exitcode 0 If the operation succeeded.
+# @set TEST_OUTPUT string The combined stdout and stderr from the command.
 _capture.output() {
-  # $@: the commands to execute
-
   # shellcheck disable=SC2034
   TEST_OUTPUT="$("$@" 2>&1)"
 }
 
+# @description Captures the stdout and stderr of a command (raw).
+# @arg $@ array The command to execute.
+# @exitcode 0 If the operation succeeded.
+# @set TEST_OUTPUT string The combined stdout and stderr from the command.
 _capture.output_raw() {
-  # $@: the commands to execute
-
   # shellcheck disable=SC2034
   LC_ALL=C IFS= builtin read -rd '' TEST_OUTPUT < <("$@" 2>&1)
 

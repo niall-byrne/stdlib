@@ -4,9 +4,11 @@
 
 builtin set -eo pipefail
 
+# @description Captures the stderr of a command.
+# @arg $@ array The command to execute.
+# @exitcode 0 If the operation succeeded.
+# @set TEST_OUTPUT string The captured stderr from the command.
 _capture.stderr() {
-  # $@: the commands to execute
-
   builtin local captured_rc
 
   builtin exec 3>&1
@@ -18,9 +20,11 @@ _capture.stderr() {
   builtin return "${captured_rc}"
 }
 
+# @description Captures the stderr of a command (raw).
+# @arg $@ array The command to execute.
+# @exitcode 0 If the operation succeeded.
+# @set TEST_OUTPUT string The captured stderr from the command.
 _capture.stderr_raw() {
-  # $@: the commands to execute
-
   builtin exec 3>&1
   # shellcheck disable=SC2034
   LC_ALL=C IFS= builtin read -rd '' TEST_OUTPUT < <("$@" 2>&1 1> /dev/null)
