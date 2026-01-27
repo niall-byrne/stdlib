@@ -7,23 +7,6 @@ builtin set -eo pipefail
 STDLIB_LOGGING_MESSAGE_PREFIX=""
 __STDLIB_LOGGING_DECORATORS_ARRAY=("_testing.__protected")
 
-# @description Prints a traceback of the current function calls.
-# @noargs
-# @exitcode 0 If the operation succeeded.
-# @stdout The traceback information.
-stdlib.logger.traceback() {
-  builtin local fn_name_index
-  builtin local fn_name_indent=">"
-
-  stdlib.__message.get TRACEBACK_HEADER
-  builtin echo
-
-  for ((fn_name_index = ("${#FUNCNAME[@]}" - 1); fn_name_index > 1; fn_name_index--)); do
-    builtin echo "${fn_name_indent}  ${BASH_SOURCE["${fn_name_index}"]}:${BASH_LINENO[$(("${fn_name_index}" - 1))]}:${FUNCNAME["${fn_name_index}"]}()"
-    fn_name_indent+=">"
-  done
-}
-
 # @description Logs an error message.
 #   * STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
 #   * STDLIB_THEME_LOGGER_ERROR: The colour to use for the message (default="LIGHT_RED").
@@ -34,19 +17,6 @@ stdlib.logger.error() {
   {
     stdlib.logger.__message_prefix
     stdlib.string.colour "${STDLIB_THEME_LOGGER_ERROR}" "${1}"
-  } >&2 # KCOV_EXCLUDE_LINE
-}
-
-# @description Logs a warning message.
-#   * STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
-#   * STDLIB_THEME_LOGGER_WARNING: The colour to use for the message (default="YELLOW").
-# @arg $1 string The message to log.
-# @exitcode 0 If the operation succeeded.
-# @stderr The warning message.
-stdlib.logger.warning() {
-  {
-    stdlib.logger.__message_prefix
-    stdlib.string.colour "${STDLIB_THEME_LOGGER_WARNING}" "${1}"
   } >&2 # KCOV_EXCLUDE_LINE
 }
 
@@ -81,6 +51,36 @@ stdlib.logger.notice() {
 stdlib.logger.success() {
   stdlib.logger.__message_prefix
   stdlib.string.colour "${STDLIB_THEME_LOGGER_SUCCESS}" "${1}"
+}
+
+# @description Prints a traceback of the current function calls.
+# @noargs
+# @exitcode 0 If the operation succeeded.
+# @stdout The traceback information.
+stdlib.logger.traceback() {
+  builtin local fn_name_index
+  builtin local fn_name_indent=">"
+
+  stdlib.__message.get TRACEBACK_HEADER
+  builtin echo
+
+  for ((fn_name_index = ("${#FUNCNAME[@]}" - 1); fn_name_index > 1; fn_name_index--)); do
+    builtin echo "${fn_name_indent}  ${BASH_SOURCE["${fn_name_index}"]}:${BASH_LINENO[$(("${fn_name_index}" - 1))]}:${FUNCNAME["${fn_name_index}"]}()"
+    fn_name_indent+=">"
+  done
+}
+
+# @description Logs a warning message.
+#   * STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
+#   * STDLIB_THEME_LOGGER_WARNING: The colour to use for the message (default="YELLOW").
+# @arg $1 string The message to log.
+# @exitcode 0 If the operation succeeded.
+# @stderr The warning message.
+stdlib.logger.warning() {
+  {
+    stdlib.logger.__message_prefix
+    stdlib.string.colour "${STDLIB_THEME_LOGGER_WARNING}" "${1}"
+  } >&2 # KCOV_EXCLUDE_LINE
 }
 
 # @description Prints the message prefix for logging.

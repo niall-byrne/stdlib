@@ -18,6 +18,8 @@ This report summarizes grammar mistakes, spelling errors, and confusing language
 | Grammar | "Please detail [global variable](#documenting-global-variable-usage) in this section." | "Please detail **global variables** in this section." |
 | Grammar | "Include name of the global variable" | "Include **the** name of the global variable" |
 | Grammar | "An example function with two required and one optional arguments:" | "An example function with two required and one optional **argument**:" |
+| Grammar | "Variables names should be in lower snake-case" | "**Variable** names should be in lower snake-case" |
+| Grammar | "The commit messages scope should be fully capitalized" | "The commit **message** scope should be fully capitalized" |
 | Spelling | "Please note the handing of the variable argument." | "Please note the **handling** of the variable argument." |
 
 ### REFERENCE.md
@@ -26,7 +28,9 @@ This report summarizes grammar mistakes, spelling errors, and confusing language
 | :--- | :--- | :--- |
 | Consistency | Multiple functions use "If the operation is successful." for exit code 0. | Change to "If the operation **succeeded**." to match CONTRIBUTING.md guidelines. |
 | Spelling | `stdlib.string.wrap`: "A char that 'forces' a line break" | "A **character** that 'forces' a line break" |
-| Typo | `stdlib.string.wrap`: "A char that 'forces' a line break" | "A **character** that 'forces' a line break" |
+| Consistency | The index is not strictly alphabetical. | Re-order index to be strictly alphabetical for better usability. This is partially due to `shdoc` processing files in alphabetical order of their paths. |
+| Consistency | `stdlib.setting.colour`: `enable` comes before `disable`. | Corrected in source by re-ordering functions. |
+| Consistency | `stdlib.string.query`: `ends_with`, `starts_with`, etc., are at the end instead of alphabetical order. | These are currently grouped in `sugar.sh` which sorts after `is.sh`. |
 
 ### src/testing/mock/MOCK_OBJECT_REFERENCE.md
 
@@ -49,5 +53,7 @@ Many of the issues found in `REFERENCE.md` and `MOCK_OBJECT_REFERENCE.md` are al
 - **`src/testing/mock/components/setter.sh`**: Contains "who's", "series commands", "will be override", and the incorrect `@stdout` tag for `set.stdout`.
 - **`src/testing/mock/components/getter.sh`**: Contains "who's".
 - **`src/testing/mock/components/main.sh`**: Contains "is successful" and "it's".
+- **`src/testing/mock/components/assertion.sh`**: Contains "is successful" and incorrect `@stdout` tag for `assert_called_once_with`.
+- **`src/string/wrap.sh`**: Contains "A char".
 
-These should be corrected in the source files to ensure future documentation generation is accurate.
+These have been corrected in the source files as part of this task.

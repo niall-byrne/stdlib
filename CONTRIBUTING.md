@@ -30,7 +30,7 @@
 
 The most important aspect of writing production code is to make sure the codebase pre-commit hooks are installed and functioning correctly.  These hooks will run external formatting and linting tools to enforce general guidelines about spacing and formatting.
 
-Critically, these hooks also ensure consistent use the `builtin` keyword, which is best practice for protecting the library from being overridden by externally set functions.
+Critically, these hooks also ensure consistent use of the `builtin` keyword, which is best practice for protecting the library from being overridden by externally set functions.
 
 It's also critically important to note that all functions exposed to the end user must be documented.  See the [documentation guide](#documenting-production-code) for details on the exact procedure.
 
@@ -38,7 +38,7 @@ It's also critically important to note that all functions exposed to the end use
 
 There is a critical separation between the [testing](src/testing) folder and the rest of the codebase. The standards in this section apply to all production code EXCEPT the testing folder, and its nested content.   There are [separate conventions](#production-code-inside-the-testing-folder) that are used for code in this folder.
 
-This separation ensure users loading stdlib don't need to load testing code unless they are actually testing their application.
+This separation ensures users loading stdlib don't need to load testing code unless they are actually testing their application.
 
 ### Production File and Function Naming
 
@@ -60,7 +60,7 @@ Private functions don't require documentation as they do not provide an API for 
 
 ### Production Variable Naming
 
-All local variables should be defined with strict usage of the `builtin local` keywords to prevent environment contamination.  Variables names should be in lower snake-case (lowercase, with underscore separators).
+All local variables should be defined with strict usage of the `builtin local` keywords to prevent environment contamination.  Variable names should be in lower snake-case (lowercase, with underscore separators).
 
 Local arrays should be defined using `builtin local -a`.  Associative arrays should be avoided, as we'd like stdlib to support as many versions of bash as possible.
 
@@ -72,7 +72,7 @@ Global variables should be prefixed with `STDLIB`, and should be in upper snake-
 There are a few global variables that store state, and are not meant to be accessed by an end-user.  These are prefixed with `__STDLIB`, indicating they are private.  For example:
 - `__STDLIB_LOGGING_DECORATORS_ARRAY`
 
-Global variables are often used as a "modifying option" for function behaviour.  If they are performing this role should have a global definition in the most appropriate file so that the variable is included in the [packaging process](#creating-a-distributable).
+Global variables are often used as a "modifying option" for function behaviour.  If they are performing this role, they should have a global definition in the most appropriate file so that the variable is included in the [packaging process](#creating-a-distributable).
 ### Production Centralization of Messages
 
 To facilitate translation, the existing [message.sh](src/message.sh) file should be expanded (along with its tests) rather than using hardcoded strings in the codebase.
@@ -114,7 +114,7 @@ The prefix `_testing` should be used.  For example:
 Similarly to the rest of the production code, private functions include a double underscore. For example:
 - `_testing.__protected`
 
-Please note however that for the purposes of exposing a user-friendly API, there are several exceptions to this convention which are detailed in subsequent sections below.
+Please note, however, that for the purposes of exposing a user-friendly API, there are several exceptions to this convention which are detailed in subsequent sections below.
 
 ##### General Testing Variable Names
 
@@ -148,7 +148,7 @@ When adding new strings that fit this "general purpose" criteria, this file shou
 
 #### Assertions
 
-The [assertion testing subfolder](src/testing/assertion) contains a family of functions specifically written to extend the [bash_unit](https://github.com/bash-unit/bash_unit)test framework.
+The [assertion testing subfolder](src/testing/assertion) contains a family of functions specifically written to extend the [bash_unit](https://github.com/bash-unit/bash_unit) test framework.
 
 Specifically, they build complex assertions by building upon the following functions found in bash_unit:
 - `fail`
@@ -195,7 +195,7 @@ The [mock testing subfolder](src/testing/mock) contains a family of functions sp
 The mocking function names follow the same rules as the [general testing folder conventions](#general-testing-function-names), but with a few exceptions.
 
 <!-- vale off -->
-A unique `_mock` prefix is given to handful of functions to create an easily consumable API for end users.  For example:
+A unique `_mock` prefix is given to a handful of functions to create an easily consumable API for end users.  For example:
 <!-- vale on -->
 - `_mock.create`
 - `_mock.sequence.assert_is_empty`
@@ -222,7 +222,7 @@ These functions are inspired by [pytest's 'parametrize' feature](https://docs.py
 The parametrizer function names follow the same rules as the [general test folder conventions](#general-testing-function-names), but with a few exceptions.
 
 <!-- vale off -->
-A unique `@parametrize` prefix is given to handful of functions to create an easily consumable API for end users.  For example:
+A unique `@parametrize` prefix is given to a handful of functions to create an easily consumable API for end users.  For example:
 <!-- vale on -->
 - `@parametrize`
 - `@parametrize.apply`
@@ -281,9 +281,9 @@ Please correctly identify private functions that contain a double underscore (`_
 
 Please use capitalized proper sentences followed by a <!-- vale off -->period<!-- vale on --> as the content of each field.
 
-Care should be taken to add comments that identify the following mandatory fields, in explicitly this order:
+Care should be taken to add comments that identify the following mandatory fields, in exactly this order:
 - `@description`
-  - Please detail [global variable](#documenting-global-variable-usage) in this section.
+  - Please detail [global variables](#documenting-global-variable-usage) in this section.
 - `@arg` / `@noargs` (one of these two fields must ALWAYS be present)
 - `@exitcode` (see [below](#documenting-exit-codes))
 - `@set` (if applicable)
@@ -300,7 +300,7 @@ Many of these functions consume global variables as "options" that modify their 
 
 Please detail these modifier global variables inside subsequent lines after the `@description` entry:
 - Use a 2 space indent and create an asterisk list entry. (This is 3 total spaces from the comment marker '#').
-- Include name of the global variable in uppercase letters followed by a colon, and a capitalized proper sentence that describes it.
+- Include the name of the global variable in uppercase letters followed by a colon, and a capitalized proper sentence that describes it.
 - At the end of the sentence include a bracketed descriptor that defines the default value of this global variable.
 
 The [stdlib.logger.error](src/logger/logger.sh) function's description shows this in practice:
@@ -348,7 +348,7 @@ An example function with a single string argument and a consumed global variable
 # @stderr The error message.
 ```
 
-An example function with two required and one optional arguments:
+An example function with two required and one optional argument:
 
 ```sh
 # @description Creates a cleanup function that removes files and directories.
@@ -409,7 +409,7 @@ stdlib.fn.derive.pipeable "stdlib.string.colour_n" "2"
 
 This section contains an example for the function [stdlib.string.colour_n](src/string/colour/colour.sh).
 
-**Please note the handing of the variable argument.**
+**Please note the handling of the variable argument.**
 
 All var functions comments should include the following:
 1. A description tag that conforms to:
@@ -612,7 +612,7 @@ These parametrizer functions then call tests with a `@vary` tag to mutate the co
 
 ```bash
 @parametrize_with_condition_name
-  test_target_function_name__@vary__expected_resul
+  test_target_function_name__@vary__expected_result
 ```
 
 At run time the @vary tag is replaced with the scenario name of each scenario in the parametrizer, and the variables in the parametrizer are set and passed to the test.
@@ -689,7 +689,7 @@ It's important to note that the target test should have *multiple* `@vary` tags.
 
 ```bash
 @parametrize.compose
-  test_function__@vary__@vary__@vary__combination_of_variables_side_effec
+  test_function__@vary__@vary__@vary__combination_of_variables_side_effect
   @parametrize_with_condition_set_1
   @parametrize_with_condition_set_2
   @parametrize_with_condition_set_3
