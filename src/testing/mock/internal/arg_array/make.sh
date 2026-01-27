@@ -4,6 +4,23 @@
 
 builtin set -eo pipefail
 
+_mock.__internal.arg_array.make.element.from_array() {
+  builtin local _mock_keyword_array_arg_indirect_reference
+  builtin local -a _mock_keyword_array_arg
+  builtin local _mock_keyword_array_arg_as_string
+
+  _mock_keyword_array_arg_indirect_reference="${_mock_keyword_arg}[@]"
+  _mock_keyword_array_arg=("${!_mock_keyword_array_arg_indirect_reference}")
+
+  if [[ "${#_mock_keyword_array_arg[@]}" -eq 0 ]]; then
+    _mock_keyword_array_arg_as_string=" "
+  else
+    _mock_keyword_array_arg_as_string="$(builtin printf "'%q' " "${_mock_keyword_array_arg[@]}")"
+  fi
+
+  builtin echo "${_mock_keyword_array_arg_as_string%?}"
+}
+
 _mock.__internal.arg_array.make.from_array() {
   # $1: the name of the array to create
   # $2: the array name to generate an arg string from
@@ -45,21 +62,4 @@ _mock.__internal.arg_array.make.from_array() {
   else
     builtin eval "${1}=($(builtin printf '%q ' "${_mock_arg_array[@]}"))"
   fi
-}
-
-_mock.__internal.arg_array.make.element.from_array() {
-  builtin local _mock_keyword_array_arg_indirect_reference
-  builtin local -a _mock_keyword_array_arg
-  builtin local _mock_keyword_array_arg_as_string
-
-  _mock_keyword_array_arg_indirect_reference="${_mock_keyword_arg}[@]"
-  _mock_keyword_array_arg=("${!_mock_keyword_array_arg_indirect_reference}")
-
-  if [[ "${#_mock_keyword_array_arg[@]}" -eq 0 ]]; then
-    _mock_keyword_array_arg_as_string=" "
-  else
-    _mock_keyword_array_arg_as_string="$(builtin printf "'%q' " "${_mock_keyword_array_arg[@]}")"
-  fi
-
-  builtin echo "${_mock_keyword_array_arg_as_string%?}"
 }
