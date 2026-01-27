@@ -20,7 +20,7 @@ class TestDocumentationCheck(unittest.TestCase):
     def test_valid_file(self):
         filepath = os.path.join(self.assets_dir, "valid.sh")
         functions, _ = documentation_check.parse_file(filepath)
-        self.assertEqual(len(functions), 1)
+        self.assertEqual(len(functions), 2)
 
         undocumented_rule = documentation_check.UndocumentedRule()
         validation_rules = [
@@ -64,6 +64,14 @@ class TestDocumentationCheck(unittest.TestCase):
         errors = rule.check(functions[0])
         self.assertIn(f"Missing @{Tags.DESCRIPTION.name}", errors[0])
 
+    def test_missing_description_mock_component(self):
+        filepath = os.path.join(self.assets_dir,
+                                "invalid_description_mock_component.sh")
+        functions, _ = documentation_check.parse_file(filepath)
+        rule = documentation_check.MandatoryTagRule()
+        errors = rule.check(functions[0])
+        self.assertIn(f"Missing @{Tags.DESCRIPTION.name}", errors[0])
+
     def test_invalid_description_global_variable_format(self):
         filepath = os.path.join(self.assets_dir, "invalid_description.sh")
         functions, _ = documentation_check.parse_file(filepath)
@@ -73,24 +81,24 @@ class TestDocumentationCheck(unittest.TestCase):
             errors.extend(rule.check(func))
         self.assertEqual(len(errors), 3)
         self.assertIn(
-            f"stdlib.invalid_description_no_global_variable_capital: Global variable description in "
+            f"stdlib.invalid_description_no_global_variable_capital: Global variable description in "  # noqa: E501
             f"@{Tags.DESCRIPTION.name} "
             f"should start with a capital letter. "
-            f"Found: '#   * _INVALID_GLOBAL_VARIABLE: this variable is not formatted correctly (default=1).'",
+            f"Found: '#   * _INVALID_GLOBAL_VARIABLE: this variable is not formatted correctly (default=1).'",  # noqa: E501
             errors[0],
         )
         self.assertIn(
-            f"stdlib.invalid_description_no_global_variable_period: Global variable description in "
+            f"stdlib.invalid_description_no_global_variable_period: Global variable description in "  # noqa: E501
             f"@{Tags.DESCRIPTION.name} "
             f"should end with a period. "
-            f"Found: '#   * _INVALID_GLOBAL_VARIABLE: This variable is not formatted correctly (default=1)'",
+            f"Found: '#   * _INVALID_GLOBAL_VARIABLE: This variable is not formatted correctly (default=1)'",  # noqa: E501
             errors[1],
         )
         self.assertIn(
-            f"stdlib.invalid_description_no_global_variable_default: Global variable description in "
+            f"stdlib.invalid_description_no_global_variable_default: Global variable description in "  # noqa: E501
             f"@{Tags.DESCRIPTION.name} "
             f"should detail a default value. "
-            f"Found: '#   * _INVALID_GLOBAL_VARIABLE: This variable is not formatted correctly.'",
+            f"Found: '#   * _INVALID_GLOBAL_VARIABLE: This variable is not formatted correctly.'",  # noqa: E501
             errors[2],
         )
 
@@ -103,15 +111,15 @@ class TestDocumentationCheck(unittest.TestCase):
             errors.extend(rule.check(func))
         self.assertEqual(len(errors), 2)
         self.assertIn(
-            f"stdlib.invalid_description_no_global_variable_list: Global variable in @{Tags.DESCRIPTION.name} "
+            f"stdlib.invalid_description_no_global_variable_list: Global variable in @{Tags.DESCRIPTION.name} "  # noqa: E501
             f"should be in 2 space indented asterisk list format. "
-            f"Found: '#     _INVALID_GLOBAL_VARIABLE: This variable is not formatted correctly.'",
+            f"Found: '#     _INVALID_GLOBAL_VARIABLE: This variable is not formatted correctly.'",  # noqa: E501
             errors[0],
         )
         self.assertIn(
-            f"stdlib.invalid_description_no_global_variable_colon: Global variable in @{Tags.DESCRIPTION.name} "
+            f"stdlib.invalid_description_no_global_variable_colon: Global variable in @{Tags.DESCRIPTION.name} "  # noqa: E501
             f"should be in uppercase characters followed by a colon. "
-            f"Found: '#   * _INVALID_GLOBAL_VARIABLE This variable is not formatted correctly.'",
+            f"Found: '#   * _INVALID_GLOBAL_VARIABLE This variable is not formatted correctly.'",  # noqa: E501
             errors[1],
         )
 
