@@ -16,17 +16,18 @@ builtin set -eo pipefail
 
 __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY=()
 
+# @description Parametrizes a test function with multiple scenarios.
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR: The field separator for scenarios (default=";").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX: The prefix for fixture commands (default="@fixture ").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG: The tag in the test function name to replace (default="@vary").
+# @arg $1 string The name of the test function to parametrize.
+# @arg $@ array Optional fixture commands (prefixed with '@fixture '), followed by a semicolon-separated list of variable names, and then one or more semicolon-separated scenarios (scenario name followed by values).
+# @exitcode 0 If the operation succeeded.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stdout The informational messages.
+# @stderr The error message if the operation fails.
 @parametrize() {
-  # $1: (required) the name of the test function to parametrize
-  # $@: (optional) test fixtures (or setup commands to execute) before test execution begins.
-  #     These commands can have access to the variables that have been parametrized for
-  #     more complex scenario generation.
-  #     i.e. "@fixture function_name" or "@fixture echo hello"
-  # $X: (required) a comma separate list of variable names
-  #     i.e. VAR1,VAR2,VAR3
-  # $@: (required) a comma separated list of a scenario name, and values comprising a test scenario
-  #     i.e. SCENARIO_NAME,VALUE1,VALUE2,VALUE3
-
   # shellcheck disable=SC2034
   {
     builtin local -a array_environment_variables

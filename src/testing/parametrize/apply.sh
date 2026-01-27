@@ -4,10 +4,14 @@
 
 builtin set -eo pipefail
 
+# @description Applies multiple parametrizer functions to a test function.
+# @arg $1 string The name of the test function to parametrize.
+# @arg $@ array A series of parametrizer functions to apply.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stderr The error message if the operation fails.
 @parametrize.apply() {
-  # $1: the name of the test function to parametrize
-  # $@: a series of parametrize functions to apply to this function
-
   builtin local original_test_function_name=""
   builtin local parametrized_test_function_name=""
   builtin local parametrizer_index=0

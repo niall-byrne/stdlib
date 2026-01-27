@@ -4,9 +4,11 @@
 
 builtin set -eo pipefail
 
+# @description Captures the return code of a command.
+# @arg $@ array The command to execute.
+# @exitcode 0 If the operation succeeded.
+# @set TEST_RC integer The return code from the command.
 _capture.rc() {
-  # $@: the commands to execute
-
   "$@"
 
   # shellcheck disable=SC2034

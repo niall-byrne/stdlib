@@ -4,9 +4,12 @@
 
 builtin set -eo pipefail
 
+# @description Logs an error message.
+#   * STDLIB_TESTING_THEME_ERROR: The colour to use for the message (default="LIGHT_RED").
+# @arg $@ array The error messages to log.
+# @exitcode 0 If the operation succeeded.
+# @stderr The error message if the operation fails.
 _testing.error() {
-  # $@: the error messages to display
-
   {
     (
       while [[ -n "${1}" ]]; do
