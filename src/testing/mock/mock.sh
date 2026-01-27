@@ -49,6 +49,10 @@ builtin set -eo pipefail
 #                                           - NOTE: calling any _mock.sequence assertion will also stop recording
 # _mock.sequence.record.resume              - resumes recording all mock calls without clearing the existing sequence
 
+_mock.clear_all() {
+  _mock.__internal.persistence.registry.apply_to_all "clear"
+}
+
 _mock.create() {
   # $1: the variable name to create
 
@@ -96,10 +100,6 @@ _mock.delete() {
   if _testing.__protected stdlib.fn.query.is_fn "${1}____copy_of_original_implementation"; then
     _testing.__protected stdlib.fn.derive.clone "${1}____copy_of_original_implementation" "${1}"
   fi
-}
-
-_mock.clear_all() {
-  _mock.__internal.persistence.registry.apply_to_all "clear"
 }
 
 _mock.register_cleanup() {
