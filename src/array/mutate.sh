@@ -37,37 +37,6 @@ stdlib.array.mutate.append() {
   fi
 }
 
-# @description Replaces each element of an array with the output of a function.
-# @arg $1 string The name of the function to apply to each element.
-# @arg $2 string The name of the array to modify.
-# @exitcode 0 If the operation succeeded.
-# @exitcode 126 If an invalid argument has been provided.
-# @exitcode 127 If the wrong number of arguments were provided.
-# @stderr The error message if the operation fails.
-stdlib.array.mutate.fn() {
-  builtin local -a indirect_array
-  builtin local indirect_array_index=0
-  builtin local indirect_reference
-
-  stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?"
-  stdlib.fn.assert.is_fn "${1}" || builtin return 126
-  stdlib.array.assert.is_array "${2}" || builtin return 126
-
-  indirect_reference="${2}[@]"
-  indirect_array=("${!indirect_reference}")
-
-  for ((indirect_array_index = 0; indirect_array_index < "${#indirect_array[@]}"; indirect_array_index++)); do
-    # shellcheck disable=SC2059
-    indirect_array[indirect_array_index]="$("${1}" "${indirect_array[indirect_array_index]}")"
-  done
-
-  if [[ "${#indirect_array[@]}" == 0 ]]; then
-    builtin eval "${2}=()"
-  else
-    builtin eval "${2}=($(builtin printf '%q ' "${indirect_array[@]}"))"
-  fi
-}
-
 # @description Filters an array in place using a filter function.
 # @arg $1 string The name of the filter function.
 # @arg $2 string The name of the array to modify.
@@ -98,6 +67,37 @@ stdlib.array.mutate.filter() {
     builtin eval "${2}=()"
   else
     builtin eval "${2}=($(builtin printf '%q ' "${new_array[@]}"))"
+  fi
+}
+
+# @description Replaces each element of an array with the output of a function.
+# @arg $1 string The name of the function to apply to each element.
+# @arg $2 string The name of the array to modify.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stderr The error message if the operation fails.
+stdlib.array.mutate.fn() {
+  builtin local -a indirect_array
+  builtin local indirect_array_index=0
+  builtin local indirect_reference
+
+  stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?"
+  stdlib.fn.assert.is_fn "${1}" || builtin return 126
+  stdlib.array.assert.is_array "${2}" || builtin return 126
+
+  indirect_reference="${2}[@]"
+  indirect_array=("${!indirect_reference}")
+
+  for ((indirect_array_index = 0; indirect_array_index < "${#indirect_array[@]}"; indirect_array_index++)); do
+    # shellcheck disable=SC2059
+    indirect_array[indirect_array_index]="$("${1}" "${indirect_array[indirect_array_index]}")"
+  done
+
+  if [[ "${#indirect_array[@]}" == 0 ]]; then
+    builtin eval "${2}=()"
+  else
+    builtin eval "${2}=($(builtin printf '%q ' "${indirect_array[@]}"))"
   fi
 }
 

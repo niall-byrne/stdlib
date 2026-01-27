@@ -6,6 +6,14 @@ builtin set -eo pipefail
 
 STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN=""
 
+# @description Disables terminal colours.
+# @noargs
+# @exitcode 0 If the operation succeeded.
+stdlib.setting.colour.disable() {
+  stdlib.setting.colour.state.disabled
+  stdlib.setting.theme.load
+}
+
 # @description Enables terminal colours.
 #   * STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN: Disables the error message on failure (default="0").
 # @noargs
@@ -44,12 +52,4 @@ stdlib.setting.colour.enable.__generate_error_message() {
   fi
 
   builtin echo -en "${error_message}" >&2
-}
-
-# @description Disables terminal colours.
-# @noargs
-# @exitcode 0 If the operation succeeded.
-stdlib.setting.colour.disable() {
-  stdlib.setting.colour.state.disabled
-  stdlib.setting.theme.load
 }
