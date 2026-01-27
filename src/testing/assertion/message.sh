@@ -4,12 +4,17 @@
 
 builtin set -eo pipefail
 
+# @description Retrieves an assertion message by its key and optionally interpolates values.
+# @arg $1 string The message key to retrieve.
+# @arg $2 string (optional) Interpolation option 1.
+# @arg $3 string (optional) Interpolation option 2.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stdout The retrieved and interpolated message.
+# @stderr The error message if the assertion fails.
+# @internal
 _testing.assert.__message.get() {
-  # $1: the message key to retrieve
-  # $2: interpolation option 1
-  # $3: interpolation option 2
-  # $4: interpolation option 3
-
   builtin local key="${1}"
   builtin local message
 

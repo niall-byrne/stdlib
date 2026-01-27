@@ -4,10 +4,14 @@
 
 builtin set -eo pipefail
 
+# @description Composes multiple parametrizer functions to create a product of scenarios.
+# @arg $1 string The name of the test function to parametrize.
+# @arg $@ array A series of parametrizer functions to compose.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stderr The error message if the operation fails.
 @parametrize.compose() {
-  # $1: the name of the test function to parametrize
-  # $@: a series of parametrize functions to compose with this function
-
   builtin local -a __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY
   builtin local original_test_function_name="${1}"
   builtin local parametrizer_fn

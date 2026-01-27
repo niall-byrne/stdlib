@@ -4,9 +4,11 @@
 
 builtin set -eo pipefail
 
+# @description Asserts that a value is not null.
+# @arg $1 string The value to check.
+# @exitcode 0 If the operation succeeded.
+# @stderr The error message if the assertion fails.
 assert_not_null() {
-  # $1: the value to check
-
   builtin local _stdlib_test_value="${1}"
 
   assert_not_equals "" \
@@ -14,9 +16,11 @@ assert_not_null() {
     " $(_testing.assert.__message.get ASSERT_ERROR_VALUE_NULL)"
 }
 
+# @description Asserts that a value is null.
+# @arg $1 string The value to check.
+# @exitcode 0 If the operation succeeded.
+# @stderr The error message if the assertion fails.
 assert_null() {
-  # $1: the value to check
-
   builtin local _stdlib_test_value="${1}"
 
   assert_equals "" \

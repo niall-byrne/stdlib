@@ -4,6 +4,11 @@
 
 builtin set -eo pipefail
 
+# @description Compiles the mock generator function.
+# @noargs
+# @exitcode 0 If the operation succeeded.
+# @stdout The generated mock function definition.
+# @internal
 _mock.__internal.compile() {
   builtin local mock_component
   builtin local -a mock_component_file_set

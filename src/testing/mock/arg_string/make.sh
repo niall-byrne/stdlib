@@ -4,10 +4,14 @@
 
 builtin set -eo pipefail
 
+# @description Generates a mock argument string from an array.
+# @arg $1 string The name of the array containing positional arguments.
+# @arg $2 string (optional) The name of the array containing keyword arguments.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stdout The generated mock argument string.
 _mock.arg_string.make.from_array() {
-  # $1: the array name to generate an arg string from
-  # $2: an optional array name to generate keyword args from
-
   builtin local _mock_arg_string=""
   builtin local _mock_arg_string_spacer=""
   builtin local _mock_array_index
@@ -32,11 +36,14 @@ _mock.arg_string.make.from_array() {
   builtin echo "${_mock_generated_mock_arg_array[*]}"
 }
 
+# @description Generates a mock argument string from a delimited string.
+#   * STDLIB_LINE_BREAK_DELIMITER: The delimiter used to split the string (default=" ").
+# @arg $1 string The delimited string of positional arguments.
+# @arg $2 string (optional) The name of the array containing keyword arguments.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stdout The generated mock argument string.
 _mock.arg_string.make.from_string() {
-  # $1: the string to generate an arg string from
-  # $2: an optional array name to generate keyword args from
-  # STDLIB_LINE_BREAK_DELIMITER: a char sequence to split the string with, defaults to ' '
-
   builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
   builtin local -a _mock_args_array
   builtin local -a _mock_arg_string_args

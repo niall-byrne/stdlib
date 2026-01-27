@@ -4,9 +4,14 @@
 
 builtin set -eo pipefail
 
+# @description Validates that a function name refers to a valid parametrizer function.
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX: The required prefix for parametrizer functions (default="@parametrize_with_").
+# @arg $1 string The parametrizer function name to validate.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 126 If an invalid argument has been provided.
+# @stderr The error message if validation fails.
+# @internal
 @parametrize.__internal.validate.fn_name.parametrizer() {
-  # $1: the parametrizer function name to validate
-
   if ! stdlib.fn.query.is_fn "${1}"; then
     _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_PARAMETRIZER_FN_INVALID "${1}")"
     _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_FN_DOES_NOT_EXIST)"
@@ -20,9 +25,14 @@ builtin set -eo pipefail
   fi
 }
 
+# @description Validates that a function name refers to a valid test function for parametrization.
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG: The required tag in the test function name (default="@vary").
+# @arg $1 string The test function name to validate.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 126 If an invalid argument has been provided.
+# @stderr The error message if validation fails.
+# @internal
 @parametrize.__internal.validate.fn_name.test() {
-  # $1: the test function name to validate
-
   if ! stdlib.fn.query.is_fn "${1}"; then
     _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_TEST_FN_INVALID "${1}")"
     _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_FN_DOES_NOT_EXIST)"
@@ -37,11 +47,16 @@ builtin set -eo pipefail
   fi
 }
 
+# @description Validates a single parametrize scenario.
+# @arg $1 string The name of the array containing environment variable names.
+# @arg $2 string The name of the array containing fixture commands.
+# @arg $3 string The name of the array containing the scenario configuration.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 126 If an invalid argument has been provided.
+# @stdout The informational messages.
+# @stderr The error message if validation fails.
+# @internal
 @parametrize.__internal.validate.scenario() {
-  # $1: the name of the array containing the environment variable names
-  # $2: the name of the array containing the fixture commands
-  # $3: the name of the array containing the scenario configuration
-
   builtin local validate_env_var_indirect_array_reference
   builtin local -a validate_env_var_indirect_array
   builtin local validate_fixture_indirect_command_array_reference

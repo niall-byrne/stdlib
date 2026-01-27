@@ -4,10 +4,12 @@
 
 builtin set -eo pipefail
 
+# @description Asserts that two arrays are equal.
+# @arg $1 string The first array to compare.
+# @arg $2 string The second array to compare.
+# @exitcode 0 If the operation succeeded.
+# @stderr The error message if the assertion fails.
 assert_array_equals() {
-  # $1: the first array to compare
-  # $2: the second array to compare
-
   builtin local _stdlib_assertion_output
   builtin local _stdlib_return_code=0
 
@@ -17,10 +19,12 @@ assert_array_equals() {
   [[ "${_stdlib_return_code}" == "0" ]] || fail " ${_stdlib_assertion_output}"
 }
 
+# @description Asserts that an array has the expected length.
+# @arg $1 integer The expected length.
+# @arg $2 string The name of the array variable.
+# @exitcode 0 If the operation succeeded.
+# @stderr The error message if the assertion fails.
 assert_array_length() {
-  # $1: the expected length
-  # $2: the variable name
-
   if [[ $# -ne 2 ]]; then
     fail " $(_testing.assert.__message.get ASSERT_ERROR_INSUFFICIENT_ARGS assert_array_length)"
   fi
@@ -41,9 +45,11 @@ assert_array_length() {
     fail " $(_testing.assert.__message.get ASSERT_ERROR_ARRAY_LENGTH_NON_MATCHING "${_stdlib_expected_length}" "${#_stdlib_indirect_array[*]}")"
 }
 
+# @description Asserts that a variable is an array.
+# @arg $1 string The name of the variable to check.
+# @exitcode 0 If the operation succeeded.
+# @stderr The error message if the assertion fails.
 assert_is_array() {
-  # $1: the variable to check
-
   builtin local _stdlib_assertion_output
   builtin local _stdlib_return_code=0
 

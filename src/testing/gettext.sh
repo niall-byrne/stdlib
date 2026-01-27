@@ -4,8 +4,11 @@
 
 builtin set -eo pipefail
 
+# @description Translates a message key.
+# @arg $1 string The message key to translate.
+# @exitcode 0 If the operation succeeded.
+# @stdout The translated message.
+# @internal
 _testing.__gettext() {
-  # $1: the message key to translate
-
   stdlib.__gettext.call "stdlib_testing" "${1}"
 }

@@ -4,9 +4,11 @@
 
 builtin set -eo pipefail
 
+# @description Asserts that a value is a function.
+# @arg $1 string The function name to check.
+# @exitcode 0 If the operation succeeded.
+# @stderr The error message if the assertion fails.
 assert_is_fn() {
-  # $1: the function name to check
-
   builtin local _stdlib_assertion_output
   builtin local _stdlib_return_code=0
 
@@ -16,9 +18,11 @@ assert_is_fn() {
   [[ "${_stdlib_return_code}" == "0" ]] || fail " ${_stdlib_assertion_output}"
 }
 
+# @description Asserts that a value is not a function.
+# @arg $1 string The function name to check.
+# @exitcode 0 If the operation succeeded.
+# @stderr The error message if the assertion fails.
 assert_not_fn() {
-  # $1: the function name to check
-
   builtin local _stdlib_assertion_output
   builtin local _stdlib_return_code=0
 
