@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# stdlib testing mock calls component
+# stdlib testing mock call component
 
 builtin set -eo pipefail
 
@@ -9,9 +9,13 @@ builtin export __STDLIB_TESTING_MOCK_COMPONENT
 # shellcheck disable=SC2034
 __STDLIB_TESTING_MOCK_COMPONENT="$(
   "${_STDLIB_BINARY_CAT}" << 'EOF'
-${1}.mock.__call() {
-  # $@: the arguments the mock was called with
 
+# @description Persists a mock call, storing it's arguments as an arg string in the correct persistence file.  If sequence tracking is enabled, the mock will also be added to the sequence persistence file.
+#   * __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN: This boolean determines whether sequence information will be persisted for this call (default="0").
+# @arg $@ string The arguments the mock was called with.
+# @exitcode 0 If the operation is successful.
+# @internal
+${1}.mock.__call() {
   builtin local -a _mock_object_args
   builtin local -a _mock_object_call_array
 
@@ -30,5 +34,6 @@ ${1}.mock.__call() {
     _mock.__internal.persistence.sequence.update
   fi
 }
+
 EOF
 )"

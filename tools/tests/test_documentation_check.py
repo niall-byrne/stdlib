@@ -19,7 +19,7 @@ class TestDocumentationCheck(unittest.TestCase):
     def test_valid_file(self):
         filepath = os.path.join(self.assets_dir, "valid.sh")
         functions, _ = documentation_check.parse_file(filepath)
-        self.assertEqual(len(functions), 1)
+        self.assertEqual(len(functions), 2)
 
         undocumented_rule = documentation_check.UndocumentedRule()
         validation_rules = [
@@ -58,6 +58,15 @@ class TestDocumentationCheck(unittest.TestCase):
 
     def test_missing_description(self):
         filepath = os.path.join(self.assets_dir, "missing_description.sh")
+        functions, _ = documentation_check.parse_file(filepath)
+        rule = documentation_check.MandatoryFieldsRule()
+        errors = rule.check(functions[0])
+        self.assertIn(f"Missing @{Tags.DESCRIPTION.name}", errors[0])
+
+    def test_missing_description_mock_component(self):
+        filepath = os.path.join(
+            self.assets_dir, "invalid_description_mock_component.sh"
+        )
         functions, _ = documentation_check.parse_file(filepath)
         rule = documentation_check.MandatoryFieldsRule()
         errors = rule.check(functions[0])

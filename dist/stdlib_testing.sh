@@ -414,6 +414,9 @@ _mock.__generate_mock ()
 
 
 # === component start ==========================
+
+# Global variables associated with this mock
+
 __${2}_mock_keywords=()
 __${2}_mock_pipeable=0
 __${2}_mock_rc=""
@@ -426,6 +429,16 @@ __${2}_mock_stdout=""
 
 
 # === component start ==========================
+
+# @description A placeholder function that takes the place of a specific function or binary during testing.
+#   * __${2}_mock_pipeable: This boolean determines if the mock should read from stdin (default="0").
+#   * __${2}_mock_rc: This is the exit code the mock is configured to return (default="0").
+# @arg $@ array These are the arguments that are passed to the original function or binary.
+# @exitcode 0 If the operation is successful.
+# @exitcode 1 If the mock is configured to it can emit 1 or any exit code (default="0").
+# @stdin The mock can be configured to receive arguments from stdin.
+# @stdout The mock can be configured to emit stdout.
+# @stderr The mock can be configured to emit stderr.
 ${1}() {
   builtin local _mock_object_pipe_input=""
   builtin local _mock_object_rc=0
@@ -451,12 +464,18 @@ ${1}() {
 }
 
 
+# @description Clears the mock's call history and configured side effects.
+# @noargs
+# @exitcode 0 If the operation is successful.
 ${1}.mock.clear() {
   builtin local -a _mock_object_side_effects
-  builtin echo -n "" > "\${__${2}_mock_calls_file}"
+  builtin echo -n "" > "\${__${2}_mock_calls_file}"  # noqa
   builtin declare -p _mock_object_side_effects > "\${__${2}_mock_side_effects_file}"
 }
 
+# @description Clears the mock's call history and configured side effects as well as it's configured exit code, stdout, stderr and subcommand properties.
+# @noargs
+# @exitcode 0 If the operation is successful.
 ${1}.mock.reset() {
   ${1}.mock.clear
   __${2}_mock_rc=""
@@ -470,9 +489,13 @@ ${1}.mock.reset() {
 
 
 # === component start ==========================
-${1}.mock.__call() {
-  # $@: the arguments the mock was called with
 
+# @description Persists a mock call, storing it's arguments as an arg string in the correct persistence file.  If sequence tracking is enabled, the mock will also be added to the sequence persistence file.
+#   * __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN: This boolean determines whether sequence information will be persisted for this call (default="0").
+# @arg $@ string The arguments the mock was called with.
+# @exitcode 0 If the operation is successful.
+# @internal
+${1}.mock.__call() {
   builtin local -a _mock_object_args
   builtin local -a _mock_object_call_array
 
@@ -494,6 +517,17 @@ ${1}.mock.__call() {
 
 
 # === component start ==========================
+
+# @description This function is the central controller of the mock's behaviour.  It dispatches according to the command string it receives.
+#   * __${2}_mock_side_effects_boolean: This boolean determines if side effects have been configured on this mock (default="0").
+#   * __${2}_mock_stderr: If this variable contains a value, it will be emitted to stderr (default="").
+#   * __${2}_mock_stdout: If this variable contains a value, it will be emitted to stdout (default="").
+# @arg $1 string The controller command to dispatch (pipeable|side_effects|stderr|stdout|subcommand|update_rc).
+# @arg $@ array Additional arguments to pass to the specified controller command.
+# @exitcode 0 If the operation is successful.
+# @stdout If the controller is instructed, it will emit the contents of the __${2}_mock_stdout variable to stdout.
+# @stderr If the controller is instructed, it will emit the contents of the __${2}_mock_stderr variable to stderr.
+# @internal
 ${1}.mock.__controller() {
   # $1: the mock component to execute
   # $@: additional arguments to pass
@@ -550,10 +584,13 @@ ${1}.mock.__controller() {
 
 
 # === component start ==========================
-${1}.mock.__get_apply_to_matching_mock_calls() {
-  # $1: the matching command to execute against mock_args
-  # $@: the command to apply to the result
 
+# @description This function will iterate through each call made with this mock, and evaluate a given conditional command.  If this command passes, then the subsequent given commands are then executed.
+# @arg $1 string An escaped bash command that can be safely evaluated as the function iterates through each mock call.
+# @arg $@ array Additional bash commands that will be evaluated and executed if the comparison succeeds.
+# @exitcode 0 If the operation is successful.
+# @internal
+${1}.mock.__get_apply_to_matching_mock_calls() {
   builtin local _mock_object_call_file_index=1
   builtin local _mock_object_call_file_line
 
@@ -567,6 +604,13 @@ ${1}.mock.__get_apply_to_matching_mock_calls() {
   done < "\${__${2}_mock_calls_file}"
 }
 
+# @description This function will retrieve the call at the specified index from the mock's call history.
+# @arg $1 integer An index (from 1) in the mock's call history to retrieve.
+# @exitcode 0 If the operation is successful.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stdout The specified mock call as an arg string.
+# @stderr The error message if the operation fails.
 ${1}.mock.get.call() {
   # $1: the call to retrieve
 
@@ -583,6 +627,12 @@ ${1}.mock.get.call() {
   ${1}.mock.__get_apply_to_matching_mock_calls     "[[ "\\\${_mock_object_call_file_index}" == "\${_mock_object_escaped_args}" ]]"     builtin printf '%s\\\\n' '"\${_mock_object_call_array[*]}"'
 }
 
+# @description This function will retrieve all calls from the mock's call history.
+# @noargs
+# @exitcode 0 If the operation is successful.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stdout All calls made by this mock as new line separated arg strings.
+# @stderr The error message if the operation fails.
 ${1}.mock.get.calls() {
   builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
   builtin local _mock_object_escaped_args
@@ -593,6 +643,12 @@ ${1}.mock.get.calls() {
   ${1}.mock.__get_apply_to_matching_mock_calls     "true"     builtin printf '%s\\\\n' '"\${_mock_object_call_array[*]}"'
 }
 
+# @description This function will retrieve a count of the number of times this mock has been called.
+# @noargs
+# @exitcode 0 If the operation is successful.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stdout A count of the the number of times this mock has been called.
+# @stderr The error message if the operation fails.
 ${1}.mock.get.count() {
   builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
 
@@ -601,6 +657,12 @@ ${1}.mock.get.count() {
   < "\${__${2}_mock_calls_file}" wc -l
 }
 
+# @description This function will retrieve the keywords assigned to this mock.  (These keywords are variables who's value is recorded during each mock call).
+# @noargs
+# @exitcode 0 If the operation is successful.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stdout The keywords currently assigned to this mock.
+# @stderr The error message if the operation fails.
 ${1}.mock.get.keywords() {
   builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
 
@@ -614,9 +676,14 @@ ${1}.mock.get.keywords() {
 
 
 # === component start ==========================
-${1}.mock.set.keywords() {
-  # $@: the keyword names to assign to the mock
 
+# @description This function will set the keywords assigned to this mock.  (These keywords are variables who's value is recorded during each mock call).
+# @arg $@ array These are the keywords, or variables, that the mock will record each time it's called. (Call this function without any arguments to disable this feature).
+# @exitcode 0 If the operation is successful.
+# @exitcode 126 If an invalid argument has been provided.
+# @set __${2}_mock_keywords array These are the keywords, or variables, that the mock will record each time it's called.
+# @stderr The error message if the operation fails.
+${1}.mock.set.keywords() {
   builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
   builtin local -a _mock_object_keywords
 
@@ -628,10 +695,14 @@ ${1}.mock.set.keywords() {
   builtin eval "__${2}_mock_keywords=(\$(builtin printf '%q ' "\${@}"))"
 }
 
-
+# @description This function will toggle the 'pipeable' behaviour of the mock.  Turning this on allows the mock to receive stdin.
+# @arg $1 boolean This enables or disables the 'pipeable' behaviour of the mock, (default="0").
+# @exitcode 0 If the operation is successful.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @set __${2}_mock_pipeable boolean This enables or disables the 'pipeable' behaviour of the mock.
+# @stderr The error message if the operation fails.
 ${1}.mock.set.pipeable() {
-  # $1: the boolean to enable or disable the pipeable attribute
-
   builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
 
   _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
@@ -640,8 +711,14 @@ ${1}.mock.set.pipeable() {
   builtin printf -v "__${2}_mock_pipeable" "%s" "\${1}"
 }
 
+# @description This function will set the return code (exit code) of the mock.  This behaviour can be overridden by configuring side effects or a subcommand.
+# @arg $1 integer This is the return code (or exit code) you wish the mock to emit.  (Please note that any non-zero number emitted by the side effects or subcommand configured on this mock will be override this value and be returned instead).
+# @exitcode 0 If the operation is successful.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @set __${2}_mock_rc integer This is the exit code the mock is configured to return.
+# @stderr The error message if the operation fails.
 ${1}.mock.set.rc() {
-  # $1: the return code to make the mock return
   builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
 
   _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
@@ -650,9 +727,13 @@ ${1}.mock.set.rc() {
   builtin printf -v "__${2}_mock_rc" "%s" "\${1}"
 }
 
+# @description This function will set the side effects of the mock.  These are a series of one or more commands the mock will execute each time it's called.
+# @arg $@ array This is a series commands the mock will execute each time it's called. (Call this function without any arguments to disable this feature).
+# @exitcode 0 If the operation is successful.
+# @exitcode 126 If an invalid argument has been provided.
+# @set __${2}_mock_side_effects_boolean boolean This is a boolean indicating the mock has been configured with at least one side effect.
+# @stderr The error message if the operation fails.
 ${1}.mock.set.side_effects() {
-  # $1: the array to set as a queue of side effect functions
-
   builtin local -a _mock_object_side_effects
 
   _mock_object_side_effects=("\${@}")
@@ -662,9 +743,14 @@ ${1}.mock.set.side_effects() {
   builtin printf -v "__${2}_mock_side_effects_boolean" "%s" "1"
 }
 
+# @description This function will set the stderr this mock will emit when called.
+# @arg $1 string This is the string that will be emitted to stderr when the mock is called.
+# @exitcode 0 If the operation is successful.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @set __${2}_mock_stderr string This is the string that will be emitted to stderr when the mock is called.
+# @stderr The error message if the operation fails.
 ${1}.mock.set.stderr() {
-  # $1: the value to make the mock emit to stderr
-
   builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
   builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
 
@@ -675,9 +761,14 @@ ${1}.mock.set.stderr() {
   builtin printf -v "__${2}_mock_stderr" "%s" "\${1}"
 }
 
+# @description This function will set the stdout this mock will emit when called.
+# @arg $1 string This is the string that will be emitted to stdout when the mock is called.
+# @exitcode 0 If the operation is successful.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @set __${2}_mock_stdout string This is the string that will be emitted to stdout when the mock is called.
+# @stdout The error message if the operation fails.
 ${1}.mock.set.stdout() {
-  # $1: the value to make the mock emit to stdout
-
   builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
   builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
 
@@ -688,6 +779,9 @@ ${1}.mock.set.stdout() {
   builtin printf -v "__${2}_mock_stdout" "%s" "\${1}"
 }
 
+# @description This function will set the subcommand this mock will call when the mock is called.  All arguments passed to the mock are also passed to the subcommand.
+# @arg $@ array This is a series commands the mock will execute each time it's called.  This is distinct from side effects in that the subcommand will receive all arguments sent to the mock itself.
+# @exitcode 0 If the operation is successful.
 ${1}.mock.set.subcommand() {
   # $@: the subcommand to execute on each mock call
 
@@ -702,9 +796,12 @@ ${1}.mock.set.subcommand() {
 
 # === component start ==========================
 
+# @description Counts the number of times a mock has been called with a given arg string.
+# @arg $1 string The arg string to compare against the mock's call history.
+# @exitcode 0 If the operation is successful.
+# @stdout The count of matches identified.
+# @internal
 ${1}.mock.__count_matches() {
-  # $1: a set of call args as a string
-
   builtin local _mock_object_arg_string_actual
   builtin local _mock_object_arg_string_expected
   builtin local _mock_object_call_definition
@@ -723,9 +820,14 @@ ${1}.mock.__count_matches() {
   builtin echo "\${_mock_object_match_count}"
 }
 
+# @description Asserts any call in the mock's call history matches the given arg string.
+# @arg $1 string The arg string to compare against the mock's call history.
+# @exitcode 0 If the operation is successful.
+# @exitcode 1 If the assertion failed.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stderr The error message if the assertion fails.
 ${1}.mock.assert_any_call_is() {
-  # $1: a set of call args as a string
-
   builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
   builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
   builtin local _mock_object_match_count
@@ -740,6 +842,14 @@ ${1}.mock.assert_any_call_is() {
   assert_not_equals     "0"     "\${_mock_object_match_count}"     "\$(_testing.mock.__message.get "MOCK_NOT_CALLED_WITH" "${1}" "\${1}")"
 }
 
+# @description Asserts a call at a specific index in the mock's call history matches the given arg string.
+# @arg $1 integer An index (from 1) in the mock's call history to compare against.
+# @arg $2 string The arg string to compare against the mock's call history.
+# @exitcode 0 If the operation is successful.
+# @exitcode 1 If the assertion failed.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stderr The error message if the assertion fails.
 ${1}.mock.assert_call_n_is() {
   # $1: the call count to assert
   # $2: a set of call args as a string
@@ -767,9 +877,15 @@ ${1}.mock.assert_call_n_is() {
   assert_equals     "\${2}"     "\${_mock_object_arg_string_actual}"     "\$(_testing.mock.__message.get MOCK_CALL_N_NOT_AS_EXPECTED "${1}" "\${1}")"
 }
 
+# @description Asserts the mock was called once with a call matching the given arg string.
+# @arg $1 string The arg string to compare against the mock's call history.
+# @exitcode 0 If the operation is successful.
+# @exitcode 1 If the assertion failed.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stdout The actual first arg string this mock was called with, if the assertion fails.
+# @stderr The error message if the assertion fails.
 ${1}.mock.assert_called_once_with() {
-  # $1: a set of call args as a string
-
   builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
   builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
   builtin local _mock_object_arg_string_actual
@@ -792,9 +908,12 @@ ${1}.mock.assert_called_once_with() {
   assert_equals     "1"     "\${_mock_object_match_count}"     "\$(_testing.mock.__message.get MOCK_NOT_CALLED_ONCE_WITH "${1}" "\${1}")"
 }
 
+# @description Asserts the mock's call history matches the given arg strings.  (Call this function without args to assert this mock was not called at all).
+# @arg $@ array An array of arg strings that is expected to match the mock's call history.
+# @exitcode 0 If the operation is successful.
+# @exitcode 1 If the assertion failed.
+# @stderr The error message if the assertion fails.
 ${1}.mock.assert_calls_are() {
-  # $@: a set of call args as strings that should match
-
   builtin local _mock_object_arg_string_actual
   builtin local _mock_object_arg_string_expected
   builtin local _mock_object_call_definition=""
@@ -822,6 +941,13 @@ ${1}.mock.assert_calls_are() {
   fi
 }
 
+# @description Asserts the mock was called the number of times specified by the given count.
+# @arg $1 integer A positive integer representing the expected number of times this mock was called.
+# @exitcode 0 If the operation is successful.
+# @exitcode 1 If the assertion failed.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stderr The error message if the assertion fails.
 ${1}.mock.assert_count_is() {
   # $1: the call count to assert
 
@@ -836,6 +962,12 @@ ${1}.mock.assert_count_is() {
   assert_equals     "\${1}"     "\${_mock_object_call_count}"     "\$(_testing.mock.__message.get "MOCK_CALLED_N_TIMES" "${1}" "\${_mock_object_call_count}")"
 }
 
+# @description Asserts the mock was not called.
+# @noargs
+# @exitcode 0 If the operation is successful.
+# @exitcode 1 If the assertion failed.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stderr The error message if the assertion fails.
 ${1}.mock.assert_not_called() {
   builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
   builtin local _mock_object_call_count
