@@ -145,7 +145,7 @@ repos:
         require_serial: true
       - id: documentation-build
         name: build documentation using shdoc
-        entry: bash -c "TEST_CONTAINER_DISABLE_TTY=1 ./container.sh run build/docs.sh REFERENCE.md"
+        entry: bash -c "TEST_CONTAINER_DISABLE_TTY=1 ./container.sh run build/docs.sh"
         language: system
         files: "^src/.+\\.sh$"
         exclude: "^((.+/)*tests/.+\\.sh)$"
@@ -155,8 +155,8 @@ repos:
         name: ensure source functions are correctly documented
         entry: python tools/documentation_check.py
         language: system
-        files: "^src/.+\\.sh$"
-        exclude: "^((.+/)*tests/.+\\.sh|src/testing/.+\\.sh)$"
+        files: "^src/.+\\.sh"
+        exclude: "^((.+/)*tests/.+\\.sh|src/testing/(?!mock/components).+\\.sh)$"
         pass_filenames: true
         require_serial: true
       - id: snippet-files-headers

@@ -9,6 +9,17 @@ builtin export __STDLIB_TESTING_MOCK_COMPONENT
 # shellcheck disable=SC2034
 __STDLIB_TESTING_MOCK_COMPONENT="$(
   "${_STDLIB_BINARY_CAT}" << 'EOF'
+
+# @description This function is the central controller of the mock's behaviour.  It dispatches according to the command string it receives.
+#   * __${2}_mock_side_effects_boolean: This boolean determines if side effects have been configured on this mock (default="0").
+#   * __${2}_mock_stderr: If this variable contains a value, it will be emitted to stderr (default="").
+#   * __${2}_mock_stdout: If this variable contains a value, it will be emitted to stdout (default="").
+# @arg $1 string The controller command to dispatch (pipeable|side_effects|stderr|stdout|subcommand|update_rc).
+# @arg $@ array Additional arguments to pass to the specified controller command.
+# @exitcode 0 If the controller command is successful.
+# @stdout If the controller is instructed, it will emit the contents of the __${2}_mock_stdout variable to stdout.
+# @stderr If the controller is instructed, it will emit the contents of the __${2}_mock_stderr variable to stderr.
+# @internal
 ${1}.mock.__controller() {
   # $1: the mock component to execute
   # $@: additional arguments to pass
@@ -59,5 +70,6 @@ ${1}.mock.__controller() {
       ;;
   esac
 }
+
 EOF
 )"
