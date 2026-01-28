@@ -2,6 +2,8 @@
 
 <!-- markdownlint-disable MD024 -->
 
+* [Complete Function Reference](src/testing/REFERENCE_COMPLETE.md)
+---
 * [Assertion Function Reference](src/testing/assertion/REFERENCE.md)
 * [Capture Function Reference](src/testing/capture/REFERENCE.md)
 * [Fixture Function Reference](src/testing/fixtures/REFERENCE.md)
