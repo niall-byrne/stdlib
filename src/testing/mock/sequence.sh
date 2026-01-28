@@ -9,8 +9,8 @@ __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN="0"
 
 # @description Asserts that the sequence of mock calls matches the expected values.
 # @arg $@ array The expected sequence of mock calls.
-# @exitcode 0 If the assertion succeeded.
-# @exitcode 1 If the assertion failed.
+# @exitcode 0 If the sequence matches.
+# @exitcode 1 If the sequence does not match.
 # @stderr The error message if the assertion fails.
 _mock.sequence.assert_is() {
   builtin local -a mock_sequence
@@ -30,8 +30,8 @@ _mock.sequence.assert_is() {
 
 # @description Asserts that no mock calls have been recorded.
 # @noargs
-# @exitcode 0 If the assertion succeeded.
-# @exitcode 1 If the assertion failed.
+# @exitcode 0 If the sequence is empty.
+# @exitcode 1 If the sequence is not empty.
 # @stderr The error message if the assertion fails.
 _mock.sequence.assert_is_empty() {
   builtin local -a mock_sequence
@@ -49,21 +49,21 @@ _mock.sequence.assert_is_empty() {
 
 # @description Clears the recorded sequence of mock calls.
 # @noargs
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the sequence was cleared.
 _mock.sequence.clear() {
   _mock.__internal.persistence.sequence.clear
 }
 
 # @description Resumes recording of mock calls in the sequence.
 # @noargs
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the recording was resumed.
 _mock.sequence.record.resume() {
   __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN="1"
 }
 
 # @description Starts recording a new sequence of mock calls.
 # @noargs
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the recording was started.
 _mock.sequence.record.start() {
   _mock.__internal.persistence.sequence.clear
   __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN="1"
@@ -71,7 +71,7 @@ _mock.sequence.record.start() {
 
 # @description Stops recording of mock calls in the sequence.
 # @noargs
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the recording was stopped.
 _mock.sequence.record.stop() {
   __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN="0"
 }

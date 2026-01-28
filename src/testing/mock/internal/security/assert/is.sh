@@ -6,7 +6,7 @@ builtin set -eo pipefail
 
 # @description Asserts that a function name refers to a shell builtin.
 # @arg $1 string The function name to query.
-# @exitcode 0 If the assertion succeeded.
+# @exitcode 0 If the operation succeeded.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stderr The error message if the assertion fails.

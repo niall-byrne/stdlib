@@ -6,7 +6,7 @@ builtin set -eo pipefail
 
 # @description Compiles the mock generator function.
 # @noargs
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the mock generator function was compiled successfully.
 # @stdout The generated mock function definition.
 # @internal
 _mock.__internal.compile() {

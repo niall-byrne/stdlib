@@ -51,14 +51,14 @@ builtin set -eo pipefail
 
 # @description Clears all calls from all registered mocks.
 # @noargs
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If all registered mocks were cleared.
 _mock.clear_all() {
   _mock.__internal.persistence.registry.apply_to_all "clear"
 }
 
 # @description Creates a new mock object.
 # @arg $1 string The name of the function or binary to mock.
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the mock object was created successfully.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stderr The error message if the operation fails.
@@ -92,7 +92,7 @@ _mock.create() {
 
 # @description Deletes a mock object and restores its original implementation.
 # @arg $1 string The name of the mock to delete.
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the mock object was deleted.
 # @exitcode 127 If the wrong number of arguments were provided.
 _mock.delete() {
   _testing.__protected stdlib.fn.assert.is_fn "${1}" || builtin return 127
@@ -113,7 +113,7 @@ _mock.delete() {
 
 # @description Registers the mock cleanup function with the exit trap.
 # @noargs
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the cleanup function was registered successfully.
 _mock.register_cleanup() {
   if builtin declare -F stdlib.trap.handler.exit.fn.register > /dev/null; then
     stdlib.trap.handler.exit.fn.register _mock.__internal.persistence.registry.cleanup
@@ -122,7 +122,7 @@ _mock.register_cleanup() {
 
 # @description Resets all registered mocks to their default state.
 # @noargs
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If all registered mocks were reset.
 _mock.reset_all() {
   _mock.__internal.persistence.registry.apply_to_all "reset"
 }

@@ -11,7 +11,7 @@ builtin set -eo pipefail
 # @arg $3 string The name of the array to store environment variables.
 # @arg $4 string The name of the array to store fixture commands.
 # @arg $5 string The name of the variable to store the variant padding value.
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the configuration was parsed.
 # @internal
 @parametrize.__internal.configuration.parse() {
   builtin local parse_configuration_array_indirect_reference
@@ -45,7 +45,7 @@ builtin set -eo pipefail
 #   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX: The prefix for fixture commands (default="@fixture ").
 #   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR: The field separator for scenarios (default=";").
 # @arg $@ array The parametrize configuration to parse.
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the configuration header was parsed.
 # @internal
 @parametrize.__internal.configuration.parse_header() {
   # consumes and modifies the local variables from @parametrize.__internal.configuration.parse
@@ -70,7 +70,7 @@ builtin set -eo pipefail
 # @description Parses the scenario portion of the parametrize configuration.
 #   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR: The field separator for scenarios (default=";").
 # @arg $@ array The parametrize configuration to parse.
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the configuration scenarios were parsed.
 # @internal
 @parametrize.__internal.configuration.parse_scenarios() {
   # consumes and modifies the local variables from @parametrize.__internal.configuration.parse

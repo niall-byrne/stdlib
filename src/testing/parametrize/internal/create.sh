@@ -9,7 +9,7 @@ builtin set -eo pipefail
 # @arg $1 string The name of the variable to store the calculated variant tag padding in.
 # @arg $2 string The name of the array to store the variant tags in.
 # @arg $@ array An array of parametrizer function names.
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the variant tags were generated.
 # @exitcode 126 If an invalid argument has been provided.
 # @internal
 @parametrize.__internal.create.array.fn_variant_tags() {
@@ -48,7 +48,7 @@ builtin set -eo pipefail
 # @arg $4 string The name of the array containing environment variable names.
 # @arg $5 string The name of the array containing fixture commands.
 # @arg $6 string The name of the array containing scenario values.
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the test function variant was created.
 # @stdout The informational messages.
 # @internal
 @parametrize.__internal.create.fn.test_variant() {
@@ -115,7 +115,7 @@ builtin set -eo pipefail
 # @arg $1 string The function name to parametrize.
 # @arg $2 string The function variant's description.
 # @arg $3 integer The length of the longest variant description for padding.
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the padded test function variant name was generated.
 # @stdout The padded test function variant name.
 # @internal
 @parametrize.__internal.create.string.padded_test_fn_variant_name() {

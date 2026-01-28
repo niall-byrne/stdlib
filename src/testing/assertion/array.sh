@@ -7,8 +7,8 @@ builtin set -eo pipefail
 # @description Asserts that two arrays are equal.
 # @arg $1 string The first array to compare.
 # @arg $2 string The second array to compare.
-# @exitcode 0 If the assertion succeeded.
-# @exitcode 1 If the assertion failed.
+# @exitcode 0 If the arrays match.
+# @exitcode 1 If the arrays do not match.
 # @stderr The error message if the assertion fails.
 assert_array_equals() {
   builtin local _stdlib_assertion_output
@@ -23,8 +23,8 @@ assert_array_equals() {
 # @description Asserts that an array has the expected length.
 # @arg $1 integer The expected length.
 # @arg $2 string The name of the array variable.
-# @exitcode 0 If the assertion succeeded.
-# @exitcode 1 If the assertion failed.
+# @exitcode 0 If the array length matches the expected length.
+# @exitcode 1 If the array length does not match the expected length.
 # @stderr The error message if the assertion fails.
 assert_array_length() {
   if [[ $# -ne 2 ]]; then
@@ -49,8 +49,8 @@ assert_array_length() {
 
 # @description Asserts that a variable is an array.
 # @arg $1 string The name of the variable to check.
-# @exitcode 0 If the assertion succeeded.
-# @exitcode 1 If the assertion failed.
+# @exitcode 0 If the variable is an array.
+# @exitcode 1 If the variable is not an array.
 # @stderr The error message if the assertion fails.
 assert_is_array() {
   builtin local _stdlib_assertion_output

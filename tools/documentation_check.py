@@ -373,34 +373,6 @@ class ExitCodeDescriptionRule(Rule):
         return errors
 
 
-class ExitCodeLanguageRule(Rule):
-    def check(self, func: BashFunction) -> List[str]:
-        errors = []
-        is_assertion = "assert" in func.name
-
-        expected_0 = (
-            "If the assertion succeeded."
-            if is_assertion
-            else "If the operation succeeded."
-        )
-        expected_1 = (
-            "If the assertion failed." if is_assertion else "If the operation failed."
-        )
-
-        for doc_tag in func.find_tags(Tags.EXITCODE):
-            if re.match(r"^0(\s+|$)", doc_tag.content):
-                if expected_0 not in doc_tag.content:
-                    errors.append(
-                        f"{func.name}: @{Tags.EXITCODE.name} 0 for {'assertion' if is_assertion else 'operation'} should use '{expected_0}'. Found: '{doc_tag.line.strip()}'"
-                    )
-            elif re.match(r"^1(\s+|$)", doc_tag.content):
-                if expected_1 not in doc_tag.content:
-                    errors.append(
-                        f"{func.name}: @{Tags.EXITCODE.name} 1 for {'assertion' if is_assertion else 'operation'} should use '{expected_1}'. Found: '{doc_tag.line.strip()}'"
-                    )
-        return errors
-
-
 class FieldOrderRule(Rule):
     def check(self, func: BashFunction) -> List[str]:
         tag_names = [tag_def.name for tag_def in Tags.get_sequence()]
@@ -682,7 +654,6 @@ def main():
         DeriveStubDescriptionRule(),
         DeriveStubRequiredTagsRule(),
         ExitCodeDescriptionRule(),
-        ExitCodeLanguageRule(),
         FieldOrderRule(),
         GlobalVariableModifierFormatRule(),
         GlobalVariableModifierIndentRule(),
