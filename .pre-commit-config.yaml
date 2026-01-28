@@ -147,7 +147,7 @@ repos:
         name: build documentation using shdoc
         entry: bash -c "TEST_CONTAINER_DISABLE_TTY=1 ./container.sh run build/docs.sh"
         language: system
-        files: "^src/.+\\.sh$"
+        files: "^(src/.+\\.(sh|snippet)|dist/docs.sh)$"
         exclude: "^((.+/)*tests/.+\\.sh)$"
         pass_filenames: false
         require_serial: true
@@ -155,7 +155,7 @@ repos:
         name: ensure source functions are correctly documented
         entry: python tools/documentation_check.py
         language: system
-        files: "^src/.+\\.sh"
+        files: "^(src/.+\\.(sh|snippet)|dist/docs.sh)$"
         exclude: "^((.+/)*tests/.+\\.sh)$"
         pass_filenames: true
         require_serial: true
@@ -169,19 +169,19 @@ repos:
         name: ensure source files don't directly reference restricted binary commands
         entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$).*((?<=\\s|\\()|(?<=^))(cat|cut|grep|head|mktemp|rm|sed|sort|tail|tput|tr)((\\s|\\)).*$|$)"
         language: pygrep
-        files: "^src/.+\\.(sh|snippet)$"
+        files: "^(src/.+\\.(sh|snippet)|dist/docs.sh)$"
         exclude: "^((.+/)*tests/.+\\.sh)$"
       - id: source-files-function-names
         name: ensure source files use the correct function names
         entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$)(?!\\s*(\\$\\{1\\}|\\$\\{[a-z_]+\\}))(?!\\s*(stdlib)(?!.*\\._[^_].+)\\.[a-z_\\.]+).*\\(\\) {$"
         language: pygrep
-        files: "^src/.+\\.sh$"
+        files: "^(src/.+\\.(sh|snippet)|dist/docs.sh)$"
         exclude: "^((.+/)*tests/.+\\.sh|src/testing/.+\\.sh)$"
       - id: source-files-function-order
         name: ensure source files have functions in alphabetical order
         entry: python tools/function_order_check.py
         language: system
-        files: "^src/.+\\.(sh|snippet)$"
+        files: "^(src/.+\\.(sh|snippet)|dist/docs.sh)$"
         exclude: "^((.+/)*tests/.+\\.sh)$"
         pass_filenames: true
         require_serial: true
@@ -189,19 +189,19 @@ repos:
         name: ensure source files use the correct global variable name format
         entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$)\\s*(?!IFS|LC_ALL|(__)*STDLIB_|TEST_OUTPUT|TEST_RC|TEXTDOMAIN|TEXTDOMAINDIR)([A-Z_]+)=.+$"
         language: pygrep
-        files: "^src/.+\\.sh$"
+        files: "^(src/.+\\.(sh|snippet)|dist/docs.sh)$"
         exclude: "^((.+/)*tests/.+\\.sh)$"
       - id: source-files-global-variable-names
         name: ensure source files with global variable names for arrays end in _ARRAY
         entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$)\\s*([A-Z_]+)(?<!_ARRAY)=\\(.+$"
         language: pygrep
-        files: "^src/.+\\.sh$"
+        files: "^(src/.+\\.(sh|snippet)|dist/docs.sh)$"
         exclude: "^((.+/)*tests/.+\\.sh)$"
       - id: source-files-global-variable-names
         name: ensure source files with global variable names for booleans end in _BOOLEAN
         entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$)\\s*([A-Z_]+)(?<!_BOOLEAN)=(\"[01]\"|[01])$"
         language: pygrep
-        files: "^src/.+\\.sh$"
+        files: "^(src/.+\\.(sh|snippet)|dist/docs.sh)$"
         exclude: "^((.+/)*tests/.+\\.sh)$"
       - id: source-files-headers
         name: ensure source files have correct headers
