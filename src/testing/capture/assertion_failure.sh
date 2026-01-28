@@ -9,7 +9,8 @@ STDLIB_TESTING_TRACEBACK_REGEX="${STDLIB_TESTING_TRACEBACK_REGEX:-$'^([^:]+:[0-9
 # @description Captures the output of a command that is expected to fail.
 #   * STDLIB_TESTING_TRACEBACK_REGEX: A regex used to identify and remove traceback lines (default="$'^([^:]+:[0-9]+|environment:[0-9]+):.+$'").
 # @arg $@ array The command to execute.
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the assertion succeeded.
+# @exitcode 1 If the assertion failed.
 # @set TEST_OUTPUT string The captured output from the failing command.
 # @stdout The filtered output of the failing command.
 # @stderr The error message if the assertion fails.

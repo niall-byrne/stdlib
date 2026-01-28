@@ -9,7 +9,8 @@ __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN="0"
 
 # @description Asserts that the sequence of mock calls matches the expected values.
 # @arg $@ array The expected sequence of mock calls.
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the assertion succeeded.
+# @exitcode 1 If the assertion failed.
 # @stderr The error message if the assertion fails.
 _mock.sequence.assert_is() {
   builtin local -a mock_sequence
@@ -29,7 +30,8 @@ _mock.sequence.assert_is() {
 
 # @description Asserts that no mock calls have been recorded.
 # @noargs
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the assertion succeeded.
+# @exitcode 1 If the assertion failed.
 # @stderr The error message if the assertion fails.
 _mock.sequence.assert_is_empty() {
   builtin local -a mock_sequence

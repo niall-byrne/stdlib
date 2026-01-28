@@ -6,7 +6,8 @@ builtin set -eo pipefail
 
 # @description Asserts that the captured output matches the expected value.
 # @arg $1 string The expected output.
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the assertion succeeded.
+# @exitcode 1 If the assertion failed.
 # @stderr The error message if the assertion fails.
 assert_output() {
   if [[ -z "${TEST_OUTPUT}" ]]; then
@@ -20,7 +21,8 @@ assert_output() {
 
 # @description Asserts that the captured output is null.
 # @noargs
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the assertion succeeded.
+# @exitcode 1 If the assertion failed.
 # @stderr The error message if the assertion fails.
 assert_output_null() {
   assert_equals "" \
@@ -30,7 +32,8 @@ assert_output_null() {
 
 # @description Asserts that the captured output matches the expected value (raw).
 # @arg $1 string The expected output.
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the assertion succeeded.
+# @exitcode 1 If the assertion failed.
 # @stderr The error message if the assertion fails.
 assert_output_raw() {
   if [[ -z "${TEST_OUTPUT}" ]]; then

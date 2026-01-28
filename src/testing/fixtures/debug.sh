@@ -9,6 +9,7 @@ builtin set -eo pipefail
 # @arg $1 string The expected value.
 # @arg $2 string The actual value.
 # @exitcode 0 If the operation succeeded.
+# @exitcode 1 If the operation failed.
 # @stdout The debug diff output.
 _testing.fixtures.debug.diff() {
   builtin local debug_colour

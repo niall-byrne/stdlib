@@ -6,7 +6,8 @@ builtin set -eo pipefail
 
 # @description Asserts that the captured return code matches the expected value.
 # @arg $1 integer The expected return code.
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the assertion succeeded.
+# @exitcode 1 If the assertion failed.
 # @stderr The error message if the assertion fails.
 assert_rc() {
   if [[ -z "${TEST_RC}" ]]; then

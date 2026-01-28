@@ -26,6 +26,8 @@ _testing.__protect_stdlib() {
 # @arg $@ array (optional) The arguments to pass to the function.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the operation failed.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stdout The output of the called function.
 # @stderr The error output of the called function.
 # @internal
