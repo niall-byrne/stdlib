@@ -8,7 +8,7 @@ builtin set -eo pipefail
 # @arg $1 string The message key to retrieve.
 # @arg $2 string (optional) Interpolation option 1.
 # @arg $3 string (optional) Interpolation option 2.
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the message was retrieved successfully.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stdout The retrieved and interpolated message.

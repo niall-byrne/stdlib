@@ -24,8 +24,10 @@ _testing.__protect_stdlib() {
 # @description Calls a protected stdlib function.
 # @arg $1 string The name of the stdlib function to call.
 # @arg $@ array (optional) The arguments to pass to the function.
-# @exitcode 0 If the operation succeeded.
-# @exitcode 1 If the operation failed.
+# @exitcode 0 If the protected function call succeeded.
+# @exitcode 1 If the protected function call failed.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @stdout The output of the called function.
 # @stderr The error output of the called function.
 # @internal

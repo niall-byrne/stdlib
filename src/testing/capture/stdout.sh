@@ -6,7 +6,7 @@ builtin set -eo pipefail
 
 # @description Captures the stdout of a command.
 # @arg $@ array The command to execute.
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the stdout was captured successfully.
 # @set TEST_OUTPUT string The captured stdout from the command.
 _capture.stdout() {
   # shellcheck disable=SC2034
@@ -15,7 +15,10 @@ _capture.stdout() {
 
 # @description Captures the stdout of a command (raw).
 # @arg $@ array The command to execute.
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the command succeeded.
+# @exitcode 1 If the command failed.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
 # @set TEST_OUTPUT string The captured stdout from the command.
 _capture.stdout_raw() {
   # shellcheck disable=SC2034

@@ -7,7 +7,7 @@ builtin set -eo pipefail
 # @description Validates that a function name refers to a valid parametrizer function.
 #   * STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX: The required prefix for parametrizer functions (default="@parametrize_with_").
 # @arg $1 string The parametrizer function name to validate.
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the parametrizer function name is valid.
 # @exitcode 126 If an invalid argument has been provided.
 # @stderr The error message if validation fails.
 # @internal
@@ -28,7 +28,7 @@ builtin set -eo pipefail
 # @description Validates that a function name refers to a valid test function for parametrization.
 #   * STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG: The required tag in the test function name (default="@vary").
 # @arg $1 string The test function name to validate.
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the test function name is valid.
 # @exitcode 126 If an invalid argument has been provided.
 # @stderr The error message if validation fails.
 # @internal
@@ -51,7 +51,7 @@ builtin set -eo pipefail
 # @arg $1 string The name of the array containing environment variable names.
 # @arg $2 string The name of the array containing fixture commands.
 # @arg $3 string The name of the array containing the scenario configuration.
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the scenario configuration is valid.
 # @exitcode 126 If an invalid argument has been provided.
 # @stdout The informational messages.
 # @stderr The error message if validation fails.

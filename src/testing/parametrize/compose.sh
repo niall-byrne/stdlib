@@ -7,7 +7,7 @@ builtin set -eo pipefail
 # @description Composes multiple parametrizer functions to create a product of scenarios.
 # @arg $1 string The name of the test function to parametrize.
 # @arg $@ array A series of parametrizer functions to compose.
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the parametrizer functions were composed successfully.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stderr The error message if the operation fails.

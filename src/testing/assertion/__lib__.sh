@@ -21,7 +21,8 @@ builtin source "${STDLIB_DIRECTORY}/testing/assertion/snapshot.sh"
 
 # @description Checks if a value is provided for an assertion.
 # @arg $1 string The variable value to check.
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the value is provided.
+# @exitcode 1 If the value is not provided.
 # @stderr The error message if the assertion fails.
 # @internal
 _testing.__assertion.value.check() {

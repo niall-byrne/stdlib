@@ -7,7 +7,7 @@ builtin set -eo pipefail
 # @description Generates a mock argument string from an array.
 # @arg $1 string The name of the array containing positional arguments.
 # @arg $2 string (optional) The name of the array containing keyword arguments.
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the mock argument string was generated.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stdout The generated mock argument string.
@@ -40,7 +40,8 @@ _mock.arg_string.make.from_array() {
 #   * STDLIB_LINE_BREAK_DELIMITER: The delimiter used to split the string (default=" ").
 # @arg $1 string The delimited string of positional arguments.
 # @arg $2 string (optional) The name of the array containing keyword arguments.
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the mock argument string was generated.
+# @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stdout The generated mock argument string.
 _mock.arg_string.make.from_string() {

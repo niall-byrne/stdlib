@@ -8,7 +8,8 @@ builtin set -eo pipefail
 #   * STDLIB_TESTING_THEME_DEBUG_FIXTURE: The colour to use for the debug output (default="GREY").
 # @arg $1 string The expected value.
 # @arg $2 string The actual value.
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the values match.
+# @exitcode 1 If the values do not match.
 # @stdout The debug diff output.
 _testing.fixtures.debug.diff() {
   builtin local debug_colour

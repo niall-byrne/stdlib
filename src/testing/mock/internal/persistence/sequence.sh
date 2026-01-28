@@ -6,7 +6,7 @@ builtin set -eo pipefail
 
 # @description Clears the persisted sequence of mock calls.
 # @noargs
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the sequence was cleared.
 # @internal
 _mock.__internal.persistence.sequence.clear() {
   __STDLIB_TESTING_MOCK_SEQUENCE_ARRAY=()
@@ -15,7 +15,7 @@ _mock.__internal.persistence.sequence.clear() {
 
 # @description Initializes the persistence file for the mock call sequence.
 # @noargs
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the sequence persistence file was initialized.
 # @internal
 _mock.__internal.persistence.sequence.initialize() {
   if [[ -z "${__STDLIB_TESTING_MOCK_SEQUENCE_FILENAME}" ]]; then
@@ -26,7 +26,7 @@ _mock.__internal.persistence.sequence.initialize() {
 
 # @description Retrieves the persisted sequence of mock calls.
 # @noargs
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the sequence was retrieved.
 # @internal
 _mock.__internal.persistence.sequence.retrieve() {
   builtin local -a __STDLIB_TESTING_MOCK_SEQUENCE_ARRAY_PERSISTED_ARRAY
@@ -37,7 +37,7 @@ _mock.__internal.persistence.sequence.retrieve() {
 
 # @description Updates the persistence file with the current sequence of mock calls.
 # @noargs
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the sequence persistence file was updated.
 # @internal
 _mock.__internal.persistence.sequence.update() {
   builtin local -a __STDLIB_TESTING_MOCK_SEQUENCE_ARRAY_PERSISTED_ARRAY

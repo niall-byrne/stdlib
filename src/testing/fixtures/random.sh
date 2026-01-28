@@ -6,7 +6,7 @@ builtin set -eo pipefail
 
 # @description Generates a random alphanumeric name.
 # @arg $1 integer (optional, default=50) The length of the name to generate.
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the random name was generated.
 # @stdout The generated random name.
 _testing.fixtures.random.name() {
   builtin local random_name_length="${1:-50}"

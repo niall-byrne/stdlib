@@ -22,7 +22,7 @@ __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY=()
 #   * STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG: The tag in the test function name to replace (default="@vary").
 # @arg $1 string The name of the test function to parametrize.
 # @arg $@ array Optional fixture commands (prefixed with '@fixture '), followed by a semicolon-separated list of variable names, and then one or more semicolon-separated scenarios (scenario name followed by values).
-# @exitcode 0 If the operation succeeded.
+# @exitcode 0 If the test function was parametrized successfully.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stdout The informational messages.
