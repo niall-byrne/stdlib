@@ -2,17 +2,33 @@
 
 # stdlib documentation build script
 
-set -eo pipefail
+builtin set -eo pipefail
 
 DOCS_BUILD_FILE_PATH=()
 DOCS_BUILD_SUBSTITUTION_FOR_ONE=""
 DOCS_BUILD_SUBSTITUTION_FOR_TWO=""
 
+# @description Generates a markdown header for a reference file.
+# @arg $1 string The topic name.
+# @exitcode 0 If the operation succeeded.
+# @stdout The markdown header.
+# @internal
+docs.build.__header_generator() {
+  builtin local target_topic="${1}"
+
+  "${_STDLIB_BINARY_CAT}" << EOF
+# STDLIB ${target_topic} Function Reference
+
+<!-- markdownlint-disable MD024 -->
+
+EOF
+}
+
 # @description Builds a shell reference from a folder (and subfolders) of documented shell scripts.
 # @arg $1 string The file path to output generated markdown to.
 # @arg $2 string A header string to write to the file path BEFORE markdown is appended.  This is typically used for a title.
 # @arg $@ array A list of arguments to pass to 'find'.  This find call should output a list of all required shell files.
-# @exitcode 0 If the operation is successful.
+# @exitcode 0 If the operation succeeded.
 # @internal
 docs.build.__generic_reference() {
   builtin local filepath
@@ -43,7 +59,7 @@ docs.build.__generic_reference() {
 # @arg $2 string A header string to write to the file path BEFORE markdown is appended.  This is typically used for a title.
 # @arg $3 string The variable the heredoc is stored in when the shell script is sourced.
 # @arg $@ array A list of arguments to pass to 'find'.  This find call should output a list of all required shell files.
-# @exitcode 0 If the operation is successful.
+# @exitcode 0 If the operation succeeded.
 # @internal
 docs.build.__generic_reference_from_here_doc() {
   builtin local component_var_name="${3}"
@@ -77,133 +93,130 @@ docs.build.__generic_reference_from_here_doc() {
   truncate -s -1 "${markdown_file_path}"
 }
 
-# @description Builds the stdlib reference files.
-# @noargs
-# @exitcode 0 If the operation is successful.
+# @description A generic index and reference generator.
+# @arg $1 string The path to the index file.
+# @arg $2 string The title of the index file.
+# @arg $3 string The base directory for source files.
+# @arg $4 string The name of the folders array variable.
+# @arg $5 string The name of the topics array variable.
+# @arg $6 string The name of the depths array variable (optional).
+# @exitcode 0 If the operation succeeded.
+# @stdout The index file.
 # @internal
-docs.build.stdlib_reference() {
+docs.build.__reference_index_generator() {
+  builtin local index_file_path="${1}"
+  builtin local index_title="${2}"
+  builtin local base_dir="${3}"
+  builtin local folders_ref_name="${4}[@]"
+  builtin local topics_ref_name="${5}[@]"
+  builtin local -a folders=("${!folders_ref_name}")
+  builtin local -a topics=("${!topics_ref_name}")
+  builtin local -a depths=()
   builtin local index
-  builtin local markdown_file_header
-  builtin local markdown_index_file_path="REFERENCE.md"
-  builtin local -a target_folders
   builtin local target_folder
+  builtin local target_topic
+  builtin local target_folder_depth
   builtin local target_markdown_file_path
+  builtin local markdown_file_header
 
-  "${_STDLIB_BINARY_CAT}" << EOF > "${markdown_index_file_path}"
-# STDLIB Function References
+  if [[ -n "${6}" ]]; then
+    builtin local depths_ref_name="${6}[@]"
+    depths=("${!depths_ref_name}")
+  fi
+
+  "${_STDLIB_BINARY_CAT}" << EOF > "${index_file_path}"
+# ${index_title}
 
 <!-- markdownlint-disable MD024 -->
 
 EOF
 
-  target_folders=("." "" "array" "fn" "io" "logger" "security" "setting" "string" "trap" "var")
-  target_topics=("Complete" "" "Array" "FN" "IO" "Logger" "Security" "Setting" "String" "Trap" "Variable")
-
-  for ((index = 0; index < "${#target_folders[@]}"; index++)); do
-    target_folder="${target_folders[index]}"
-    target_topic="${target_topics[index]}"
+  for ((index = 0; index < "${#folders[@]}"; index++)); do
+    target_folder="${folders[index]}"
+    target_topic="${topics[index]}"
 
     if [[ -z "${target_folder}" ]]; then
-      builtin echo "---" >> "${markdown_index_file_path}"
+      builtin echo "---" >> "${index_file_path}"
       builtin continue
     fi
 
-    if [[ "${target_topic}" == "Complete" ]]; then
-      target_markdown_file_path="src/${target_folder}/REFERENCE_COMPLETE.md"
-      target_markdown_file_path="${target_markdown_file_path/"/."/}"
-    else
-      target_markdown_file_path="src/${target_folder}/REFERENCE.md"
+    if [[ -n "${6}" ]]; then
+      target_folder_depth="${depths[index]}"
     fi
 
-    markdown_file_header="$(
-      "${_STDLIB_BINARY_CAT}" << EOF
-# STDLIB ${target_topic} Function Reference
+    if [[ "${target_topic}" == "Complete" ]]; then
+      target_markdown_file_path="${base_dir}/${target_folder}/REFERENCE_COMPLETE.md"
+      target_markdown_file_path="${target_markdown_file_path/"/."/}"
+    else
+      target_markdown_file_path="${base_dir}/${target_folder}/REFERENCE.md"
+    fi
 
-<!-- markdownlint-disable MD024 -->
+    markdown_file_header="$(docs.build.__header_generator "${target_topic}")" # noqa
 
-EOF
-    )"
-    docs.build.__generic_reference \
-      "${target_markdown_file_path}" \
-      "${markdown_file_header}" \
-      "src/${target_folder}" \
-      '(' -iname '*.sh' -o -iname '*.snippet' ')' \
-      -not -ipath "src/./testing/*.sh" \
-      -not -ipath "src/./testing/*/*.sh"
+    if [[ -n "${target_folder_depth}" ]]; then
+      docs.build.__generic_reference \
+        "${target_markdown_file_path}" \
+        "${markdown_file_header}" \
+        "${base_dir}/${target_folder}" \
+        -maxdepth "${target_folder_depth}" \
+        '(' -iname '*.sh' -o -iname '*.snippet' ')'
+    else
+      docs.build.__generic_reference \
+        "${target_markdown_file_path}" \
+        "${markdown_file_header}" \
+        "${base_dir}/${target_folder}" \
+        '(' -iname '*.sh' -o -iname '*.snippet' ')' \
+        -not -ipath "src/./testing/*.sh" \
+        -not -ipath "src/./testing/*/*.sh"
+    fi
 
-    builtin echo "* [${target_topic} Function Reference](${target_markdown_file_path})" >> "${markdown_index_file_path}"
+    if [[ "${target_folder}" == "mock" ]]; then
+      builtin echo "* [Mock Object Reference](${base_dir}/${target_folder}/REFERENCE_MOCK_OBJECT.md)" >> "${index_file_path}"
+    fi
+
+    builtin echo "* [${target_topic/Testing /} Function Reference](${target_markdown_file_path})" >> "${index_file_path}"
   done
+}
+
+# @description Builds the stdlib reference files.
+# @noargs
+# @exitcode 0 If the operation succeeded.
+# @stdout The index file.
+# @internal
+docs.build.stdlib_reference() {
+  builtin local -a target_folders=("." "" "array" "fn" "io" "logger" "security" "setting" "string" "trap" "var")
+  builtin local -a target_topics=("Complete" "" "Array" "FN" "IO" "Logger" "Security" "Setting" "String" "Trap" "Variable")
+
+  docs.build.__reference_index_generator \
+    "REFERENCE.md" \
+    "STDLIB Function References" \
+    "src" \
+    target_folders \
+    target_topics
 }
 
 # @description Builds the stdlib testing reference files.
 # @noargs
-# @exitcode 0 If the operation is successful.
+# @exitcode 0 If the operation succeeded.
+# @stdout The index file.
 # @internal
 docs.build.stdlib_testing_reference() {
-  builtin local index
-  builtin local markdown_file_header
-  builtin local markdown_index_file_path="REFERENCE_TESTING.md"
-  builtin local -a target_folders
-  builtin local target_folder
-  builtin local -a target_topics
-  builtin local target_topic
-  builtin local -a target_folder_depths
-  builtin local target_folder_depth
-  builtin local target_markdown_file_path
+  builtin local -a target_folders=("." "" "assertion" "capture" "fixtures" "." "mock" "parametrize")
+  builtin local -a target_folder_depths=("100" "100" "100" "100" "100" "1" "100" "100")
+  builtin local -a target_topics=("Complete" "" "Testing Assertion" "Testing Capture" "Testing Fixture" "Testing Generic" "Testing Mock" "Testing Parametrization")
 
-  "${_STDLIB_BINARY_CAT}" << EOF > "${markdown_index_file_path}"
-# STDLIB Testing Function References
-
-<!-- markdownlint-disable MD024 -->
-
-EOF
-
-  target_folders=("." "" "assertion" "capture" "fixtures" "." "mock" "parametrize")
-  target_folder_depths=("100" "100" "100" "100" "100" "1" "100" "100")
-  target_topics=("Complete" "" "Testing Assertion" "Testing Capture" "Testing Fixture" "Testing Generic" "Testing Mock" "Testing Parametrization")
-
-  for ((index = 0; index < "${#target_folders[@]}"; index++)); do
-    target_folder="${target_folders[index]}"
-    target_folder_depth="${target_folder_depths[index]}"
-    target_topic="${target_topics[index]}"
-
-    if [[ -z "${target_folder}" ]]; then
-      builtin echo "---" >> "${markdown_index_file_path}"
-      builtin continue
-    fi
-
-    if [[ "${target_topic}" == "Complete" ]]; then
-      target_markdown_file_path="src/testing/${target_folder}/REFERENCE_COMPLETE.md"
-      target_markdown_file_path="${target_markdown_file_path/"/."/}"
-    else
-      target_markdown_file_path="src/testing/${target_folder}/REFERENCE.md"
-    fi
-
-    markdown_file_header="$(
-      "${_STDLIB_BINARY_CAT}" << EOF
-# STDLIB ${target_topic} Function Reference
-
-<!-- markdownlint-disable MD024 -->
-
-EOF
-    )"
-    docs.build.__generic_reference \
-      "${target_markdown_file_path}" \
-      "${markdown_file_header}" \
-      "src/testing/${target_folder}" \
-      -maxdepth "${target_folder_depth}" \
-      '(' -iname '*.sh' -o -iname '*.snippet' ')'
-
-    if [[ "${target_folder}" == "mock" ]]; then
-      builtin echo "* [Mock Object Reference](src/testing/${target_folder}/REFERENCE_MOCK_OBJECT.md)" >> "${markdown_index_file_path}"
-    fi
-    builtin echo "* [${target_topic/Testing /} Function Reference](${target_markdown_file_path})" >> "${markdown_index_file_path}"
-  done
+  docs.build.__reference_index_generator \
+    "REFERENCE_TESTING.md" \
+    "STDLIB Testing Function References" \
+    "src/testing" \
+    target_folders \
+    target_topics \
+    target_folder_depths
 }
 
 # @description Builds the stdlib testing mock object reference file.
 # @noargs
-# @exitcode 0 If the operation is successful.
+# @exitcode 0 If the operation succeeded.
 # @internal
 docs.build.stdlib_testing_mock_object_reference() {
   builtin local -a DOCS_BUILD_FILE_PATH
@@ -213,7 +226,7 @@ docs.build.stdlib_testing_mock_object_reference() {
 
   DOCS_BUILD_FILE_PATH=("src/testing/mock/components/main.sh")
 
-  markdown_file_header="$(
+  markdown_file_header="$( # noqa
     "${_STDLIB_BINARY_CAT}" << 'EOF'
 # STDLIB Testing Mock Object Reference
 
@@ -235,7 +248,7 @@ EOF
 
 # @description Builds all stdlib function references.
 # @noargs
-# @exitcode 0 If the operation is successful.
+# @exitcode 0 If the operation succeeded.
 # @internal
 docs.main() {
   builtin source "src/binary.sh"
