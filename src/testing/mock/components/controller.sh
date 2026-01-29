@@ -16,7 +16,7 @@ __STDLIB_TESTING_MOCK_COMPONENT="$(
 #   * __${2}_mock_stdout: If this variable contains a value, it will be emitted to stdout (default="").
 # @arg $1 string The controller command to dispatch (pipeable|side_effects|stderr|stdout|subcommand|update_rc).
 # @arg $@ array Additional arguments to pass to the specified controller command.
-# @exitcode 0 If the controller command was successful.
+# @exitcode 0 If the mock's controller command was successful.
 # @stdout If the controller is instructed, it will emit the contents of the __${2}_mock_stdout variable to stdout.
 # @stderr If the controller is instructed, it will emit the contents of the __${2}_mock_stderr variable to stderr.
 # @internal

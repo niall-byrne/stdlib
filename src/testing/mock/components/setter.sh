@@ -12,7 +12,7 @@ __STDLIB_TESTING_MOCK_COMPONENT="$(
 
 # @description This function will set the keywords assigned to this mock. (These keywords are variables whose values are recorded during each mock call).
 # @arg $@ array These are the keywords, or variables, that the mock will record each time it's called. (Call this function without any arguments to disable this feature).
-# @exitcode 0 If the keywords were set successfully.
+# @exitcode 0 If the mock's keywords were set successfully.
 # @exitcode 126 If an invalid argument has been provided.
 # @set __${2}_mock_keywords array These are the keywords, or variables, that the mock will record each time it's called.
 # @stderr The error message if the operation fails.
@@ -30,7 +30,7 @@ ${1}.mock.set.keywords() {
 
 # @description This function will toggle the 'pipeable' behaviour of the mock.  Turning this on allows the mock to receive stdin.
 # @arg $1 boolean This enables or disables the 'pipeable' behaviour of the mock, (default="0").
-# @exitcode 0 If the pipeable behavior was toggled successfully.
+# @exitcode 0 If the mock's pipeable behavior was toggled successfully.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @set __${2}_mock_pipeable boolean This enables or disables the 'pipeable' behaviour of the mock.
@@ -46,7 +46,7 @@ ${1}.mock.set.pipeable() {
 
 # @description This function will set the return code (exit code) of the mock.  This behaviour can be overridden by configuring side effects or a subcommand.
 # @arg $1 integer This is the return code (or exit code) you wish the mock to emit. (Please note that any non-zero number emitted by the side effects or subcommand configured on this mock will override this value and be returned instead).
-# @exitcode 0 If the return code was set successfully.
+# @exitcode 0 If the mock's return code was set successfully.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @set __${2}_mock_rc integer This is the exit code the mock is configured to return.
@@ -62,7 +62,7 @@ ${1}.mock.set.rc() {
 
 # @description This function will set the side effects of the mock.  These are a series of one or more commands the mock will execute each time it's called.
 # @arg $@ array This is a series of commands the mock will execute each time it's called. (Call this function without any arguments to disable this feature).
-# @exitcode 0 If the side effects were set successfully.
+# @exitcode 0 If the mock's side effects were set successfully.
 # @exitcode 126 If an invalid argument has been provided.
 # @set __${2}_mock_side_effects_boolean boolean This is a boolean indicating the mock has been configured with at least one side effect.
 # @stderr The error message if the operation fails.
@@ -78,7 +78,7 @@ ${1}.mock.set.side_effects() {
 
 # @description This function will set the stderr this mock will emit when called.
 # @arg $1 string This is the string that will be emitted to stderr when the mock is called.
-# @exitcode 0 If the stderr was set successfully.
+# @exitcode 0 If the mock's stderr was set successfully.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @set __${2}_mock_stderr string This is the string that will be emitted to stderr when the mock is called.
@@ -96,7 +96,7 @@ ${1}.mock.set.stderr() {
 
 # @description This function will set the stdout this mock will emit when called.
 # @arg $1 string This is the string that will be emitted to stdout when the mock is called.
-# @exitcode 0 If the stdout was set successfully.
+# @exitcode 0 If the mock's stdout was set successfully.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @set __${2}_mock_stdout string This is the string that will be emitted to stdout when the mock is called.
@@ -114,7 +114,7 @@ ${1}.mock.set.stdout() {
 
 # @description This function will set the subcommand this mock will call when the mock is called.  All arguments passed to the mock are also passed to the subcommand.
 # @arg $@ array This is a series of commands the mock will execute each time it's called.  This is distinct from side effects in that the subcommand will receive all arguments sent to the mock itself.
-# @exitcode 0 If the subcommand was set successfully.
+# @exitcode 0 If the mock's subcommand was set successfully.
 ${1}.mock.set.subcommand() {
   # $@: the subcommand to execute on each mock call
 

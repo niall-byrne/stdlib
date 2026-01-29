@@ -13,7 +13,7 @@ __STDLIB_TESTING_MOCK_COMPONENT="$(
 # @description Persists a mock call, storing it's arguments as an arg string in the correct persistence file.  If sequence tracking is enabled, the mock will also be added to the sequence persistence file.
 #   * __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN: This boolean determines whether sequence information will be persisted for this call (default="0").
 # @arg $@ string The arguments the mock was called with.
-# @exitcode 0 If the mock call was persisted successfully.
+# @exitcode 0 If the mock's call was persisted successfully.
 # @internal
 ${1}.mock.__call() {
   builtin local -a _mock_object_args

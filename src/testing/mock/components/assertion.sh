@@ -12,7 +12,7 @@ __STDLIB_TESTING_MOCK_COMPONENT="$(
 
 # @description Counts the number of times a mock has been called with a given arg string.
 # @arg $1 string The arg string to compare against the mock's call history.
-# @exitcode 0 If the match count was retrieved successfully.
+# @exitcode 0 If the mock's match count was retrieved successfully.
 # @stdout The count of matches identified.
 # @internal
 ${1}.mock.__count_matches() {
