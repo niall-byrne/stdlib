@@ -2,6 +2,7 @@
 
 # stdlib testing assertion capture library
 
+builtin set -eo pipefail
 
 STDLIB_TESTING_TRACEBACK_REGEX="${STDLIB_TESTING_TRACEBACK_REGEX:-$'^([^:]+:[0-9]+|environment:[0-9]+):.+$'}"
 

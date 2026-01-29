@@ -2,6 +2,7 @@
 
 # stdlib array extensions to bash_unit assertions
 
+builtin set -eo pipefail
 
 # @description Asserts that two arrays are equal.
 # @arg $1 string The first array to compare.

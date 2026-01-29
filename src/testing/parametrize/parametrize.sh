@@ -2,6 +2,7 @@
 
 # stdlib testing parametrize library
 
+builtin set -eo pipefail
 
 # shellcheck disable=SC2034
 {

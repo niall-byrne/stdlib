@@ -2,6 +2,7 @@
 
 # stdlib testing mock arg_string library
 
+builtin set -eo pipefail
 
 __STDLIB_TESTING_MOCK_RESTRICTED_ATTRIBUTES=(
   "builtin"

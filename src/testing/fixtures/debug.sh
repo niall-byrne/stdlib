@@ -2,6 +2,7 @@
 
 # stdlib testing debug fixtures
 
+builtin set -eo pipefail
 
 # @description Prints a diff between two values for debugging.
 #   * STDLIB_TESTING_THEME_DEBUG_FIXTURE: The colour to use for the debug output (default="GREY").

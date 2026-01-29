@@ -3,6 +3,7 @@
 
 # stdlib testing theme library
 
+builtin set -eo pipefail
 
 STDLIB_TESTING_THEME_DEBUG_FIXTURE="GREY"
 STDLIB_TESTING_THEME_ERROR="LIGHT_RED"

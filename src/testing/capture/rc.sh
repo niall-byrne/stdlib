@@ -2,6 +2,7 @@
 
 # stdlib testing rc capture library
 
+builtin set -eo pipefail
 
 # @description Captures the return code of a command.
 # @arg $@ array The command to execute.

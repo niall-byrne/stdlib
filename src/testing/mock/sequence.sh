@@ -2,6 +2,7 @@
 
 # stdlib testing mock sequence library
 
+builtin set -eo pipefail
 
 __STDLIB_TESTING_MOCK_SEQUENCE_ARRAY=()
 __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN="0"

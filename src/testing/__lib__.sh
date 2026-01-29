@@ -2,6 +2,7 @@
 
 # stdlib testing library
 
+builtin set -eo pipefail
 
 # shellcheck source=src/testing/assertion/__lib__.sh
 builtin source "${STDLIB_DIRECTORY}/testing/assertion/__lib__.sh"

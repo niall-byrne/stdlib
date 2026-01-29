@@ -2,6 +2,7 @@
 
 # stdlib testing parametrize compose library
 
+builtin set -eo pipefail
 
 # @description Composes multiple parametrizer functions to create a product of scenarios.
 # @arg $1 string The name of the test function to parametrize.

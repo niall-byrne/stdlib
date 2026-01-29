@@ -2,6 +2,7 @@
 
 # stdlib testing mock object library
 
+builtin set -eo pipefail
 
 # shellcheck source=src/testing/mock/arg_string/__lib__.sh
 builtin source "${STDLIB_DIRECTORY}/testing/mock/arg_string/__lib__.sh"

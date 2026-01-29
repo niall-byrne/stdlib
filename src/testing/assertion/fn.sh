@@ -2,6 +2,7 @@
 
 # stdlib fn extensions to bash_unit assertions
 
+builtin set -eo pipefail
 
 # @description Asserts that a value is a function.
 # @arg $1 string The function name to check.

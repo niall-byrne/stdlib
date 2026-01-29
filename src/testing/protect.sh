@@ -2,6 +2,7 @@
 
 # stdlib testing protect component
 
+builtin set -eo pipefail
 
 STDLIB_TESTING_PROTECT_PREFIX=""
 

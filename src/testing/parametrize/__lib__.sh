@@ -2,6 +2,7 @@
 
 # stdlib testing parametrize library
 
+builtin set -eo pipefail
 
 # shellcheck source=src/testing/parametrize/apply.sh
 builtin source "${STDLIB_DIRECTORY}/testing/parametrize/apply.sh"

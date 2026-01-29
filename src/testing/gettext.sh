@@ -2,6 +2,7 @@
 
 # stdlib testing gettext library
 
+builtin set -eo pipefail
 
 # @description Translates a message key.
 # @arg $1 string The message key to translate.
