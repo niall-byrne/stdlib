@@ -2,7 +2,6 @@
 
 # stdlib testing mock library
 
-builtin set -eo pipefail
 
 # Mock Api                                  (all other values/methods are not considered stable)
 # -----------------------------------------------------------------------------------------------------

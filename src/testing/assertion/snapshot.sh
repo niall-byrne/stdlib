@@ -2,7 +2,6 @@
 
 # stdlib snapshot extensions to bash_unit assertions
 
-builtin set -eo pipefail
 
 # @description Asserts that the captured output matches a snapshot file.
 # @arg $1 string A path relative to the test directory containing a text file.

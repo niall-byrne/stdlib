@@ -2,7 +2,6 @@
 
 # stdlib testing mock messages library
 
-builtin set -eo pipefail
 
 # @description Retrieves a mock message by its key and optionally interpolates values.
 # @arg $1 string The message key to retrieve.

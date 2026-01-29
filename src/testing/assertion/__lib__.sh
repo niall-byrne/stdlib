@@ -2,7 +2,6 @@
 
 # stdlib testing assertion library
 
-builtin set -eo pipefail
 
 # shellcheck source=src/testing/assertion/array.sh
 builtin source "${STDLIB_DIRECTORY}/testing/assertion/array.sh"

@@ -2,7 +2,6 @@
 
 # stdlib testing source library
 
-builtin set -eo pipefail
 
 # @description Loads a module with error support.
 #   * STDLIB_TESTING_THEME_LOAD: The colour to use for the message (default="GREY").

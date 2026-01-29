@@ -2,7 +2,6 @@
 
 # stdlib testing random fixtures
 
-builtin set -eo pipefail
 
 # @description Generates a random alphanumeric name.
 # @arg $1 integer (optional, default=50) The length of the name to generate.

@@ -2,7 +2,6 @@
 
 # stdlib testing output capture library
 
-builtin set -eo pipefail
 
 # @description Captures the stdout and stderr of a command.
 # @arg $@ array The command to execute.

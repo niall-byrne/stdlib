@@ -2,7 +2,6 @@
 
 # stdlib testing parametrize apply library
 
-builtin set -eo pipefail
 
 # @description Applies multiple parametrizer functions to a test function.
 # @arg $1 string The name of the test function to parametrize.

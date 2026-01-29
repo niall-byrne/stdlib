@@ -2,7 +2,6 @@
 
 # stdlib testing logger fixtures
 
-builtin set -eo pipefail
 
 # @description Creates mocks for all stdlib.logger functions.
 # @noargs

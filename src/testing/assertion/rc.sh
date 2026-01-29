@@ -2,7 +2,6 @@
 
 # stdlib return code extensions to bash_unit assertions
 
-builtin set -eo pipefail
 
 # @description Asserts that the captured return code matches the expected value.
 # @arg $1 integer The expected return code.

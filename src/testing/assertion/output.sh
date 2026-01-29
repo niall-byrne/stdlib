@@ -2,7 +2,6 @@
 
 # stdlib output extensions to bash_unit assertions
 
-builtin set -eo pipefail
 
 # @description Asserts that the captured output matches the expected value.
 # @arg $1 string The expected output.

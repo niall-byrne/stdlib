@@ -2,7 +2,6 @@
 
 # stdlib testing error library
 
-builtin set -eo pipefail
 
 # @description Logs an error message.
 #   * STDLIB_TESTING_THEME_ERROR: The colour to use for the message (default="LIGHT_RED").

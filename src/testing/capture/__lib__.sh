@@ -2,7 +2,6 @@
 
 # stdlib testing capture library
 
-builtin set -eo pipefail
 
 # shellcheck source=src/testing/capture/assertion_failure.sh
 builtin source "${STDLIB_DIRECTORY}/testing/capture/assertion_failure.sh"
