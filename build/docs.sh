@@ -8,20 +8,72 @@ DOCS_BUILD_FILE_PATH=()
 DOCS_BUILD_SUBSTITUTION_FOR_ONE=""
 DOCS_BUILD_SUBSTITUTION_FOR_TWO=""
 
-# @description Generates a markdown header for a reference file.
-# @arg $1 string The topic name.
+# @description Builds the stdlib reference files.
+# @noargs
 # @exitcode 0 If the operation succeeded.
-# @stdout The markdown header.
+# @stdout The index file.
 # @internal
-docs.build.__header_generator() {
-  builtin local target_topic="${1}"
+docs.build.stdlib_reference() {
+  builtin local -a target_folders=("." "" "array" "fn" "io" "logger" "security" "setting" "string" "trap" "var")
+  builtin local -a target_topics=("Complete" "" "Array" "FN" "IO" "Logger" "Security" "Setting" "String" "Trap" "Variable")
 
-  "${_STDLIB_BINARY_CAT}" << EOF
-# STDLIB ${target_topic} Function Reference
+  docs.build.__reference_index_generator \
+    "REFERENCE.md" \
+    "STDLIB Function References" \
+    "src" \
+    target_folders \
+    target_topics
+}
+
+# @description Builds the stdlib testing mock object reference file.
+# @noargs
+# @exitcode 0 If the operation succeeded.
+# @internal
+docs.build.stdlib_testing_mock_object_reference() {
+  builtin local -a DOCS_BUILD_FILE_PATH
+  builtin local DOCS_BUILD_SUBSTITUTION_FOR_ONE="object"
+  builtin local DOCS_BUILD_SUBSTITUTION_FOR_TWO="object"
+  builtin local markdown_file_header
+
+  DOCS_BUILD_FILE_PATH=("src/testing/mock/components/main.sh")
+
+  markdown_file_header="$( # noqa
+    "${_STDLIB_BINARY_CAT}" << 'EOF'
+# STDLIB Testing Mock Object Reference
 
 <!-- markdownlint-disable MD024 -->
 
+This reference uses the fictional example of a mock created with `_mock.create object`.
+
 EOF
+  )"
+
+  docs.build.__generic_reference_from_here_doc \
+    "src/testing/mock/REFERENCE_MOCK_OBJECT.md" \
+    "${markdown_file_header}" \
+    "__STDLIB_TESTING_MOCK_COMPONENT" \
+    src/testing/mock/components \
+    -iname '*.sh' \
+    -not -ipath 'src/testing/mock/components/main.sh'
+}
+
+# @description Builds the stdlib testing reference files.
+# @noargs
+# @exitcode 0 If the operation succeeded.
+# @stdout The index file.
+# @internal
+docs.build.stdlib_testing_reference() {
+  builtin local -a target_folders=("." "" "assertion" "capture" "fixtures" "." "mock" "parametrize")
+  builtin local -a target_folder_depths=("100" "100" "100" "100" "100" "1" "100" "100")
+  builtin local -a target_topics=("Complete" "" "Testing Assertion" "Testing Capture" "Testing Fixture" "Testing Generic" "Testing Mock" "Testing Parametrization")
+
+  docs.build.__reference_index_generator \
+    "REFERENCE_TESTING.md" \
+    "STDLIB Testing Function References" \
+    "src/testing" \
+    target_folders \
+    target_topics \
+    target_folder_depths
 }
 
 # @description Builds a shell reference from a folder (and subfolders) of documented shell scripts.
@@ -91,6 +143,22 @@ docs.build.__generic_reference_from_here_doc() {
   done) >> "${markdown_file_path}"
 
   truncate -s -1 "${markdown_file_path}"
+}
+
+# @description Generates a markdown header for a reference file.
+# @arg $1 string The topic name.
+# @exitcode 0 If the operation succeeded.
+# @stdout The markdown header.
+# @internal
+docs.build.__header_generator() {
+  builtin local target_topic="${1}"
+
+  "${_STDLIB_BINARY_CAT}" << EOF
+# STDLIB ${target_topic} Function Reference
+
+<!-- markdownlint-disable MD024 -->
+
+EOF
 }
 
 # @description A generic index and reference generator.
@@ -176,74 +244,6 @@ EOF
 
     builtin echo "* [${target_topic/Testing /} Function Reference](${target_markdown_file_path})" >> "${index_file_path}"
   done
-}
-
-# @description Builds the stdlib reference files.
-# @noargs
-# @exitcode 0 If the operation succeeded.
-# @stdout The index file.
-# @internal
-docs.build.stdlib_reference() {
-  builtin local -a target_folders=("." "" "array" "fn" "io" "logger" "security" "setting" "string" "trap" "var")
-  builtin local -a target_topics=("Complete" "" "Array" "FN" "IO" "Logger" "Security" "Setting" "String" "Trap" "Variable")
-
-  docs.build.__reference_index_generator \
-    "REFERENCE.md" \
-    "STDLIB Function References" \
-    "src" \
-    target_folders \
-    target_topics
-}
-
-# @description Builds the stdlib testing reference files.
-# @noargs
-# @exitcode 0 If the operation succeeded.
-# @stdout The index file.
-# @internal
-docs.build.stdlib_testing_reference() {
-  builtin local -a target_folders=("." "" "assertion" "capture" "fixtures" "." "mock" "parametrize")
-  builtin local -a target_folder_depths=("100" "100" "100" "100" "100" "1" "100" "100")
-  builtin local -a target_topics=("Complete" "" "Testing Assertion" "Testing Capture" "Testing Fixture" "Testing Generic" "Testing Mock" "Testing Parametrization")
-
-  docs.build.__reference_index_generator \
-    "REFERENCE_TESTING.md" \
-    "STDLIB Testing Function References" \
-    "src/testing" \
-    target_folders \
-    target_topics \
-    target_folder_depths
-}
-
-# @description Builds the stdlib testing mock object reference file.
-# @noargs
-# @exitcode 0 If the operation succeeded.
-# @internal
-docs.build.stdlib_testing_mock_object_reference() {
-  builtin local -a DOCS_BUILD_FILE_PATH
-  builtin local DOCS_BUILD_SUBSTITUTION_FOR_ONE="object"
-  builtin local DOCS_BUILD_SUBSTITUTION_FOR_TWO="object"
-  builtin local markdown_file_header
-
-  DOCS_BUILD_FILE_PATH=("src/testing/mock/components/main.sh")
-
-  markdown_file_header="$( # noqa
-    "${_STDLIB_BINARY_CAT}" << 'EOF'
-# STDLIB Testing Mock Object Reference
-
-<!-- markdownlint-disable MD024 -->
-
-This reference uses the fictional example of a mock created with `_mock.create object`.
-
-EOF
-  )"
-
-  docs.build.__generic_reference_from_here_doc \
-    "src/testing/mock/REFERENCE_MOCK_OBJECT.md" \
-    "${markdown_file_header}" \
-    "__STDLIB_TESTING_MOCK_COMPONENT" \
-    src/testing/mock/components \
-    -iname '*.sh' \
-    -not -ipath 'src/testing/mock/components/main.sh'
 }
 
 # @description Builds all stdlib function references.
