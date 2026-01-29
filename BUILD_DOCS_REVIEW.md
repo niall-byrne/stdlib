@@ -2,34 +2,32 @@
 
 This report summarizes the deviations from the established coding standards and identifies opportunities for refactoring in `build/docs.sh`.
 
+## System-Specific Conventions
+
+It is noted that `build/docs.sh` is part of a dedicated "docs" subsystem. As such, it follows its own established naming conventions which differ from the core `stdlib`:
+- **Function Prefixes**: Uses `docs.` as the standard prefix.
+- **Global Variable Prefixes**: Uses `DOCS_BUILD_` as the standard prefix.
+
+These are considered correct within the context of the documentation system.
+
 ## Deviations from Coding Standards
 
-### 1. Function Naming Conventions
-- **Violation**: Functions use the `docs.` prefix (e.g., `docs.main`, `docs.build.stdlib_reference`).
-- **Standard**: According to `CONTRIBUTING.md`, function names should be prefixed with `stdlib` and use a dot-separated naming scheme that follows the directory structure.
-- **Impact**: Inconsistency with the rest of the codebase's naming patterns.
-
-### 2. Global Variable Naming Conventions
-- **Violation**: Global variables use the `DOCS_BUILD_` prefix (e.g., `DOCS_BUILD_FILE_PATH`).
-- **Standard**: `CONTRIBUTING.md` specifies that global variables should be prefixed with `STDLIB` (or `__STDLIB` for private ones).
-- **Impact**: Potential namespace collisions and inconsistency with the library's global variable naming scheme.
-
-### 3. Standardized Exit Code Documentation
+### 1. Standardized Exit Code Documentation
 - **Violation**: Uses `@exitcode 0 If the operation is successful.`
-- **Standard**: `CONTRIBUTING.md` mandates the exact phrase: `@exitcode 0 If the operation succeeded.`
+- **Standard**: `CONTRIBUTING.md` mandates the exact phrase for consistency across the entire project: `@exitcode 0 If the operation succeeded.`
 - **Impact**: Minor inconsistency in documentation generation.
 
-### 4. Missing `@stdout` Tags and `# noqa` Directives
+### 2. Missing `@stdout` Tags and `# noqa` Directives
 - **Violation**: `docs.build.stdlib_reference` and `docs.build.stdlib_testing_reference` use `builtin echo` and command substitutions but lack `@stdout` tags.
 - **Standard**: The `documentation_check.py` tool (and associated memory) requires functions that produce output to have an `@stdout` tag, or to use `# noqa` on lines that trigger false positives (like redirections to files or command substitutions).
 - **Impact**: These functions currently fail the documentation audit.
 
-### 5. Documentation of Private Functions
+### 3. Documentation of Private Functions
 - **Violation**: `docs.build.__generic_reference` and other private functions (with `__`) are documented with shdoc blocks.
 - **Standard**: `CONTRIBUTING.md` states that "Private functions don't require documentation as they do not provide an API for end users to consume."
-- **Impact**: Redundant documentation maintenance, although having it is not strictly a failure, it's not required.
+- **Impact**: Redundant documentation maintenance.
 
-### 6. Centralization of Messages
+### 4. Centralization of Messages
 - **Violation**: Many strings (headers, topic names) are hardcoded directly in the script.
 - **Standard**: `CONTRIBUTING.md` encourages the centralization of strings in `message.sh` files to facilitate translation.
 - **Impact**: Makes localizing the generated documentation harder in the future.
