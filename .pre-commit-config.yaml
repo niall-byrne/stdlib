@@ -155,7 +155,7 @@ repos:
         name: ensure source functions are correctly documented
         entry: python tools/documentation_check.py
         language: system
-        files: "^src/.+\\.sh|^build/docs\\.sh"
+        files: "^src/.+\\.sh$|^build/docs\\.sh$"
         exclude: "^((.+/)*tests/.+\\.sh)$"
         pass_filenames: true
         require_serial: true
