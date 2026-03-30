@@ -18,7 +18,6 @@ on:
 #      required: false
 
 jobs:
-
   configuration:
     uses: cicd-tools-org/cicd-tools/.github/workflows/job-00-generic-read_json_file.yml@main
     with:
@@ -66,7 +65,7 @@ jobs:
       CONFIG_FILE: ".github/config/actions/github-action-markdown-link-check.json"
       VERBOSE_NOTIFICATIONS: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_verbose_notifications }}
 
-  pre-commit_hooks:
+  pre-commit_test_hooks:
     needs:
       - build_container
       - configuration
@@ -161,222 +160,15 @@ jobs:
       PYTHON_VERSIONS: ${{ toJSON(fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_python_versions) }}
       VERBOSE_NOTIFICATIONS: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_verbose_notifications }}
 
-  git_conflict_markers:
+  pre-commit_run_hooks:
     needs:
       - configuration
     secrets:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-    uses: cicd-tools-org/cicd-tools/.github/workflows/job-80-poetry-precommit_commit_stage_hook.yml@main
+    uses: cicd-tools-org/cicd-tools/.github/workflows/job-80-poetry-precommit_commit_stage_all_hooks.yml@main
     with:
       CONCURRENCY: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_concurrency_limit }}
-      PRECOMMIT_HOOK_ID: "git-conflict-markers"
-      PRECOMMIT_HOOK_NAME: "Git conflict markers"
-      PYTHON_VERSIONS: ${{ toJSON(fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_python_versions) }}
-      VERBOSE_NOTIFICATIONS: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_verbose_notifications }}
-
-  json_schema_lint:
-    needs:
-      - configuration
-    secrets:
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-    uses: cicd-tools-org/cicd-tools/.github/workflows/job-80-poetry-precommit_commit_stage_hook.yml@main
-    with:
-      CONCURRENCY: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_concurrency_limit }}
-      PRECOMMIT_HOOK_ID: "check-jsonschema"
-      PRECOMMIT_HOOK_NAME: "Workflow Config JSON Schema Linting"
-      PYTHON_VERSIONS: ${{ toJSON(fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_python_versions) }}
-      VERBOSE_NOTIFICATIONS: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_verbose_notifications }}
-
-  markdown_lint:
-    needs:
-      - configuration
-    secrets:
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-    uses: cicd-tools-org/cicd-tools/.github/workflows/job-80-poetry-precommit_commit_stage_hook.yml@main
-    with:
-      CONCURRENCY: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_concurrency_limit }}
-      PRECOMMIT_HOOK_ID: "lint-markdown"
-      PRECOMMIT_HOOK_NAME: "Markdown Linting"
-      PYTHON_VERSIONS: ${{ toJSON(fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_python_versions) }}
-      VERBOSE_NOTIFICATIONS: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_verbose_notifications }}
-
-  markdown_spelling:
-    needs:
-      - configuration
-    secrets:
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-    uses: cicd-tools-org/cicd-tools/.github/workflows/job-80-poetry-precommit_commit_stage_hook.yml@main
-    with:
-      CONCURRENCY: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_concurrency_limit }}
-      PRE_HOOK_COMMAND: poetry run pre-commit run --hook-stage manual spelling-vale-sync
-      PRECOMMIT_HOOK_ID: "spelling-markdown"
-      PRECOMMIT_HOOK_NAME: "Markdown Spelling"
-      PYTHON_VERSIONS: ${{ toJSON(fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_python_versions) }}
-      VERBOSE_NOTIFICATIONS: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_verbose_notifications }}
-
-  pre-commit_lint_config:
-    needs:
-      - configuration
-    secrets:
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-    uses: cicd-tools-org/cicd-tools/.github/workflows/job-80-poetry-precommit_commit_stage_hook.yml@main
-    with:
-      CONCURRENCY: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_concurrency_limit }}
-      PRECOMMIT_HOOK_ID: "pre-commit-sort-config"
-      PRECOMMIT_HOOK_NAME: "Pre-Commit Config Linting"
-      PYTHON_VERSIONS: ${{ toJSON(fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_python_versions) }}
-      VERBOSE_NOTIFICATIONS: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_verbose_notifications }}
-
-  python_lint:
-    needs:
-      - configuration
-    secrets:
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-    uses: cicd-tools-org/cicd-tools/.github/workflows/job-80-poetry-precommit_commit_stage_hook.yml@main
-    with:
-      CONCURRENCY: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_concurrency_limit }}
-      PRECOMMIT_HOOK_ID: "ruff-lint"
-      PRECOMMIT_HOOK_NAME: "Python Tool Linting"
-      PYTHON_VERSIONS: ${{ toJSON(fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_python_versions) }}
-      VERBOSE_NOTIFICATIONS: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_verbose_notifications }}
-
-  reference:
-    needs:
-      - configuration
-    secrets:
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-    strategy:
-      fail-fast: true
-      matrix:
-        hook:
-          - id: "documentation-build"
-            name: "Documentation Build"
-          - id: "documentation-source-files"
-            name: "Documentation Source Files Comment Linting"
-      max-parallel: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_concurrency_limit }}
-    uses: cicd-tools-org/cicd-tools/.github/workflows/job-80-poetry-precommit_commit_stage_hook.yml@main
-    with:
-      CONCURRENCY: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_concurrency_limit }}
-      PRECOMMIT_HOOK_ID: ${{ matrix.hook.id }}
-      PRECOMMIT_HOOK_NAME: ${{ matrix.hook.name }}
-      PYTHON_VERSIONS: ${{ toJSON(fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_python_versions) }}
-      VERBOSE_NOTIFICATIONS: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_verbose_notifications }}
-
-  shell_lint:
-    needs:
-      - configuration
-    secrets:
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-    strategy:
-      fail-fast: true
-      matrix:
-        hook:
-          - id: "format-shell"
-            name: "Shell Formatting"
-          - id: "lint-shell"
-            name: "Shell Linting"
-          - id: "snippet-files-headers"
-            name: "Snippet Files Header Linting"
-          - id: "source-files-binaries"
-            name: "Source Files Binary Usage Linting"
-          - id: "source-files-function-names"
-            name: "Source Files Function Name Linting"
-          - id: "source-files-function-order"
-            name: "Source Files Function Order Linting"
-          - id: "source-files-global-variable-names"
-            name: "Source Files Global Variable Name Linting"
-          - id: "source-files-headers"
-            name: "Source Files Header Linting"
-          - id: "source-files-keywords"
-            name: "Source Files Keywords Linting"
-          - id: "source-files-testing-folder-function-names"
-            name: "Source Files (src/testing) Function Name Linting"
-          - id: "test-files-binaries"
-            name: "Test Files Binary Usage Linting"
-          - id: "test-files-headers"
-            name: "Test Files Header Linting"
-          - id: "test-files-imports"
-            name: "Test Files Import Linting"
-      max-parallel: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_concurrency_limit }}
-    uses: cicd-tools-org/cicd-tools/.github/workflows/job-80-poetry-precommit_commit_stage_hook.yml@main
-    with:
-      CONCURRENCY: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_concurrency_limit }}
-      PRECOMMIT_HOOK_ID: ${{ matrix.hook.id }}
-      PRECOMMIT_HOOK_NAME: ${{ matrix.hook.name }}
-      PYTHON_VERSIONS: ${{ toJSON(fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_python_versions) }}
-      VERBOSE_NOTIFICATIONS: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_verbose_notifications }}
-
-  spelling_vocabularies:
-    needs:
-      - configuration
-    secrets:
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-    uses: cicd-tools-org/cicd-tools/.github/workflows/job-80-poetry-precommit_commit_stage_hook.yml@main
-    with:
-      CONCURRENCY: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_concurrency_limit }}
-      PRECOMMIT_HOOK_ID: "spelling-vale-vocab"
-      PRECOMMIT_HOOK_NAME: "Spelling vocabularies"
-      PYTHON_VERSIONS: ${{ toJSON(fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_python_versions) }}
-      VERBOSE_NOTIFICATIONS: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_verbose_notifications }}
-
-  toml_lint:
-    needs:
-      - configuration
-    secrets:
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-    uses: cicd-tools-org/cicd-tools/.github/workflows/job-80-poetry-precommit_commit_stage_hook.yml@main
-    with:
-      CONCURRENCY: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_concurrency_limit }}
-      PRECOMMIT_HOOK_ID: "format-toml"
-      PRECOMMIT_HOOK_NAME: "TOML Formatting"
-      PYTHON_VERSIONS: ${{ toJSON(fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_python_versions) }}
-      VERBOSE_NOTIFICATIONS: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_verbose_notifications }}
-
-  translation_check:
-    needs:
-      - configuration
-    secrets:
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-    uses: cicd-tools-org/cicd-tools/.github/workflows/job-80-poetry-precommit_commit_stage_hook.yml@main
-    with:
-      CONCURRENCY: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_concurrency_limit }}
-      PRECOMMIT_HOOK_ID: "gettext-translations-update"
-      PRECOMMIT_HOOK_NAME: "Translation Check"
-      PYTHON_VERSIONS: ${{ toJSON(fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_python_versions) }}
-      VERBOSE_NOTIFICATIONS: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_verbose_notifications }}
-
-  workflow_lint:
-    needs:
-      - configuration
-    secrets:
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-    strategy:
-      fail-fast: true
-      matrix:
-        hook:
-          - id: "lint-github-workflow"
-            name: "Workflow Linting"
-          - id: "lint-github-workflow-header"
-            name: "Workflow Header Linting"
-      max-parallel: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_concurrency_limit }}
-    uses: cicd-tools-org/cicd-tools/.github/workflows/job-80-poetry-precommit_commit_stage_hook.yml@main
-    with:
-      CONCURRENCY: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_concurrency_limit }}
-      PRECOMMIT_HOOK_ID: ${{ matrix.hook.id }}
-      PRECOMMIT_HOOK_NAME: ${{ matrix.hook.name }}
-      PYTHON_VERSIONS: ${{ toJSON(fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_python_versions) }}
-      VERBOSE_NOTIFICATIONS: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_verbose_notifications }}
-
-  yaml_lint:
-    needs:
-      - configuration
-    secrets:
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-    uses: cicd-tools-org/cicd-tools/.github/workflows/job-80-poetry-precommit_commit_stage_hook.yml@main
-    with:
-      CONCURRENCY: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_concurrency_limit }}
-      PRECOMMIT_HOOK_ID: "yamllint"
-      PRECOMMIT_HOOK_NAME: "YAML Linting"
+      PRE_HOOKS_COMMAND: poetry run pre-commit run --hook-stage manual spelling-vale-sync
       PYTHON_VERSIONS: ${{ toJSON(fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_python_versions) }}
       VERBOSE_NOTIFICATIONS: ${{ fromJSON(needs.configuration.outputs.JSON_FILE_DATA).ci_verbose_notifications }}
 
@@ -389,24 +181,12 @@ jobs:
       - commit_spell_check
       - configuration
       - distribution_packaging_test
-      - git_conflict_markers
-      - json_schema_lint
       - markdown_links
-      - markdown_lint
-      - markdown_spelling
-      - pre-commit_hooks
-      - pre-commit_lint_config
-      - python_lint
-      - reference
+      - pre-commit_test_hooks
+      - pre-commit_run_hooks
       - security
-      - shell_lint
-      - spelling_vocabularies
       - start
-      - toml_lint
-      - translation_check
       - unit_tests
-      - workflow_lint
-      - yaml_lint
     secrets:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
     uses: cicd-tools-org/cicd-tools/.github/workflows/job-99-poetry-create_release.yml@main
