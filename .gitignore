@@ -9,4 +9,8 @@ __pycache__
 .venv
 .vscode
 coverage
+docs/_build
+docs/reference
+docs/reference_testing
+docs/locales/**/LC_MESSAGES/*.mo
 locales/**/LC_MESSAGES/*.mo
