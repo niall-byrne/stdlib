@@ -29,6 +29,8 @@ capture_assertion_failure
 cleanup_on_exit
 fn
 jules
+kcov
+mktemp
 mock's
 parametrizer
 parametrizers
