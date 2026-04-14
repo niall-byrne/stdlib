@@ -15,16 +15,16 @@ repos:
     rev: v0.15.0
     hooks:
       - id: ruff-check
-        alias: ruff-lint
-        types: ["python"]
-      - id: ruff-check
         alias: ruff-fix
         args:
           - "--fix"
         types: ["python"]
         stages: ["manual"]
+      - id: ruff-check
+        alias: ruff-lint
+        types: ["python"]
   - repo: https://github.com/cicd-tools-org/pre-commit.git
-    rev: e58ac73ff0825ab646c16f4a1de308ec19fe5c7e
+    rev: 0.8.0
     hooks:
       - id: format-shell
         args:
@@ -45,11 +45,7 @@ repos:
           - "locales"
         stages: [pre-commit]
       - id: gettext-translations-missing
-        args:
-          - "-p"
-          - "locales"
-          - "-s"
-          - "en"
+        exclude: "^(docs/)*locales/en/LC_MESSAGES.+$"
       - id: gettext-translations-update
         name: stdlib translations
         args:
@@ -83,7 +79,7 @@ repos:
           - "-x"
           - "--keyword=_testing.__gettext"
       - id: git-conflict-markers
-        exclude: "^src/logger/tests/test_stdlib_logger_traceback.sh$"
+        exclude: "^(docs/make.bat|docs/locales/.+\\.po|src/logger/tests/test_stdlib_logger_traceback.sh)$"
       - id: lint-github-workflow
       - id: lint-github-workflow-header
       - id: lint-markdown
@@ -98,10 +94,24 @@ repos:
           - "-x"
         files: "^(.+\\.(sh|snippet)|build/t|dist/t)$"
         exclude: "^dist/stdlib(_testing)*.sh$"
+      - id: poetry-docs-build
+        args:
+          - "-l"
+          - "en"
+          - "-s"
+          - "docs"
+          - "-b"
+          - "docs/_build"
+      - id: poetry-docs-translate
+        args:
+          - "-s"
+          - "docs"
+          - "-b"
+          - "docs/_build"
       - id: pre-commit-sort-config
       - id: security-credentials
       - id: spelling-commit-message
-      - id: spelling-markdown
+      - id: spelling-docs
       - id: spelling-vale-sync
       - id: spelling-vale-vocab
   - repo: https://github.com/commitizen-tools/commitizen
@@ -151,7 +161,7 @@ repos:
         stages: [manual]
         pass_filenames: false
         require_serial: true
-      - id: documentation-build
+      - id: documentation-markdown-build
         name: build documentation using shdoc
         entry: bash -c "TEST_CONTAINER_DISABLE_TTY=1 ./container.sh run build/docs.sh"
         language: system
@@ -167,6 +177,14 @@ repos:
         exclude: "^((.+/)*tests/.+\\.sh)$"
         pass_filenames: true
         require_serial: true
+      - id: documentation-sphinx-build-gettext
+        name: build documentation using sphinx
+        entry: poetry run bash -c "cd docs && sphinx-intl update -p _build/gettext -l en"
+        language: system
+        files: "^(src|docs)/.+$"
+        pass_filenames: false
+        require_serial: true
+        stages: ["manual"]
       - id: snippet-files-headers
         name: ensure snippet files have correct headers
         entry: "\\A(?!#!/bin/bash\n).+\\Z"
