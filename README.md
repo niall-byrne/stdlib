@@ -1,32 +1,19 @@
 # STDLIB
 
-Reusable standard library for bash.
+A reusable standard library for [Bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell)).
 
-## Loading STDLIB
+## About
 
-```bash
-source stdlib/__lib__.sh
-```
+This is my small attempt to create a home for the myriad of helper functions we all seem to end up implementing when cobbling together scripting.
 
-## Library Features
+A mocking system, modelled on Python, has also been included to try and simplify the task of testing scripts.
 
-### Standardized Function Return Codes
+This won't cover every use case out there, but it does provide a consistent and extendable API that can easily grow.  Pull requests are welcome, as is feedback and ideas.
 
-<!-- vale alex.Ablist = NO -->_
+Comprehensive [documentation](https://bash-stdlib.readthedocs.io/) is also available to get you started.
 
-| status code | meaning                              |
-|-------------|--------------------------------------|
-| 0           | assertion is true                    |
-| 1           | assertion is false                   |
-| 126         | invalid argument types were provided |
-| 127         | invalid argument count               |
+## Compatibility
 
-<!-- alex.Ablist = YES -->
+Most of the library is intentionally POSIX in nature, which makes me confident that a wide variety of BASH versions are supported.
 
-## Testing
-
-The testing library is not loaded by default, should be sourced manually:
-
-```bash
-source stdlib/testing/__lib__.sh
-```
+It's important to note that STDLIB in its current form requires GNU/Linux binaries to function correctly.  If there is sufficient interest, support for BSD or OSX environments can be added.
