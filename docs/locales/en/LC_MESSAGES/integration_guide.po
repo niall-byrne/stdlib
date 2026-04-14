@@ -1,0 +1,204 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Niall Byrne
+# This file is distributed under the same license as the stdlib package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: stdlib \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-19 08:57-0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../integration_guide.md:1
+msgid "Integration Guide"
+msgstr ""
+
+#: ../../integration_guide.md:3
+msgid "Getting Started"
+msgstr ""
+
+#: ../../integration_guide.md:5
+msgid ""
+"STDLIB itself is distributed as a versioned tar archive that can be "
+"unpacked to the desired target location."
+msgstr ""
+
+#: ../../integration_guide.md:7
+msgid ""
+"A consuming project need only source the distributed `stdlib.sh` script "
+"to begin using the project."
+msgstr ""
+
+#: ../../integration_guide.md:9
+msgid "Safely Integrating Trap Signals"
+msgstr ""
+
+#: ../../integration_guide.md:11
+msgid ""
+"Each time Bash registers a `trap` signal handler, any existing handler is"
+" overwritten."
+msgstr ""
+
+#: ../../integration_guide.md:13
+msgid ""
+"Given this constraint, when integrating STDLIB, take care not to "
+"overwrite its trap signal handling by directly registering your own "
+"handlers with the `trap` builtin."
+msgstr ""
+
+#: ../../integration_guide.md:15
+msgid ""
+"Instead, it's recommended to extend STDLIB's trap handling for ERROR and "
+"EXIT by using the provided registration functions:"
+msgstr ""
+
+#: ../../integration_guide.md:17
+msgid "`stdlib.trap.handler.err.fn.register`"
+msgstr ""
+
+#: ../../integration_guide.md:18
+msgid "`stdlib.trap.handler.exit.fn.register`"
+msgstr ""
+
+#: ../../integration_guide.md:20
+msgid ""
+"This allows STDLIB to preserve its own trap handling, while giving "
+"consuming projects the ability to safely run one or more custom signal "
+"trap handlers."
+msgstr ""
+
+#: ../../integration_guide.md:22
+msgid "Embedding STDLIB in a Project"
+msgstr ""
+
+#: ../../integration_guide.md:24
+msgid ""
+"Embedding stdlib in an existing project may be the easiest method to "
+"integrate it quickly.  This is best done in a folder separate and "
+"parallel from the source code."
+msgstr ""
+
+#: ../../integration_guide.md:40
+msgid "Installing STDLIB Centrally on a System"
+msgstr ""
+
+#: ../../integration_guide.md:42
+msgid ""
+"You could also opt to globally install STDLIB so it can be consumed by "
+"multiple scripts running on a host machine from a central location."
+msgstr ""
+
+#: ../../integration_guide.md:44
+msgid ""
+"Typically, this would be done in a `/usr/local/lib/stdlib` or similarly "
+"named folder."
+msgstr ""
+
+#: ../../integration_guide.md:46
+msgid "Enabling Testing"
+msgstr ""
+
+#: ../../integration_guide.md:48
+msgid "External Dependencies"
+msgstr ""
+
+#: ../../integration_guide.md:50
+msgid ""
+"Depending on how you leverage STDLIB for testing, you'll need to install "
+"one or more external tools."
+msgstr ""
+
+#: ../../integration_guide.md:52
+msgid "bash_unit"
+msgstr ""
+
+#: ../../integration_guide.md:54
+msgid ""
+"This project leverages [bash_unit](https://github.com/bash-"
+"unit/bash_unit) under the hood as the test framework."
+msgstr ""
+
+#: ../../integration_guide.md:56
+msgid ""
+"Given this constraint, the first step is to install bash_unit on your "
+"system, and ensure it's available in PATH."
+msgstr ""
+
+#: ../../integration_guide.md:58
+msgid ""
+"It is definitely possible to use other test frameworks instead, but for "
+"simplicity right now only bash_unit is officially supported."
+msgstr ""
+
+#: ../../integration_guide.md:60
+msgid "kcov"
+msgstr ""
+
+#: ../../integration_guide.md:62
+msgid ""
+"If you wish to measure code coverage, you'll need to also install "
+"[kcov](https://github.com/SimonKagstrom/kcov), and ensure this too is "
+"available in PATH."
+msgstr ""
+
+#: ../../integration_guide.md:64
+msgid "Custom 't' Script"
+msgstr ""
+
+#: ../../integration_guide.md:66
+msgid "The 't' script is a callable that is used to invoke test suites."
+msgstr ""
+
+#: ../../integration_guide.md:68
+msgid ""
+"To adapt STDLIB to your codebase, you'll need to create a small wrapper "
+"script that loads dependencies or sets environment variables in order to "
+"establish a \"testing context\" within which the test suites will run."
+msgstr ""
+
+#: ../../integration_guide.md:70
+msgid "This project has an example [customized t script](../build/t) that:"
+msgstr ""
+
+#: ../../integration_guide.md:71
+msgid ""
+"exports a custom `_t_runner_custom_execution_context` function to load "
+"all the required libraries"
+msgstr ""
+
+#: ../../integration_guide.md:72
+msgid "calls the [stdlib t script](../dist/t) to actually run the test suites"
+msgstr ""
+
+#: ../../integration_guide.md:74
+msgid "Presumably your own custom 't' script would perform these same tasks."
+msgstr ""
+
+#: ../../integration_guide.md:76
+msgid "Mocking System"
+msgstr ""
+
+#: ../../integration_guide.md:78
+msgid ""
+"The mocking system records calls in files created by mktemp to simplify "
+"the task of mocking dependencies across different processes."
+msgstr ""
+
+#: ../../integration_guide.md:80
+msgid ""
+"If you wish to compartmentalize your system's /tmp folder, "
+"containerization is the recommended approach.  This project's own "
+"development [leverages this approach](../container.sh) in an attempt to "
+"'eat our own dog food'."
+msgstr ""
+
