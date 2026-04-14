@@ -1,0 +1,94 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Niall Byrne
+# This file is distributed under the same license as the stdlib package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: stdlib \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-19 08:57-0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../../README.md:2
+msgid "STDLIB"
+msgstr ""
+
+#: ../../../README.md:4
+msgid ""
+"A reusable standard library for "
+"[Bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell))."
+msgstr ""
+
+#: ../../../README.md:6
+msgid "About"
+msgstr ""
+
+#: ../../../README.md:8
+msgid ""
+"This is my small attempt to create a home for the myriad of helper "
+"functions we all seem to end up implementing when cobbling together "
+"scripting."
+msgstr ""
+
+#: ../../../README.md:10
+msgid ""
+"A mocking system, modelled on Python, has also been included to try and "
+"simplify the task of testing scripts."
+msgstr ""
+
+#: ../../../README.md:12
+msgid ""
+"This won't cover every use case out there, but it does provide a "
+"consistent and extendable API that can easily grow.  Pull requests are "
+"welcome, as is feedback and ideas."
+msgstr ""
+
+#: ../../../README.md:14
+msgid ""
+"Comprehensive [documentation](https://bash-stdlib.readthedocs.io/) is "
+"also available to get you started."
+msgstr ""
+
+#: ../../../README.md:16
+msgid "Compatibility"
+msgstr ""
+
+#: ../../../README.md:18
+msgid ""
+"Most of the library is intentionally POSIX in nature, which makes me "
+"confident that a wide variety of BASH versions are supported."
+msgstr ""
+
+#: ../../../README.md:20
+msgid ""
+"It's important to note that STDLIB in its current form requires GNU/Linux"
+" binaries to function correctly.  If there is sufficient interest, "
+"support for BSD or OSX environments can be added."
+msgstr ""
+
+#: ../../index.md:5
+msgid "Documentation"
+msgstr ""
+
+#: ../../index.md:7
+msgid "[Integration Guide](integration_guide.md)"
+msgstr ""
+
+#: ../../index.md:8
+msgid "[Function References](reference/REFERENCE.md)"
+msgstr ""
+
+#: ../../index.md:9
+msgid "[Testing Function References](reference_testing/REFERENCE_TESTING.md)"
+msgstr ""
+

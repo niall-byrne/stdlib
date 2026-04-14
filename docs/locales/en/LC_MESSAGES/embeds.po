@@ -1,0 +1,42 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Niall Byrne
+# This file is distributed under the same license as the stdlib package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: stdlib \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-19 08:57-0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../embeds/container_script.md:4
+msgid "Containerized Development Environment"
+msgstr ""
+
+#: ../../embeds/container_script.md:8
+msgid "STDLIB's Containerized Development Environment"
+msgstr ""
+
+#: ../../embeds/customized_t_script.md:4
+msgid "Example 't' Script Wrapper"
+msgstr ""
+
+#: ../../embeds/customized_t_script.md:8
+msgid "Customized 't' Script"
+msgstr ""
+
+#: ../../embeds/distribution_t_script.md:4
+#: ../../embeds/distribution_t_script.md:8
+msgid "Distribution 't' Script"
+msgstr ""
+
