@@ -161,6 +161,7 @@ Clones an existing function to a new name.
 
 Creates a pipeable version of an existing function.
 * STDLIB_PIPEABLE_STDIN_SOURCE_SPECIFIER: A string used to specify the position of stdin in the arguments (default='-').
+MAYBE WE SHOULD TWEAK THE API HERE SO YOU CAN NAME THESE FUNCTIONS?
 
 #### Arguments
 
