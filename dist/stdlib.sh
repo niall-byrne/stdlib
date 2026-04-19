@@ -98,17 +98,13 @@ declare -- _STDLIB_BINARY_TAIL="/usr/bin/tail"
 declare -- _STDLIB_BINARY_TPUT="/usr/bin/tput"
 declare -- _STDLIB_BINARY_TR="/usr/bin/tr"
 declare -a __STDLIB_LOGGING_DECORATORS_ARRAY=([0]="_testing.__protected")
+declare -x __STDLIB_SECURE_DISTRIBUTION="1"
 
 # stdlib function definitions
 
 stdlib.__builtin.overridable ()
 {
-    builtin local use_builtin_boolean="${STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN:-0}";
-    if [[ "${use_builtin_boolean}" == "0" ]]; then
-        builtin "${@}";
-    else
-        "${@}";
-    fi
+    builtin "${@}"
 }
 
 stdlib.__gettext ()
