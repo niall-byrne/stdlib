@@ -13,7 +13,8 @@ STDLIB_RELEASE="dist/stdlib.sh"
 STDLIB_TESTING_RELEASE="dist/stdlib_testing.sh"
 
 __package_build_stdlib() {
-  bash build/build.sh stdlib | sed 's/ $//g' > "${STDLIB_RELEASE}"
+  __STDLIB_SECURE_DISTRIBUTION=1 \
+    bash build/build.sh stdlib | sed 's/ $//g' > "${STDLIB_RELEASE}"
 }
 
 __package_build_stdlib_testing() {
