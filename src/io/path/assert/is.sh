@@ -54,6 +54,32 @@ stdlib.io.path.assert.is_file() {
   builtin return "${return_code}"
 }
 
+# @description Asserts that a path is an empty file (length of 0 bytes).
+# @arg $1 string The path to check.
+# @exitcode 0 If the operation succeeded.
+# @exitcode 1 If the operation failed.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stderr The error message if the assertion fails.
+stdlib.io.path.assert.is_file_empty() {
+  builtin local return_code=0
+
+  stdlib.io.path.query.is_file_empty "${@}" || return_code="$?"
+
+  case "${return_code}" in
+    0) ;; # KCOV_EXCLUDE_LINE
+    126 | 127)
+      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
+      ;;
+    *)
+      stdlib.logger.error "$(stdlib.__message.get FS_PATH_IS_NOT_A_FILE_EMPTY "${1}")"
+      ;;
+  esac
+
+  builtin return "${return_code}"
+}
+
+
 # @description Asserts that a path is a folder.
 # @arg $1 string The path to check.
 # @exitcode 0 If the operation succeeded.

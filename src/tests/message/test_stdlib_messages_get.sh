@@ -41,6 +41,7 @@ setup() {
     "fs_path_does_not_exist;FS_PATH_DOES_NOT_EXIST|/tmp/foo;The path '/tmp/foo' does not exist on the filesystem!" \
     "fs_path_exists;FS_PATH_EXISTS|/tmp/foo;The path '/tmp/foo' exists on the filesystem!" \
     "fs_path_is_not_a_file;FS_PATH_IS_NOT_A_FILE|/tmp/foo;The path '/tmp/foo' is not a valid filesystem file!" \
+    "fs_path_is_not_a_file_empty;FS_PATH_IS_NOT_A_FILE_EMPTY|/tmp/foo;The path '/tmp/foo' is not a zero-length filesystem file!" \
     "fs_path_is_not_a_folder;FS_PATH_IS_NOT_A_FOLDER|/tmp/foo;The path '/tmp/foo' is not a valid filesystem folder!" \
     "is_array;IS_ARRAY|value;The value 'value' is an array!" \
     "is_builtin;IS_BUILTIN|value;The value 'value' is a shell builtin!" \
@@ -58,6 +59,10 @@ setup() {
     "is_not_integer_in_range;IS_NOT_INTEGER_IN_RANGE|1|10|11;The value '11' is not a string containing an integer in the inclusive range 1 to 10!" \
     "is_not_octal_permission;IS_NOT_OCTAL_PERMISSION|aaa;The value 'aaa' is not a string containing an octal file permission!" \
     "is_not_set_string;IS_NOT_SET_STRING|value;The value 'value' is not a set string!" \
+    "lock_could_not_be_acquired;LOCK_COULD_NOT_BE_ACQUIRED|lockname;An exclusive execution lock, with name 'lockname', could not be acquired in time!" \
+    "lock_could_not_be_released;LOCK_COULD_NOT_BE_RELEASED|lockname;An exclusive execution lock, with name 'lockname', could not be released!" \
+    "lock_workspace_could_not_be_allocated;LOCK_WORKSPACE_COULD_NOT_BE_ALLOCATED;A workspace for filesystem locks could not be allocated!" \
+    "lock_workspace_does_not_exist;LOCK_WORKSPACE_DOES_NOT_EXIST|lockname;A workspace for filesystem locks has not yet been allocated, the 'lockname' lock could not be managed!" \
     "regex_does_not_match;REGEX_DOES_NOT_MATCH|regex|not matching;The regex 'regex' does not match the value 'not matching'!" \
     "security_insecure_group_ownership;SECURITY_INSECURE_GROUP_OWNERSHIP|/tmp/foo;SECURITY: The group ownership on '/tmp/foo' is not secure!" \
     "security_insecure_ownership;SECURITY_INSECURE_OWNERSHIP|/tmp/foo;SECURITY: The ownership on '/tmp/foo' is not secure!" \
@@ -118,6 +123,8 @@ setup() {
     "fs_path_exists__________________________too_many_args;FS_PATH_EXISTS|1|2" \
     "fs_path_is_not_a_file___________________no_args______;FS_PATH_IS_NOT_A_FILE" \
     "fs_path_is_not_a_file___________________too_many_args;FS_PATH_IS_NOT_A_FILE|1|2" \
+    "fs_path_is_not_a_file_empty_____________no_args______;FS_PATH_IS_NOT_A_FILE_EMPTY" \
+    "fs_path_is_not_a_file_empty_____________too_many_args;FS_PATH_IS_NOT_A_FILE_EMPTY|1|2" \
     "fs_path_is_not_a_folder_________________no_args______;FS_PATH_IS_NOT_A_FOLDER" \
     "fs_path_is_not_a_folder_________________too_many_args;FS_PATH_IS_NOT_A_FOLDER|1|2" \
     "is_array________________________________no_args______;IS_ARRAY" \
@@ -153,6 +160,13 @@ setup() {
     "is_not_octal_permission_________________too_many_args;IS_NOT_OCTAL_PERMISSION|1|2" \
     "is_not_set_string_______________________no_args______;IS_NOT_SET_STRING" \
     "is_not_set_string_______________________too_many_args;IS_NOT_SET_STRING|1|2" \
+    "lock_could_not_be_acquired______________no_args______;LOCK_COULD_NOT_BE_ACQUIRED" \
+    "lock_could_not_be_acquired______________too_many_args;LOCK_COULD_NOT_BE_ACQUIRED|1|2" \
+    "lock_could_not_be_released______________no_args______;LOCK_COULD_NOT_BE_RELEASED" \
+    "lock_could_not_be_released______________too_many_args;LOCK_COULD_NOT_BE_RELEASED|1|2" \
+    "lock_workspace_could_not_be_allocated___too_many_args;LOCK_WORKSPACE_COULD_NOT_BE_ALLOCATED|1" \
+    "lock_workspace_does_not_exist___________no_args______;LOCK_WORKSPACE_DOES_NOT_EXIST" \
+    "lock_workspace_does_not_exist___________too_many_args;LOCK_WORKSPACE_DOES_NOT_EXIST|1|2" \
     "regex_does_not_match____________________no_args______;REGEX_DOES_NOT_MATCH" \
     "regex_does_not_match____________________too_few_args_;REGEX_DOES_NOT_MATCH|1" \
     "regex_does_not_match____________________too_many_args;REGEX_DOES_NOT_MATCH|1|2|3" \

@@ -61,3 +61,19 @@ assert_is_array() {
   _stdlib_assertion_output="${_stdlib_assertion_output/$'\n'/$'\n '}"
   [[ "${_stdlib_return_code}" == "0" ]] || fail " ${_stdlib_assertion_output}"
 }
+
+# @description Asserts that a variable is an array containing a value.
+# @arg $1 string The value to assert is present.
+# @arg $2 string The name of the variable to check.
+# @exitcode 0 If the value is present in the array.
+# @exitcode 1 If the value is not present in the array.
+# @stderr The error message if the assertion fails.
+assert_is_array_containing() {
+  builtin local _stdlib_assertion_output
+  builtin local _stdlib_return_code=0
+
+  _stdlib_assertion_output="$(_testing.__protected stdlib.array.assert.is_contains "${@}" 2>&1)" || _stdlib_return_code="$?"
+
+  _stdlib_assertion_output="${_stdlib_assertion_output/$'\n'/$'\n '}"
+  [[ "${_stdlib_return_code}" == "0" ]] || fail " ${_stdlib_assertion_output}"
+}

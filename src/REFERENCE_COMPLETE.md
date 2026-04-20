@@ -45,6 +45,10 @@
 * [stdlib.fn.query.is_builtin](#stdlibfnqueryis_builtin)
 * [stdlib.fn.query.is_fn](#stdlibfnqueryis_fn)
 * [stdlib.fn.query.is_valid_name](#stdlibfnqueryis_valid_name)
+* [stdlib.io.lock.acquire](#stdlibiolockacquire)
+* [stdlib.io.lock.release](#stdlibiolockrelease)
+* [stdlib.io.lock.with](#stdlibiolockwith)
+* [stdlib.io.lock.workspace_allocate](#stdlibiolockworkspace_allocate)
 * [stdlib.io.path.assert.is_exists](#stdlibiopathassertis_exists)
 * [stdlib.io.path.assert.is_file](#stdlibiopathassertis_file)
 * [stdlib.io.path.assert.is_folder](#stdlibiopathassertis_folder)
@@ -985,6 +989,91 @@ Checks if a string is a valid function name.
 * **1**: If the name is invalid.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
+
+### stdlib.io.lock.acquire
+
+Acquires a named exclusive execution lock, or waits until able to do so.
+* STDLIB_LOCK_WORKSPACE: The name of a managed temporary directory which has been allocated for lock operations (default="").
+* STDLIB_LOCK_WAIT_SECONDS: The number of seconds the process will wait for the lock to become available (default=30).
+
+#### Arguments
+
+* **$1** (string): A unique alpha-numeric name for this lock.
+
+#### Exit codes
+
+* **0**: If the lock was successfully acquired.
+* **1**: If the time out elapsed without the lock becoming available.
+* **126**: If an invalid argument has been provided.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stderr
+
+* The error message if the operation fails.
+
+### stdlib.io.lock.release
+
+Releases a named exclusive execution lock.
+* STDLIB_LOCK_WORKSPACE: The name of a managed temporary directory which has been allocated for lock operations. (default="").
+
+#### Arguments
+
+* **$1** (string): A unique alpha-numeric name for this lock.
+
+#### Exit codes
+
+* **0**: If the lock was successfully released.
+* **1**: If the lock could not be released.
+* **126**: If an invalid argument has been provided.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stderr
+
+* The error message if the operation fails.
+
+### stdlib.io.lock.with
+
+Runs a command in a named exclusive execution lock.
+* STDLIB_LOCK_WORKSPACE: The name of a managed temporary directory which has been allocated for lock operations (default="").
+* STDLIB_LOCK_WAIT_SECONDS: The number of seconds the process will wait for the lock to become available (default=30).
+
+#### Arguments
+
+* **$1** (string): A unique alpha-numeric name for this lock.
+* **...** (string): The command or function and any arguments that will be executed with this execution lock.
+
+#### Exit codes
+
+* **0**: If the lock was successfully acquired.
+* **1**: If the time out elapsed without the lock becoming available.
+* **126**: If an invalid argument has been provided.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stderr
+
+* The error message if the operation fails.
+
+### stdlib.io.lock.workspace_allocate
+
+Creates a temporary folder dedicated for execution locking, and handles it's clean up.
+* STDLIB_LOCK_WORKSPACE: The name of a managed temporary directory which has been allocated for lock operations (default="").
+
+_Function has no arguments._
+
+#### Variables set
+
+* **STDLIB_LOCK_WORKSPACE** (string): The name of a managed temporary directory which has been allocated for lock operations.
+
+#### Exit codes
+
+* **0**: If the workspace was successfully allocated.
+* **1**: If the workspace could not be allocated.
+* **126**: If an invalid argument has been provided.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stderr
+
+* The error message if the operation fails.
 
 ### stdlib.io.path.assert.is_exists
 

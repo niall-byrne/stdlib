@@ -28,6 +28,19 @@ stdlib.io.path.query.is_file() {
   stdlib.__builtin.overridable test -f "${1}" || builtin return 1
 }
 
+# @description Checks if a path is an empty file (length of 0 bytes).
+# @arg $1 string The path to check.
+# @exitcode 0 If the path is an empty file.
+# @exitcode 1 If the path is not an empty file.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+stdlib.io.path.query.is_file_empty() {
+  [[ "${#@}" == "1" ]] || builtin return 127
+  [[ -n "${1}" ]] || builtin return 126
+  stdlib.__builtin.overridable test -s "${1}" || builtin return 1
+}
+
+
 # @description Checks if a path is a folder.
 # @arg $1 string The path to check.
 # @exitcode 0 If the path is a folder.

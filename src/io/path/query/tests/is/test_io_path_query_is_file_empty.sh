@@ -1,0 +1,55 @@
+#!/bin/bash
+
+setup() {
+  _mock.create stdlib.logger.error
+  _mock.create test
+
+  # shellcheck disable=SC2034
+  STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=1
+}
+
+@parametrize_with_arg_combos() {
+  # $1: the test function to parametrize
+
+  @parametrize \
+    "${1}" \
+    "TEST_ARGS_DEFINITION;TEST_EXPECTED_RC" \
+    "too_many_args______127;arg1|arg2;127" \
+    "insufficient_args__127;;127" \
+    "empty_arg__________126;|;126"
+}
+
+test_stdlib_io_path_query_is_file_empty__@vary__________return_expected_status_code() {
+  local args=()
+
+  stdlib.array.make.from_string args "|" "${TEST_ARGS_DEFINITION}"
+
+  _capture.rc stdlib.io.path.query.is_file_empty "${args[@]}"
+
+  assert_rc "${TEST_EXPECTED_RC}"
+}
+
+@parametrize_with_arg_combos \
+  test_stdlib_io_path_query_is_file_empty__@vary__________return_expected_status_code
+
+test_stdlib_io_path_query_is_file_empty__valid_args_________test_passes__return_status_code_0() {
+  test.mock.set.rc "0"
+
+  _capture.rc stdlib.io.path.query.is_file_empty "/some/file"
+
+  assert_rc "0"
+}
+
+test_stdlib_io_path_query_is_file_empty__valid_args_________test_fails___return_status_code_1() {
+  test.mock.set.rc "1"
+
+  _capture.rc stdlib.io.path.query.is_file_empty "/some/file"
+
+  assert_rc "1"
+}
+
+test_stdlib_io_path_query_is_file_empty__valid_args_________test_is_called_with_expected_args() {
+  stdlib.io.path.query.is_file_empty "/some/file"
+
+  test.mock.assert_called_once_with "1(-s) 2(/some/file)"
+}
