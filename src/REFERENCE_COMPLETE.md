@@ -101,6 +101,8 @@
 * [stdlib.string.assert.is_integer_with_range](#stdlibstringassertis_integer_with_range)
 * [stdlib.string.assert.is_octal_permission](#stdlibstringassertis_octal_permission)
 * [stdlib.string.assert.is_regex_match](#stdlibstringassertis_regex_match)
+* [stdlib.string.assert.is_snake_case](#stdlibstringassertis_snake_case)
+* [stdlib.string.assert.is_snake_case_upper](#stdlibstringassertis_snake_case_upper)
 * [stdlib.string.assert.is_string](#stdlibstringassertis_string)
 * [stdlib.string.assert.not_equal](#stdlibstringassertnot_equal)
 * [stdlib.string.colour](#stdlibstringcolour)
@@ -148,6 +150,8 @@
 * [stdlib.string.query.is_integer_with_range](#stdlibstringqueryis_integer_with_range)
 * [stdlib.string.query.is_octal_permission](#stdlibstringqueryis_octal_permission)
 * [stdlib.string.query.is_regex_match](#stdlibstringqueryis_regex_match)
+* [stdlib.string.query.is_snake_case](#stdlibstringqueryis_snake_case)
+* [stdlib.string.query.is_snake_case_upper](#stdlibstringqueryis_snake_case_upper)
 * [stdlib.string.query.is_string](#stdlibstringqueryis_string)
 * [stdlib.string.query.ends_with](#stdlibstringqueryends_with)
 * [stdlib.string.query.first_char_is](#stdlibstringqueryfirst_char_is)
@@ -2046,6 +2050,42 @@ Asserts that a string matches a regular expression.
 
 * The error message if the assertion fails.
 
+### stdlib.string.assert.is_snake_case
+
+Asserts that a string is in snake case.
+
+#### Arguments
+
+* **$1** (string): The string to check.
+
+#### Exit codes
+
+* **0**: If the assertion succeeded.
+* **1**: If the assertion failed.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stderr
+
+* The error message if the assertion fails.
+
+### stdlib.string.assert.is_snake_case_upper
+
+Asserts that a string is in upper snake case.
+
+#### Arguments
+
+* **$1** (string): The string to check.
+
+#### Exit codes
+
+* **0**: If the assertion succeeded.
+* **1**: If the assertion failed.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stderr
+
+* The error message if the assertion fails.
+
 ### stdlib.string.assert.is_string
 
 Asserts that a value is a non-empty string.
@@ -3003,6 +3043,36 @@ Checks if a string matches a regular expression.
 
 * **0**: If the string matches the regular expression.
 * **1**: If the string does not match the regular expression.
+* **126**: If an invalid argument has been provided.
+* **127**: If the wrong number of arguments were provided.
+
+### stdlib.string.query.is_snake_case
+
+Checks if a string is in snake case.
+
+#### Arguments
+
+* **$1** (string): The string to check.
+
+#### Exit codes
+
+* **0**: If the string is valid snake case.
+* **1**: If the string is not valid snake case.
+* **126**: If an invalid argument has been provided.
+* **127**: If the wrong number of arguments were provided.
+
+### stdlib.string.query.is_snake_case_upper
+
+Checks if a string is in upper snake case.
+
+#### Arguments
+
+* **$1** (string): The string to check.
+
+#### Exit codes
+
+* **0**: If the string is valid upper snake case.
+* **1**: If the string is not valid upper snake case.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 
