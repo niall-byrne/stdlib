@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: niall@niallbyrne.ca\n"
-"POT-Creation-Date: 2026-01-24 18:42+0000\n"
+"POT-Creation-Date: 2026-05-01 17:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -163,93 +163,103 @@ msgstr ""
 
 #: src/message.sh:151
 #, sh-format
-msgid "The value '${option1}' is not a string containing a digit!"
+msgid "The value '${option1}' is not a string containing a decimal!"
 msgstr ""
 
 #: src/message.sh:155
 #, sh-format
-msgid "The value '${option1}' is not a function!"
+msgid "The value '${option1}' is not a string containing a positive decimal!"
 msgstr ""
 
 #: src/message.sh:159
 #, sh-format
-msgid "The value '${option1}' is not a string containing an integer!"
+msgid "The value '${option1}' is not a string containing a digit!"
 msgstr ""
 
 #: src/message.sh:163
+#, sh-format
+msgid "The value '${option1}' is not a function!"
+msgstr ""
+
+#: src/message.sh:167
+#, sh-format
+msgid "The value '${option1}' is not a string containing an integer!"
+msgstr ""
+
+#: src/message.sh:171
 #, sh-format
 msgid ""
 "The value '${option3}' is not a string containing an integer in the "
 "inclusive range ${option1} to ${option2}!"
 msgstr ""
 
-#: src/message.sh:167
+#: src/message.sh:175
 #, sh-format
 msgid ""
 "The value '${option1}' is not a string containing an octal file permission!"
 msgstr ""
 
-#: src/message.sh:171
+#: src/message.sh:179
 #, sh-format
 msgid "The value '${option1}' is not a set string!"
 msgstr ""
 
-#: src/message.sh:175
+#: src/message.sh:183
 #, sh-format
 msgid "The regex '${option1}' does not match the value '${option2}'!"
 msgstr ""
 
-#: src/message.sh:179
+#: src/message.sh:187
 #, sh-format
 msgid "SECURITY: The group ownership on '${option1}' is not secure!"
 msgstr ""
 
-#: src/message.sh:183
+#: src/message.sh:191
 #, sh-format
 msgid "SECURITY: The ownership on '${option1}' is not secure!"
 msgstr ""
 
-#: src/message.sh:187
+#: src/message.sh:195
 #, sh-format
 msgid "SECURITY: The permissions on '${option1}' are not secure!"
 msgstr ""
 
-#: src/message.sh:191
-msgid "SECURITY: This script must be run as root."
-msgstr ""
-
-#: src/message.sh:195
-#, sh-format
-msgid "Please consider running: sudo chgrp '${option1}' '${option2}'"
-msgstr ""
-
 #: src/message.sh:199
-#, sh-format
-msgid "Please consider running: sudo chmod '${option1}' '${option2}'"
+msgid "SECURITY: This script must be run as root."
 msgstr ""
 
 #: src/message.sh:203
 #, sh-format
-msgid "Please consider running: sudo chown '${option1}' '${option2}'"
+msgid "Please consider running: sudo chgrp '${option1}' '${option2}'"
 msgstr ""
 
 #: src/message.sh:207
-msgid "Are you sure you wish to proceed (Y/n) ?"
+#, sh-format
+msgid "Please consider running: sudo chmod '${option1}' '${option2}'"
 msgstr ""
 
 #: src/message.sh:211
-msgid "Press any key to continue ..."
+#, sh-format
+msgid "Please consider running: sudo chown '${option1}' '${option2}'"
 msgstr ""
 
 #: src/message.sh:215
-msgid "Enter a value:"
+msgid "Are you sure you wish to proceed (Y/n) ?"
 msgstr ""
 
 #: src/message.sh:219
-msgid "Callstack:"
+msgid "Press any key to continue ..."
 msgstr ""
 
 #: src/message.sh:223
+msgid "Enter a value:"
+msgstr ""
+
+#: src/message.sh:227
+msgid "Callstack:"
+msgstr ""
+
+#: src/message.sh:231
 #, sh-format
 msgid "The value '${option1}' is not a valid variable name!"
 msgstr ""

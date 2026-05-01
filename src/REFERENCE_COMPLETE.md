@@ -94,6 +94,8 @@
 * [stdlib.string.assert.is_alpha_numeric](#stdlibstringassertis_alpha_numeric)
 * [stdlib.string.assert.is_boolean](#stdlibstringassertis_boolean)
 * [stdlib.string.assert.is_char](#stdlibstringassertis_char)
+* [stdlib.string.assert.is_decimal](#stdlibstringassertis_decimal)
+* [stdlib.string.assert.is_decimal_positive](#stdlibstringassertis_decimal_positive)
 * [stdlib.string.assert.is_digit](#stdlibstringassertis_digit)
 * [stdlib.string.assert.is_integer](#stdlibstringassertis_integer)
 * [stdlib.string.assert.is_integer_with_range](#stdlibstringassertis_integer_with_range)
@@ -139,6 +141,8 @@
 * [stdlib.string.query.is_alpha_numeric](#stdlibstringqueryis_alpha_numeric)
 * [stdlib.string.query.is_boolean](#stdlibstringqueryis_boolean)
 * [stdlib.string.query.is_char](#stdlibstringqueryis_char)
+* [stdlib.string.query.is_decimal](#stdlibstringqueryis_decimal)
+* [stdlib.string.query.is_decimal_positive](#stdlibstringqueryis_decimal_positive)
 * [stdlib.string.query.is_digit](#stdlibstringqueryis_digit)
 * [stdlib.string.query.is_integer](#stdlibstringqueryis_integer)
 * [stdlib.string.query.is_integer_with_range](#stdlibstringqueryis_integer_with_range)
@@ -1908,6 +1912,42 @@ Asserts that a string is a single character.
 
 * The error message if the assertion fails.
 
+### stdlib.string.assert.is_decimal
+
+Asserts that a string is a valid decimal.
+
+#### Arguments
+
+* **$1** (string): The string to check.
+
+#### Exit codes
+
+* **0**: If the assertion succeeded.
+* **1**: If the assertion failed.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stderr
+
+* The error message if the assertion fails.
+
+### stdlib.string.assert.is_decimal_positive
+
+Asserts that a string is a valid positive decimal.
+
+#### Arguments
+
+* **$1** (string): The string to check.
+
+#### Exit codes
+
+* **0**: If the assertion succeeded.
+* **1**: If the assertion failed.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stderr
+
+* The error message if the assertion fails.
+
 ### stdlib.string.assert.is_digit
 
 Asserts that a string contains only digits.
@@ -2851,6 +2891,36 @@ Checks if a string is a single character.
 
 * **0**: If the string is a single character.
 * **1**: If the string is not a single character.
+* **126**: If an invalid argument has been provided.
+* **127**: If the wrong number of arguments were provided.
+
+### stdlib.string.query.is_decimal
+
+Checks if a string is a valid decimal.
+
+#### Arguments
+
+* **$1** (string): The string to check.
+
+#### Exit codes
+
+* **0**: If the string is a valid decimal.
+* **1**: If the string is not a decimal.
+* **126**: If an invalid argument has been provided.
+* **127**: If the wrong number of arguments were provided.
+
+### stdlib.string.query.is_decimal_positive
+
+Checks if a string is a valid positive decimal.
+
+#### Arguments
+
+* **$1** (string): The string to check.
+
+#### Exit codes
+
+* **0**: If the string is a valid positive decimal.
+* **1**: If the string is not a positive decimal.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 
