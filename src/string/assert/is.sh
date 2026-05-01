@@ -272,6 +272,54 @@ stdlib.string.assert.is_regex_match() {
   builtin return "${return_code}"
 }
 
+# @description Asserts that a string is in snake case.
+# @arg $1 string The string to check.
+# @exitcode 0 If the assertion succeeded.
+# @exitcode 1 If the assertion failed.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stderr The error message if the assertion fails.
+stdlib.string.assert.is_snake_case() {
+  builtin local return_code=0
+
+  stdlib.string.query.is_snake_case "${@}" || return_code="$?"
+
+  case "${return_code}" in
+    0) ;; # KCOV_EXCLUDE_LINE
+    127)
+      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
+      ;;
+    *)
+      stdlib.logger.error "$(stdlib.__message.get IS_NOT_SNAKE_CASE "${1}")"
+      ;;
+  esac
+
+  builtin return "${return_code}"
+}
+
+# @description Asserts that a string is in upper snake case.
+# @arg $1 string The string to check.
+# @exitcode 0 If the assertion succeeded.
+# @exitcode 1 If the assertion failed.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stderr The error message if the assertion fails.
+stdlib.string.assert.is_snake_case_upper() {
+  builtin local return_code=0
+
+  stdlib.string.query.is_snake_case_upper "${@}" || return_code="$?"
+
+  case "${return_code}" in
+    0) ;; # KCOV_EXCLUDE_LINE
+    127)
+      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
+      ;;
+    *)
+      stdlib.logger.error "$(stdlib.__message.get IS_NOT_SNAKE_CASE_UPPER "${1}")"
+      ;;
+  esac
+
+  builtin return "${return_code}"
+}
+
 # @description Asserts that a value is a non-empty string.
 # @arg $1 string The value to check.
 # @exitcode 0 If the assertion succeeded.
