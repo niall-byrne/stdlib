@@ -170,6 +170,14 @@ stdlib.__message.get() {
       required_options=3
       message="$(stdlib.__gettext "The value '\${option3}' is not a string containing an integer in the inclusive range \${option1} to \${option2}!")"
       ;;
+    IS_NOT_IPV4)
+      required_options=1
+      message="$(stdlib.__gettext "The value '\${option1}' is not a string containing a valid ipv4 address!")"
+      ;;
+    IS_NOT_IPV6)
+      required_options=1
+      message="$(stdlib.__gettext "The value '\${option1}' is not a string containing a valid ipv6 address!")"
+      ;;
     IS_NOT_OCTAL_PERMISSION)
       required_options=1
       message="$(stdlib.__gettext "The value '\${option1}' is not a string containing an octal file permission!")"
