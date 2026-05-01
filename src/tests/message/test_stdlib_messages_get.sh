@@ -52,6 +52,8 @@ setup() {
     "is_not_boolean;IS_NOT_BOOLEAN|value;The value 'value' is not a string containing a boolean (0 or 1)!" \
     "is_not_builtin;IS_NOT_BUILTIN|value;The value 'value' is not a shell builtin!" \
     "is_not_char;IS_NOT_CHAR|value;The value 'value' is not a string containing a single char!" \
+    "is_not_decimal;IS_NOT_DECIMAL|value;The value 'value' is not a string containing a decimal!" \
+    "is_not_decimal_positive;IS_NOT_DECIMAL_POSITIVE|value;The value 'value' is not a string containing a positive decimal!" \
     "is_not_digit;IS_NOT_DIGIT|value;The value 'value' is not a string containing a digit!" \
     "is_not_fn;IS_NOT_FN|value;The value 'value' is not a function!" \
     "is_not_integer;IS_NOT_INTEGER|value;The value 'value' is not a string containing an integer!" \
@@ -140,6 +142,10 @@ setup() {
     "is_not_builtin__________________________too_many_args;IS_NOT_BUILTIN|1|2" \
     "is_not_char_____________________________no_args______;IS_NOT_CHAR" \
     "is_not_char_____________________________too_many_args;IS_NOT_CHAR|1|2" \
+    "is_not_decimal__________________________no_args______;IS_NOT_DECIMAL" \
+    "is_not_decimal__________________________too_many_args;IS_NOT_DECIMAL|1|2" \
+    "is_not_decimal_positive_________________no_args______;IS_NOT_DECIMAL_POSITIVE" \
+    "is_not_decimal_positive_________________too_many_args;IS_NOT_DECIMAL_POSITIVE|1|2" \
     "is_not_digit____________________________no_args______;IS_NOT_DIGIT" \
     "is_not_digit____________________________too_many_args;IS_NOT_DIGIT|1|2" \
     "is_not_fn_______________________________no_args______;IS_NOT_FN" \
