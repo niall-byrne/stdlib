@@ -306,6 +306,14 @@ stdlib.__message.get ()
             required_options=1;
             message="$(stdlib.__gettext "The value '\${option1}' is not a set string!")"
         ;;
+        IS_NOT_SNAKE_CASE)
+            required_options=1;
+            message="$(stdlib.__gettext "The value '\${option1}' is not a string in valid snake case!")"
+        ;;
+        IS_NOT_SNAKE_CASE_UPPER)
+            required_options=1;
+            message="$(stdlib.__gettext "The value '\${option1}' is not a string in valid upper snake case!")"
+        ;;
         REGEX_DOES_NOT_MATCH)
             required_options=2;
             message="$(stdlib.__gettext "The regex '\${option1}' does not match the value '\${option2}'!")"
@@ -2160,6 +2168,42 @@ stdlib.string.assert.is_regex_match ()
     builtin return "${return_code}"
 }
 
+stdlib.string.assert.is_snake_case ()
+{
+    builtin local return_code=0;
+    stdlib.string.query.is_snake_case "${@}" || return_code="$?";
+    case "${return_code}" in
+        0)
+
+        ;;
+        127)
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
+        ;;
+        *)
+            stdlib.logger.error "$(stdlib.__message.get IS_NOT_SNAKE_CASE "${1}")"
+        ;;
+    esac;
+    builtin return "${return_code}"
+}
+
+stdlib.string.assert.is_snake_case_upper ()
+{
+    builtin local return_code=0;
+    stdlib.string.query.is_snake_case_upper "${@}" || return_code="$?";
+    case "${return_code}" in
+        0)
+
+        ;;
+        127)
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
+        ;;
+        *)
+            stdlib.logger.error "$(stdlib.__message.get IS_NOT_SNAKE_CASE_UPPER "${1}")"
+        ;;
+    esac;
+    builtin return "${return_code}"
+}
+
 stdlib.string.assert.is_string ()
 {
     builtin local return_code=0;
@@ -3147,6 +3191,50 @@ stdlib.string.query.is_regex_match ()
         builtin return 0;
     fi;
     builtin return 1
+}
+
+stdlib.string.query.is_snake_case ()
+{
+    [[ "${#@}" == "1" ]] || builtin return 127;
+    case "${1}" in
+        "")
+            builtin return 126
+        ;;
+        *__*)
+            builtin return 1
+        ;;
+        *[!a-z0-9_]*)
+            builtin return 1
+        ;;
+        [a-z0-9]*[a-z0-9_]*[a-z0-9])
+            builtin return 0
+        ;;
+        *)
+            builtin return 1
+        ;;
+    esac
+}
+
+stdlib.string.query.is_snake_case_upper ()
+{
+    [[ "${#@}" == "1" ]] || builtin return 127;
+    case "${1}" in
+        "")
+            builtin return 126
+        ;;
+        *__*)
+            builtin return 1
+        ;;
+        *[!A-Z0-9_]*)
+            builtin return 1
+        ;;
+        [A-Z0-9]*[A-Z0-9_]*[A-Z0-9])
+            builtin return 0
+        ;;
+        *)
+            builtin return 1
+        ;;
+    esac
 }
 
 stdlib.string.query.is_string ()
