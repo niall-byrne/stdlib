@@ -298,6 +298,14 @@ stdlib.__message.get ()
             required_options=3;
             message="$(stdlib.__gettext "The value '\${option3}' is not a string containing an integer in the inclusive range \${option1} to \${option2}!")"
         ;;
+        IS_NOT_IPV4)
+            required_options=1;
+            message="$(stdlib.__gettext "The value '\${option1}' is not a string containing a valid ipv4 address!")"
+        ;;
+        IS_NOT_IPV6)
+            required_options=1;
+            message="$(stdlib.__gettext "The value '\${option1}' is not a string containing a valid ipv6 address!")"
+        ;;
         IS_NOT_OCTAL_PERMISSION)
             required_options=1;
             message="$(stdlib.__gettext "The value '\${option1}' is not a string containing an octal file permission!")"
@@ -2222,6 +2230,42 @@ stdlib.string.assert.is_string ()
     builtin return "${return_code}"
 }
 
+stdlib.string.assert.net.is_ipv4 ()
+{
+    builtin local return_code=0;
+    stdlib.string.query.net.is_ipv4 "${@}" || return_code="$?";
+    case "${return_code}" in
+        0)
+
+        ;;
+        127)
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
+        ;;
+        *)
+            stdlib.logger.error "$(stdlib.__message.get IS_NOT_IPV4 "${1}")"
+        ;;
+    esac;
+    builtin return "${return_code}"
+}
+
+stdlib.string.assert.net.is_ipv6 ()
+{
+    builtin local return_code=0;
+    stdlib.string.query.net.is_ipv6 "${@}" || return_code="$?";
+    case "${return_code}" in
+        0)
+
+        ;;
+        127)
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
+        ;;
+        *)
+            stdlib.logger.error "$(stdlib.__message.get IS_NOT_IPV6 "${1}")"
+        ;;
+    esac;
+    builtin return "${return_code}"
+}
+
 stdlib.string.assert.not_equal ()
 {
     builtin local return_code=0;
@@ -3249,6 +3293,73 @@ stdlib.string.query.last_char_is ()
     [[ "${#1}" == "1" ]] || builtin return 126;
     [[ -n "${2}" ]] || builtin return 126;
     stdlib.string.query.has_char_n "${1}" "$(("${#2}" - 1))" "${2}"
+}
+
+stdlib.string.query.net.is_ipv4 ()
+{
+    builtin local -a octets;
+    builtin local octet;
+    [[ "${#@}" == "1" ]] || builtin return 127;
+    case "${1}" in
+        "")
+            builtin return 126
+        ;;
+        *[!0-9.]*)
+            builtin return 1
+        ;;
+        *.*.*.*.*)
+            builtin return 1
+        ;;
+        *.*.*.*)
+
+        ;;
+        *)
+            builtin return 1
+        ;;
+    esac;
+    stdlib.array.make.from_string octets "." "${1}";
+    for octet in "${octets[@]}";
+    do
+        if [[ "${octet}" == 00* ]] || [[ "${octet}" -lt 0 ]] || [[ "${octet}" -gt 255 ]]; then
+            builtin return 1;
+        fi;
+    done;
+    builtin return 0
+}
+
+stdlib.string.query.net.is_ipv6 ()
+{
+    builtin local -a octets;
+    builtin local octet;
+    [[ "${#@}" == "1" ]] || builtin return 127;
+    case "${1}" in
+        "")
+            builtin return 126
+        ;;
+        *[!0-9a-fA-F:]*)
+            builtin return 1
+        ;;
+        *::*::* | *:::* | :[!:]* | *[!:]:)
+            builtin return 1
+        ;;
+        *:*)
+
+        ;;
+        *)
+            builtin return 1
+        ;;
+    esac;
+    stdlib.array.make.from_string octets ":" "${1/::/:}";
+    if [[ "${1}" == *::* ]]; then
+        [[ "${#octets[@]}" -ge 8 ]] && builtin return 1;
+    else
+        [[ "${#octets[@]}" -ne 8 ]] && builtin return 1;
+    fi;
+    for octet in "${octets[@]}";
+    do
+        [[ "${#octet}" -gt 4 ]] && builtin return 1;
+    done;
+    builtin return 0
 }
 
 stdlib.string.query.starts_with ()

@@ -104,6 +104,8 @@
 * [stdlib.string.assert.is_snake_case](#stdlibstringassertis_snake_case)
 * [stdlib.string.assert.is_snake_case_upper](#stdlibstringassertis_snake_case_upper)
 * [stdlib.string.assert.is_string](#stdlibstringassertis_string)
+* [stdlib.string.assert.net.is_ipv4](#stdlibstringassertnetis_ipv4)
+* [stdlib.string.assert.net.is_ipv6](#stdlibstringassertnetis_ipv6)
 * [stdlib.string.assert.not_equal](#stdlibstringassertnot_equal)
 * [stdlib.string.colour](#stdlibstringcolour)
 * [stdlib.string.colour_n](#stdlibstringcolour_n)
@@ -153,6 +155,8 @@
 * [stdlib.string.query.is_snake_case](#stdlibstringqueryis_snake_case)
 * [stdlib.string.query.is_snake_case_upper](#stdlibstringqueryis_snake_case_upper)
 * [stdlib.string.query.is_string](#stdlibstringqueryis_string)
+* [stdlib.string.query.net.is_ipv4](#stdlibstringquerynetis_ipv4)
+* [stdlib.string.query.net.is_ipv6](#stdlibstringquerynetis_ipv6)
 * [stdlib.string.query.ends_with](#stdlibstringqueryends_with)
 * [stdlib.string.query.first_char_is](#stdlibstringqueryfirst_char_is)
 * [stdlib.string.query.last_char_is](#stdlibstringquerylast_char_is)
@@ -2100,6 +2104,42 @@ Asserts that a value is a non-empty string.
 
 * The error message if the assertion fails.
 
+### stdlib.string.assert.net.is_ipv4
+
+Asserts that a string is a valid ipv4 address.
+
+#### Arguments
+
+* **$1** (string): The string to check.
+
+#### Exit codes
+
+* **0**: If the assertion succeeded.
+* **1**: If the assertion failed.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stderr
+
+* The error message if the assertion fails.
+
+### stdlib.string.assert.net.is_ipv6
+
+Asserts that a string is a valid ipv6 address.
+
+#### Arguments
+
+* **$1** (string): The string to check.
+
+#### Exit codes
+
+* **0**: If the assertion succeeded.
+* **1**: If the assertion failed.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stderr
+
+* The error message if the assertion fails.
+
 ### stdlib.string.assert.not_equal
 
 Asserts that two strings are not equal.
@@ -3084,6 +3124,36 @@ Checks if a value is a non-empty string.
 
 * **0**: If the value is a non-empty string.
 * **1**: If the value is an empty string.
+* **127**: If the wrong number of arguments were provided.
+
+### stdlib.string.query.net.is_ipv4
+
+Checks if a string is a valid ipv4 address.
+
+#### Arguments
+
+* **$1** (string): The string to check.
+
+#### Exit codes
+
+* **0**: If the string is a valid ipv4 address.
+* **1**: If the string is not a valid ipv4 address.
+* **126**: If an invalid argument has been provided.
+* **127**: If the wrong number of arguments were provided.
+
+### stdlib.string.query.net.is_ipv6
+
+Checks if a string is a valid ipv6 address.
+
+#### Arguments
+
+* **$1** (string): The string to check.
+
+#### Exit codes
+
+* **0**: If the string is a valid ipv6 address.
+* **1**: If the string is not a valid ipv6 address.
+* **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 
 ### stdlib.string.query.ends_with
