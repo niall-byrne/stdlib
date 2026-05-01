@@ -228,6 +228,60 @@ stdlib.string.query.is_regex_match() {
   builtin return 1
 }
 
+# @description Checks if a string is in snake case.
+# @arg $1 string The string to check.
+# @exitcode 0 If the string is valid snake case.
+# @exitcode 1 If the string is not valid snake case.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+stdlib.string.query.is_snake_case() {
+  [[ "${#@}" == "1" ]] || builtin return 127
+  case "${1}" in
+    "")
+      builtin return 126
+      ;;
+    *__*)
+      builtin return 1
+      ;;
+    *[!a-z0-9_]*)
+      builtin return 1
+      ;;
+    [a-z0-9]*[a-z0-9_]*[a-z0-9])
+      builtin return 0
+      ;;
+    *)
+      builtin return 1
+      ;;
+  esac
+}
+
+# @description Checks if a string is in upper snake case.
+# @arg $1 string The string to check.
+# @exitcode 0 If the string is valid upper snake case.
+# @exitcode 1 If the string is not valid upper snake case.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+stdlib.string.query.is_snake_case_upper() {
+  [[ "${#@}" == "1" ]] || builtin return 127
+  case "${1}" in
+    "")
+      builtin return 126
+      ;;
+    *__*)
+      builtin return 1
+      ;;
+    *[!A-Z0-9_]*)
+      builtin return 1
+      ;;
+    [A-Z0-9]*[A-Z0-9_]*[A-Z0-9])
+      builtin return 0
+      ;;
+    *)
+      builtin return 1
+      ;;
+  esac
+}
+
 # @description Checks if a value is a non-empty string.
 # @arg $1 string The value to check.
 # @exitcode 0 If the value is a non-empty string.
