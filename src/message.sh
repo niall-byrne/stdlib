@@ -178,6 +178,14 @@ stdlib.__message.get() {
       required_options=1
       message="$(stdlib.__gettext "The value '\${option1}' is not a set string!")" # noqa
       ;;
+    IS_NOT_SNAKE_CASE)
+      required_options=1
+      message="$(stdlib.__gettext "The value '\${option1}' is not a string in valid snake case!")"
+      ;;
+    IS_NOT_SNAKE_CASE_UPPER)
+      required_options=1
+      message="$(stdlib.__gettext "The value '\${option1}' is not a string in valid upper snake case!")"
+      ;;
     REGEX_DOES_NOT_MATCH)
       required_options=2
       message="$(stdlib.__gettext "The regex '\${option1}' does not match the value '\${option2}'!")"
