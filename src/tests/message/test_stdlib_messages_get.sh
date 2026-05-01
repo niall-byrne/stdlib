@@ -58,6 +58,8 @@ setup() {
     "is_not_fn;IS_NOT_FN|value;The value 'value' is not a function!" \
     "is_not_integer;IS_NOT_INTEGER|value;The value 'value' is not a string containing an integer!" \
     "is_not_integer_in_range;IS_NOT_INTEGER_IN_RANGE|1|10|11;The value '11' is not a string containing an integer in the inclusive range 1 to 10!" \
+    "is_not_ipv4;IS_NOT_IPV4|value;The value 'value' is not a string containing a valid ipv4 address!" \
+    "is_not_ipv6;IS_NOT_IPV6|value;The value 'value' is not a string containing a valid ipv6 address!" \
     "is_not_octal_permission;IS_NOT_OCTAL_PERMISSION|aaa;The value 'aaa' is not a string containing an octal file permission!" \
     "is_not_set_string;IS_NOT_SET_STRING|value;The value 'value' is not a set string!" \
     "is_not_snake_case;IS_NOT_SNAKE_CASE|value;The value 'value' is not a string in valid snake case!" \
@@ -157,6 +159,10 @@ setup() {
     "is_not_integer_in_range_________________no_args______;IS_NOT_INTEGER_IN_RANGE" \
     "is_not_integer_in_range_________________too_few_args;IS_NOT_INTEGER_IN_RANGE|1|2" \
     "is_not_integer_in_range_________________too_many_args;IS_NOT_INTEGER_IN_RANGE|1|2|3|4" \
+    "is_not_ipv4_____________________________no_args______;IS_NOT_IPV4" \
+    "is_not_ipv4_____________________________too_many_args;IS_NOT_IPV4|1|2" \
+    "is_not_ipv6_____________________________no_args______;IS_NOT_IPV6" \
+    "is_not_ipv6_____________________________too_many_args;IS_NOT_IPV6|1|2" \
     "is_not_octal_permission_________________no_args______;IS_NOT_OCTAL_PERMISSION" \
     "is_not_octal_permission_________________too_many_args;IS_NOT_OCTAL_PERMISSION|1|2" \
     "is_not_set_string_______________________no_args______;IS_NOT_SET_STRING" \
