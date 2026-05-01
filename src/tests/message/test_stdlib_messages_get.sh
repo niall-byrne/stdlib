@@ -60,6 +60,8 @@ setup() {
     "is_not_integer_in_range;IS_NOT_INTEGER_IN_RANGE|1|10|11;The value '11' is not a string containing an integer in the inclusive range 1 to 10!" \
     "is_not_octal_permission;IS_NOT_OCTAL_PERMISSION|aaa;The value 'aaa' is not a string containing an octal file permission!" \
     "is_not_set_string;IS_NOT_SET_STRING|value;The value 'value' is not a set string!" \
+    "is_not_snake_case;IS_NOT_SNAKE_CASE|value;The value 'value' is not a string in valid snake case!" \
+    "is_not_snake_case_upper;IS_NOT_SNAKE_CASE_UPPER|value;The value 'value' is not a string in valid upper snake case!" \
     "regex_does_not_match;REGEX_DOES_NOT_MATCH|regex|not matching;The regex 'regex' does not match the value 'not matching'!" \
     "security_insecure_group_ownership;SECURITY_INSECURE_GROUP_OWNERSHIP|/tmp/foo;SECURITY: The group ownership on '/tmp/foo' is not secure!" \
     "security_insecure_ownership;SECURITY_INSECURE_OWNERSHIP|/tmp/foo;SECURITY: The ownership on '/tmp/foo' is not secure!" \
@@ -159,6 +161,10 @@ setup() {
     "is_not_octal_permission_________________too_many_args;IS_NOT_OCTAL_PERMISSION|1|2" \
     "is_not_set_string_______________________no_args______;IS_NOT_SET_STRING" \
     "is_not_set_string_______________________too_many_args;IS_NOT_SET_STRING|1|2" \
+    "is_not_snake_case_______________________no_args______;IS_NOT_SNAKE_CASE" \
+    "is_not_snake_case_______________________too_many_args;IS_NOT_SNAKE_CASE|1|2" \
+    "is_not_snake_case_upper_________________no_args______;IS_NOT_SNAKE_CASE_UPPER" \
+    "is_not_snake_case_upper_________________too_many_args;IS_NOT_SNAKE_CASE_UPPER|1|2" \
     "regex_does_not_match____________________no_args______;REGEX_DOES_NOT_MATCH" \
     "regex_does_not_match____________________too_few_args_;REGEX_DOES_NOT_MATCH|1" \
     "regex_does_not_match____________________too_many_args;REGEX_DOES_NOT_MATCH|1|2|3" \
