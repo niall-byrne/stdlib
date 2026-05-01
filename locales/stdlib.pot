@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: niall@niallbyrne.ca\n"
-"POT-Creation-Date: 2026-05-01 17:42+0000\n"
+"POT-Creation-Date: 2026-05-01 18:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -206,60 +206,70 @@ msgstr ""
 
 #: src/message.sh:183
 #, sh-format
-msgid "The regex '${option1}' does not match the value '${option2}'!"
+msgid "The value '${option1}' is not a string in valid snake case!"
 msgstr ""
 
 #: src/message.sh:187
 #, sh-format
-msgid "SECURITY: The group ownership on '${option1}' is not secure!"
+msgid "The value '${option1}' is not a string in valid upper snake case!"
 msgstr ""
 
 #: src/message.sh:191
 #, sh-format
-msgid "SECURITY: The ownership on '${option1}' is not secure!"
+msgid "The regex '${option1}' does not match the value '${option2}'!"
 msgstr ""
 
 #: src/message.sh:195
 #, sh-format
-msgid "SECURITY: The permissions on '${option1}' are not secure!"
+msgid "SECURITY: The group ownership on '${option1}' is not secure!"
 msgstr ""
 
 #: src/message.sh:199
-msgid "SECURITY: This script must be run as root."
+#, sh-format
+msgid "SECURITY: The ownership on '${option1}' is not secure!"
 msgstr ""
 
 #: src/message.sh:203
 #, sh-format
-msgid "Please consider running: sudo chgrp '${option1}' '${option2}'"
+msgid "SECURITY: The permissions on '${option1}' are not secure!"
 msgstr ""
 
 #: src/message.sh:207
-#, sh-format
-msgid "Please consider running: sudo chmod '${option1}' '${option2}'"
+msgid "SECURITY: This script must be run as root."
 msgstr ""
 
 #: src/message.sh:211
 #, sh-format
-msgid "Please consider running: sudo chown '${option1}' '${option2}'"
+msgid "Please consider running: sudo chgrp '${option1}' '${option2}'"
 msgstr ""
 
 #: src/message.sh:215
-msgid "Are you sure you wish to proceed (Y/n) ?"
+#, sh-format
+msgid "Please consider running: sudo chmod '${option1}' '${option2}'"
 msgstr ""
 
 #: src/message.sh:219
-msgid "Press any key to continue ..."
+#, sh-format
+msgid "Please consider running: sudo chown '${option1}' '${option2}'"
 msgstr ""
 
 #: src/message.sh:223
-msgid "Enter a value:"
+msgid "Are you sure you wish to proceed (Y/n) ?"
 msgstr ""
 
 #: src/message.sh:227
-msgid "Callstack:"
+msgid "Press any key to continue ..."
 msgstr ""
 
 #: src/message.sh:231
+msgid "Enter a value:"
+msgstr ""
+
+#: src/message.sh:235
+msgid "Callstack:"
+msgstr ""
+
+#: src/message.sh:239
 #, sh-format
 msgid "The value '${option1}' is not a valid variable name!"
 msgstr ""
