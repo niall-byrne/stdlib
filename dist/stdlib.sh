@@ -274,6 +274,14 @@ stdlib.__message.get ()
             required_options=1;
             message="$(stdlib.__gettext "The value '\${option1}' is not a string containing a single char!")"
         ;;
+        IS_NOT_DECIMAL)
+            required_options=1;
+            message="$(stdlib.__gettext "The value '\${option1}' is not a string containing a decimal!")"
+        ;;
+        IS_NOT_DECIMAL_POSITIVE)
+            required_options=1;
+            message="$(stdlib.__gettext "The value '\${option1}' is not a string containing a positive decimal!")"
+        ;;
         IS_NOT_DIGIT)
             required_options=1;
             message="$(stdlib.__gettext "The value '\${option1}' is not a string containing a digit!")"
@@ -2026,6 +2034,42 @@ stdlib.string.assert.is_char ()
     builtin return "${return_code}"
 }
 
+stdlib.string.assert.is_decimal ()
+{
+    builtin local return_code=0;
+    stdlib.string.query.is_decimal "${@}" || return_code="$?";
+    case "${return_code}" in
+        0)
+
+        ;;
+        127)
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
+        ;;
+        *)
+            stdlib.logger.error "$(stdlib.__message.get IS_NOT_DECIMAL "${1}")"
+        ;;
+    esac;
+    builtin return "${return_code}"
+}
+
+stdlib.string.assert.is_decimal_positive ()
+{
+    builtin local return_code=0;
+    stdlib.string.query.is_decimal_positive "${@}" || return_code="$?";
+    case "${return_code}" in
+        0)
+
+        ;;
+        127)
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
+        ;;
+        *)
+            stdlib.logger.error "$(stdlib.__message.get IS_NOT_DECIMAL_POSITIVE "${1}")"
+        ;;
+    esac;
+    builtin return "${return_code}"
+}
+
 stdlib.string.assert.is_digit ()
 {
     builtin local return_code=0;
@@ -2997,6 +3041,44 @@ stdlib.string.query.is_char ()
     [[ "${#@}" == "1" ]] || builtin return 127;
     [[ -n "${1}" ]] || builtin return 126;
     [[ "${#1}" == "1" ]] || builtin return 1
+}
+
+stdlib.string.query.is_decimal ()
+{
+    [[ "${#@}" == "1" ]] || builtin return 127;
+    case "${1}" in
+        "")
+            builtin return 126
+        ;;
+        *[!0-9.-]*)
+            builtin return 1
+        ;;
+        *.*.*)
+            builtin return 1
+        ;;
+        *)
+            builtin return 0
+        ;;
+    esac
+}
+
+stdlib.string.query.is_decimal_positive ()
+{
+    [[ "${#@}" == "1" ]] || builtin return 127;
+    case "${1}" in
+        "")
+            builtin return 126
+        ;;
+        *[!0-9.]*)
+            builtin return 1
+        ;;
+        *.*.*)
+            builtin return 1
+        ;;
+        *)
+            builtin return 0
+        ;;
+    esac
 }
 
 stdlib.string.query.is_digit ()
