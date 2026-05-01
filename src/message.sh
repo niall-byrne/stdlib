@@ -146,6 +146,14 @@ stdlib.__message.get() {
       required_options=1
       message="$(stdlib.__gettext "The value '\${option1}' is not a string containing a single char!")"
       ;;
+    IS_NOT_DECIMAL)
+      required_options=1
+      message="$(stdlib.__gettext "The value '\${option1}' is not a string containing a decimal!")"
+      ;;
+    IS_NOT_DECIMAL_POSITIVE)
+      required_options=1
+      message="$(stdlib.__gettext "The value '\${option1}' is not a string containing a positive decimal!")"
+      ;;
     IS_NOT_DIGIT)
       required_options=1
       message="$(stdlib.__gettext "The value '\${option1}' is not a string containing a digit!")"
