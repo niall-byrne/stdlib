@@ -100,6 +100,54 @@ stdlib.string.assert.is_char() {
   builtin return "${return_code}"
 }
 
+# @description Asserts that a string is a valid decimal.
+# @arg $1 string The string to check.
+# @exitcode 0 If the assertion succeeded.
+# @exitcode 1 If the assertion failed.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stderr The error message if the assertion fails.
+stdlib.string.assert.is_decimal() {
+  builtin local return_code=0
+
+  stdlib.string.query.is_decimal "${@}" || return_code="$?"
+
+  case "${return_code}" in
+    0) ;; # KCOV_EXCLUDE_LINE
+    127)
+      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
+      ;;
+    *)
+      stdlib.logger.error "$(stdlib.__message.get IS_NOT_DECIMAL "${1}")"
+      ;;
+  esac
+
+  builtin return "${return_code}"
+}
+
+# @description Asserts that a string is a valid positive decimal.
+# @arg $1 string The string to check.
+# @exitcode 0 If the assertion succeeded.
+# @exitcode 1 If the assertion failed.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stderr The error message if the assertion fails.
+stdlib.string.assert.is_decimal_positive() {
+  builtin local return_code=0
+
+  stdlib.string.query.is_decimal_positive "${@}" || return_code="$?"
+
+  case "${return_code}" in
+    0) ;; # KCOV_EXCLUDE_LINE
+    127)
+      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
+      ;;
+    *)
+      stdlib.logger.error "$(stdlib.__message.get IS_NOT_DECIMAL_POSITIVE "${1}")"
+      ;;
+  esac
+
+  builtin return "${return_code}"
+}
+
 # @description Asserts that a string contains only digits.
 # @arg $1 string The string to check.
 # @exitcode 0 If the assertion succeeded.

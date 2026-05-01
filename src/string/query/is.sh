@@ -79,6 +79,54 @@ stdlib.string.query.is_char() {
   [[ "${#1}" == "1" ]] || builtin return 1
 }
 
+# @description Checks if a string is a valid decimal.
+# @arg $1 string The string to check.
+# @exitcode 0 If the string is a valid decimal.
+# @exitcode 1 If the string is not a decimal.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+stdlib.string.query.is_decimal() {
+  [[ "${#@}" == "1" ]] || builtin return 127
+  case "${1}" in
+    "")
+      builtin return 126
+      ;;
+    *[!0-9.-]*)
+      builtin return 1
+      ;;
+    *.*.*)
+      builtin return 1
+      ;;
+    *)
+      builtin return 0
+      ;;
+  esac
+}
+
+# @description Checks if a string is a valid positive decimal.
+# @arg $1 string The string to check.
+# @exitcode 0 If the string is a valid positive decimal.
+# @exitcode 1 If the string is not a positive decimal.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+stdlib.string.query.is_decimal_positive() {
+  [[ "${#@}" == "1" ]] || builtin return 127
+  case "${1}" in
+    "")
+      builtin return 126
+      ;;
+    *[!0-9.]*)
+      builtin return 1
+      ;;
+    *.*.*)
+      builtin return 1
+      ;;
+    *)
+      builtin return 0
+      ;;
+  esac
+}
+
 # @description Checks if a string contains only digits.
 # @arg $1 string The string to check.
 # @exitcode 0 If the string contains only digits.
