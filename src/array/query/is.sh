@@ -13,7 +13,7 @@ builtin set -eo pipefail
 # @stderr The error message if the operation fails.
 stdlib.array.query.is_array() {
   [[ "${#@}" == "1" ]] || builtin return 127
-  [[ -n "${1}" ]] || builtin return 126
+  stdlib.var.query.is_valid_name "${1}" || builtin return 126
   if builtin declare -p "${1}" 2> /dev/null | "${_STDLIB_BINARY_GREP}" -q 'declare -a'; then # noqa
     builtin return 0
   fi
