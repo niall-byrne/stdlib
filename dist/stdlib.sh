@@ -230,6 +230,10 @@ stdlib.__message.get ()
             required_options=1;
             message="$(stdlib.__gettext "The path '\${option1}' is not a valid filesystem file!")"
         ;;
+        FS_PATH_IS_NOT_A_FILE_EMPTY)
+            required_options=1;
+            message="$(stdlib.__gettext "The path '\${option1}' is not a zero-length filesystem file!")"
+        ;;
         FS_PATH_IS_NOT_A_FOLDER)
             required_options=1;
             message="$(stdlib.__gettext "The path '\${option1}' is not a valid filesystem folder!")"
@@ -1302,6 +1306,24 @@ stdlib.io.path.assert.is_file ()
     builtin return "${return_code}"
 }
 
+stdlib.io.path.assert.is_file_empty ()
+{
+    builtin local return_code=0;
+    stdlib.io.path.query.is_file_empty "${@}" || return_code="$?";
+    case "${return_code}" in
+        0)
+
+        ;;
+        126 | 127)
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
+        ;;
+        *)
+            stdlib.logger.error "$(stdlib.__message.get FS_PATH_IS_NOT_A_FILE_EMPTY "${1}")"
+        ;;
+    esac;
+    builtin return "${return_code}"
+}
+
 stdlib.io.path.assert.is_folder ()
 {
     builtin local return_code=0;
@@ -1351,6 +1373,14 @@ stdlib.io.path.query.is_file ()
     [[ "${#@}" == "1" ]] || builtin return 127;
     [[ -n "${1}" ]] || builtin return 126;
     stdlib.__builtin.overridable test -f "${1}" || builtin return 1
+}
+
+stdlib.io.path.query.is_file_empty ()
+{
+    [[ "${#@}" == "1" ]] || builtin return 127;
+    [[ -n "${1}" ]] || builtin return 126;
+    stdlib.__builtin.overridable test -s "${1}" || builtin return 0;
+    builtin return 1
 }
 
 stdlib.io.path.query.is_folder ()
