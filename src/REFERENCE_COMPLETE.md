@@ -47,10 +47,12 @@
 * [stdlib.fn.query.is_valid_name](#stdlibfnqueryis_valid_name)
 * [stdlib.io.path.assert.is_exists](#stdlibiopathassertis_exists)
 * [stdlib.io.path.assert.is_file](#stdlibiopathassertis_file)
+* [stdlib.io.path.assert.is_file_empty](#stdlibiopathassertis_file_empty)
 * [stdlib.io.path.assert.is_folder](#stdlibiopathassertis_folder)
 * [stdlib.io.path.assert.not_exists](#stdlibiopathassertnot_exists)
 * [stdlib.io.path.query.is_exists](#stdlibiopathqueryis_exists)
 * [stdlib.io.path.query.is_file](#stdlibiopathqueryis_file)
+* [stdlib.io.path.query.is_file_empty](#stdlibiopathqueryis_file_empty)
 * [stdlib.io.path.query.is_folder](#stdlibiopathqueryis_folder)
 * [stdlib.io.stdin.confirmation](#stdlibiostdinconfirmation)
 * [stdlib.io.stdin.pause](#stdlibiostdinpause)
@@ -1036,6 +1038,25 @@ Asserts that a path is a file.
 
 * The error message if the assertion fails.
 
+### stdlib.io.path.assert.is_file_empty
+
+Asserts that a path is an empty file (length of 0 bytes).
+
+#### Arguments
+
+* **$1** (string): The path to check.
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+* **1**: If the operation failed.
+* **126**: If an invalid argument has been provided.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stderr
+
+* The error message if the assertion fails.
+
 ### stdlib.io.path.assert.is_folder
 
 Asserts that a path is a folder.
@@ -1101,6 +1122,21 @@ Checks if a path is a file.
 
 * **0**: If the path is a file.
 * **1**: If the path is not a file.
+* **126**: If an invalid argument has been provided.
+* **127**: If the wrong number of arguments were provided.
+
+### stdlib.io.path.query.is_file_empty
+
+Checks if a path is an empty file (length of 0 bytes).
+
+#### Arguments
+
+* **$1** (string): The path to check.
+
+#### Exit codes
+
+* **0**: If the path is an empty file.
+* **1**: If the path is not an empty file.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 
