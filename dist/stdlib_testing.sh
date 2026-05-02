@@ -1673,6 +1673,17 @@ assert_is_array ()
     [[ "${_stdlib_return_code}" == "0" ]] || fail " ${_stdlib_assertion_output}"
 }
 
+assert_is_array_containing ()
+{
+    builtin local _stdlib_assertion_output;
+    builtin local _stdlib_return_code=0;
+    _stdlib_assertion_output="$(_testing.__protected stdlib.array.assert.is_contains "${@}" 2>&1)" || _stdlib_return_code="$?";
+    _stdlib_assertion_output="${_stdlib_assertion_output/'
+'/'
+ '}";
+    [[ "${_stdlib_return_code}" == "0" ]] || fail " ${_stdlib_assertion_output}"
+}
+
 assert_is_fn ()
 {
     builtin local _stdlib_assertion_output;
