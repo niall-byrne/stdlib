@@ -14,6 +14,7 @@ builtin set -eo pipefail
 # @stderr The error message if the operation fails.
 stdlib.array.make.from_file() {
   stdlib.fn.args.require "3" "0" "${@}" || builtin return "$?"
+  stdlib.var.assert.is_valid_name "${1}" || builtin return 126
   stdlib.string.assert.is_char "${2}" || builtin return 126
   stdlib.io.path.assert.is_file "${3}" || builtin return 126
 
@@ -35,6 +36,7 @@ stdlib.array.make.from_string() {
   STDLIB_ARGS_NULL_SAFE_ARRAY=("3")
 
   stdlib.fn.args.require "3" "0" "${@}" || builtin return "$?"
+  stdlib.var.assert.is_valid_name "${1}" || builtin return 126
   stdlib.string.assert.is_char "${2}" || builtin return 126
 
   IFS="${2}" builtin read -d "" -ra "${1}" < <(builtin echo -n "${3}") || builtin return 0 # noqa
@@ -56,6 +58,7 @@ stdlib.array.make.from_string_n() {
   STDLIB_ARGS_NULL_SAFE_ARRAY=("3")
 
   stdlib.fn.args.require "3" "0" "${@}" || builtin return "$?"
+  stdlib.var.assert.is_valid_name "${1}" || builtin return 126
   stdlib.string.assert.is_digit "${2}" || builtin return 126
 
   for ((array_index = 0; array_index < "${2}"; array_index++)); do

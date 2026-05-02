@@ -665,6 +665,7 @@ stdlib.array.get.shortest ()
 stdlib.array.make.from_file ()
 {
     stdlib.fn.args.require "3" "0" "${@}" || builtin return "$?";
+    stdlib.var.assert.is_valid_name "${1}" || builtin return 126;
     stdlib.string.assert.is_char "${2}" || builtin return 126;
     stdlib.io.path.assert.is_file "${3}" || builtin return 126;
     IFS="${2}" builtin read -ra "${1}" < "${3}"
@@ -675,6 +676,7 @@ stdlib.array.make.from_string ()
     builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
     STDLIB_ARGS_NULL_SAFE_ARRAY=("3");
     stdlib.fn.args.require "3" "0" "${@}" || builtin return "$?";
+    stdlib.var.assert.is_valid_name "${1}" || builtin return 126;
     stdlib.string.assert.is_char "${2}" || builtin return 126;
     IFS="${2}" builtin read -d "" -ra "${1}" < <(builtin echo -n "${3}") || builtin return 0
 }
@@ -685,6 +687,7 @@ stdlib.array.make.from_string_n ()
     builtin local array_index;
     STDLIB_ARGS_NULL_SAFE_ARRAY=("3");
     stdlib.fn.args.require "3" "0" "${@}" || builtin return "$?";
+    stdlib.var.assert.is_valid_name "${1}" || builtin return 126;
     stdlib.string.assert.is_digit "${2}" || builtin return 126;
     for ((array_index = 0; array_index < "${2}"; array_index++))
     do
@@ -888,7 +891,7 @@ stdlib.array.mutate.reverse ()
 stdlib.array.query.is_array ()
 {
     [[ "${#@}" == "1" ]] || builtin return 127;
-    [[ -n "${1}" ]] || builtin return 126;
+    stdlib.var.query.is_valid_name "${1}" || builtin return 126;
     if builtin declare -p "${1}" 2> /dev/null | "${_STDLIB_BINARY_GREP}" -q 'declare -a'; then
         builtin return 0;
     fi;
