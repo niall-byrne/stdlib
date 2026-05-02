@@ -15,6 +15,7 @@ setup() {
     "null_array_name______returns_status_code_126;|#|input string;126" \
     "null_separator_______returns_status_code_126;test||input string;126" \
     "invalid_separator____returns_status_code_126;test|##|input string;126" \
+    "invalid_array_name___returns_status_code_126;INVALID!NAME|#|input string;126" \
     "null_source_string___returns_status_code___0;test|#||;0"
 }
 
