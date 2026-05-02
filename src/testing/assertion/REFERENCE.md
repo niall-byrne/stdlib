@@ -7,6 +7,7 @@
 * [assert_array_equals](#assert_array_equals)
 * [assert_array_length](#assert_array_length)
 * [assert_is_array](#assert_is_array)
+* [assert_is_array_containing](#assert_is_array_containing)
 * [assert_is_fn](#assert_is_fn)
 * [assert_not_fn](#assert_not_fn)
 * [assert_not_null](#assert_not_null)
@@ -65,6 +66,24 @@ Asserts that a variable is an array.
 
 * **0**: If the variable is an array.
 * **1**: If the variable is not an array.
+
+#### Output on stderr
+
+* The error message if the assertion fails.
+
+### assert_is_array_containing
+
+Asserts that a variable is an array containing a value.
+
+#### Arguments
+
+* **$1** (string): The value to assert is present.
+* **$2** (string): The name of the variable to check.
+
+#### Exit codes
+
+* **0**: If the value is present in the array.
+* **1**: If the value is not present in the array.
 
 #### Output on stderr
 
