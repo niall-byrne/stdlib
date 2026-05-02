@@ -26,7 +26,7 @@ _example_fn_with_no_args() {
     "null_optional_target_fn_name______0;_example_subtract_fn|;0" \
     "null_optional_arg_index___________0;_example_subtract_fn|||;0" \
     "fn_does_not_exist_______________126;non_existent|;126" \
-    "invalid__target_fn_name_________126;_example_subtract_fn|invalid!target name;126" \
+    "invalid_target_fn_name__________126;_example_subtract_fn|invalid!target name;126" \
     "arg_index_is_not_a_number_______126;_example_subtract_fn|target_name|a;126" \
     "arg_index_is_zero_______________126;_example_subtract_fn|target_name|0;126" \
     "include_source_and_target_________0;_example_subtract_fn|target_name;0" \
@@ -71,7 +71,7 @@ test_stdlib_fn_derive_var__@vary_____________________returns_expected_status_cod
   test_stdlib_fn_derive_var__@vary_____________________returns_expected_status_code
 
 # shellcheck disable=SC2034
-test_stdlib_fn_derive_var__valid_args______________________@vary__derived_fn_works_stores_output_in_var() {
+test_stdlib_fn_derive_var__valid_args______________________@vary__derived_fn___valid_var____stores_output_in_var() {
   local args=()
   local test_command_args=()
 
@@ -86,4 +86,22 @@ test_stdlib_fn_derive_var__valid_args______________________@vary__derived_fn_wor
 }
 
 @parametrize_with_input_output_arg_combos \
-  test_stdlib_fn_derive_var__valid_args______________________@vary__derived_fn_works_stores_output_in_var
+  test_stdlib_fn_derive_var__valid_args______________________@vary__derived_fn___valid_var____stores_output_in_var
+
+# shellcheck disable=SC2034
+test_stdlib_fn_derive_var__valid_args______________________@vary__derived_fn___invalid_var__returns_status_code_126() {
+  local args=()
+  local test_command_args=()
+
+  stdlib.array.make.from_string "args" "|" "${TEST_ARGS_DEFINITION}"
+  stdlib.array.make.from_string "test_command_args" "|" "${TEST_COMMAND_ARGS_DEFINITION/TEST_OUTPUT/'INVALID@'}"
+
+  stdlib.fn.derive.var "${args[@]}"
+
+  _capture.rc "${test_command_args[@]}"
+
+  assert_rc "126"
+}
+
+@parametrize_with_input_output_arg_combos \
+  test_stdlib_fn_derive_var__valid_args______________________@vary__derived_fn___invalid_var__returns_status_code_126
