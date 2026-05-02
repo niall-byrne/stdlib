@@ -24,6 +24,7 @@ declare -- __STDLIB_TESTING_MOCK_REGISTRY_FILENAME=""
 declare -a __STDLIB_TESTING_MOCK_RESTRICTED_ATTRIBUTES=([0]="builtin" [1]="case" [2]="do" [3]="done" [4]="elif" [5]="else" [6]="esac" [7]="fi" [8]="for" [9]="if" [10]="while")
 declare -a __STDLIB_TESTING_MOCK_SEQUENCE_ARRAY=()
 declare -- __STDLIB_TESTING_MOCK_SEQUENCE_FILENAME=""
+declare -- __STDLIB_TESTING_MOCK_SEQUENCE_LOCK_NAME="__stdlib_testing_internal__mock_sequence_lock"
 declare -- __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN="0"
 declare -a __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY=()
 
@@ -505,9 +506,11 @@ ${1}.mock.__call() {
   builtin declare -p _mock_object_call_array >> "\${__${2}_mock_calls_file}"
 
   if [[ "\${__STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN}" == "1" ]]; then
+    _testing.__protected stdlib.io.lock.acquire "${__STDLIB_TESTING_MOCK_SEQUENCE_LOCK_NAME}"
     _mock.__internal.persistence.sequence.retrieve
     __STDLIB_TESTING_MOCK_SEQUENCE_ARRAY+=("${1}")
     _mock.__internal.persistence.sequence.update
+    _testing.__protected stdlib.io.lock.release "${__STDLIB_TESTING_MOCK_SEQUENCE_LOCK_NAME}"
   fi
 }
 # === component end ============================

@@ -1,0 +1,31 @@
+#!/bin/bash
+
+setup() {
+  _mock.create _fn_1
+  _mock.create _fn_2
+  _mock.create _fn_3
+  _mock.create _fn_4
+}
+
+_fixture_concurrent_mock_calls() {
+  for ((i = 1; i <= 10; i++)); do
+    _fn_1 &
+    _fn_2 &
+    _fn_3 &
+    _fn_4 &
+  done
+
+  wait
+}
+
+test_stdlib_testing_mock_sequence_record__concurrent_calls__no_race_condition_errors() {
+  local __STDLIB_TESTING_MOCK_SEQUENCE_ARRAY=()
+
+  _mock.sequence.record.start
+
+  _fixture_concurrent_mock_calls
+
+  _mock.__internal.persistence.sequence.retrieve
+
+  assert_array_length "40" __STDLIB_TESTING_MOCK_SEQUENCE_ARRAY
+}
