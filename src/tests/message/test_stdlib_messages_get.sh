@@ -41,6 +41,7 @@ setup() {
     "fs_path_does_not_exist;FS_PATH_DOES_NOT_EXIST|/tmp/foo;The path '/tmp/foo' does not exist on the filesystem!" \
     "fs_path_exists;FS_PATH_EXISTS|/tmp/foo;The path '/tmp/foo' exists on the filesystem!" \
     "fs_path_is_not_a_file;FS_PATH_IS_NOT_A_FILE|/tmp/foo;The path '/tmp/foo' is not a valid filesystem file!" \
+    "fs_path_is_not_a_file_empty;FS_PATH_IS_NOT_A_FILE_EMPTY|/tmp/foo;The path '/tmp/foo' is not a zero-length filesystem file!" \
     "fs_path_is_not_a_folder;FS_PATH_IS_NOT_A_FOLDER|/tmp/foo;The path '/tmp/foo' is not a valid filesystem folder!" \
     "is_array;IS_ARRAY|value;The value 'value' is an array!" \
     "is_builtin;IS_BUILTIN|value;The value 'value' is a shell builtin!" \
@@ -124,6 +125,8 @@ setup() {
     "fs_path_exists__________________________too_many_args;FS_PATH_EXISTS|1|2" \
     "fs_path_is_not_a_file___________________no_args______;FS_PATH_IS_NOT_A_FILE" \
     "fs_path_is_not_a_file___________________too_many_args;FS_PATH_IS_NOT_A_FILE|1|2" \
+    "fs_path_is_not_a_file_empty_____________no_args______;FS_PATH_IS_NOT_A_FILE_EMPTY" \
+    "fs_path_is_not_a_file_empty_____________too_many_args;FS_PATH_IS_NOT_A_FILE_EMPTY|1|2" \
     "fs_path_is_not_a_folder_________________no_args______;FS_PATH_IS_NOT_A_FOLDER" \
     "fs_path_is_not_a_folder_________________too_many_args;FS_PATH_IS_NOT_A_FOLDER|1|2" \
     "is_array________________________________no_args______;IS_ARRAY" \

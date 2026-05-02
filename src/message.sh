@@ -102,6 +102,10 @@ stdlib.__message.get() {
       required_options=1
       message="$(stdlib.__gettext "The path '\${option1}' is not a valid filesystem file!")"
       ;;
+    FS_PATH_IS_NOT_A_FILE_EMPTY)
+      required_options=1
+      message="$(stdlib.__gettext "The path '\${option1}' is not a zero-length filesystem file!")"
+      ;;
     FS_PATH_IS_NOT_A_FOLDER)
       required_options=1
       message="$(stdlib.__gettext "The path '\${option1}' is not a valid filesystem folder!")"
