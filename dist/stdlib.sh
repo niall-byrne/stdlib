@@ -1226,6 +1226,7 @@ ${derive_target_fn_name}() {
   for ((fn_argument_index=1; fn_argument_index <= "\${#@}"; fn_argument_index+=1)); do
     if (("\${fn_argument_index}" == "\${fn_argument_index_variable_name}")); then
       fn_variable_name="\${!fn_argument_index}"
+      stdlib.var.query.is_valid_name "\${fn_variable_name}" || builtin return 126
       fn_arguments+=("\${!fn_variable_name}")
     else
       fn_arguments+=("\${!fn_argument_index}")
@@ -2390,6 +2391,7 @@ stdlib.string.colour.substring_var ()
     do
         if (("${fn_argument_index}" == "${fn_argument_index_variable_name}")); then
             fn_variable_name="${!fn_argument_index}";
+            stdlib.var.query.is_valid_name "${fn_variable_name}" || builtin return 126;
             fn_arguments+=("${!fn_variable_name}");
         else
             fn_arguments+=("${!fn_argument_index}");
@@ -2459,6 +2461,7 @@ stdlib.string.colour.substrings_var ()
     do
         if (("${fn_argument_index}" == "${fn_argument_index_variable_name}")); then
             fn_variable_name="${!fn_argument_index}";
+            stdlib.var.query.is_valid_name "${fn_variable_name}" || builtin return 126;
             fn_arguments+=("${!fn_variable_name}");
         else
             fn_arguments+=("${!fn_argument_index}");
@@ -2565,6 +2568,7 @@ stdlib.string.colour_var ()
     do
         if (("${fn_argument_index}" == "${fn_argument_index_variable_name}")); then
             fn_variable_name="${!fn_argument_index}";
+            stdlib.var.query.is_valid_name "${fn_variable_name}" || builtin return 126;
             fn_arguments+=("${!fn_variable_name}");
         else
             fn_arguments+=("${!fn_argument_index}");
@@ -2633,6 +2637,7 @@ stdlib.string.justify.left_var ()
     do
         if (("${fn_argument_index}" == "${fn_argument_index_variable_name}")); then
             fn_variable_name="${!fn_argument_index}";
+            stdlib.var.query.is_valid_name "${fn_variable_name}" || builtin return 126;
             fn_arguments+=("${!fn_variable_name}");
         else
             fn_arguments+=("${!fn_argument_index}");
@@ -2701,6 +2706,7 @@ stdlib.string.justify.right_var ()
     do
         if (("${fn_argument_index}" == "${fn_argument_index_variable_name}")); then
             fn_variable_name="${!fn_argument_index}";
+            stdlib.var.query.is_valid_name "${fn_variable_name}" || builtin return 126;
             fn_arguments+=("${!fn_variable_name}");
         else
             fn_arguments+=("${!fn_argument_index}");
@@ -2770,6 +2776,7 @@ stdlib.string.lines.join_var ()
     do
         if (("${fn_argument_index}" == "${fn_argument_index_variable_name}")); then
             fn_variable_name="${!fn_argument_index}";
+            stdlib.var.query.is_valid_name "${fn_variable_name}" || builtin return 126;
             fn_arguments+=("${!fn_variable_name}");
         else
             fn_arguments+=("${!fn_argument_index}");
@@ -2850,6 +2857,7 @@ stdlib.string.lines.map.fn_var ()
     do
         if (("${fn_argument_index}" == "${fn_argument_index_variable_name}")); then
             fn_variable_name="${!fn_argument_index}";
+            stdlib.var.query.is_valid_name "${fn_variable_name}" || builtin return 126;
             fn_arguments+=("${!fn_variable_name}");
         else
             fn_arguments+=("${!fn_argument_index}");
@@ -2929,6 +2937,7 @@ stdlib.string.lines.map.format_var ()
     do
         if (("${fn_argument_index}" == "${fn_argument_index_variable_name}")); then
             fn_variable_name="${!fn_argument_index}";
+            stdlib.var.query.is_valid_name "${fn_variable_name}" || builtin return 126;
             fn_arguments+=("${!fn_variable_name}");
         else
             fn_arguments+=("${!fn_argument_index}");
@@ -2997,6 +3006,7 @@ stdlib.string.pad.left_var ()
     do
         if (("${fn_argument_index}" == "${fn_argument_index_variable_name}")); then
             fn_variable_name="${!fn_argument_index}";
+            stdlib.var.query.is_valid_name "${fn_variable_name}" || builtin return 126;
             fn_arguments+=("${!fn_variable_name}");
         else
             fn_arguments+=("${!fn_argument_index}");
@@ -3065,6 +3075,7 @@ stdlib.string.pad.right_var ()
     do
         if (("${fn_argument_index}" == "${fn_argument_index_variable_name}")); then
             fn_variable_name="${!fn_argument_index}";
+            stdlib.var.query.is_valid_name "${fn_variable_name}" || builtin return 126;
             fn_arguments+=("${!fn_variable_name}");
         else
             fn_arguments+=("${!fn_argument_index}");
@@ -3465,6 +3476,7 @@ stdlib.string.trim.left_var ()
     do
         if (("${fn_argument_index}" == "${fn_argument_index_variable_name}")); then
             fn_variable_name="${!fn_argument_index}";
+            stdlib.var.query.is_valid_name "${fn_variable_name}" || builtin return 126;
             fn_arguments+=("${!fn_variable_name}");
         else
             fn_arguments+=("${!fn_argument_index}");
@@ -3534,6 +3546,7 @@ stdlib.string.trim.right_var ()
     do
         if (("${fn_argument_index}" == "${fn_argument_index_variable_name}")); then
             fn_variable_name="${!fn_argument_index}";
+            stdlib.var.query.is_valid_name "${fn_variable_name}" || builtin return 126;
             fn_arguments+=("${!fn_variable_name}");
         else
             fn_arguments+=("${!fn_argument_index}");
