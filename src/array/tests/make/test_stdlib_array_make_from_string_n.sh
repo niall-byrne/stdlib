@@ -10,12 +10,13 @@ setup() {
   @parametrize \
     "${1}" \
     "TEST_ARGS_DEFINITION;TEST_EXPECTED_RC" \
-    "no_args__________returns_status_code_127;;127" \
-    "extra_arg________returns_status_code_127;ARRAY1|2|aa|extra_arg;127" \
-    "invalid_count____returns_status_code_126;test|##|aa;126" \
-    "null_array_name__returns_status_code_126;|####|20;126" \
-    "null_string______returns_status_code___0;test|20||;0" \
-    "null_count_______returns_status_code_126;test||aa;126"
+    "no_args_____________returns_status_code_127;;127" \
+    "extra_arg___________returns_status_code_127;ARRAY1|2|aa|extra_arg;127" \
+    "invalid_count_______returns_status_code_126;test|##|aa;126" \
+    "invalid_array_name__returns_status_code_126;INVALID!NAME|##|10;126" \
+    "null_array_name_____returns_status_code_126;|####|20;126" \
+    "null_string_________returns_status_code___0;test|20||;0" \
+    "null_count__________returns_status_code_126;test||aa;126"
 }
 
 test_stdlib_array_make_from_string_n__@vary() {
@@ -41,7 +42,7 @@ test_stdlib_array_make_from_string_n__valid_arguments__returns_status_code_0() {
 }
 
 # shellcheck disable=SC2034
-test_stdlib_array_make_from_string_n__valid_arguments__creates_new_array() {
+test_stdlib_array_make_from_string_n__valid_arguments_____creates_new_array() {
   local expected_array=("##########" "##########" "##########")
 
   _capture.rc stdlib.array.make.from_string_n \
@@ -53,7 +54,7 @@ test_stdlib_array_make_from_string_n__valid_arguments__creates_new_array() {
 }
 
 # shellcheck disable=SC2034
-test_stdlib_array_make_from_string_n__null_string______creates_new_array() {
+test_stdlib_array_make_from_string_n__null_string_________creates_new_array() {
   local expected_array=("" "" "")
 
   _capture.rc stdlib.array.make.from_string_n \

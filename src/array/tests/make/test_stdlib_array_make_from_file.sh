@@ -19,6 +19,7 @@ setup() {
     "extra_arg__________;ARRAY_NAME|#|NON_EXISTENT_FILE|extra_arg;127" \
     "null_array_name____;|#|NON_EXISTENT_FILE;126" \
     "null_separator_____;ARRAY_NAME||NON_EXISTENT_FILE;126" \
+    "invalid_array_name_;INVALID!NAME|#|NON_EXISTENT_FILE;126" \
     "invalid_separator__;ARRAY_NAME|##|__fixtures__/array_as_file.txt;126" \
     "null_file_name_____;ARRAY_NAME|#||;126" \
     "file_does_not_exist;ARRAY_NAME|#|NON_EXISTENT_FILE;126" \
@@ -36,6 +37,7 @@ setup() {
     "null_array_name____;|#|NON_EXISTENT_FILE;ARGUMENT_REQUIREMENTS_VIOLATION|3|0 ARGUMENT_REQUIREMENTS_VIOLATION_NULL|1" \
     "null_separator_____;ARRAY_NAME||NON_EXISTENT_FILE;ARGUMENT_REQUIREMENTS_VIOLATION|3|0 ARGUMENT_REQUIREMENTS_VIOLATION_NULL|2" \
     "null_file_name_____;ARRAY_NAME|#||;ARGUMENT_REQUIREMENTS_VIOLATION|3|0 ARGUMENT_REQUIREMENTS_VIOLATION_NULL|3" \
+    "invalid_array_name_;INVALID!NAME|#|NON_EXISTENT_FILE;VAR_NAME_INVALID|INVALID!NAME" \
     "file_does_not_exist;ARRAY_NAME|#|NON_EXISTENT_FILE;FS_PATH_IS_NOT_A_FILE|NON_EXISTENT_FILE"
 }
 

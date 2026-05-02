@@ -16,9 +16,9 @@ setup() {
     "TEST_ARGS_DEFINITION;TEST_EXPECTED_RC" \
     "no_args_____________returns_status_code_127;;127" \
     "extra_arg___________returns_status_code_127;ARRAY1|extra_arg;127" \
+    "invalid_var_name____returns_status_code_126;'';126" \
     "is_an_array_________returns_status_code___1;ARRAY1;1" \
-    "is_a_string_________returns_status_code___0;NOT_ARRAY;0" \
-    "is_an_empty_string__returns_status_code___0;'';0"
+    "is_a_string_________returns_status_code___0;NOT_ARRAY;0"
 }
 
 @parametrize_with_error_messages() {
