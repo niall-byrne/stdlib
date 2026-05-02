@@ -55,6 +55,7 @@ _t_runner_execute() {
   local TEST_RC
 
   _mock.register_cleanup
+  stdlib.io.lock.workspace_allocate
 
   set +e
   (
