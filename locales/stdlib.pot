@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: niall@niallbyrne.ca\n"
-"POT-Creation-Date: 2026-05-02 20:23+0000\n"
+"POT-Creation-Date: 2026-05-02 20:28+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -231,60 +231,84 @@ msgstr ""
 
 #: src/message.sh:203
 #, sh-format
-msgid "The regex '${option1}' does not match the value '${option2}'!"
+msgid ""
+"An exclusive execution lock, with name '${option1}', could not be acquired "
+"in time!"
 msgstr ""
 
 #: src/message.sh:207
 #, sh-format
-msgid "SECURITY: The group ownership on '${option1}' is not secure!"
+msgid ""
+"An exclusive execution lock, with name '${option1}', could not be released!"
 msgstr ""
 
 #: src/message.sh:211
-#, sh-format
-msgid "SECURITY: The ownership on '${option1}' is not secure!"
+msgid "A workspace for filesystem locks could not be allocated!"
 msgstr ""
 
 #: src/message.sh:215
 #, sh-format
-msgid "SECURITY: The permissions on '${option1}' are not secure!"
+msgid ""
+"A workspace for filesystem locks has not yet been allocated, the "
+"'${option1}' lock could not be managed!"
 msgstr ""
 
 #: src/message.sh:219
-msgid "SECURITY: This script must be run as root."
+#, sh-format
+msgid "The regex '${option1}' does not match the value '${option2}'!"
 msgstr ""
 
 #: src/message.sh:223
 #, sh-format
-msgid "Please consider running: sudo chgrp '${option1}' '${option2}'"
+msgid "SECURITY: The group ownership on '${option1}' is not secure!"
 msgstr ""
 
 #: src/message.sh:227
 #, sh-format
-msgid "Please consider running: sudo chmod '${option1}' '${option2}'"
+msgid "SECURITY: The ownership on '${option1}' is not secure!"
 msgstr ""
 
 #: src/message.sh:231
 #, sh-format
-msgid "Please consider running: sudo chown '${option1}' '${option2}'"
+msgid "SECURITY: The permissions on '${option1}' are not secure!"
 msgstr ""
 
 #: src/message.sh:235
-msgid "Are you sure you wish to proceed (Y/n) ?"
+msgid "SECURITY: This script must be run as root."
 msgstr ""
 
 #: src/message.sh:239
-msgid "Press any key to continue ..."
+#, sh-format
+msgid "Please consider running: sudo chgrp '${option1}' '${option2}'"
 msgstr ""
 
 #: src/message.sh:243
-msgid "Enter a value:"
+#, sh-format
+msgid "Please consider running: sudo chmod '${option1}' '${option2}'"
 msgstr ""
 
 #: src/message.sh:247
-msgid "Callstack:"
+#, sh-format
+msgid "Please consider running: sudo chown '${option1}' '${option2}'"
 msgstr ""
 
 #: src/message.sh:251
+msgid "Are you sure you wish to proceed (Y/n) ?"
+msgstr ""
+
+#: src/message.sh:255
+msgid "Press any key to continue ..."
+msgstr ""
+
+#: src/message.sh:259
+msgid "Enter a value:"
+msgstr ""
+
+#: src/message.sh:263
+msgid "Callstack:"
+msgstr ""
+
+#: src/message.sh:267
 #, sh-format
 msgid "The value '${option1}' is not a valid variable name!"
 msgstr ""
