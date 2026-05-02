@@ -90,9 +90,12 @@ declare -- _STDLIB_BINARY_CAT="/usr/bin/cat"
 declare -- _STDLIB_BINARY_CUT="/usr/bin/cut"
 declare -- _STDLIB_BINARY_GREP="/usr/bin/grep"
 declare -- _STDLIB_BINARY_HEAD="/usr/bin/head"
+declare -- _STDLIB_BINARY_MKDIR="/usr/bin/mkdir"
 declare -- _STDLIB_BINARY_MKTEMP="/usr/bin/mktemp"
 declare -- _STDLIB_BINARY_RM="/usr/bin/rm"
+declare -- _STDLIB_BINARY_RMDIR="/usr/bin/rmdir"
 declare -- _STDLIB_BINARY_SED="/usr/bin/sed"
+declare -- _STDLIB_BINARY_SLEEP="/usr/bin/sleep"
 declare -- _STDLIB_BINARY_SORT="/usr/bin/sort"
 declare -- _STDLIB_BINARY_TAIL="/usr/bin/tail"
 declare -- _STDLIB_BINARY_TPUT="/usr/bin/tput"
@@ -325,6 +328,22 @@ stdlib.__message.get ()
         IS_NOT_SNAKE_CASE_UPPER)
             required_options=1;
             message="$(stdlib.__gettext "The value '\${option1}' is not a string in valid upper snake case!")"
+        ;;
+        LOCK_COULD_NOT_BE_ACQUIRED)
+            required_options=1;
+            message="$(stdlib.__gettext "An exclusive execution lock, with name '\${option1}', could not be acquired in time!")"
+        ;;
+        LOCK_COULD_NOT_BE_RELEASED)
+            required_options=1;
+            message="$(stdlib.__gettext "An exclusive execution lock, with name '\${option1}', could not be released!")"
+        ;;
+        LOCK_WORKSPACE_COULD_NOT_BE_ALLOCATED)
+            required_options=0;
+            message="$(stdlib.__gettext "A workspace for filesystem locks could not be allocated!")"
+        ;;
+        LOCK_WORKSPACE_DOES_NOT_EXIST)
+            required_options=1;
+            message="$(stdlib.__gettext "A workspace for filesystem locks has not yet been allocated, the '\${option1}' lock could not be managed!")"
         ;;
         REGEX_DOES_NOT_MATCH)
             required_options=2;
@@ -1269,6 +1288,89 @@ stdlib.fn.query.is_valid_name ()
             builtin return 0
         ;;
     esac
+}
+
+stdlib.io.lock.__workspace_cleanup ()
+{
+    if [[ -n "${STDLIB_LOCK_WORKSPACE}" ]]; then
+        "${_STDLIB_BINARY_RM}" -r "${STDLIB_LOCK_WORKSPACE}" || builtin return 1;
+    fi
+}
+
+stdlib.io.lock.acquire ()
+{
+    builtin local lock_name="${1}";
+    builtin local quiet_acquisition_failure_boolean="${STDLIB_LOCK_QUIET_FAILURE_BOOLEAN:-0}";
+    builtin local polling_interval="${STDLIB_LOCK_POLLING_INTERVAL:-"0.1"}";
+    builtin local time_elapsed;
+    builtin local time_start;
+    builtin local wait_time="${STDLIB_LOCK_WAIT_SECONDS:-30}";
+    [[ "${#@}" -eq 1 ]] || builtin return 127;
+    stdlib.var.query.is_valid_name "${lock_name}" || builtin return 126;
+    stdlib.string.query.is_boolean "${quiet_acquisition_failure_boolean}" || builtin return 126;
+    stdlib.string.query.is_decimal "${polling_interval}" || builtin return 126;
+    stdlib.string.query.is_integer "${wait_time}" || builtin return 126;
+    if [[ -z "${STDLIB_LOCK_WORKSPACE}" ]]; then
+        stdlib.logger.error "$(stdlib.__message.get LOCK_WORKSPACE_DOES_NOT_EXIST "${lock_name}")";
+        builtin return 1;
+    fi;
+    time_start="${SECONDS}";
+    while ! "${_STDLIB_BINARY_MKDIR}" "${STDLIB_LOCK_WORKSPACE}/${lock_name}" 2> /dev/null; do
+        "${_STDLIB_BINARY_SLEEP}" "${polling_interval}";
+        if [[ "${wait_time}" -lt "0" ]]; then
+            builtin continue;
+        fi;
+        time_elapsed="$(("${SECONDS}" - "${time_start}"))";
+        if (("${time_elapsed}" >= "${time_start}" + "${wait_time}")); then
+            if [[ "${quiet_acquisition_failure_boolean}" -eq 0 ]]; then
+                stdlib.logger.error "$(stdlib.__message.get LOCK_COULD_NOT_BE_ACQUIRED "${lock_name}")";
+            fi;
+            builtin return 1;
+        fi;
+    done;
+    builtin return 0
+}
+
+stdlib.io.lock.release ()
+{
+    builtin local lock_name="${1}";
+    [[ "${#@}" -eq 1 ]] || builtin return 127;
+    stdlib.var.query.is_valid_name "${lock_name}" || builtin return 126;
+    if [[ -z "${STDLIB_LOCK_WORKSPACE}" ]]; then
+        stdlib.logger.error "$(stdlib.__message.get LOCK_WORKSPACE_DOES_NOT_EXIST "${lock_name}")";
+        builtin return 1;
+    fi;
+    if ! "${_STDLIB_BINARY_RMDIR}" "${STDLIB_LOCK_WORKSPACE}/${lock_name}"; then
+        stdlib.logger.error "$(stdlib.__message.get LOCK_COULD_NOT_BE_RELEASED "${lock_name}")";
+        builtin return 1;
+    fi
+}
+
+stdlib.io.lock.with ()
+{
+    builtin local lock_name="${1}";
+    builtin local exit_code;
+    [[ "${#@}" -gt 1 ]] || builtin return 127;
+    builtin shift;
+    stdlib.io.lock.workspace_allocate || builtin return "$?";
+    stdlib.io.lock.acquire "${lock_name}" || builtin return "$?";
+    "${@}" && exit_code="$?" || exit_code="$?";
+    stdlib.io.lock.release "${lock_name}" || builtin return "$?";
+    builtin return "${exit_code}"
+}
+
+stdlib.io.lock.workspace_allocate ()
+{
+    [[ "${#@}" -eq 0 ]] || builtin return 127;
+    if [[ -n "${STDLIB_LOCK_WORKSPACE}" ]]; then
+        builtin return 0;
+    fi;
+    STDLIB_LOCK_WORKSPACE="$("${_STDLIB_BINARY_MKTEMP}" -d || builtin echo "")";
+    if [[ -z "${STDLIB_LOCK_WORKSPACE}" ]]; then
+        stdlib.logger.error "$(stdlib.__message.get LOCK_WORKSPACE_COULD_NOT_BE_ALLOCATED)";
+        builtin return 1;
+    fi;
+    STDLIB_HANDLER_EXIT_FN_ARRAY+=("stdlib.io.lock.__workspace_cleanup")
 }
 
 stdlib.io.path.assert.is_exists ()
