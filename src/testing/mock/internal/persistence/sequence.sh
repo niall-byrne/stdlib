@@ -4,6 +4,8 @@
 
 builtin set -eo pipefail
 
+__STDLIB_TESTING_MOCK_SEQUENCE_LOCK_NAME="__stdlib_testing_internal__mock_sequence_lock"
+
 # @description Clears the persisted sequence of mock calls.
 # @noargs
 # @exitcode 0 If the sequence was cleared.
