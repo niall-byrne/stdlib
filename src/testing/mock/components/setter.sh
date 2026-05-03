@@ -112,16 +112,20 @@ ${1}.mock.set.stdout() {
   builtin printf -v "__${2}_mock_stdout" "%s" "\${1}"
 }
 
-# @description This function will set the subcommand this mock will call when the mock is called.  All arguments passed to the mock are also passed to the subcommand.
+# @description This function will set the subcommand this mock will call when the mock is called.  All arguments passed to the mock are accessible in the subcommand as escaped arguments (\$1 \$2).
 # @arg $@ array This is a series of commands the mock will execute each time it's called.  This is distinct from side effects in that the subcommand will receive all arguments sent to the mock itself.
 # @exitcode 0 If the mock's subcommand was set successfully.
 ${1}.mock.set.subcommand() {
   # $@: the subcommand to execute on each mock call
 
+  # KCOV_EXCLUDE_BEGIN
   builtin eval "__${1}_mock_subcommand() {  # noqa
       \${@}
   }"
+  # KCOV_EXCLUDE_END
 }
 
+# KCOV_EXCLUDE_BEGIN
 EOF
+  # KCOV_EXCLUDE_END
 )"

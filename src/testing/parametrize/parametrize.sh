@@ -55,8 +55,7 @@ __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY=()
   }
   @parametrize.__internal.validate.fn_name.test "${original_test_function_name}" || builtin return "$?"
 
-  stdlib.fn.derive.clone \
-    "${original_test_function_name}" \
+  stdlib.fn.derive.clone "${original_test_function_name}" \
     "${original_test_function_reference}"
 
   builtin unset -f "${1}"
@@ -65,8 +64,7 @@ __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY=()
 
   parametrize_configuration=("${@}")
 
-  @parametrize.__internal.configuration.parse \
-    parametrize_configuration \
+  @parametrize.__internal.configuration.parse parametrize_configuration \
     parametrize_configuration_scenario_start_index \
     array_environment_variables \
     array_fixture_commands \
@@ -89,24 +87,29 @@ __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY=()
       _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_NAME)"
       {
         _testing.parametrize.__message.get PARAMETRIZE_PREFIX_TEST_NAME
+        # KCOV_EXCLUDE_BEGIN
         builtin echo ": '$(
           _testing.__protected stdlib.string.colour \
             "${STDLIB_TESTING_THEME_PARAMETRIZE_HIGHLIGHT}" \
             "${original_test_function_name}"
         )'"
+        # KCOV_EXCLUDE_END
+
         _testing.parametrize.__message.get PARAMETRIZE_PREFIX_VARIANT_NAME
+        # KCOV_EXCLUDE_BEGIN
         builtin echo ": '$(
           _testing.__protected stdlib.string.colour \
             "${STDLIB_TESTING_THEME_PARAMETRIZE_HIGHLIGHT}" \
             "${test_function_variant_name}"
         )'"
+        # KCOV_EXCLUDE_END
+
       } >&2 # KCOV_EXCLUDE_LINE
       _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_DETAIL)"
       builtin return 126
     fi
 
-    @parametrize.__internal.create.fn.test_variant \
-      "${test_function_variant_name}" \
+    @parametrize.__internal.create.fn.test_variant "${test_function_variant_name}" \
       "${original_test_function_name}" \
       "${original_test_function_reference}" \
       array_environment_variables \
