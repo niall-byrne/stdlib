@@ -13,6 +13,7 @@ _mock.__internal.compile() {
   builtin local mock_component
   builtin local -a mock_component_file_set
 
+  # KCOV_EXCLUDE_BEGIN
   mock_component_file_set=(
     "${STDLIB_DIRECTORY}/testing/mock/components/defaults.sh"
     "${STDLIB_DIRECTORY}/testing/mock/components/main.sh"
@@ -22,6 +23,7 @@ _mock.__internal.compile() {
     "${STDLIB_DIRECTORY}/testing/mock/components/setter.sh"
     "${STDLIB_DIRECTORY}/testing/mock/components/assertion.sh"
   )
+  # KCOV_EXCLUDE_END
 
   # shellcheck disable=SC1090
   builtin source <({

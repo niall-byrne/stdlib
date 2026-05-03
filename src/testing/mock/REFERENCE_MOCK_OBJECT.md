@@ -398,7 +398,7 @@ This function will set the stdout this mock will emit when called.
 
 ### object.mock.set.subcommand
 
-This function will set the subcommand this mock will call when the mock is called.  All arguments passed to the mock are also passed to the subcommand.
+This function will set the subcommand this mock will call when the mock is called.  All arguments passed to the mock are accessible in the subcommand as escaped arguments (\$1 \$2).
 
 #### Arguments
 
