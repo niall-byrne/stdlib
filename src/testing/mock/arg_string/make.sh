@@ -29,9 +29,7 @@ _mock.arg_string.make.from_array() {
     _testing.__protected stdlib.array.assert.is_array "${2}" || builtin return 126
   fi
 
-  _mock.__internal.arg_array.make.from_array \
-    _mock_generated_mock_arg_array \
-    "${@}"
+  _mock.__internal.arg_array.make.from_array _mock_generated_mock_arg_array "${@}"
 
   builtin echo "${_mock_generated_mock_arg_array[*]}"
 }
