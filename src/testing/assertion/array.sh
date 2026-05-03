@@ -43,8 +43,11 @@ assert_array_length() {
   _stdlib_indirect_array=("${!_stdlib_indirect_reference}")
 
   assert_equals "${_stdlib_expected_length}" \
-    "${#_stdlib_indirect_array[*]}" ||
+    "${#_stdlib_indirect_array[*]}" || {
+    # KCOV_EXCLUDE_BEGIN
     fail " $(_testing.assert.__message.get ASSERT_ERROR_ARRAY_LENGTH_NON_MATCHING "${_stdlib_expected_length}" "${#_stdlib_indirect_array[*]}")"
+    # KCOV_EXCLUDE_END
+  }
 }
 
 # @description Asserts that a variable is an array.
