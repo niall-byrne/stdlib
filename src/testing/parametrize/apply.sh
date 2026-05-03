@@ -29,8 +29,7 @@ builtin set -eo pipefail
   }
   @parametrize.__internal.validate.fn_name.test "${original_test_function_name}" || builtin return 126
 
-  @parametrize.__internal.create.array.fn_variant_tags \
-    parametrizer_variant_tag_padding \
+  @parametrize.__internal.create.array.fn_variant_tags parametrizer_variant_tag_padding \
     parametrizer_variant_array \
     "${@:2}" || builtin return 126
 
@@ -42,8 +41,7 @@ builtin set -eo pipefail
         "${parametrizer_variant_array[parametrizer_index]}" \
         "${parametrizer_variant_tag_padding}"
     )"
-    stdlib.fn.derive.clone \
-      "${original_test_function_name}" \
+    stdlib.fn.derive.clone "${original_test_function_name}" \
       "${parametrized_test_function_name}"
 
     "${parametrizer_fn}" "${parametrized_test_function_name}"
