@@ -83,12 +83,13 @@ builtin set -eo pipefail
       _testing.parametrize.__message.get PARAMETRIZE_FOOTER_SCENARIO_VALUES
       builtin echo
     } >&2 # KCOV_EXCLUDE_LINE
-    _testing.error \
-      "$(_testing.parametrize.__message.get PARAMETRIZE_CONFIGURATION_ERROR)" \
+
+    _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_CONFIGURATION_ERROR)" \
       "$(_testing.parametrize.__message.get PARAMETRIZE_PREFIX_SCENARIO_NAME): ${validate_scenario_indirect_array[0]}" \
       "$(_testing.parametrize.__message.get PARAMETRIZE_PREFIX_SCENARIO_VARIABLE): ${validate_env_var_indirect_array[*]} = ${#validate_env_var_indirect_array[@]} variables" \
       "$(_testing.parametrize.__message.get PARAMETRIZE_PREFIX_SCENARIO_VALUES): ${validate_scenario_indirect_array[*]:1} = $((${#validate_scenario_indirect_array[@]} - 1)) values" \
       "$(_testing.parametrize.__message.get PARAMETRIZE_PREFIX_FIXTURE_COMMANDS): $(builtin printf "'%s' " "${validate_fixture_indirect_command_array[@]}")"
+
     builtin return 126
   fi
 }

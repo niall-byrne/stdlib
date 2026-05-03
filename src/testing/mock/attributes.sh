@@ -4,6 +4,7 @@
 
 builtin set -eo pipefail
 
+# KCOV_EXCLUDE_BEGIN
 __STDLIB_TESTING_MOCK_RESTRICTED_ATTRIBUTES=(
   "builtin"
   "case"
@@ -17,3 +18,4 @@ __STDLIB_TESTING_MOCK_RESTRICTED_ATTRIBUTES=(
   "if"
   "while"
 )
+# KCOV_EXCLUDE_END
