@@ -71,6 +71,7 @@ builtin set -eo pipefail
   array_indirect_scenario_definition_reference="${6}[@]"
   array_indirect_scenario_definition=("${!array_indirect_scenario_definition_reference}")
 
+  # KCOV_EXCLUDE_BEGIN
   builtin eval "
   ${test_function_variant_name}(){
   $(
@@ -108,6 +109,7 @@ builtin set -eo pipefail
     ${original_test_function_reference};
   }
   "
+  # KCOV_EXCLUDE_END
 }
 
 # @description Generates a padded test function variant name.
