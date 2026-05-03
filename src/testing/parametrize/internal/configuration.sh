@@ -85,8 +85,7 @@ builtin set -eo pipefail
       "${STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR}" \
       "${1}"
 
-    @parametrize.__internal.validate.scenario \
-      "${parse_env_var_array_name}" \
+    @parametrize.__internal.validate.scenario "${parse_env_var_array_name}" \
       parse_fixture_commands_array \
       parse_scenario_array || builtin return "$?"
 
