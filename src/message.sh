@@ -274,6 +274,10 @@ stdlib.__message.get() {
       required_options=1
       message="$(stdlib.__gettext "The variable '\${option1}' is not set!")"
       ;;
+    VAR_VALUE_INVALID)
+      required_options=1
+      message="$(stdlib.__gettext "The variable '\${option1}' has an invalid value!")"
+      ;;
     VAR_VALUE_NOT_EMPTY)
       required_options=1
       message="$(stdlib.__gettext "The variable '\${option1}' has been assigned a non-empty value!")"
