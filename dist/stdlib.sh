@@ -85,6 +85,7 @@ declare -- STDLIB_THEME_LOGGER_NOTICE="GREY"
 declare -- STDLIB_THEME_LOGGER_SUCCESS="GREEN"
 declare -- STDLIB_THEME_LOGGER_WARNING="YELLOW"
 declare -- STDLIB_TRACEBACK_DISABLE_BOOLEAN="1"
+declare -- STDLIB_VAR_VALIDATE_BY_NAME_BOOLEAN=""
 declare -- STDLIB_WRAP_PREFIX=""
 declare -- _STDLIB_BINARY_CAT="/usr/bin/cat"
 declare -- _STDLIB_BINARY_CUT="/usr/bin/cut"
@@ -396,6 +397,10 @@ stdlib.__message.get ()
         VAR_NAME_INVALID)
             required_options=1;
             message="$(stdlib.__gettext "The value '\${option1}' is not a valid variable name!")"
+        ;;
+        VAR_VALUE_INVALID)
+            required_options=1;
+            message="$(stdlib.__gettext "The variable '\${option1}' has an invalid value!")"
         ;;
         "")
             required_options=0;
@@ -1242,7 +1247,7 @@ ${derive_target_fn_name}() {
   for ((fn_argument_index=1; fn_argument_index <= "\${#@}"; fn_argument_index+=1)); do
     if (("\${fn_argument_index}" == "\${fn_argument_index_variable_name}")); then
       fn_variable_name="\${!fn_argument_index}"
-      stdlib.var.query.is_valid_name "\${fn_variable_name}" || builtin return 126
+      stdlib.var.assert.is_valid_name "\${fn_variable_name}" || builtin return 126
       fn_arguments+=("\${!fn_variable_name}")
     else
       fn_arguments+=("\${!fn_argument_index}")
@@ -2490,7 +2495,7 @@ stdlib.string.colour.substring_var ()
     do
         if (("${fn_argument_index}" == "${fn_argument_index_variable_name}")); then
             fn_variable_name="${!fn_argument_index}";
-            stdlib.var.query.is_valid_name "${fn_variable_name}" || builtin return 126;
+            stdlib.var.assert.is_valid_name "${fn_variable_name}" || builtin return 126;
             fn_arguments+=("${!fn_variable_name}");
         else
             fn_arguments+=("${!fn_argument_index}");
@@ -2560,7 +2565,7 @@ stdlib.string.colour.substrings_var ()
     do
         if (("${fn_argument_index}" == "${fn_argument_index_variable_name}")); then
             fn_variable_name="${!fn_argument_index}";
-            stdlib.var.query.is_valid_name "${fn_variable_name}" || builtin return 126;
+            stdlib.var.assert.is_valid_name "${fn_variable_name}" || builtin return 126;
             fn_arguments+=("${!fn_variable_name}");
         else
             fn_arguments+=("${!fn_argument_index}");
@@ -2667,7 +2672,7 @@ stdlib.string.colour_var ()
     do
         if (("${fn_argument_index}" == "${fn_argument_index_variable_name}")); then
             fn_variable_name="${!fn_argument_index}";
-            stdlib.var.query.is_valid_name "${fn_variable_name}" || builtin return 126;
+            stdlib.var.assert.is_valid_name "${fn_variable_name}" || builtin return 126;
             fn_arguments+=("${!fn_variable_name}");
         else
             fn_arguments+=("${!fn_argument_index}");
@@ -2736,7 +2741,7 @@ stdlib.string.justify.left_var ()
     do
         if (("${fn_argument_index}" == "${fn_argument_index_variable_name}")); then
             fn_variable_name="${!fn_argument_index}";
-            stdlib.var.query.is_valid_name "${fn_variable_name}" || builtin return 126;
+            stdlib.var.assert.is_valid_name "${fn_variable_name}" || builtin return 126;
             fn_arguments+=("${!fn_variable_name}");
         else
             fn_arguments+=("${!fn_argument_index}");
@@ -2805,7 +2810,7 @@ stdlib.string.justify.right_var ()
     do
         if (("${fn_argument_index}" == "${fn_argument_index_variable_name}")); then
             fn_variable_name="${!fn_argument_index}";
-            stdlib.var.query.is_valid_name "${fn_variable_name}" || builtin return 126;
+            stdlib.var.assert.is_valid_name "${fn_variable_name}" || builtin return 126;
             fn_arguments+=("${!fn_variable_name}");
         else
             fn_arguments+=("${!fn_argument_index}");
@@ -2875,7 +2880,7 @@ stdlib.string.lines.join_var ()
     do
         if (("${fn_argument_index}" == "${fn_argument_index_variable_name}")); then
             fn_variable_name="${!fn_argument_index}";
-            stdlib.var.query.is_valid_name "${fn_variable_name}" || builtin return 126;
+            stdlib.var.assert.is_valid_name "${fn_variable_name}" || builtin return 126;
             fn_arguments+=("${!fn_variable_name}");
         else
             fn_arguments+=("${!fn_argument_index}");
@@ -2956,7 +2961,7 @@ stdlib.string.lines.map.fn_var ()
     do
         if (("${fn_argument_index}" == "${fn_argument_index_variable_name}")); then
             fn_variable_name="${!fn_argument_index}";
-            stdlib.var.query.is_valid_name "${fn_variable_name}" || builtin return 126;
+            stdlib.var.assert.is_valid_name "${fn_variable_name}" || builtin return 126;
             fn_arguments+=("${!fn_variable_name}");
         else
             fn_arguments+=("${!fn_argument_index}");
@@ -3036,7 +3041,7 @@ stdlib.string.lines.map.format_var ()
     do
         if (("${fn_argument_index}" == "${fn_argument_index_variable_name}")); then
             fn_variable_name="${!fn_argument_index}";
-            stdlib.var.query.is_valid_name "${fn_variable_name}" || builtin return 126;
+            stdlib.var.assert.is_valid_name "${fn_variable_name}" || builtin return 126;
             fn_arguments+=("${!fn_variable_name}");
         else
             fn_arguments+=("${!fn_argument_index}");
@@ -3105,7 +3110,7 @@ stdlib.string.pad.left_var ()
     do
         if (("${fn_argument_index}" == "${fn_argument_index_variable_name}")); then
             fn_variable_name="${!fn_argument_index}";
-            stdlib.var.query.is_valid_name "${fn_variable_name}" || builtin return 126;
+            stdlib.var.assert.is_valid_name "${fn_variable_name}" || builtin return 126;
             fn_arguments+=("${!fn_variable_name}");
         else
             fn_arguments+=("${!fn_argument_index}");
@@ -3174,7 +3179,7 @@ stdlib.string.pad.right_var ()
     do
         if (("${fn_argument_index}" == "${fn_argument_index_variable_name}")); then
             fn_variable_name="${!fn_argument_index}";
-            stdlib.var.query.is_valid_name "${fn_variable_name}" || builtin return 126;
+            stdlib.var.assert.is_valid_name "${fn_variable_name}" || builtin return 126;
             fn_arguments+=("${!fn_variable_name}");
         else
             fn_arguments+=("${!fn_argument_index}");
@@ -3575,7 +3580,7 @@ stdlib.string.trim.left_var ()
     do
         if (("${fn_argument_index}" == "${fn_argument_index_variable_name}")); then
             fn_variable_name="${!fn_argument_index}";
-            stdlib.var.query.is_valid_name "${fn_variable_name}" || builtin return 126;
+            stdlib.var.assert.is_valid_name "${fn_variable_name}" || builtin return 126;
             fn_arguments+=("${!fn_variable_name}");
         else
             fn_arguments+=("${!fn_argument_index}");
@@ -3645,7 +3650,7 @@ stdlib.string.trim.right_var ()
     do
         if (("${fn_argument_index}" == "${fn_argument_index_variable_name}")); then
             fn_variable_name="${!fn_argument_index}";
-            stdlib.var.query.is_valid_name "${fn_variable_name}" || builtin return 126;
+            stdlib.var.assert.is_valid_name "${fn_variable_name}" || builtin return 126;
             fn_arguments+=("${!fn_variable_name}");
         else
             fn_arguments+=("${!fn_argument_index}");
@@ -3861,6 +3866,27 @@ stdlib.var.assert.is_valid_name ()
             stdlib.logger.error "$(stdlib.__message.get VAR_NAME_INVALID "${1}")"
         ;;
     esac;
+    builtin return "${return_code}"
+}
+
+stdlib.var.assert.is_valid_with ()
+{
+    builtin local return_code=0;
+    builtin local validate_by_name_boolean="${STDLIB_VAR_VALIDATE_BY_NAME_BOOLEAN:-0}";
+    [[ "${#@}" == "2" ]] || {
+        stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)" && builtin return 127
+    };
+    stdlib.fn.assert.is_fn "${1}" || builtin return 126;
+    stdlib.var.assert.is_valid_name "${2}" || builtin return 126;
+    stdlib.string.assert.is_boolean "${validate_by_name_boolean}" || builtin return 126;
+    if [[ "${validate_by_name_boolean}" -eq 1 ]]; then
+        "${1}" "${2}" || return_code="$?";
+    else
+        "${1}" "${!2}" || return_code="$?";
+    fi;
+    if [[ "${return_code}" -ne 0 ]]; then
+        stdlib.logger.error "$(stdlib.__message.get VAR_VALUE_INVALID "${2}")";
+    fi;
     builtin return "${return_code}"
 }
 

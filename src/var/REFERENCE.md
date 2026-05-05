@@ -5,6 +5,7 @@
 ## Index
 
 * [stdlib.var.assert.is_valid_name](#stdlibvarassertis_valid_name)
+* [stdlib.var.assert.is_valid_with](#stdlibvarassertis_valid_with)
 * [stdlib.var.query.is_valid_name](#stdlibvarqueryis_valid_name)
 
 ### stdlib.var.assert.is_valid_name
@@ -19,6 +20,27 @@ Asserts that a string is a valid variable name.
 
 * **0**: If the assertion succeeded.
 * **1**: If the assertion failed.
+* **126**: If an invalid argument has been provided.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stderr
+
+* The error message if the assertion fails.
+
+### stdlib.var.assert.is_valid_with
+
+Asserts a variable's value is valid against a validation function.
+* STDLIB_VAR_VALIDATE_BY_NAME_BOOLEAN: A boolean value that controls whether the variable's name or value is passed to the validation function (default=0).
+
+#### Arguments
+
+* **$1** (string): The validation function to run.  Usually this is an assertion of some kind.
+* **$2** (string): The name of the variable to perform validation on.
+
+#### Exit codes
+
+* **0**: If the variable passes the validation function.
+* **1**: If the variable fails the validation check.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 
