@@ -496,6 +496,7 @@ class GlobalVariableModifierFormatRule(Rule):
         """Validate the given BASH function."""
         errors = []
         for line in func.global_var_lines:
+
             match = re.match(REGEX_GLOBAL_VARIABLE_MODIFIER_DESCRIPTION,
                              line.strip(), re.DOTALL)
             if match:
@@ -539,6 +540,51 @@ class GlobalVariableModifierIndentRule(Rule):
                     f"{func.name}: Global variable in @{Tags.DESCRIPTION.name} "
                     f"should be in uppercase characters followed by a colon. "
                     f"Found: '{line.strip()}'")
+        return errors
+
+
+class GlobalVariableModifierValidationRule(Rule):
+    """A rule that checks global variable modifiers are validated."""
+
+    def check(self, func: BashFunction) -> List[str]:
+        """Validate the given BASH function."""
+        errors = []
+        for line in func.global_var_lines:
+            match = re.match(
+                REGEX_GLOBAL_VARIABLE_MODIFIER_DESCRIPTION,
+                line.strip(),
+                re.DOTALL,
+            )
+            if match:
+                var_name = match.group(1)
+                line_start_comment_pattern = r"^# (clean) (\S+)$"
+                line_end_comment_pattern = r"# (defaults|validates) (\S+)$"
+
+                validated = False
+                for body_line in func.body_lines:
+                    stripped_body_line = body_line.strip()
+
+                    if (stripped_body_line.startswith("#")):
+                        comment_match = re.match(
+                            line_start_comment_pattern,
+                            stripped_body_line,
+                        )
+                    else:
+                        comment_match = re.search(
+                            line_end_comment_pattern,
+                            stripped_body_line,
+                        )
+
+                    if ((comment_match
+                         and var_name in comment_match.group(2).split(","))):
+                        validated = True
+                        break
+
+                if not validated:
+                    errors.append(
+                        f"{func.name}: Global Variable or Keyword '{var_name}' "
+                        f"in @{Tags.DESCRIPTION.name} and has not been marked "
+                        "as defaulted, validated or clean.")
         return errors
 
 
@@ -802,6 +848,7 @@ def main():
         FieldOrderRule(),
         GlobalVariableModifierFormatRule(),
         GlobalVariableModifierIndentRule(),
+        GlobalVariableModifierValidationRule(),
         InternalTagRule(),
         MandatoryExitCodeRule(),
         MandatoryTagRule(),
