@@ -497,7 +497,6 @@ class GlobalVariableModifierFormatRule(Rule):
         """Validate the given BASH function."""
         errors = []
         for line in func.global_var_lines:
-
             match = re.match(REGEX_GLOBAL_VARIABLE_MODIFIER_DESCRIPTION,
                              line.strip(), re.DOTALL)
             if match:
