@@ -187,9 +187,11 @@
 * [stdlib.var.assert.is_empty](#stdlibvarassertis_empty)
 * [stdlib.var.assert.is_set](#stdlibvarassertis_set)
 * [stdlib.var.assert.is_valid_name](#stdlibvarassertis_valid_name)
+* [stdlib.var.assert.is_valid_with](#stdlibvarassertis_valid_with)
 * [stdlib.var.query.is_empty](#stdlibvarqueryis_empty)
 * [stdlib.var.query.is_set](#stdlibvarqueryis_set)
 * [stdlib.var.query.is_valid_name](#stdlibvarqueryis_valid_name)
+* [stdlib.var.query.is_valid_with](#stdlibvarqueryis_valid_with)
 
 ### stdlib.array.assert.is_array
 
@@ -3723,6 +3725,28 @@ Asserts that a string is a valid variable name.
 
 * The error message if the assertion fails.
 
+### stdlib.var.assert.is_valid_with
+
+Asserts a variable's value is valid against a validation function.
+* STDLIB_VALIDATION_SOURCE_VAR: An optional variable name that can be used as a source for validation (logging will still attribute the value to the argument provided variable name) (default="").
+
+#### Arguments
+
+* **$1** (string): The validation function to run.
+* **$2** (string): The name of the variable containing the value to perform validation on.
+* **$3** (string): (optional, default="value") Controls whether the 'name' or 'value' of the variable is passed to the validation function.
+
+#### Exit codes
+
+* **0**: If the assertion succeeded.
+* **1**: If the assertion failed.
+* **126**: If an invalid argument has been provided.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stderr
+
+* The error message if the assertion fails.
+
 ### stdlib.var.query.is_empty
 
 Checks if a variable is an empty value (unset variables, empty arrays, empty associative arrays, empty strings and empty integers).
@@ -3765,5 +3789,23 @@ Checks if a string is a valid variable name.
 
 * **0**: If the string is a valid variable name.
 * **1**: If the string is not a valid variable name.
+* **126**: If an invalid argument has been provided.
+* **127**: If the wrong number of arguments were provided.
+
+### stdlib.var.query.is_valid_with
+
+Checks if a variable's value is valid against a validation function.
+* STDLIB_VALIDATION_SOURCE_VAR: An optional variable name that can be used as a source for validation (default="").
+
+#### Arguments
+
+* **$1** (string): The validation function to run.
+* **$2** (string): The name of the variable containing the value to perform validation on.
+* **$3** (string): (optional, default="value") Controls whether the 'name' or 'value' of the variable is passed to the validation function.
+
+#### Exit codes
+
+* **0**: If the variable passes the validation function.
+* **1**: If the variable fails the validation check.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
