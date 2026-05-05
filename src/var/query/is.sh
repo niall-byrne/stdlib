@@ -4,6 +4,8 @@
 
 builtin set -eo pipefail
 
+STDLIB_VALIDATION_SOURCE_VAR=""
+
 # @description Checks if a variable is an empty value (unset variables, empty arrays, empty associative arrays, empty strings and empty integers).
 # @arg $1 string The name of the variable to check.
 # @exitcode 0 If the variable is an empty value.
@@ -20,11 +22,11 @@ stdlib.var.query.is_empty() {
 
   case "${variable_declaration}" in
     # 1. Empty arrays
-    *"-a "*'=()' | *"-a ${1}")
+    *"-a "*"=()" | *"-a ${1}") # KCOV_EXCLUDE_LINE
       builtin return 0
       ;;
     # 2. Empty associative arrays.
-    *"-A "*'=()' | *"-A ${1}")
+    *"-A "*"=()" | *"-A ${1}") # KCOV_EXCLUDE_LINE
       builtin return 0
       ;;
     # 3. Populated arrays and associative arrays.
@@ -74,4 +76,43 @@ stdlib.var.query.is_valid_name() {
       builtin return 0
       ;;
   esac
+}
+
+# @description Checks if a variable's value is valid against a validation function.
+#   * STDLIB_VALIDATION_SOURCE_VAR: An optional variable name that can be used as a source for validation (default="").
+# @arg $1 string The validation function to run.
+# @arg $2 string The name of the variable containing the value to perform validation on.
+# @arg $3 string (optional, default="value") Controls whether the 'name' or 'value' of the variable is passed to the validation function.
+# @exitcode 0 If the variable passes the validation function.
+# @exitcode 1 If the variable fails the validation check.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+stdlib.var.query.is_valid_with() {
+  builtin local return_code=0
+  builtin local validate_default_value="${STDLIB_VALIDATION_SOURCE_VAR}"
+  builtin local validation_source="${2}"
+  builtin local validation_source_selection="${3:-value}"
+  builtin local -a var_source_types
+
+  # shellcheck disable=SC2034
+  var_source_types=("name" "value")
+
+  { [[ "${#@}" -ge "2" ]] && [[ "${#@}" -le "3" ]]; } || builtin return 127
+
+  stdlib.fn.query.is_fn "${1}" || builtin return 126
+  stdlib.var.query.is_valid_name "${2}" || builtin return 126
+  stdlib.array.query.is_contains "${validation_source_selection}" var_source_types || builtin return 126
+
+  if [[ -n "${validate_default_value}" ]]; then
+    stdlib.var.query.is_set "${validate_default_value}" || builtin return 126
+    validation_source="${validate_default_value}"
+  fi
+
+  if [[ "${validation_source_selection}" == "name" ]]; then
+    "${1}" "${validation_source}" || return_code="$?"
+  else
+    "${1}" "${!validation_source}" || return_code="$?"
+  fi
+
+  builtin return "${return_code}"
 }
