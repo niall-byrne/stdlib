@@ -85,6 +85,8 @@ declare -- STDLIB_THEME_LOGGER_NOTICE="GREY"
 declare -- STDLIB_THEME_LOGGER_SUCCESS="GREEN"
 declare -- STDLIB_THEME_LOGGER_WARNING="YELLOW"
 declare -- STDLIB_TRACEBACK_DISABLE_BOOLEAN="1"
+declare -- STDLIB_VAR_VALIDATE_BY_NAME_BOOLEAN=""
+declare -- STDLIB_VAR_VALIDATE_DEFAULT_VAR=""
 declare -- STDLIB_WRAP_PREFIX=""
 declare -- _STDLIB_BINARY_CAT="/usr/bin/cat"
 declare -- _STDLIB_BINARY_CUT="/usr/bin/cut"
@@ -400,6 +402,10 @@ stdlib.__message.get ()
         VAR_NOT_SET)
             required_options=1;
             message="$(stdlib.__gettext "The variable '\${option1}' is not set!")"
+        ;;
+        VAR_VALUE_INVALID)
+            required_options=1;
+            message="$(stdlib.__gettext "The variable '\${option1}' has an invalid value!")"
         ;;
         "")
             required_options=0;
@@ -3886,6 +3892,24 @@ stdlib.var.assert.is_valid_name ()
     builtin return "${return_code}"
 }
 
+stdlib.var.assert.is_valid_with ()
+{
+    builtin local return_code=0;
+    stdlib.var.query.is_valid_with "${@}" || return_code="$?";
+    case "${return_code}" in
+        0)
+
+        ;;
+        126 | 127)
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
+        ;;
+        *)
+            stdlib.logger.error "$(stdlib.__message.get VAR_VALUE_INVALID "${2}")"
+        ;;
+    esac;
+    builtin return "${return_code}"
+}
+
 stdlib.var.query.is_set ()
 {
     [[ "${#@}" == "1" ]] || builtin return 127;
@@ -3908,6 +3932,27 @@ stdlib.var.query.is_valid_name ()
             builtin return 0
         ;;
     esac
+}
+
+stdlib.var.query.is_valid_with ()
+{
+    builtin local return_code=0;
+    builtin local validate_by_name_boolean="${STDLIB_VAR_VALIDATE_BY_NAME_BOOLEAN:-0}";
+    builtin local validate_default_value="${STDLIB_VAR_VALIDATE_DEFAULT_VAR}";
+    builtin local value_source="${2}";
+    [[ "${#@}" == "2" ]] || builtin return 127;
+    stdlib.fn.query.is_fn "${1}" || builtin return 126;
+    stdlib.var.query.is_valid_name "${2}" || builtin return 126;
+    stdlib.string.query.is_boolean "${validate_by_name_boolean}" || builtin return 126;
+    if [[ -n "${validate_default_value}" ]] && [[ -z "${!2}" ]]; then
+        value_source="${validate_default_value}";
+    fi;
+    if [[ "${validate_by_name_boolean}" -eq 1 ]]; then
+        "${1}" "${value_source}" || return_code="$?";
+    else
+        "${1}" "${!value_source}" || return_code="$?";
+    fi;
+    builtin return "${return_code}"
 }
 
 # this snippet is included by the build script:
