@@ -497,6 +497,7 @@ class GlobalVariableModifierFormatRule(Rule):
         """Validate the given BASH function."""
         errors = []
         for line in func.global_var_lines:
+
             match = re.match(REGEX_GLOBAL_VARIABLE_MODIFIER_DESCRIPTION,
                              line.strip(), re.DOTALL)
             if match:
@@ -548,8 +549,14 @@ class GlobalVariableModifierValidationRule(Rule):
 
     def check(self, func: BashFunction) -> List[str]:
         """Validate the given BASH function."""
+        if func.contains_tag(Tags.INTERNAL):
+            return []
+
         errors = []
         for line in func.global_var_lines:
+            if re.search(REGEX_SKIP_PROCESSING, line):
+                continue
+
             match = re.match(REGEX_GLOBAL_VARIABLE_MODIFIER_DESCRIPTION,
                              line.strip(), re.DOTALL)
             if match:

@@ -209,6 +209,12 @@ class TestDocumentationCheck(unittest.TestCase):
         # stdlib.single_quoted_validation
         self.assertEqual(len(rule.check(functions[8])), 0)
 
+        # stdlib.__internal_unvalidated_var
+        self.assertEqual(len(rule.check(functions[9])), 0)
+
+        # stdlib.bypassed_validation
+        self.assertEqual(len(rule.check(functions[10])), 0)
+
     def test_missing_outputs(self):
         filepath = os.path.join(self.assets_dir, "missing_outputs.sh")
         functions, _ = documentation_check.parse_file(filepath)

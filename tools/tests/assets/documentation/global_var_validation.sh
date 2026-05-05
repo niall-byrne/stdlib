@@ -77,3 +77,20 @@ stdlib.single_quoted_validation() {
   stdlib.var.assert.is_valid_with stdlib.string.assert.is_boolean 'STDLIB_SINGLE_QUOTED_VAR'
   builtin return 0
 }
+
+# @description An internal function with unvalidated global variable.
+#   * STDLIB_INTERNAL_UNVALIDATED_VAR: An unvalidated variable (default=0).
+# @noargs
+# @exitcode 0 If successful.
+# @internal
+stdlib.__internal_unvalidated_var() {
+  builtin return 0
+}
+
+# @description A function with unvalidated global variable bypassed with noqa.
+#   * STDLIB_BYPASSED_VAR: An unvalidated variable (default=0). # noqa
+# @noargs
+# @exitcode 0 If successful.
+stdlib.bypassed_validation() {
+  builtin return 0
+}
