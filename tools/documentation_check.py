@@ -497,6 +497,7 @@ class GlobalVariableModifierFormatRule(Rule):
         """Validate the given BASH function."""
         errors = []
         for line in func.global_var_lines:
+
             match = re.match(REGEX_GLOBAL_VARIABLE_MODIFIER_DESCRIPTION,
                              line.strip(), re.DOTALL)
             if match:
@@ -540,6 +541,50 @@ class GlobalVariableModifierIndentRule(Rule):
                     f"{func.name}: Global variable in @{Tags.DESCRIPTION.name} "
                     f"should be in uppercase characters followed by a colon. "
                     f"Found: '{line.strip()}'")
+        return errors
+
+
+class GlobalVariableModifierValidationRule(Rule):
+    """A rule that checks global variable modifiers are validated."""
+
+    def check(self, func: BashFunction) -> List[str]:
+        """Validate the given BASH function."""
+        if func.contains_tag(Tags.INTERNAL):
+            return []
+
+        errors = []
+        for line in func.global_var_lines:
+            match = re.match(
+                REGEX_GLOBAL_VARIABLE_MODIFIER_DESCRIPTION,
+                line.strip(),
+                re.DOTALL,
+            )
+            if match:
+                var_name = match.group(1)
+                comment_pattern = r"# (defaults|validates) (\S+)$"
+
+                validated = False
+                for body_line in func.body_lines:
+                    stripped_body_line = body_line.strip()
+
+                    if stripped_body_line.startswith("#"):
+                        continue
+
+                    comment_match = re.search(
+                        comment_pattern,
+                        stripped_body_line,
+                    )
+
+                    if ((comment_match
+                         and var_name in comment_match.group(2).split(","))):
+                        validated = True
+                        break
+
+                if not validated:
+                    errors.append(
+                        f"{func.name}: Global variable '{var_name}' in "
+                        f"@{Tags.DESCRIPTION.name} has not been explicitly "
+                        "defaulted or validated.")
         return errors
 
 
@@ -803,6 +848,7 @@ def main():
         FieldOrderRule(),
         GlobalVariableModifierFormatRule(),
         GlobalVariableModifierIndentRule(),
+        GlobalVariableModifierValidationRule(),
         InternalTagRule(),
         MandatoryExitCodeRule(),
         MandatoryTagRule(),
