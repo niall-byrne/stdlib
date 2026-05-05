@@ -81,7 +81,8 @@ setup() {
     "stdin_default_pause_prompt;STDIN_DEFAULT_PAUSE_PROMPT;Press any key to continue ... " \
     "stdin_default_value_prompt;STDIN_DEFAULT_VALUE_PROMPT;Enter a value: " \
     "traceback_header;TRACEBACK_HEADER;Callstack:" \
-    "var_name_invalid;VAR_NAME_INVALID|not_valid;The value 'not_valid' is not a valid variable name!"
+    "var_name_invalid;VAR_NAME_INVALID|not_valid;The value 'not_valid' is not a valid variable name!" \
+    "var_value_invalid;VAR_VALUE_INVALID|var_invalid;The variable 'var_invalid' has an invalid value!"
 }
 
 @parametrize_with_incorrect_arg_counts() {
@@ -209,7 +210,9 @@ setup() {
     "stdin_default_value_prompt______________too_many_args;STDIN_DEFAULT_VALUE_PROMPT|1" \
     "traceback_header________________________too_many_args;TRACEBACK_HEADER|1" \
     "var_name_invalid________________________no_args______;VAR_NAME_INVALID" \
-    "var_name_invalid________________________too_many_args;VAR_NAME_INVALID|1|2"
+    "var_name_invalid________________________too_many_args;VAR_NAME_INVALID|1|2" \
+    "var_value_invalid_______________________no_args______;VAR_VALUE_INVALID" \
+    "var_value_invalid_______________________too_many_args;VAR_VALUE_INVALID|1|2"
 }
 
 # shellcheck disable=SC2034
