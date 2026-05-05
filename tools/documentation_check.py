@@ -564,6 +564,46 @@ class GlobalVariableModifierIndentRule(Rule):
         return errors
 
 
+class GlobalVariableModifierValidationRule(Rule):
+    """A rule that checks global variable modifiers are validated."""
+
+    def check(self, func: BashFunction) -> List[str]:
+        """Validate the given BASH function."""
+        errors = []
+        for line in func.global_var_lines:
+            match = re.match(
+                REGEX_GLOBAL_VARIABLE_MODIFIER_DESCRIPTION,
+                line.strip(),
+                re.DOTALL,
+            )
+            if match:
+                var_name = match.group(1)
+                line_comment_pattern = r"# (clean|defaults|validates) (\S+)$"
+
+                validated = False
+                for body_line in func.body_lines:
+                    stripped_body_line = body_line.strip()
+
+                    comment_match = re.search(
+                        line_comment_pattern,
+                        stripped_body_line,
+                    )
+
+                    if comment_match and var_name in comment_match.group(
+                        2
+                    ).split(","):
+                        validated = True
+                        break
+
+                if not validated:
+                    errors.append(
+                        f"{func.name}: Global Variable or Keyword '{var_name}' "
+                        f"in @{Tags.DESCRIPTION.name} and has not been marked "
+                        "as defaulted, validated or clean."
+                    )
+        return errors
+
+
 class InternalTagRule(Rule):
     """A rule that checks private functions have an internal tag."""
 
@@ -844,6 +884,7 @@ def main():
         FieldOrderRule(),
         GlobalVariableModifierFormatRule(),
         GlobalVariableModifierIndentRule(),
+        GlobalVariableModifierValidationRule(),
         InternalTagRule(),
         MandatoryExitCodeRule(),
         MandatoryTagRule(),

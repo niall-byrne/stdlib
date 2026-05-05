@@ -170,6 +170,59 @@ class TestDocumentationCheck(unittest.TestCase):
             errors_if[1],
         )
 
+    def test_global_variable_validation(self):
+        filepath = os.path.join(self.assets_dir, "global_var_validation.sh")
+        functions, _ = documentation_check.parse_file(filepath)
+        rule = documentation_check.GlobalVariableModifierValidationRule()
+
+        # stdlib.no_global_vars
+        self.assertEqual(len(rule.check(functions[0])), 0)
+
+        # stdlib.validated_global_var
+        self.assertEqual(len(rule.check(functions[1])), 0)
+
+        # stdlib.manually_validated_global_var
+        self.assertEqual(len(rule.check(functions[2])), 0)
+
+        # stdlib.manually_validated_global_var_multiple
+        self.assertEqual(len(rule.check(functions[3])), 0)
+
+        # stdlib.unvalidated_global_var
+        errors = rule.check(functions[4])
+        self.assertEqual(len(errors), 1)
+        self.assertIn("STDLIB_UNVALIDATED_VAR", errors[0])
+
+        # stdlib.multiple_global_vars
+        errors = rule.check(functions[5])
+        self.assertEqual(len(errors), 1)
+        self.assertIn("STDLIB_INVALID_VAR", errors[0])
+
+        # stdlib.dynamic_validated_global_var
+        self.assertEqual(len(rule.check(functions[6])), 0)
+
+        # stdlib.dynamic_unvalidated_global_var
+        errors = rule.check(functions[7])
+        self.assertEqual(len(errors), 1)
+        self.assertIn("__${2}_mock_rc", errors[0])
+
+        # stdlib.commented_validation
+        errors = rule.check(functions[8])
+        self.assertEqual(len(errors), 1)
+        self.assertIn("STDLIB_COMMENTED_VAR", errors[0])
+
+        # stdlib.prefix_match_validation
+        errors = rule.check(functions[9])
+        self.assertEqual(len(errors), 1)
+        self.assertIn("STDLIB_PREFIX_VAR", errors[0])
+
+        # stdlib.__internal_unvalidated_var
+        errors = rule.check(functions[10])
+        self.assertEqual(len(errors), 1)
+        self.assertIn("STDLIB_INTERNAL_UNVALIDATED_VAR", errors[0])
+
+        # stdlib.already_clean
+        self.assertEqual(len(rule.check(functions[11])), 0)
+
     def test_missing_outputs(self):
         filepath = os.path.join(self.assets_dir, "missing_outputs.sh")
         functions, _ = documentation_check.parse_file(filepath)
