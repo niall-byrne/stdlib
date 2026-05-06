@@ -105,3 +105,22 @@ test_stdlib_fn_derive_var__valid_args______________________@vary__derived_fn___i
 
 @parametrize_with_input_output_arg_combos \
   test_stdlib_fn_derive_var__valid_args______________________@vary__derived_fn___invalid_var__returns_status_code_126
+
+# shellcheck disable=SC2034
+test_stdlib_fn_derive_var__valid_args______________________@vary__derived_fn___invalid_var__logs_error_message() {
+  local args=()
+  local test_command_args=()
+
+  stdlib.array.make.from_string "args" "|" "${TEST_ARGS_DEFINITION}"
+  stdlib.array.make.from_string "test_command_args" "|" "${TEST_COMMAND_ARGS_DEFINITION/TEST_OUTPUT/'INVALID@'}"
+
+  stdlib.fn.derive.var "${args[@]}"
+
+  "${test_command_args[@]}"
+
+  stdlib.logger.error.mock.assert_called_once_with \
+    "1($(stdlib.__message.get VAR_NAME_INVALID "INVALID@"))"
+}
+
+@parametrize_with_input_output_arg_combos \
+  test_stdlib_fn_derive_var__valid_args______________________@vary__derived_fn___invalid_var__logs_error_message
