@@ -19,8 +19,8 @@
 ### stdlib.logger.error
 
 Logs an error message.
-* STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
-* STDLIB_THEME_LOGGER_ERROR: The colour to use for the message (default="LIGHT_RED").
+* STDLIB_LOGGING_MESSAGE_PREFIX string keyword: A prefix identifying the calling function (default="${FUNCNAME[2]}").
+* STDLIB_THEME_LOGGER_ERROR string global: The colour to use for error messages (default="LIGHT_RED").
 
 #### Arguments
 
@@ -37,6 +37,8 @@ Logs an error message.
 ### stdlib.logger.error_pipe
 
 A derivative of stdlib.logger.error that can read from stdin.
+* STDLIB_LOGGING_MESSAGE_PREFIX string keyword: A prefix identifying the calling function (default="${FUNCNAME[2]}").
+* STDLIB_THEME_LOGGER_ERROR string global: The colour to use for error messages (default="LIGHT_RED").
 
 #### Arguments
 
@@ -57,8 +59,8 @@ A derivative of stdlib.logger.error that can read from stdin.
 ### stdlib.logger.info
 
 Logs an informational message.
-* STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
-* STDLIB_THEME_LOGGER_INFO: The colour to use for the message (default="WHITE").
+* STDLIB_LOGGING_MESSAGE_PREFIX string keyword: A prefix identifying the calling function (default="${FUNCNAME[2]}").
+* STDLIB_THEME_LOGGER_INFO string global: The colour to use for info messages (default="WHITE").
 
 #### Arguments
 
@@ -75,6 +77,8 @@ Logs an informational message.
 ### stdlib.logger.info_pipe
 
 A derivative of stdlib.logger.info that can read from stdin.
+* STDLIB_LOGGING_MESSAGE_PREFIX string keyword: A prefix identifying the calling function (default="${FUNCNAME[2]}").
+* STDLIB_THEME_LOGGER_INFO string global: The colour to use for info messages (default="WHITE").
 
 #### Arguments
 
@@ -95,8 +99,8 @@ A derivative of stdlib.logger.info that can read from stdin.
 ### stdlib.logger.notice
 
 Logs a notice message.
-* STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
-* STDLIB_THEME_LOGGER_NOTICE: The colour to use for the message (default="GREY").
+* STDLIB_LOGGING_MESSAGE_PREFIX string keyword: A prefix identifying the calling function (default="${FUNCNAME[2]}").
+* STDLIB_THEME_LOGGER_NOTICE string global: The colour to use for notice messages (default="GREY").
 
 #### Arguments
 
@@ -113,6 +117,8 @@ Logs a notice message.
 ### stdlib.logger.notice_pipe
 
 A derivative of stdlib.logger.notice that can read from stdin.
+* STDLIB_LOGGING_MESSAGE_PREFIX string keyword: A prefix identifying the calling function (default="${FUNCNAME[2]}").
+* STDLIB_THEME_LOGGER_NOTICE string global: The colour to use for notice messages (default="GREY").
 
 #### Arguments
 
@@ -133,8 +139,8 @@ A derivative of stdlib.logger.notice that can read from stdin.
 ### stdlib.logger.success
 
 Logs a success message.
-* STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
-* STDLIB_THEME_LOGGER_SUCCESS: The colour to use for the message (default="GREEN").
+* STDLIB_LOGGING_MESSAGE_PREFIX string keyword: A prefix identifying the calling function (default="${FUNCNAME[2]}").
+* STDLIB_THEME_LOGGER_SUCCESS string global: The colour to use for success messages (default="GREEN").
 
 #### Arguments
 
@@ -151,6 +157,8 @@ Logs a success message.
 ### stdlib.logger.success_pipe
 
 A derivative of stdlib.logger.success that can read from stdin.
+* STDLIB_LOGGING_MESSAGE_PREFIX string keyword: A prefix identifying the calling function (default="${FUNCNAME[2]}").
+* STDLIB_THEME_LOGGER_SUCCESS string global: The colour to use for success messages (default="GREEN").
 
 #### Arguments
 
@@ -185,8 +193,8 @@ _Function has no arguments._
 ### stdlib.logger.warning
 
 Logs a warning message.
-* STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="${FUNCNAME[2]}").
-* STDLIB_THEME_LOGGER_WARNING: The colour to use for the message (default="YELLOW").
+* STDLIB_LOGGING_MESSAGE_PREFIX string keyword: A prefix identifying the calling function (default="${FUNCNAME[2]}").
+* STDLIB_THEME_LOGGER_WARNING string global: The colour to use for warning messages (default="YELLOW").
 
 #### Arguments
 
@@ -203,6 +211,8 @@ Logs a warning message.
 ### stdlib.logger.warning_pipe
 
 A derivative of stdlib.logger.warning that can read from stdin.
+* STDLIB_LOGGING_MESSAGE_PREFIX string keyword: A prefix identifying the calling function (default="${FUNCNAME[2]}").
+* STDLIB_THEME_LOGGER_WARNING string global: The colour to use for warning messages (default="YELLOW").
 
 #### Arguments
 
