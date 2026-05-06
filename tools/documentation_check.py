@@ -497,6 +497,7 @@ class GlobalVariableModifierFormatRule(Rule):
         """Validate the given BASH function."""
         errors = []
         for line in func.global_var_lines:
+
             match = re.match(REGEX_GLOBAL_VARIABLE_MODIFIER_DESCRIPTION,
                              line.strip(), re.DOTALL)
             if match:
@@ -553,21 +554,33 @@ class GlobalVariableModifierValidationRule(Rule):
 
         errors = []
         for line in func.global_var_lines:
-            if re.search(REGEX_SKIP_PROCESSING, line):
-                continue
-
-            match = re.match(REGEX_GLOBAL_VARIABLE_MODIFIER_DESCRIPTION,
-                             line.strip(), re.DOTALL)
+            match = re.match(
+                REGEX_GLOBAL_VARIABLE_MODIFIER_DESCRIPTION,
+                line.strip(),
+                re.DOTALL,
+            )
             if match:
                 var_name = match.group(1)
-                pattern = (rf"stdlib\.var\.assert\.is_valid_with\s+\S+\s+"
-                           rf"['\"]?{re.escape(var_name)}['\"]?"
-                           rf"(?![a-zA-Z0-9_])")
+                auto_pattern = (rf"stdlib\.var\.assert\.is_valid_with\s+\S+\s+"
+                                rf"['\"]?{re.escape(var_name)}['\"]?"
+                                rf"(?![a-zA-Z0-9_])")
+                comment_pattern = r"# (defaults|validates) (\S+)$"
+
                 validated = False
                 for body_line in func.body_lines:
-                    if body_line.strip().startswith("#"):
+                    stripped_body_line = body_line.strip()
+
+                    if stripped_body_line.startswith("#"):
                         continue
-                    if re.search(pattern, body_line):
+
+                    comment_match = re.search(
+                        comment_pattern,
+                        stripped_body_line,
+                    )
+
+                    if ((comment_match
+                         and var_name in comment_match.group(2).split(","))
+                            or re.search(auto_pattern, body_line)):
                         validated = True
                         break
 

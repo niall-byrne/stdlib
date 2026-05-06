@@ -16,6 +16,32 @@ stdlib.validated_global_var() {
   builtin return 0
 }
 
+# @description A function with a manually validated global variable.
+#   * STDLIB_VALIDATED_VAR: A validated variable (default="").
+# @noargs
+# @exitcode 0 If successful.
+stdlib.manually_validated_global_var() {
+  # shellcheck disable=SC2034
+  local value_with_default="${STDLIB_VALIDATED_VAR:-a}"
+
+  stdlib.var.assert.is_valid_with stdlib.string.assert.is_char value_with_default # validates STDLIB_VALIDATED_VAR
+  builtin return 0
+}
+
+# @description A function with a manually validated global variable.
+#   * STDLIB_VALIDATED_VAR1: A validated variable (default="").
+#   * STDLIB_VALIDATED_VAR2: A validated variable (default="").
+# @noargs
+# @exitcode 0 If successful.
+# shellcheck disable=SC2034
+stdlib.manually_validated_global_var_multiple() {
+  local value_with_default1="${STDLIB_VALIDATED_VAR1:-a}"
+  local value_with_default2="${STDLIB_VALIDATED_VAR2:-a}"
+
+  validation_function value_with_default1 value_with_default2 # validates STDLIB_VALIDATED_VAR1,STDLIB_VALIDATED_VAR2
+  builtin return 0
+}
+
 # @description A function with an unvalidated global variable.
 #   * STDLIB_UNVALIDATED_VAR: An unvalidated variable (default=0).
 # @noargs
@@ -84,13 +110,5 @@ stdlib.single_quoted_validation() {
 # @exitcode 0 If successful.
 # @internal
 stdlib.__internal_unvalidated_var() {
-  builtin return 0
-}
-
-# @description A function with unvalidated global variable bypassed with noqa.
-#   * STDLIB_BYPASSED_VAR: An unvalidated variable (default=0). # noqa
-# @noargs
-# @exitcode 0 If successful.
-stdlib.bypassed_validation() {
   builtin return 0
 }
