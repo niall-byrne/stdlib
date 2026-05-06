@@ -15,9 +15,8 @@ from documentation_check import Tags
 class TestDocumentationCheck(unittest.TestCase):
 
     def setUp(self):
-        self.assets_dir = os.path.join(
-            os.path.dirname(__file__), "assets/documentation"
-        )
+        self.assets_dir = os.path.join(os.path.dirname(__file__),
+                                       "assets/documentation")
 
     def test_valid_file(self):
         filepath = os.path.join(self.assets_dir, "valid.sh")
@@ -178,42 +177,45 @@ class TestDocumentationCheck(unittest.TestCase):
         # stdlib.validated_global_var
         self.assertEqual(len(rule.check(functions[1])), 0)
 
+        # stdlib.manually_validated_global_var
+        self.assertEqual(len(rule.check(functions[2])), 0)
+
+      # stdlib.manually_validated_global_var_multiple
+        self.assertEqual(len(rule.check(functions[3])), 0)
+
         # stdlib.unvalidated_global_var
-        errors = rule.check(functions[2])
+        errors = rule.check(functions[4])
         self.assertEqual(len(errors), 1)
         self.assertIn("STDLIB_UNVALIDATED_VAR", errors[0])
 
         # stdlib.multiple_global_vars
-        errors = rule.check(functions[3])
+        errors = rule.check(functions[5])
         self.assertEqual(len(errors), 1)
         self.assertIn("STDLIB_INVALID_VAR", errors[0])
 
         # stdlib.dynamic_validated_global_var
-        self.assertEqual(len(rule.check(functions[4])), 0)
+        self.assertEqual(len(rule.check(functions[6])), 0)
 
         # stdlib.dynamic_unvalidated_global_var
-        errors = rule.check(functions[5])
+        errors = rule.check(functions[7])
         self.assertEqual(len(errors), 1)
         self.assertIn("__${2}_mock_rc", errors[0])
 
         # stdlib.commented_validation
-        errors = rule.check(functions[6])
+        errors = rule.check(functions[8])
         self.assertEqual(len(errors), 1)
         self.assertIn("STDLIB_COMMENTED_VAR", errors[0])
 
         # stdlib.prefix_match_validation
-        errors = rule.check(functions[7])
+        errors = rule.check(functions[9])
         self.assertEqual(len(errors), 1)
         self.assertIn("STDLIB_PREFIX_VAR", errors[0])
 
         # stdlib.single_quoted_validation
-        self.assertEqual(len(rule.check(functions[8])), 0)
+        self.assertEqual(len(rule.check(functions[10])), 0)
 
         # stdlib.__internal_unvalidated_var
-        self.assertEqual(len(rule.check(functions[9])), 0)
-
-        # stdlib.bypassed_validation
-        self.assertEqual(len(rule.check(functions[10])), 0)
+        self.assertEqual(len(rule.check(functions[11])), 0)
 
     def test_missing_outputs(self):
         filepath = os.path.join(self.assets_dir, "missing_outputs.sh")
