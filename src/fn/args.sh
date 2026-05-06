@@ -20,10 +20,7 @@ STDLIB_ARGS_NULL_SAFE_ARRAY=()
 stdlib.fn.args.require() {
   builtin local -a args_null_safe_array
   # shellcheck disable=SC2034
-  builtin local STDLIB_LOGGING_MESSAGE_PREFIX="${STDLIB_ARGS_CALLER_FN_NAME:-"${FUNCNAME[1]}"}"
-
-  # shellcheck disable=SC2034
-  args_null_safe_array=("${STDLIB_ARGS_NULL_SAFE_ARRAY[@]}")
+  builtin local STDLIB_LOGGING_MESSAGE_PREFIX="${STDLIB_ARGS_CALLER_FN_NAME:-"${FUNCNAME[1]}"}" # defaults STDLIB_ARGS_CALLER_FN_NAME
 
   builtin local arg_index=1
   builtin local args_optional_count="${2}"
@@ -31,7 +28,12 @@ stdlib.fn.args.require() {
 
   stdlib.string.assert.is_digit "${args_required_count}" || builtin return 126
   stdlib.string.assert.is_digit "${args_optional_count}" || builtin return 126
-  stdlib.array.assert.is_array args_null_safe_array || builtin return 126
+
+  STDLIB_VAR_VALIDATE_BY_NAME_BOOLEAN=1 \
+    stdlib.var.assert.is_valid_with stdlib.array.assert.is_array STDLIB_ARGS_NULL_SAFE_ARRAY || builtin return 126 # validates STDLIB_ARGS_NULL_SAFE_ARRAY
+
+  # shellcheck disable=SC2034
+  args_null_safe_array=("${STDLIB_ARGS_NULL_SAFE_ARRAY[@]}")
 
   builtin shift 2
 
