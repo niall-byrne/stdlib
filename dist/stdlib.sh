@@ -1741,6 +1741,7 @@ stdlib.io.stdin.prompt ()
 stdlib.logger.__message_prefix ()
 {
     builtin local message_prefix="${STDLIB_LOGGING_MESSAGE_PREFIX:-${FUNCNAME[3]}}";
+    STDLIB_LOGGING_MESSAGE_PREFIX="";
     if stdlib.array.query.is_contains "${message_prefix}" __STDLIB_LOGGING_DECORATORS_ARRAY; then
         message_prefix="${FUNCNAME[4]}";
     fi;

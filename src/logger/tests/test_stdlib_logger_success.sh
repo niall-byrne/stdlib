@@ -34,3 +34,15 @@ test_stdlib_logger_success__decorator_prefix__correct_stdout() {
 
   assert_equals "${TEST_EXPECTED}" "${TEST_OUTPUT}"
 }
+
+# shellcheck disable=SC2178
+test_stdlib_logger_success__invalid_array_____correct_stderr() {
+  local __STDLIB_LOGGING_DECORATORS_ARRAY="invalid_value"
+
+  TEST_EXPECTED="${FUNCNAME[0]}: ${!expected_colour}test string${STDLIB_COLOUR_NC}"$'\n'
+  TEST_INPUT="test string"
+
+  _capture.stdout_raw stdlib.logger.success "${TEST_INPUT}"
+
+  assert_equals "${TEST_EXPECTED}" "${TEST_OUTPUT}"
+}
