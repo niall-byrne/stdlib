@@ -59,6 +59,7 @@ stdlib.io.stdin.pause() {
 # @arg $1 string The variable name to save the input to.
 # @arg $2 string (optional, default=STDIN_DEFAULT_VALUE_PROMPT) The prompt to display.
 # @exitcode 0 If the operation succeeded.
+# @exitcode 125 If an invalid keyword has been provided.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stdin The user input.
@@ -70,6 +71,9 @@ stdlib.io.stdin.prompt() {
   builtin local password="${STDLIB_STDIN_PASSWORD_MASK_BOOLEAN:-0}"
 
   stdlib.fn.args.require "1" "1" "${@}" || builtin return "$?"
+
+  STDLIB_KW_SOURCE_VAR="password" \
+    stdlib.fn.keyword.assert.is_valid_with stdlib.string.assert.is_boolean STDLIB_STDIN_PASSWORD_MASK_BOOLEAN || builtin return 125 # validates STDLIB_STDIN_PASSWORD_MASK_BOOLEAN
 
   if [[ "${password}" == "1" ]]; then
     flags="-rsp"
