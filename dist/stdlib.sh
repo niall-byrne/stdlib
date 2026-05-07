@@ -360,10 +360,6 @@ stdlib.__message.get ()
             required_options=0;
             message="$(stdlib.__gettext "A workspace for filesystem locks could not be allocated!")"
         ;;
-        LOCK_WORKSPACE_DOES_NOT_EXIST)
-            required_options=1;
-            message="$(stdlib.__gettext "A workspace for filesystem locks has not yet been allocated, the '\${option1}' lock could not be managed!")"
-        ;;
         REGEX_DOES_NOT_MATCH)
             required_options=2;
             message="$(stdlib.__gettext "The regex '\${option1}' does not match the value '\${option2}'!")"
@@ -1492,27 +1488,40 @@ stdlib.fn.query.is_valid_name ()
 
 stdlib.io.lock.__workspace_cleanup ()
 {
-    if [[ -n "${STDLIB_LOCK_WORKSPACE}" ]]; then
+    if stdlib.io.lock.__workspace_is_valid; then
         "${_STDLIB_BINARY_RM}" -r "${STDLIB_LOCK_WORKSPACE}" || builtin return 1;
     fi
+}
+
+stdlib.io.lock.__workspace_is_valid ()
+{
+    builtin local -a invalid_workspace_values;
+    invalid_workspace_values=("/");
+    if stdlib.io.path.query.is_folder "${STDLIB_LOCK_WORKSPACE}" && ! stdlib.array.query.is_contains "${STDLIB_LOCK_WORKSPACE}" invalid_workspace_values; then
+        builtin return 0;
+    fi;
+    builtin return 1
 }
 
 stdlib.io.lock.acquire ()
 {
     builtin local lock_name="${1}";
-    builtin local quiet_acquisition_failure_boolean="${STDLIB_LOCK_QUIET_FAILURE_BOOLEAN:-0}";
-    builtin local polling_interval="${STDLIB_LOCK_POLLING_INTERVAL:-"0.1"}";
+    builtin local polling_interval;
+    builtin local quiet_acquisition_failure_boolean;
     builtin local time_elapsed;
     builtin local time_start;
-    builtin local wait_time="${STDLIB_LOCK_WAIT_SECONDS:-30}";
-    [[ "${#@}" -eq 1 ]] || builtin return 127;
+    builtin local wait_time;
+    stdlib.fn.args.require "1" "0" "$@" || builtin return "$?";
     stdlib.var.query.is_valid_name "${lock_name}" || builtin return 126;
-    stdlib.string.query.is_boolean "${quiet_acquisition_failure_boolean}" || builtin return 126;
-    stdlib.string.query.is_decimal "${polling_interval}" || builtin return 126;
-    stdlib.string.query.is_integer "${wait_time}" || builtin return 126;
-    if [[ -z "${STDLIB_LOCK_WORKSPACE}" ]]; then
-        stdlib.logger.error "$(stdlib.__message.get LOCK_WORKSPACE_DOES_NOT_EXIST "${lock_name}")";
-        builtin return 1;
+    stdlib.fn.keyword.consume polling_interval STDLIB_LOCK_POLLING_INTERVAL "0.1";
+    stdlib.fn.keyword.consume quiet_acquisition_failure_boolean STDLIB_LOCK_QUIET_FAILURE_BOOLEAN "0";
+    stdlib.fn.keyword.consume wait_time STDLIB_LOCK_WAIT_SECONDS "30";
+    STDLIB_KW_SOURCE_VAR="polling_interval" stdlib.fn.keyword.assert.is_valid_with stdlib.string.assert.is_decimal_positive STDLIB_LOCK_POLLING_INTERVAL || builtin return 125;
+    STDLIB_KW_SOURCE_VAR="quiet_acquisition_failure_boolean" stdlib.fn.keyword.assert.is_valid_with stdlib.string.assert.is_boolean STDLIB_LOCK_QUIET_FAILURE_BOOLEAN || builtin return 125;
+    STDLIB_KW_SOURCE_VAR="wait_time" stdlib.fn.keyword.assert.is_valid_with stdlib.string.assert.is_integer STDLIB_LOCK_WAIT_SECONDS || builtin return 125;
+    if ! stdlib.io.lock.__workspace_is_valid "${STDLIB_LOCK_WORKSPACE}"; then
+        stdlib.logger.error "$(stdlib.__message.get VAR_VALUE_INVALID_RESERVED_DETAIL STDLIB_LOCK_WORKSPACE)";
+        builtin return 123;
     fi;
     time_start="${SECONDS}";
     while ! "${_STDLIB_BINARY_MKDIR}" "${STDLIB_LOCK_WORKSPACE}/${lock_name}" 2> /dev/null; do
@@ -1534,11 +1543,11 @@ stdlib.io.lock.acquire ()
 stdlib.io.lock.release ()
 {
     builtin local lock_name="${1}";
-    [[ "${#@}" -eq 1 ]] || builtin return 127;
+    stdlib.fn.args.require "1" "0" "$@" || builtin return "$?";
     stdlib.var.query.is_valid_name "${lock_name}" || builtin return 126;
-    if [[ -z "${STDLIB_LOCK_WORKSPACE}" ]]; then
-        stdlib.logger.error "$(stdlib.__message.get LOCK_WORKSPACE_DOES_NOT_EXIST "${lock_name}")";
-        builtin return 1;
+    if ! stdlib.io.lock.__workspace_is_valid "${STDLIB_LOCK_WORKSPACE}"; then
+        stdlib.logger.error "$(stdlib.__message.get VAR_VALUE_INVALID_RESERVED_DETAIL STDLIB_LOCK_WORKSPACE)";
+        builtin return 123;
     fi;
     if ! "${_STDLIB_BINARY_RMDIR}" "${STDLIB_LOCK_WORKSPACE}/${lock_name}"; then
         stdlib.logger.error "$(stdlib.__message.get LOCK_COULD_NOT_BE_RELEASED "${lock_name}")";
@@ -1550,7 +1559,7 @@ stdlib.io.lock.with ()
 {
     builtin local lock_name="${1}";
     builtin local exit_code;
-    [[ "${#@}" -gt 1 ]] || builtin return 127;
+    stdlib.fn.args.require "1" "1000" "$@" || builtin return "$?";
     builtin shift;
     stdlib.io.lock.workspace_allocate || builtin return "$?";
     stdlib.io.lock.acquire "${lock_name}" || builtin return "$?";
@@ -1561,12 +1570,18 @@ stdlib.io.lock.with ()
 
 stdlib.io.lock.workspace_allocate ()
 {
-    [[ "${#@}" -eq 0 ]] || builtin return 127;
-    if [[ -n "${STDLIB_LOCK_WORKSPACE}" ]]; then
+    builtin local successful_allocation_boolean=1;
+    stdlib.fn.args.require "0" "0" "$@" || builtin return "$?";
+    if stdlib.io.lock.__workspace_is_valid "${STDLIB_LOCK_WORKSPACE}"; then
         builtin return 0;
     fi;
-    STDLIB_LOCK_WORKSPACE="$("${_STDLIB_BINARY_MKTEMP}" -d || builtin echo "")";
-    if [[ -z "${STDLIB_LOCK_WORKSPACE}" ]]; then
+    if ! stdlib.var.query.is_empty STDLIB_LOCK_WORKSPACE; then
+        stdlib.logger.error "$(stdlib.__message.get VAR_VALUE_INVALID_RESERVED_DETAIL STDLIB_LOCK_WORKSPACE)";
+        builtin return 123;
+    fi;
+    STDLIB_LOCK_WORKSPACE="$("${_STDLIB_BINARY_MKTEMP}" -d)" || successful_allocation_boolean=0;
+    stdlib.io.path.query.is_folder "${STDLIB_LOCK_WORKSPACE}" || successful_allocation_boolean=0;
+    if [[ "${successful_allocation_boolean}" -eq 0 ]]; then
         stdlib.logger.error "$(stdlib.__message.get LOCK_WORKSPACE_COULD_NOT_BE_ALLOCATED)";
         builtin return 1;
     fi;
@@ -1725,8 +1740,10 @@ stdlib.io.stdin.prompt ()
 {
     builtin local flags="-rp";
     builtin local prompt="${2:-"$(stdlib.__message.get STDIN_DEFAULT_VALUE_PROMPT)"}";
-    builtin local password="${STDLIB_STDIN_PASSWORD_MASK_BOOLEAN:-0}";
+    builtin local password;
     stdlib.fn.args.require "1" "1" "${@}" || builtin return "$?";
+    stdlib.fn.keyword.consume password STDLIB_STDIN_PASSWORD_MASK_BOOLEAN "0";
+    STDLIB_KW_SOURCE_VAR="password" stdlib.fn.keyword.assert.is_valid_with stdlib.string.assert.is_boolean STDLIB_STDIN_PASSWORD_MASK_BOOLEAN || builtin return 125;
     if [[ "${password}" == "1" ]]; then
         flags="-rsp";
     fi;
