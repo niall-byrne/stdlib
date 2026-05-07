@@ -24,6 +24,9 @@ stdlib.setting.colour.enable() {
   builtin local silent_fallback_boolean="${STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN:-0}"
   builtin local error_message=""
 
+  stdlib.string.query.is_boolean "${silent_fallback_boolean}" ||
+    silent_fallback_boolean="0" # validates STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN
+
   if ! "${_STDLIB_BINARY_TPUT}" init 2> /dev/null; then
     if [[ "${silent_fallback_boolean}" != "1" ]]; then
       stdlib.setting.colour.enable.__generate_error_message
