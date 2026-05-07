@@ -5743,8 +5743,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:2012
 #: ../../reference/src/setting/REFERENCE.md:28
 msgid ""
-"STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN: Disables the error message on "
-"failure (default=\"0\")."
+"STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN boolean global: Disables the error "
+"message on failure (default=\"0\")."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2025
@@ -5761,21 +5761,21 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:2063
 #: ../../reference/src/setting/REFERENCE.md:49
 #: ../../reference/src/setting/REFERENCE.md:79
-msgid "**STDLIB_COLOUR_NC** (string): The no-colour escape sequence."
+msgid "**STDLIB_COLOUR_BLACK** (string): The black escape sequence."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2034
 #: ../../reference/src/REFERENCE_COMPLETE.md:2064
 #: ../../reference/src/setting/REFERENCE.md:50
 #: ../../reference/src/setting/REFERENCE.md:80
-msgid "**STDLIB_COLOUR_BLACK** (string): The black escape sequence."
+msgid "**STDLIB_COLOUR_BLUE** (string): The blue escape sequence."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2035
 #: ../../reference/src/REFERENCE_COMPLETE.md:2065
 #: ../../reference/src/setting/REFERENCE.md:51
 #: ../../reference/src/setting/REFERENCE.md:81
-msgid "**STDLIB_COLOUR_RED** (string): The red escape sequence."
+msgid "**STDLIB_COLOUR_CYAN** (string): The cyan escape sequence."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2036
@@ -5789,91 +5789,91 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:2067
 #: ../../reference/src/setting/REFERENCE.md:53
 #: ../../reference/src/setting/REFERENCE.md:83
-msgid "**STDLIB_COLOUR_YELLOW** (string): The yellow escape sequence."
+msgid "**STDLIB_COLOUR_GREY** (string): The grey escape sequence."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2038
 #: ../../reference/src/REFERENCE_COMPLETE.md:2068
 #: ../../reference/src/setting/REFERENCE.md:54
 #: ../../reference/src/setting/REFERENCE.md:84
-msgid "**STDLIB_COLOUR_BLUE** (string): The blue escape sequence."
+msgid "**STDLIB_COLOUR_LIGHT_BLUE** (string): The light blue escape sequence."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2039
 #: ../../reference/src/REFERENCE_COMPLETE.md:2069
 #: ../../reference/src/setting/REFERENCE.md:55
 #: ../../reference/src/setting/REFERENCE.md:85
-msgid "**STDLIB_COLOUR_PURPLE** (string): The purple escape sequence."
+msgid "**STDLIB_COLOUR_LIGHT_CYAN** (string): The light cyan escape sequence."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2040
 #: ../../reference/src/REFERENCE_COMPLETE.md:2070
 #: ../../reference/src/setting/REFERENCE.md:56
 #: ../../reference/src/setting/REFERENCE.md:86
-msgid "**STDLIB_COLOUR_CYAN** (string): The cyan escape sequence."
+msgid "**STDLIB_COLOUR_LIGHT_GREEN** (string): The light green escape sequence."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2041
 #: ../../reference/src/REFERENCE_COMPLETE.md:2071
 #: ../../reference/src/setting/REFERENCE.md:57
 #: ../../reference/src/setting/REFERENCE.md:87
-msgid "**STDLIB_COLOUR_WHITE** (string): The white escape sequence."
+msgid "**STDLIB_COLOUR_LIGHT_PURPLE** (string): The light purple escape sequence."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2042
 #: ../../reference/src/REFERENCE_COMPLETE.md:2072
 #: ../../reference/src/setting/REFERENCE.md:58
 #: ../../reference/src/setting/REFERENCE.md:88
-msgid "**STDLIB_COLOUR_GREY** (string): The grey escape sequence."
+msgid "**STDLIB_COLOUR_LIGHT_RED** (string): The light red escape sequence."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2043
 #: ../../reference/src/REFERENCE_COMPLETE.md:2073
 #: ../../reference/src/setting/REFERENCE.md:59
 #: ../../reference/src/setting/REFERENCE.md:89
-msgid "**STDLIB_COLOUR_LIGHT_RED** (string): The light red escape sequence."
+msgid "**STDLIB_COLOUR_LIGHT_WHITE** (string): The light white escape sequence."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2044
 #: ../../reference/src/REFERENCE_COMPLETE.md:2074
 #: ../../reference/src/setting/REFERENCE.md:60
 #: ../../reference/src/setting/REFERENCE.md:90
-msgid "**STDLIB_COLOUR_LIGHT_GREEN** (string): The light green escape sequence."
+msgid "**STDLIB_COLOUR_LIGHT_YELLOW** (string): The light yellow escape sequence."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2045
 #: ../../reference/src/REFERENCE_COMPLETE.md:2075
 #: ../../reference/src/setting/REFERENCE.md:61
 #: ../../reference/src/setting/REFERENCE.md:91
-msgid "**STDLIB_COLOUR_LIGHT_YELLOW** (string): The light yellow escape sequence."
+msgid "**STDLIB_COLOUR_NC** (string): The no-colour escape sequence."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2046
 #: ../../reference/src/REFERENCE_COMPLETE.md:2076
 #: ../../reference/src/setting/REFERENCE.md:62
 #: ../../reference/src/setting/REFERENCE.md:92
-msgid "**STDLIB_COLOUR_LIGHT_BLUE** (string): The light blue escape sequence."
+msgid "**STDLIB_COLOUR_PURPLE** (string): The purple escape sequence."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2047
 #: ../../reference/src/REFERENCE_COMPLETE.md:2077
 #: ../../reference/src/setting/REFERENCE.md:63
 #: ../../reference/src/setting/REFERENCE.md:93
-msgid "**STDLIB_COLOUR_LIGHT_PURPLE** (string): The light purple escape sequence."
+msgid "**STDLIB_COLOUR_RED** (string): The red escape sequence."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2048
 #: ../../reference/src/REFERENCE_COMPLETE.md:2078
 #: ../../reference/src/setting/REFERENCE.md:64
 #: ../../reference/src/setting/REFERENCE.md:94
-msgid "**STDLIB_COLOUR_LIGHT_CYAN** (string): The light cyan escape sequence."
+msgid "**STDLIB_COLOUR_WHITE** (string): The white escape sequence."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2049
 #: ../../reference/src/REFERENCE_COMPLETE.md:2079
 #: ../../reference/src/setting/REFERENCE.md:65
 #: ../../reference/src/setting/REFERENCE.md:95
-msgid "**STDLIB_COLOUR_LIGHT_WHITE** (string): The light white escape sequence."
+msgid "**STDLIB_COLOUR_YELLOW** (string): The yellow escape sequence."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2055
@@ -5898,27 +5898,37 @@ msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2093
 #: ../../reference/src/setting/REFERENCE.md:109
-msgid "**STDLIB_THEME_LOGGER_ERROR** (string): The colour for error messages."
+msgid ""
+"**STDLIB_THEME_LOGGER_ERROR** (string): The colour to use for error "
+"messages."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2094
 #: ../../reference/src/setting/REFERENCE.md:110
-msgid "**STDLIB_THEME_LOGGER_WARNING** (string): The colour for warning messages."
+msgid ""
+"**STDLIB_THEME_LOGGER_INFO** (string): The colour to use for info "
+"messages."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2095
 #: ../../reference/src/setting/REFERENCE.md:111
-msgid "**STDLIB_THEME_LOGGER_INFO** (string): The colour for info messages."
+msgid ""
+"**STDLIB_THEME_LOGGER_NOTICE** (string): The colour to use for notice "
+"messages."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2096
 #: ../../reference/src/setting/REFERENCE.md:112
-msgid "**STDLIB_THEME_LOGGER_NOTICE** (string): The colour for notice messages."
+msgid ""
+"**STDLIB_THEME_LOGGER_SUCCESS** (string): The colour to use for success "
+"messages."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2097
 #: ../../reference/src/setting/REFERENCE.md:113
-msgid "**STDLIB_THEME_LOGGER_SUCCESS** (string): The colour for success messages."
+msgid ""
+"**STDLIB_THEME_LOGGER_WARNING** (string): The colour to use for warning "
+"messages."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2103
