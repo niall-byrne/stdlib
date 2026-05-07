@@ -12,7 +12,7 @@ builtin set -eo pipefail
 stdlib.setting.theme.get_colour() {
   builtin local theme_colour
 
-  theme_colour="STDLIB_COLOUR_${1}"
+  theme_colour="STDLIB_COLOUR_${1}" # noqa
 
   if [[ -z "${!theme_colour+set}" ]]; then
     stdlib.logger.warning "$(stdlib.__message.get COLOUR_NOT_DEFINED "${1}")"
