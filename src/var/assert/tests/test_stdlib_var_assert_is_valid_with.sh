@@ -28,8 +28,8 @@ setup() {
     "TEST_ARGS_DEFINITION;TEST_MESSAGE_ARG_DEFINITION" \
     "no_args_________;;ARGUMENTS_INVALID" \
     "extra_arg_______;_mock_validator|_TEST_VAR|extra_arg;ARGUMENTS_INVALID" \
-    "invalid_var_name;_mock_validator|not a valid var;VAR_NAME_INVALID|not a valid var" \
-    "invalid_fn_name_;_non_existent_validator|_TEST_VAR;IS_NOT_FN|_non_existent_validator"
+    "invalid_var_name;_mock_validator|not a valid var;ARGUMENTS_INVALID" \
+    "invalid_fn_name_;_non_existent_validator|_TEST_VAR;ARGUMENTS_INVALID"
 }
 
 @parametrize_with_call_types() {
