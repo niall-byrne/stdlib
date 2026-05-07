@@ -71,7 +71,6 @@ setup() {
     "lock_could_not_be_acquired;LOCK_COULD_NOT_BE_ACQUIRED|lockname;An exclusive execution lock, with name 'lockname', could not be acquired in time!" \
     "lock_could_not_be_released;LOCK_COULD_NOT_BE_RELEASED|lockname;An exclusive execution lock, with name 'lockname', could not be released!" \
     "lock_workspace_could_not_be_allocated;LOCK_WORKSPACE_COULD_NOT_BE_ALLOCATED;A workspace for filesystem locks could not be allocated!" \
-    "lock_workspace_does_not_exist;LOCK_WORKSPACE_DOES_NOT_EXIST|lockname;A workspace for filesystem locks has not yet been allocated, the 'lockname' lock could not be managed!" \
     "regex_does_not_match;REGEX_DOES_NOT_MATCH|regex|not matching;The regex 'regex' does not match the value 'not matching'!" \
     "security_insecure_group_ownership;SECURITY_INSECURE_GROUP_OWNERSHIP|/tmp/foo;SECURITY: The group ownership on '/tmp/foo' is not secure!" \
     "security_insecure_ownership;SECURITY_INSECURE_OWNERSHIP|/tmp/foo;SECURITY: The ownership on '/tmp/foo' is not secure!" \
@@ -198,8 +197,6 @@ setup() {
     "lock_could_not_be_released______________no_args______;LOCK_COULD_NOT_BE_RELEASED" \
     "lock_could_not_be_released______________too_many_args;LOCK_COULD_NOT_BE_RELEASED|1|2" \
     "lock_workspace_could_not_be_allocated___too_many_args;LOCK_WORKSPACE_COULD_NOT_BE_ALLOCATED|1" \
-    "lock_workspace_does_not_exist___________no_args______;LOCK_WORKSPACE_DOES_NOT_EXIST" \
-    "lock_workspace_does_not_exist___________too_many_args;LOCK_WORKSPACE_DOES_NOT_EXIST|1|2" \
     "regex_does_not_match____________________no_args______;REGEX_DOES_NOT_MATCH" \
     "regex_does_not_match____________________too_few_args_;REGEX_DOES_NOT_MATCH|1" \
     "regex_does_not_match____________________too_many_args;REGEX_DOES_NOT_MATCH|1|2|3" \

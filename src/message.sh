@@ -222,10 +222,6 @@ stdlib.__message.get() {
       required_options=0
       message="$(stdlib.__gettext "A workspace for filesystem locks could not be allocated!")" # noqa
       ;;
-    LOCK_WORKSPACE_DOES_NOT_EXIST)
-      required_options=1
-      message="$(stdlib.__gettext "A workspace for filesystem locks has not yet been allocated, the '\${option1}' lock could not be managed!")" # noqa
-      ;;
     REGEX_DOES_NOT_MATCH)
       required_options=2
       message="$(stdlib.__gettext "The regex '\${option1}' does not match the value '\${option2}'!")"
