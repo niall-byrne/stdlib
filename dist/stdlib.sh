@@ -2225,6 +2225,7 @@ stdlib.setting.colour.enable ()
 {
     builtin local silent_fallback_boolean="${STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN:-0}";
     builtin local error_message="";
+    stdlib.string.query.is_boolean "${silent_fallback_boolean}" || silent_fallback_boolean="0";
     if ! "${_STDLIB_BINARY_TPUT}" init 2> /dev/null; then
         if [[ "${silent_fallback_boolean}" != "1" ]]; then
             stdlib.setting.colour.enable.__generate_error_message;
@@ -2249,23 +2250,23 @@ stdlib.setting.colour.enable.__generate_error_message ()
 
 stdlib.setting.colour.state.disabled ()
 {
-    STDLIB_COLOUR_NC="";
     STDLIB_COLOUR_BLACK="";
-    STDLIB_COLOUR_RED="";
-    STDLIB_COLOUR_GREEN="";
-    STDLIB_COLOUR_YELLOW="";
     STDLIB_COLOUR_BLUE="";
-    STDLIB_COLOUR_PURPLE="";
     STDLIB_COLOUR_CYAN="";
-    STDLIB_COLOUR_WHITE="";
+    STDLIB_COLOUR_GREEN="";
     STDLIB_COLOUR_GREY="";
-    STDLIB_COLOUR_LIGHT_RED="";
-    STDLIB_COLOUR_LIGHT_GREEN="";
-    STDLIB_COLOUR_LIGHT_YELLOW="";
     STDLIB_COLOUR_LIGHT_BLUE="";
-    STDLIB_COLOUR_LIGHT_PURPLE="";
     STDLIB_COLOUR_LIGHT_CYAN="";
-    STDLIB_COLOUR_LIGHT_WHITE=""
+    STDLIB_COLOUR_LIGHT_GREEN="";
+    STDLIB_COLOUR_LIGHT_PURPLE="";
+    STDLIB_COLOUR_LIGHT_RED="";
+    STDLIB_COLOUR_LIGHT_WHITE="";
+    STDLIB_COLOUR_LIGHT_YELLOW="";
+    STDLIB_COLOUR_NC="";
+    STDLIB_COLOUR_PURPLE="";
+    STDLIB_COLOUR_RED="";
+    STDLIB_COLOUR_WHITE="";
+    STDLIB_COLOUR_YELLOW=""
 }
 
 stdlib.setting.colour.state.enabled ()
@@ -2308,10 +2309,10 @@ stdlib.setting.colour.state.enabled ()
 stdlib.setting.colour.state.theme ()
 {
     STDLIB_THEME_LOGGER_ERROR="LIGHT_RED";
-    STDLIB_THEME_LOGGER_WARNING="YELLOW";
     STDLIB_THEME_LOGGER_INFO="WHITE";
     STDLIB_THEME_LOGGER_NOTICE="GREY";
-    STDLIB_THEME_LOGGER_SUCCESS="GREEN"
+    STDLIB_THEME_LOGGER_SUCCESS="GREEN";
+    STDLIB_THEME_LOGGER_WARNING="YELLOW"
 }
 
 stdlib.setting.theme.get_colour ()
