@@ -1093,7 +1093,9 @@ Acquires a named exclusive execution lock, or waits until able to do so.
 #### Exit codes
 
 * **0**: If the lock was successfully acquired.
-* **1**: If the time out elapsed without the lock becoming available.
+* **1**: If the lock could not be acquired.
+* **123**: If a variable reserved for use by the BASH stdlib has been assigned an invalid value.
+* **125**: If an invalid keyword has been provided.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 
@@ -1114,6 +1116,7 @@ Releases a named exclusive execution lock.
 
 * **0**: If the lock was successfully released.
 * **1**: If the lock could not be released.
+* **123**: If a variable reserved for use by the BASH stdlib has been assigned an invalid value.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 
@@ -1138,6 +1141,8 @@ Runs a command with a named exclusive execution lock. A lock workspace is alloca
 
 * **0**: If the lock was successfully acquired.
 * **1**: If the time out elapsed without the lock becoming available.
+* **123**: If a variable reserved for use by the BASH stdlib has been assigned an invalid value.
+* **125**: If an invalid keyword has been provided.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 
@@ -1160,6 +1165,7 @@ _Function has no arguments._
 
 * **0**: If the workspace was successfully allocated.
 * **1**: If the workspace could not be allocated.
+* **123**: If a variable reserved for use by the BASH stdlib has been assigned an invalid value.
 * **127**: If the wrong number of arguments were provided.
 
 #### Output on stderr
@@ -1387,6 +1393,7 @@ Prompts the user for a value and saves it to a variable.
 #### Exit codes
 
 * **0**: If the operation succeeded.
+* **125**: If an invalid keyword has been provided.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 
