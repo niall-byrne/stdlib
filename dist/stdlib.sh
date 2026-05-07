@@ -1317,9 +1317,9 @@ stdlib.io.lock.acquire ()
     builtin local wait_time="${STDLIB_LOCK_WAIT_SECONDS:-30}";
     [[ "${#@}" -eq 1 ]] || builtin return 127;
     stdlib.var.query.is_valid_name "${lock_name}" || builtin return 126;
-    stdlib.string.query.is_boolean "${quiet_acquisition_failure_boolean}" || builtin return 126;
-    stdlib.string.query.is_decimal "${polling_interval}" || builtin return 126;
-    stdlib.string.query.is_integer "${wait_time}" || builtin return 126;
+    STDLIB_VAR_VALIDATE_DEFAULT_VAR="polling_interval" stdlib.var.assert.is_valid_with stdlib.string.assert.is_decimal_positive STDLIB_LOCK_POLLING_INTERVAL || builtin return 126;
+    STDLIB_VAR_VALIDATE_DEFAULT_VAR="quiet_acquisition_failure_boolean" stdlib.var.assert.is_valid_with stdlib.string.assert.is_boolean STDLIB_LOCK_QUIET_FAILURE_BOOLEAN || builtin return 126;
+    STDLIB_VAR_VALIDATE_DEFAULT_VAR="wait_time" stdlib.var.assert.is_valid_with stdlib.string.assert.is_integer STDLIB_LOCK_WAIT_SECONDS || builtin return 126;
     if [[ -z "${STDLIB_LOCK_WORKSPACE}" ]]; then
         stdlib.logger.error "$(stdlib.__message.get LOCK_WORKSPACE_DOES_NOT_EXIST "${lock_name}")";
         builtin return 1;
@@ -1537,6 +1537,7 @@ stdlib.io.stdin.prompt ()
     builtin local prompt="${2:-"$(stdlib.__message.get STDIN_DEFAULT_VALUE_PROMPT)"}";
     builtin local password="${STDLIB_STDIN_PASSWORD_MASK_BOOLEAN:-0}";
     stdlib.fn.args.require "1" "1" "${@}" || builtin return "$?";
+    STDLIB_VAR_VALIDATE_DEFAULT_VAR="password" stdlib.var.assert.is_valid_with stdlib.string.assert.is_boolean STDLIB_STDIN_PASSWORD_MASK_BOOLEAN || builtin return 126;
     if [[ "${password}" == "1" ]]; then
         flags="-rsp";
     fi;

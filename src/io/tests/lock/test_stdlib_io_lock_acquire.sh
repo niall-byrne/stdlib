@@ -57,6 +57,19 @@ test_stdlib_io_lock_acquire__allocated_workspace_____invalid_interval___returns_
 }
 
 # shellcheck disable=SC2034
+test_stdlib_io_lock_acquire__allocated_workspace_____invalid_interval___logs_error_message() {
+  local STDLIB_LOCK_POLLING_INTERVAL="aa"
+  local STDLIB_LOCK_WORKSPACE=""
+  local _STDLIB_BINARY_MKDIR="mkdir"
+
+  stdlib.io.lock.acquire "lockname"
+
+  stdlib.logger.error.mock.assert_calls_are \
+    "1($(stdlib.__message.get IS_NOT_DECIMAL_POSITIVE "${STDLIB_LOCK_POLLING_INTERVAL}"))" \
+    "1($(stdlib.__message.get VAR_VALUE_INVALID STDLIB_LOCK_POLLING_INTERVAL))"
+}
+
+# shellcheck disable=SC2034
 test_stdlib_io_lock_acquire__allocated_workspace_____invalid_verbosity__returns_status_code_126() {
   local STDLIB_LOCK_QUIET_FAILURE_BOOLEAN="aa"
   local STDLIB_LOCK_WORKSPACE=""
@@ -68,6 +81,19 @@ test_stdlib_io_lock_acquire__allocated_workspace_____invalid_verbosity__returns_
 }
 
 # shellcheck disable=SC2034
+test_stdlib_io_lock_acquire__allocated_workspace_____invalid_verbosity__logs_error_message() {
+  local STDLIB_LOCK_QUIET_FAILURE_BOOLEAN="aa"
+  local STDLIB_LOCK_WORKSPACE=""
+  local _STDLIB_BINARY_MKDIR="mkdir"
+
+  stdlib.io.lock.acquire "lockname"
+
+  stdlib.logger.error.mock.assert_calls_are \
+    "1($(stdlib.__message.get IS_NOT_BOOLEAN "${STDLIB_LOCK_QUIET_FAILURE_BOOLEAN}"))" \
+    "1($(stdlib.__message.get VAR_VALUE_INVALID STDLIB_LOCK_QUIET_FAILURE_BOOLEAN))"
+}
+
+# shellcheck disable=SC2034
 test_stdlib_io_lock_acquire__allocated_workspace_____invalid_wait_time__returns_status_code_126() {
   local STDLIB_LOCK_WAIT_SECONDS="aa"
   local STDLIB_LOCK_WORKSPACE=""
@@ -76,6 +102,19 @@ test_stdlib_io_lock_acquire__allocated_workspace_____invalid_wait_time__returns_
   _capture.rc stdlib.io.lock.acquire "lockname"
 
   assert_rc "126"
+}
+
+# shellcheck disable=SC2034
+test_stdlib_io_lock_acquire__allocated_workspace_____invalid_wait_time__logs_error_message() {
+  local STDLIB_LOCK_WAIT_SECONDS="aa"
+  local STDLIB_LOCK_WORKSPACE=""
+  local _STDLIB_BINARY_MKDIR="mkdir"
+
+  stdlib.io.lock.acquire "lockname"
+
+  stdlib.logger.error.mock.assert_calls_are \
+    "1($(stdlib.__message.get IS_NOT_INTEGER "${STDLIB_LOCK_WAIT_SECONDS}"))" \
+    "1($(stdlib.__message.get VAR_VALUE_INVALID STDLIB_LOCK_WAIT_SECONDS))"
 }
 
 # shellcheck disable=SC2034
