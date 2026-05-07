@@ -71,6 +71,9 @@ stdlib.io.stdin.prompt() {
 
   stdlib.fn.args.require "1" "1" "${@}" || builtin return "$?"
 
+  STDLIB_VAR_VALIDATE_DEFAULT_VAR="password" \
+    stdlib.var.assert.is_valid_with stdlib.string.assert.is_boolean STDLIB_STDIN_PASSWORD_MASK_BOOLEAN || builtin return 126 # validates STDLIB_STDIN_PASSWORD_MASK_BOOLEAN
+
   if [[ "${password}" == "1" ]]; then
     flags="-rsp"
   fi

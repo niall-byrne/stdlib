@@ -115,3 +115,23 @@ test_stdlib_io_stdin_prompt__@vary__appends_extra_carriage_return() {
 
 @parametrize_with_args_and_read_flags \
   test_stdlib_io_stdin_prompt__@vary__appends_extra_carriage_return
+
+test_stdlib_io_stdin_prompt__invalid_mask_boolean________________________returns_status_code_126() {
+  local STDLIB_STDIN_PASSWORD_MASK_BOOLEAN="non_boolean_value"
+  local input_var
+
+  stdlib.io.stdin.prompt input_var <<< "mocked stdin"
+
+  assert_equals "126" "$?"
+}
+
+test_stdlib_io_stdin_prompt__invalid_mask_boolean________________________logs_error_message() {
+  local STDLIB_STDIN_PASSWORD_MASK_BOOLEAN="non_boolean_value"
+  local input_var
+
+  stdlib.io.stdin.prompt input_var <<< "mocked stdin"
+
+  stdlib.logger.error.mock.assert_calls_are \
+    "1($(stdlib.__message.get IS_NOT_BOOLEAN "${STDLIB_STDIN_PASSWORD_MASK_BOOLEAN}"))" \
+    "1($(stdlib.__message.get VAR_VALUE_INVALID STDLIB_STDIN_PASSWORD_MASK_BOOLEAN))"
+}
