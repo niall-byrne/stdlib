@@ -2018,6 +2018,9 @@ stdlib.setting.colour.enable ()
 {
     builtin local silent_fallback_boolean="${STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN:-0}";
     builtin local error_message="";
+    {
+        [[ "${silent_fallback_boolean}" -eq "0" ]] || [[ "${silent_fallback_boolean}" -eq "1" ]]
+    } || silent_fallback_boolean="0";
     if ! "${_STDLIB_BINARY_TPUT}" init 2> /dev/null; then
         if [[ "${silent_fallback_boolean}" != "1" ]]; then
             stdlib.setting.colour.enable.__generate_error_message;
