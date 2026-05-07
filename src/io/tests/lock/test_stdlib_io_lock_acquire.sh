@@ -4,6 +4,7 @@ setup() {
   _mock.create mkdir
   _mock.create sleep
   _mock.create stdlib.logger.error
+  _mock.create stdlib.io.path.query.is_folder
 }
 
 @parametrize_with_args_and_status_codes() {
@@ -34,9 +35,9 @@ setup() {
 
   @parametrize \
     "${1}" \
-    "TEST_WORKSPACE_IS_ALLOCATED" \
-    "allocated_workspace___;mocked_workspace" \
-    "no_allocated_workspace;;"
+    "TEST_IS_FOLDER_RC" \
+    "allocated_workspace___;1" \
+    "no_allocated_workspace;0"
 }
 
 # shellcheck disable=SC2034
@@ -45,6 +46,7 @@ test_stdlib_io_lock_acquire__allocated_workspace_____@vary() {
   local _STDLIB_BINARY_MKDIR="mkdir"
   local args=()
 
+  stdlib.io.path.query.is_folder.mock.set.rc 0
   stdlib.array.make.from_string args "|" "${TEST_ARGS_DEFINITION}"
 
   _capture.rc stdlib.io.lock.acquire "${args[@]}" > /dev/null
@@ -58,8 +60,10 @@ test_stdlib_io_lock_acquire__allocated_workspace_____@vary() {
 # shellcheck disable=SC2034
 test_stdlib_io_lock_acquire__@vary__invalid_interval___returns_status_code_126() {
   local STDLIB_LOCK_POLLING_INTERVAL="aa"
-  local STDLIB_LOCK_WORKSPACE="${TEST_WORKSPACE_IS_ALLOCATED}"
+  local STDLIB_LOCK_WORKSPACE="mocked_workspace"
   local _STDLIB_BINARY_MKDIR="mkdir"
+
+  stdlib.io.path.query.is_folder.mock.set.rc "${TEST_IS_FOLDER_RC}"
 
   _capture.rc stdlib.io.lock.acquire "lockname"
 
@@ -70,10 +74,30 @@ test_stdlib_io_lock_acquire__@vary__invalid_interval___returns_status_code_126()
   test_stdlib_io_lock_acquire__@vary__invalid_interval___returns_status_code_126
 
 # shellcheck disable=SC2034
+test_stdlib_io_lock_acquire__@vary__invalid_interval___logs_error_message() {
+  local STDLIB_LOCK_POLLING_INTERVAL="aa"
+  local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_MKDIR="mkdir"
+
+  stdlib.io.path.query.is_folder.mock.set.rc "${TEST_IS_FOLDER_RC}"
+
+  stdlib.io.lock.acquire "lockname"
+
+  stdlib.logger.error.mock.assert_calls_are \
+    "1($(stdlib.__message.get IS_NOT_DECIMAL_POSITIVE "${STDLIB_LOCK_POLLING_INTERVAL}"))" \
+    "1($(stdlib.__message.get VAR_VALUE_INVALID STDLIB_LOCK_POLLING_INTERVAL))"
+}
+
+@parametrize_with_workpace_allocation \
+  test_stdlib_io_lock_acquire__@vary__invalid_interval___logs_error_message
+
+# shellcheck disable=SC2034
 test_stdlib_io_lock_acquire__@vary__invalid_verbosity__returns_status_code_126() {
   local STDLIB_LOCK_QUIET_FAILURE_BOOLEAN="aa"
-  local STDLIB_LOCK_WORKSPACE="${TEST_WORKSPACE_IS_ALLOCATED}"
+  local STDLIB_LOCK_WORKSPACE="mocked_workspace"
   local _STDLIB_BINARY_MKDIR="mkdir"
+
+  stdlib.io.path.query.is_folder.mock.set.rc "${TEST_IS_FOLDER_RC}"
 
   _capture.rc stdlib.io.lock.acquire "lockname"
 
@@ -84,10 +108,30 @@ test_stdlib_io_lock_acquire__@vary__invalid_verbosity__returns_status_code_126()
   test_stdlib_io_lock_acquire__@vary__invalid_verbosity__returns_status_code_126
 
 # shellcheck disable=SC2034
+test_stdlib_io_lock_acquire__@vary__invalid_verbosity__logs_error_message() {
+  local STDLIB_LOCK_QUIET_FAILURE_BOOLEAN="aa"
+  local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_MKDIR="mkdir"
+
+  stdlib.io.path.query.is_folder.mock.set.rc "${TEST_IS_FOLDER_RC}"
+
+  stdlib.io.lock.acquire "lockname"
+
+  stdlib.logger.error.mock.assert_calls_are \
+    "1($(stdlib.__message.get IS_NOT_BOOLEAN "${STDLIB_LOCK_QUIET_FAILURE_BOOLEAN}"))" \
+    "1($(stdlib.__message.get VAR_VALUE_INVALID STDLIB_LOCK_QUIET_FAILURE_BOOLEAN))"
+}
+
+@parametrize_with_workpace_allocation \
+  test_stdlib_io_lock_acquire__@vary__invalid_verbosity__logs_error_message
+
+# shellcheck disable=SC2034
 test_stdlib_io_lock_acquire__@vary__invalid_wait_time__returns_status_code_126() {
   local STDLIB_LOCK_WAIT_SECONDS="aa"
-  local STDLIB_LOCK_WORKSPACE="${TEST_WORKSPACE_IS_ALLOCATED}"
+  local STDLIB_LOCK_WORKSPACE="mocked_workspace"
   local _STDLIB_BINARY_MKDIR="mkdir"
+
+  stdlib.io.path.query.is_folder.mock.set.rc "${TEST_IS_FOLDER_RC}"
 
   _capture.rc stdlib.io.lock.acquire "lockname"
 
@@ -98,6 +142,37 @@ test_stdlib_io_lock_acquire__@vary__invalid_wait_time__returns_status_code_126()
   test_stdlib_io_lock_acquire__@vary__invalid_wait_time__returns_status_code_126
 
 # shellcheck disable=SC2034
+test_stdlib_io_lock_acquire__@vary__invalid_wait_time__logs_error_message() {
+  local STDLIB_LOCK_WAIT_SECONDS="aa"
+  local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_MKDIR="mkdir"
+
+  stdlib.io.path.query.is_folder.mock.set.rc "${TEST_IS_FOLDER_RC}"
+
+  stdlib.io.lock.acquire "lockname"
+
+  stdlib.logger.error.mock.assert_calls_are \
+    "1($(stdlib.__message.get IS_NOT_INTEGER "${STDLIB_LOCK_WAIT_SECONDS}"))" \
+    "1($(stdlib.__message.get VAR_VALUE_INVALID STDLIB_LOCK_WAIT_SECONDS))"
+}
+
+@parametrize_with_workpace_allocation \
+  test_stdlib_io_lock_acquire__@vary__invalid_wait_time__logs_error_message
+
+# shellcheck disable=SC2034
+test_stdlib_io_lock_acquire__allocated_workspace_____valid_args_________validates_workspace() {
+  local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_MKDIR="mkdir"
+
+  stdlib.io.path.query.is_folder.mock.set.rc 0
+
+  stdlib.io.lock.acquire "lockname"
+
+  stdlib.io.path.query.is_folder.mock.assert_called_once_with \
+    "1(${STDLIB_LOCK_WORKSPACE})"
+}
+
+# shellcheck disable=SC2034
 test_stdlib_io_lock_acquire__allocated_workspace_____valid_args_________@vary__calls_mkdir_with_correct_args() {
   local SECONDS=0
   local STDLIB_LOCK_WAIT_SECONDS=0
@@ -105,6 +180,7 @@ test_stdlib_io_lock_acquire__allocated_workspace_____valid_args_________@vary__c
   local _STDLIB_BINARY_MKDIR="mkdir"
   local _STDLIB_BINARY_SLEEP="sleep"
 
+  stdlib.io.path.query.is_folder.mock.set.rc 0
   mkdir.mock.set.rc "${TEST_MKDIR_RC}"
 
   _capture.rc stdlib.io.lock.acquire "lockname" > /dev/null
@@ -125,6 +201,7 @@ test_stdlib_io_lock_acquire__allocated_workspace_____valid_args_________time_exc
   local _STDLIB_BINARY_MKDIR="mkdir"
   local _STDLIB_BINARY_SLEEP="sleep"
 
+  stdlib.io.path.query.is_folder.mock.set.rc 0
   mkdir.mock.set.rc 1
 
   _capture.rc stdlib.io.lock.acquire "lockname"
@@ -140,6 +217,7 @@ test_stdlib_io_lock_acquire__allocated_workspace_____valid_args_________time_exc
   local _STDLIB_BINARY_MKDIR="mkdir"
   local _STDLIB_BINARY_SLEEP="sleep"
 
+  stdlib.io.path.query.is_folder.mock.set.rc 0
   mkdir.mock.set.rc 1
 
   _capture.rc stdlib.io.lock.acquire "lockname"
@@ -156,6 +234,7 @@ test_stdlib_io_lock_acquire__allocated_workspace_____valid_args_________time_exc
   local _STDLIB_BINARY_MKDIR="mkdir"
   local _STDLIB_BINARY_SLEEP="sleep"
 
+  stdlib.io.path.query.is_folder.mock.set.rc 0
   mkdir.mock.set.rc 1
 
   stdlib.io.lock.acquire "lockname"
@@ -171,6 +250,7 @@ test_stdlib_io_lock_acquire__allocated_workspace_____valid_args_________time_exc
   local _STDLIB_BINARY_MKDIR="mkdir"
   local _STDLIB_BINARY_SLEEP="sleep"
 
+  stdlib.io.path.query.is_folder.mock.set.rc 0
   mkdir.mock.set.rc 1
 
   stdlib.io.lock.acquire "lockname"
@@ -187,6 +267,7 @@ test_stdlib_io_lock_acquire__allocated_workspace_____valid_args_________time_exc
   local _STDLIB_BINARY_MKDIR="mkdir"
   local _STDLIB_BINARY_SLEEP="sleep"
 
+  stdlib.io.path.query.is_folder.mock.set.rc 0
   mkdir.mock.set.rc 1
 
   stdlib.io.lock.acquire "lockname"
@@ -204,6 +285,7 @@ test_stdlib_io_lock_acquire__allocated_workspace_____valid_args_________time_exc
   local _STDLIB_BINARY_MKDIR="mkdir"
   local _STDLIB_BINARY_SLEEP="sleep"
 
+  stdlib.io.path.query.is_folder.mock.set.rc 0
   mkdir.mock.set.rc 1
 
   stdlib.io.lock.acquire "lockname"
@@ -221,6 +303,7 @@ test_stdlib_io_lock_acquire__allocated_workspace_____valid_args_________unbounde
   local _STDLIB_BINARY_SLEEP="sleep"
   local expected_mock_calls=()
 
+  stdlib.io.path.query.is_folder.mock.set.rc 0
   mkdir.mock.set.rc 1
 
   sleep.mock.set.subcommand '"$(which sleep)" "${1}"'
@@ -242,6 +325,7 @@ test_stdlib_io_lock_acquire__allocated_workspace_____valid_args_________unbounde
   local _STDLIB_BINARY_MKDIR="mkdir"
   local _STDLIB_BINARY_SLEEP="sleep"
 
+  stdlib.io.path.query.is_folder.mock.set.rc 0
   mkdir.mock.set.rc 1
 
   sleep.mock.set.subcommand '"$(which sleep)" "${1}"'
@@ -261,6 +345,7 @@ test_stdlib_io_lock_acquire__allocated_workspace_____valid_args_________acquired
   local _STDLIB_BINARY_MKDIR="mkdir"
   local _STDLIB_BINARY_SLEEP="sleep"
 
+  stdlib.io.path.query.is_folder.mock.set.rc 0
   mkdir.mock.set.side_effects "return 1" "return 1" "return 0"
 
   _capture.rc stdlib.io.lock.acquire "lockname"
@@ -275,6 +360,7 @@ test_stdlib_io_lock_acquire__allocated_workspace_____valid_args_________acquired
   local _STDLIB_BINARY_MKDIR="mkdir"
   local _STDLIB_BINARY_SLEEP="sleep"
 
+  stdlib.io.path.query.is_folder.mock.set.rc 0
   mkdir.mock.set.side_effects "return 1" "return 1" "return 0"
 
   stdlib.io.lock.acquire "lockname"
@@ -292,6 +378,7 @@ test_stdlib_io_lock_acquire__allocated_workspace_____valid_args_________acquired
   local _STDLIB_BINARY_MKDIR="mkdir"
   local _STDLIB_BINARY_SLEEP="sleep"
 
+  stdlib.io.path.query.is_folder.mock.set.rc 0
   mkdir.mock.set.side_effects "return 1" "return 1" "return 0"
 
   stdlib.io.lock.acquire "lockname"
@@ -302,9 +389,42 @@ test_stdlib_io_lock_acquire__allocated_workspace_____valid_args_________acquired
 }
 
 # shellcheck disable=SC2034
-test_stdlib_io_lock_acquire__no_allocated_workspace__valid_args_________returns_status_code___1() {
-  local STDLIB_LOCK_WORKSPACE=""
+test_stdlib_io_lock_acquire__allocated_workspace_____valid_args_________acquired_________________registers_cleanup_function() {
+  local STDLIB_LOCK_WAIT_SECONDS=10
+  local STDLIB_LOCK_WORKSPACE="mocked_workspace"
   local _STDLIB_BINARY_MKDIR="mkdir"
+  local _STDLIB_BINARY_SLEEP="sleep"
+  local expected_array=("stdlib.io.lock.__workspace_cleanup")
+
+  stdlib.io.path.query.is_folder.mock.set.rc 0
+  mkdir.mock.set.side_effects "return 1" "return 1" "return 0"
+
+  stdlib.io.lock.acquire "lockname"
+
+  assert_is_array_containing \
+    "stdlib.io.lock.__workspace_cleanup" \
+    STDLIB_HANDLER_EXIT_FN_ARRAY
+}
+
+# shellcheck disable=SC2034
+test_stdlib_io_lock_acquire__no_allocated_workspace__valid_args_________validates_workspace() {
+  local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_MKDIR="mkdir"
+
+  stdlib.io.path.query.is_folder.mock.set.rc 1
+
+  stdlib.io.lock.acquire "lockname"
+
+  stdlib.io.path.query.is_folder.mock.assert_called_once_with \
+    "1(${STDLIB_LOCK_WORKSPACE})"
+}
+
+# shellcheck disable=SC2034
+test_stdlib_io_lock_acquire__no_allocated_workspace__valid_args_________returns_status_code___1() {
+  local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_MKDIR="mkdir"
+
+  stdlib.io.path.query.is_folder.mock.set.rc 1
 
   _capture.rc stdlib.io.lock.acquire "lockname"
 
@@ -313,8 +433,10 @@ test_stdlib_io_lock_acquire__no_allocated_workspace__valid_args_________returns_
 
 # shellcheck disable=SC2034
 test_stdlib_io_lock_acquire__no_allocated_workspace__valid_args_________logs_error_message() {
-  local STDLIB_LOCK_WORKSPACE=""
+  local STDLIB_LOCK_WORKSPACE="mocked_workspace"
   local _STDLIB_BINARY_MKDIR="mkdir"
+
+  stdlib.io.path.query.is_folder.mock.set.rc 1
 
   stdlib.io.lock.acquire "lockname"
 
