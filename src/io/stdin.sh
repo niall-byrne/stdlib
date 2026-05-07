@@ -4,6 +4,7 @@
 
 builtin set -eo pipefail
 
+# shellcheck disable=SC2034
 STDLIB_STDIN_PASSWORD_MASK_BOOLEAN=""
 
 # @description Prompts the user for a confirmation (Y/n).
@@ -55,10 +56,11 @@ stdlib.io.stdin.pause() {
 }
 
 # @description Prompts the user for a value and saves it to a variable.
-#   * STDLIB_STDIN_PASSWORD_MASK_BOOLEAN: Indicates if the input should be masked, i.e. for passwords (default="0").
+#   * STDLIB_STDIN_PASSWORD_MASK_BOOLEAN boolean keyword: Indicates if the input should be masked, i.e. for passwords (default="0").
 # @arg $1 string The variable name to save the input to.
 # @arg $2 string (optional, default=STDIN_DEFAULT_VALUE_PROMPT) The prompt to display.
 # @exitcode 0 If the operation succeeded.
+# @exitcode 125 If an invalid keyword has been provided.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stdin The user input.
@@ -67,9 +69,14 @@ stdlib.io.stdin.pause() {
 stdlib.io.stdin.prompt() {
   builtin local flags="-rp"
   builtin local prompt="${2:-"$(stdlib.__message.get STDIN_DEFAULT_VALUE_PROMPT)"}"
-  builtin local password="${STDLIB_STDIN_PASSWORD_MASK_BOOLEAN:-0}"
+  builtin local password
 
   stdlib.fn.args.require "1" "1" "${@}" || builtin return "$?"
+
+  stdlib.fn.keyword.consume password STDLIB_STDIN_PASSWORD_MASK_BOOLEAN "0"
+
+  STDLIB_KW_SOURCE_VAR="password" \
+    stdlib.fn.keyword.assert.is_valid_with stdlib.string.assert.is_boolean STDLIB_STDIN_PASSWORD_MASK_BOOLEAN || builtin return 125 # validates STDLIB_STDIN_PASSWORD_MASK_BOOLEAN
 
   if [[ "${password}" == "1" ]]; then
     flags="-rsp"
