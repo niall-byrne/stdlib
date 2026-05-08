@@ -397,6 +397,10 @@ stdlib.__message.get ()
             required_options=1;
             message="$(stdlib.__gettext "The value '\${option1}' is not a valid variable name!")"
         ;;
+        VAR_NOT_SET)
+            required_options=1;
+            message="$(stdlib.__gettext "The variable '\${option1}' is not set!")"
+        ;;
         "")
             required_options=0;
             return_status=126;
@@ -3846,6 +3850,24 @@ stdlib.trap.handler.exit.fn.register ()
     STDLIB_HANDLER_EXIT_FN_ARRAY+=("${1}")
 }
 
+stdlib.var.assert.is_set ()
+{
+    builtin local return_code=0;
+    stdlib.var.query.is_set "${@}" || return_code="$?";
+    case "${return_code}" in
+        0)
+
+        ;;
+        126 | 127)
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
+        ;;
+        *)
+            stdlib.logger.error "$(stdlib.__message.get VAR_NOT_SET "${1}")"
+        ;;
+    esac;
+    builtin return "${return_code}"
+}
+
 stdlib.var.assert.is_valid_name ()
 {
     builtin local return_code=0;
@@ -3862,6 +3884,16 @@ stdlib.var.assert.is_valid_name ()
         ;;
     esac;
     builtin return "${return_code}"
+}
+
+stdlib.var.query.is_set ()
+{
+    [[ "${#@}" == "1" ]] || builtin return 127;
+    stdlib.var.query.is_valid_name "${1}" || builtin return 126;
+    if ! builtin declare -p "${1}" > /dev/null 2>&1; then
+        builtin return 1;
+    fi;
+    builtin return 0
 }
 
 stdlib.var.query.is_valid_name ()
