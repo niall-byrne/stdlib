@@ -406,6 +406,10 @@ stdlib.__message.get ()
             required_options=1;
             message="$(stdlib.__gettext "The value '\${option1}' is not a valid variable name!")"
         ;;
+        VAR_NOT_SET)
+            required_options=1;
+            message="$(stdlib.__gettext "The variable '\${option1}' is not set!")"
+        ;;
         VAR_VALUE_NOT_EMPTY)
             required_options=1;
             message="$(stdlib.__gettext "The variable '\${option1}' has been assigned a non-empty value!")"
@@ -3940,6 +3944,24 @@ stdlib.var.assert.is_empty ()
     builtin return "${return_code}"
 }
 
+stdlib.var.assert.is_set ()
+{
+    builtin local return_code=0;
+    stdlib.var.query.is_set "${@}" || return_code="$?";
+    case "${return_code}" in
+        0)
+
+        ;;
+        126 | 127)
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
+        ;;
+        *)
+            stdlib.logger.error "$(stdlib.__message.get VAR_NOT_SET "${1}")"
+        ;;
+    esac;
+    builtin return "${return_code}"
+}
+
 stdlib.var.assert.is_valid_name ()
 {
     builtin local return_code=0;
@@ -3979,6 +4001,16 @@ stdlib.var.query.is_empty ()
             builtin return 1
         ;;
     esac
+}
+
+stdlib.var.query.is_set ()
+{
+    [[ "${#@}" == "1" ]] || builtin return 127;
+    stdlib.var.query.is_valid_name "${1}" || builtin return 126;
+    if ! builtin declare -p "${1}" > /dev/null 2>&1; then
+        builtin return 1;
+    fi;
+    builtin return 0
 }
 
 stdlib.var.query.is_valid_name ()
