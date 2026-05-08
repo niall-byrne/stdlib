@@ -27,15 +27,10 @@ RUN groupadd -g $GID2 -o $UNAME2 \
     && useradd -m -u $UID2 -g $UNAME2 -s /bin/bash $UNAME2 \
     && usermod -aG sudo $UNAME2
 
+COPY host.sh /usr/local/bin
+
 # Install bash_unit
-RUN \
-  curl \
-    --silent \
-    --retry 5 \
-    --retry-delay 5 \
-    --fail \
-    "https://raw.githubusercontent.com/bash-unit/bash_unit/master/install.sh" | bash \
-  && mv bash_unit /usr/local/bin
+RUN host.sh bash_unit
 
 # Install shdoc
 RUN \
