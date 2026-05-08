@@ -83,6 +83,7 @@ setup() {
     "stdin_default_value_prompt;STDIN_DEFAULT_VALUE_PROMPT;Enter a value: " \
     "traceback_header;TRACEBACK_HEADER;Callstack:" \
     "var_name_invalid;VAR_NAME_INVALID|not_valid;The value 'not_valid' is not a valid variable name!" \
+    "var_not_set;VAR_NOT_SET|not_set;The variable 'not_set' is not set!" \
     "var_value_not_empty;VAR_VALUE_NOT_EMPTY|var_invalid;The variable 'var_invalid' has been assigned a non-empty value!"
 }
 
@@ -214,6 +215,8 @@ setup() {
     "traceback_header________________________too_many_args;TRACEBACK_HEADER|1" \
     "var_name_invalid________________________no_args______;VAR_NAME_INVALID" \
     "var_name_invalid________________________too_many_args;VAR_NAME_INVALID|1|2" \
+    "var_not_set_____________________________no_args______;VAR_NOT_SET" \
+    "var_not_set_____________________________too_many_args;VAR_NOT_SET|1|2" \
     "var_value_not_empty_____________________no_args______;VAR_VALUE_NOT_EMPTY" \
     "var_value_not_empty_____________________too_many_args;VAR_VALUE_NOT_EMPTY|1|2"
 }
