@@ -25,7 +25,7 @@ stdlib.security.get.gid() {
   [[ "${#@}" == "1" ]] || builtin return 127
   [[ -n "${1}" ]] || builtin return 126
 
-  getent group "${1}" | "${_STDLIB_BINARY_CUT}" -d ":" -f 3 || builtin return 126
+  "${_STDLIB_BINARY_GETENT}" group "${1}" | "${_STDLIB_BINARY_CUT}" -d ":" -f 3 || builtin return 126
 }
 
 # @description Gets the user ID for a given username.
@@ -38,7 +38,7 @@ stdlib.security.get.uid() {
   [[ "${#@}" == "1" ]] || builtin return 127
   [[ -n "${1}" ]] || builtin return 126
 
-  id -u "${1}" || builtin return 126
+  "${_STDLIB_BINARY_ID}" -u "${1}" || builtin return 126
 }
 
 # @description Gets the next available (unused) user ID.
@@ -74,7 +74,7 @@ stdlib.security.get.unused_uid() {
       fi
       ((existing_ids_index = existing_ids_index + 1))
     done
-    id "${current_id}" > /dev/null 2>&1 || {
+    "${_STDLIB_BINARY_ID}" "${current_id}" > /dev/null 2>&1 || {
       builtin echo "${current_id}"
       builtin return 0
     }

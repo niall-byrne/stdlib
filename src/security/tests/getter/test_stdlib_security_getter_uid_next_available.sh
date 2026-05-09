@@ -21,6 +21,7 @@ pi2:x:2001:2001::/home/pi2:/bin/bash
 }
 
 test_security_get_unused_uid__@vary() {
+  local _STDLIB_BINARY_ID="id"
   local args=()
 
   stdlib.array.make.from_string args "|" "${TEST_ARGS_DEFINITION}"
@@ -34,6 +35,8 @@ test_security_get_unused_uid__@vary() {
   test_security_get_unused_uid__@vary
 
 test_security_get_unused_uid__valid_args__no_existing_1000_series__emits_1000() {
+  local _STDLIB_BINARY_ID="id"
+
   id.mock.set.subcommand "if (( \${current_id} < 1000 )); then return 0; else current_id=1000; return 1; fi"
 
   _capture.stdout stdlib.security.get.unused_uid
@@ -42,6 +45,8 @@ test_security_get_unused_uid__valid_args__no_existing_1000_series__emits_1000() 
 }
 
 test_security_get_unused_uid__valid_args__no_existing_1000_series__returns_status_code_0() {
+  local _STDLIB_BINARY_ID="id"
+
   id.mock.set.subcommand "if (( \${current_id} < 1000 )); then return 0; else current_id=1000; return 1; fi"
 
   _capture.rc stdlib.security.get.unused_uid > /dev/null
@@ -50,6 +55,8 @@ test_security_get_unused_uid__valid_args__no_existing_1000_series__returns_statu
 }
 
 test_security_get_unused_uid__valid_args__existing_1000_series_____emits_next_sequential() {
+  local _STDLIB_BINARY_ID="id"
+
   id.mock.set.subcommand "if (( \${current_id} < 1502 )); then return 0; else return 1; fi"
 
   _capture.stdout stdlib.security.get.unused_uid
@@ -58,6 +65,8 @@ test_security_get_unused_uid__valid_args__existing_1000_series_____emits_next_se
 }
 
 test_security_get_unused_uid__valid_args__existing_1000_series_____returns_status_code_0() {
+  local _STDLIB_BINARY_ID="id"
+
   id.mock.set.subcommand "if (( \${current_id} < 1502 )); then return 0; else return 1; fi"
 
   _capture.rc stdlib.security.get.unused_uid > /dev/null
@@ -66,6 +75,8 @@ test_security_get_unused_uid__valid_args__existing_1000_series_____returns_statu
 }
 
 test_security_get_unused_uid__valid_args__no_free_1000_series______emits_next_sequential() {
+  local _STDLIB_BINARY_ID="id"
+
   id.mock.set.subcommand "if (( \${current_id} < 2001 )); then return 0; else return 1; fi"
 
   _capture.stdout stdlib.security.get.unused_uid
@@ -74,6 +85,8 @@ test_security_get_unused_uid__valid_args__no_free_1000_series______emits_next_se
 }
 
 test_security_get_unused_uid__valid_args__no_free_1000_series______returns_status_code_0() {
+  local _STDLIB_BINARY_ID="id"
+
   id.mock.set.subcommand "if (( \${current_id} < 2001 )); then return 0; else return 1; fi"
 
   _capture.rc stdlib.security.get.unused_uid > /dev/null
@@ -82,6 +95,8 @@ test_security_get_unused_uid__valid_args__no_free_1000_series______returns_statu
 }
 
 test_security_get_unused_uid__valid_args__no_free_ids______________return_1() {
+  local _STDLIB_BINARY_ID="id"
+
   id.mock.set.subcommand "current_id=65536; return 0"
 
   _capture.rc stdlib.security.get.unused_uid

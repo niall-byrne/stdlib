@@ -248,11 +248,11 @@ stdlib.__message.get() {
       ;;
     SECURITY_SUGGEST_CHMOD)
       required_options=2
-      message="$(stdlib.__gettext "Please consider running: sudo chmod '\${option1}' '\${option2}'")"
+      message="$(stdlib.__gettext "Please consider running: sudo chmod '\${option1}' '\${option2}'")" # noqa
       ;;
     SECURITY_SUGGEST_CHOWN)
       required_options=2
-      message="$(stdlib.__gettext "Please consider running: sudo chown '\${option1}' '\${option2}'")"
+      message="$(stdlib.__gettext "Please consider running: sudo chown '\${option1}' '\${option2}'")" # noqa
       ;;
     STDIN_DEFAULT_CONFIRMATION_PROMPT)
       required_options=0
