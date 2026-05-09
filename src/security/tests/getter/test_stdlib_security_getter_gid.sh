@@ -26,6 +26,7 @@ setup() {
 }
 
 test_security_get_gid__@vary() {
+  local _STDLIB_BINARY_GETENT="getent"
   local args=()
 
   stdlib.array.make.from_string args "|" "${TEST_ARGS_DEFINITION}"
@@ -39,12 +40,16 @@ test_security_get_gid__@vary() {
   test_security_get_gid__@vary
 
 test_security_get_gid__valid_args__calls_getent() {
+  local _STDLIB_BINARY_GETENT="getent"
+
   stdlib.security.get.gid "mock_groupname"
 
   getent.mock.assert_called_once_with "1(group) 2(mock_groupname)"
 }
 
 test_security_get_gid__valid_args__group_found______@vary__emits_parsed_getent_output() {
+  local _STDLIB_BINARY_GETENT="getent"
+
   getent.mock.set.stdout "${GETENT_STDOUT}"
 
   _capture.output stdlib.security.get.gid "mock_groupname"
@@ -56,6 +61,8 @@ test_security_get_gid__valid_args__group_found______@vary__emits_parsed_getent_o
   test_security_get_gid__valid_args__group_found______@vary__emits_parsed_getent_output
 
 test_security_get_gid__valid_args__group_found______@vary__returns_status_code_0() {
+  local _STDLIB_BINARY_GETENT="getent"
+
   getent.mock.set.stdout "${GETENT_STDOUT}"
 
   _capture.rc stdlib.security.get.gid "mock_groupname" > /dev/null
@@ -67,6 +74,8 @@ test_security_get_gid__valid_args__group_found______@vary__returns_status_code_0
   test_security_get_gid__valid_args__group_found______@vary__returns_status_code_0
 
 test_security_get_gid__valid_args__group_not_found__returns_status_code_126() {
+  local _STDLIB_BINARY_GETENT="getent"
+
   getent.mock.set.rc 1
 
   _capture.rc stdlib.security.get.gid "mock_groupname"
