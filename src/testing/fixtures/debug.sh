@@ -23,6 +23,6 @@ _testing.fixtures.debug.diff() {
   builtin printf "${!debug_colour}%s${STDLIB_COLOUR_NC}\n%q\n" "$(_testing.__message.get DEBUG_DIFF_PREFIX_ACTUAL):" "${2}"
   builtin printf "${!debug_colour}%s${STDLIB_COLOUR_NC}\n" "$(_testing.__message.get DEBUG_DIFF_PREFIX):"
   # shellcheck disable=SC2059
-  diff <(builtin printf "%s" "${1}") <(builtin printf "%s" "${2}")
+  "${_STDLIB_BINARY_DIFF}" <(builtin printf "%s" "${1}") <(builtin printf "%s" "${2}")
   builtin printf "%s\n" "$(_testing.__message.get DEBUG_DIFF_FOOTER)"
 }
