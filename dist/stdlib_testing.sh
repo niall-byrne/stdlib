@@ -657,7 +657,7 @@ ${1}.mock.get.count() {
 
   _testing.__protected stdlib.fn.args.require "0" "0" "\${@}" || builtin return "\$?"
 
-  < "\${__${2}_mock_calls_file}" wc -l
+  < "\${__${2}_mock_calls_file}" "\${_STDLIB_BINARY_WC}" -l
 }
 
 # @description This function will retrieve the keywords assigned to this mock. (These keywords are variables whose values are recorded during each mock call).
@@ -1460,7 +1460,7 @@ _testing.fixtures.debug.diff ()
     builtin printf "${!debug_colour}%s${STDLIB_COLOUR_NC}\n%q\n" "$(_testing.__message.get DEBUG_DIFF_PREFIX_EXPECTED):" "${1}";
     builtin printf "${!debug_colour}%s${STDLIB_COLOUR_NC}\n%q\n" "$(_testing.__message.get DEBUG_DIFF_PREFIX_ACTUAL):" "${2}";
     builtin printf "${!debug_colour}%s${STDLIB_COLOUR_NC}\n" "$(_testing.__message.get DEBUG_DIFF_PREFIX):";
-    diff <(builtin printf "%s" "${1}") <(builtin printf "%s" "${2}");
+    "${_STDLIB_BINARY_DIFF}" <(builtin printf "%s" "${1}") <(builtin printf "%s" "${2}");
     builtin printf "%s\n" "$(_testing.__message.get DEBUG_DIFF_FOOTER)"
 }
 

@@ -22,6 +22,8 @@ setup() {
 }
 
 test_stdlib_security_path_secure__@vary() {
+  local _STDLIB_BINARY_CHMOD="chmod"
+  local _STDLIB_BINARY_CHOWN="chown"
   local args=()
 
   stdlib.array.make.from_string args "|" "${TEST_ARGS_DEFINITION}"
@@ -35,12 +37,18 @@ test_stdlib_security_path_secure__@vary() {
   test_stdlib_security_path_secure__@vary
 
 test_stdlib_security_path_secure__valid_arguments__calls_chown_correctly() {
+  local _STDLIB_BINARY_CHMOD="chmod"
+  local _STDLIB_BINARY_CHOWN="chown"
+
   stdlib.security.path.secure "MOCK_PATH" "MOCK_USERNAME" "MOCK_GROUP" "MOCK_PERMISSIONS"
 
   chown.mock.assert_called_once_with "1(MOCK_USERNAME:MOCK_GROUP) 2(MOCK_PATH)"
 }
 
 test_stdlib_security_path_secure__valid_arguments__calls_chmod_correctly() {
+  local _STDLIB_BINARY_CHMOD="chmod"
+  local _STDLIB_BINARY_CHOWN="chown"
+
   stdlib.security.path.secure "MOCK_PATH" "MOCK_USERNAME" "MOCK_GROUP" "MOCK_PERMISSIONS"
 
   chmod.mock.assert_called_once_with "1(MOCK_PERMISSIONS) 2(MOCK_PATH)"
