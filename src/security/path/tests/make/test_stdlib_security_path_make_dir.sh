@@ -20,6 +20,7 @@ setup() {
 }
 
 test_stdlib_security_path_make_dir__invalid_args__@vary() {
+  local _STDLIB_BINARY_MKDIR="mkdir"
   local args=()
 
   stdlib.array.make.from_string args "|" "${TEST_ARGS_DEFINITION}"
@@ -33,18 +34,24 @@ test_stdlib_security_path_make_dir__invalid_args__@vary() {
   test_stdlib_security_path_make_dir__invalid_args__@vary
 
 test_stdlib_security_path_make_dir__valid_args____calls_mkdir() {
+  local _STDLIB_BINARY_MKDIR="mkdir"
+
   stdlib.security.path.make.dir "MOCK_PATH" "MOCK_USER" "MOCK_GROUP" "MOCK_PERM"
 
   mkdir.mock.assert_called_once_with "1(-p) 2(MOCK_PATH)"
 }
 
 test_stdlib_security_path_make_dir__valid_args____calls_secure() {
+  local _STDLIB_BINARY_MKDIR="mkdir"
+
   stdlib.security.path.make.dir "MOCK_PATH" "MOCK_USER" "MOCK_GROUP" "MOCK_PERM"
 
   stdlib.security.path.secure.mock.assert_called_once_with "1(MOCK_PATH) 2(MOCK_USER) 3(MOCK_GROUP) 4(MOCK_PERM)"
 }
 
 test_stdlib_security_path_make_dir__valid_args____returns_status_code_0() {
+  local _STDLIB_BINARY_MKDIR="mkdir"
+
   _capture.rc stdlib.security.path.make.dir "MOCK_PATH" "MOCK_USER" "MOCK_GROUP" "MOCK_PERM"
 
   assert_rc "0"
