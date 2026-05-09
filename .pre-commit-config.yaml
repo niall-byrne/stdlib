@@ -193,7 +193,7 @@ repos:
         files: "^src/.+\\.snippet$"
       - id: source-files-binaries
         name: ensure source files don't directly reference restricted binary commands
-        entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$).*((?<=\\s|\\()|(?<=^))(cat|cut|grep|head|mktemp|rm|sed|sort|tail|tput|tr)((\\s|\\)).*$|$)"
+        entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$).*((?<=\\s|\\()|(?<=^))(cat|chmod|chown|cut|grep|head|mkdir|mktemp|rm|rmdir|sed|sort|stat|tail|touch|tput|tr)((\\s|\\)).*$|$)"
         language: pygrep
         files: "^(src/.+\\.(sh|snippet)|dist/docs.sh)$"
         exclude: "^((.+/)*tests/.+\\.sh)$"
@@ -250,7 +250,7 @@ repos:
         exclude: "^((.+/)*tests/.+\\.sh)$"
       - id: test-files-binaries
         name: ensure test files don't directly reference restricted binary commands
-        entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$).*((?<=\\s|\\()|(?<=^))(cat|cut|grep|head|mktemp|rm|sed|sort|tail|tput|tr)((\\s|\\)).*$|$)"
+        entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$).*((?<=\\s|\\()|(?<=^))(cat|chmod|chown|cut|grep|head|mkdir|mktemp|rm|rmdir|sed|sort|stat|tail|touch|tput|tr)((\\s|\\)).*$|$)"
         language: pygrep
         files: "^((.+/)*tests/.+\\.sh)$"
         exclude: "^.*/test_.+\\.sh$"
