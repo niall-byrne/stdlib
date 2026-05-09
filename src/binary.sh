@@ -4,17 +4,26 @@
 
 builtin set -eo pipefail
 
-_STDLIB_BINARY_CAT="$(builtin command -v cat)"       # noqa
-_STDLIB_BINARY_CUT="$(builtin command -v cut)"       # noqa
-_STDLIB_BINARY_GREP="$(builtin command -v grep)"     # noqa
-_STDLIB_BINARY_HEAD="$(builtin command -v head)"     # noqa
-_STDLIB_BINARY_MKDIR="$(builtin command -v mkdir)"   # noqa
-_STDLIB_BINARY_MKTEMP="$(builtin command -v mktemp)" # noqa
-_STDLIB_BINARY_RM="$(builtin command -v rm)"         # noqa
-_STDLIB_BINARY_RMDIR="$(builtin command -v rmdir)"   # noqa
-_STDLIB_BINARY_SED="$(builtin command -v sed)"       # noqa
-_STDLIB_BINARY_SLEEP="$(builtin command -v sleep)"   # noqa
-_STDLIB_BINARY_SORT="$(builtin command -v sort)"     # noqa
-_STDLIB_BINARY_TAIL="$(builtin command -v tail)"     # noqa
-_STDLIB_BINARY_TPUT="$(builtin command -v tput)"     # noqa
-_STDLIB_BINARY_TR="$(builtin command -v tr)"         # noqa
+_STDLIB_BINARY_CAT="$(builtin command -v cat)"         # noqa
+_STDLIB_BINARY_CHMOD="$(builtin command -v chmod)"     # noqa
+_STDLIB_BINARY_CHOWN="$(builtin command -v chown)"     # noqa
+_STDLIB_BINARY_CUT="$(builtin command -v cut)"         # noqa
+_STDLIB_BINARY_DIFF="$(builtin command -v diff)"       # noqa
+_STDLIB_BINARY_DIRNAME="$(builtin command -v dirname)" # noqa
+_STDLIB_BINARY_GETENT="$(builtin command -v getent)"   # noqa
+_STDLIB_BINARY_GREP="$(builtin command -v grep)"       # noqa
+_STDLIB_BINARY_HEAD="$(builtin command -v head)"       # noqa
+_STDLIB_BINARY_ID="$(builtin command -v id)"           # noqa
+_STDLIB_BINARY_MKDIR="$(builtin command -v mkdir)"     # noqa
+_STDLIB_BINARY_MKTEMP="$(builtin command -v mktemp)"   # noqa
+_STDLIB_BINARY_RM="$(builtin command -v rm)"           # noqa
+_STDLIB_BINARY_RMDIR="$(builtin command -v rmdir)"     # noqa
+_STDLIB_BINARY_SED="$(builtin command -v sed)"         # noqa
+_STDLIB_BINARY_SLEEP="$(builtin command -v sleep)"     # noqa
+_STDLIB_BINARY_SORT="$(builtin command -v sort)"       # noqa
+_STDLIB_BINARY_STAT="$(builtin command -v stat)"       # noqa
+_STDLIB_BINARY_TAIL="$(builtin command -v tail)"       # noqa
+_STDLIB_BINARY_TOUCH="$(builtin command -v touch)"     # noqa
+_STDLIB_BINARY_TPUT="$(builtin command -v tput)"       # noqa
+_STDLIB_BINARY_TR="$(builtin command -v tr)"           # noqa
+_STDLIB_BINARY_WC="$(builtin command -v wc)"           # noqa

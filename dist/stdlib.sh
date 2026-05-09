@@ -12,7 +12,7 @@
 # @internal
 stdlib.security.__shell.assert.is_safe() {
   if [[ "$(stdlib.security.__shell.query.is_safe "${1}")" != "0" ]]; then
-    /bin/echo "FATAL ERROR: The 'builtin' keyword could not be verified!  Cannot safely load stdlib!" >&2
+    /bin/echo "FATAL ERROR: The 'builtin' keyword could not be verified!  Cannot safely load stdlib!" >&2 # noqa
     if [[ "${1}" == "return" ]]; then
       exit 1
     fi
@@ -31,9 +31,9 @@ stdlib.security.__shell.query.is_safe() {
   if ! unset "${1}" 2> /dev/null ||
     declare -F "${1}" 2> /dev/null ||
     [[ "$(type -t "${1}")" != "builtin" ]]; then
-    /bin/echo "1"
+    /bin/echo "1" # noqa
   else
-    /bin/echo "0"
+    /bin/echo "0" # noqa
   fi
 }
 
@@ -95,9 +95,15 @@ declare -- STDLIB_TRACEBACK_DISABLE_BOOLEAN="1"
 declare -- STDLIB_VALIDATION_SOURCE_VAR=""
 declare -- STDLIB_WRAP_PREFIX=""
 declare -- _STDLIB_BINARY_CAT="/usr/bin/cat"
+declare -- _STDLIB_BINARY_CHMOD="/usr/bin/chmod"
+declare -- _STDLIB_BINARY_CHOWN="/usr/bin/chown"
 declare -- _STDLIB_BINARY_CUT="/usr/bin/cut"
+declare -- _STDLIB_BINARY_DIFF="/usr/bin/diff"
+declare -- _STDLIB_BINARY_DIRNAME="/usr/bin/dirname"
+declare -- _STDLIB_BINARY_GETENT="/usr/bin/getent"
 declare -- _STDLIB_BINARY_GREP="/usr/bin/grep"
 declare -- _STDLIB_BINARY_HEAD="/usr/bin/head"
+declare -- _STDLIB_BINARY_ID="/usr/bin/id"
 declare -- _STDLIB_BINARY_MKDIR="/usr/bin/mkdir"
 declare -- _STDLIB_BINARY_MKTEMP="/usr/bin/mktemp"
 declare -- _STDLIB_BINARY_RM="/usr/bin/rm"
@@ -105,9 +111,12 @@ declare -- _STDLIB_BINARY_RMDIR="/usr/bin/rmdir"
 declare -- _STDLIB_BINARY_SED="/usr/bin/sed"
 declare -- _STDLIB_BINARY_SLEEP="/usr/bin/sleep"
 declare -- _STDLIB_BINARY_SORT="/usr/bin/sort"
+declare -- _STDLIB_BINARY_STAT="/usr/bin/stat"
 declare -- _STDLIB_BINARY_TAIL="/usr/bin/tail"
+declare -- _STDLIB_BINARY_TOUCH="/usr/bin/touch"
 declare -- _STDLIB_BINARY_TPUT="/usr/bin/tput"
 declare -- _STDLIB_BINARY_TR="/usr/bin/tr"
+declare -- _STDLIB_BINARY_WC="/usr/bin/wc"
 declare -a __STDLIB_LOGGING_DECORATORS_ARRAY=([0]="_testing.__protected")
 declare -x __STDLIB_SECURE_DISTRIBUTION="1"
 
@@ -1952,14 +1961,14 @@ stdlib.security.get.gid ()
 {
     [[ "${#@}" == "1" ]] || builtin return 127;
     [[ -n "${1}" ]] || builtin return 126;
-    getent group "${1}" | "${_STDLIB_BINARY_CUT}" -d ":" -f 3 || builtin return 126
+    "${_STDLIB_BINARY_GETENT}" group "${1}" | "${_STDLIB_BINARY_CUT}" -d ":" -f 3 || builtin return 126
 }
 
 stdlib.security.get.uid ()
 {
     [[ "${#@}" == "1" ]] || builtin return 127;
     [[ -n "${1}" ]] || builtin return 126;
-    id -u "${1}" || builtin return 126
+    "${_STDLIB_BINARY_ID}" -u "${1}" || builtin return 126
 }
 
 stdlib.security.get.unused_uid ()
@@ -1981,7 +1990,7 @@ stdlib.security.get.unused_uid ()
             fi;
             ((existing_ids_index = existing_ids_index + 1));
         done;
-        id "${current_id}" > /dev/null 2>&1 || {
+        "${_STDLIB_BINARY_ID}" "${current_id}" > /dev/null 2>&1 || {
             builtin echo "${current_id}";
             builtin return 0
         };
@@ -2061,7 +2070,7 @@ stdlib.security.path.make.dir ()
     [[ -n "${2}" ]] || builtin return 126;
     [[ -n "${3}" ]] || builtin return 126;
     [[ -n "${4}" ]] || builtin return 126;
-    mkdir -p "${1}";
+    "${_STDLIB_BINARY_MKDIR}" -p "${1}";
     stdlib.security.path.secure "${@}"
 }
 
@@ -2072,7 +2081,7 @@ stdlib.security.path.make.file ()
     [[ -n "${2}" ]] || builtin return 126;
     [[ -n "${3}" ]] || builtin return 126;
     [[ -n "${4}" ]] || builtin return 126;
-    touch "${1}";
+    "${_STDLIB_BINARY_TOUCH}" "${1}";
     stdlib.security.path.secure "${@}"
 }
 
@@ -2083,7 +2092,7 @@ stdlib.security.path.query.has_group ()
     stdlib.io.path.query.is_exists "${1}" || builtin return 126;
     [[ -n "${2}" ]] || builtin return 126;
     required_gid="$(stdlib.security.get.gid "${2}")";
-    if [[ "$(stat -c "%g" "${1}")" != "${required_gid}" ]]; then
+    if [[ "$("${_STDLIB_BINARY_STAT}" -c "%g" "${1}")" != "${required_gid}" ]]; then
         builtin return 1;
     fi
 }
@@ -2095,7 +2104,7 @@ stdlib.security.path.query.has_owner ()
     stdlib.io.path.query.is_exists "${1}" || builtin return 126;
     [[ -n "${2}" ]] || builtin return 126;
     required_uid="$(stdlib.security.get.uid "${2}")";
-    if [[ "$(stat -c "%u" "${1}")" != "${required_uid}" ]]; then
+    if [[ "$("${_STDLIB_BINARY_STAT}" -c "%u" "${1}")" != "${required_uid}" ]]; then
         builtin return 1;
     fi
 }
@@ -2105,7 +2114,7 @@ stdlib.security.path.query.has_permissions ()
     [[ "${#@}" == "2" ]] || builtin return 127;
     stdlib.io.path.query.is_exists "${1}" || builtin return 126;
     stdlib.string.query.is_octal_permission "${2}" || builtin return 126;
-    if [[ "$(stat -c "%a" "${1}")" != "${2}" ]]; then
+    if [[ "$("${_STDLIB_BINARY_STAT}" -c "%a" "${1}")" != "${2}" ]]; then
         builtin return 1;
     fi
 }
@@ -2121,8 +2130,8 @@ stdlib.security.path.query.is_secure ()
 stdlib.security.path.secure ()
 {
     stdlib.fn.args.require "4" "0" "${@}" || builtin return "$?";
-    chown "${2}":"${3}" "${1}";
-    chmod "${4}" "${1}"
+    "${_STDLIB_BINARY_CHOWN}" "${2}":"${3}" "${1}";
+    "${_STDLIB_BINARY_CHMOD}" "${4}" "${1}"
 }
 
 stdlib.security.user.assert.is_root ()
