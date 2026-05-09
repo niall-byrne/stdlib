@@ -1080,6 +1080,7 @@ Checks if a string is a valid function name.
 ### stdlib.io.lock.acquire
 
 Acquires a named exclusive execution lock, or waits until able to do so.
+* STDLIB_LOCK_PERMISSION_OCTAL: An octal file system permission value for the created lock (default="0700").
 * STDLIB_LOCK_POLLING_INTERVAL: A decimal value for the number of seconds the process will wait before retrying lock acquisition (default="0.1").
 * STDLIB_LOCK_QUIET_FAILURE_BOOLEAN: A boolean to disable errors messages on a lock acquisition failure (default=0).
 * STDLIB_LOCK_WAIT_SECONDS: An integer for the number of seconds the process will wait for the lock to become available.  To create an infinite wait, use a negative value. (default=30).
@@ -1126,10 +1127,12 @@ Releases a named exclusive execution lock.
 ### stdlib.io.lock.with
 
 Runs a command with a named exclusive execution lock. A lock workspace is allocated as needed.
+* STDLIB_LOCK_PERMISSION_OCTAL: An octal file system permission value for the created lock (default="0700").
 * STDLIB_LOCK_POLLING_INTERVAL: A decimal value for the number of seconds the process will wait before retrying lock acquisition (default="0.1").
 * STDLIB_LOCK_QUIET_FAILURE_BOOLEAN: A boolean to disable errors messages on a lock acquisition failure (default=0).
 * STDLIB_LOCK_WAIT_SECONDS: An integer for the number of seconds the process will wait for the lock to become available.  To create an infinite wait, use a negative value. (default=30).
 * STDLIB_LOCK_WORKSPACE: A string for the name of a managed temporary directory which has been allocated for lock operations (default="").
+* STDLIB_LOCK_WORKSPACE_PERMISSION_OCTAL: An octal file system permission value for the created workspace folder (if allocation is performed) (default="0700").
 
 #### Arguments
 
@@ -1153,6 +1156,7 @@ Runs a command with a named exclusive execution lock. A lock workspace is alloca
 
 Creates a temporary folder dedicated for execution locking, and handles it's clean up.
 * STDLIB_LOCK_WORKSPACE: A string for the name of a managed temporary directory which has been allocated for lock operations (default="").
+* STDLIB_LOCK_WORKSPACE_PERMISSION_OCTAL: An octal file system permission value for the created workspace folder (default="0700").
 
 _Function has no arguments._
 
@@ -1165,6 +1169,7 @@ _Function has no arguments._
 * **0**: If the workspace was successfully allocated.
 * **1**: If the workspace could not be allocated.
 * **123**: If a variable reserved for use by the BASH stdlib has been assigned an invalid value.
+* **125**: If an invalid keyword has been provided.
 * **127**: If the wrong number of arguments were provided.
 
 #### Output on stderr
