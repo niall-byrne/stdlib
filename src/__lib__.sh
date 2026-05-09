@@ -4,8 +4,8 @@
 
 # shellcheck disable=SC2034
 {
-  STDLIB_DIRECTORY="$(dirname -- "${BASH_SOURCE[0]}")"
-  STDLIB_TEXTDOMAINDIR="$(dirname -- "${STDLIB_DIRECTORY}")/locales"
+  STDLIB_DIRECTORY="$(dirname -- "${BASH_SOURCE[0]}")"               # noqa
+  STDLIB_TEXTDOMAINDIR="$(dirname -- "${STDLIB_DIRECTORY}")/locales" # noqa
 }
 
 # Check Builtin Integrity
