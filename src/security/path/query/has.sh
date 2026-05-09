@@ -20,7 +20,7 @@ stdlib.security.path.query.has_group() {
 
   required_gid="$(stdlib.security.get.gid "${2}")"
 
-  if [[ "$(stat -c "%g" "${1}")" != "${required_gid}" ]]; then
+  if [[ "$("${_STDLIB_BINARY_STAT}" -c "%g" "${1}")" != "${required_gid}" ]]; then
     builtin return 1
   fi
 }
@@ -41,7 +41,7 @@ stdlib.security.path.query.has_owner() {
 
   required_uid="$(stdlib.security.get.uid "${2}")"
 
-  if [[ "$(stat -c "%u" "${1}")" != "${required_uid}" ]]; then
+  if [[ "$("${_STDLIB_BINARY_STAT}" -c "%u" "${1}")" != "${required_uid}" ]]; then
     builtin return 1
   fi
 }
@@ -58,7 +58,7 @@ stdlib.security.path.query.has_permissions() {
   stdlib.io.path.query.is_exists "${1}" || builtin return 126
   stdlib.string.query.is_octal_permission "${2}" || builtin return 126
 
-  if [[ "$(stat -c "%a" "${1}")" != "${2}" ]]; then
+  if [[ "$("${_STDLIB_BINARY_STAT}" -c "%a" "${1}")" != "${2}" ]]; then
     builtin return 1
   fi
 }

@@ -20,6 +20,7 @@ setup() {
 }
 
 test_stdlib_security_path_make_file__invalid_args__@vary() {
+  local _STDLIB_BINARY_TOUCH="touch"
   local args=()
 
   stdlib.array.make.from_string args "|" "${TEST_ARGS_DEFINITION}"
@@ -33,18 +34,24 @@ test_stdlib_security_path_make_file__invalid_args__@vary() {
   test_stdlib_security_path_make_file__invalid_args__@vary
 
 test_stdlib_security_path_make_file__valid_args____calls_touch() {
+  local _STDLIB_BINARY_TOUCH="touch"
+
   stdlib.security.path.make.file "/var/log/logfile" "MOCK_USER" "MOCK_GROUP" "MOCK_PERM"
 
   touch.mock.assert_called_once_with "1(/var/log/logfile)"
 }
 
 test_stdlib_security_path_make_file__valid_args____calls_secure() {
+  local _STDLIB_BINARY_TOUCH="touch"
+
   stdlib.security.path.make.file "/var/log/logfile" "MOCK_USER" "MOCK_GROUP" "MOCK_PERM"
 
   stdlib.security.path.secure.mock.assert_called_once_with "1(/var/log/logfile) 2(MOCK_USER) 3(MOCK_GROUP) 4(MOCK_PERM)"
 }
 
 test_stdlib_security_path_make_file__valid_args____returns_status_code_0() {
+  local _STDLIB_BINARY_TOUCH="touch"
+
   _capture.rc stdlib.security.path.make.file "/var/log/logfile" "MOCK_USER" "MOCK_GROUP" "MOCK_PERM"
 
   assert_rc "0"
