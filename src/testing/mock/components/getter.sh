@@ -84,7 +84,7 @@ ${1}.mock.get.count() {
 
   _testing.__protected stdlib.fn.args.require "0" "0" "\${@}" || builtin return "\$?"
 
-  < "\${__${2}_mock_calls_file}" wc -l
+  < "\${__${2}_mock_calls_file}" "\${_STDLIB_BINARY_WC}" -l
 }
 
 # @description This function will retrieve the keywords assigned to this mock. (These keywords are variables whose values are recorded during each mock call).
