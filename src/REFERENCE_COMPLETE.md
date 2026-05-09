@@ -2103,10 +2103,15 @@ _Function has no arguments._
 ### stdlib.setting.theme.get_colour
 
 Gets the name of a colour variable from the theme.
+* STDLIB_COLOUR_NULL string global: A default value for null or missing colours (default="").
 
 #### Arguments
 
 * **$1** (string): The name of the colour.
+
+#### Variables set
+
+* **STDLIB_COLOUR_NULL** (string): A default value for null or missing colours.
 
 #### Exit codes
 
