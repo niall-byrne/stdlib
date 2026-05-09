@@ -15,6 +15,6 @@ builtin set -eo pipefail
 stdlib.security.path.secure() {
   stdlib.fn.args.require "4" "0" "${@}" || builtin return "$?"
 
-  chown "${2}":"${3}" "${1}"
-  chmod "${4}" "${1}"
+  "${_STDLIB_BINARY_CHOWN}" "${2}":"${3}" "${1}"
+  "${_STDLIB_BINARY_CHMOD}" "${4}" "${1}"
 }
