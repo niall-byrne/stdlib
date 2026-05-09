@@ -20,7 +20,7 @@ stdlib.security.path.make.dir() {
   [[ -n "${3}" ]] || builtin return 126
   [[ -n "${4}" ]] || builtin return 126
 
-  mkdir -p "${1}"
+  "${_STDLIB_BINARY_MKDIR}" -p "${1}"
   stdlib.security.path.secure "${@}"
 }
 
@@ -40,6 +40,6 @@ stdlib.security.path.make.file() {
   [[ -n "${3}" ]] || builtin return 126
   [[ -n "${4}" ]] || builtin return 126
 
-  touch "${1}"
+  "${_STDLIB_BINARY_TOUCH}" "${1}"
   stdlib.security.path.secure "${@}"
 }
