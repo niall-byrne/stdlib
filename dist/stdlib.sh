@@ -78,10 +78,12 @@ declare -a STDLIB_HANDLER_EXIT_FN_ARRAY=([0]="stdlib.trap.fn.cleanup_on_exit")
 declare -- STDLIB_KW_DEFAULT=""
 declare -- STDLIB_LINE_BREAK_DELIMITER=""
 declare -- STDLIB_LINE_BREAK_FORCE_CHAR=""
+declare -- STDLIB_LOCK_PERMISSION_OCTAL=""
 declare -- STDLIB_LOCK_POLLING_INTERVAL=""
 declare -- STDLIB_LOCK_QUIET_FAILURE_BOOLEAN=""
 declare -- STDLIB_LOCK_WAIT_SECONDS=""
 declare -x STDLIB_LOCK_WORKSPACE=""
+declare -- STDLIB_LOCK_WORKSPACE_PERMISSION_OCTAL=""
 declare -- STDLIB_LOGGING_MESSAGE_PREFIX=""
 declare -- STDLIB_PIPEABLE_STDIN_SOURCE_SPECIFIER=""
 declare -- STDLIB_STDIN_PASSWORD_MASK_BOOLEAN=""
@@ -1443,6 +1445,7 @@ stdlib.io.lock.__workspace_cleanup ()
 stdlib.io.lock.acquire ()
 {
     builtin local lock_name="${1}";
+    builtin local lock_permissions="${STDLIB_LOCK_PERMISSION_OCTAL:-"0700"}";
     builtin local quiet_acquisition_failure_boolean="${STDLIB_LOCK_QUIET_FAILURE_BOOLEAN:-0}";
     builtin local polling_interval="${STDLIB_LOCK_POLLING_INTERVAL:-"0.1"}";
     builtin local time_elapsed;
@@ -1450,6 +1453,7 @@ stdlib.io.lock.acquire ()
     builtin local wait_time="${STDLIB_LOCK_WAIT_SECONDS:-30}";
     [[ "${#@}" -eq 1 ]] || builtin return 127;
     stdlib.var.query.is_valid_name "${lock_name}" || builtin return 126;
+    STDLIB_VAR_VALIDATE_DEFAULT_VAR="lock_permissions" stdlib.var.assert.is_valid_with stdlib.string.assert.is_octal_permission STDLIB_LOCK_PERMISSION_OCTAL || builtin return 126;
     STDLIB_VAR_VALIDATE_DEFAULT_VAR="polling_interval" stdlib.var.assert.is_valid_with stdlib.string.assert.is_decimal_positive STDLIB_LOCK_POLLING_INTERVAL || builtin return 126;
     STDLIB_VAR_VALIDATE_DEFAULT_VAR="quiet_acquisition_failure_boolean" stdlib.var.assert.is_valid_with stdlib.string.assert.is_boolean STDLIB_LOCK_QUIET_FAILURE_BOOLEAN || builtin return 126;
     STDLIB_VAR_VALIDATE_DEFAULT_VAR="wait_time" stdlib.var.assert.is_valid_with stdlib.string.assert.is_integer STDLIB_LOCK_WAIT_SECONDS || builtin return 126;
@@ -1471,6 +1475,7 @@ stdlib.io.lock.acquire ()
             builtin return 1;
         fi;
     done;
+    "${_STDLIB_BINARY_CHMOD}" "${lock_permissions}" "${STDLIB_LOCK_WORKSPACE}/${lock_name}";
     builtin return 0
 }
 
@@ -1505,7 +1510,9 @@ stdlib.io.lock.with ()
 stdlib.io.lock.workspace_allocate ()
 {
     builtin local successful_allocation_boolean=1;
+    builtin local lock_workspace_permissions="${STDLIB_LOCK_WORKSPACE_PERMISSION_OCTAL:-"0700"}";
     [[ "${#@}" -eq 0 ]] || builtin return 127;
+    STDLIB_VAR_VALIDATE_DEFAULT_VAR="lock_workspace_permissions" stdlib.var.assert.is_valid_with stdlib.string.assert.is_octal_permission STDLIB_LOCK_WORKSPACE_PERMISSION_OCTAL || builtin return 126;
     if stdlib.io.path.query.is_folder "${STDLIB_LOCK_WORKSPACE}"; then
         builtin return 0;
     fi;
@@ -1515,6 +1522,7 @@ stdlib.io.lock.workspace_allocate ()
         stdlib.logger.error "$(stdlib.__message.get LOCK_WORKSPACE_COULD_NOT_BE_ALLOCATED)";
         builtin return 1;
     fi;
+    "${_STDLIB_BINARY_CHMOD}" "${lock_workspace_permissions}" "${STDLIB_LOCK_WORKSPACE}";
     STDLIB_HANDLER_EXIT_FN_ARRAY+=("stdlib.io.lock.__workspace_cleanup")
 }
 
