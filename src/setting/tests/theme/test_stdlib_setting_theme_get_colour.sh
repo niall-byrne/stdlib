@@ -21,8 +21,9 @@ test_stdlib_setting_theme_get_colour__green___________correct_output() {
 }
 
 test_stdlib_setting_theme_get_colour__invalid_colour__logs_warning() {
+  TEST_EXPECTED="STDLIB_COLOUR_NULL"$'\n'
+
   _capture.stdout_raw stdlib.setting.theme.get_colour "NON_EXISTENT"
 
-  stdlib.logger.warning.mock.assert_called_once_with \
-    "1($(stdlib.__message.get COLOUR_NOT_DEFINED NON_EXISTENT))"
+  assert_output "${TEST_EXPECTED}"
 }
