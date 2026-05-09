@@ -20,6 +20,7 @@ setup() {
 }
 
 test_stdlib_security_path_query_has_group__invalid_args__@vary() {
+  local _STDLIB_BINARY_STAT="stat"
   local args=()
 
   stdlib.array.make.from_string args "|" "${TEST_ARGS_DEFINITION}"
@@ -33,18 +34,24 @@ test_stdlib_security_path_query_has_group__invalid_args__@vary() {
   test_stdlib_security_path_query_has_group__invalid_args__@vary
 
 test_stdlib_security_path_query_has_group__valid_args____calls_get_gid_as_expected() {
+  local _STDLIB_BINARY_STAT="stat"
+
   stdlib.security.path.query.has_group "/etc" "group1"
 
   stdlib.security.get.gid.mock.assert_called_once_with "1(group1)"
 }
 
 test_stdlib_security_path_query_has_group__valid_args____calls_stat_as_expected() {
+  local _STDLIB_BINARY_STAT="stat"
+
   stdlib.security.path.query.has_group "/etc" "group1"
 
   stat.mock.assert_called_once_with "1(-c) 2(%g) 3(/etc)"
 }
 
 test_stdlib_security_path_query_has_group__valid_args____non_matching_group___returns_status_code_1() {
+  local _STDLIB_BINARY_STAT="stat"
+
   stdlib.security.get.gid.mock.set.stdout 501
   stat.mock.set.stdout 1000
 
@@ -54,6 +61,8 @@ test_stdlib_security_path_query_has_group__valid_args____non_matching_group___re
 }
 
 test_stdlib_security_path_query_has_group__valid_args____matching_group_______returns_status_code_0() {
+  local _STDLIB_BINARY_STAT="stat"
+
   stdlib.security.get.gid.mock.set.stdout 501
   stat.mock.set.stdout 501
 
