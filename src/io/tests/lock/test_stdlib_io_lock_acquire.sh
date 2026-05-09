@@ -1,6 +1,7 @@
 #!/bin/bash
 
 setup() {
+  _mock.create chmod
   _mock.create mkdir
   _mock.create sleep
   _mock.create stdlib.logger.error
@@ -43,6 +44,7 @@ setup() {
 # shellcheck disable=SC2034
 test_stdlib_io_lock_acquire__valid_workspace____@vary() {
   local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_CHMOD="chmod"
   local _STDLIB_BINARY_MKDIR="mkdir"
   local args=()
 
@@ -57,10 +59,46 @@ test_stdlib_io_lock_acquire__valid_workspace____@vary() {
 @parametrize_with_args_and_status_codes \
   test_stdlib_io_lock_acquire__valid_workspace____@vary
 
+test_stdlib_io_lock_acquire__@vary__invalid_perms______returns_status_code_125() {
+  local STDLIB_LOCK_PERMISSION_OCTAL="aa"
+  local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_CHMOD="chmod"
+  local _STDLIB_BINARY_MKDIR="mkdir"
+
+  stdlib.io.lock.__workspace_is_valid.mock.set.rc "${TEST_IS_VALID_RC}"
+
+  _capture.rc stdlib.io.lock.acquire "lockname"
+
+  assert_rc "125"
+}
+
+@parametrize_with_workpace_allocation \
+  test_stdlib_io_lock_acquire__@vary__invalid_perms______returns_status_code_125
+
+# shellcheck disable=SC2034
+test_stdlib_io_lock_acquire__@vary__invalid_perms______logs_error_message() {
+  local STDLIB_LOCK_PERMISSION_OCTAL="aa"
+  local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_CHMOD="chmod"
+  local _STDLIB_BINARY_MKDIR="mkdir"
+
+  stdlib.io.lock.__workspace_is_valid.mock.set.rc "${TEST_IS_VALID_RC}"
+
+  stdlib.io.lock.acquire "lockname"
+
+  stdlib.logger.error.mock.assert_calls_are \
+    "1($(stdlib.__message.get IS_NOT_OCTAL_PERMISSION "${STDLIB_LOCK_PERMISSION_OCTAL}"))" \
+    "1($(stdlib.__message.get ARGUMENTS_KEYWORD_INVALID_DETAIL STDLIB_LOCK_PERMISSION_OCTAL))"
+}
+
+@parametrize_with_workpace_allocation \
+  test_stdlib_io_lock_acquire__@vary__invalid_perms______logs_error_message
+
 # shellcheck disable=SC2034
 test_stdlib_io_lock_acquire__@vary__invalid_interval___returns_status_code_125() {
   local STDLIB_LOCK_POLLING_INTERVAL="aa"
   local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_CHMOD="chmod"
   local _STDLIB_BINARY_MKDIR="mkdir"
 
   stdlib.io.lock.__workspace_is_valid.mock.set.rc "${TEST_IS_VALID_RC}"
@@ -77,6 +115,7 @@ test_stdlib_io_lock_acquire__@vary__invalid_interval___returns_status_code_125()
 test_stdlib_io_lock_acquire__@vary__invalid_interval___logs_error_message() {
   local STDLIB_LOCK_POLLING_INTERVAL="aa"
   local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_CHMOD="chmod"
   local _STDLIB_BINARY_MKDIR="mkdir"
 
   stdlib.io.lock.__workspace_is_valid.mock.set.rc "${TEST_IS_VALID_RC}"
@@ -95,6 +134,7 @@ test_stdlib_io_lock_acquire__@vary__invalid_interval___logs_error_message() {
 test_stdlib_io_lock_acquire__@vary__invalid_verbosity__returns_status_code_125() {
   local STDLIB_LOCK_QUIET_FAILURE_BOOLEAN="aa"
   local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_CHMOD="chmod"
   local _STDLIB_BINARY_MKDIR="mkdir"
 
   stdlib.io.lock.__workspace_is_valid.mock.set.rc "${TEST_IS_VALID_RC}"
@@ -111,6 +151,7 @@ test_stdlib_io_lock_acquire__@vary__invalid_verbosity__returns_status_code_125()
 test_stdlib_io_lock_acquire__@vary__invalid_verbosity__logs_error_message() {
   local STDLIB_LOCK_QUIET_FAILURE_BOOLEAN="aa"
   local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_CHMOD="chmod"
   local _STDLIB_BINARY_MKDIR="mkdir"
 
   stdlib.io.lock.__workspace_is_valid.mock.set.rc "${TEST_IS_VALID_RC}"
@@ -129,6 +170,7 @@ test_stdlib_io_lock_acquire__@vary__invalid_verbosity__logs_error_message() {
 test_stdlib_io_lock_acquire__@vary__invalid_wait_time__returns_status_code_125() {
   local STDLIB_LOCK_WAIT_SECONDS="aa"
   local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_CHMOD="chmod"
   local _STDLIB_BINARY_MKDIR="mkdir"
 
   stdlib.io.lock.__workspace_is_valid.mock.set.rc "${TEST_IS_VALID_RC}"
@@ -145,6 +187,7 @@ test_stdlib_io_lock_acquire__@vary__invalid_wait_time__returns_status_code_125()
 test_stdlib_io_lock_acquire__@vary__invalid_wait_time__logs_error_message() {
   local STDLIB_LOCK_WAIT_SECONDS="aa"
   local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_CHMOD="chmod"
   local _STDLIB_BINARY_MKDIR="mkdir"
 
   stdlib.io.lock.__workspace_is_valid.mock.set.rc "${TEST_IS_VALID_RC}"
@@ -162,6 +205,7 @@ test_stdlib_io_lock_acquire__@vary__invalid_wait_time__logs_error_message() {
 # shellcheck disable=SC2034
 test_stdlib_io_lock_acquire__valid_workspace____valid_args_________validates_workspace() {
   local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_CHMOD="chmod"
   local _STDLIB_BINARY_MKDIR="mkdir"
 
   stdlib.io.lock.__workspace_is_valid.mock.set.rc 0
@@ -178,6 +222,7 @@ test_stdlib_io_lock_acquire__valid_workspace____valid_args_________@vary__calls_
   local STDLIB_LOCK_WAIT_SECONDS=0
   local STDLIB_LOCK_WORKSPACE="mocked_workspace"
   local _STDLIB_BINARY_MKDIR="mkdir"
+  local _STDLIB_BINARY_CHMOD="chmod"
   local _STDLIB_BINARY_SLEEP="sleep"
 
   stdlib.io.lock.__workspace_is_valid.mock.set.rc 0
@@ -198,6 +243,7 @@ test_stdlib_io_lock_acquire__valid_workspace____valid_args_________time_exceed__
   local SECONDS=0
   local STDLIB_LOCK_WAIT_SECONDS=0
   local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_CHMOD="chmod"
   local _STDLIB_BINARY_MKDIR="mkdir"
   local _STDLIB_BINARY_SLEEP="sleep"
 
@@ -214,6 +260,7 @@ test_stdlib_io_lock_acquire__valid_workspace____valid_args_________time_exceed__
   local SECONDS=0
   local STDLIB_LOCK_WAIT_SECONDS=0
   local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_CHMOD="chmod"
   local _STDLIB_BINARY_MKDIR="mkdir"
   local _STDLIB_BINARY_SLEEP="sleep"
 
@@ -231,6 +278,7 @@ test_stdlib_io_lock_acquire__valid_workspace____valid_args_________time_exceed__
   local SECONDS=0
   local STDLIB_LOCK_WAIT_SECONDS=0
   local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_CHMOD="chmod"
   local _STDLIB_BINARY_MKDIR="mkdir"
   local _STDLIB_BINARY_SLEEP="sleep"
 
@@ -247,6 +295,7 @@ test_stdlib_io_lock_acquire__valid_workspace____valid_args_________time_exceed__
   local SECONDS=0
   local STDLIB_LOCK_WAIT_SECONDS=0
   local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_CHMOD="chmod"
   local _STDLIB_BINARY_MKDIR="mkdir"
   local _STDLIB_BINARY_SLEEP="sleep"
 
@@ -259,11 +308,30 @@ test_stdlib_io_lock_acquire__valid_workspace____valid_args_________time_exceed__
     "1($(stdlib.__message.get LOCK_COULD_NOT_BE_ACQUIRED "lockname"))"
 }
 
+test_stdlib_io_lock_acquire__valid_workspace____valid_args_________time_exceed______________no_call_to_chmod() {
+  local SECONDS=0
+  local STDLIB_LOCK_WAIT_SECONDS=0
+  local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_CHMOD="chmod"
+  local _STDLIB_BINARY_MKDIR="mkdir"
+  local _STDLIB_BINARY_SLEEP="sleep"
+
+  stdlib.io.lock.__workspace_is_valid.mock.set.rc 0
+  mkdir.mock.set.rc 1
+
+  stdlib.io.lock.acquire "lockname"
+
+  _capture.rc stdlib.io.lock.acquire "lockname"
+
+  chmod.mock.assert_not_called
+}
+
 # shellcheck disable=SC2034
 test_stdlib_io_lock_acquire__valid_workspace____valid_args_________time_exceed______________default_polling_____polls_at_correct_interval() {
   local SECONDS=0
   local STDLIB_LOCK_WAIT_SECONDS=0
   local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_CHMOD="chmod"
   local _STDLIB_BINARY_MKDIR="mkdir"
   local _STDLIB_BINARY_SLEEP="sleep"
 
@@ -282,6 +350,7 @@ test_stdlib_io_lock_acquire__valid_workspace____valid_args_________time_exceed__
   local STDLIB_LOCK_POLLING_INTERVAL="0.2"
   local STDLIB_LOCK_WAIT_SECONDS=0
   local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_CHMOD="chmod"
   local _STDLIB_BINARY_MKDIR="mkdir"
   local _STDLIB_BINARY_SLEEP="sleep"
 
@@ -299,6 +368,7 @@ test_stdlib_io_lock_acquire__valid_workspace____valid_args_________unbounded____
   local SECONDS=0
   local STDLIB_LOCK_WAIT_SECONDS=-1
   local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_CHMOD="chmod"
   local _STDLIB_BINARY_MKDIR="mkdir"
   local _STDLIB_BINARY_SLEEP="sleep"
   local expected_mock_calls=()
@@ -322,6 +392,7 @@ test_stdlib_io_lock_acquire__valid_workspace____valid_args_________unbounded____
   local STDLIB_LOCK_POLLING_INTERVAL="0.2"
   local STDLIB_LOCK_WAIT_SECONDS=-1
   local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_CHMOD="chmod"
   local _STDLIB_BINARY_MKDIR="mkdir"
   local _STDLIB_BINARY_SLEEP="sleep"
 
@@ -342,6 +413,7 @@ test_stdlib_io_lock_acquire__valid_workspace____valid_args_________unbounded____
 test_stdlib_io_lock_acquire__valid_workspace____valid_args_________acquired_________________returns_status_code__0() {
   local STDLIB_LOCK_WAIT_SECONDS=10
   local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_CHMOD="chmod"
   local _STDLIB_BINARY_MKDIR="mkdir"
   local _STDLIB_BINARY_SLEEP="sleep"
 
@@ -357,6 +429,7 @@ test_stdlib_io_lock_acquire__valid_workspace____valid_args_________acquired_____
 test_stdlib_io_lock_acquire__valid_workspace____valid_args_________acquired_________________default_polling_____polls_at_correct_interval() {
   local STDLIB_LOCK_WAIT_SECONDS=10
   local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_CHMOD="chmod"
   local _STDLIB_BINARY_MKDIR="mkdir"
   local _STDLIB_BINARY_SLEEP="sleep"
 
@@ -375,6 +448,7 @@ test_stdlib_io_lock_acquire__valid_workspace____valid_args_________acquired_____
   local STDLIB_LOCK_POLLING_INTERVAL="0.2"
   local STDLIB_LOCK_WAIT_SECONDS=10
   local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_CHMOD="chmod"
   local _STDLIB_BINARY_MKDIR="mkdir"
   local _STDLIB_BINARY_SLEEP="sleep"
 
@@ -388,10 +462,49 @@ test_stdlib_io_lock_acquire__valid_workspace____valid_args_________acquired_____
     "1(0.2)"
 }
 
+test_stdlib_io_lock_acquire__valid_workspace____valid_args_________acquired_________________perms_default_______calls_chmod_with_correct_args() {
+  local SECONDS=0
+  local STDLIB_LOCK_WAIT_SECONDS=10
+  local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_MKDIR="mkdir"
+  local _STDLIB_BINARY_CHMOD="chmod"
+  local _STDLIB_BINARY_SLEEP="sleep"
+
+  stdlib.io.lock.__workspace_is_valid.mock.set.rc 0
+  mkdir.mock.set.side_effects "return 1" "return 1" "return 0"
+  mkdir.mock.set.rc 0
+
+  _capture.rc stdlib.io.lock.acquire "lockname" > /dev/null
+
+  chmod.mock.assert_called_once_with \
+    "1(0700) 2(${STDLIB_LOCK_WORKSPACE}/lockname)"
+}
+
+# shellcheck disable=SC2034
+test_stdlib_io_lock_acquire__valid_workspace____valid_args_________acquired_________________perms_custom________calls_chmod_with_correct_args() {
+  local SECONDS=0
+  local STDLIB_LOCK_PERMISSION_OCTAL="0770"
+  local STDLIB_LOCK_WAIT_SECONDS=10
+  local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_MKDIR="mkdir"
+  local _STDLIB_BINARY_CHMOD="chmod"
+  local _STDLIB_BINARY_SLEEP="sleep"
+
+  stdlib.io.lock.__workspace_is_valid.mock.set.rc 0
+  mkdir.mock.set.side_effects "return 1" "return 1" "return 0"
+  mkdir.mock.set.rc 0
+
+  _capture.rc stdlib.io.lock.acquire "lockname" > /dev/null
+
+  chmod.mock.assert_called_once_with \
+    "1(${STDLIB_LOCK_PERMISSION_OCTAL}) 2(${STDLIB_LOCK_WORKSPACE}/lockname)"
+}
+
 # shellcheck disable=SC2034
 test_stdlib_io_lock_acquire__valid_workspace____valid_args_________acquired_________________registers_cleanup_function() {
   local STDLIB_LOCK_WAIT_SECONDS=10
   local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_CHMOD="chmod"
   local _STDLIB_BINARY_MKDIR="mkdir"
   local _STDLIB_BINARY_SLEEP="sleep"
   local expected_array=("stdlib.io.lock.__workspace_cleanup")
@@ -409,6 +522,7 @@ test_stdlib_io_lock_acquire__valid_workspace____valid_args_________acquired_____
 # shellcheck disable=SC2034
 test_stdlib_io_lock_acquire__invalid_workspace__valid_args_________validates_workspace() {
   local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_CHMOD="chmod"
   local _STDLIB_BINARY_MKDIR="mkdir"
 
   stdlib.io.lock.__workspace_is_valid.mock.set.rc 1
@@ -422,6 +536,7 @@ test_stdlib_io_lock_acquire__invalid_workspace__valid_args_________validates_wor
 # shellcheck disable=SC2034
 test_stdlib_io_lock_acquire__invalid_workspace__valid_args_________returns_status_code_123() {
   local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_CHMOD="chmod"
   local _STDLIB_BINARY_MKDIR="mkdir"
 
   stdlib.io.lock.__workspace_is_valid.mock.set.rc 1
@@ -434,6 +549,7 @@ test_stdlib_io_lock_acquire__invalid_workspace__valid_args_________returns_statu
 # shellcheck disable=SC2034
 test_stdlib_io_lock_acquire__invalid_workspace__valid_args_________logs_error_message() {
   local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_CHMOD="chmod"
   local _STDLIB_BINARY_MKDIR="mkdir"
 
   stdlib.io.lock.__workspace_is_valid.mock.set.rc 1
@@ -442,4 +558,17 @@ test_stdlib_io_lock_acquire__invalid_workspace__valid_args_________logs_error_me
 
   stdlib.logger.error.mock.assert_called_once_with \
     "1($(stdlib.__message.get VAR_VALUE_INVALID_RESERVED_DETAIL STDLIB_LOCK_WORKSPACE))"
+}
+
+# shellcheck disable=SC2034
+test_stdlib_io_lock_acquire__invalid_workspace__valid_args_________no_call_to_chmod() {
+  local STDLIB_LOCK_WORKSPACE="mocked_workspace"
+  local _STDLIB_BINARY_CHMOD="chmod"
+  local _STDLIB_BINARY_MKDIR="mkdir"
+
+  stdlib.io.lock.__workspace_is_valid.mock.set.rc 1
+
+  _capture.rc stdlib.io.lock.acquire "lockname" > /dev/null
+
+  chmod.mock.assert_not_called
 }
