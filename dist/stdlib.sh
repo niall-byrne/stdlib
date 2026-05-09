@@ -65,6 +65,7 @@ declare -- STDLIB_COLOUR_LIGHT_RED=""
 declare -- STDLIB_COLOUR_LIGHT_WHITE=""
 declare -- STDLIB_COLOUR_LIGHT_YELLOW=""
 declare -- STDLIB_COLOUR_NC=""
+declare -- STDLIB_COLOUR_NULL=""
 declare -- STDLIB_COLOUR_PURPLE=""
 declare -- STDLIB_COLOUR_RED=""
 declare -- STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN=""
@@ -2122,8 +2123,8 @@ stdlib.setting.theme.get_colour ()
 {
     builtin local theme_colour;
     theme_colour="STDLIB_COLOUR_${1}";
-    if [[ -z "${!theme_colour+set}" ]]; then
-        stdlib.logger.warning "$(stdlib.__message.get COLOUR_NOT_DEFINED "${1}")";
+    if ! stdlib.var.query.is_set "${theme_colour}"; then
+        theme_colour="STDLIB_COLOUR_NULL";
     fi;
     builtin echo "${theme_colour}"
 }
