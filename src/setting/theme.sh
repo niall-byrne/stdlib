@@ -4,6 +4,9 @@
 
 builtin set -eo pipefail
 
+# shellcheck disable=SC2034
+STDLIB_COLOUR_NULL=""
+
 # @description Gets the name of a colour variable from the theme.
 # @arg $1 string The name of the colour.
 # @exitcode 0 If the operation succeeded.
@@ -14,8 +17,8 @@ stdlib.setting.theme.get_colour() {
 
   theme_colour="STDLIB_COLOUR_${1}" # noqa
 
-  if [[ -z "${!theme_colour+set}" ]]; then
-    stdlib.logger.warning "$(stdlib.__message.get COLOUR_NOT_DEFINED "${1}")"
+  if ! stdlib.var.query.is_set "${theme_colour}"; then
+    theme_colour="STDLIB_COLOUR_NULL"
   fi
 
   builtin echo "${theme_colour}"
