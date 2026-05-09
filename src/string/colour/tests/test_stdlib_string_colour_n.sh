@@ -1,9 +1,5 @@
 #!/bin/bash
 
-setup() {
-  _mock.create stdlib.logger.warning
-}
-
 @parametrize_with_arg_combos() {
 
   @parametrize \
@@ -66,11 +62,10 @@ test_stdlib_colour_n__empty_string____green____________________correct_output() 
   assert_equals "${TEST_OUTPUT}" "${TEST_EXPECTED}"
 }
 
-test_stdlib_colour_n__valid_args______invalid_colour___________logs_warning() {
+test_stdlib_colour_n__valid_args______invalid_colour___________correct_output() {
   TEST_INPUT="test string"
 
   _capture.stdout_raw stdlib.string.colour_n "NON_EXISTENT" "${TEST_INPUT}"
 
-  stdlib.logger.warning.mock.assert_called_once_with \
-    "1($(stdlib.__message.get COLOUR_NOT_DEFINED NON_EXISTENT))"
+  assert_equals "${TEST_OUTPUT}" "${TEST_INPUT}"
 }
