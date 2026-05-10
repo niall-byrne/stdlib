@@ -60,63 +60,63 @@ class TestProjectContext(unittest.TestCase):
 
 class TestLineAuditor(unittest.TestCase):
 
-    def test__sanitize__redirection_syntax__returns_line_without_redirections(self):
+    def test_sanitize__redirection_syntax__returns_line_without_redirections(self):
         auditor = LineAuditor("ls > file; cat < input")
 
         result = auditor._sanitize()
 
         self.assertEqual(result, "ls   cat  ")
 
-    def test__sanitize__trailing_comment__returns_line_without_comments(self):
+    def test_sanitize__trailing_comment__returns_line_without_comments(self):
         auditor = LineAuditor("ls # comment")
 
         result = auditor._sanitize()
 
         self.assertEqual(result, "ls")
 
-    def test__sanitize__arithmetic_block__returns_empty_string(self):
+    def test_sanitize__arithmetic_block__returns_empty_string(self):
         auditor = LineAuditor("(( i++ ))")
 
         result = auditor._sanitize()
 
         self.assertEqual(result, "")
 
-    def test__sanitize__arithmetic_variable_expansion__returns_sanitized_expansion(self):
+    def test_sanitize__arithmetic_variable_expansion__returns_sanitized_expansion(self):
         auditor = LineAuditor("ls $(( 1+1 ))")
 
         result = auditor._sanitize()
 
         self.assertEqual(result, "ls $  1+1  ")
 
-    def test__sanitize__case_pattern__returns_empty_string(self):
+    def test_sanitize__case_pattern__returns_empty_string(self):
         auditor = LineAuditor("  pattern)")
 
         result = auditor._sanitize()
 
         self.assertEqual(result, "")
 
-    def test__sanitize__quoted_strings__returns_line_with_empty_strings(self):
+    def test_sanitize__quoted_strings__returns_line_with_empty_strings(self):
         auditor = LineAuditor('echo "hello" \'world\'')
 
         result = auditor._sanitize()
 
         self.assertEqual(result, "echo    ")
 
-    def test__split_segments__multiple_delimiters__returns_list_of_segments(self):
+    def test_split_segments__multiple_delimiters__returns_list_of_segments(self):
         auditor = LineAuditor("ls | grep foo; echo hi & wait")
 
         result = auditor._split_segments(auditor.line)
 
         self.assertEqual(result, ["ls ", " grep foo", " echo hi ", " wait"])
 
-    def test__split_segments__nested_variable_expansion__returns_undivided_segment(self):
+    def test_split_segments__nested_variable_expansion__returns_undivided_segment(self):
         auditor = LineAuditor("echo ${VAR:-default}")
 
         result = auditor._split_segments(auditor.line)
 
         self.assertEqual(result, ["echo ${VAR:-default}"])
 
-    def test__clean__shell_special_characters__returns_clean_command_string(self):
+    def test_clean__shell_special_characters__returns_clean_command_string(self):
         auditor = LineAuditor("")
 
         self.assertEqual(auditor._clean("ls;"), "ls")
@@ -157,42 +157,42 @@ class TestFileAuditor(unittest.TestCase):
         self.context.functions = {"my_func"}
         self.context.defined_binaries = {"cat"}
 
-    def test__update_scope__local_declaration__adds_variable_to_local_scope(self):
+    def test_update_scope__local_declaration__adds_variable_to_local_scope(self):
         auditor = FileAuditor("dummy.sh", self.context)
 
         auditor._update_scope("builtin local var1")
 
         self.assertIn("var1", auditor.local_scope)
 
-    def test__update_scope__variable_assignment__adds_variable_to_local_scope(self):
+    def test_update_scope__variable_assignment__adds_variable_to_local_scope(self):
         auditor = FileAuditor("dummy.sh", self.context)
 
         auditor._update_scope("var2=value")
 
         self.assertIn("var2", auditor.local_scope)
 
-    def test__is_exempt__shell_keyword__returns_true(self):
+    def test_is_exempt__shell_keyword__returns_true(self):
         auditor = FileAuditor("dummy.sh", self.context)
 
         result = auditor._is_exempt("if")
 
         self.assertTrue(result)
 
-    def test__is_exempt__bash_builtin__returns_true(self):
+    def test_is_exempt__bash_builtin__returns_true(self):
         auditor = FileAuditor("dummy.sh", self.context)
 
         result = auditor._is_exempt("echo")
 
         self.assertTrue(result)
 
-    def test__is_exempt__project_defined_function__returns_true(self):
+    def test_is_exempt__project_defined_function__returns_true(self):
         auditor = FileAuditor("dummy.sh", self.context)
 
         result = auditor._is_exempt("my_func")
 
         self.assertTrue(result)
 
-    def test__is_exempt__local_variable__returns_true(self):
+    def test_is_exempt__local_variable__returns_true(self):
         auditor = FileAuditor("dummy.sh", self.context)
         auditor.local_scope.add("local_var")
 
@@ -200,63 +200,63 @@ class TestFileAuditor(unittest.TestCase):
 
         self.assertTrue(result)
 
-    def test__is_exempt__stdlib_function_prefix__returns_true(self):
+    def test_is_exempt__stdlib_function_prefix__returns_true(self):
         auditor = FileAuditor("dummy.sh", self.context)
 
         result = auditor._is_exempt("stdlib.foo")
 
         self.assertTrue(result)
 
-    def test__is_exempt__numeric_literal__returns_true(self):
+    def test_is_exempt__numeric_literal__returns_true(self):
         auditor = FileAuditor("dummy.sh", self.context)
 
         result = auditor._is_exempt("123")
 
         self.assertTrue(result)
 
-    def test__is_exempt__arithmetic_operator_suffix__returns_true(self):
+    def test_is_exempt__arithmetic_operator_suffix__returns_true(self):
         auditor = FileAuditor("dummy.sh", self.context)
 
         result = auditor._is_exempt("foo++")
 
         self.assertTrue(result)
 
-    def test__is_exempt__disallowed_shell_characters__returns_true(self):
+    def test_is_exempt__disallowed_shell_characters__returns_true(self):
         auditor = FileAuditor("dummy.sh", self.context)
 
         result = auditor._is_exempt("[foo]")
 
         self.assertTrue(result)
 
-    def test__is_exempt__unregistered_external_binary__returns_false(self):
+    def test_is_exempt__unregistered_external_binary__returns_false(self):
         auditor = FileAuditor("dummy.sh", self.context)
 
         result = auditor._is_exempt("ls")
 
         self.assertFalse(result)
 
-    def test__check__unauthorized_absolute_path__adds_violation(self):
+    def test_check__unauthorized_absolute_path__adds_violation(self):
         auditor = FileAuditor("dummy.sh", self.context)
 
         auditor._check("/usr/bin/ls", 10)
 
         self.assertIn("Line 10: Direct call to absolute path '/usr/bin/ls'.", auditor.violations)
 
-    def test__check__exempted_absolute_path__adds_no_violation(self):
+    def test_check__exempted_absolute_path__adds_no_violation(self):
         auditor = FileAuditor("dummy.sh", self.context)
 
         auditor._check("/dev/null", 11)
 
         self.assertEqual(len(auditor.violations), 0)
 
-    def test__check__defined_binary__adds_violation(self):
+    def test_check__defined_binary__adds_violation(self):
         auditor = FileAuditor("dummy.sh", self.context)
 
         auditor._check("cat", 12)
 
         self.assertIn("Line 12: Direct call to defined binary 'cat'. Use _STDLIB_BINARY_CAT instead.", auditor.violations)
 
-    def test__check__unknown_binary__adds_violation(self):
+    def test_check__unknown_binary__adds_violation(self):
         auditor = FileAuditor("dummy.sh", self.context)
 
         auditor._check("ls", 13)
