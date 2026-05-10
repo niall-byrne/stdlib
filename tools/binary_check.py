@@ -7,33 +7,31 @@ import subprocess
 import sys
 from typing import Dict, List, Set
 
-SOURCE_ROOT = "src"
-BINARY_DEFINITIONS_FILE = os.path.join(SOURCE_ROOT, "binary.sh")
-NO_QA_MARKER = "# noqa"
-
-FUNCTION_DEFINITION_PATTERN = r"^(([a-zA-Z0-9._-]+|\$\{1\}\.[a-zA-Z0-9._-]+))\s*\(\)\s*\{"
-BINARY_DEFINITION_PATTERN = r'_STDLIB_BINARY_[A-Z0-9_]+\s*=\s*"\$\(builtin command -v ([a-z0-9_-]+)\)"'
-LOCAL_DECLARATION_PATTERN = r'^\s*builtin local (?:-[a-zA-Z]+ )?([a-zA-Z0-9_]+)'
-ASSIGNMENT_PATTERN = r'^\s*([a-zA-Z0-9_]+)='
-NUMERIC_PATTERN = r'^[0-9]+$'
+# Configuration Constants
+ABSOLUTE_PATH_EXEMPTIONS = ("/dev/",)
 ALPHANUMERIC_COMMAND_PATTERN = r'^[a-z0-9_-]+$'
-CASE_PATTERN_PATTERN = r'^\s*[a-z0-9_-]+\)'
-
-SHELL_KEYWORDS = {
-    "if", "then", "else", "elif", "fi", "for", "while", "do", "done",
-    "case", "esac", "function", "in", "!", "{", "}"
-}
-COMMAND_START_KEYWORDS = {"if", "then", "else", "elif", "do", "while", "until", "!"}
-SHELL_DELIMITERS = "|&;$(<{"
-
 ALLOWED_PREFIXES = ("stdlib.", "_stdlib", "_testing.", "docs.", "__", "_STDLIB_BINARY_", "$", "-")
 ALLOWED_SUFFIXES = ("--", "++")
-DISALLOWED_CHARS = "[]{} "
-ABSOLUTE_PATH_EXEMPTIONS = ("/dev/",)
+ASSIGNMENT_PATTERN = r'^\s*([a-zA-Z0-9_]+)='
+BINARY_DEFINITION_PATTERN = r'_STDLIB_BINARY_[A-Z0-9_]+\s*=\s*"\$\(builtin command -v ([a-z0-9_-]+)\)"'
+BINARY_DEFINITIONS_FILE = os.path.join("src", "binary.sh")
+CASE_PATTERN_PATTERN = r'^\s*[a-z0-9_-]+\)'
 COMMAND_EXEMPTIONS = {
     "eval_gettext", "assert_equals", "assert_not_equals", "assert_status_code",
     "assert_matches", "assert_not_matches", "assert_null", "assert_not_null", "fail"
 }
+COMMAND_START_KEYWORDS = {"if", "then", "else", "elif", "do", "while", "until", "!"}
+DISALLOWED_CHARS = "[]{} "
+FUNCTION_DEFINITION_PATTERN = r"^(([a-zA-Z0-9._-]+|\$\{1\}\.[a-zA-Z0-9._-]+))\s*\(\)\s*\{"
+LOCAL_DECLARATION_PATTERN = r'^\s*builtin local (?:-[a-zA-Z]+ )?([a-zA-Z0-9_]+)'
+NO_QA_MARKER = "# noqa"
+NUMERIC_PATTERN = r'^[0-9]+$'
+SHELL_DELIMITERS = "|&;$(<{"
+SHELL_KEYWORDS = {
+    "if", "then", "else", "elif", "fi", "for", "while", "do", "done",
+    "case", "esac", "function", "in", "!", "{", "}"
+}
+SOURCE_ROOT = "src"
 
 
 class ProjectContext:
