@@ -8,14 +8,8 @@ import sys
 from typing import Dict, List, Set
 
 # Configuration Constants
-EXEMPT_ABSOLUTE_PATH_PREFIXES = ("/dev/",)
-EXEMPT_COMMAND_NAMES = {
-    "eval_gettext", "assert_equals", "assert_not_equals", "assert_status_code",
-    "assert_matches", "assert_not_matches", "assert_null", "assert_not_null", "fail"
-}
-EXEMPT_COMMAND_PREFIXES = ("stdlib.", "_stdlib", "_testing.", "docs.", "__", "_STDLIB_BINARY_", "$", "-")
-EXEMPT_COMMAND_SUFFIXES = ("--", "++")
 MARKER_NO_QA = "# noqa"
+PATH_ABSOLUTE_EXEMPTIONS = ("/dev/",)
 PATH_BINARY_DEFINITIONS_FILE = os.path.join("src", "binary.sh")
 PATH_SOURCE_ROOT = "src"
 REGEX_ALPHANUMERIC_COMMAND = r'^[a-z0-9_-]+$'
@@ -28,6 +22,12 @@ REGEX_NUMERIC_VALUE = r'^[0-9]+$'
 SHELL_COMMAND_DELIMITERS = "|&;$(<{"
 SHELL_COMMAND_START_KEYWORDS = {"if", "then", "else", "elif", "do", "while", "until", "!"}
 SHELL_DISALLOWED_CHARS = "[]{} "
+SHELL_EXEMPT_COMMAND_NAMES = {
+    "eval_gettext", "assert_equals", "assert_not_equals", "assert_status_code",
+    "assert_matches", "assert_not_matches", "assert_null", "assert_not_null", "fail"
+}
+SHELL_EXEMPT_COMMAND_PREFIXES = ("stdlib.", "_stdlib", "_testing.", "docs.", "__", "_STDLIB_BINARY_", "$", "-")
+SHELL_EXEMPT_COMMAND_SUFFIXES = ("--", "++")
 SHELL_KEYWORDS = {
     "if", "then", "else", "elif", "fi", "for", "while", "do", "done",
     "case", "esac", "function", "in", "!", "{", "}"
@@ -171,7 +171,7 @@ class FileAuditor:
             return
 
         if cmd.startswith("/"):
-            if not any(cmd.startswith(p) for p in EXEMPT_ABSOLUTE_PATH_PREFIXES):
+            if not any(cmd.startswith(p) for p in PATH_ABSOLUTE_EXEMPTIONS):
                 self.violations.append(f"Line {line_no}: Direct call to absolute path '{cmd}'.")
             return
 
@@ -194,15 +194,15 @@ class FileAuditor:
             self.context.builtins,
             self.local_scope,
             self.context.functions,
-            EXEMPT_COMMAND_NAMES
+            SHELL_EXEMPT_COMMAND_NAMES
         ]
         if any(cmd in source for source in exemption_sources):
             return True
 
-        if cmd.startswith(EXEMPT_COMMAND_PREFIXES) or re.match(REGEX_NUMERIC_VALUE, cmd):
+        if cmd.startswith(SHELL_EXEMPT_COMMAND_PREFIXES) or re.match(REGEX_NUMERIC_VALUE, cmd):
             return True
 
-        if cmd.endswith(EXEMPT_COMMAND_SUFFIXES) or any(c in cmd for c in SHELL_DISALLOWED_CHARS):
+        if cmd.endswith(SHELL_EXEMPT_COMMAND_SUFFIXES) or any(c in cmd for c in SHELL_DISALLOWED_CHARS):
             return True
 
         return False
