@@ -191,12 +191,13 @@ repos:
         args: [--multiline]
         language: pygrep
         files: "^src/.+\\.snippet$"
-      - id: source-files-binaries
-        name: ensure source files don't directly reference restricted binary commands
-        entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$).*((?<=\\s|\\()|(?<=^))(cat|chmod|chown|cut|grep|head|mkdir|mktemp|rm|rmdir|sed|sort|stat|tail|touch|tput|tr)((\\s|\\)).*$|$)"
-        language: pygrep
+      - id: source-files-binaries-audit
+        name: ensure source files don't directly reference binary commands
+        entry: python tools/binary_check.py
+        language: system
         files: "^(src/.+\\.(sh|snippet)|dist/docs.sh)$"
         exclude: "^((.+/)*tests/.+\\.sh)$"
+        pass_filenames: true
       - id: source-files-function-names
         name: ensure source files use the correct function names
         entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$)(?!\\s*(\\$\\{1\\}|\\$\\{[a-z_]+\\}))(?!\\s*(stdlib)(?!.*\\._[^_].+)\\.[a-z_\\.]+).*\\(\\) {$"
@@ -248,12 +249,6 @@ repos:
         language: pygrep
         files: "^src/testing/.+\\.(sh|snippet)$"
         exclude: "^((.+/)*tests/.+\\.sh)$"
-      - id: test-files-binaries
-        name: ensure test files don't directly reference restricted binary commands
-        entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$).*((?<=\\s|\\()|(?<=^))(cat|chmod|chown|cut|grep|head|mkdir|mktemp|rm|rmdir|sed|sort|stat|tail|touch|tput|tr)((\\s|\\)).*$|$)"
-        language: pygrep
-        files: "^((.+/)*tests/.+\\.sh)$"
-        exclude: "^.*/test_.+\\.sh$"
       - id: test-files-headers
         name: ensure test files have correct headers
         entry: "\\A(?!#!/bin/bash\n).+\\Z"
