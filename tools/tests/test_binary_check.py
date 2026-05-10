@@ -1,7 +1,6 @@
 import json
 import os
 import sys
-import tempfile
 import unittest
 from io import StringIO
 from unittest.mock import patch, mock_open, MagicMock
@@ -156,44 +155,45 @@ class TestFileAuditor(unittest.TestCase):
         self.context.builtins = {"echo", "builtin", "local"}
         self.context.functions = {"my_func"}
         self.context.defined_binaries = {"cat"}
+        self.assets_dir = os.path.join(os.path.dirname(__file__), "assets", "binary_check")
 
     def test_update_scope__local_declaration__adds_variable_to_local_scope(self):
-        auditor = FileAuditor("dummy.sh", self.context)
+        auditor = FileAuditor("mock.sh", self.context)
 
         auditor._update_scope("builtin local var1")
 
         self.assertIn("var1", auditor.local_scope)
 
     def test_update_scope__variable_assignment__adds_variable_to_local_scope(self):
-        auditor = FileAuditor("dummy.sh", self.context)
+        auditor = FileAuditor("mock.sh", self.context)
 
         auditor._update_scope("var2=value")
 
         self.assertIn("var2", auditor.local_scope)
 
     def test_is_exempt__shell_keyword__returns_true(self):
-        auditor = FileAuditor("dummy.sh", self.context)
+        auditor = FileAuditor("mock.sh", self.context)
 
         result = auditor._is_exempt("if")
 
         self.assertTrue(result)
 
     def test_is_exempt__bash_builtin__returns_true(self):
-        auditor = FileAuditor("dummy.sh", self.context)
+        auditor = FileAuditor("mock.sh", self.context)
 
         result = auditor._is_exempt("echo")
 
         self.assertTrue(result)
 
     def test_is_exempt__project_defined_function__returns_true(self):
-        auditor = FileAuditor("dummy.sh", self.context)
+        auditor = FileAuditor("mock.sh", self.context)
 
         result = auditor._is_exempt("my_func")
 
         self.assertTrue(result)
 
     def test_is_exempt__local_variable__returns_true(self):
-        auditor = FileAuditor("dummy.sh", self.context)
+        auditor = FileAuditor("mock.sh", self.context)
         auditor.local_scope.add("local_var")
 
         result = auditor._is_exempt("local_var")
@@ -201,90 +201,78 @@ class TestFileAuditor(unittest.TestCase):
         self.assertTrue(result)
 
     def test_is_exempt__stdlib_function_prefix__returns_true(self):
-        auditor = FileAuditor("dummy.sh", self.context)
+        auditor = FileAuditor("mock.sh", self.context)
 
         result = auditor._is_exempt("stdlib.foo")
 
         self.assertTrue(result)
 
     def test_is_exempt__numeric_literal__returns_true(self):
-        auditor = FileAuditor("dummy.sh", self.context)
+        auditor = FileAuditor("mock.sh", self.context)
 
         result = auditor._is_exempt("123")
 
         self.assertTrue(result)
 
     def test_is_exempt__arithmetic_operator_suffix__returns_true(self):
-        auditor = FileAuditor("dummy.sh", self.context)
+        auditor = FileAuditor("mock.sh", self.context)
 
         result = auditor._is_exempt("foo++")
 
         self.assertTrue(result)
 
     def test_is_exempt__disallowed_shell_characters__returns_true(self):
-        auditor = FileAuditor("dummy.sh", self.context)
+        auditor = FileAuditor("mock.sh", self.context)
 
         result = auditor._is_exempt("[foo]")
 
         self.assertTrue(result)
 
     def test_is_exempt__unregistered_external_binary__returns_false(self):
-        auditor = FileAuditor("dummy.sh", self.context)
+        auditor = FileAuditor("mock.sh", self.context)
 
         result = auditor._is_exempt("ls")
 
         self.assertFalse(result)
 
     def test_check__unauthorized_absolute_path__adds_violation(self):
-        auditor = FileAuditor("dummy.sh", self.context)
+        auditor = FileAuditor("mock.sh", self.context)
 
         auditor._check("/usr/bin/ls", 10)
 
         self.assertIn("Line 10: Direct call to absolute path '/usr/bin/ls'.", auditor.violations)
 
     def test_check__exempted_absolute_path__adds_no_violation(self):
-        auditor = FileAuditor("dummy.sh", self.context)
+        auditor = FileAuditor("mock.sh", self.context)
 
         auditor._check("/dev/null", 11)
 
         self.assertEqual(len(auditor.violations), 0)
 
     def test_check__defined_binary__adds_violation(self):
-        auditor = FileAuditor("dummy.sh", self.context)
+        auditor = FileAuditor("mock.sh", self.context)
 
         auditor._check("cat", 12)
 
         self.assertIn("Line 12: Direct call to defined binary 'cat'. Use _STDLIB_BINARY_CAT instead.", auditor.violations)
 
     def test_check__unknown_binary__adds_violation(self):
-        auditor = FileAuditor("dummy.sh", self.context)
+        auditor = FileAuditor("mock.sh", self.context)
 
         auditor._check("ls", 13)
 
         self.assertIn("Line 13: Direct call to unknown binary 'ls'. Define it in src/binary.sh first.", auditor.violations)
 
     def test_audit__returns_expected_violations(self):
-        content = """# comment
-ls -l
-cat file
-# noqa
-grep foo
-my_func
-"""
-        with tempfile.NamedTemporaryFile(mode="w", suffix=".sh", delete=False) as f:
-            f.write(content)
-            temp_path = f.name
+        mock_sh_path = os.path.join(self.assets_dir, "mock.sh")
+        auditor = FileAuditor(mock_sh_path, self.context)
 
-        try:
-            auditor = FileAuditor(temp_path, self.context)
-            violations = auditor.audit()
+        violations = auditor.audit()
 
-            self.assertEqual(len(violations), 3)
-            self.assertIn("Line 2: Direct call to unknown binary 'ls'", violations[0])
-            self.assertIn("Line 3: Direct call to defined binary 'cat'", violations[1])
-            self.assertIn("Line 5: Direct call to unknown binary 'grep'", violations[2])
-        finally:
-            os.remove(temp_path)
+        self.assertEqual(len(violations), 3)
+        self.assertIn("Line 2: Direct call to unknown binary 'ls'", violations[0])
+        self.assertIn("Line 3: Direct call to defined binary 'cat'", violations[1])
+        self.assertIn("Line 5: Direct call to unknown binary 'grep'", violations[2])
 
 
 if __name__ == "__main__":
