@@ -1,5 +1,6 @@
 import json
 import os
+import subprocess
 import sys
 import unittest
 from io import StringIO
@@ -55,6 +56,41 @@ class TestProjectContext(unittest.TestCase):
 
         self.assertIn("cat", context.defined_binaries)
         self.assertIn("grep", context.defined_binaries)
+
+    @patch("subprocess.run")
+    def test_get_bash_builtins__subprocess_error__returns_empty_set(self, mock_run):
+        mock_run.side_effect = subprocess.CalledProcessError(1, "cmd")
+        mock_walk_patch = patch("os.walk", return_value=[])
+        mock_exists_patch = patch("os.path.exists", return_value=False)
+        mock_open_patch = patch("builtins.open", mock_open(read_data=""))
+
+        with mock_walk_patch, mock_exists_patch, mock_open_patch:
+            context = ProjectContext()
+
+        self.assertEqual(context.builtins, set())
+
+    @patch("os.walk")
+    def test_get_project_functions__skip_tests_directories__excludes_test_functions(self, mock_walk):
+        mock_walk.return_value = [
+            ("src/core", [], ["func.sh"]),
+            ("src/core/tests", [], ["test_func.sh"]),
+        ]
+
+        # We need to handle multiple open calls. For simplicity, we can mock open to return
+        # a function definition only for the non-test file.
+        def mocked_open(path, *args, **kwargs):
+            if "tests" in path:
+                return mock_open(read_data="test_func() { :; }")()
+            return mock_open(read_data="real_func() { :; }")()
+
+        mock_run_patch = patch("subprocess.run", return_value=MagicMock(stdout=""))
+        mock_exists_patch = patch("os.path.exists", return_value=False)
+
+        with mock_run_patch, mock_exists_patch, patch("builtins.open", side_effect=mocked_open):
+            context = ProjectContext()
+
+        self.assertIn("real_func", context.functions)
+        self.assertNotIn("test_func", context.functions)
 
 
 class TestLineAuditor(unittest.TestCase):
@@ -203,9 +239,14 @@ class TestFileAuditor(unittest.TestCase):
     def test_is_exempt__stdlib_function_prefix__returns_true(self):
         auditor = FileAuditor("mock.sh", self.context)
 
-        result = auditor._is_exempt("stdlib.foo")
-
-        self.assertTrue(result)
+        self.assertTrue(auditor._is_exempt("stdlib.foo"))
+        self.assertTrue(auditor._is_exempt("_stdlib_foo"))
+        self.assertTrue(auditor._is_exempt("_testing.foo"))
+        self.assertTrue(auditor._is_exempt("docs.foo"))
+        self.assertTrue(auditor._is_exempt("__foo"))
+        self.assertTrue(auditor._is_exempt("_STDLIB_BINARY_FOO"))
+        self.assertTrue(auditor._is_exempt("$FOO"))
+        self.assertTrue(auditor._is_exempt("-foo"))
 
     def test_is_exempt__numeric_literal__returns_true(self):
         auditor = FileAuditor("mock.sh", self.context)
@@ -217,9 +258,8 @@ class TestFileAuditor(unittest.TestCase):
     def test_is_exempt__arithmetic_operator_suffix__returns_true(self):
         auditor = FileAuditor("mock.sh", self.context)
 
-        result = auditor._is_exempt("foo++")
-
-        self.assertTrue(result)
+        self.assertTrue(auditor._is_exempt("foo++"))
+        self.assertTrue(auditor._is_exempt("foo--"))
 
     def test_is_exempt__disallowed_shell_characters__returns_true(self):
         auditor = FileAuditor("mock.sh", self.context)
@@ -239,8 +279,11 @@ class TestFileAuditor(unittest.TestCase):
         auditor = FileAuditor("mock.sh", self.context)
 
         auditor._check("/usr/bin/ls", 10)
-
         self.assertIn("Line 10: Direct call to absolute path '/usr/bin/ls'.", auditor.violations)
+
+        auditor.violations = []
+        auditor._check("/bin/sh", 11)
+        self.assertIn("Line 11: Direct call to absolute path '/bin/sh'.", auditor.violations)
 
     def test_check__exempted_absolute_path__adds_no_violation(self):
         auditor = FileAuditor("mock.sh", self.context)
@@ -273,6 +316,52 @@ class TestFileAuditor(unittest.TestCase):
         self.assertIn("Line 2: Direct call to unknown binary 'ls'", violations[0])
         self.assertIn("Line 3: Direct call to defined binary 'cat'", violations[1])
         self.assertIn("Line 5: Direct call to unknown binary 'grep'", violations[2])
+
+
+class TestMain(unittest.TestCase):
+
+    @patch("sys.exit")
+    @patch("sys.stdout", new_callable=StringIO)
+    @patch("binary_check.ProjectContext")
+    @patch("binary_check.FileAuditor")
+    def test_main__no_arguments__returns_immediately(self, mock_auditor, mock_context, mock_stdout, mock_exit):
+        with patch("sys.argv", ["binary_check.py"]):
+            import binary_check
+            binary_check.main()
+
+        mock_context.assert_not_called()
+        mock_exit.assert_not_called()
+
+    @patch("sys.exit")
+    @patch("sys.stdout", new_callable=StringIO)
+    @patch("binary_check.ProjectContext")
+    def test_main__violations_found__exits_with_error_and_json_output(self, mock_context, mock_stdout, mock_exit):
+        # We need to mock FileAuditor properly to return violations
+        with patch("binary_check.FileAuditor") as mock_auditor:
+            mock_auditor.return_value.audit.return_value = ["Violation 1"]
+
+            with patch("sys.argv", ["binary_check.py", "file1.sh"]):
+                import binary_check
+                binary_check.main()
+
+        mock_exit.assert_called_with(1)
+        output = json.loads(mock_stdout.getvalue())
+        self.assertIn("file1.sh", output)
+        self.assertEqual(output["file1.sh"], ["Violation 1"])
+
+    @patch("sys.exit")
+    @patch("sys.stdout", new_callable=StringIO)
+    @patch("binary_check.ProjectContext")
+    def test_main__no_violations__exits_normally(self, mock_context, mock_stdout, mock_exit):
+        with patch("binary_check.FileAuditor") as mock_auditor:
+            mock_auditor.return_value.audit.return_value = []
+
+            with patch("sys.argv", ["binary_check.py", "file1.sh"]):
+                import binary_check
+                binary_check.main()
+
+        mock_exit.assert_not_called()
+        self.assertEqual(mock_stdout.getvalue(), "")
 
 
 if __name__ == "__main__":
