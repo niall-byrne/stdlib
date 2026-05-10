@@ -8,30 +8,30 @@ import sys
 from typing import Dict, List, Set
 
 # Configuration Constants
-ABSOLUTE_PATH_EXEMPTIONS = ("/dev/",)
-ALPHANUMERIC_COMMAND_PATTERN = r'^[a-z0-9_-]+$'
-ALLOWED_PREFIXES = ("stdlib.", "_stdlib", "_testing.", "docs.", "__", "_STDLIB_BINARY_", "$", "-")
-ALLOWED_SUFFIXES = ("--", "++")
-ASSIGNMENT_PATTERN = r'^\s*([a-zA-Z0-9_]+)='
-BINARY_DEFINITION_PATTERN = r'_STDLIB_BINARY_[A-Z0-9_]+\s*=\s*"\$\(builtin command -v ([a-z0-9_-]+)\)"'
-BINARY_DEFINITIONS_FILE = os.path.join("src", "binary.sh")
-CASE_PATTERN_PATTERN = r'^\s*[a-z0-9_-]+\)'
-COMMAND_EXEMPTIONS = {
+EXEMPT_ABSOLUTE_PATH_PREFIXES = ("/dev/",)
+EXEMPT_COMMAND_NAMES = {
     "eval_gettext", "assert_equals", "assert_not_equals", "assert_status_code",
     "assert_matches", "assert_not_matches", "assert_null", "assert_not_null", "fail"
 }
-COMMAND_START_KEYWORDS = {"if", "then", "else", "elif", "do", "while", "until", "!"}
-DISALLOWED_CHARS = "[]{} "
-FUNCTION_DEFINITION_PATTERN = r"^(([a-zA-Z0-9._-]+|\$\{1\}\.[a-zA-Z0-9._-]+))\s*\(\)\s*\{"
-LOCAL_DECLARATION_PATTERN = r'^\s*builtin local (?:-[a-zA-Z]+ )?([a-zA-Z0-9_]+)'
-NO_QA_MARKER = "# noqa"
-NUMERIC_PATTERN = r'^[0-9]+$'
-SHELL_DELIMITERS = "|&;$(<{"
+EXEMPT_COMMAND_PREFIXES = ("stdlib.", "_stdlib", "_testing.", "docs.", "__", "_STDLIB_BINARY_", "$", "-")
+EXEMPT_COMMAND_SUFFIXES = ("--", "++")
+MARKER_NO_QA = "# noqa"
+PATH_BINARY_DEFINITIONS_FILE = os.path.join("src", "binary.sh")
+PATH_SOURCE_ROOT = "src"
+REGEX_ALPHANUMERIC_COMMAND = r'^[a-z0-9_-]+$'
+REGEX_ASSIGNMENT = r'^\s*([a-zA-Z0-9_]+)='
+REGEX_BINARY_DEFINITION = r'_STDLIB_BINARY_[A-Z0-9_]+\s*=\s*"\$\(builtin command -v ([a-z0-9_-]+)\)"'
+REGEX_CASE_PATTERN = r'^\s*[a-z0-9_-]+\)'
+REGEX_FUNCTION_DEFINITION = r"^(([a-zA-Z0-9._-]+|\$\{1\}\.[a-zA-Z0-9._-]+))\s*\(\)\s*\{"
+REGEX_LOCAL_DECLARATION = r'^\s*builtin local (?:-[a-zA-Z]+ )?([a-zA-Z0-9_]+)'
+REGEX_NUMERIC_VALUE = r'^[0-9]+$'
+SHELL_COMMAND_DELIMITERS = "|&;$(<{"
+SHELL_COMMAND_START_KEYWORDS = {"if", "then", "else", "elif", "do", "while", "until", "!"}
+SHELL_DISALLOWED_CHARS = "[]{} "
 SHELL_KEYWORDS = {
     "if", "then", "else", "elif", "fi", "for", "while", "do", "done",
     "case", "esac", "function", "in", "!", "{", "}"
 }
-SOURCE_ROOT = "src"
 
 
 class ProjectContext:
@@ -51,24 +51,24 @@ class ProjectContext:
 
     def _get_project_functions(self) -> Set[str]:
         functions = set()
-        for root, _, files in os.walk(SOURCE_ROOT):
+        for root, _, files in os.walk(PATH_SOURCE_ROOT):
             if "/tests" in root or root.endswith("/tests"):
                 continue
             for filename in files:
                 if filename.endswith((".sh", ".snippet")):
                     with open(os.path.join(root, filename), "r", encoding="utf-8") as f:
                         content = f.read()
-                        matches = re.findall(FUNCTION_DEFINITION_PATTERN, content, re.MULTILINE)
+                        matches = re.findall(REGEX_FUNCTION_DEFINITION, content, re.MULTILINE)
                         for match in matches:
                             functions.add(match[0])
         return functions
 
     def _get_defined_binaries(self) -> Set[str]:
         binaries = set()
-        if os.path.exists(BINARY_DEFINITIONS_FILE):
-            with open(BINARY_DEFINITIONS_FILE, "r", encoding="utf-8") as f:
+        if os.path.exists(PATH_BINARY_DEFINITIONS_FILE):
+            with open(PATH_BINARY_DEFINITIONS_FILE, "r", encoding="utf-8") as f:
                 content = f.read()
-                matches = re.findall(BINARY_DEFINITION_PATTERN, content)
+                matches = re.findall(REGEX_BINARY_DEFINITION, content)
                 binaries.update(matches)
         return binaries
 
@@ -94,7 +94,7 @@ class LineAuditor:
             if cmd:
                 commands.append(cmd)
 
-            if words[0] in COMMAND_START_KEYWORDS and len(words) > 1:
+            if words[0] in SHELL_COMMAND_START_KEYWORDS and len(words) > 1:
                 next_cmd = self._clean(words[1])
                 if next_cmd:
                     commands.append(next_cmd)
@@ -106,7 +106,7 @@ class LineAuditor:
         stripped = text.strip()
         if not stripped or stripped.startswith("((") or stripped.startswith("for (("):
             return ""
-        text = re.sub(CASE_PATTERN_PATTERN, '', text)
+        text = re.sub(REGEX_CASE_PATTERN, '', text)
         text = re.sub(r'\"(?:\\.|[^\"\\$])*\"', ' ', text)
         text = re.sub(r'\'(?:\\.|[^\'\\$])*\'', ' ', text)
         return text.replace("((", " ").replace("))", " ")
@@ -124,7 +124,7 @@ class LineAuditor:
                 current += "}"
                 i += 1
                 continue
-            if depth == 0 and text[i] in SHELL_DELIMITERS:
+            if depth == 0 and text[i] in SHELL_COMMAND_DELIMITERS:
                 segments.append(current)
                 current = ""
             else:
@@ -149,7 +149,7 @@ class FileAuditor:
     def audit(self) -> List[str]:
         with open(self.path, "r", encoding="utf-8") as f:
             for i, line in enumerate(f, 1):
-                if NO_QA_MARKER in line:
+                if MARKER_NO_QA in line:
                     continue
                 self._update_scope(line)
                 if line.strip().startswith("#"):
@@ -159,10 +159,10 @@ class FileAuditor:
         return self.violations
 
     def _update_scope(self, line: str):
-        m = re.match(LOCAL_DECLARATION_PATTERN, line)
+        m = re.match(REGEX_LOCAL_DECLARATION, line)
         if m:
             self.local_scope.add(m.group(1))
-        m = re.match(ASSIGNMENT_PATTERN, line)
+        m = re.match(REGEX_ASSIGNMENT, line)
         if m:
             self.local_scope.add(m.group(1))
 
@@ -171,7 +171,7 @@ class FileAuditor:
             return
 
         if cmd.startswith("/"):
-            if not any(cmd.startswith(p) for p in ABSOLUTE_PATH_EXEMPTIONS):
+            if not any(cmd.startswith(p) for p in EXEMPT_ABSOLUTE_PATH_PREFIXES):
                 self.violations.append(f"Line {line_no}: Direct call to absolute path '{cmd}'.")
             return
 
@@ -182,7 +182,7 @@ class FileAuditor:
             )
             return
 
-        if re.match(ALPHANUMERIC_COMMAND_PATTERN, cmd):
+        if re.match(REGEX_ALPHANUMERIC_COMMAND, cmd):
             self.violations.append(
                 f"Line {line_no}: Direct call to unknown binary '{cmd}'. "
                 "Define it in src/binary.sh first."
@@ -194,15 +194,15 @@ class FileAuditor:
             self.context.builtins,
             self.local_scope,
             self.context.functions,
-            COMMAND_EXEMPTIONS
+            EXEMPT_COMMAND_NAMES
         ]
         if any(cmd in source for source in exemption_sources):
             return True
 
-        if cmd.startswith(ALLOWED_PREFIXES) or re.match(NUMERIC_PATTERN, cmd):
+        if cmd.startswith(EXEMPT_COMMAND_PREFIXES) or re.match(REGEX_NUMERIC_VALUE, cmd):
             return True
 
-        if cmd.endswith(ALLOWED_SUFFIXES) or any(c in cmd for c in DISALLOWED_CHARS):
+        if cmd.endswith(EXEMPT_COMMAND_SUFFIXES) or any(c in cmd for c in SHELL_DISALLOWED_CHARS):
             return True
 
         return False
