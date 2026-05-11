@@ -63,9 +63,9 @@ stdlib.var.query.is_valid_with() {
 
   stdlib.fn.query.is_fn "${1}" || builtin return 126
   stdlib.var.query.is_valid_name "${2}" || builtin return 126
-  stdlib.string.query.is_boolean "${validate_by_name_boolean}" || builtin return 126
+  stdlib.string.query.is_boolean "${validate_by_name_boolean}" || builtin return 126 # validates STDLIB_VAR_VALIDATE_BY_NAME_BOOLEAN
 
-  if [[ -n "${validate_default_value}" ]]; then
+  if [[ -n "${validate_default_value}" ]]; then # validates STDLIB_VAR_VALIDATE_DEFAULT_VAR
     stdlib.var.query.is_set "${validate_default_value}" || builtin return 126
     value_source="${validate_default_value}"
   fi

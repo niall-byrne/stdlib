@@ -67,7 +67,7 @@ stdlib.var.assert.is_valid_name() {
 stdlib.var.assert.is_valid_with() {
   builtin local return_code=0
 
-  stdlib.var.query.is_valid_with "${@}" || return_code="$?"
+  stdlib.var.query.is_valid_with "${@}" || return_code="$?" # validates STDLIB_VAR_VALIDATE_BY_NAME_BOOLEAN,STDLIB_VAR_VALIDATE_DEFAULT_VAR
 
   case "${return_code}" in
     0) ;; # KCOV_EXCLUDE_LINE
