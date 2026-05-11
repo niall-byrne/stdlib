@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: stdlib \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-27 14:04-0400\n"
+"POT-Creation-Date: 2026-06-27 14:05-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -7764,8 +7764,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:3865
 #: ../../reference/src/trap/REFERENCE.md:57
 msgid ""
-"STDLIB_CLEANUP_FN_TARGETS_ARRAY: An array used to store file names "
-"targeted by the cleanup_on_exit function (default=())."
+"STDLIB_CLEANUP_FN_TARGETS_ARRAY array global: An array containing a list "
+"of file names targeted by the cleanup_on_exit function (default=())."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:3873
@@ -7781,8 +7781,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:3876
 #: ../../reference/src/trap/REFERENCE.md:68
 msgid ""
-"STDLIB_HANDLER_ERR_FN_ARRAY: An array containing a list of functions that"
-" are run on error (default=())."
+"STDLIB_HANDLER_ERR_FN_ARRAY array global: An array containing a list of "
+"functions that are run on an error (default=())."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:3884
@@ -7801,7 +7801,7 @@ msgstr ""
 #: ../../reference/src/trap/REFERENCE.md:84
 msgid ""
 "**STDLIB_HANDLER_ERR_FN_ARRAY** (array): An array containing a list of "
-"functions that are run on error."
+"functions that are run on an error."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:3898
@@ -7817,8 +7817,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:3901
 #: ../../reference/src/trap/REFERENCE.md:93
 msgid ""
-"STDLIB_HANDLER_EXIT_FN_ARRAY: An array containing a list of functions "
-"that are run on an exit call "
+"STDLIB_HANDLER_EXIT_FN_ARRAY array global: An array containing a list of "
+"functions that are run on an exit call "
 "(default=(\"stdlib.trap.fn.cleanup_on_exit\"))."
 msgstr ""
 
