@@ -1,11 +1,33 @@
 #!/bin/bash
 
 setup() {
+  _mock.create stdlib.logger.error
   _mock.create stdlib.trap.create.cleanup_fn
   _mock.create stdlib.trap.create.handler
 
   _mock.create stdlib.trap.handler.exit.fn.register
   _mock.create stdlib.trap.handler.err.fn.register
+}
+
+@parametrize_with_arrays() {
+  # $1: the test function to parametrize
+
+  @parametrize \
+    "${1}" \
+    "TEST_ARRAY_NAME" \
+    "invalid_array_1___;STDLIB_CLEANUP_FN_TARGETS_ARRAY" \
+    "invalid_array_2___;STDLIB_HANDLER_ERR_FN_ARRAY" \
+    "invalid_array_3___;STDLIB_HANDLER_EXIT_FN_ARRAY"
+}
+
+@parametrize_with_handlers() {
+  # $1: the test function to parametrize
+
+  @parametrize \
+    "${1}" \
+    "TEST_HANDLER_NAME;TEST_HANDLER_ARRAY" \
+    "creates_err_handler_;stdlib.trap.handler.err.fn;STDLIB_HANDLER_ERR_FN_ARRAY" \
+    "creates_exit_handler;stdlib.trap.handler.exit.fn;STDLIB_HANDLER_EXIT_FN_ARRAY"
 }
 
 @parametrize_with_traceback_setting() {
@@ -18,15 +40,53 @@ setup() {
     "traceback_disabled;0"
 }
 
-@parametrize_with_handlers() {
-  # $1: the test function to parametrize
+# shellcheck disable=SC2034
+test_stdlib_trap_register_default_handlers__invalid_boolean_____returns_status_code_123() {
+  local STDLIB_TRACEBACK_DISABLE_BOOLEAN="aaa"
 
-  @parametrize \
-    "${1}" \
-    "TEST_HANDLER_NAME;TEST_HANDLER_ARRAY" \
-    "creates_err_handler_;stdlib.trap.handler.err.fn;STDLIB_HANDLER_ERR_FN_ARRAY" \
-    "creates_exit_handler;stdlib.trap.handler.exit.fn;STDLIB_HANDLER_EXIT_FN_ARRAY"
+  _capture.rc stdlib.trap.__register_default_handlers
+
+  assert_rc "123"
 }
+
+# shellcheck disable=SC2034
+test_stdlib_trap_register_default_handlers__invalid_boolean_____logs_error_message() {
+  local STDLIB_TRACEBACK_DISABLE_BOOLEAN="aaa"
+
+  stdlib.trap.__register_default_handlers
+
+  stdlib.logger.error.mock.assert_calls_are \
+    "1($(stdlib.__message.get IS_NOT_BOOLEAN "aaa"))" \
+    "1($(stdlib.__message.get VAR_VALUE_INVALID_GLOBAL_DETAIL STDLIB_TRACEBACK_DISABLE_BOOLEAN))"
+}
+
+# shellcheck disable=SC2034
+test_stdlib_trap_register_default_handlers__@vary__returns_status_code_123() {
+  local "${TEST_ARRAY_NAME}"
+
+  _capture.rc stdlib.trap.__register_default_handlers
+
+  assert_rc "123"
+}
+
+@parametrize_with_arrays \
+  test_stdlib_trap_register_default_handlers__@vary__returns_status_code_123
+
+# shellcheck disable=SC2034
+test_stdlib_trap_register_default_handlers__@vary__logs_error_message() {
+  local "${TEST_ARRAY_NAME}"
+
+  printf -v "${TEST_ARRAY_NAME}" "invalid_value"
+
+  stdlib.trap.__register_default_handlers
+
+  stdlib.logger.error.mock.assert_calls_are \
+    "1($(stdlib.__message.get IS_NOT_ARRAY "${TEST_ARRAY_NAME}"))" \
+    "1($(stdlib.__message.get VAR_VALUE_INVALID_GLOBAL_DETAIL "${TEST_ARRAY_NAME}"))"
+}
+
+@parametrize_with_arrays \
+  test_stdlib_trap_register_default_handlers__@vary__logs_error_message
 
 test_stdlib_trap_register_default_handlers__@vary__creates_cleanup_fn() {
   STDLIB_TRACEBACK_DISABLE_BOOLEAN="${TEST_TRACEBACK_VALUE}" \

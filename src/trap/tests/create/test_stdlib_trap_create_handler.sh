@@ -29,8 +29,8 @@ setup() {
   @parametrize \
     "${1}" \
     "TEST_ARGS_DEFINITION;TEST_EXPECTED_RC" \
-    "valid_args__returns_status_code___0;;0" \
-    "extra_arg___returns_status_code_127;extra_arg;127"
+    "valid_args________returns_status_code___0;;0" \
+    "extra_arg_________returns_status_code_127;extra_arg;127"
 }
 
 @parametrize_with_register_arg_combos() {
@@ -39,10 +39,10 @@ setup() {
   @parametrize \
     "${1}" \
     "TEST_ARGS_DEFINITION;TEST_EXPECTED_RC" \
-    "no_args_____returns_status_code_127;;127" \
-    "not_a_fn____returns_status_code_126;not_a_fn;126" \
-    "extra_arg___returns_status_code_127;_fn1|extra_arg;127" \
-    "valid_args__returns_status_code___0;_fn1;0"
+    "no_args___________returns_status_code_127;;127" \
+    "not_a_fn__________returns_status_code_126;not_a_fn;126" \
+    "extra_arg_________returns_status_code_127;_fn1|extra_arg;127" \
+    "valid_args________returns_status_code___0;_fn1;0"
 }
 
 test_stdlib_trap_create_handler__@vary() {
@@ -72,7 +72,7 @@ test_stdlib_trap_create_handler__valid_args_______creates_register_function() {
 }
 
 # shellcheck disable=SC2034
-test_stdlib_trap_create_handler__valid_args_______handler_function___________valid_args__calls_each_fn_in_array() {
+test_stdlib_trap_create_handler__valid_args_______handler_function___________valid_args________calls_each_fn_in_array() {
   stdlib.trap.create.handler test_handler TEST_ARRAY
 
   TEST_ARRAY+=("_fn1")
@@ -86,8 +86,8 @@ test_stdlib_trap_create_handler__valid_args_______handler_function___________val
 
 test_stdlib_trap_create_handler__valid_args_______handler_function___________@vary() {
   local args=()
-  stdlib.trap.create.handler test_handler TEST_ARRAY
 
+  stdlib.trap.create.handler test_handler TEST_ARRAY
   stdlib.array.make.from_string args "|" "${TEST_ARGS_DEFINITION}"
 
   _capture.rc test_handler "${args[@]}" > /dev/null
@@ -98,10 +98,36 @@ test_stdlib_trap_create_handler__valid_args_______handler_function___________@va
 @parametrize_with_handler_arg_combos \
   test_stdlib_trap_create_handler__valid_args_______handler_function___________@vary
 
-test_stdlib_trap_create_handler__valid_args_______register_function__________@vary() {
-  local args=()
+# shellcheck disable=SC2034
+test_stdlib_trap_create_handler__valid_args_______handler_function___________array_overwitten__returns_status_code_126() {
   stdlib.trap.create.handler test_handler TEST_ARRAY
 
+  # shellcheck disable=SC2178
+  declare TEST_ARRAY="no longer an array"
+
+  _capture.rc test_handler
+
+  assert_rc "126"
+}
+
+# shellcheck disable=SC2034
+test_stdlib_trap_create_handler__valid_args_______handler_function___________array_overwitten__logs_an_error_message() {
+  stdlib.trap.create.handler test_handler TEST_ARRAY
+
+  # shellcheck disable=SC2178
+  declare TEST_ARRAY="no longer an array"
+
+  test_handler
+
+  stdlib.logger.error.mock.assert_calls_are \
+    "1($(stdlib.__message.get IS_NOT_ARRAY TEST_ARRAY))" \
+    "1($(stdlib.__message.get VAR_VALUE_INVALID_GLOBAL_DETAIL TEST_ARRAY))"
+}
+
+test_stdlib_trap_create_handler__valid_args_______register_function__________@vary() {
+  local args=()
+
+  stdlib.trap.create.handler test_handler TEST_ARRAY
   stdlib.array.make.from_string args "|" "${TEST_ARGS_DEFINITION}"
 
   _capture.rc test_handler.register "${args[@]}" > /dev/null
@@ -112,11 +138,38 @@ test_stdlib_trap_create_handler__valid_args_______register_function__________@va
 @parametrize_with_register_arg_combos \
   test_stdlib_trap_create_handler__valid_args_______register_function__________@vary
 
+test_stdlib_trap_create_handler__valid_args_______register_function__________array_overwitten__returns_status_code_126() {
+  local args=()
+
+  stdlib.trap.create.handler test_handler TEST_ARRAY
+  # shellcheck disable=SC2178
+  declare TEST_ARRAY="overwritten with string"
+
+  _capture.rc test_handler.register _fn1
+
+  assert_rc "126"
+}
+
+test_stdlib_trap_create_handler__valid_args_______register_function__________array_overwitten__logs_an_error_message() {
+  local args=()
+
+  stdlib.trap.create.handler test_handler TEST_ARRAY
+  # shellcheck disable=SC2178
+  declare TEST_ARRAY="overwritten with string"
+
+  test_handler.register _fn1
+
+  stdlib.logger.error.mock.assert_calls_are \
+    "1($(stdlib.__message.get IS_NOT_ARRAY TEST_ARRAY))" \
+    "1($(stdlib.__message.get VAR_VALUE_INVALID_GLOBAL_DETAIL TEST_ARRAY))"
+}
+
 # shellcheck disable=SC2034
-test_stdlib_trap_create_handler__valid_args_______register_function__________valid_args__adds_functions_to_array() {
+test_stdlib_trap_create_handler__valid_args_______register_function__________valid_args________adds_functions_to_array() {
   local test_expected_handlers=("_fn1" "_fn2")
 
   stdlib.trap.create.handler test_handler TEST_ARRAY
+
   test_handler.register _fn1
   test_handler.register _fn2
 

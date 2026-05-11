@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: stdlib \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-30 17:57-0400\n"
+"POT-Creation-Date: 2026-06-30 18:01-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -276,7 +276,8 @@ msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:46
 #: ../../reference/src/fn/REFERENCE.md:17
-msgid "[stdlib.fn.keyword.assert.is_valid_with](#stdlibfnkeywordassertis_valid_with)"
+msgid ""
+"[stdlib.fn.keyword.assert.is_valid_with](#stdlibfnkeywordassertis_valid_with)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:47
@@ -291,7 +292,8 @@ msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:49
 #: ../../reference/src/fn/REFERENCE.md:20
-msgid "[stdlib.fn.keyword.query.is_valid_with](#stdlibfnkeywordqueryis_valid_with)"
+msgid ""
+"[stdlib.fn.keyword.query.is_valid_with](#stdlibfnkeywordqueryis_valid_with)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:50
@@ -466,22 +468,27 @@ msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:84
 #: ../../reference/src/security/REFERENCE.md:11
-msgid "[stdlib.security.path.assert.has_group](#stdlibsecuritypathasserthas_group)"
+msgid ""
+"[stdlib.security.path.assert.has_group](#stdlibsecuritypathasserthas_group)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:85
 #: ../../reference/src/security/REFERENCE.md:12
-msgid "[stdlib.security.path.assert.has_owner](#stdlibsecuritypathasserthas_owner)"
+msgid ""
+"[stdlib.security.path.assert.has_owner](#stdlibsecuritypathasserthas_owner)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:86
 #: ../../reference/src/security/REFERENCE.md:13
-msgid "[stdlib.security.path.assert.has_permissions](#stdlibsecuritypathasserthas_permissions)"
+msgid ""
+"[stdlib.security.path.assert.has_permissions]"
+"(#stdlibsecuritypathasserthas_permissions)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:87
 #: ../../reference/src/security/REFERENCE.md:14
-msgid "[stdlib.security.path.assert.is_secure](#stdlibsecuritypathassertis_secure)"
+msgid ""
+"[stdlib.security.path.assert.is_secure](#stdlibsecuritypathassertis_secure)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:88
@@ -496,22 +503,27 @@ msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:90
 #: ../../reference/src/security/REFERENCE.md:17
-msgid "[stdlib.security.path.query.has_group](#stdlibsecuritypathqueryhas_group)"
+msgid ""
+"[stdlib.security.path.query.has_group](#stdlibsecuritypathqueryhas_group)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:91
 #: ../../reference/src/security/REFERENCE.md:18
-msgid "[stdlib.security.path.query.has_owner](#stdlibsecuritypathqueryhas_owner)"
+msgid ""
+"[stdlib.security.path.query.has_owner](#stdlibsecuritypathqueryhas_owner)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:92
 #: ../../reference/src/security/REFERENCE.md:19
-msgid "[stdlib.security.path.query.has_permissions](#stdlibsecuritypathqueryhas_permissions)"
+msgid ""
+"[stdlib.security.path.query.has_permissions]"
+"(#stdlibsecuritypathqueryhas_permissions)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:93
 #: ../../reference/src/security/REFERENCE.md:20
-msgid "[stdlib.security.path.query.is_secure](#stdlibsecuritypathqueryis_secure)"
+msgid ""
+"[stdlib.security.path.query.is_secure](#stdlibsecuritypathqueryis_secure)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:94
@@ -541,7 +553,8 @@ msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:99
 #: ../../reference/src/setting/REFERENCE.md:9
-msgid "[stdlib.setting.colour.state.disabled](#stdlibsettingcolourstatedisabled)"
+msgid ""
+"[stdlib.setting.colour.state.disabled](#stdlibsettingcolourstatedisabled)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:100
@@ -586,7 +599,8 @@ msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:108
 #: ../../reference/src/string/REFERENCE.md:11
-msgid "[stdlib.string.assert.is_alpha_numeric](#stdlibstringassertis_alpha_numeric)"
+msgid ""
+"[stdlib.string.assert.is_alpha_numeric](#stdlibstringassertis_alpha_numeric)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:109
@@ -606,7 +620,9 @@ msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:112
 #: ../../reference/src/string/REFERENCE.md:15
-msgid "[stdlib.string.assert.is_decimal_positive](#stdlibstringassertis_decimal_positive)"
+msgid ""
+"[stdlib.string.assert.is_decimal_positive]"
+"(#stdlibstringassertis_decimal_positive)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:113
@@ -626,17 +642,22 @@ msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:116
 #: ../../reference/src/string/REFERENCE.md:19
-msgid "[stdlib.string.assert.is_integer_with_range](#stdlibstringassertis_integer_with_range)"
+msgid ""
+"[stdlib.string.assert.is_integer_with_range]"
+"(#stdlibstringassertis_integer_with_range)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:117
 #: ../../reference/src/string/REFERENCE.md:20
-msgid "[stdlib.string.assert.is_octal_permission](#stdlibstringassertis_octal_permission)"
+msgid ""
+"[stdlib.string.assert.is_octal_permission]"
+"(#stdlibstringassertis_octal_permission)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:118
 #: ../../reference/src/string/REFERENCE.md:21
-msgid "[stdlib.string.assert.is_regex_match](#stdlibstringassertis_regex_match)"
+msgid ""
+"[stdlib.string.assert.is_regex_match](#stdlibstringassertis_regex_match)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:119
@@ -646,7 +667,9 @@ msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:120
 #: ../../reference/src/string/REFERENCE.md:23
-msgid "[stdlib.string.assert.is_snake_case_upper](#stdlibstringassertis_snake_case_upper)"
+msgid ""
+"[stdlib.string.assert.is_snake_case_upper]"
+"(#stdlibstringassertis_snake_case_upper)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:121
@@ -701,7 +724,8 @@ msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:131
 #: ../../reference/src/string/REFERENCE.md:34
-msgid "[stdlib.string.colour.substring_pipe](#stdlibstringcoloursubstring_pipe)"
+msgid ""
+"[stdlib.string.colour.substring_pipe](#stdlibstringcoloursubstring_pipe)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:132
@@ -716,12 +740,14 @@ msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:134
 #: ../../reference/src/string/REFERENCE.md:37
-msgid "[stdlib.string.colour.substrings_pipe](#stdlibstringcoloursubstrings_pipe)"
+msgid ""
+"[stdlib.string.colour.substrings_pipe](#stdlibstringcoloursubstrings_pipe)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:135
 #: ../../reference/src/string/REFERENCE.md:38
-msgid "[stdlib.string.colour.substrings_var](#stdlibstringcoloursubstrings_var)"
+msgid ""
+"[stdlib.string.colour.substrings_var](#stdlibstringcoloursubstrings_var)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:136
@@ -846,7 +872,8 @@ msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:160
 #: ../../reference/src/string/REFERENCE.md:63
-msgid "[stdlib.string.query.is_alpha_numeric](#stdlibstringqueryis_alpha_numeric)"
+msgid ""
+"[stdlib.string.query.is_alpha_numeric](#stdlibstringqueryis_alpha_numeric)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:161
@@ -866,7 +893,9 @@ msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:164
 #: ../../reference/src/string/REFERENCE.md:67
-msgid "[stdlib.string.query.is_decimal_positive](#stdlibstringqueryis_decimal_positive)"
+msgid ""
+"[stdlib.string.query.is_decimal_positive]"
+"(#stdlibstringqueryis_decimal_positive)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:165
@@ -886,12 +915,16 @@ msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:168
 #: ../../reference/src/string/REFERENCE.md:71
-msgid "[stdlib.string.query.is_integer_with_range](#stdlibstringqueryis_integer_with_range)"
+msgid ""
+"[stdlib.string.query.is_integer_with_range]"
+"(#stdlibstringqueryis_integer_with_range)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:169
 #: ../../reference/src/string/REFERENCE.md:72
-msgid "[stdlib.string.query.is_octal_permission](#stdlibstringqueryis_octal_permission)"
+msgid ""
+"[stdlib.string.query.is_octal_permission]"
+"(#stdlibstringqueryis_octal_permission)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:170
@@ -906,7 +939,9 @@ msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:172
 #: ../../reference/src/string/REFERENCE.md:75
-msgid "[stdlib.string.query.is_snake_case_upper](#stdlibstringqueryis_snake_case_upper)"
+msgid ""
+"[stdlib.string.query.is_snake_case_upper]"
+"(#stdlibstringqueryis_snake_case_upper)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:173
@@ -1016,7 +1051,8 @@ msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:194
 #: ../../reference/src/trap/REFERENCE.md:13
-msgid "[stdlib.trap.handler.exit.fn.register](#stdlibtraphandlerexitfnregister)"
+msgid ""
+"[stdlib.trap.handler.exit.fn.register](#stdlibtraphandlerexitfnregister)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:195
@@ -1041,7 +1077,8 @@ msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:199
 #: ../../reference/src/var/REFERENCE.md:11
-msgid "[stdlib.var.global.assert.is_valid_with](#stdlibvarglobalassertis_valid_with)"
+msgid ""
+"[stdlib.var.global.assert.is_valid_with](#stdlibvarglobalassertis_valid_with)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:200
@@ -3790,7 +3827,8 @@ msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:548
 #: ../../reference/src/array/REFERENCE.md:380
-msgid "Maps a format string over each element of an array and prints the result."
+msgid ""
+"Maps a format string over each element of an array and prints the result."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:552
@@ -4050,24 +4088,23 @@ msgstr ""
 #: ../../reference/src/fn/REFERENCE.md:28
 #, python-brace-format
 msgid ""
-"STDLIB_ARGS_CALLER_FN_NAME string keyword: A string presented as the name"
-" of the calling function in logging messages "
-"(default=\"${FUNCNAME[1]}\")."
+"STDLIB_ARGS_CALLER_FN_NAME string keyword: A string presented as the name of "
+"the calling function in logging messages (default=\"${FUNCNAME[1]}\")."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:803
 #: ../../reference/src/fn/REFERENCE.md:29
 msgid ""
-"STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN boolean keyword: A boolean that "
-"indicates all arguments are null safe, meaning they can be empty values "
+"STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN boolean keyword: A boolean that indicates "
+"all arguments are null safe, meaning they can be empty values "
 "(default=\"0\")."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:804
 #: ../../reference/src/fn/REFERENCE.md:30
 msgid ""
-"STDLIB_ARGS_NULL_SAFE_ARRAY array keyword: An array of argument indexes "
-"that are null safe, meaning they can be empty values (default=())."
+"STDLIB_ARGS_NULL_SAFE_ARRAY array keyword: An array of argument indexes that "
+"are null safe, meaning they can be empty values (default=())."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:808
@@ -4296,15 +4333,15 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:925
 #: ../../reference/src/fn/REFERENCE.md:151
 msgid ""
-"**$2** (string): The message key to display on error, with the passed "
-"value as an argument."
+"**$2** (string): The message key to display on error, with the passed value "
+"as an argument."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:926
 #: ../../reference/src/fn/REFERENCE.md:152
 msgid ""
-"**$3** (string): (optional, default=s/.query./.assert./g) The name of the"
-" new assertion function."
+"**$3** (string): (optional, default=s/.query./.assert./g) The name of the "
+"new assertion function."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:931
@@ -4318,8 +4355,8 @@ msgstr ""
 #: ../../reference/src/io/REFERENCE.md:100
 #: ../../reference/src/io/REFERENCE.md:127
 msgid ""
-"**123**: If a variable reserved for use by the BASH stdlib has been "
-"assigned an invalid value."
+"**123**: If a variable reserved for use by the BASH stdlib has been assigned "
+"an invalid value."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:932
@@ -4381,7 +4418,8 @@ msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:982
 #: ../../reference/src/fn/REFERENCE.md:208
-msgid "Creates a version of a function that reads from and writes to a variable."
+msgid ""
+"Creates a version of a function that reads from and writes to a variable."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:986
@@ -4393,8 +4431,8 @@ msgstr ""
 #: ../../reference/src/fn/REFERENCE.md:213
 #, python-brace-format
 msgid ""
-"**$2** (string): (optional, default=\"${1}_var\") The name of the new "
-"target function."
+"**$2** (string): (optional, default=\"${1}_var\") The name of the new target "
+"function."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:988
@@ -4419,9 +4457,9 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:1003
 #: ../../reference/src/fn/REFERENCE.md:229
 msgid ""
-"STDLIB_KW_SOURCE_VAR string keyword: An optional variable name that can "
-"be used as a source for validation (logging will still attribute the "
-"value to the argument provided keyword) (default=\"\")."
+"STDLIB_KW_SOURCE_VAR string keyword: An optional variable name that can be "
+"used as a source for validation (logging will still attribute the value to "
+"the argument provided keyword) (default=\"\")."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:1007
@@ -4449,8 +4487,8 @@ msgstr ""
 #: ../../reference/src/fn/REFERENCE.md:235
 #: ../../reference/src/fn/REFERENCE.md:301
 msgid ""
-"**$3** (string): (optional, default=\"value\") Controls whether the "
-"'name' or 'value' of the keyword is passed to the validation function."
+"**$3** (string): (optional, default=\"value\") Controls whether the 'name' "
+"or 'value' of the keyword is passed to the validation function."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:1013
@@ -4475,8 +4513,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:1025
 #: ../../reference/src/fn/REFERENCE.md:251
 msgid ""
-"Consumes a scalar keyword, using a default value if required, (the "
-"keyword is also reset to \"\" so it's value can't propagate)."
+"Consumes a scalar keyword, using a default value if required, (the keyword "
+"is also reset to \"\" so it's value can't propagate)."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:1029
@@ -4511,8 +4549,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:1052
 #: ../../reference/src/fn/REFERENCE.md:278
 msgid ""
-"**$1** (string): The name of the array to assign, usually this is a "
-"locally scoped array."
+"**$1** (string): The name of the array to assign, usually this is a locally "
+"scoped array."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:1053
@@ -4523,8 +4561,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:1054
 #: ../../reference/src/fn/REFERENCE.md:280
 msgid ""
-"**$3** (string): (optional, default=\"\") A name of another array "
-"containing a default value to use if the keyword is empty or unset."
+"**$3** (string): (optional, default=\"\") A name of another array containing "
+"a default value to use if the keyword is empty or unset."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:1066
@@ -4535,8 +4573,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:1069
 #: ../../reference/src/fn/REFERENCE.md:295
 msgid ""
-"STDLIB_KW_SOURCE_VAR string keyword: An optional variable name that can "
-"be used as a source for validation (default=\"\")."
+"STDLIB_KW_SOURCE_VAR string keyword: An optional variable name that can be "
+"used as a source for validation (default=\"\")."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:1085
@@ -4606,7 +4644,8 @@ msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:1132
 #: ../../reference/src/io/REFERENCE.md:26
-msgid "Acquires a named exclusive execution lock, or waits until able to do so."
+msgid ""
+"Acquires a named exclusive execution lock, or waits until able to do so."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:1133
@@ -4614,8 +4653,8 @@ msgstr ""
 #: ../../reference/src/io/REFERENCE.md:27
 #: ../../reference/src/io/REFERENCE.md:79
 msgid ""
-"STDLIB_LOCK_PERMISSION_OCTAL string keyword: An octal file system "
-"permission value for the created lock (default=\"0700\")."
+"STDLIB_LOCK_PERMISSION_OCTAL string keyword: An octal file system permission "
+"value for the created lock (default=\"0700\")."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:1134
@@ -4623,8 +4662,8 @@ msgstr ""
 #: ../../reference/src/io/REFERENCE.md:28
 #: ../../reference/src/io/REFERENCE.md:80
 msgid ""
-"STDLIB_LOCK_POLLING_INTERVAL string keyword: A decimal value for the "
-"number of seconds the process will wait before retrying lock acquisition "
+"STDLIB_LOCK_POLLING_INTERVAL string keyword: A decimal value for the number "
+"of seconds the process will wait before retrying lock acquisition "
 "(default=\"0.1\")."
 msgstr ""
 
@@ -4643,8 +4682,8 @@ msgstr ""
 #: ../../reference/src/io/REFERENCE.md:82
 msgid ""
 "STDLIB_LOCK_WAIT_SECONDS integer keyword: An integer for the number of "
-"seconds the process will wait for the lock to become available.  To "
-"create an infinite wait, use a negative value. (default=30)."
+"seconds the process will wait for the lock to become available.  To create "
+"an infinite wait, use a negative value. (default=30)."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:1137
@@ -4662,7 +4701,8 @@ msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:1141
 #: ../../reference/src/io/REFERENCE.md:35
-msgid "**$1** (string): A unique alpha-numeric, underscored name for this lock."
+msgid ""
+"**$1** (string): A unique alpha-numeric, underscored name for this lock."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:1145
@@ -4727,8 +4767,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:1184
 #: ../../reference/src/io/REFERENCE.md:78
 msgid ""
-"Runs a command with a named exclusive execution lock. A lock workspace is"
-" allocated as needed."
+"Runs a command with a named exclusive execution lock. A lock workspace is "
+"allocated as needed."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:1190
@@ -4736,9 +4776,8 @@ msgstr ""
 #: ../../reference/src/io/REFERENCE.md:84
 #: ../../reference/src/io/REFERENCE.md:114
 msgid ""
-"STDLIB_LOCK_WORKSPACE_PERMISSION_OCTAL string keyword: An octal file "
-"system permission value for the created workspace folder "
-"(default=\"0700\")."
+"STDLIB_LOCK_WORKSPACE_PERMISSION_OCTAL string keyword: An octal file system "
+"permission value for the created workspace folder (default=\"0700\")."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:1195
@@ -4761,8 +4800,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:1217
 #: ../../reference/src/io/REFERENCE.md:111
 msgid ""
-"Creates a temporary folder dedicated for execution locking, and handles "
-"it's clean up."
+"Creates a temporary folder dedicated for execution locking, and handles it's "
+"clean up."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:1218
@@ -5004,8 +5043,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:1402
 #: ../../reference/src/io/REFERENCE.md:296
 msgid ""
-"**$1** (string): (optional, default=STDIN_DEFAULT_CONFIRMATION_PROMPT) "
-"The prompt to display."
+"**$1** (string): (optional, default=STDIN_DEFAULT_CONFIRMATION_PROMPT) The "
+"prompt to display."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:1406
@@ -5092,8 +5131,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:1429
 #: ../../reference/src/io/REFERENCE.md:323
 msgid ""
-"**$1** (string): (optional, default=STDIN_DEFAULT_PAUSE_PROMPT) The "
-"prompt to display."
+"**$1** (string): (optional, default=STDIN_DEFAULT_PAUSE_PROMPT) The prompt "
+"to display."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:1443
@@ -5116,8 +5155,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:1452
 #: ../../reference/src/io/REFERENCE.md:346
 msgid ""
-"STDLIB_STDIN_PASSWORD_MASK_BOOLEAN boolean keyword: Indicates if the "
-"input should be masked, i.e. for passwords (default=\"0\")."
+"STDLIB_STDIN_PASSWORD_MASK_BOOLEAN boolean keyword: Indicates if the input "
+"should be masked, i.e. for passwords (default=\"0\")."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:1456
@@ -5128,8 +5167,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:1457
 #: ../../reference/src/io/REFERENCE.md:351
 msgid ""
-"**$2** (string): (optional, default=STDIN_DEFAULT_VALUE_PROMPT) The "
-"prompt to display."
+"**$2** (string): (optional, default=STDIN_DEFAULT_VALUE_PROMPT) The prompt "
+"to display."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:1468
@@ -5223,8 +5262,8 @@ msgstr ""
 #: ../../reference/src/logger/REFERENCE.md:165
 #: ../../reference/src/logger/REFERENCE.md:219
 msgid ""
-"**$1** (string): (optional, default=\"-\") The message to log, by default"
-" this function reads from stdin."
+"**$1** (string): (optional, default=\"-\") The message to log, by default "
+"this function reads from stdin."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:1512
@@ -5255,8 +5294,8 @@ msgstr ""
 #: ../../reference/src/logger/REFERENCE.md:63
 #: ../../reference/src/logger/REFERENCE.md:81
 msgid ""
-"STDLIB_THEME_LOGGER_INFO string global: The colour to use for info "
-"messages (default=\"WHITE\")."
+"STDLIB_THEME_LOGGER_INFO string global: The colour to use for info messages "
+"(default=\"WHITE\")."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:1534
@@ -5547,8 +5586,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:1833
 #: ../../reference/src/security/REFERENCE.md:166
 msgid ""
-"Asserts that a filesystem path is secure by checking its owner, group, "
-"and permissions."
+"Asserts that a filesystem path is secure by checking its owner, group, and "
+"permissions."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:1837
@@ -5853,14 +5892,16 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:2077
 #: ../../reference/src/setting/REFERENCE.md:56
 #: ../../reference/src/setting/REFERENCE.md:86
-msgid "**STDLIB_COLOUR_LIGHT_GREEN** (string): The light green escape sequence."
+msgid ""
+"**STDLIB_COLOUR_LIGHT_GREEN** (string): The light green escape sequence."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2048
 #: ../../reference/src/REFERENCE_COMPLETE.md:2078
 #: ../../reference/src/setting/REFERENCE.md:57
 #: ../../reference/src/setting/REFERENCE.md:87
-msgid "**STDLIB_COLOUR_LIGHT_PURPLE** (string): The light purple escape sequence."
+msgid ""
+"**STDLIB_COLOUR_LIGHT_PURPLE** (string): The light purple escape sequence."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2049
@@ -5874,14 +5915,16 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:2080
 #: ../../reference/src/setting/REFERENCE.md:59
 #: ../../reference/src/setting/REFERENCE.md:89
-msgid "**STDLIB_COLOUR_LIGHT_WHITE** (string): The light white escape sequence."
+msgid ""
+"**STDLIB_COLOUR_LIGHT_WHITE** (string): The light white escape sequence."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2051
 #: ../../reference/src/REFERENCE_COMPLETE.md:2081
 #: ../../reference/src/setting/REFERENCE.md:60
 #: ../../reference/src/setting/REFERENCE.md:90
-msgid "**STDLIB_COLOUR_LIGHT_YELLOW** (string): The light yellow escape sequence."
+msgid ""
+"**STDLIB_COLOUR_LIGHT_YELLOW** (string): The light yellow escape sequence."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2052
@@ -5942,15 +5985,13 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:2100
 #: ../../reference/src/setting/REFERENCE.md:109
 msgid ""
-"**STDLIB_THEME_LOGGER_ERROR** (string): The colour to use for error "
-"messages."
+"**STDLIB_THEME_LOGGER_ERROR** (string): The colour to use for error messages."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2101
 #: ../../reference/src/setting/REFERENCE.md:110
 msgid ""
-"**STDLIB_THEME_LOGGER_INFO** (string): The colour to use for info "
-"messages."
+"**STDLIB_THEME_LOGGER_INFO** (string): The colour to use for info messages."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2102
@@ -5999,8 +6040,7 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:2121
 #: ../../reference/src/setting/REFERENCE.md:130
 msgid ""
-"**STDLIB_COLOUR_NULL** (string): A default value for null or missing "
-"colours."
+"**STDLIB_COLOUR_NULL** (string): A default value for null or missing colours."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2129
@@ -6031,8 +6071,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:2151
 #: ../../reference/src/string/REFERENCE.md:98
 msgid ""
-"**$1** (string): The delimiter string used to join the arguments (an "
-"empty string is a valid argument)."
+"**$1** (string): The delimiter string used to join the arguments (an empty "
+"string is a valid argument)."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2152
@@ -6093,8 +6133,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:2199
 #: ../../reference/src/string/REFERENCE.md:146
 msgid ""
-"**$2** (string): The delimiter string used to join the arguments (an "
-"empty string is a valid argument)."
+"**$2** (string): The delimiter string used to join the arguments (an empty "
+"string is a valid argument)."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2216
@@ -6453,8 +6493,8 @@ msgstr ""
 #: ../../reference/src/string/REFERENCE.md:547
 #: ../../reference/src/string/REFERENCE.md:574
 msgid ""
-"**$2** (string): (optional, default=\"-\") The string to colour, by "
-"default this function reads from stdin."
+"**$2** (string): (optional, default=\"-\") The string to colour, by default "
+"this function reads from stdin."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2609
@@ -6542,7 +6582,8 @@ msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2691
 #: ../../reference/src/string/REFERENCE.md:638
-msgid "A derivative of stdlib.string.colour.substring that can read from stdin."
+msgid ""
+"A derivative of stdlib.string.colour.substring that can read from stdin."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2698
@@ -6569,8 +6610,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:2719
 #: ../../reference/src/string/REFERENCE.md:666
 msgid ""
-"A derivative of stdlib.string.colour.substring that can read from and "
-"write to a variable."
+"A derivative of stdlib.string.colour.substring that can read from and write "
+"to a variable."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2726
@@ -6604,7 +6645,8 @@ msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2763
 #: ../../reference/src/string/REFERENCE.md:710
-msgid "A derivative of stdlib.string.colour.substrings that can read from stdin."
+msgid ""
+"A derivative of stdlib.string.colour.substrings that can read from stdin."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2789
@@ -6615,8 +6657,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:2791
 #: ../../reference/src/string/REFERENCE.md:738
 msgid ""
-"A derivative of stdlib.string.colour.substrings that can read from and "
-"write to a variable."
+"A derivative of stdlib.string.colour.substrings that can read from and write "
+"to a variable."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2809
@@ -6673,8 +6715,8 @@ msgstr ""
 #: ../../reference/src/string/REFERENCE.md:785
 #: ../../reference/src/string/REFERENCE.md:851
 msgid ""
-"**$2** (string): (optional, default=\"-\") The string to justify, by "
-"default this function reads from stdin."
+"**$2** (string): (optional, default=\"-\") The string to justify, by default "
+"this function reads from stdin."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2847
@@ -6692,8 +6734,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:2859
 #: ../../reference/src/string/REFERENCE.md:806
 msgid ""
-"A derivative of stdlib.string.justify.left that can read from and write "
-"to a variable."
+"A derivative of stdlib.string.justify.left that can read from and write to a "
+"variable."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2875
@@ -6731,8 +6773,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:2925
 #: ../../reference/src/string/REFERENCE.md:872
 msgid ""
-"A derivative of stdlib.string.justify.right that can read from and write "
-"to a variable."
+"A derivative of stdlib.string.justify.right that can read from and write to "
+"a variable."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2941
@@ -6752,8 +6794,8 @@ msgstr ""
 #: ../../reference/src/string/REFERENCE.md:913
 #: ../../reference/src/string/REFERENCE.md:939
 msgid ""
-"STDLIB_LINE_BREAK_DELIMITER string keyword: A line break char sequence "
-"which is replaced to join the string (default=$'\\n')."
+"STDLIB_LINE_BREAK_DELIMITER string keyword: A line break char sequence which "
+"is replaced to join the string (default=$'\\n')."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2948
@@ -6774,8 +6816,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:2970
 #: ../../reference/src/string/REFERENCE.md:917
 msgid ""
-"**$1** (string): (optional, default=\"-\") The string to process, by "
-"default this function reads from stdin."
+"**$1** (string): (optional, default=\"-\") The string to process, by default "
+"this function reads from stdin."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2979
@@ -6791,8 +6833,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:2991
 #: ../../reference/src/string/REFERENCE.md:938
 msgid ""
-"A derivative of stdlib.string.lines.join that can read from and write to "
-"a variable."
+"A derivative of stdlib.string.lines.join that can read from and write to a "
+"variable."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2996
@@ -6827,8 +6869,8 @@ msgstr ""
 #: ../../reference/src/string/REFERENCE.md:1056
 #: ../../reference/src/string/REFERENCE.md:1084
 msgid ""
-"STDLIB_LINE_BREAK_DELIMITER_CHAR string keyword: The line break char to "
-"use (default=$'\\n')."
+"STDLIB_LINE_BREAK_DELIMITER_CHAR string keyword: The line break char to use "
+"(default=$'\\n')."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:3014
@@ -6869,8 +6911,8 @@ msgstr ""
 #: ../../reference/src/string/REFERENCE.md:987
 #: ../../reference/src/string/REFERENCE.md:1061
 msgid ""
-"**$2** (string): (optional, default=\"-\") The input string to process, "
-"by default this function reads from stdin."
+"**$2** (string): (optional, default=\"-\") The input string to process, by "
+"default this function reads from stdin."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:3051
@@ -6888,8 +6930,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:3063
 #: ../../reference/src/string/REFERENCE.md:1010
 msgid ""
-"A derivative of stdlib.string.lines.map.fn that can read from and write "
-"to a variable."
+"A derivative of stdlib.string.lines.map.fn that can read from and write to a "
+"variable."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:3082
@@ -6916,7 +6958,8 @@ msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:3108
 #: ../../reference/src/string/REFERENCE.md:1055
-msgid "A derivative of stdlib.string.lines.map.format that can read from stdin."
+msgid ""
+"A derivative of stdlib.string.lines.map.format that can read from stdin."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:3134
@@ -6927,8 +6970,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:3136
 #: ../../reference/src/string/REFERENCE.md:1083
 msgid ""
-"A derivative of stdlib.string.lines.map.format that can read from and "
-"write to a variable."
+"A derivative of stdlib.string.lines.map.format that can read from and write "
+"to a variable."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:3154
@@ -7040,8 +7083,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:3270
 #: ../../reference/src/string/REFERENCE.md:1217
 msgid ""
-"A derivative of stdlib.string.pad.right that can read from and write to a"
-" variable."
+"A derivative of stdlib.string.pad.right that can read from and write to a "
+"variable."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:3286
@@ -7570,8 +7613,8 @@ msgstr ""
 #: ../../reference/src/string/REFERENCE.md:1613
 #: ../../reference/src/string/REFERENCE.md:1676
 msgid ""
-"**$1** (string): (optional, default=\"-\") The string to trim, by default"
-" this function reads from stdin."
+"**$1** (string): (optional, default=\"-\") The string to trim, by default "
+"this function reads from stdin."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:3675
@@ -7589,8 +7632,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:3687
 #: ../../reference/src/string/REFERENCE.md:1634
 msgid ""
-"A derivative of stdlib.string.trim.left that can read from and write to a"
-" variable."
+"A derivative of stdlib.string.trim.left that can read from and write to a "
+"variable."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:3702
@@ -7621,8 +7664,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:3750
 #: ../../reference/src/string/REFERENCE.md:1697
 msgid ""
-"A derivative of stdlib.string.trim.right that can read from and write to "
-"a variable."
+"A derivative of stdlib.string.trim.right that can read from and write to a "
+"variable."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:3765
@@ -7692,8 +7735,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:3802
 #: ../../reference/src/string/REFERENCE.md:1749
 msgid ""
-"**$3** (string): (optional, default=\"-\") The text to wrap, by default "
-"this function reads from stdin."
+"**$3** (string): (optional, default=\"-\") The text to wrap, by default this "
+"function reads from stdin."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:3813
@@ -7748,8 +7791,7 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:3850
 #: ../../reference/src/trap/REFERENCE.md:42
 msgid ""
-"**$2** (string): The name of the array to store registered handler "
-"functions."
+"**$2** (string): The name of the array to store registered handler functions."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:3862
@@ -7760,15 +7802,15 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:3864
 #: ../../reference/src/trap/REFERENCE.md:56
 msgid ""
-"A handler function that removes files when called (by default this "
-"handler is registered to the exit signal)."
+"A handler function that removes files when called (by default this handler "
+"is registered to the exit signal)."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:3865
 #: ../../reference/src/trap/REFERENCE.md:57
 msgid ""
-"STDLIB_CLEANUP_FN_TARGETS_ARRAY: An array used to store file names "
-"targeted by the cleanup_on_exit function (default=())."
+"STDLIB_CLEANUP_FN_TARGETS_ARRAY array global: An array containing a list of "
+"file names targeted by the cleanup_on_exit function (default=())."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:3873
@@ -7784,8 +7826,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:3876
 #: ../../reference/src/trap/REFERENCE.md:68
 msgid ""
-"STDLIB_HANDLER_ERR_FN_ARRAY: An array containing a list of functions that"
-" are run on error (default=())."
+"STDLIB_HANDLER_ERR_FN_ARRAY array global: An array containing a list of "
+"functions that are run on an error (default=())."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:3884
@@ -7796,15 +7838,15 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:3886
 #: ../../reference/src/trap/REFERENCE.md:78
 msgid ""
-"Adds a function to the error handler, which will be invoked (without "
-"args) during an error."
+"Adds a function to the error handler, which will be invoked (without args) "
+"during an error."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:3892
 #: ../../reference/src/trap/REFERENCE.md:84
 msgid ""
 "**STDLIB_HANDLER_ERR_FN_ARRAY** (array): An array containing a list of "
-"functions that are run on error."
+"functions that are run on an error."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:3898
@@ -7820,8 +7862,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:3901
 #: ../../reference/src/trap/REFERENCE.md:93
 msgid ""
-"STDLIB_HANDLER_EXIT_FN_ARRAY: An array containing a list of functions "
-"that are run on an exit call "
+"STDLIB_HANDLER_EXIT_FN_ARRAY array global: An array containing a list of "
+"functions that are run on an exit call "
 "(default=(\"stdlib.trap.fn.cleanup_on_exit\"))."
 msgstr ""
 
@@ -7833,8 +7875,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:3911
 #: ../../reference/src/trap/REFERENCE.md:103
 msgid ""
-"Adds a function to the exit handler, which will be invoked (without args)"
-" during an exit call."
+"Adds a function to the exit handler, which will be invoked (without args) "
+"during an exit call."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:3923
@@ -7845,8 +7887,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:3925
 #: ../../reference/src/var/REFERENCE.md:19
 msgid ""
-"Asserts that a variable is an empty value (unset variables, empty arrays,"
-" empty associative arrays, empty strings and empty integers)."
+"Asserts that a variable is an empty value (unset variables, empty arrays, "
+"empty associative arrays, empty strings and empty integers)."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:3942
@@ -7884,9 +7926,9 @@ msgstr ""
 #: ../../reference/src/var/REFERENCE.md:77
 #: ../../reference/src/var/REFERENCE.md:99
 msgid ""
-"STDLIB_VALIDATION_SOURCE_VAR: An optional variable name that can be used "
-"as a source for validation (logging will still attribute the value to the"
-" argument provided variable name) (default=\"\")."
+"STDLIB_VALIDATION_SOURCE_VAR: An optional variable name that can be used as "
+"a source for validation (logging will still attribute the value to the "
+"argument provided variable name) (default=\"\")."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:3988
@@ -7894,8 +7936,8 @@ msgstr ""
 #: ../../reference/src/var/REFERENCE.md:82
 #: ../../reference/src/var/REFERENCE.md:171
 msgid ""
-"**$2** (string): The name of the variable containing the value to perform"
-" validation on."
+"**$2** (string): The name of the variable containing the value to perform "
+"validation on."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:3989
@@ -7905,8 +7947,8 @@ msgstr ""
 #: ../../reference/src/var/REFERENCE.md:105
 #: ../../reference/src/var/REFERENCE.md:172
 msgid ""
-"**$3** (string): (optional, default=\"value\") Controls whether the "
-"'name' or 'value' of the variable is passed to the validation function."
+"**$3** (string): (optional, default=\"value\") Controls whether the 'name' "
+"or 'value' of the variable is passed to the validation function."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:4002
@@ -7916,7 +7958,8 @@ msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:4004
 #: ../../reference/src/var/REFERENCE.md:98
-msgid "Asserts a global variable's value is valid against a validation function."
+msgid ""
+"Asserts a global variable's value is valid against a validation function."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:4010
@@ -7944,8 +7987,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:4026
 #: ../../reference/src/var/REFERENCE.md:120
 msgid ""
-"Checks if a variable is an empty value (unset variables, empty arrays, "
-"empty associative arrays, empty strings and empty integers)."
+"Checks if a variable is an empty value (unset variables, empty arrays, empty "
+"associative arrays, empty strings and empty integers)."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:4034
@@ -8011,8 +8054,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:4072
 #: ../../reference/src/var/REFERENCE.md:166
 msgid ""
-"STDLIB_VALIDATION_SOURCE_VAR: An optional variable name that can be used "
-"as a source for validation (default=\"\")."
+"STDLIB_VALIDATION_SOURCE_VAR: An optional variable name that can be used as "
+"a source for validation (default=\"\")."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:4082
