@@ -11,16 +11,20 @@ builtin set -eo pipefail
 # @arg $3 string (optional, default="value") Controls whether the 'name' or 'value' of the variable is passed to the validation function.
 # @exitcode 0 If the global variable passes the validation function.
 # @exitcode 1 If the global variable fails the validation check.
+# @exitcode 125 If an invalid keyword has been provided.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stderr The error message if the assertion fails.
 stdlib.var.global.assert.is_valid_with() {
   builtin local return_code=0
 
-  stdlib.var.query.is_valid_with "${@}" || return_code="$?"
+  stdlib.var.query.is_valid_with "${@}" || return_code="$?" # validates STDLIB_VALIDATION_SOURCE_VAR
 
   case "${return_code}" in
     0) ;; # KCOV_EXCLUDE_LINE
+    125)
+      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_KEYWORD_INVALID)"
+      ;;
     126 | 127)
       stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
       ;;
