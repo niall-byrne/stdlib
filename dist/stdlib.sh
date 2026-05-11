@@ -4159,6 +4159,9 @@ stdlib.var.assert.is_valid_with ()
         0)
 
         ;;
+        125)
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_KEYWORD_INVALID)"
+        ;;
         126 | 127)
             stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
@@ -4176,6 +4179,9 @@ stdlib.var.global.assert.is_valid_with ()
     case "${return_code}" in
         0)
 
+        ;;
+        125)
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_KEYWORD_INVALID)"
         ;;
         126 | 127)
             stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
@@ -4249,7 +4255,7 @@ stdlib.var.query.is_valid_with ()
     stdlib.var.query.is_valid_name "${2}" || builtin return 126;
     stdlib.array.query.is_contains "${validation_source_selection}" var_source_types || builtin return 126;
     if [[ -n "${validate_default_value}" ]]; then
-        stdlib.var.query.is_set "${validate_default_value}" || builtin return 126;
+        stdlib.var.query.is_set "${validate_default_value}" || builtin return 125;
         validation_source="${validate_default_value}";
     fi;
     if [[ "${validation_source_selection}" == "name" ]]; then
@@ -4267,6 +4273,9 @@ stdlib.var.reserved.assert.__is_valid_with ()
     case "${return_code}" in
         0)
 
+        ;;
+        125)
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_KEYWORD_INVALID)"
         ;;
         126 | 127)
             stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
