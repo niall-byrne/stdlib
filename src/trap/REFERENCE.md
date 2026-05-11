@@ -54,7 +54,7 @@ Creates a trap handler function and a registration function.
 ### stdlib.trap.fn.cleanup_on_exit
 
 A handler function that removes files when called (by default this handler is registered to the exit signal).
-* STDLIB_CLEANUP_FN_TARGETS_ARRAY: An array used to store file names targeted by the cleanup_on_exit function (default=()).
+* STDLIB_CLEANUP_FN_TARGETS_ARRAY array global: An array containing a list of file names targeted by the cleanup_on_exit function (default=()).
 
 _Function has no arguments._
 
@@ -65,7 +65,7 @@ _Function has no arguments._
 ### stdlib.trap.handler.err.fn
 
 A handler function that is invoked on an error trap.
-* STDLIB_HANDLER_ERR_FN_ARRAY: An array containing a list of functions that are run on error (default=()).
+* STDLIB_HANDLER_ERR_FN_ARRAY array global: An array containing a list of functions that are run on an error (default=()).
 
 _Function has no arguments._
 
@@ -81,7 +81,7 @@ _Function has no arguments._
 
 #### Variables set
 
-* **STDLIB_HANDLER_ERR_FN_ARRAY** (array): An array containing a list of functions that are run on error.
+* **STDLIB_HANDLER_ERR_FN_ARRAY** (array): An array containing a list of functions that are run on an error.
 
 #### Exit codes
 
@@ -90,7 +90,7 @@ _Function has no arguments._
 ### stdlib.trap.handler.exit.fn
 
 A handler function that is invoked on an exit trap.
-* STDLIB_HANDLER_EXIT_FN_ARRAY: An array containing a list of functions that are run on an exit call (default=("stdlib.trap.fn.cleanup_on_exit")).
+* STDLIB_HANDLER_EXIT_FN_ARRAY array global: An array containing a list of functions that are run on an exit call (default=("stdlib.trap.fn.cleanup_on_exit")).
 
 _Function has no arguments._
 
