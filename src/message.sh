@@ -274,6 +274,10 @@ stdlib.__message.get() {
       required_options=1
       message="$(stdlib.__gettext "The variable '\${option1}' has an invalid value!")"
       ;;
+    VAR_VALUE_INVALID_RESERVED)
+      required_options=1
+      message="$(stdlib.__gettext "The variable '\${option1}' is reserved for internal use by the BASH stdlib and has been assigned an invalid value!")"
+      ;;
     "")
       required_options=0
       return_status=126

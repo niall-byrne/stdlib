@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: niall@niallbyrne.ca\n"
-"POT-Creation-Date: 2026-05-12 19:10+0000\n"
+"POT-Creation-Date: 2026-05-20 15:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -321,4 +321,11 @@ msgstr ""
 #: src/message.sh:275
 #, sh-format
 msgid "The variable '${option1}' has an invalid value!"
+msgstr ""
+
+#: src/message.sh:279
+#, sh-format
+msgid ""
+"The variable '${option1}' is reserved for internal use by the BASH stdlib "
+"and has been assigned an invalid value!"
 msgstr ""

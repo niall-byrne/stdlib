@@ -83,7 +83,8 @@ setup() {
     "traceback_header;TRACEBACK_HEADER;Callstack:" \
     "var_name_invalid;VAR_NAME_INVALID|not_valid;The value 'not_valid' is not a valid variable name!" \
     "var_not_set;VAR_NOT_SET|not_set;The variable 'not_set' is not set!" \
-    "var_value_invalid;VAR_VALUE_INVALID|var_invalid;The variable 'var_invalid' has an invalid value!"
+    "var_value_invalid;VAR_VALUE_INVALID|var_invalid;The variable 'var_invalid' has an invalid value!" \
+    "var_value_invalid_reserved;VAR_VALUE_INVALID_RESERVED|reserved;The variable 'reserved' is reserved for internal use by the BASH stdlib and has been assigned an invalid value!"
 }
 
 @parametrize_with_incorrect_arg_counts() {
@@ -215,7 +216,9 @@ setup() {
     "var_not_set_____________________________no_args______;VAR_NOT_SET" \
     "var_not_set_____________________________too_many_args;VAR_NOT_SET|1|2" \
     "var_value_invalid_______________________no_args______;VAR_VALUE_INVALID" \
-    "var_value_invalid_______________________too_many_args;VAR_VALUE_INVALID|1|2"
+    "var_value_invalid_______________________too_many_args;VAR_VALUE_INVALID|1|2" \
+    "var_value_invalid_reserved______________no_args______;VAR_VALUE_INVALID_RESERVED" \
+    "var_value_invalid_reserved______________too_many_args;VAR_VALUE_INVALID_RESERVED|1|2"
 }
 
 # shellcheck disable=SC2034

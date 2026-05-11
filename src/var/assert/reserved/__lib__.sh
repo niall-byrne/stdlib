@@ -1,10 +1,8 @@
 #!/bin/bash
 
-# stdlib var assert library
+# stdlib var assert reserved library
 
 builtin set -eo pipefail
 
-# shellcheck source=src/var/assert/is.sh
-builtin source "${STDLIB_DIRECTORY}/var/assert/is.sh"
 # shellcheck source=src/var/assert/reserved/is.sh
 builtin source "${STDLIB_DIRECTORY}/var/assert/reserved/is.sh"
