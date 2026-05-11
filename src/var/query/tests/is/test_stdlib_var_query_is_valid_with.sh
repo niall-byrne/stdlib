@@ -162,7 +162,7 @@ test_stdlib_var_query_is_valid_with__valid_fn_and_var__@vary__default_failover__
   test_stdlib_var_query_is_valid_with__valid_fn_and_var__@vary__default_failover_________calls_validator
 
 # shellcheck disable=SC2034
-test_stdlib_var_query_is_valid_with__valid_fn_and_var__@vary__default_failover_________unset_default_var___returns_status_code_126() {
+test_stdlib_var_query_is_valid_with__valid_fn_and_var__@vary__default_failover_________unset_default_var___returns_status_code_125() {
   local args=()
 
   stdlib.array.make.from_string args "|" "${TEST_ARGS_DEFINITION}"
@@ -171,11 +171,11 @@ test_stdlib_var_query_is_valid_with__valid_fn_and_var__@vary__default_failover__
   STDLIB_VALIDATION_SOURCE_VAR="_UNSET_VAR" \
     _capture.rc stdlib.var.query.is_valid_with "${args[@]}"
 
-  assert_rc "126"
+  assert_rc "125"
 }
 
 @parametrize_with_source_types_and_default_failover \
-  test_stdlib_var_query_is_valid_with__valid_fn_and_var__@vary__default_failover_________unset_default_var___returns_status_code_126
+  test_stdlib_var_query_is_valid_with__valid_fn_and_var__@vary__default_failover_________unset_default_var___returns_status_code_125
 
 test_stdlib_var_query_is_valid_with__valid_fn_and_var__@vary__default_failover_________validator_passes____returns_status_code___0() {
   local args=()
