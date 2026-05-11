@@ -21,6 +21,10 @@ __package_build_stdlib_testing() {
   bash build/build.sh testing | sed 's/ $//g' > "${STDLIB_TESTING_RELEASE}"
 }
 
+__package_clear_traps() {
+  trap - ERR EXIT
+}
+
 __package_test_stdlib() {
   # shellcheck source=/dev/null
   source "${STDLIB_RELEASE}"
@@ -37,6 +41,8 @@ __package_test_stdlib_testing() {
 
   STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="1" stdlib.setting.colour.enable
   stdlib.logger.success "The stdlib testing library was successfully packaged."
+
+  __package_clear_traps
 }
 
 __package_translate() {
@@ -49,6 +55,8 @@ __package_translate() {
 
   STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN="1" stdlib.setting.colour.enable
   stdlib.logger.success "The translations were successfully packaged."
+
+  __package_clear_traps
 }
 
 __package_main() {
