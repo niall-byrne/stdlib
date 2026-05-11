@@ -407,6 +407,10 @@ stdlib.__message.get ()
             required_options=1;
             message="$(stdlib.__gettext "The variable '\${option1}' is not set!")"
         ;;
+        VAR_RESERVED)
+            required_options=1;
+            message="$(stdlib.__gettext "The variable '\${option1}' is reserved for use by the BASH stdlib and should not be modified in this way.")"
+        ;;
         VAR_VALUE_INVALID)
             required_options=1;
             message="$(stdlib.__gettext "The variable '\${option1}' has an invalid value!")"
@@ -3858,6 +3862,24 @@ stdlib.trap.handler.exit.fn.register ()
     stdlib.fn.args.require "1" "0" "${@}" || builtin return "$?";
     stdlib.fn.assert.is_fn "${1}" || builtin return 126;
     STDLIB_HANDLER_EXIT_FN_ARRAY+=("${1}")
+}
+
+stdlib.var.assert.__reserved.is_valid_with ()
+{
+    builtin local return_code=0;
+    stdlib.var.query.is_valid_with "${@}" || return_code="$?";
+    case "${return_code}" in
+        0)
+
+        ;;
+        126 | 127)
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
+        ;;
+        *)
+            stdlib.logger.error "$(stdlib.__message.get VAR_RESERVED "${2}")"
+        ;;
+    esac;
+    builtin return "${return_code}"
 }
 
 stdlib.var.assert.is_set ()

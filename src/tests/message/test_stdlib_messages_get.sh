@@ -83,6 +83,7 @@ setup() {
     "traceback_header;TRACEBACK_HEADER;Callstack:" \
     "var_name_invalid;VAR_NAME_INVALID|not_valid;The value 'not_valid' is not a valid variable name!" \
     "var_not_set;VAR_NOT_SET|not_set;The variable 'not_set' is not set!" \
+    "var_reserved;VAR_RESERVED|reserved;The variable 'reserved' is reserved for use by the BASH stdlib and should not be modified in this way." \
     "var_value_invalid;VAR_VALUE_INVALID|var_invalid;The variable 'var_invalid' has an invalid value!"
 }
 
@@ -214,6 +215,8 @@ setup() {
     "var_name_invalid________________________too_many_args;VAR_NAME_INVALID|1|2" \
     "var_not_set_____________________________no_args______;VAR_NOT_SET" \
     "var_not_set_____________________________too_many_args;VAR_NOT_SET|1|2" \
+    "var_reserved____________________________no_args______;VAR_RESERVED" \
+    "var_reserved____________________________too_many_args;VAR_RESERVED|1|2" \
     "var_value_invalid_______________________no_args______;VAR_VALUE_INVALID" \
     "var_value_invalid_______________________too_many_args;VAR_VALUE_INVALID|1|2"
 }

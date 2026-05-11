@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: niall@niallbyrne.ca\n"
-"POT-Creation-Date: 2026-05-08 12:50+0000\n"
+"POT-Creation-Date: 2026-05-11 14:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -319,6 +319,13 @@ msgid "The variable '${option1}' is not set!"
 msgstr ""
 
 #: src/message.sh:275
+#, sh-format
+msgid ""
+"The variable '${option1}' is reserved for use by the BASH stdlib and should "
+"not be modified in this way."
+msgstr ""
+
+#: src/message.sh:279
 #, sh-format
 msgid "The variable '${option1}' has an invalid value!"
 msgstr ""

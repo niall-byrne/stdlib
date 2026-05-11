@@ -270,6 +270,10 @@ stdlib.__message.get() {
       required_options=1
       message="$(stdlib.__gettext "The variable '\${option1}' is not set!")"
       ;;
+    VAR_RESERVED)
+      required_options=1
+      message="$(stdlib.__gettext "The variable '\${option1}' is reserved for use by the BASH stdlib and should not be modified in this way.")"
+      ;;
     VAR_VALUE_INVALID)
       required_options=1
       message="$(stdlib.__gettext "The variable '\${option1}' has an invalid value!")"
