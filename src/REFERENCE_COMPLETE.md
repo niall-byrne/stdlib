@@ -3822,6 +3822,7 @@ Asserts a variable's value is valid against a validation function.
 
 * **0**: If the assertion succeeded.
 * **1**: If the assertion failed.
+* **125**: If an invalid keyword has been provided.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 
@@ -3844,6 +3845,7 @@ Asserts a global variable's value is valid against a validation function.
 
 * **0**: If the global variable passes the validation function.
 * **1**: If the global variable fails the validation check.
+* **125**: If an invalid keyword has been provided.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 
@@ -3911,5 +3913,6 @@ Checks if a variable's value is valid against a validation function.
 
 * **0**: If the variable passes the validation function.
 * **1**: If the variable fails the validation check.
+* **125**: If an invalid keyword has been provided.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
