@@ -171,3 +171,33 @@ test_stdlib_trap_create_cleanup_fn__valid_args_______________cleanup_fn_function
     "1(-fr) 2(file_exists_1)" \
     "1(-fr) 2(file_exists_3)"
 }
+
+# shellcheck disable=SC2034
+test_stdlib_trap_create_cleanup_fn__valid_args_______________cleanup_fn_function__valid_args__array_overwritten________returns_status_code_126() {
+  _mock.create stdlib.io.path.query.is_exists
+  stdlib.io.path.query.is_exists.mock.set.side_effects "return 0" "return 1" "return 0"
+
+  stdlib.trap.create.cleanup_fn cleanup_fn TEST_ARRAY "1"
+  # shellcheck disable=SC2178
+  declare TEST_ARRAY="overwritten with string"
+
+  _capture.rc cleanup_fn
+
+  assert_rc "126"
+}
+
+# shellcheck disable=SC2034
+test_stdlib_trap_create_cleanup_fn__valid_args_______________cleanup_fn_function__valid_args__array_overwritten________logs_an_error_message() {
+  _mock.create stdlib.io.path.query.is_exists
+  stdlib.io.path.query.is_exists.mock.set.side_effects "return 0" "return 1" "return 0"
+
+  stdlib.trap.create.cleanup_fn cleanup_fn TEST_ARRAY "1"
+  # shellcheck disable=SC2178
+  declare TEST_ARRAY="overwritten with string"
+
+  cleanup_fn
+
+  stdlib.logger.error.mock.assert_calls_are \
+    "1($(stdlib.__message.get IS_NOT_ARRAY TEST_ARRAY))" \
+    "1($(stdlib.__message.get VAR_RESERVED TEST_ARRAY))"
+}
