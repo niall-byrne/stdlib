@@ -3889,6 +3889,10 @@ stdlib.string.wrap_pipe ()
 
 stdlib.trap.__register_default_handlers ()
 {
+    STDLIB_VAR_VALIDATE_BY_NAME_BOOLEAN=1 stdlib.var.reserved.assert.__is_valid_with stdlib.array.assert.is_array STDLIB_CLEANUP_FN_TARGETS_ARRAY || builtin return 126;
+    STDLIB_VAR_VALIDATE_BY_NAME_BOOLEAN=1 stdlib.var.reserved.assert.__is_valid_with stdlib.array.assert.is_array STDLIB_HANDLER_ERR_FN_ARRAY || builtin return 126;
+    STDLIB_VAR_VALIDATE_BY_NAME_BOOLEAN=1 stdlib.var.reserved.assert.__is_valid_with stdlib.array.assert.is_array STDLIB_HANDLER_EXIT_FN_ARRAY || builtin return 126;
+    stdlib.var.reserved.assert.__is_valid_with stdlib.string.assert.is_boolean STDLIB_TRACEBACK_DISABLE_BOOLEAN || builtin return 126;
     stdlib.trap.create.handler "stdlib.trap.handler.err.fn" STDLIB_HANDLER_ERR_FN_ARRAY;
     stdlib.trap.create.handler "stdlib.trap.handler.exit.fn" STDLIB_HANDLER_EXIT_FN_ARRAY;
     stdlib.trap.create.cleanup_fn "stdlib.trap.fn.cleanup_on_exit" STDLIB_CLEANUP_FN_TARGETS_ARRAY;
@@ -3915,6 +3919,8 @@ ${1}() {
 
   [[ "\${#@}" -eq 0 ]] || builtin return 127
 
+  STDLIB_VAR_VALIDATE_BY_NAME_BOOLEAN=1     stdlib.var.global.assert.is_valid_with stdlib.array.assert.is_array "${2}" || builtin return 126
+
   for clean_up_path in "\${${2}[@]}"; do
     if stdlib.io.path.query.is_exists "\${clean_up_path}"; then
       "${_STDLIB_BINARY_RM}" "${rm_flags}" "\${clean_up_path}"
@@ -3937,7 +3943,10 @@ ${1}() {
 
   [[ "\${#@}" -eq 0 ]] || builtin return 127
 
+  STDLIB_VAR_VALIDATE_BY_NAME_BOOLEAN=1     stdlib.var.global.assert.is_valid_with stdlib.array.assert.is_array "${2}" || builtin return 126
+
   for trap_handler_fn in "\${${2}[@]}"; do
+    stdlib.fn.assert.is_fn "\${trap_handler_fn}" || builtin return 126
     "\${trap_handler_fn}"
   done
 }
@@ -3947,6 +3956,8 @@ ${1}.register() {
 
   stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
   stdlib.fn.assert.is_fn "\${1}" || builtin return 126
+
+  STDLIB_VAR_VALIDATE_BY_NAME_BOOLEAN=1     stdlib.var.global.assert.is_valid_with stdlib.array.assert.is_array "${2}" || builtin return 126
 
   ${2}+=("\${1}")
 }
@@ -3959,6 +3970,7 @@ stdlib.trap.fn.cleanup_on_exit ()
 {
     builtin local clean_up_path;
     [[ "${#@}" -eq 0 ]] || builtin return 127;
+    STDLIB_VAR_VALIDATE_BY_NAME_BOOLEAN=1 stdlib.var.global.assert.is_valid_with stdlib.array.assert.is_array "STDLIB_CLEANUP_FN_TARGETS_ARRAY" || builtin return 126;
     for clean_up_path in "${STDLIB_CLEANUP_FN_TARGETS_ARRAY[@]}";
     do
         if stdlib.io.path.query.is_exists "${clean_up_path}"; then
@@ -3971,8 +3983,10 @@ stdlib.trap.handler.err.fn ()
 {
     builtin local trap_handler_fn;
     [[ "${#@}" -eq 0 ]] || builtin return 127;
+    STDLIB_VAR_VALIDATE_BY_NAME_BOOLEAN=1 stdlib.var.global.assert.is_valid_with stdlib.array.assert.is_array "STDLIB_HANDLER_ERR_FN_ARRAY" || builtin return 126;
     for trap_handler_fn in "${STDLIB_HANDLER_ERR_FN_ARRAY[@]}";
     do
+        stdlib.fn.assert.is_fn "${trap_handler_fn}" || builtin return 126;
         "${trap_handler_fn}";
     done
 }
@@ -3981,6 +3995,7 @@ stdlib.trap.handler.err.fn.register ()
 {
     stdlib.fn.args.require "1" "0" "${@}" || builtin return "$?";
     stdlib.fn.assert.is_fn "${1}" || builtin return 126;
+    STDLIB_VAR_VALIDATE_BY_NAME_BOOLEAN=1 stdlib.var.global.assert.is_valid_with stdlib.array.assert.is_array "STDLIB_HANDLER_ERR_FN_ARRAY" || builtin return 126;
     STDLIB_HANDLER_ERR_FN_ARRAY+=("${1}")
 }
 
@@ -3988,8 +4003,10 @@ stdlib.trap.handler.exit.fn ()
 {
     builtin local trap_handler_fn;
     [[ "${#@}" -eq 0 ]] || builtin return 127;
+    STDLIB_VAR_VALIDATE_BY_NAME_BOOLEAN=1 stdlib.var.global.assert.is_valid_with stdlib.array.assert.is_array "STDLIB_HANDLER_EXIT_FN_ARRAY" || builtin return 126;
     for trap_handler_fn in "${STDLIB_HANDLER_EXIT_FN_ARRAY[@]}";
     do
+        stdlib.fn.assert.is_fn "${trap_handler_fn}" || builtin return 126;
         "${trap_handler_fn}";
     done
 }
@@ -3998,6 +4015,7 @@ stdlib.trap.handler.exit.fn.register ()
 {
     stdlib.fn.args.require "1" "0" "${@}" || builtin return "$?";
     stdlib.fn.assert.is_fn "${1}" || builtin return 126;
+    STDLIB_VAR_VALIDATE_BY_NAME_BOOLEAN=1 stdlib.var.global.assert.is_valid_with stdlib.array.assert.is_array "STDLIB_HANDLER_EXIT_FN_ARRAY" || builtin return 126;
     STDLIB_HANDLER_EXIT_FN_ARRAY+=("${1}")
 }
 
@@ -4178,7 +4196,7 @@ builtin set -e
 
 # this snippet is included by the build script:
 # src/trap/register.snippet
-stdlib.trap.__register_default_handlers
+stdlib.trap.__register_default_handlers || builtin return "$?"
 
 stdlib.__builtin.overridable trap stdlib.trap.handler.err.fn ERR
 stdlib.__builtin.overridable trap stdlib.trap.handler.exit.fn EXIT

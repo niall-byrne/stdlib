@@ -33,6 +33,9 @@ ${1}() {
 
   [[ "\${#@}" -eq 0 ]] || builtin return 127
 
+  STDLIB_VAR_VALIDATE_BY_NAME_BOOLEAN=1 \
+    stdlib.var.global.assert.is_valid_with stdlib.array.assert.is_array "${2}" || builtin return 126
+
   for clean_up_path in "\${${2}[@]}"; do
     if stdlib.io.path.query.is_exists "\${clean_up_path}"; then
       "${_STDLIB_BINARY_RM}" "${rm_flags}" "\${clean_up_path}"
@@ -65,7 +68,11 @@ ${1}() {
 
   [[ "\${#@}" -eq 0 ]] || builtin return 127
 
+  STDLIB_VAR_VALIDATE_BY_NAME_BOOLEAN=1 \
+    stdlib.var.global.assert.is_valid_with stdlib.array.assert.is_array "${2}" || builtin return 126
+
   for trap_handler_fn in "\${${2}[@]}"; do
+    stdlib.fn.assert.is_fn "\${trap_handler_fn}" || builtin return 126
     "\${trap_handler_fn}"
   done
 }
@@ -75,6 +82,9 @@ ${1}.register() {
 
   stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
   stdlib.fn.assert.is_fn "\${1}" || builtin return 126
+
+  STDLIB_VAR_VALIDATE_BY_NAME_BOOLEAN=1 \
+    stdlib.var.global.assert.is_valid_with stdlib.array.assert.is_array "${2}" || builtin return 126
 
   ${2}+=("\${1}")
 }

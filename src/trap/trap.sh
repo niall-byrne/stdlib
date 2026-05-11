@@ -17,13 +17,13 @@ STDLIB_CLEANUP_FN_TARGETS_ARRAY=()
 #   * STDLIB_CLEANUP_FN_TARGETS_ARRAY: An array used to store file names targeted by the cleanup_on_exit function (default=()).
 # @noargs
 # @exitcode 0 If the operation succeeded.
-stdlib.trap.fn.cleanup_on_exit() { :; }
+stdlib.trap.fn.cleanup_on_exit() { :; } # validates STDLIB_CLEANUP_FN_TARGETS_ARRAY
 
 # @description A handler function that is invoked on an error trap.
 #   * STDLIB_HANDLER_ERR_FN_ARRAY: An array containing a list of functions that are run on error (default=()).
 # @noargs
 # @exitcode 0 If the operation succeeded.
-stdlib.trap.handler.err.fn() { :; }
+stdlib.trap.handler.err.fn() { :; } # validates STDLIB_HANDLER_ERR_FN_ARRAY
 
 # @description Adds a function to the error handler, which will be invoked (without args) during an error.
 # @noargs
@@ -35,7 +35,7 @@ stdlib.trap.handler.err.fn.register() { :; }
 #   * STDLIB_HANDLER_EXIT_FN_ARRAY: An array containing a list of functions that are run on an exit call (default=("stdlib.trap.fn.cleanup_on_exit")).
 # @noargs
 # @exitcode 0 If the operation succeeded.
-stdlib.trap.handler.exit.fn() { :; }
+stdlib.trap.handler.exit.fn() { :; } # validates STDLIB_HANDLER_EXIT_FN_ARRAY
 
 # @description Adds a function to the exit handler, which will be invoked (without args) during an exit call.
 # @noargs
@@ -52,6 +52,15 @@ stdlib.trap.handler.exit.fn.register() { :; }
 # @exitcode 0 If the operation succeeded.
 # @internal
 stdlib.trap.__register_default_handlers() {
+  STDLIB_VAR_VALIDATE_BY_NAME_BOOLEAN=1 \
+    stdlib.var.reserved.assert.__is_valid_with stdlib.array.assert.is_array STDLIB_CLEANUP_FN_TARGETS_ARRAY || builtin return 126 # validates STDLIB_CLEANUP_FN_TARGETS_ARRAY
+  STDLIB_VAR_VALIDATE_BY_NAME_BOOLEAN=1 \
+    stdlib.var.reserved.assert.__is_valid_with stdlib.array.assert.is_array STDLIB_HANDLER_ERR_FN_ARRAY || builtin return 126 # validates STDLIB_HANDLER_ERR_FN_ARRAY
+  STDLIB_VAR_VALIDATE_BY_NAME_BOOLEAN=1 \
+    stdlib.var.reserved.assert.__is_valid_with stdlib.array.assert.is_array STDLIB_HANDLER_EXIT_FN_ARRAY || builtin return 126 # validates STDLIB_HANDLER_EXIT_FN_ARRAY
+
+  stdlib.var.reserved.assert.__is_valid_with stdlib.string.assert.is_boolean STDLIB_TRACEBACK_DISABLE_BOOLEAN || builtin return 126 # validates STDLIB_TRACEBACK_DISABLE_BOOLEAN
+
   stdlib.trap.create.handler "stdlib.trap.handler.err.fn" STDLIB_HANDLER_ERR_FN_ARRAY
   stdlib.trap.create.handler "stdlib.trap.handler.exit.fn" STDLIB_HANDLER_EXIT_FN_ARRAY
   stdlib.trap.create.cleanup_fn "stdlib.trap.fn.cleanup_on_exit" STDLIB_CLEANUP_FN_TARGETS_ARRAY
