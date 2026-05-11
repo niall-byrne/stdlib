@@ -74,7 +74,7 @@ Asserts that a string is a valid variable name.
 ### stdlib.var.assert.is_valid_with
 
 Asserts a variable's value is valid against a validation function.
-* STDLIB_VALIDATION_SOURCE_VAR: An optional variable name that can be used as a source for validation (logging will still attribute the value to the argument provided variable name) (default="").
+* STDLIB_VALIDATION_SOURCE_VAR string keyword: An optional variable name that can be used as a source for validation (logging will still attribute the value to the argument provided variable name) (default="").
 
 #### Arguments
 
@@ -86,6 +86,7 @@ Asserts a variable's value is valid against a validation function.
 
 * **0**: If the assertion succeeded.
 * **1**: If the assertion failed.
+* **125**: If an invalid keyword has been provided.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 
@@ -96,7 +97,7 @@ Asserts a variable's value is valid against a validation function.
 ### stdlib.var.global.assert.is_valid_with
 
 Asserts a global variable's value is valid against a validation function.
-* STDLIB_VALIDATION_SOURCE_VAR: An optional variable name that can be used as a source for validation (logging will still attribute the value to the argument provided variable name) (default="").
+* STDLIB_VALIDATION_SOURCE_VAR string keyword: An optional variable name that can be used as a source for validation (logging will still attribute the value to the argument provided variable name) (default="").
 
 #### Arguments
 
@@ -108,6 +109,7 @@ Asserts a global variable's value is valid against a validation function.
 
 * **0**: If the global variable passes the validation function.
 * **1**: If the global variable fails the validation check.
+* **125**: If an invalid keyword has been provided.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 
@@ -163,7 +165,7 @@ Checks if a string is a valid variable name.
 ### stdlib.var.query.is_valid_with
 
 Checks if a variable's value is valid against a validation function.
-* STDLIB_VALIDATION_SOURCE_VAR: An optional variable name that can be used as a source for validation (default="").
+* STDLIB_VALIDATION_SOURCE_VAR string keyword: An optional variable name that can be used as a source for validation (default="").
 
 #### Arguments
 
@@ -175,5 +177,6 @@ Checks if a variable's value is valid against a validation function.
 
 * **0**: If the variable passes the validation function.
 * **1**: If the variable fails the validation check.
+* **125**: If an invalid keyword has been provided.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
