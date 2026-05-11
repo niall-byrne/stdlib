@@ -1,6 +1,6 @@
 #!/bin/bash
 
-stdlib.trap.__register_default_handlers
+stdlib.trap.__register_default_handlers || builtin return "$?"
 
 stdlib.__builtin.overridable trap stdlib.trap.handler.err.fn ERR
 stdlib.__builtin.overridable trap stdlib.trap.handler.exit.fn EXIT
