@@ -28,6 +28,8 @@ boolean
 capture_assertion_failure
 cleanup_on_exit
 fn
+is_empty
+is_string
 jules
 kcov
 mktemp

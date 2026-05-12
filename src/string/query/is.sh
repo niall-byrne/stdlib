@@ -148,6 +148,16 @@ stdlib.string.query.is_digit() {
   esac
 }
 
+# @description Checks if a value is an empty string.
+# @arg $1 string The value to check.
+# @exitcode 0 If the value is an empty string.
+# @exitcode 1 If the value is a non empty string.
+# @exitcode 127 If the wrong number of arguments were provided.
+stdlib.string.query.is_empty() {
+  [[ "${#@}" == "1" ]] || builtin return 127
+  [[ -z "${1}" ]] || builtin return 1
+}
+
 # @description Checks if a string is an integer.
 # @arg $1 string The string to check.
 # @exitcode 0 If the string is an integer.
@@ -280,14 +290,4 @@ stdlib.string.query.is_snake_case_upper() {
       builtin return 1
       ;;
   esac
-}
-
-# @description Checks if a value is a non-empty string.
-# @arg $1 string The value to check.
-# @exitcode 0 If the value is a non-empty string.
-# @exitcode 1 If the value is an empty string.
-# @exitcode 127 If the wrong number of arguments were provided.
-stdlib.string.query.is_string() {
-  [[ "${#@}" == "1" ]] || builtin return 127
-  [[ -n "${1}" ]] || builtin return 1
 }
