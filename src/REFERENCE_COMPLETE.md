@@ -103,13 +103,13 @@
 * [stdlib.string.assert.is_decimal](#stdlibstringassertis_decimal)
 * [stdlib.string.assert.is_decimal_positive](#stdlibstringassertis_decimal_positive)
 * [stdlib.string.assert.is_digit](#stdlibstringassertis_digit)
+* [stdlib.string.assert.is_empty](#stdlibstringassertis_empty)
 * [stdlib.string.assert.is_integer](#stdlibstringassertis_integer)
 * [stdlib.string.assert.is_integer_with_range](#stdlibstringassertis_integer_with_range)
 * [stdlib.string.assert.is_octal_permission](#stdlibstringassertis_octal_permission)
 * [stdlib.string.assert.is_regex_match](#stdlibstringassertis_regex_match)
 * [stdlib.string.assert.is_snake_case](#stdlibstringassertis_snake_case)
 * [stdlib.string.assert.is_snake_case_upper](#stdlibstringassertis_snake_case_upper)
-* [stdlib.string.assert.is_string](#stdlibstringassertis_string)
 * [stdlib.string.assert.net.is_ipv4](#stdlibstringassertnetis_ipv4)
 * [stdlib.string.assert.net.is_ipv6](#stdlibstringassertnetis_ipv6)
 * [stdlib.string.assert.not_equal](#stdlibstringassertnot_equal)
@@ -154,13 +154,13 @@
 * [stdlib.string.query.is_decimal](#stdlibstringqueryis_decimal)
 * [stdlib.string.query.is_decimal_positive](#stdlibstringqueryis_decimal_positive)
 * [stdlib.string.query.is_digit](#stdlibstringqueryis_digit)
+* [stdlib.string.query.is_empty](#stdlibstringqueryis_empty)
 * [stdlib.string.query.is_integer](#stdlibstringqueryis_integer)
 * [stdlib.string.query.is_integer_with_range](#stdlibstringqueryis_integer_with_range)
 * [stdlib.string.query.is_octal_permission](#stdlibstringqueryis_octal_permission)
 * [stdlib.string.query.is_regex_match](#stdlibstringqueryis_regex_match)
 * [stdlib.string.query.is_snake_case](#stdlibstringqueryis_snake_case)
 * [stdlib.string.query.is_snake_case_upper](#stdlibstringqueryis_snake_case_upper)
-* [stdlib.string.query.is_string](#stdlibstringqueryis_string)
 * [stdlib.string.query.net.is_ipv4](#stdlibstringquerynetis_ipv4)
 * [stdlib.string.query.net.is_ipv6](#stdlibstringquerynetis_ipv6)
 * [stdlib.string.query.ends_with](#stdlibstringqueryends_with)
@@ -2103,6 +2103,24 @@ Asserts that a string contains only digits.
 
 * The error message if the assertion fails.
 
+### stdlib.string.assert.is_empty
+
+Asserts that a value is a non-empty string.
+
+#### Arguments
+
+* **$1** (string): The value to check.
+
+#### Exit codes
+
+* **0**: If the assertion succeeded.
+* **1**: If the assertion failed.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stderr
+
+* The error message if the assertion fails.
+
 ### stdlib.string.assert.is_integer
 
 Asserts that a string is an integer.
@@ -2204,24 +2222,6 @@ Asserts that a string is in upper snake case.
 #### Arguments
 
 * **$1** (string): The string to check.
-
-#### Exit codes
-
-* **0**: If the assertion succeeded.
-* **1**: If the assertion failed.
-* **127**: If the wrong number of arguments were provided.
-
-#### Output on stderr
-
-* The error message if the assertion fails.
-
-### stdlib.string.assert.is_string
-
-Asserts that a value is a non-empty string.
-
-#### Arguments
-
-* **$1** (string): The value to check.
 
 #### Exit codes
 
@@ -3148,6 +3148,20 @@ Checks if a string contains only digits.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 
+### stdlib.string.query.is_empty
+
+Checks if a value is an empty string.
+
+#### Arguments
+
+* **$1** (string): The value to check.
+
+#### Exit codes
+
+* **0**: If the value is an empty string.
+* **1**: If the value is a non empty string.
+* **127**: If the wrong number of arguments were provided.
+
 ### stdlib.string.query.is_integer
 
 Checks if a string is an integer.
@@ -3239,20 +3253,6 @@ Checks if a string is in upper snake case.
 * **0**: If the string is valid upper snake case.
 * **1**: If the string is not valid upper snake case.
 * **126**: If an invalid argument has been provided.
-* **127**: If the wrong number of arguments were provided.
-
-### stdlib.string.query.is_string
-
-Checks if a value is a non-empty string.
-
-#### Arguments
-
-* **$1** (string): The value to check.
-
-#### Exit codes
-
-* **0**: If the value is a non-empty string.
-* **1**: If the value is an empty string.
 * **127**: If the wrong number of arguments were provided.
 
 ### stdlib.string.query.net.is_ipv4
