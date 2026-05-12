@@ -294,6 +294,10 @@ stdlib.__message.get ()
             required_options=1;
             message="$(stdlib.__gettext "The value '\${option1}' is not a string containing a positive decimal!")"
         ;;
+        IS_NOT_EMPTY_STRING)
+            required_options=1;
+            message="$(stdlib.__gettext "The value '\${option1}' is not an empty string!")"
+        ;;
         IS_NOT_DIGIT)
             required_options=1;
             message="$(stdlib.__gettext "The value '\${option1}' is not a string containing a digit!")"
@@ -321,10 +325,6 @@ stdlib.__message.get ()
         IS_NOT_OCTAL_PERMISSION)
             required_options=1;
             message="$(stdlib.__gettext "The value '\${option1}' is not a string containing an octal file permission!")"
-        ;;
-        IS_NOT_SET_STRING)
-            required_options=1;
-            message="$(stdlib.__gettext "The value '\${option1}' is not a set string!")"
         ;;
         IS_NOT_SNAKE_CASE)
             required_options=1;
@@ -2246,6 +2246,24 @@ stdlib.string.assert.is_digit ()
     builtin return "${return_code}"
 }
 
+stdlib.string.assert.is_empty ()
+{
+    builtin local return_code=0;
+    stdlib.string.query.is_empty "${@}" || return_code="$?";
+    case "${return_code}" in
+        0)
+
+        ;;
+        127)
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
+        ;;
+        *)
+            stdlib.logger.error "$(stdlib.__message.get IS_NOT_EMPTY_STRING "${1}")"
+        ;;
+    esac;
+    builtin return "${return_code}"
+}
+
 stdlib.string.assert.is_integer ()
 {
     builtin local return_code=0;
@@ -2349,24 +2367,6 @@ stdlib.string.assert.is_snake_case_upper ()
         ;;
         *)
             stdlib.logger.error "$(stdlib.__message.get IS_NOT_SNAKE_CASE_UPPER "${1}")"
-        ;;
-    esac;
-    builtin return "${return_code}"
-}
-
-stdlib.string.assert.is_string ()
-{
-    builtin local return_code=0;
-    stdlib.string.query.is_string "${@}" || return_code="$?";
-    case "${return_code}" in
-        0)
-
-        ;;
-        127)
-            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
-        ;;
-        *)
-            stdlib.logger.error "$(stdlib.__message.get IS_NOT_SET_STRING "${1}")"
         ;;
     esac;
     builtin return "${return_code}"
@@ -3337,6 +3337,12 @@ stdlib.string.query.is_digit ()
     esac
 }
 
+stdlib.string.query.is_empty ()
+{
+    [[ "${#@}" == "1" ]] || builtin return 127;
+    [[ -z "${1}" ]] || builtin return 1
+}
+
 stdlib.string.query.is_integer ()
 {
     [[ "${#@}" == "1" ]] || builtin return 127;
@@ -3431,12 +3437,6 @@ stdlib.string.query.is_snake_case_upper ()
             builtin return 1
         ;;
     esac
-}
-
-stdlib.string.query.is_string ()
-{
-    [[ "${#@}" == "1" ]] || builtin return 127;
-    [[ -n "${1}" ]] || builtin return 1
 }
 
 stdlib.string.query.last_char_is ()
