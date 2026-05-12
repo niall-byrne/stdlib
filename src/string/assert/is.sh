@@ -172,6 +172,30 @@ stdlib.string.assert.is_digit() {
   builtin return "${return_code}"
 }
 
+# @description Asserts that a value is a non-empty string.
+# @arg $1 string The value to check.
+# @exitcode 0 If the assertion succeeded.
+# @exitcode 1 If the assertion failed.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stderr The error message if the assertion fails.
+stdlib.string.assert.is_empty() {
+  builtin local return_code=0
+
+  stdlib.string.query.is_empty "${@}" || return_code="$?"
+
+  case "${return_code}" in
+    0) ;; # KCOV_EXCLUDE_LINE
+    127)
+      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
+      ;;
+    *)
+      stdlib.logger.error "$(stdlib.__message.get IS_NOT_EMPTY_STRING "${1}")"
+      ;;
+  esac
+
+  builtin return "${return_code}"
+}
+
 # @description Asserts that a string is an integer.
 # @arg $1 string The string to check.
 # @exitcode 0 If the assertion succeeded.
@@ -314,30 +338,6 @@ stdlib.string.assert.is_snake_case_upper() {
       ;;
     *)
       stdlib.logger.error "$(stdlib.__message.get IS_NOT_SNAKE_CASE_UPPER "${1}")"
-      ;;
-  esac
-
-  builtin return "${return_code}"
-}
-
-# @description Asserts that a value is a non-empty string.
-# @arg $1 string The value to check.
-# @exitcode 0 If the assertion succeeded.
-# @exitcode 1 If the assertion failed.
-# @exitcode 127 If the wrong number of arguments were provided.
-# @stderr The error message if the assertion fails.
-stdlib.string.assert.is_string() {
-  builtin local return_code=0
-
-  stdlib.string.query.is_string "${@}" || return_code="$?"
-
-  case "${return_code}" in
-    0) ;; # KCOV_EXCLUDE_LINE
-    127)
-      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
-      ;;
-    *)
-      stdlib.logger.error "$(stdlib.__message.get IS_NOT_SET_STRING "${1}")"
       ;;
   esac
 
