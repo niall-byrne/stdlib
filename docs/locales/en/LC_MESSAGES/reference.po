@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: stdlib \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-13 16:49-0400\n"
+"POT-Creation-Date: 2026-05-13 16:50-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -576,37 +576,37 @@ msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:106
 #: ../../reference/src/string/REFERENCE.md:14
-msgid "[stdlib.string.assert.is_integer](#stdlibstringassertis_integer)"
+msgid "[stdlib.string.assert.is_empty](#stdlibstringassertis_empty)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:107
 #: ../../reference/src/string/REFERENCE.md:15
-msgid "[stdlib.string.assert.is_integer_with_range](#stdlibstringassertis_integer_with_range)"
+msgid "[stdlib.string.assert.is_integer](#stdlibstringassertis_integer)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:108
 #: ../../reference/src/string/REFERENCE.md:16
-msgid "[stdlib.string.assert.is_octal_permission](#stdlibstringassertis_octal_permission)"
+msgid "[stdlib.string.assert.is_integer_with_range](#stdlibstringassertis_integer_with_range)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:109
 #: ../../reference/src/string/REFERENCE.md:17
-msgid "[stdlib.string.assert.is_regex_match](#stdlibstringassertis_regex_match)"
+msgid "[stdlib.string.assert.is_octal_permission](#stdlibstringassertis_octal_permission)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:110
 #: ../../reference/src/string/REFERENCE.md:18
-msgid "[stdlib.string.assert.is_snake_case](#stdlibstringassertis_snake_case)"
+msgid "[stdlib.string.assert.is_regex_match](#stdlibstringassertis_regex_match)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:111
 #: ../../reference/src/string/REFERENCE.md:19
-msgid "[stdlib.string.assert.is_snake_case_upper](#stdlibstringassertis_snake_case_upper)"
+msgid "[stdlib.string.assert.is_snake_case](#stdlibstringassertis_snake_case)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:112
 #: ../../reference/src/string/REFERENCE.md:20
-msgid "[stdlib.string.assert.is_string](#stdlibstringassertis_string)"
+msgid "[stdlib.string.assert.is_snake_case_upper](#stdlibstringassertis_snake_case_upper)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:113
@@ -831,37 +831,37 @@ msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:157
 #: ../../reference/src/string/REFERENCE.md:65
-msgid "[stdlib.string.query.is_integer](#stdlibstringqueryis_integer)"
+msgid "[stdlib.string.query.is_empty](#stdlibstringqueryis_empty)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:158
 #: ../../reference/src/string/REFERENCE.md:66
-msgid "[stdlib.string.query.is_integer_with_range](#stdlibstringqueryis_integer_with_range)"
+msgid "[stdlib.string.query.is_integer](#stdlibstringqueryis_integer)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:159
 #: ../../reference/src/string/REFERENCE.md:67
-msgid "[stdlib.string.query.is_octal_permission](#stdlibstringqueryis_octal_permission)"
+msgid "[stdlib.string.query.is_integer_with_range](#stdlibstringqueryis_integer_with_range)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:160
 #: ../../reference/src/string/REFERENCE.md:68
-msgid "[stdlib.string.query.is_regex_match](#stdlibstringqueryis_regex_match)"
+msgid "[stdlib.string.query.is_octal_permission](#stdlibstringqueryis_octal_permission)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:161
 #: ../../reference/src/string/REFERENCE.md:69
-msgid "[stdlib.string.query.is_snake_case](#stdlibstringqueryis_snake_case)"
+msgid "[stdlib.string.query.is_regex_match](#stdlibstringqueryis_regex_match)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:162
 #: ../../reference/src/string/REFERENCE.md:70
-msgid "[stdlib.string.query.is_snake_case_upper](#stdlibstringqueryis_snake_case_upper)"
+msgid "[stdlib.string.query.is_snake_case](#stdlibstringqueryis_snake_case)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:163
 #: ../../reference/src/string/REFERENCE.md:71
-msgid "[stdlib.string.query.is_string](#stdlibstringqueryis_string)"
+msgid "[stdlib.string.query.is_snake_case_upper](#stdlibstringqueryis_snake_case_upper)"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:164
@@ -1078,9 +1078,9 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:2091
 #: ../../reference/src/REFERENCE_COMPLETE.md:2109
 #: ../../reference/src/REFERENCE_COMPLETE.md:2127
-#: ../../reference/src/REFERENCE_COMPLETE.md:2148
+#: ../../reference/src/REFERENCE_COMPLETE.md:2145
 #: ../../reference/src/REFERENCE_COMPLETE.md:2166
-#: ../../reference/src/REFERENCE_COMPLETE.md:2185
+#: ../../reference/src/REFERENCE_COMPLETE.md:2184
 #: ../../reference/src/REFERENCE_COMPLETE.md:2203
 #: ../../reference/src/REFERENCE_COMPLETE.md:2221
 #: ../../reference/src/REFERENCE_COMPLETE.md:2239
@@ -1128,12 +1128,12 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:3124
 #: ../../reference/src/REFERENCE_COMPLETE.md:3139
 #: ../../reference/src/REFERENCE_COMPLETE.md:3154
-#: ../../reference/src/REFERENCE_COMPLETE.md:3169
-#: ../../reference/src/REFERENCE_COMPLETE.md:3186
-#: ../../reference/src/REFERENCE_COMPLETE.md:3201
-#: ../../reference/src/REFERENCE_COMPLETE.md:3217
-#: ../../reference/src/REFERENCE_COMPLETE.md:3232
-#: ../../reference/src/REFERENCE_COMPLETE.md:3247
+#: ../../reference/src/REFERENCE_COMPLETE.md:3168
+#: ../../reference/src/REFERENCE_COMPLETE.md:3183
+#: ../../reference/src/REFERENCE_COMPLETE.md:3200
+#: ../../reference/src/REFERENCE_COMPLETE.md:3215
+#: ../../reference/src/REFERENCE_COMPLETE.md:3231
+#: ../../reference/src/REFERENCE_COMPLETE.md:3246
 #: ../../reference/src/REFERENCE_COMPLETE.md:3261
 #: ../../reference/src/REFERENCE_COMPLETE.md:3276
 #: ../../reference/src/REFERENCE_COMPLETE.md:3291
@@ -1241,9 +1241,9 @@ msgstr ""
 #: ../../reference/src/string/REFERENCE.md:199
 #: ../../reference/src/string/REFERENCE.md:217
 #: ../../reference/src/string/REFERENCE.md:235
-#: ../../reference/src/string/REFERENCE.md:256
+#: ../../reference/src/string/REFERENCE.md:253
 #: ../../reference/src/string/REFERENCE.md:274
-#: ../../reference/src/string/REFERENCE.md:293
+#: ../../reference/src/string/REFERENCE.md:292
 #: ../../reference/src/string/REFERENCE.md:311
 #: ../../reference/src/string/REFERENCE.md:329
 #: ../../reference/src/string/REFERENCE.md:347
@@ -1291,12 +1291,12 @@ msgstr ""
 #: ../../reference/src/string/REFERENCE.md:1232
 #: ../../reference/src/string/REFERENCE.md:1247
 #: ../../reference/src/string/REFERENCE.md:1262
-#: ../../reference/src/string/REFERENCE.md:1277
-#: ../../reference/src/string/REFERENCE.md:1294
-#: ../../reference/src/string/REFERENCE.md:1309
-#: ../../reference/src/string/REFERENCE.md:1325
-#: ../../reference/src/string/REFERENCE.md:1340
-#: ../../reference/src/string/REFERENCE.md:1355
+#: ../../reference/src/string/REFERENCE.md:1276
+#: ../../reference/src/string/REFERENCE.md:1291
+#: ../../reference/src/string/REFERENCE.md:1308
+#: ../../reference/src/string/REFERENCE.md:1323
+#: ../../reference/src/string/REFERENCE.md:1339
+#: ../../reference/src/string/REFERENCE.md:1354
 #: ../../reference/src/string/REFERENCE.md:1369
 #: ../../reference/src/string/REFERENCE.md:1384
 #: ../../reference/src/string/REFERENCE.md:1399
@@ -1427,9 +1427,9 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:2077
 #: ../../reference/src/REFERENCE_COMPLETE.md:2095
 #: ../../reference/src/REFERENCE_COMPLETE.md:2113
-#: ../../reference/src/REFERENCE_COMPLETE.md:2133
-#: ../../reference/src/REFERENCE_COMPLETE.md:2152
-#: ../../reference/src/REFERENCE_COMPLETE.md:2171
+#: ../../reference/src/REFERENCE_COMPLETE.md:2131
+#: ../../reference/src/REFERENCE_COMPLETE.md:2151
+#: ../../reference/src/REFERENCE_COMPLETE.md:2170
 #: ../../reference/src/REFERENCE_COMPLETE.md:2189
 #: ../../reference/src/REFERENCE_COMPLETE.md:2207
 #: ../../reference/src/REFERENCE_COMPLETE.md:2225
@@ -1478,12 +1478,12 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:3128
 #: ../../reference/src/REFERENCE_COMPLETE.md:3143
 #: ../../reference/src/REFERENCE_COMPLETE.md:3158
-#: ../../reference/src/REFERENCE_COMPLETE.md:3175
-#: ../../reference/src/REFERENCE_COMPLETE.md:3190
-#: ../../reference/src/REFERENCE_COMPLETE.md:3206
-#: ../../reference/src/REFERENCE_COMPLETE.md:3221
-#: ../../reference/src/REFERENCE_COMPLETE.md:3236
-#: ../../reference/src/REFERENCE_COMPLETE.md:3251
+#: ../../reference/src/REFERENCE_COMPLETE.md:3172
+#: ../../reference/src/REFERENCE_COMPLETE.md:3189
+#: ../../reference/src/REFERENCE_COMPLETE.md:3204
+#: ../../reference/src/REFERENCE_COMPLETE.md:3220
+#: ../../reference/src/REFERENCE_COMPLETE.md:3235
+#: ../../reference/src/REFERENCE_COMPLETE.md:3250
 #: ../../reference/src/REFERENCE_COMPLETE.md:3265
 #: ../../reference/src/REFERENCE_COMPLETE.md:3280
 #: ../../reference/src/REFERENCE_COMPLETE.md:3296
@@ -1607,9 +1607,9 @@ msgstr ""
 #: ../../reference/src/string/REFERENCE.md:185
 #: ../../reference/src/string/REFERENCE.md:203
 #: ../../reference/src/string/REFERENCE.md:221
-#: ../../reference/src/string/REFERENCE.md:241
-#: ../../reference/src/string/REFERENCE.md:260
-#: ../../reference/src/string/REFERENCE.md:279
+#: ../../reference/src/string/REFERENCE.md:239
+#: ../../reference/src/string/REFERENCE.md:259
+#: ../../reference/src/string/REFERENCE.md:278
 #: ../../reference/src/string/REFERENCE.md:297
 #: ../../reference/src/string/REFERENCE.md:315
 #: ../../reference/src/string/REFERENCE.md:333
@@ -1658,12 +1658,12 @@ msgstr ""
 #: ../../reference/src/string/REFERENCE.md:1236
 #: ../../reference/src/string/REFERENCE.md:1251
 #: ../../reference/src/string/REFERENCE.md:1266
-#: ../../reference/src/string/REFERENCE.md:1283
-#: ../../reference/src/string/REFERENCE.md:1298
-#: ../../reference/src/string/REFERENCE.md:1314
-#: ../../reference/src/string/REFERENCE.md:1329
-#: ../../reference/src/string/REFERENCE.md:1344
-#: ../../reference/src/string/REFERENCE.md:1359
+#: ../../reference/src/string/REFERENCE.md:1280
+#: ../../reference/src/string/REFERENCE.md:1297
+#: ../../reference/src/string/REFERENCE.md:1312
+#: ../../reference/src/string/REFERENCE.md:1328
+#: ../../reference/src/string/REFERENCE.md:1343
+#: ../../reference/src/string/REFERENCE.md:1358
 #: ../../reference/src/string/REFERENCE.md:1373
 #: ../../reference/src/string/REFERENCE.md:1388
 #: ../../reference/src/string/REFERENCE.md:1404
@@ -1711,9 +1711,9 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:2079
 #: ../../reference/src/REFERENCE_COMPLETE.md:2097
 #: ../../reference/src/REFERENCE_COMPLETE.md:2115
-#: ../../reference/src/REFERENCE_COMPLETE.md:2135
-#: ../../reference/src/REFERENCE_COMPLETE.md:2154
-#: ../../reference/src/REFERENCE_COMPLETE.md:2173
+#: ../../reference/src/REFERENCE_COMPLETE.md:2133
+#: ../../reference/src/REFERENCE_COMPLETE.md:2153
+#: ../../reference/src/REFERENCE_COMPLETE.md:2172
 #: ../../reference/src/REFERENCE_COMPLETE.md:2191
 #: ../../reference/src/REFERENCE_COMPLETE.md:2209
 #: ../../reference/src/REFERENCE_COMPLETE.md:2227
@@ -1742,9 +1742,9 @@ msgstr ""
 #: ../../reference/src/string/REFERENCE.md:187
 #: ../../reference/src/string/REFERENCE.md:205
 #: ../../reference/src/string/REFERENCE.md:223
-#: ../../reference/src/string/REFERENCE.md:243
-#: ../../reference/src/string/REFERENCE.md:262
-#: ../../reference/src/string/REFERENCE.md:281
+#: ../../reference/src/string/REFERENCE.md:241
+#: ../../reference/src/string/REFERENCE.md:261
+#: ../../reference/src/string/REFERENCE.md:280
 #: ../../reference/src/string/REFERENCE.md:299
 #: ../../reference/src/string/REFERENCE.md:317
 #: ../../reference/src/string/REFERENCE.md:335
@@ -1775,9 +1775,9 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:2080
 #: ../../reference/src/REFERENCE_COMPLETE.md:2098
 #: ../../reference/src/REFERENCE_COMPLETE.md:2116
-#: ../../reference/src/REFERENCE_COMPLETE.md:2136
-#: ../../reference/src/REFERENCE_COMPLETE.md:2155
-#: ../../reference/src/REFERENCE_COMPLETE.md:2174
+#: ../../reference/src/REFERENCE_COMPLETE.md:2134
+#: ../../reference/src/REFERENCE_COMPLETE.md:2154
+#: ../../reference/src/REFERENCE_COMPLETE.md:2173
 #: ../../reference/src/REFERENCE_COMPLETE.md:2192
 #: ../../reference/src/REFERENCE_COMPLETE.md:2210
 #: ../../reference/src/REFERENCE_COMPLETE.md:2228
@@ -1805,9 +1805,9 @@ msgstr ""
 #: ../../reference/src/string/REFERENCE.md:188
 #: ../../reference/src/string/REFERENCE.md:206
 #: ../../reference/src/string/REFERENCE.md:224
-#: ../../reference/src/string/REFERENCE.md:244
-#: ../../reference/src/string/REFERENCE.md:263
-#: ../../reference/src/string/REFERENCE.md:282
+#: ../../reference/src/string/REFERENCE.md:242
+#: ../../reference/src/string/REFERENCE.md:262
+#: ../../reference/src/string/REFERENCE.md:281
 #: ../../reference/src/string/REFERENCE.md:300
 #: ../../reference/src/string/REFERENCE.md:318
 #: ../../reference/src/string/REFERENCE.md:336
@@ -1900,9 +1900,9 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:2081
 #: ../../reference/src/REFERENCE_COMPLETE.md:2099
 #: ../../reference/src/REFERENCE_COMPLETE.md:2117
-#: ../../reference/src/REFERENCE_COMPLETE.md:2138
+#: ../../reference/src/REFERENCE_COMPLETE.md:2135
 #: ../../reference/src/REFERENCE_COMPLETE.md:2156
-#: ../../reference/src/REFERENCE_COMPLETE.md:2175
+#: ../../reference/src/REFERENCE_COMPLETE.md:2174
 #: ../../reference/src/REFERENCE_COMPLETE.md:2193
 #: ../../reference/src/REFERENCE_COMPLETE.md:2211
 #: ../../reference/src/REFERENCE_COMPLETE.md:2229
@@ -1950,12 +1950,12 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:3118
 #: ../../reference/src/REFERENCE_COMPLETE.md:3133
 #: ../../reference/src/REFERENCE_COMPLETE.md:3148
-#: ../../reference/src/REFERENCE_COMPLETE.md:3163
-#: ../../reference/src/REFERENCE_COMPLETE.md:3180
-#: ../../reference/src/REFERENCE_COMPLETE.md:3195
-#: ../../reference/src/REFERENCE_COMPLETE.md:3211
-#: ../../reference/src/REFERENCE_COMPLETE.md:3226
-#: ../../reference/src/REFERENCE_COMPLETE.md:3241
+#: ../../reference/src/REFERENCE_COMPLETE.md:3162
+#: ../../reference/src/REFERENCE_COMPLETE.md:3177
+#: ../../reference/src/REFERENCE_COMPLETE.md:3194
+#: ../../reference/src/REFERENCE_COMPLETE.md:3209
+#: ../../reference/src/REFERENCE_COMPLETE.md:3225
+#: ../../reference/src/REFERENCE_COMPLETE.md:3240
 #: ../../reference/src/REFERENCE_COMPLETE.md:3255
 #: ../../reference/src/REFERENCE_COMPLETE.md:3270
 #: ../../reference/src/REFERENCE_COMPLETE.md:3285
@@ -2057,9 +2057,9 @@ msgstr ""
 #: ../../reference/src/string/REFERENCE.md:189
 #: ../../reference/src/string/REFERENCE.md:207
 #: ../../reference/src/string/REFERENCE.md:225
-#: ../../reference/src/string/REFERENCE.md:246
+#: ../../reference/src/string/REFERENCE.md:243
 #: ../../reference/src/string/REFERENCE.md:264
-#: ../../reference/src/string/REFERENCE.md:283
+#: ../../reference/src/string/REFERENCE.md:282
 #: ../../reference/src/string/REFERENCE.md:301
 #: ../../reference/src/string/REFERENCE.md:319
 #: ../../reference/src/string/REFERENCE.md:337
@@ -2107,12 +2107,12 @@ msgstr ""
 #: ../../reference/src/string/REFERENCE.md:1226
 #: ../../reference/src/string/REFERENCE.md:1241
 #: ../../reference/src/string/REFERENCE.md:1256
-#: ../../reference/src/string/REFERENCE.md:1271
-#: ../../reference/src/string/REFERENCE.md:1288
-#: ../../reference/src/string/REFERENCE.md:1303
-#: ../../reference/src/string/REFERENCE.md:1319
-#: ../../reference/src/string/REFERENCE.md:1334
-#: ../../reference/src/string/REFERENCE.md:1349
+#: ../../reference/src/string/REFERENCE.md:1270
+#: ../../reference/src/string/REFERENCE.md:1285
+#: ../../reference/src/string/REFERENCE.md:1302
+#: ../../reference/src/string/REFERENCE.md:1317
+#: ../../reference/src/string/REFERENCE.md:1333
+#: ../../reference/src/string/REFERENCE.md:1348
 #: ../../reference/src/string/REFERENCE.md:1363
 #: ../../reference/src/string/REFERENCE.md:1378
 #: ../../reference/src/string/REFERENCE.md:1393
@@ -2207,9 +2207,9 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:2083
 #: ../../reference/src/REFERENCE_COMPLETE.md:2101
 #: ../../reference/src/REFERENCE_COMPLETE.md:2119
-#: ../../reference/src/REFERENCE_COMPLETE.md:2140
+#: ../../reference/src/REFERENCE_COMPLETE.md:2137
 #: ../../reference/src/REFERENCE_COMPLETE.md:2158
-#: ../../reference/src/REFERENCE_COMPLETE.md:2177
+#: ../../reference/src/REFERENCE_COMPLETE.md:2176
 #: ../../reference/src/REFERENCE_COMPLETE.md:2195
 #: ../../reference/src/REFERENCE_COMPLETE.md:2213
 #: ../../reference/src/REFERENCE_COMPLETE.md:2231
@@ -2331,9 +2331,9 @@ msgstr ""
 #: ../../reference/src/string/REFERENCE.md:191
 #: ../../reference/src/string/REFERENCE.md:209
 #: ../../reference/src/string/REFERENCE.md:227
-#: ../../reference/src/string/REFERENCE.md:248
+#: ../../reference/src/string/REFERENCE.md:245
 #: ../../reference/src/string/REFERENCE.md:266
-#: ../../reference/src/string/REFERENCE.md:285
+#: ../../reference/src/string/REFERENCE.md:284
 #: ../../reference/src/string/REFERENCE.md:303
 #: ../../reference/src/string/REFERENCE.md:321
 #: ../../reference/src/string/REFERENCE.md:339
@@ -2417,9 +2417,9 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:2085
 #: ../../reference/src/REFERENCE_COMPLETE.md:2103
 #: ../../reference/src/REFERENCE_COMPLETE.md:2121
-#: ../../reference/src/REFERENCE_COMPLETE.md:2142
+#: ../../reference/src/REFERENCE_COMPLETE.md:2139
 #: ../../reference/src/REFERENCE_COMPLETE.md:2160
-#: ../../reference/src/REFERENCE_COMPLETE.md:2179
+#: ../../reference/src/REFERENCE_COMPLETE.md:2178
 #: ../../reference/src/REFERENCE_COMPLETE.md:2197
 #: ../../reference/src/REFERENCE_COMPLETE.md:2215
 #: ../../reference/src/REFERENCE_COMPLETE.md:2233
@@ -2458,9 +2458,9 @@ msgstr ""
 #: ../../reference/src/string/REFERENCE.md:193
 #: ../../reference/src/string/REFERENCE.md:211
 #: ../../reference/src/string/REFERENCE.md:229
-#: ../../reference/src/string/REFERENCE.md:250
+#: ../../reference/src/string/REFERENCE.md:247
 #: ../../reference/src/string/REFERENCE.md:268
-#: ../../reference/src/string/REFERENCE.md:287
+#: ../../reference/src/string/REFERENCE.md:286
 #: ../../reference/src/string/REFERENCE.md:305
 #: ../../reference/src/string/REFERENCE.md:323
 #: ../../reference/src/string/REFERENCE.md:341
@@ -2557,7 +2557,7 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:1745
 #: ../../reference/src/REFERENCE_COMPLETE.md:1761
 #: ../../reference/src/REFERENCE_COMPLETE.md:1777
-#: ../../reference/src/REFERENCE_COMPLETE.md:2137
+#: ../../reference/src/REFERENCE_COMPLETE.md:2155
 #: ../../reference/src/REFERENCE_COMPLETE.md:2284
 #: ../../reference/src/REFERENCE_COMPLETE.md:2752
 #: ../../reference/src/REFERENCE_COMPLETE.md:2776
@@ -2571,12 +2571,12 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:3117
 #: ../../reference/src/REFERENCE_COMPLETE.md:3132
 #: ../../reference/src/REFERENCE_COMPLETE.md:3147
-#: ../../reference/src/REFERENCE_COMPLETE.md:3162
-#: ../../reference/src/REFERENCE_COMPLETE.md:3179
-#: ../../reference/src/REFERENCE_COMPLETE.md:3194
-#: ../../reference/src/REFERENCE_COMPLETE.md:3210
-#: ../../reference/src/REFERENCE_COMPLETE.md:3225
-#: ../../reference/src/REFERENCE_COMPLETE.md:3240
+#: ../../reference/src/REFERENCE_COMPLETE.md:3176
+#: ../../reference/src/REFERENCE_COMPLETE.md:3193
+#: ../../reference/src/REFERENCE_COMPLETE.md:3208
+#: ../../reference/src/REFERENCE_COMPLETE.md:3224
+#: ../../reference/src/REFERENCE_COMPLETE.md:3239
+#: ../../reference/src/REFERENCE_COMPLETE.md:3254
 #: ../../reference/src/REFERENCE_COMPLETE.md:3269
 #: ../../reference/src/REFERENCE_COMPLETE.md:3284
 #: ../../reference/src/REFERENCE_COMPLETE.md:3300
@@ -2653,7 +2653,7 @@ msgstr ""
 #: ../../reference/src/security/REFERENCE.md:239
 #: ../../reference/src/security/REFERENCE.md:255
 #: ../../reference/src/security/REFERENCE.md:271
-#: ../../reference/src/string/REFERENCE.md:245
+#: ../../reference/src/string/REFERENCE.md:263
 #: ../../reference/src/string/REFERENCE.md:392
 #: ../../reference/src/string/REFERENCE.md:860
 #: ../../reference/src/string/REFERENCE.md:884
@@ -2667,12 +2667,12 @@ msgstr ""
 #: ../../reference/src/string/REFERENCE.md:1225
 #: ../../reference/src/string/REFERENCE.md:1240
 #: ../../reference/src/string/REFERENCE.md:1255
-#: ../../reference/src/string/REFERENCE.md:1270
-#: ../../reference/src/string/REFERENCE.md:1287
-#: ../../reference/src/string/REFERENCE.md:1302
-#: ../../reference/src/string/REFERENCE.md:1318
-#: ../../reference/src/string/REFERENCE.md:1333
-#: ../../reference/src/string/REFERENCE.md:1348
+#: ../../reference/src/string/REFERENCE.md:1284
+#: ../../reference/src/string/REFERENCE.md:1301
+#: ../../reference/src/string/REFERENCE.md:1316
+#: ../../reference/src/string/REFERENCE.md:1332
+#: ../../reference/src/string/REFERENCE.md:1347
+#: ../../reference/src/string/REFERENCE.md:1362
 #: ../../reference/src/string/REFERENCE.md:1377
 #: ../../reference/src/string/REFERENCE.md:1392
 #: ../../reference/src/string/REFERENCE.md:1408
@@ -3847,10 +3847,10 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:2057
 #: ../../reference/src/REFERENCE_COMPLETE.md:2075
 #: ../../reference/src/REFERENCE_COMPLETE.md:2093
-#: ../../reference/src/REFERENCE_COMPLETE.md:2111
-#: ../../reference/src/REFERENCE_COMPLETE.md:2150
-#: ../../reference/src/REFERENCE_COMPLETE.md:2187
+#: ../../reference/src/REFERENCE_COMPLETE.md:2129
+#: ../../reference/src/REFERENCE_COMPLETE.md:2168
 #: ../../reference/src/REFERENCE_COMPLETE.md:2205
+#: ../../reference/src/REFERENCE_COMPLETE.md:2223
 #: ../../reference/src/REFERENCE_COMPLETE.md:2241
 #: ../../reference/src/REFERENCE_COMPLETE.md:2259
 #: ../../reference/src/REFERENCE_COMPLETE.md:3051
@@ -3860,10 +3860,10 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:3111
 #: ../../reference/src/REFERENCE_COMPLETE.md:3126
 #: ../../reference/src/REFERENCE_COMPLETE.md:3141
-#: ../../reference/src/REFERENCE_COMPLETE.md:3156
-#: ../../reference/src/REFERENCE_COMPLETE.md:3188
-#: ../../reference/src/REFERENCE_COMPLETE.md:3219
-#: ../../reference/src/REFERENCE_COMPLETE.md:3234
+#: ../../reference/src/REFERENCE_COMPLETE.md:3170
+#: ../../reference/src/REFERENCE_COMPLETE.md:3202
+#: ../../reference/src/REFERENCE_COMPLETE.md:3233
+#: ../../reference/src/REFERENCE_COMPLETE.md:3248
 #: ../../reference/src/REFERENCE_COMPLETE.md:3263
 #: ../../reference/src/REFERENCE_COMPLETE.md:3278
 #: ../../reference/src/REFERENCE_COMPLETE.md:3637
@@ -3877,10 +3877,10 @@ msgstr ""
 #: ../../reference/src/string/REFERENCE.md:165
 #: ../../reference/src/string/REFERENCE.md:183
 #: ../../reference/src/string/REFERENCE.md:201
-#: ../../reference/src/string/REFERENCE.md:219
-#: ../../reference/src/string/REFERENCE.md:258
-#: ../../reference/src/string/REFERENCE.md:295
+#: ../../reference/src/string/REFERENCE.md:237
+#: ../../reference/src/string/REFERENCE.md:276
 #: ../../reference/src/string/REFERENCE.md:313
+#: ../../reference/src/string/REFERENCE.md:331
 #: ../../reference/src/string/REFERENCE.md:349
 #: ../../reference/src/string/REFERENCE.md:367
 #: ../../reference/src/string/REFERENCE.md:1159
@@ -3890,10 +3890,10 @@ msgstr ""
 #: ../../reference/src/string/REFERENCE.md:1219
 #: ../../reference/src/string/REFERENCE.md:1234
 #: ../../reference/src/string/REFERENCE.md:1249
-#: ../../reference/src/string/REFERENCE.md:1264
-#: ../../reference/src/string/REFERENCE.md:1296
-#: ../../reference/src/string/REFERENCE.md:1327
-#: ../../reference/src/string/REFERENCE.md:1342
+#: ../../reference/src/string/REFERENCE.md:1278
+#: ../../reference/src/string/REFERENCE.md:1310
+#: ../../reference/src/string/REFERENCE.md:1341
+#: ../../reference/src/string/REFERENCE.md:1356
 #: ../../reference/src/string/REFERENCE.md:1371
 #: ../../reference/src/string/REFERENCE.md:1386
 #: ../../reference/src/var/REFERENCE.md:16
@@ -5456,84 +5456,101 @@ msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2105
 #: ../../reference/src/string/REFERENCE.md:213
-msgid "stdlib.string.assert.is_integer"
+msgid "stdlib.string.assert.is_empty"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2107
 #: ../../reference/src/string/REFERENCE.md:215
-msgid "Asserts that a string is an integer."
+msgid "Asserts that a value is a non-empty string."
+msgstr ""
+
+#: ../../reference/src/REFERENCE_COMPLETE.md:2111
+#: ../../reference/src/REFERENCE_COMPLETE.md:3156
+#: ../../reference/src/string/REFERENCE.md:219
+#: ../../reference/src/string/REFERENCE.md:1264
+msgid "**$1** (string): The value to check."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2123
 #: ../../reference/src/string/REFERENCE.md:231
-msgid "stdlib.string.assert.is_integer_with_range"
+msgid "stdlib.string.assert.is_integer"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2125
 #: ../../reference/src/string/REFERENCE.md:233
+msgid "Asserts that a string is an integer."
+msgstr ""
+
+#: ../../reference/src/REFERENCE_COMPLETE.md:2141
+#: ../../reference/src/string/REFERENCE.md:249
+msgid "stdlib.string.assert.is_integer_with_range"
+msgstr ""
+
+#: ../../reference/src/REFERENCE_COMPLETE.md:2143
+#: ../../reference/src/string/REFERENCE.md:251
 msgid "Asserts that a string is an integer within a specified range."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:2129
-#: ../../reference/src/REFERENCE_COMPLETE.md:3171
-#: ../../reference/src/string/REFERENCE.md:237
-#: ../../reference/src/string/REFERENCE.md:1279
+#: ../../reference/src/REFERENCE_COMPLETE.md:2147
+#: ../../reference/src/REFERENCE_COMPLETE.md:3185
+#: ../../reference/src/string/REFERENCE.md:255
+#: ../../reference/src/string/REFERENCE.md:1293
 msgid "**$1** (integer): The range start point."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:2130
-#: ../../reference/src/REFERENCE_COMPLETE.md:3172
-#: ../../reference/src/string/REFERENCE.md:238
-#: ../../reference/src/string/REFERENCE.md:1280
+#: ../../reference/src/REFERENCE_COMPLETE.md:2148
+#: ../../reference/src/REFERENCE_COMPLETE.md:3186
+#: ../../reference/src/string/REFERENCE.md:256
+#: ../../reference/src/string/REFERENCE.md:1294
 msgid "**$2** (integer): The range end point."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:2131
+#: ../../reference/src/REFERENCE_COMPLETE.md:2149
 #: ../../reference/src/REFERENCE_COMPLETE.md:3020
-#: ../../reference/src/REFERENCE_COMPLETE.md:3173
-#: ../../reference/src/string/REFERENCE.md:239
+#: ../../reference/src/REFERENCE_COMPLETE.md:3187
+#: ../../reference/src/string/REFERENCE.md:257
 #: ../../reference/src/string/REFERENCE.md:1128
-#: ../../reference/src/string/REFERENCE.md:1281
+#: ../../reference/src/string/REFERENCE.md:1295
 msgid "**$3** (string): The string to check."
-msgstr ""
-
-#: ../../reference/src/REFERENCE_COMPLETE.md:2144
-#: ../../reference/src/string/REFERENCE.md:252
-msgid "stdlib.string.assert.is_octal_permission"
-msgstr ""
-
-#: ../../reference/src/REFERENCE_COMPLETE.md:2146
-#: ../../reference/src/string/REFERENCE.md:254
-msgid "Asserts that a string is a valid octal permission (3 or 4 digits)."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2162
 #: ../../reference/src/string/REFERENCE.md:270
-msgid "stdlib.string.assert.is_regex_match"
+msgid "stdlib.string.assert.is_octal_permission"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2164
 #: ../../reference/src/string/REFERENCE.md:272
+msgid "Asserts that a string is a valid octal permission (3 or 4 digits)."
+msgstr ""
+
+#: ../../reference/src/REFERENCE_COMPLETE.md:2180
+#: ../../reference/src/string/REFERENCE.md:288
+msgid "stdlib.string.assert.is_regex_match"
+msgstr ""
+
+#: ../../reference/src/REFERENCE_COMPLETE.md:2182
+#: ../../reference/src/string/REFERENCE.md:290
 msgid "Asserts that a string matches a regular expression."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:2168
-#: ../../reference/src/REFERENCE_COMPLETE.md:3203
-#: ../../reference/src/string/REFERENCE.md:276
-#: ../../reference/src/string/REFERENCE.md:1311
+#: ../../reference/src/REFERENCE_COMPLETE.md:2186
+#: ../../reference/src/REFERENCE_COMPLETE.md:3217
+#: ../../reference/src/string/REFERENCE.md:294
+#: ../../reference/src/string/REFERENCE.md:1325
 msgid "**$1** (string): The regular expression to use."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:2169
+#: ../../reference/src/REFERENCE_COMPLETE.md:2187
 #: ../../reference/src/REFERENCE_COMPLETE.md:3036
-#: ../../reference/src/REFERENCE_COMPLETE.md:3204
+#: ../../reference/src/REFERENCE_COMPLETE.md:3218
 #: ../../reference/src/REFERENCE_COMPLETE.md:3294
 #: ../../reference/src/REFERENCE_COMPLETE.md:3310
 #: ../../reference/src/REFERENCE_COMPLETE.md:3326
 #: ../../reference/src/REFERENCE_COMPLETE.md:3342
-#: ../../reference/src/string/REFERENCE.md:277
+#: ../../reference/src/string/REFERENCE.md:295
 #: ../../reference/src/string/REFERENCE.md:1144
-#: ../../reference/src/string/REFERENCE.md:1312
+#: ../../reference/src/string/REFERENCE.md:1326
 #: ../../reference/src/string/REFERENCE.md:1402
 #: ../../reference/src/string/REFERENCE.md:1418
 #: ../../reference/src/string/REFERENCE.md:1434
@@ -5541,41 +5558,24 @@ msgstr ""
 msgid "**$2** (string): The string to check."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:2181
-#: ../../reference/src/string/REFERENCE.md:289
-msgid "stdlib.string.assert.is_snake_case"
-msgstr ""
-
-#: ../../reference/src/REFERENCE_COMPLETE.md:2183
-#: ../../reference/src/string/REFERENCE.md:291
-msgid "Asserts that a string is in snake case."
-msgstr ""
-
 #: ../../reference/src/REFERENCE_COMPLETE.md:2199
 #: ../../reference/src/string/REFERENCE.md:307
-msgid "stdlib.string.assert.is_snake_case_upper"
+msgid "stdlib.string.assert.is_snake_case"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2201
 #: ../../reference/src/string/REFERENCE.md:309
-msgid "Asserts that a string is in upper snake case."
+msgid "Asserts that a string is in snake case."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2217
 #: ../../reference/src/string/REFERENCE.md:325
-msgid "stdlib.string.assert.is_string"
+msgid "stdlib.string.assert.is_snake_case_upper"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2219
 #: ../../reference/src/string/REFERENCE.md:327
-msgid "Asserts that a value is a non-empty string."
-msgstr ""
-
-#: ../../reference/src/REFERENCE_COMPLETE.md:2223
-#: ../../reference/src/REFERENCE_COMPLETE.md:3249
-#: ../../reference/src/string/REFERENCE.md:331
-#: ../../reference/src/string/REFERENCE.md:1357
-msgid "**$1** (string): The value to check."
+msgid "Asserts that a string is in upper snake case."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:2235
@@ -6498,142 +6498,142 @@ msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:3150
 #: ../../reference/src/string/REFERENCE.md:1258
-msgid "stdlib.string.query.is_integer"
+msgid "stdlib.string.query.is_empty"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:3152
 #: ../../reference/src/string/REFERENCE.md:1260
-msgid "Checks if a string is an integer."
+msgid "Checks if a value is an empty string."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:3160
 #: ../../reference/src/string/REFERENCE.md:1268
-msgid "**0**: If the string is an integer."
+msgid "**0**: If the value is an empty string."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:3161
 #: ../../reference/src/string/REFERENCE.md:1269
+msgid "**1**: If the value is a non empty string."
+msgstr ""
+
+#: ../../reference/src/REFERENCE_COMPLETE.md:3164
+#: ../../reference/src/string/REFERENCE.md:1272
+msgid "stdlib.string.query.is_integer"
+msgstr ""
+
+#: ../../reference/src/REFERENCE_COMPLETE.md:3166
+#: ../../reference/src/string/REFERENCE.md:1274
+msgid "Checks if a string is an integer."
+msgstr ""
+
+#: ../../reference/src/REFERENCE_COMPLETE.md:3174
+#: ../../reference/src/string/REFERENCE.md:1282
+msgid "**0**: If the string is an integer."
+msgstr ""
+
+#: ../../reference/src/REFERENCE_COMPLETE.md:3175
+#: ../../reference/src/string/REFERENCE.md:1283
 msgid "**1**: If the string is not an integer."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:3165
-#: ../../reference/src/string/REFERENCE.md:1273
+#: ../../reference/src/REFERENCE_COMPLETE.md:3179
+#: ../../reference/src/string/REFERENCE.md:1287
 msgid "stdlib.string.query.is_integer_with_range"
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:3167
-#: ../../reference/src/string/REFERENCE.md:1275
+#: ../../reference/src/REFERENCE_COMPLETE.md:3181
+#: ../../reference/src/string/REFERENCE.md:1289
 msgid "Checks if a string is an integer within a specified range."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:3177
-#: ../../reference/src/string/REFERENCE.md:1285
+#: ../../reference/src/REFERENCE_COMPLETE.md:3191
+#: ../../reference/src/string/REFERENCE.md:1299
 msgid "**0**: If the string is an integer within the range."
-msgstr ""
-
-#: ../../reference/src/REFERENCE_COMPLETE.md:3178
-#: ../../reference/src/string/REFERENCE.md:1286
-msgid "**1**: If the string is not an integer within the range."
-msgstr ""
-
-#: ../../reference/src/REFERENCE_COMPLETE.md:3182
-#: ../../reference/src/string/REFERENCE.md:1290
-msgid "stdlib.string.query.is_octal_permission"
-msgstr ""
-
-#: ../../reference/src/REFERENCE_COMPLETE.md:3184
-#: ../../reference/src/string/REFERENCE.md:1292
-msgid "Checks if a string is a valid octal permission (3 or 4 digits)."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:3192
 #: ../../reference/src/string/REFERENCE.md:1300
+msgid "**1**: If the string is not an integer within the range."
+msgstr ""
+
+#: ../../reference/src/REFERENCE_COMPLETE.md:3196
+#: ../../reference/src/string/REFERENCE.md:1304
+msgid "stdlib.string.query.is_octal_permission"
+msgstr ""
+
+#: ../../reference/src/REFERENCE_COMPLETE.md:3198
+#: ../../reference/src/string/REFERENCE.md:1306
+msgid "Checks if a string is a valid octal permission (3 or 4 digits)."
+msgstr ""
+
+#: ../../reference/src/REFERENCE_COMPLETE.md:3206
+#: ../../reference/src/string/REFERENCE.md:1314
 msgid "**0**: If the string is a valid octal permission."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:3193
-#: ../../reference/src/string/REFERENCE.md:1301
+#: ../../reference/src/REFERENCE_COMPLETE.md:3207
+#: ../../reference/src/string/REFERENCE.md:1315
 msgid "**1**: If the string is not a valid octal permission."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:3197
-#: ../../reference/src/string/REFERENCE.md:1305
+#: ../../reference/src/REFERENCE_COMPLETE.md:3211
+#: ../../reference/src/string/REFERENCE.md:1319
 msgid "stdlib.string.query.is_regex_match"
-msgstr ""
-
-#: ../../reference/src/REFERENCE_COMPLETE.md:3199
-#: ../../reference/src/string/REFERENCE.md:1307
-msgid "Checks if a string matches a regular expression."
-msgstr ""
-
-#: ../../reference/src/REFERENCE_COMPLETE.md:3208
-#: ../../reference/src/string/REFERENCE.md:1316
-msgid "**0**: If the string matches the regular expression."
-msgstr ""
-
-#: ../../reference/src/REFERENCE_COMPLETE.md:3209
-#: ../../reference/src/string/REFERENCE.md:1317
-msgid "**1**: If the string does not match the regular expression."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:3213
 #: ../../reference/src/string/REFERENCE.md:1321
-msgid "stdlib.string.query.is_snake_case"
+msgid "Checks if a string matches a regular expression."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:3215
-#: ../../reference/src/string/REFERENCE.md:1323
-msgid "Checks if a string is in snake case."
+#: ../../reference/src/REFERENCE_COMPLETE.md:3222
+#: ../../reference/src/string/REFERENCE.md:1330
+msgid "**0**: If the string matches the regular expression."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:3223
 #: ../../reference/src/string/REFERENCE.md:1331
+msgid "**1**: If the string does not match the regular expression."
+msgstr ""
+
+#: ../../reference/src/REFERENCE_COMPLETE.md:3227
+#: ../../reference/src/string/REFERENCE.md:1335
+msgid "stdlib.string.query.is_snake_case"
+msgstr ""
+
+#: ../../reference/src/REFERENCE_COMPLETE.md:3229
+#: ../../reference/src/string/REFERENCE.md:1337
+msgid "Checks if a string is in snake case."
+msgstr ""
+
+#: ../../reference/src/REFERENCE_COMPLETE.md:3237
+#: ../../reference/src/string/REFERENCE.md:1345
 msgid "**0**: If the string is valid snake case."
-msgstr ""
-
-#: ../../reference/src/REFERENCE_COMPLETE.md:3224
-#: ../../reference/src/string/REFERENCE.md:1332
-msgid "**1**: If the string is not valid snake case."
-msgstr ""
-
-#: ../../reference/src/REFERENCE_COMPLETE.md:3228
-#: ../../reference/src/string/REFERENCE.md:1336
-msgid "stdlib.string.query.is_snake_case_upper"
-msgstr ""
-
-#: ../../reference/src/REFERENCE_COMPLETE.md:3230
-#: ../../reference/src/string/REFERENCE.md:1338
-msgid "Checks if a string is in upper snake case."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:3238
 #: ../../reference/src/string/REFERENCE.md:1346
+msgid "**1**: If the string is not valid snake case."
+msgstr ""
+
+#: ../../reference/src/REFERENCE_COMPLETE.md:3242
+#: ../../reference/src/string/REFERENCE.md:1350
+msgid "stdlib.string.query.is_snake_case_upper"
+msgstr ""
+
+#: ../../reference/src/REFERENCE_COMPLETE.md:3244
+#: ../../reference/src/string/REFERENCE.md:1352
+msgid "Checks if a string is in upper snake case."
+msgstr ""
+
+#: ../../reference/src/REFERENCE_COMPLETE.md:3252
+#: ../../reference/src/string/REFERENCE.md:1360
 msgid "**0**: If the string is valid upper snake case."
-msgstr ""
-
-#: ../../reference/src/REFERENCE_COMPLETE.md:3239
-#: ../../reference/src/string/REFERENCE.md:1347
-msgid "**1**: If the string is not valid upper snake case."
-msgstr ""
-
-#: ../../reference/src/REFERENCE_COMPLETE.md:3243
-#: ../../reference/src/string/REFERENCE.md:1351
-msgid "stdlib.string.query.is_string"
-msgstr ""
-
-#: ../../reference/src/REFERENCE_COMPLETE.md:3245
-#: ../../reference/src/string/REFERENCE.md:1353
-msgid "Checks if a value is a non-empty string."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:3253
 #: ../../reference/src/string/REFERENCE.md:1361
-msgid "**0**: If the value is a non-empty string."
-msgstr ""
-
-#: ../../reference/src/REFERENCE_COMPLETE.md:3254
-#: ../../reference/src/string/REFERENCE.md:1362
-msgid "**1**: If the value is an empty string."
+msgid "**1**: If the string is not valid upper snake case."
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:3257
@@ -7132,4 +7132,3 @@ msgstr ""
 #: ../../reference/src/var/REFERENCE.md:1
 msgid "STDLIB Variable Function Reference"
 msgstr ""
-

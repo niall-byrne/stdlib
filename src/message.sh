@@ -158,6 +158,10 @@ stdlib.__message.get() {
       required_options=1
       message="$(stdlib.__gettext "The value '\${option1}' is not a string containing a positive decimal!")"
       ;;
+    IS_NOT_EMPTY_STRING)
+      required_options=1
+      message="$(stdlib.__gettext "The value '\${option1}' is not an empty string!")" # noqa
+      ;;
     IS_NOT_DIGIT)
       required_options=1
       message="$(stdlib.__gettext "The value '\${option1}' is not a string containing a digit!")"
@@ -185,10 +189,6 @@ stdlib.__message.get() {
     IS_NOT_OCTAL_PERMISSION)
       required_options=1
       message="$(stdlib.__gettext "The value '\${option1}' is not a string containing an octal file permission!")"
-      ;;
-    IS_NOT_SET_STRING)
-      required_options=1
-      message="$(stdlib.__gettext "The value '\${option1}' is not a set string!")" # noqa
       ;;
     IS_NOT_SNAKE_CASE)
       required_options=1
