@@ -218,6 +218,12 @@ repos:
         language: pygrep
         files: "^(src/.+\\.(sh|snippet)|dist/docs.sh)$"
         exclude: "^((.+/)*tests/.+\\.sh)$"
+      - id: source-files-query-functions
+        name: ensure query functions do not use assertions or error logging
+        entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$).*(assert_|\\.assert\\.|stdlib\\.logger\\.(error|warning)|stdlib\\.fn\\.args\\.require)"
+        language: pygrep
+        files: "/query/"
+        exclude: "^((.+/)*tests/.+\\.sh)$"
       - id: source-files-global-variable-names
         name: ensure source files with global variable names for arrays end in _ARRAY
         entry: "^(?!.*\\# noqa\\s*$|^\\s*#.*$)\\s*([A-Z_]+)(?<!_ARRAY)=\\(.+$"
