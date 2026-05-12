@@ -56,13 +56,13 @@ setup() {
     "is_not_decimal;IS_NOT_DECIMAL|value;The value 'value' is not a string containing a decimal!" \
     "is_not_decimal_positive;IS_NOT_DECIMAL_POSITIVE|value;The value 'value' is not a string containing a positive decimal!" \
     "is_not_digit;IS_NOT_DIGIT|value;The value 'value' is not a string containing a digit!" \
+    "is_not_empty_string;IS_NOT_EMPTY_STRING|value;The value 'value' is not an empty string!" \
     "is_not_fn;IS_NOT_FN|value;The value 'value' is not a function!" \
     "is_not_integer;IS_NOT_INTEGER|value;The value 'value' is not a string containing an integer!" \
     "is_not_integer_in_range;IS_NOT_INTEGER_IN_RANGE|1|10|11;The value '11' is not a string containing an integer in the inclusive range 1 to 10!" \
     "is_not_ipv4;IS_NOT_IPV4|value;The value 'value' is not a string containing a valid ipv4 address!" \
     "is_not_ipv6;IS_NOT_IPV6|value;The value 'value' is not a string containing a valid ipv6 address!" \
     "is_not_octal_permission;IS_NOT_OCTAL_PERMISSION|aaa;The value 'aaa' is not a string containing an octal file permission!" \
-    "is_not_set_string;IS_NOT_SET_STRING|value;The value 'value' is not a set string!" \
     "is_not_snake_case;IS_NOT_SNAKE_CASE|value;The value 'value' is not a string in valid snake case!" \
     "is_not_snake_case_upper;IS_NOT_SNAKE_CASE_UPPER|value;The value 'value' is not a string in valid upper snake case!" \
     "lock_could_not_be_acquired;LOCK_COULD_NOT_BE_ACQUIRED|lockname;An exclusive execution lock, with name 'lockname', could not be acquired in time!" \
@@ -159,6 +159,8 @@ setup() {
     "is_not_decimal_positive_________________too_many_args;IS_NOT_DECIMAL_POSITIVE|1|2" \
     "is_not_digit____________________________no_args______;IS_NOT_DIGIT" \
     "is_not_digit____________________________too_many_args;IS_NOT_DIGIT|1|2" \
+    "is_not_empty_string_____________________no_args______;IS_NOT_EMPTY_STRING" \
+    "is_not_empty_string_____________________too_many_args;IS_NOT_EMPTY_STRING|1|2" \
     "is_not_fn_______________________________no_args______;IS_NOT_FN" \
     "is_not_fn_______________________________too_many_args;IS_NOT_FN|1|2" \
     "is_not_integer__________________________no_args______;IS_NOT_INTEGER" \
@@ -172,8 +174,6 @@ setup() {
     "is_not_ipv6_____________________________too_many_args;IS_NOT_IPV6|1|2" \
     "is_not_octal_permission_________________no_args______;IS_NOT_OCTAL_PERMISSION" \
     "is_not_octal_permission_________________too_many_args;IS_NOT_OCTAL_PERMISSION|1|2" \
-    "is_not_set_string_______________________no_args______;IS_NOT_SET_STRING" \
-    "is_not_set_string_______________________too_many_args;IS_NOT_SET_STRING|1|2" \
     "is_not_snake_case_______________________no_args______;IS_NOT_SNAKE_CASE" \
     "is_not_snake_case_______________________too_many_args;IS_NOT_SNAKE_CASE|1|2" \
     "is_not_snake_case_upper_________________no_args______;IS_NOT_SNAKE_CASE_UPPER" \
