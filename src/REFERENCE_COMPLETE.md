@@ -39,6 +39,7 @@
 * [stdlib.fn.assert.is_valid_name](#stdlibfnassertis_valid_name)
 * [stdlib.fn.assert.not_builtin](#stdlibfnassertnot_builtin)
 * [stdlib.fn.assert.not_fn](#stdlibfnassertnot_fn)
+* [stdlib.fn.derive.assertion](#stdlibfnderiveassertion)
 * [stdlib.fn.derive.clone](#stdlibfnderiveclone)
 * [stdlib.fn.derive.pipeable](#stdlibfnderivepipeable)
 * [stdlib.fn.derive.var](#stdlibfnderivevar)
@@ -900,6 +901,29 @@ Asserts that a function name is not defined.
 
 * **0**: If the operation succeeded.
 * **1**: If the operation failed.
+* **126**: If an invalid argument has been provided.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stderr
+
+* The error message if the assertion fails.
+
+### stdlib.fn.derive.assertion
+
+Creates an assertion from an existing query function.
+
+#### Arguments
+
+* **$1** (string): The name of the query function to derive this assertion from.
+* **$2** (string): The message key to display on error, with the passed value as an argument.
+* **$3** (string): (optional, default=s/.query./.assert./g) The name of the new assertion function.
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+* **123**: If a variable reserved for use by the BASH stdlib has been assigned an invalid value.
+* **124**: If a global variable has been assigned an invalid value.
+* **125**: If an invalid keyword has been provided.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 
