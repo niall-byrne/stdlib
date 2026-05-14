@@ -4,6 +4,8 @@
 
 builtin set -eo pipefail
 
+# shellcheck source=src/fn/derive/assertion.sh
+builtin source "${STDLIB_DIRECTORY}/fn/derive/assertion.sh"
 # shellcheck source=src/fn/derive/clone.sh
 builtin source "${STDLIB_DIRECTORY}/fn/derive/clone.sh"
 # shellcheck source=src/fn/derive/pipeable.sh
