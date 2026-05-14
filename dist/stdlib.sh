@@ -433,10 +433,18 @@ stdlib.__message.get ()
             message="$(stdlib.__gettext "The variable '\${option1}' has an invalid value!")"
         ;;
         VAR_VALUE_INVALID_GLOBAL)
+            required_options=0;
+            message="$(stdlib.__gettext "A global variable has been assigned an invalid value!")"
+        ;;
+        VAR_VALUE_INVALID_GLOBAL_DETAIL)
             required_options=1;
             message="$(stdlib.__gettext "The global variable '\${option1}' has been assigned an invalid value!")"
         ;;
         VAR_VALUE_INVALID_RESERVED)
+            required_options=0;
+            message="$(stdlib.__gettext "A variable reserved for internal use by the BASH stdlib and has been assigned an invalid value!")"
+        ;;
+        VAR_VALUE_INVALID_RESERVED_DETAIL)
             required_options=1;
             message="$(stdlib.__gettext "The variable '\${option1}' is reserved for internal use by the BASH stdlib and has been assigned an invalid value!")"
         ;;
@@ -1177,6 +1185,45 @@ stdlib.fn.assert.not_fn ()
         ;;
     esac;
     builtin return "${return_code}"
+}
+
+stdlib.fn.derive.assertion ()
+{
+    builtin local query_function_name="${1}";
+    builtin local message_key="${2}";
+    builtin local assertion_function_name="${3:-${query_function_name/.query./.assert.}}";
+    stdlib.fn.args.require "2" "1" "${@}" || builtin return "$?";
+    stdlib.fn.assert.is_fn "${query_function_name}" || builtin return 126;
+    stdlib.__message.get "${message_key}" "value" > /dev/null 2>&1 || builtin return 126;
+    stdlib.fn.assert.is_valid_name "${assertion_function_name}" || builtin return 126;
+    builtin eval "$("${_STDLIB_BINARY_CAT}" <<EOF
+
+${assertion_function_name}() {
+  builtin local return_code=0
+
+  "${query_function_name}" "\${@}" || return_code="\$?"
+
+  case "\${return_code}" in
+    0) ;;
+    124)
+      stdlib.logger.error "\$(stdlib.__message.get VAR_VALUE_INVALID_GLOBAL)"
+      ;;
+    125)
+      stdlib.logger.error "\$(stdlib.__message.get ARGUMENTS_KEYWORD_INVALID)"
+      ;;
+    126 | 127)
+      stdlib.logger.error "\$(stdlib.__message.get ARGUMENTS_INVALID)"
+      ;;
+    *)
+      stdlib.logger.error "\$(stdlib.__message.get "${message_key}" "\${1}")"
+      ;;
+  esac
+
+  builtin return "\${return_code}"
+}
+
+EOF
+)"
 }
 
 stdlib.fn.derive.clone ()
@@ -3984,7 +4031,7 @@ stdlib.var.assert.__reserved.is_valid_with ()
             stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
         *)
-            stdlib.logger.error "$(stdlib.__message.get VAR_VALUE_INVALID_RESERVED "${2}")"
+            stdlib.logger.error "$(stdlib.__message.get VAR_VALUE_INVALID_RESERVED_DETAIL "${2}")"
         ;;
     esac;
     builtin return "${return_code}"
@@ -4074,7 +4121,7 @@ stdlib.var.global.assert.is_valid_with ()
             stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
         *)
-            stdlib.logger.error "$(stdlib.__message.get VAR_VALUE_INVALID_GLOBAL "${2}")"
+            stdlib.logger.error "$(stdlib.__message.get VAR_VALUE_INVALID_GLOBAL_DETAIL "${2}")"
         ;;
     esac;
     builtin return "${return_code}"

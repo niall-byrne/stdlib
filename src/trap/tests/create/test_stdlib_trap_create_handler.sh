@@ -121,7 +121,7 @@ test_stdlib_trap_create_handler__valid_args_______handler_function___________arr
 
   stdlib.logger.error.mock.assert_calls_are \
     "1($(stdlib.__message.get IS_NOT_ARRAY TEST_ARRAY))" \
-    "1($(stdlib.__message.get VAR_RESERVED TEST_ARRAY))"
+    "1($(stdlib.__message.get VAR_VALUE_INVALID_RESERVED_DETAIL TEST_ARRAY))"
 }
 
 test_stdlib_trap_create_handler__valid_args_______register_function__________@vary() {
@@ -161,7 +161,7 @@ test_stdlib_trap_create_handler__valid_args_______register_function__________arr
 
   stdlib.logger.error.mock.assert_calls_are \
     "1($(stdlib.__message.get IS_NOT_ARRAY TEST_ARRAY))" \
-    "1($(stdlib.__message.get VAR_RESERVED TEST_ARRAY))"
+    "1($(stdlib.__message.get VAR_VALUE_INVALID_RESERVED_DETAIL TEST_ARRAY))"
 }
 
 # shellcheck disable=SC2034

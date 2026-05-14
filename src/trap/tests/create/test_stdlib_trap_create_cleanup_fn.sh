@@ -199,5 +199,5 @@ test_stdlib_trap_create_cleanup_fn__valid_args_______________cleanup_fn_function
 
   stdlib.logger.error.mock.assert_calls_are \
     "1($(stdlib.__message.get IS_NOT_ARRAY TEST_ARRAY))" \
-    "1($(stdlib.__message.get VAR_RESERVED TEST_ARRAY))"
+    "1($(stdlib.__message.get VAR_VALUE_INVALID_RESERVED_DETAIL TEST_ARRAY))"
 }

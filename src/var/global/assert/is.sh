@@ -26,7 +26,7 @@ stdlib.var.global.assert.is_valid_with() {
       stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
       ;;
     *)
-      stdlib.logger.error "$(stdlib.__message.get VAR_VALUE_INVALID_GLOBAL "${2}")"
+      stdlib.logger.error "$(stdlib.__message.get VAR_VALUE_INVALID_GLOBAL_DETAIL "${2}")"
       ;;
   esac
 

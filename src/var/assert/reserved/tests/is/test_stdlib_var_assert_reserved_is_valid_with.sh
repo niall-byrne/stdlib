@@ -140,7 +140,7 @@ test_stdlib_var_assert_reserved_is_valid_with__valid_args________no_default__@va
     stdlib.var.assert.__reserved.is_valid_with _mock_validator _TEST_VAR
 
   stdlib.logger.error.mock.assert_called_once_with \
-    "1($(stdlib.__message.get VAR_VALUE_INVALID_RESERVED _TEST_VAR))"
+    "1($(stdlib.__message.get VAR_VALUE_INVALID_RESERVED_DETAIL _TEST_VAR))"
 }
 
 @parametrize_with_call_types \
@@ -246,7 +246,7 @@ test_stdlib_var_assert_reserved_is_valid_with__valid_args________default_____@va
     stdlib.var.assert.__reserved.is_valid_with _mock_validator _TEST_EMPTY_VAR
 
   stdlib.logger.error.mock.assert_called_once_with \
-    "1($(stdlib.__message.get VAR_VALUE_INVALID_RESERVED _TEST_EMPTY_VAR))"
+    "1($(stdlib.__message.get VAR_VALUE_INVALID_RESERVED_DETAIL _TEST_EMPTY_VAR))"
 }
 
 @parametrize_with_call_types \
