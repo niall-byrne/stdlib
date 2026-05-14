@@ -338,18 +338,28 @@ msgid "The variable '${option1}' has an invalid value!"
 msgstr ""
 
 #: src/message.sh:291
+msgid "A global variable has been assigned an invalid value!"
+msgstr ""
+
+#: src/message.sh:295
 #, sh-format
 msgid "The global variable '${option1}' has been assigned an invalid value!"
 msgstr ""
 
-#: src/message.sh:295
+#: src/message.sh:299
+msgid ""
+"A variable reserved for internal use by the BASH stdlib and has been "
+"assigned an invalid value!"
+msgstr ""
+
+#: src/message.sh:303
 #, sh-format
 msgid ""
 "The variable '${option1}' is reserved for internal use by the BASH stdlib "
 "and has been assigned an invalid value!"
 msgstr ""
 
-#: src/message.sh:299
+#: src/message.sh:307
 #, sh-format
 msgid "The variable '${option1}' has been assigned a non-empty value!"
 msgstr ""
