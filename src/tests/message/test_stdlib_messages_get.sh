@@ -85,7 +85,8 @@ setup() {
     "var_not_set;VAR_NOT_SET|not_set;The variable 'not_set' is not set!" \
     "var_value_invalid;VAR_VALUE_INVALID|var_invalid;The variable 'var_invalid' has an invalid value!" \
     "var_value_invalid_global;VAR_VALUE_INVALID_GLOBAL|global;The global variable 'global' has been assigned an invalid value!" \
-    "var_value_invalid_reserved;VAR_VALUE_INVALID_RESERVED|reserved;The variable 'reserved' is reserved for internal use by the BASH stdlib and has been assigned an invalid value!"
+    "var_value_invalid_reserved;VAR_VALUE_INVALID_RESERVED|reserved;The variable 'reserved' is reserved for internal use by the BASH stdlib and has been assigned an invalid value!" \
+    "var_value_not_empty;VAR_VALUE_NOT_EMPTY|var_invalid;The variable 'var_invalid' has been assigned a non-empty value!"
 }
 
 @parametrize_with_incorrect_arg_counts() {
@@ -221,7 +222,9 @@ setup() {
     "var_value_invalid_global________________no_args______;VAR_VALUE_INVALID_GLOBAL" \
     "var_value_invalid_global________________too_many_args;VAR_VALUE_INVALID_GLOBAL|1|2" \
     "var_value_invalid_reserved______________no_args______;VAR_VALUE_INVALID_RESERVED" \
-    "var_value_invalid_reserved______________too_many_args;VAR_VALUE_INVALID_RESERVED|1|2"
+    "var_value_invalid_reserved______________too_many_args;VAR_VALUE_INVALID_RESERVED|1|2" \
+    "var_value_not_empty_____________________no_args______;VAR_VALUE_NOT_EMPTY" \
+    "var_value_not_empty_____________________too_many_args;VAR_VALUE_NOT_EMPTY|1|2"
 }
 
 # shellcheck disable=SC2034

@@ -419,6 +419,10 @@ stdlib.__message.get ()
             required_options=1;
             message="$(stdlib.__gettext "The variable '\${option1}' is reserved for internal use by the BASH stdlib and has been assigned an invalid value!")"
         ;;
+        VAR_VALUE_NOT_EMPTY)
+            required_options=1;
+            message="$(stdlib.__gettext "The variable '\${option1}' has been assigned a non-empty value!")"
+        ;;
         "")
             required_options=0;
             return_status=126;
@@ -3886,6 +3890,24 @@ stdlib.var.assert.__reserved.is_valid_with ()
     builtin return "${return_code}"
 }
 
+stdlib.var.assert.is_empty ()
+{
+    builtin local return_code=0;
+    stdlib.var.query.is_empty "${@}" || return_code="$?";
+    case "${return_code}" in
+        0)
+
+        ;;
+        126 | 127)
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
+        ;;
+        *)
+            stdlib.logger.error "$(stdlib.__message.get VAR_VALUE_NOT_EMPTY "${1}")"
+        ;;
+    esac;
+    builtin return "${return_code}"
+}
+
 stdlib.var.assert.is_set ()
 {
     builtin local return_code=0;
@@ -3958,6 +3980,13 @@ stdlib.var.global.assert.is_valid_with ()
     builtin return "${return_code}"
 }
 
+stdlib.var.query.is_empty ()
+{
+    [[ "${#@}" == "1" ]] || builtin return 127;
+    stdlib.var.query.is_set "${1}" || builtin return 126;
+    [[ -z "${!1}" ]]
+}
+
 stdlib.var.query.is_set ()
 {
     [[ "${#@}" == "1" ]] || builtin return 127;
@@ -3999,7 +4028,7 @@ stdlib.var.query.is_valid_with ()
     if [[ "${validate_by_name_boolean}" -eq 1 ]]; then
         "${1}" "${value_source}" || return_code="$?";
     else
-        "${1}" "${!value_source}" || return_code="$?";
+        "${1}" "${!value_source:-!validate_default_value}" || return_code="$?";
     fi;
     builtin return "${return_code}"
 }
