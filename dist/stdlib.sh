@@ -74,6 +74,7 @@ declare -a STDLIB_DEFERRED_FN_ARRAY=()
 declare -a STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY=()
 declare -a STDLIB_HANDLER_ERR_FN_ARRAY=()
 declare -a STDLIB_HANDLER_EXIT_FN_ARRAY=([0]="stdlib.trap.fn.cleanup_on_exit")
+declare -- STDLIB_KW_DEFAULT=""
 declare -- STDLIB_LINE_BREAK_DELIMITER=""
 declare -- STDLIB_LINE_BREAK_FORCE_CHAR=""
 declare -- STDLIB_LOCK_POLLING_INTERVAL=""
@@ -182,6 +183,14 @@ stdlib.__message.get ()
         ARGUMENTS_INVALID)
             required_options=0;
             message="$(stdlib.__gettext "Invalid arguments provided!")"
+        ;;
+        ARGUMENTS_KEYWORD_INVALID)
+            required_options=0;
+            message="$(stdlib.__gettext "Invalid keyword arguments provided!")"
+        ;;
+        ARGUMENTS_KEYWORD_INVALID_DETAIL)
+            required_options=1;
+            message="$(stdlib.__gettext "Keyword argument '\${option1}' has an invalid value!")"
         ;;
         ARRAY_ARE_EQUAL)
             required_options=2;
@@ -1280,6 +1289,54 @@ ${derive_target_fn_name}() {
 
 EOF
 )"
+}
+
+stdlib.fn.keyword.assert.is_valid_with ()
+{
+    builtin local return_code=0;
+    stdlib.fn.keyword.query.is_valid_with "${@}" || return_code="$?";
+    case "${return_code}" in
+        0)
+
+        ;;
+        125)
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_KEYWORD_INVALID)"
+        ;;
+        126 | 127)
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
+        ;;
+        *)
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_KEYWORD_INVALID_DETAIL "${2}")"
+        ;;
+    esac;
+    builtin return "${return_code}"
+}
+
+stdlib.fn.keyword.query.is_valid_with ()
+{
+    builtin local return_code=0;
+    builtin local -a kw_source_types;
+    builtin local validation_source="${2}";
+    builtin local validation_source_selection="${3:-value}";
+    kw_source_types=("name" "value");
+    {
+        [[ "${#@}" -ge "2" ]] && [[ "${#@}" -le "3" ]]
+    } || builtin return 127;
+    stdlib.fn.query.is_fn "${1}" || builtin return 126;
+    stdlib.var.query.is_set "${validation_source}" || builtin return 126;
+    stdlib.array.query.is_contains "${validation_source_selection}" kw_source_types || builtin return 126;
+    if ! stdlib.string.query.is_empty "${STDLIB_KW_DEFAULT}"; then
+        stdlib.var.query.is_set "${STDLIB_KW_DEFAULT}" || builtin return 125;
+        if stdlib.var.query.is_empty "${validation_source}"; then
+            validation_source="${STDLIB_KW_DEFAULT}";
+        fi;
+    fi;
+    if [[ "${validation_source_selection}" == "name" ]]; then
+        "${1}" "${validation_source}" || return_code="$?";
+    else
+        "${1}" "${!validation_source}" || return_code="$?";
+    fi;
+    builtin return "${return_code}"
 }
 
 stdlib.fn.query.is_builtin ()
