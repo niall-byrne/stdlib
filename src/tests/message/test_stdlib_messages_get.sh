@@ -27,6 +27,8 @@ setup() {
     "argument_requirements_violation_detail;ARGUMENT_REQUIREMENTS_VIOLATION_DETAIL|3;Received '3' argument(s)!" \
     "argument_requirements_violation_null;ARGUMENT_REQUIREMENTS_VIOLATION_NULL|my_arg;Argument 'my_arg' was null and is not null safe!" \
     "arguments_invalid;ARGUMENTS_INVALID;Invalid arguments provided!" \
+    "arguments_keyword_invalid;ARGUMENTS_KEYWORD_INVALID;Invalid keyword arguments provided!" \
+    "arguments_keyword_invalid_detail;ARGUMENTS_KEYWORD_INVALID_DETAIL|keyword1;Keyword argument 'keyword1' has an invalid value!" \
     "array_are_equal;ARRAY_ARE_EQUAL|array1|array2;The arrays 'array1' and 'array2' are equal!" \
     "array_element_mismatch;ARRAY_ELEMENT_MISMATCH|my_array|0|my_value;At index '0': the array 'my_array' has element 'my_value'" \
     "array_is_empty;ARRAY_IS_EMPTY|my_array;The array 'my_array' is empty!" \
@@ -103,6 +105,9 @@ setup() {
     "argument_requirements_violation_null____no_args______;ARGUMENT_REQUIREMENTS_VIOLATION_NULL" \
     "argument_requirements_violation_null____too_many_args;ARGUMENT_REQUIREMENTS_VIOLATION_NULL|1|2" \
     "arguments_invalid_______________________too_many_args;ARGUMENTS_INVALID|1" \
+    "arguments_keyword_invalid_______________too_many_args;ARGUMENTS_KEYWORD_INVALID|1" \
+    "arguments_keyword_invalid_detail________no_args______;ARGUMENTS_KEYWORD_INVALID_DETAIL" \
+    "arguments_keyword_invalid_detail________too_many_args;ARGUMENTS_KEYWORD_INVALID_DETAIL|1|2" \
     "array_are_equal_________________________no_args______;ARRAY_ARE_EQUAL" \
     "array_are_equal_________________________too_few_args_;ARRAY_ARE_EQUAL|1" \
     "array_are_equal_________________________too_many_args;ARRAY_ARE_EQUAL|1|2|3" \
