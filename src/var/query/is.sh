@@ -7,6 +7,18 @@ builtin set -eo pipefail
 STDLIB_VAR_VALIDATE_BY_NAME_BOOLEAN=""
 STDLIB_VAR_VALIDATE_DEFAULT_VAR=""
 
+# @description Checks if a variable is set to an empty string (null value).
+# @arg $1 string The name of the variable to check.
+# @exitcode 0 If the variable is set.
+# @exitcode 1 If the variable is not set.
+# @exitcode 126 If an invalid argument has been provided.
+# @exitcode 127 If the wrong number of arguments were provided.
+stdlib.var.query.is_empty() {
+  [[ "${#@}" == "1" ]] || builtin return 127
+  stdlib.var.query.is_set "${1}" || builtin return 126
+  [[ -z "${!1}" ]]
+}
+
 # @description Checks if a variable is set.
 # @arg $1 string The name of the variable to check.
 # @exitcode 0 If the variable is set.
@@ -73,7 +85,7 @@ stdlib.var.query.is_valid_with() {
   if [[ "${validate_by_name_boolean}" -eq 1 ]]; then
     "${1}" "${value_source}" || return_code="$?"
   else
-    "${1}" "${!value_source}" || return_code="$?"
+    "${1}" "${!value_source:-!validate_default_value}" || return_code="$?"
   fi
 
   builtin return "${return_code}"

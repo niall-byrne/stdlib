@@ -182,10 +182,12 @@
 * [stdlib.trap.handler.err.fn.register](#stdlibtraphandlererrfnregister)
 * [stdlib.trap.handler.exit.fn](#stdlibtraphandlerexitfn)
 * [stdlib.trap.handler.exit.fn.register](#stdlibtraphandlerexitfnregister)
+* [stdlib.var.assert.is_empty](#stdlibvarassertis_empty)
 * [stdlib.var.assert.is_set](#stdlibvarassertis_set)
 * [stdlib.var.assert.is_valid_name](#stdlibvarassertis_valid_name)
 * [stdlib.var.assert.is_valid_with](#stdlibvarassertis_valid_with)
 * [stdlib.var.global.assert.is_valid_with](#stdlibvarglobalassertis_valid_with)
+* [stdlib.var.query.is_empty](#stdlibvarqueryis_empty)
 * [stdlib.var.query.is_set](#stdlibvarqueryis_set)
 * [stdlib.var.query.is_valid_name](#stdlibvarqueryis_valid_name)
 * [stdlib.var.query.is_valid_with](#stdlibvarqueryis_valid_with)
@@ -3633,6 +3635,25 @@ _Function has no arguments._
 
 * **0**: If the operation succeeded.
 
+### stdlib.var.assert.is_empty
+
+Asserts that a variable is set.
+
+#### Arguments
+
+* **$1** (string): The name of the variable to check.
+
+#### Exit codes
+
+* **0**: If the assertion succeeded.
+* **1**: If the assertion failed.
+* **126**: If an invalid argument has been provided.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stderr
+
+* The error message if the assertion fails.
+
 ### stdlib.var.assert.is_set
 
 Asserts that a variable is set.
@@ -3714,6 +3735,21 @@ Asserts a global variable's value is valid against a validation function.
 #### Output on stderr
 
 * The error message if the assertion fails.
+
+### stdlib.var.query.is_empty
+
+Checks if a variable is set to an empty string (null value).
+
+#### Arguments
+
+* **$1** (string): The name of the variable to check.
+
+#### Exit codes
+
+* **0**: If the variable is set.
+* **1**: If the variable is not set.
+* **126**: If an invalid argument has been provided.
+* **127**: If the wrong number of arguments were provided.
 
 ### stdlib.var.query.is_set
 
