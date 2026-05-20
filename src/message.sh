@@ -270,6 +270,10 @@ stdlib.__message.get() {
       required_options=1
       message="$(stdlib.__gettext "The value '\${option1}' is not a valid variable name!")"
       ;;
+    VAR_VALUE_NOT_EMPTY)
+      required_options=1
+      message="$(stdlib.__gettext "The variable '\${option1}' has been assigned a non-empty value!")"
+      ;;
     "")
       required_options=0
       return_status=126
