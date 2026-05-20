@@ -46,6 +46,14 @@ stdlib.__message.get() {
       required_options=0
       message="$(stdlib.__gettext "Invalid arguments provided!")"
       ;;
+    ARGUMENTS_KEYWORD_INVALID)
+      required_options=0
+      message="$(stdlib.__gettext "Invalid keyword arguments provided!")"
+      ;;
+    ARGUMENTS_KEYWORD_INVALID_DETAIL)
+      required_options=1
+      message="$(stdlib.__gettext "Keyword argument '\${option1}' has an invalid value!")"
+      ;;
     ARRAY_ARE_EQUAL)
       required_options=2
       message="$(stdlib.__gettext "The arrays '\${option1}' and '\${option2}' are equal!")"
