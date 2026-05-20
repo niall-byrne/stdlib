@@ -85,6 +85,7 @@ setup() {
     "var_name_invalid;VAR_NAME_INVALID|not_valid;The value 'not_valid' is not a valid variable name!" \
     "var_not_set;VAR_NOT_SET|not_set;The variable 'not_set' is not set!" \
     "var_value_invalid;VAR_VALUE_INVALID|var_invalid;The variable 'var_invalid' has an invalid value!" \
+    "var_value_invalid_global_detail;VAR_VALUE_INVALID_GLOBAL_DETAIL|global;The global variable 'global' has been assigned an invalid value!" \
     "var_value_invalid_reserved_detail;VAR_VALUE_INVALID_RESERVED_DETAIL|reserved;The variable 'reserved' is reserved for internal use by the BASH stdlib and has been assigned an invalid value!" \
     "var_value_not_empty;VAR_VALUE_NOT_EMPTY|var_invalid;The variable 'var_invalid' has been assigned a non-empty value!"
 }
@@ -221,6 +222,8 @@ setup() {
     "var_not_set_____________________________too_many_args;VAR_NOT_SET|1|2" \
     "var_value_invalid_______________________no_args______;VAR_VALUE_INVALID" \
     "var_value_invalid_______________________too_many_args;VAR_VALUE_INVALID|1|2" \
+    "var_value_invalid_global_detail_________no_args______;VAR_VALUE_INVALID_GLOBAL_DETAIL" \
+    "var_value_invalid_global_detail_________too_many_args;VAR_VALUE_INVALID_GLOBAL_DETAIL|1|2" \
     "var_value_invalid_reserved_detail_______no_args______;VAR_VALUE_INVALID_RESERVED_DETAIL" \
     "var_value_invalid_reserved_detail_______too_many_args;VAR_VALUE_INVALID_RESERVED_DETAIL|1|2" \
     "var_value_not_empty_____________________no_args______;VAR_VALUE_NOT_EMPTY" \
