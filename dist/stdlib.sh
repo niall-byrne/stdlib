@@ -405,6 +405,10 @@ stdlib.__message.get ()
             required_options=1;
             message="$(stdlib.__gettext "The value '\${option1}' is not a valid variable name!")"
         ;;
+        VAR_VALUE_NOT_EMPTY)
+            required_options=1;
+            message="$(stdlib.__gettext "The variable '\${option1}' has been assigned a non-empty value!")"
+        ;;
         "")
             required_options=0;
             return_status=126;
@@ -3913,6 +3917,24 @@ stdlib.trap.handler.exit.fn.register ()
     STDLIB_HANDLER_EXIT_FN_ARRAY+=("${1}")
 }
 
+stdlib.var.assert.is_empty ()
+{
+    builtin local return_code=0;
+    stdlib.var.query.is_empty "${@}" || return_code="$?";
+    case "${return_code}" in
+        0)
+
+        ;;
+        126 | 127)
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
+        ;;
+        *)
+            stdlib.logger.error "$(stdlib.__message.get VAR_VALUE_NOT_EMPTY "${1}")"
+        ;;
+    esac;
+    builtin return "${return_code}"
+}
+
 stdlib.var.assert.is_valid_name ()
 {
     builtin local return_code=0;
@@ -3929,6 +3951,29 @@ stdlib.var.assert.is_valid_name ()
         ;;
     esac;
     builtin return "${return_code}"
+}
+
+stdlib.var.query.is_empty ()
+{
+    builtin local variable_declaration;
+    [[ "${#@}" == "1" ]] || builtin return 127;
+    stdlib.var.query.is_valid_name "${1}" || builtin return 126;
+    variable_declaration="$(builtin declare -p "${1}" 2> /dev/null)" || builtin return 0;
+    case "${variable_declaration}" in
+        *"-a "*'=()' | *"-a ${1}")
+            builtin return 0
+        ;;
+        *"-A "*'=()' | *"-A ${1}")
+            builtin return 0
+        ;;
+        *"-a "* | *"-A "*)
+            builtin return 1
+        ;;
+        *)
+            [[ -z "${!1}" ]] && builtin return 0;
+            builtin return 1
+        ;;
+    esac
 }
 
 stdlib.var.query.is_valid_name ()
