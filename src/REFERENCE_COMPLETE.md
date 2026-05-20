@@ -42,6 +42,8 @@
 * [stdlib.fn.derive.clone](#stdlibfnderiveclone)
 * [stdlib.fn.derive.pipeable](#stdlibfnderivepipeable)
 * [stdlib.fn.derive.var](#stdlibfnderivevar)
+* [stdlib.fn.keyword.assert.is_valid_with](#stdlibfnkeywordassertis_valid_with)
+* [stdlib.fn.keyword.query.is_valid_with](#stdlibfnkeywordqueryis_valid_with)
 * [stdlib.fn.query.is_builtin](#stdlibfnqueryis_builtin)
 * [stdlib.fn.query.is_fn](#stdlibfnqueryis_fn)
 * [stdlib.fn.query.is_valid_name](#stdlibfnqueryis_valid_name)
@@ -967,6 +969,48 @@ Creates a version of a function that reads from and writes to a variable.
 #### Output on stderr
 
 * The error message if the operation fails.
+
+### stdlib.fn.keyword.assert.is_valid_with
+
+Checks if a keyword's value is valid against a validation function.
+* STDLIB_KW_SOURCE_VAR: An optional variable name that can be used as a source for validation (logging will still attribute the value to the argument provided keyword) (default="").
+
+#### Arguments
+
+* **$1** (string): The validation function to run.
+* **$2** (string): The name of the keyword to perform validation on.
+* **$3** (string): (optional, default="value") Controls whether the 'name' or 'value' of the keyword is passed to the validation function.
+
+#### Exit codes
+
+* **0**: If the keyword passes the validation function.
+* **1**: If the keyword fails the validation check.
+* **125**: If an invalid keyword has been provided.
+* **126**: If an invalid argument has been provided.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stderr
+
+* The error message if the assertion fails.
+
+### stdlib.fn.keyword.query.is_valid_with
+
+Checks if a keyword's value is valid against a validation function.
+* STDLIB_KW_SOURCE_VAR: An optional variable name that can be used as a source for validation (default="").
+
+#### Arguments
+
+* **$1** (string): The validation function to run.
+* **$2** (string): The name of the keyword to perform validation on.
+* **$3** (string): (optional, default="value") Controls whether the 'name' or 'value' of the keyword is passed to the validation function.
+
+#### Exit codes
+
+* **0**: If the keyword passes the validation function.
+* **1**: If the keyword fails the validation check.
+* **125**: If an invalid keyword has been provided.
+* **126**: If an invalid argument has been provided.
+* **127**: If the wrong number of arguments were provided.
 
 ### stdlib.fn.query.is_builtin
 
