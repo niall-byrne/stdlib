@@ -10,5 +10,7 @@ builtin source "${STDLIB_DIRECTORY}/fn/args.sh"
 builtin source "${STDLIB_DIRECTORY}/fn/assert/__lib__.sh"
 # shellcheck source=src/fn/derive/__lib__.sh
 builtin source "${STDLIB_DIRECTORY}/fn/derive/__lib__.sh"
+# shellcheck source=src/fn/keyword/__lib__.sh
+builtin source "${STDLIB_DIRECTORY}/fn/keyword/__lib__.sh"
 # shellcheck source=src/fn/query/__lib__.sh
 builtin source "${STDLIB_DIRECTORY}/fn/query/__lib__.sh"
