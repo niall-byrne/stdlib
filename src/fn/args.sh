@@ -16,13 +16,14 @@ STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN="0"
 # @arg $2 integer The number of optional arguments.
 # @arg $@ array The list of argument values to check.
 # @exitcode 0 If the operation succeeded.
+# @exitcode 125 If an invalid keyword has been provided.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stderr The error message if the operation fails.
 stdlib.fn.args.require() {
   builtin local -a args_null_safe_array
   # shellcheck disable=SC2034
-  builtin local STDLIB_LOGGING_MESSAGE_PREFIX="${STDLIB_ARGS_CALLER_FN_NAME:-"${FUNCNAME[1]}"}"
+  builtin local STDLIB_LOGGING_MESSAGE_PREFIX="${STDLIB_ARGS_CALLER_FN_NAME:-"${FUNCNAME[1]}"}" # defaults STDLIB_ARGS_CALLER_FN_NAME
 
   builtin local arg_index=1
   builtin local args_optional_count="${2}"
@@ -30,8 +31,9 @@ stdlib.fn.args.require() {
 
   stdlib.string.assert.is_digit "${args_required_count}" || builtin return 126
   stdlib.string.assert.is_digit "${args_optional_count}" || builtin return 126
-  stdlib.array.assert.is_array STDLIB_ARGS_NULL_SAFE_ARRAY || builtin return 126
-  stdlib.string.assert.is_boolean "${STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN}" || builtin return 126
+
+  stdlib.fn.keyword.assert.is_valid_with stdlib.array.assert.is_array STDLIB_ARGS_NULL_SAFE_ARRAY name || builtin return 125     # validates STDLIB_ARGS_NULL_SAFE_ARRAY
+  stdlib.fn.keyword.assert.is_valid_with stdlib.string.assert.is_boolean STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN || builtin return 125 # validates STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN
 
   # shellcheck disable=SC2034
   args_null_safe_array=("${STDLIB_ARGS_NULL_SAFE_ARRAY[@]}")
