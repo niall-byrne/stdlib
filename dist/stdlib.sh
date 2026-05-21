@@ -1067,8 +1067,8 @@ stdlib.fn.args.require ()
     builtin local args_required_count="${1}";
     stdlib.string.assert.is_digit "${args_required_count}" || builtin return 126;
     stdlib.string.assert.is_digit "${args_optional_count}" || builtin return 126;
-    stdlib.array.assert.is_array STDLIB_ARGS_NULL_SAFE_ARRAY || builtin return 126;
-    stdlib.string.assert.is_boolean "${STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN}" || builtin return 126;
+    stdlib.fn.keyword.assert.is_valid_with stdlib.array.assert.is_array STDLIB_ARGS_NULL_SAFE_ARRAY name || builtin return 125;
+    stdlib.fn.keyword.assert.is_valid_with stdlib.string.assert.is_boolean STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN || builtin return 125;
     args_null_safe_array=("${STDLIB_ARGS_NULL_SAFE_ARRAY[@]}");
     builtin shift 2;
     if (("${#@}" < "${args_required_count}" || "${#@}" > "${args_required_count}" + "${args_optional_count}")); then

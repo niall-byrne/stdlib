@@ -89,21 +89,42 @@ test_stdlib_fn_args_require__@vary__default_function_name_____generates_correct_
   test_stdlib_fn_args_require__@vary__default_function_name_____generates_correct_error_logs
 
 # shellcheck disable=SC2178
-test_stdlib_fn_args_require__1_required__1_optional_args__invalid_null_safe_array___________returns_status_code_126() {
+test_stdlib_fn_args_require__1_required__1_optional_args__invalid_null_safe_array___________returns_status_code_125() {
   local STDLIB_ARGS_NULL_SAFE_ARRAY="not_an_array"
+  local STDLIB_ARGS_CALLER_FN_NAME=""
+  local args=()
+  local message_arg_definition
+  local message_arg_definitions=()
+  local message_args=()
 
   _capture.rc stdlib.fn.args.require 1 0 "one"
 
-  assert_rc "126"
+  assert_rc "125"
+}
+
+# shellcheck disable=SC2178
+test_stdlib_fn_args_require__1_required__1_optional_args__invalid_null_safe_array___________generates_correct_error_logs() {
+  local STDLIB_ARGS_NULL_SAFE_ARRAY="not_an_array"
+  local STDLIB_ARGS_CALLER_FN_NAME=""
+  local args=()
+  local message_arg_definition
+  local message_arg_definitions=()
+  local message_args=()
+
+  stdlib.fn.args.require 1 0 "one"
+
+  stdlib.logger.error.mock.assert_calls_are \
+    "1($(stdlib.__message.get IS_NOT_ARRAY STDLIB_ARGS_NULL_SAFE_ARRAY)) STDLIB_LOGGING_MESSAGE_PREFIX(${FUNCNAME[0]})" \
+    "1($(stdlib.__message.get ARGUMENTS_KEYWORD_INVALID_DETAIL STDLIB_ARGS_NULL_SAFE_ARRAY)) STDLIB_LOGGING_MESSAGE_PREFIX(${FUNCNAME[0]})"
 }
 
 # shellcheck disable=SC2034
-test_stdlib_fn_args_require__1_required__1_optional_args__invalid_null_safe_all_boolean_____returns_status_code_126() {
+test_stdlib_fn_args_require__1_required__1_optional_args__invalid_null_safe_all_boolean_____returns_status_code_125() {
   local STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN="not_a_boolean"
 
   _capture.rc stdlib.fn.args.require 1 0 "one"
 
-  assert_rc "126"
+  assert_rc "125"
 }
 
 # shellcheck disable=SC2034
