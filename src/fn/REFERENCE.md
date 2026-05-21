@@ -36,6 +36,7 @@ Validates the presence and number of arguments for a function.
 #### Exit codes
 
 * **0**: If the operation succeeded.
+* **125**: If an invalid keyword has been provided.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 
