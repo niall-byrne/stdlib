@@ -25,9 +25,9 @@
 ### stdlib.fn.args.require
 
 Validates the presence and number of arguments for a function.
-* STDLIB_ARGS_CALLER_FN_NAME: A string presented as the name of the calling function in logging messages (default="${FUNCNAME[1]}").
-* STDLIB_ARGS_NULL_SAFE_ARRAY: An array of argument indexes that are null safe, meaning they can be empty values (default=()).
-* STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN: A boolean that indicates all arguments are null safe, meaning they can be empty values (default="0").
+* STDLIB_ARGS_CALLER_FN_NAME string keyword: A string presented as the name of the calling function in logging messages (default="${FUNCNAME[1]}").
+* STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN boolean keyword: A boolean that indicates all arguments are null safe, meaning they can be empty values (default="0").
+* STDLIB_ARGS_NULL_SAFE_ARRAY array keyword: An array of argument indexes that are null safe, meaning they can be empty values (default=()).
 
 #### Arguments
 
@@ -38,6 +38,7 @@ Validates the presence and number of arguments for a function.
 #### Exit codes
 
 * **0**: If the operation succeeded.
+* **125**: If an invalid keyword has been provided.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 
@@ -185,7 +186,7 @@ Clones an existing function to a new name.
 ### stdlib.fn.derive.pipeable
 
 Creates a pipeable version of an existing function.
-* STDLIB_PIPEABLE_STDIN_SOURCE_SPECIFIER: A string used to specify the position of stdin in the arguments (default='-').
+* STDLIB_PIPEABLE_STDIN_SOURCE_SPECIFIER string keyword: A string used to specify the position of stdin in the arguments (default='-').
 
 #### Arguments
 
@@ -225,7 +226,7 @@ Creates a version of a function that reads from and writes to a variable.
 ### stdlib.fn.keyword.assert.is_valid_with
 
 Checks if a keyword's value is valid against a validation function.
-* STDLIB_KW_SOURCE_VAR: An optional variable name that can be used as a source for validation (logging will still attribute the value to the argument provided keyword) (default="").
+* STDLIB_KW_SOURCE_VAR string keyword: An optional variable name that can be used as a source for validation (logging will still attribute the value to the argument provided keyword) (default="").
 
 #### Arguments
 
@@ -291,7 +292,7 @@ Consumes an array keyword, using a default array's contents if required, (the ke
 ### stdlib.fn.keyword.query.is_valid_with
 
 Checks if a keyword's value is valid against a validation function.
-* STDLIB_KW_SOURCE_VAR: An optional variable name that can be used as a source for validation (default="").
+* STDLIB_KW_SOURCE_VAR string keyword: An optional variable name that can be used as a source for validation (default="").
 
 #### Arguments
 

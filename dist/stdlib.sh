@@ -48,7 +48,7 @@ builtin set -Eeo pipefail
 # stdlib variable definitions
 
 declare -- STDLIB_ARGS_CALLER_FN_NAME=""
-declare -- STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN="0"
+declare -- STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN=""
 declare -a STDLIB_ARGS_NULL_SAFE_ARRAY=()
 declare -- STDLIB_ARRAY_BUFFER=""
 declare -- STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=""
@@ -1064,22 +1064,26 @@ EOF
 stdlib.fn.args.require ()
 {
     builtin local -a args_null_safe_array;
+    builtin local args_null_safe_all_boolean="${STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN:-"0"}";
     builtin local STDLIB_LOGGING_MESSAGE_PREFIX="${STDLIB_ARGS_CALLER_FN_NAME:-"${FUNCNAME[1]}"}";
     builtin local arg_index=1;
     builtin local args_optional_count="${2}";
     builtin local args_required_count="${1}";
     stdlib.string.assert.is_digit "${args_required_count}" || builtin return 126;
     stdlib.string.assert.is_digit "${args_optional_count}" || builtin return 126;
-    stdlib.array.assert.is_array STDLIB_ARGS_NULL_SAFE_ARRAY || builtin return 126;
-    stdlib.string.assert.is_boolean "${STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN}" || builtin return 126;
+    stdlib.fn.keyword.assert.is_valid_with stdlib.array.assert.is_array STDLIB_ARGS_NULL_SAFE_ARRAY name || builtin return 125;
     args_null_safe_array=("${STDLIB_ARGS_NULL_SAFE_ARRAY[@]}");
+    STDLIB_ARGS_CALLER_FN_NAME="";
+    STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN="";
+    STDLIB_ARGS_NULL_SAFE_ARRAY=();
+    STDLIB_KW_SOURCE_VAR="args_null_safe_all_boolean" stdlib.fn.keyword.assert.is_valid_with stdlib.string.assert.is_boolean STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN || builtin return 125;
     builtin shift 2;
     if (("${#@}" < "${args_required_count}" || "${#@}" > "${args_required_count}" + "${args_optional_count}")); then
         stdlib.logger.error "$(stdlib.__message.get ARGUMENT_REQUIREMENTS_VIOLATION "${args_required_count}" "${args_optional_count}")";
         stdlib.logger.error "$(stdlib.__message.get ARGUMENT_REQUIREMENTS_VIOLATION_DETAIL "${#@}")";
         builtin return 127;
     fi;
-    if [[ "${STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN}" == "1" ]]; then
+    if [[ "${args_null_safe_all_boolean}" == "1" ]]; then
         builtin return 0;
     fi;
     for ((arg_index = 1; arg_index <= "${#@}"; arg_index++))
@@ -1247,6 +1251,7 @@ stdlib.fn.derive.pipeable ()
     stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?";
     stdlib.fn.assert.is_fn "${1}" || builtin return 126;
     stdlib.string.assert.is_digit "${2}" || builtin return 126;
+    STDLIB_PIPEABLE_STDIN_SOURCE_SPECIFIER="";
     derive_target_fn_name="${1}";
     builtin eval "$("${_STDLIB_BINARY_CAT}" <<EOF
 

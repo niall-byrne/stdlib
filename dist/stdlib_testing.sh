@@ -617,6 +617,7 @@ ${1}.mock.get.call() {
   # $1: the call to retrieve
 
   builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local STDLIB_LOGGING_MESSAGE_PREFIX="\${FUNCNAME[0]}"
   builtin local _mock_object_escaped_args
 
   _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
@@ -686,7 +687,7 @@ ${1}.mock.get.keywords() {
 # @set __${2}_mock_keywords array These are the keywords, or variables, that the mock will record each time it's called.
 # @stderr The error message if the operation fails.
 ${1}.mock.set.keywords() {
-  builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local STDLIB_LOGGING_MESSAGE_PREFIX="\${FUNCNAME[0]}"
   builtin local -a _mock_object_keywords
 
   _mock_object_keywords=("\${@}")
@@ -706,6 +707,7 @@ ${1}.mock.set.keywords() {
 # @stderr The error message if the operation fails.
 ${1}.mock.set.pipeable() {
   builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local STDLIB_LOGGING_MESSAGE_PREFIX="\${FUNCNAME[0]}"
 
   _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
   _testing.__protected stdlib.string.assert.is_boolean "\${1}" || builtin return 126
@@ -722,6 +724,7 @@ ${1}.mock.set.pipeable() {
 # @stderr The error message if the operation fails.
 ${1}.mock.set.rc() {
   builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local STDLIB_LOGGING_MESSAGE_PREFIX="\${FUNCNAME[0]}"
 
   _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
   _testing.__protected stdlib.string.assert.is_integer_with_range "0" "255" "\${1}" || builtin return 126
@@ -861,6 +864,7 @@ ${1}.mock.assert_call_n_is() {
   # $2: a set of call args as a string
 
   builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local STDLIB_LOGGING_MESSAGE_PREFIX="\${FUNCNAME[0]}"
   builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
   builtin local _mock_object_arg_string_actual
   builtin local _mock_object_call_count
@@ -958,6 +962,7 @@ ${1}.mock.assert_count_is() {
   # $1: the call count to assert
 
   builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local STDLIB_LOGGING_MESSAGE_PREFIX="\${FUNCNAME[0]}"
   builtin local _mock_object_call_count
 
   _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"

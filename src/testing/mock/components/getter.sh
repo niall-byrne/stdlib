@@ -40,6 +40,7 @@ ${1}.mock.get.call() {
   # $1: the call to retrieve
 
   builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local STDLIB_LOGGING_MESSAGE_PREFIX="\${FUNCNAME[0]}"
   builtin local _mock_object_escaped_args
 
   _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
