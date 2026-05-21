@@ -17,7 +17,7 @@ __STDLIB_TESTING_MOCK_COMPONENT="$(
 # @set __${2}_mock_keywords array These are the keywords, or variables, that the mock will record each time it's called.
 # @stderr The error message if the operation fails.
 ${1}.mock.set.keywords() {
-  builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local STDLIB_LOGGING_MESSAGE_PREFIX="\${FUNCNAME[0]}"
   builtin local -a _mock_object_keywords
 
   _mock_object_keywords=("\${@}")
@@ -37,6 +37,7 @@ ${1}.mock.set.keywords() {
 # @stderr The error message if the operation fails.
 ${1}.mock.set.pipeable() {
   builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local STDLIB_LOGGING_MESSAGE_PREFIX="\${FUNCNAME[0]}"
 
   _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
   _testing.__protected stdlib.string.assert.is_boolean "\${1}" || builtin return 126
@@ -53,6 +54,7 @@ ${1}.mock.set.pipeable() {
 # @stderr The error message if the operation fails.
 ${1}.mock.set.rc() {
   builtin local STDLIB_ARGS_CALLER_FN_NAME="\${FUNCNAME[0]}"
+  builtin local STDLIB_LOGGING_MESSAGE_PREFIX="\${FUNCNAME[0]}"
 
   _testing.__protected stdlib.fn.args.require "1" "0" "\${@}" || builtin return "\$?"
   _testing.__protected stdlib.string.assert.is_integer_with_range "0" "255" "\${1}" || builtin return 126
