@@ -148,9 +148,12 @@ class TestDocumentationCheck(unittest.TestCase):
         # Test standard exit codes rule
         rule_std = documentation_check.StandardExitCodesRule()
         errors_std = rule_std.check(functions[0])
-        self.assertEqual(len(errors_std), 2)
-        self.assertIn(f"Non-standard @{Tags.EXITCODE.name} 126", errors_std[0])
-        self.assertIn(f"Non-standard @{Tags.EXITCODE.name} 127", errors_std[1])
+        self.assertEqual(len(errors_std), 5)
+        self.assertIn(f"Non-standard @{Tags.EXITCODE.name} 123", errors_std[0])
+        self.assertIn(f"Non-standard @{Tags.EXITCODE.name} 124", errors_std[1])
+        self.assertIn(f"Non-standard @{Tags.EXITCODE.name} 125", errors_std[2])
+        self.assertIn(f"Non-standard @{Tags.EXITCODE.name} 126", errors_std[3])
+        self.assertIn(f"Non-standard @{Tags.EXITCODE.name} 127", errors_std[4])
 
     def test_exitcode_description(self):
         filepath = os.path.join(self.assets_dir, "non_standard_exitcodes.sh")
@@ -158,9 +161,9 @@ class TestDocumentationCheck(unittest.TestCase):
 
         rule_if = documentation_check.ExitCodeDescriptionRule()
         errors_if = rule_if.check(functions[0])
-        # exitcode 126 and 127 in assets don't start with "If"
+        # exitcode 123, 124, 125, 126 and 127 in assets don't start with "If"
         # exitcode 0 does.
-        self.assertEqual(len(errors_if), 2)
+        self.assertEqual(len(errors_if), 5)
         self.assertIn(
             f"@{Tags.EXITCODE.name} description should start with 'If'",
             errors_if[0],
