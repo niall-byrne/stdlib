@@ -302,6 +302,12 @@ SENTENCE_FORMAT_TAGS = [
     tag_def for tag_def in Tags.get_sequence() if tag_def.check_sentence_format
 ]
 STANDARDIZED_EXIT_CODES = {
+    "123": rf"@{Tags.EXITCODE.name} 123 If a variable reserved "
+    r"for use by the BASH stdlib has been assigned an invalid value\.",
+    "124": rf"@{Tags.EXITCODE.name} 124 If a global variable "
+    r"has been assigned an invalid value\.",
+    "125": rf"@{Tags.EXITCODE.name} 125 If an invalid "
+    r"keyword has been provided\.",
     "126": rf"@{Tags.EXITCODE.name} 126 If an invalid "
     r"argument has been provided\.",
     "127": rf"@{Tags.EXITCODE.name} 127 If the wrong "
