@@ -18,7 +18,7 @@ _testing.load() {
     builtin return 127
   }
 
-  _testing.__protected stdlib.string.colour "${STDLIB_TESTING_THEME_LOAD}" "    $(_testing.__message.get LOAD_MODULE_NOTIFICATION "${1}")"
+  _testing.__protected stdlib.string.colour "${STDLIB_TESTING_THEME_LOAD}" "    $(_testing.__message.get LOAD_MODULE_NOTIFICATION "${1}")"  # validates STDLIB_TESTING_THEME_LOAD
 
   # shellcheck source=/dev/null
   . "${1}" 2> /dev/null || {
