@@ -4,6 +4,33 @@
 
 builtin set -eo pipefail
 
+# @description Asserts that a value is not a non-empty string.
+# @arg $1 string The value to check.
+# @exitcode 0 If the assertion succeeded.
+# @exitcode 1 If the assertion failed.
+# @exitcode 127 If the wrong number of arguments were provided.
+# @stderr The error message if the assertion fails.
+stdlib.string.assert.not_empty() {
+  builtin local return_code=0
+
+  stdlib.string.query.is_empty "${@}" || return_code="$?"
+
+  case "${return_code}" in
+    1)
+      return_code="0"
+      ;;
+    127)
+      stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
+      ;;
+    *)
+      stdlib.logger.error "$(stdlib.__message.get IS_EMPTY_STRING "${1}")"
+      return_code="1"
+      ;;
+  esac
+
+  builtin return "${return_code}"
+}
+
 # @description Asserts that two strings are not equal.
 # @arg $1 string The first string to compare.
 # @arg $2 string The second string to compare.

@@ -20,6 +20,7 @@
 * [stdlib.string.assert.is_snake_case_upper](#stdlibstringassertis_snake_case_upper)
 * [stdlib.string.assert.net.is_ipv4](#stdlibstringassertnetis_ipv4)
 * [stdlib.string.assert.net.is_ipv6](#stdlibstringassertnetis_ipv6)
+* [stdlib.string.assert.not_empty](#stdlibstringassertnot_empty)
 * [stdlib.string.assert.not_equal](#stdlibstringassertnot_equal)
 * [stdlib.string.colour](#stdlibstringcolour)
 * [stdlib.string.colour_n](#stdlibstringcolour_n)
@@ -365,6 +366,24 @@ Asserts that a string is a valid ipv6 address.
 #### Arguments
 
 * **$1** (string): The string to check.
+
+#### Exit codes
+
+* **0**: If the assertion succeeded.
+* **1**: If the assertion failed.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stderr
+
+* The error message if the assertion fails.
+
+### stdlib.string.assert.not_empty
+
+Asserts that a value is not a non-empty string.
+
+#### Arguments
+
+* **$1** (string): The value to check.
 
 #### Exit codes
 

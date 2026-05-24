@@ -253,6 +253,10 @@ stdlib.__message.get ()
             required_options=1;
             message="$(stdlib.__gettext "The value '\${option1}' is a shell builtin!")"
         ;;
+        IS_EMPTY_STRING)
+            required_options=1;
+            message="$(stdlib.__gettext "The value '\${option1}' is an empty string!")"
+        ;;
         IS_EQUAL)
             required_options=1;
             message="$(stdlib.__gettext "A value equal to '\${option1}' cannot be used!")"
@@ -2398,6 +2402,25 @@ stdlib.string.assert.net.is_ipv6 ()
         ;;
         *)
             stdlib.logger.error "$(stdlib.__message.get IS_NOT_IPV6 "${1}")"
+        ;;
+    esac;
+    builtin return "${return_code}"
+}
+
+stdlib.string.assert.not_empty ()
+{
+    builtin local return_code=0;
+    stdlib.string.query.is_empty "${@}" || return_code="$?";
+    case "${return_code}" in
+        1)
+            return_code="0"
+        ;;
+        127)
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
+        ;;
+        *)
+            stdlib.logger.error "$(stdlib.__message.get IS_EMPTY_STRING "${1}")";
+            return_code="1"
         ;;
     esac;
     builtin return "${return_code}"
