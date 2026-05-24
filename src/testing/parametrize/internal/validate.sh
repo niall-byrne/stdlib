@@ -12,6 +12,8 @@ builtin set -eo pipefail
 # @stderr The error message if validation fails.
 # @internal
 @parametrize.__internal.validate.fn_name.parametrizer() {
+  # clean STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX
+
   if ! stdlib.fn.query.is_fn "${1}"; then
     _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_PARAMETRIZER_FN_INVALID "${1}")"
     _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_FN_DOES_NOT_EXIST)"
@@ -33,6 +35,8 @@ builtin set -eo pipefail
 # @stderr The error message if validation fails.
 # @internal
 @parametrize.__internal.validate.fn_name.test() {
+  # clean STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG
+
   if ! stdlib.fn.query.is_fn "${1}"; then
     _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_TEST_FN_INVALID "${1}")"
     _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_FN_DOES_NOT_EXIST)"

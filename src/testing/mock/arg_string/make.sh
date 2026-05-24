@@ -39,6 +39,7 @@ _mock.arg_string.make.from_array() {
 # @arg $1 string The delimited string of positional arguments.
 # @arg $2 string (optional) The name of the array containing keyword arguments.
 # @exitcode 0 If the mock argument string was generated.
+# @exitcode 125 If an invalid keyword has been provided.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stdout The generated mock argument string.
@@ -53,6 +54,7 @@ _mock.arg_string.make.from_string() {
   _mock_arg_string_args=("_mock_args_array")
 
   _testing.__protected stdlib.fn.args.require "1" "1" "${@}" || builtin return 127
+  _testing.__protected stdlib.string.assert.is_char "${_mock_separator}" || builtin return 125  # validates STDLIB_LINE_BREAK_DELIMITER
 
   if [[ -n "${2}" ]]; then
     _mock_arg_string_args+=("${2}")

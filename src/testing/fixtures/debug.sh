@@ -14,7 +14,7 @@ builtin set -eo pipefail
 _testing.fixtures.debug.diff() {
   builtin local debug_colour
 
-  debug_colour="$(stdlib.setting.theme.get_colour "${STDLIB_TESTING_THEME_DEBUG_FIXTURE}")"
+  debug_colour="$(stdlib.setting.theme.get_colour "${STDLIB_TESTING_THEME_DEBUG_FIXTURE}")"  # validates STDLIB_TESTING_THEME_DEBUG_FIXTURE
 
   # shellcheck disable=SC2059
   builtin printf "%s\n" "$(_testing.__message.get DEBUG_DIFF_HEADER)"
