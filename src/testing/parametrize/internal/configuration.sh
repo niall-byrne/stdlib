@@ -28,6 +28,8 @@ builtin set -eo pipefail
   parse_fixture_commands_array_indirect_reference="${4}[@]"
   parse_fixture_commands_array=("${!parse_fixture_commands_array_indirect_reference}")
 
+  # clean STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR
+
   @parametrize.__internal.configuration.parse_header "${parse_configuration_array[@]}" || builtin return "$?"
   builtin printf -v "${2}" "%s" "${parse_configuration_array_index}"
   @parametrize.__internal.configuration.parse_scenarios "${parse_configuration_array[@]:"${parse_configuration_array_index}"}" || builtin return "$?"
@@ -49,6 +51,8 @@ builtin set -eo pipefail
 # @internal
 @parametrize.__internal.configuration.parse_header() {
   # consumes and modifies the local variables from @parametrize.__internal.configuration.parse
+
+  # clean STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX,STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR
 
   while [[ -n "${1}" ]]; do
     ((parse_configuration_array_index = parse_configuration_array_index + 1))
@@ -74,6 +78,8 @@ builtin set -eo pipefail
 # @internal
 @parametrize.__internal.configuration.parse_scenarios() {
   # consumes and modifies the local variables from @parametrize.__internal.configuration.parse
+
+  # clean STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR
 
   builtin local -a parse_scenario_array
 

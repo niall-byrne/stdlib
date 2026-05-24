@@ -24,6 +24,8 @@ builtin set -eo pipefail
 
   builtin shift 2
 
+  # clean STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX
+
   for ((variant_index = 1; variant_index <= "${#@}"; variant_index++)); do
     parametrizer_function_name="${!variant_index}"
     @parametrize.__internal.validate.fn_name.parametrizer "${parametrizer_function_name}" || builtin return 126
@@ -39,8 +41,8 @@ builtin set -eo pipefail
 }
 
 # @description Creates a test function variant for a specific scenario.
-#   * STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN: Whether to show original test names (default="0").
 #   * STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN: Whether to show debug information (default="0").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN: Whether to show original test names (default="0").
 #   * STDLIB_TESTING_THEME_PARAMETRIZE_ORIGINAL_TEST_NAMES: The colour for original test names (default="GREY").
 # @arg $1 string The test function variant name to create.
 # @arg $2 string The original test function name.
@@ -63,6 +65,8 @@ builtin set -eo pipefail
   builtin local scenario_debug_message=""
   builtin local scenario_index
   builtin local test_function_variant_name="${1}"
+
+  # clean STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN,STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN,STDLIB_TESTING_THEME_PARAMETRIZE_ORIGINAL_TEST_NAMES
 
   array_indirect_environment_variables_reference="${4}[@]"
   array_indirect_environment_variables=("${!array_indirect_environment_variables_reference}")
@@ -102,7 +106,7 @@ builtin set -eo pipefail
       builtin printf "%s\n" "${array_indirect_fixture_commands[scenario_index]}"
     done
 
-    if [[ "${STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN}" == "1" ]]; then
+    if [[ "${STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN}" == "1" ]]; then  # validates STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN
       @parametrize.__internal.debug.message "${scenario_debug_message}"
     fi
   )
@@ -122,6 +126,8 @@ builtin set -eo pipefail
 # @internal
 @parametrize.__internal.create.string.padded_test_fn_variant_name() {
   builtin local padded_variant_name
+
+  # clean STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG
 
   padded_variant_name="${2// /_}"
 

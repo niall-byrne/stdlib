@@ -4,7 +4,7 @@
 
 builtin set -eo pipefail
 
-STDLIB_TESTING_TRACEBACK_REGEX="${STDLIB_TESTING_TRACEBACK_REGEX:-$'^([^:]+:[0-9]+|environment:[0-9]+):.+$'}"
+STDLIB_TESTING_TRACEBACK_REGEX=""
 
 # @description Captures the output of a command that is expected to fail.
 #   * STDLIB_TESTING_TRACEBACK_REGEX: A regex used to identify and remove traceback lines (default="$'^([^:]+:[0-9]+|environment:[0-9]+):.+$'").
@@ -17,6 +17,7 @@ STDLIB_TESTING_TRACEBACK_REGEX="${STDLIB_TESTING_TRACEBACK_REGEX:-$'^([^:]+:[0-9
 _capture.assertion_failure() {
   builtin local output
   builtin local rc
+  builtin local traceback_regex="${STDLIB_TESTING_TRACEBACK_REGEX:-$'^([^:]+:[0-9]+|environment:[0-9]+):.+$'}"  # defaults STDLIB_TESTING_TRACEBACK_REGEX
 
   builtin set +e
   LC_ALL=C IFS= builtin read -rd '' output < <("$@" 2>&1)
@@ -34,7 +35,7 @@ _capture.assertion_failure() {
     # KCOV_EXCLUDE_BEGIN
     builtin echo "${output}" |
       "${_STDLIB_BINARY_SED}" -E '/^FAILURE/d' |
-      "${_STDLIB_BINARY_SED}" -E "/${STDLIB_TESTING_TRACEBACK_REGEX}/d"
+      "${_STDLIB_BINARY_SED}" -E "/${traceback_regex}/d"
     # KCOV_EXCLUDE_END
   )"
 }
