@@ -106,7 +106,7 @@ builtin set -eo pipefail
       builtin printf "%s\n" "${array_indirect_fixture_commands[scenario_index]}"
     done
 
-    if [[ "${STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN}" == "1" ]]; then  # validates STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN
+    if [[ "${STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN}" == "1" ]]; then # validates STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN
       @parametrize.__internal.debug.message "${scenario_debug_message}"
     fi
   )

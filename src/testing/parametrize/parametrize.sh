@@ -11,7 +11,7 @@ builtin set -eo pipefail
   STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX="@fixture "
   STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX="@parametrize_with_"
   STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN="0"
-  STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG="@vary"  
+  STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG="@vary"
 }
 
 __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY=()
@@ -50,14 +50,8 @@ __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY=()
   # shellcheck disable=SC2034
   builtin local PARAMETRIZE_SCENARIO_NAME
 
-  { # validates STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN,STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR,STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX,STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN,STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG
-    _testing.__protected stdlib.fn.keyword.assert.is_valid_with "$(_testing.__protected_name stdlib.string.assert.is_boolean)" STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN || builtin return 125
-    _testing.__protected stdlib.fn.keyword.assert.is_valid_with "$(_testing.__protected_name stdlib.string.assert.is_char)" STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR || builtin return 125
-    _testing.__protected stdlib.fn.keyword.assert.is_valid_with "$(_testing.__protected_name stdlib.string.assert.not_empty)" STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX || builtin return 125
-    _testing.__protected stdlib.fn.keyword.assert.is_valid_with "$(_testing.__protected_name stdlib.string.assert.is_boolean)" STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN || builtin return 125
-    _testing.__protected stdlib.fn.keyword.assert.is_valid_with "$(_testing.__protected_name stdlib.string.assert.not_empty)" STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG || builtin return 125
-    _testing.__protected stdlib.var.reserved.assert.__is_valid_with "$(_testing.__protected_name stdlib.array.assert.is_array)" __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY name || builtin return 123
-  }
+  @parametrize.__internal.validate.keywords || builtin return 125           # validates STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN,STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR,STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX,STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN,STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG
+  @parametrize.__internal.validate.reserved_variables || builtin return 123 # validates __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY
 
   original_test_function_name="${1}"
   original_test_function_reference="__parametrized_original_function_definition_${1}"
@@ -122,14 +116,13 @@ __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY=()
       builtin return 126
     fi
 
-    
     @parametrize.__internal.create.fn.test_variant "${test_function_variant_name}" \
       "${original_test_function_name}" \
       "${original_test_function_reference}" \
       array_environment_variables \
       array_fixture_commands \
       array_scenario_values
-  
+
     __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY+=("${test_function_variant_name}")
 
   done
