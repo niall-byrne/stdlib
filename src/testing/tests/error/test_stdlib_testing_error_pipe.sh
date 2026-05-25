@@ -31,6 +31,9 @@ test_testing_error_pipe__rc__@vary() {
   assert_rc "${TEST_EXPECTED_RC}"
 }
 
+@parametrize_with_scenarios \
+  test_testing_error_pipe__rc__@vary
+
 # shellcheck disable=SC2034
 test_testing_error_pipe__calls__@vary() {
   builtin local -a args=()
@@ -45,9 +48,6 @@ test_testing_error_pipe__calls__@vary() {
 
   _testing.error.mock.assert_calls_are "${expected_calls[@]}"
 }
-
-@parametrize_with_scenarios \
-  test_testing_error_pipe__rc__@vary
 
 @parametrize_with_scenarios \
   test_testing_error_pipe__calls__@vary
