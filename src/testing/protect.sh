@@ -34,7 +34,7 @@ _testing.__protect_stdlib() {
 # @internal
 _testing.__protected() {
   STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=1 \
-    "$(_testing.__protected_name "${1}")" "${@:2}"  # defaults STDLIB_TESTING_PROTECT_PREFIX
+    "$(_testing.__protected_name "${1}")" "${@:2}" # defaults STDLIB_TESTING_PROTECT_PREFIX
 }
 
 # @description Retrieves the name of a protected stdlib function.
@@ -44,7 +44,7 @@ _testing.__protected() {
 # @stdout The name of the protected function.
 # @internal
 _testing.__protected_name() {
-  builtin local stdlib_library_prefix="${STDLIB_TESTING_PROTECT_PREFIX:-"stdlib"}"  # defaults STDLIB_TESTING_PROTECT_PREFIX
+  builtin local stdlib_library_prefix="${STDLIB_TESTING_PROTECT_PREFIX:-"stdlib"}" # defaults STDLIB_TESTING_PROTECT_PREFIX
 
   builtin echo "${1//"${stdlib_library_prefix}."/"${stdlib_library_prefix}.testing.internal."}"
 }

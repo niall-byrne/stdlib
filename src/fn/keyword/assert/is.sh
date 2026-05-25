@@ -17,9 +17,6 @@ builtin set -eo pipefail
 # @stderr The error message if the assertion fails.
 stdlib.fn.keyword.assert.is_valid_with() {
   builtin local return_code=0
-  
-  # shellcheck disable=SC2034
-  builtin local STDLIB_LOGGING_MESSAGE_PREFIX="${FUNCNAME[2]}"
 
   # shellcheck disable=SC2034
   builtin local STDLIB_LOGGING_MESSAGE_PREFIX="${STDLIB_LOGGING_MESSAGE_PREFIX:-"${FUNCNAME[2]}"}"

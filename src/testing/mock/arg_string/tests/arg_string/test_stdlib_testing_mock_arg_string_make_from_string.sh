@@ -88,7 +88,7 @@ test_stdlib_testing_mock_arg_string_make_from_string__@vary__generates_correct_a
 
 test_stdlib_testing_mock_arg_string_make_from_string__valid_string__no_array___________invalid_seperator_______logs_expected_error() {
   _mock.create stdlib.testing.internal.logger.error
-  
+
   STDLIB_LINE_BREAK_DELIMITER="invalid value" \
     _mock.arg_string.make.from_string "123"
 
@@ -98,7 +98,7 @@ test_stdlib_testing_mock_arg_string_make_from_string__valid_string__no_array____
 
 test_stdlib_testing_mock_arg_string_make_from_string__valid_string__valid_array________invalid_seperator_______logs_expected_error() {
   _mock.create stdlib.testing.internal.logger.error
-  
+
   STDLIB_LINE_BREAK_DELIMITER="invalid value" \
     _mock.arg_string.make.from_string "123" empty_array
 
@@ -108,7 +108,7 @@ test_stdlib_testing_mock_arg_string_make_from_string__valid_string__valid_array_
 
 test_stdlib_testing_mock_arg_string_make_from_string__valid_string__invalid_array______invalid_seperator_______logs_expected_error() {
   _mock.create stdlib.testing.internal.logger.error
-  
+
   STDLIB_LINE_BREAK_DELIMITER="invalid value" \
     _mock.arg_string.make.from_string "123" _non_existent_array
 
