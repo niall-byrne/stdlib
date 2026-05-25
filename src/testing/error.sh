@@ -27,6 +27,12 @@ _testing.error() {
 # @exitcode 1 If an error message is logged.  (This value is configurable via arguments).
 # @stderr The error message if the operation fails.
 _testing.error_pipe() {
+  _testing.__protected stdlib.fn.args.require "0" "1" "${@}" || builtin return "${?}"
+
+  if [[ -n "${1}" ]]; then
+    _testing.__protected stdlib.string.assert.is_digit "${1}" || builtin return "${?}"
+  fi
+
   builtin local -a received_args
   builtin local received_arg
   builtin local return_code="${1:-1}"
