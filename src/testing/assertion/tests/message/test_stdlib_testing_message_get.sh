@@ -24,6 +24,7 @@ setup() {
     "${1}" \
     "TEST_ARGS_DEFINITION;TEST_EXPECTED_STDOUT" \
     "assert_file_not_found;ASSERT_ERROR_FILE_NOT_FOUND|bar;the file 'bar' does not exist" \
+    "assert_is_not_mock;ASSERT_ERROR_IS_NOT_MOCK|bar;a mock with name 'bar' does not exist" \
     "assert_output_non_matching;ASSERT_ERROR_OUTPUT_NON_MATCHING;the expected output string was not generated" \
     "assert_output_null;ASSERT_ERROR_OUTPUT_NULL;the 'TEST_OUTPUT' value is empty, consider using '_capture.output'" \
     "assert_rc_non_matching;ASSERT_ERROR_RC_NON_MATCHING;the expected status code was not returned" \
@@ -41,6 +42,8 @@ setup() {
     "TEST_ARGS_DEFINITION" \
     "assert_file_not_found_________no_args;ASSERT_ERROR_FILE_NOT_FOUND" \
     "assert_file_not_found_________too_many_args;ASSERT_ERROR_FILE_NOT_FOUND|bar|bazz" \
+    "assert_is_not_mock____________no_args;ASSERT_ERROR_IS_NOT_MOCK" \
+    "assert_is_not_mock____________too_many_args;ASSERT_ERROR_IS_NOT_MOCK|bar|bazz" \
     "assert_output_non_matching____too_many_args;ASSERT_ERROR_OUTPUT_NON_MATCHING|too|many" \
     "assert_output_null____________too_many_args;ASSERT_ERROR_OUTPUT_NULL|too|many" \
     "assert_rc_non_matching________too_many_args;ASSERT_ERROR_RC_NON_MATCHING|too|many" \
