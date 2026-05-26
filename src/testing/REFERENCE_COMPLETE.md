@@ -13,6 +13,7 @@
 * [assert_is_array_containing](#assert_is_array_containing)
 * [assert_is_fn](#assert_is_fn)
 * [assert_not_fn](#assert_not_fn)
+* [assert_is_mock](#assert_is_mock)
 * [assert_not_null](#assert_not_null)
 * [assert_null](#assert_null)
 * [assert_output](#assert_output)
@@ -150,6 +151,23 @@ Asserts that a value is not a function.
 
 * **0**: If the function is not defined.
 * **1**: If the function is defined.
+
+#### Output on stderr
+
+* The error message if the assertion fails.
+
+### assert_is_mock
+
+Asserts that a mock exists with the given name.
+
+#### Arguments
+
+* **$1** (string): The name of an expected mock object.
+
+#### Exit codes
+
+* **0**: If the assertion passed.
+* **1**: If the assertion fails, or if logger has not been mocked.
 
 #### Output on stderr
 
