@@ -16,6 +16,11 @@ assert_array_length
 assert_is_array
 assert_is_fn
 assert_is_mock
+assert_logger_error_matches
+assert_logger_info_matches
+assert_logger_notice_matches
+assert_logger_success_matches
+assert_logger_warning_matches
 assert_not_null
 assert_null
 assert_output
