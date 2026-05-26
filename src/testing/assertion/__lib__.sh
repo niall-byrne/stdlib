@@ -8,6 +8,8 @@ builtin set -eo pipefail
 builtin source "${STDLIB_DIRECTORY}/testing/assertion/array.sh"
 # shellcheck source=src/testing/assertion/fn.sh
 builtin source "${STDLIB_DIRECTORY}/testing/assertion/fn.sh"
+# shellcheck source=src/testing/assertion/logger.sh
+builtin source "${STDLIB_DIRECTORY}/testing/assertion/logger.sh"
 # shellcheck source=src/testing/assertion/message.sh
 builtin source "${STDLIB_DIRECTORY}/testing/assertion/message.sh"
 # shellcheck source=src/testing/assertion/mock.sh
