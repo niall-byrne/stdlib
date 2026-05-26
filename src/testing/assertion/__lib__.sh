@@ -10,6 +10,8 @@ builtin source "${STDLIB_DIRECTORY}/testing/assertion/array.sh"
 builtin source "${STDLIB_DIRECTORY}/testing/assertion/fn.sh"
 # shellcheck source=src/testing/assertion/message.sh
 builtin source "${STDLIB_DIRECTORY}/testing/assertion/message.sh"
+# shellcheck source=src/testing/assertion/mock.sh
+builtin source "${STDLIB_DIRECTORY}/testing/assertion/mock.sh"
 # shellcheck source=src/testing/assertion/null.sh
 builtin source "${STDLIB_DIRECTORY}/testing/assertion/null.sh"
 # shellcheck source=src/testing/assertion/output.sh
