@@ -15,6 +15,7 @@ assert_array_equals
 assert_array_length
 assert_is_array
 assert_is_fn
+assert_is_mock
 assert_not_null
 assert_null
 assert_output
