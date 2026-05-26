@@ -31,11 +31,14 @@ _testing.error_pipe() {
   builtin local received_arg
   builtin local return_code="${1:-1}"
 
-  while IFS= builtin read -r received_arg; do
-    received_args+=("${received_arg}")
+  _testing.__protected stdlib.fn.args.require "0" "1" "${@}" || builtin return 127
+  _testing.__protected stdlib.string.assert.is_digit "${return_code}" || builtin return 126
+
+  while IFS= builtin read -r received_arg || [[ -n "${received_arg}" ]]; do
+    [[ -z "${received_arg}" ]] || received_args+=("${received_arg}")
   done
 
-  if [[ "${#received_args[@]}" -ne 0 ]]; then
+  if [[ "${#received_args[@]}" -ne "0" ]]; then
     _testing.error "${received_args[@]}" # validates STDLIB_TESTING_THEME_ERROR
     builtin return "${return_code}"
   fi
