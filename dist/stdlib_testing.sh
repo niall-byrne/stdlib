@@ -1375,6 +1375,10 @@ _testing.assert.__message.get ()
             required_options=1;
             message="$(_testing.__gettext "the file '\${option1}' does not exist")"
         ;;
+        ASSERT_ERROR_IS_NOT_MOCK)
+            required_options=1;
+            message="$(_testing.__gettext "a mock with name '\${option1}' does not exist")"
+        ;;
         ASSERT_ERROR_OUTPUT_NON_MATCHING)
             required_options=0;
             message="$(_testing.__gettext "the expected output string was not generated")"
@@ -1702,6 +1706,14 @@ assert_is_fn ()
 '/'
  '}";
     [[ "${_stdlib_return_code}" == "0" ]] || fail " ${_stdlib_assertion_output}"
+}
+
+assert_is_mock ()
+{
+    if builtin declare -f "${1}.mock.__controller" > /dev/null 2>&1; then
+        builtin return 0;
+    fi;
+    fail " $(_testing.assert.__message.get ASSERT_ERROR_IS_NOT_MOCK "${1}")"
 }
 
 assert_not_fn ()

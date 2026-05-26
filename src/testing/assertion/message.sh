@@ -36,6 +36,10 @@ _testing.assert.__message.get() {
       required_options=1
       message="$(_testing.__gettext "the file '\${option1}' does not exist")"
       ;;
+    ASSERT_ERROR_IS_NOT_MOCK)
+      required_options=1
+      message="$(_testing.__gettext "a mock with name '\${option1}' does not exist")"
+      ;;
     ASSERT_ERROR_OUTPUT_NON_MATCHING)
       required_options=0
       message="$(_testing.__gettext "the expected output string was not generated")"

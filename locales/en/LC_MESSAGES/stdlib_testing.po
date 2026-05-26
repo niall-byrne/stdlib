@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: niall@niallbyrne.ca\n"
-"POT-Creation-Date: 2026-01-28 16:19+0000\n"
+"POT-Creation-Date: 2026-05-26 14:36+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,41 +29,46 @@ msgid "the file '${option1}' does not exist"
 msgstr ""
 
 #: src/testing/assertion/message.sh:41
-msgid "the expected output string was not generated"
+#, sh-format
+msgid "a mock with name '${option1}' does not exist"
 msgstr ""
 
 #: src/testing/assertion/message.sh:45
-msgid "the 'TEST_OUTPUT' value is empty, consider using '_capture.output'"
+msgid "the expected output string was not generated"
 msgstr ""
 
 #: src/testing/assertion/message.sh:49
-msgid "the expected status code was not returned"
+msgid "the 'TEST_OUTPUT' value is empty, consider using '_capture.output'"
 msgstr ""
 
 #: src/testing/assertion/message.sh:53
-msgid "the 'TEST_RC' value is empty, consider using '_capture.rc'"
+msgid "the expected status code was not returned"
 msgstr ""
 
 #: src/testing/assertion/message.sh:57
-#, sh-format
-msgid "the contents of '${option1}' does not match the received output"
+msgid "the 'TEST_RC' value is empty, consider using '_capture.rc'"
 msgstr ""
 
 #: src/testing/assertion/message.sh:61
 #, sh-format
-msgid "The value '${option1}' is not null!"
+msgid "the contents of '${option1}' does not match the received output"
 msgstr ""
 
 #: src/testing/assertion/message.sh:65
-msgid "The value is null!"
+#, sh-format
+msgid "The value '${option1}' is not null!"
 msgstr ""
 
 #: src/testing/assertion/message.sh:69
+msgid "The value is null!"
+msgstr ""
+
+#: src/testing/assertion/message.sh:73
 #, sh-format
 msgid "'${option1}' was not given sufficient arguments"
 msgstr ""
 
-#: src/testing/assertion/message.sh:73
+#: src/testing/assertion/message.sh:77
 #, sh-format
 msgid "expected [${option1}] but was [${option2}]"
 msgstr ""
