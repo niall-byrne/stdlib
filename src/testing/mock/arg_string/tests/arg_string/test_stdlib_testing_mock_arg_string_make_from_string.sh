@@ -73,9 +73,10 @@ test_stdlib_testing_mock_arg_string_make_from_string__@vary__returns_expected_st
   test_stdlib_testing_mock_arg_string_make_from_string__@vary__returns_expected_status_code
 
 test_stdlib_testing_mock_arg_string_make_from_string__@vary__generates_correct_arg_string() {
+  local STDLIB_LINE_BREAK_DELIMITER
   local args=()
-  [[ "${TEST_SEPERATOR}" != "" ]] && local STDLIB_LINE_BREAK_DELIMITER="${TEST_SEPERATOR}"
-
+  
+  STDLIB_LINE_BREAK_DELIMITER="${TEST_SEPERATOR}"
   stdlib.array.make.from_string args "|" "${TEST_ARGS_DEFINITION}"
 
   _capture.stdout _mock.arg_string.make.from_string "${args[@]}"
