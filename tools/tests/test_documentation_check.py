@@ -226,6 +226,64 @@ class TestDocumentationCheck(unittest.TestCase):
         # stdlib.already_clean
         self.assertEqual(len(rule.check(parsed_file.functions[11])), 0)
 
+    def test_global_variable_modifier_usage(self):
+        filepath = os.path.join(self.assets_dir, "global_variable_usage.sh")
+        parsed_file = documentation_check.parse_file(filepath)
+        rule = documentation_check.GlobalVariableModifierUsageRule()
+
+        # stdlib.documented_global_var
+        self.assertEqual(len(rule.check(parsed_file.functions[0])), 0)
+
+        # stdlib.undocumented_global_var
+        errors = rule.check(parsed_file.functions[1])
+        self.assertEqual(len(errors), 1)
+        self.assertIn("STDLIB_THEME_LOGGER_ERROR", errors[0])
+
+        # stdlib.local_var_usage
+        self.assertEqual(len(rule.check(parsed_file.functions[2])), 0)
+
+        # stdlib.documented_via_set
+        self.assertEqual(len(rule.check(parsed_file.functions[3])), 0)
+
+        # stdlib.__undocumented_internal_var
+        errors = rule.check(parsed_file.functions[4])
+        self.assertEqual(len(errors), 1)
+        self.assertIn("__STDLIB_LOGGING_DECORATORS_ARRAY", errors[0])
+
+        # stdlib.__documented_internal_var
+        self.assertEqual(len(rule.check(parsed_file.functions[5])), 0)
+
+        # stdlib.binary_var_usage
+        errors = rule.check(parsed_file.functions[6])
+        self.assertEqual(len(errors), 0)
+
+        # stdlib.noqa_usage
+        self.assertEqual(len(rule.check(parsed_file.functions[7])), 0)
+
+        # stdlib.var_name_as_arg
+        errors = rule.check(parsed_file.functions[8])
+        self.assertEqual(len(errors), 1)
+        self.assertIn("STDLIB_THEME_LOGGER_ERROR", errors[0])
+
+        # ${1}.mock.documented
+        self.assertEqual(len(rule.check(parsed_file.functions[9])), 0)
+
+        # ${1}.mock.undocumented
+        errors = rule.check(parsed_file.functions[10])
+        self.assertEqual(len(errors), 1)
+        self.assertIn("__${2}_mock_rc", errors[0])
+
+        # stdlib.inline_assignment_usage
+        errors = rule.check(parsed_file.functions[11])
+
+        # STDLIB_KW_SOURCE_VAR should NOT be in errors
+        self.assertFalse(any("STDLIB_KW_SOURCE_VAR" in e for e in errors))
+
+        # STDLIB_LOCK_PERMISSION_OCTAL SHOULD be in errors (used as an arg)
+        self.assertTrue(
+            any("STDLIB_LOCK_PERMISSION_OCTAL" in e for e in errors)
+        )
+
     def test_missing_outputs(self):
         filepath = os.path.join(self.assets_dir, "missing_outputs.sh")
         parsed_file = documentation_check.parse_file(filepath)
