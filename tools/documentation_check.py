@@ -3,7 +3,7 @@
 import json
 import re
 import sys
-from typing import Callable, Dict, List, NamedTuple, Optional
+from typing import Callable, Dict, List, NamedTuple, Optional, Set
 
 
 # Dataclasses
@@ -12,6 +12,7 @@ class ParsedFile(NamedTuple):
 
     functions: List["BashFunction"]
     derive_calls: List["DeriveCall"]
+    global_assignments: Set[str]
 
 
 class BashFunction:
@@ -38,6 +39,47 @@ class BashFunction:
             for tag_def in Tags.get_sequence()
         }
         self._extract_documentation()
+
+    def get_documented_vars(self) -> set:
+        """Return a set of all documented global variables."""
+        documented_vars = set()
+        for line in self.global_var_lines:
+            match = re.search(REGEX_GLOBAL_VARIABLE_MODIFIER_NAME, line)
+            if match:
+                documented_vars.add(match.group(1))
+
+        for tag in self.find_tags(Tags.SET):
+            parts = tag.content.split()
+            if len(parts) > 0:
+                documented_vars.add(parts[0])
+        return documented_vars
+
+    def get_local_vars(self) -> set:
+        """Return a set of all local variables declared in the function."""
+        local_vars = set()
+        for line in self.body_lines:
+            match = re.search(
+                r"\b(?:builtin\s+)?local\s+(?:-[a-zA-Z]+\s+)*([^#;]+)", line)
+            if match:
+                vars_part = match.group(1)
+                for part in re.split(r"\s+", vars_part):
+                    name_match = re.match(r"^([a-zA-Z_][a-zA-Z0-9_]*)", part)
+                    if name_match:
+                        local_vars.add(name_match.group(1))
+        return local_vars
+
+    def get_used_global_vars(self) -> set:
+        """Return a set of all global variables used in the function."""
+        local_vars = self.get_local_vars()
+        used_vars = set()
+        for line in self.body_lines:
+            if TRIGGER_IGNORE_COMMENT in line:
+                continue
+            for match in re.finditer(REGEX_GLOBAL_VARIABLE_USAGE, line):
+                var_name = match.group(1).replace("\\", "")
+                if var_name not in local_vars:
+                    used_vars.add(var_name)
+        return used_vars
 
     def _extract_documentation(self):
         desc_started = False
@@ -296,6 +338,8 @@ REGEX_GLOBAL_VARIABLE_MODIFIER_DESCRIPTION = (
     rf"^{re.escape(GLOBAL_VARIABLE_PREFIX)}"
     rf"{REGEX_GLOBAL_VARIABLE_MODIFIER_NAME}(.+)$")
 REGEX_GLOBAL_VARIABLE_MODIFIER_DESCRIPTION_DEFAULT = r"^.+\(default=.+\)\.*$"
+REGEX_GLOBAL_VARIABLE_USAGE = (
+    r"(\b__\\?\$\{2\}[a-z_]+\b|\b_?_?STDLIB_(?!BINARY)[A-Z0-9_]+\b)")
 REGEX_PROCESS_SUBSTITUTION = r"[\$=]\(builtin echo"
 REGEX_SKIP_PROCESSING = r"\s*# noqa$"
 SENTENCE_FORMAT_TAGS = [
@@ -560,6 +604,23 @@ class GlobalVariableModifierIndentRule(Rule):
         return errors
 
 
+class GlobalVariableModifierUsageRule(Rule):
+    """A rule that checks global variables are documented when used."""
+
+    def check(self, func: BashFunction) -> List[str]:
+        """Validate the given BASH function."""
+        documented_vars = func.get_documented_vars()
+        used_vars = func.get_used_global_vars()
+        errors = []
+
+        for var_name in sorted(used_vars):
+            if var_name not in documented_vars:
+                errors.append(
+                    f"{func.name}: Undocumented global variable: '{var_name}'")
+
+        return errors
+
+
 class GlobalVariableModifierValidationRule(Rule):
     """A rule that checks global variable modifiers are validated."""
 
@@ -797,6 +858,7 @@ def parse_file(filepath: str) -> ParsedFile:
         lines = file_handle.read().splitlines()
     functions: List[BashFunction] = []
     all_derive_calls: List[DeriveCall] = []
+    global_assignments = set()
     doc_buffer: List[str] = []
     index = 0
     while index < len(lines):
@@ -842,9 +904,12 @@ def parse_file(filepath: str) -> ParsedFile:
             continue
         if line.strip() and not (line.strip().startswith("# shellcheck")
                                  or line.strip().startswith("builtin source")):
+            match = re.match(rf"^\s*{REGEX_GLOBAL_VARIABLE_USAGE}=", line)
+            if match:
+                global_assignments.add(match.group(1))
             doc_buffer = []
         index += 1
-    return ParsedFile(functions, all_derive_calls)
+    return ParsedFile(functions, all_derive_calls, global_assignments)
 
 
 def main():
@@ -863,6 +928,7 @@ def main():
         DeriveStubRequiredTagsRule(),
         ExitCodeDescriptionRule(),
         FieldOrderRule(),
+        GlobalVariableModifierUsageRule(),
         GlobalVariableModifierFormatRule(),
         GlobalVariableModifierIndentRule(),
         GlobalVariableModifierValidationRule(),
