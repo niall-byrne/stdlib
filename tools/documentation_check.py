@@ -289,6 +289,7 @@ REGEX_GLOBAL_VARIABLE_MODIFIER_DESCRIPTION = (
     rf"^{re.escape(GLOBAL_VARIABLE_PREFIX)}"
     rf"{REGEX_GLOBAL_VARIABLE_MODIFIER_NAME}(.+)$")
 REGEX_GLOBAL_VARIABLE_MODIFIER_DESCRIPTION_DEFAULT = r"^.+\(default=.+\)\.*$"
+REGEX_GLOBAL_VARIABLE_USAGE = r"(\b__\\?\$\{2\}[a-z_]+\b|\b_?_?STDLIB_[A-Z0-9_]+\b)"
 REGEX_PROCESS_SUBSTITUTION = r"[\$=]\(builtin echo"
 REGEX_SKIP_PROCESSING = r"\s*# noqa$"
 SENTENCE_FORMAT_TAGS = [
@@ -529,6 +530,51 @@ class GlobalVariableModifierFormatRule(Rule):
                         f"@{Tags.DESCRIPTION.name} "
                         f"should detail a default value. "
                         f"Found: '{line.strip()}'")
+        return errors
+
+
+class GlobalVariableDocumentationRule(Rule):
+    """A rule that checks global variables are documented."""
+
+    def check(self, func: BashFunction) -> List[str]:
+        """Validate the given BASH function."""
+        documented_vars = set()
+        for line in func.global_var_lines:
+            match = re.search(REGEX_GLOBAL_VARIABLE_MODIFIER_NAME, line)
+            if match:
+                documented_vars.add(match.group(1))
+
+        for tag in func.find_tags(Tags.SET):
+            parts = tag.content.split()
+            if len(parts) > 0:
+                documented_vars.add(parts[0])
+
+        local_vars = set()
+        for line in func.body_lines:
+            match = re.search(
+                r"\b(?:builtin\s+)?local\s+(?:-[a-zA-Z]+\s+)*([^#;]+)", line)
+            if match:
+                vars_part = match.group(1)
+                for part in re.split(r'\s+', vars_part):
+                    name_match = re.match(r'^([a-zA-Z_][a-zA-Z0-9_]*)', part)
+                    if name_match:
+                        local_vars.add(name_match.group(1))
+
+        errors = []
+        used_vars = set()
+        for line in func.body_lines:
+            if TRIGGER_IGNORE_COMMENT in line:
+                continue
+            for match in re.finditer(REGEX_GLOBAL_VARIABLE_USAGE, line):
+                var_name = match.group(1).replace("\\", "")
+                if var_name not in local_vars:
+                    used_vars.add(var_name)
+
+        for var_name in sorted(used_vars):
+            if var_name not in documented_vars:
+                errors.append(
+                    f"{func.name}: Undocumented global variable: '{var_name}'")
+
         return errors
 
 
@@ -856,6 +902,7 @@ def main():
         DeriveStubRequiredTagsRule(),
         ExitCodeDescriptionRule(),
         FieldOrderRule(),
+        GlobalVariableDocumentationRule(),
         GlobalVariableModifierFormatRule(),
         GlobalVariableModifierIndentRule(),
         GlobalVariableModifierValidationRule(),

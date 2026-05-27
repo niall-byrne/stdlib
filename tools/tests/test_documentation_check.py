@@ -222,6 +222,49 @@ class TestDocumentationCheck(unittest.TestCase):
         # stdlib.already_clean
         self.assertEqual(len(rule.check(functions[11])), 0)
 
+    def test_global_variable_documentation(self):
+        filepath = os.path.join(self.assets_dir, "global_variable_usage.sh")
+        functions, _ = documentation_check.parse_file(filepath)
+        rule = documentation_check.GlobalVariableDocumentationRule()
+
+        # stdlib.documented_global_var
+        self.assertEqual(len(rule.check(functions[0])), 0)
+
+        # stdlib.undocumented_global_var
+        errors = rule.check(functions[1])
+        self.assertEqual(len(errors), 1)
+        self.assertIn("STDLIB_THEME_LOGGER_ERROR", errors[0])
+
+        # stdlib.local_var_usage
+        self.assertEqual(len(rule.check(functions[2])), 0)
+
+        # stdlib.documented_via_set
+        self.assertEqual(len(rule.check(functions[3])), 0)
+
+        # stdlib.__undocumented_internal_var
+        errors = rule.check(functions[4])
+        self.assertEqual(len(errors), 1)
+        self.assertIn("__STDLIB_LOGGING_DECORATORS_ARRAY", errors[0])
+
+        # stdlib.__documented_internal_var
+        self.assertEqual(len(rule.check(functions[5])), 0)
+
+        # stdlib.binary_var_usage
+        errors = rule.check(functions[6])
+        self.assertEqual(len(errors), 1)
+        self.assertIn("_STDLIB_BINARY_CAT", errors[0])
+
+        # stdlib.noqa_usage
+        self.assertEqual(len(rule.check(functions[7])), 0)
+
+        # ${1}.mock.documented
+        self.assertEqual(len(rule.check(functions[8])), 0)
+
+        # ${1}.mock.undocumented
+        errors = rule.check(functions[9])
+        self.assertEqual(len(errors), 1)
+        self.assertIn("__${2}_mock_rc", errors[0])
+
     def test_missing_outputs(self):
         filepath = os.path.join(self.assets_dir, "missing_outputs.sh")
         functions, _ = documentation_check.parse_file(filepath)
