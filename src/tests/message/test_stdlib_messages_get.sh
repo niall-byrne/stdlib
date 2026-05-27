@@ -45,6 +45,7 @@ setup() {
     "fs_path_is_not_a_folder;FS_PATH_IS_NOT_A_FOLDER|/tmp/foo;The path '/tmp/foo' is not a valid filesystem folder!" \
     "is_array;IS_ARRAY|value;The value 'value' is an array!" \
     "is_builtin;IS_BUILTIN|value;The value 'value' is a shell builtin!" \
+    "is_empty_string;IS_EMPTY_STRING|value;The value 'value' is an empty string!" \
     "is_equal;IS_EQUAL|value;A value equal to 'value' cannot be used!" \
     "is_fn;IS_FN|value;The value 'value' is a function!" \
     "is_not_alphabetic;IS_NOT_ALPHABETIC|value;The value 'value' is not a alphabetic only string!" \
@@ -137,6 +138,8 @@ setup() {
     "is_array________________________________too_many_args;IS_ARRAY|1|2" \
     "is_builtin______________________________no_args______;IS_BUILTIN" \
     "is_builtin______________________________too_many_args;IS_BUILTIN|1|2" \
+    "is_empty_string_________________________no_args______;IS_EMPTY_STRING" \
+    "is_empty_string_________________________too_many_args;IS_EMPTY_STRING|1|2" \
     "is_equal________________________________no_args______;IS_EQUAL" \
     "is_equal________________________________too_many_args;IS_EQUAL|1|2" \
     "is_fn___________________________________no_args______;IS_FN" \
