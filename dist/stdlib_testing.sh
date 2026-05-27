@@ -20,7 +20,7 @@ declare -- STDLIB_TESTING_THEME_PARAMETRIZE_HIGHLIGHT="LIGHT_BLUE"
 declare -- STDLIB_TESTING_THEME_PARAMETRIZE_ORIGINAL_TEST_NAMES="GREY"
 declare -- STDLIB_TESTING_TRACEBACK_REGEX="^([^:]+:[0-9]+|environment:[0-9]+):.+\$"
 declare -a __STDLIB_TESTING_MOCK_REGISTERED_INSTANCES_ARRAY=()
-declare -- __STDLIB_TESTING_MOCK_REGISTRY_FILENAME=""
+declare -- __STDLIB_TESTING_MOCK_REGISTRY_FOLDER=""
 declare -a __STDLIB_TESTING_MOCK_RESTRICTED_ATTRIBUTES=([0]="builtin" [1]="case" [2]="do" [3]="done" [4]="elif" [5]="else" [6]="esac" [7]="fi" [8]="for" [9]="if" [10]="while")
 declare -a __STDLIB_TESTING_MOCK_SEQUENCE_ARRAY=()
 declare -- __STDLIB_TESTING_MOCK_SEQUENCE_FILENAME=""
@@ -1046,8 +1046,8 @@ _mock.__internal.arg_array.make.from_array ()
 _mock.__internal.persistence.registry.add_mock ()
 {
     __STDLIB_TESTING_MOCK_REGISTERED_INSTANCES_ARRAY+=("${1}");
-    builtin printf -v "__${2}_mock_calls_file" "%s" "$("${_STDLIB_BINARY_MKTEMP}" -p "${__STDLIB_TESTING_MOCK_REGISTRY_FILENAME}")";
-    builtin printf -v "__${2}_mock_side_effects_file" "%s" "$("${_STDLIB_BINARY_MKTEMP}" -p "${__STDLIB_TESTING_MOCK_REGISTRY_FILENAME}")"
+    builtin printf -v "__${2}_mock_calls_file" "%s" "$("${_STDLIB_BINARY_MKTEMP}" -p "${__STDLIB_TESTING_MOCK_REGISTRY_FOLDER}")";
+    builtin printf -v "__${2}_mock_side_effects_file" "%s" "$("${_STDLIB_BINARY_MKTEMP}" -p "${__STDLIB_TESTING_MOCK_REGISTRY_FOLDER}")"
 }
 
 _mock.__internal.persistence.registry.apply_to_all ()
@@ -1061,15 +1061,15 @@ _mock.__internal.persistence.registry.apply_to_all ()
 
 _mock.__internal.persistence.registry.cleanup ()
 {
-    if [[ -n "${__STDLIB_TESTING_MOCK_REGISTRY_FILENAME}" ]]; then
-        "${_STDLIB_BINARY_RM}" -rf "${__STDLIB_TESTING_MOCK_REGISTRY_FILENAME}";
+    if [[ -n "${__STDLIB_TESTING_MOCK_REGISTRY_FOLDER}" ]]; then
+        "${_STDLIB_BINARY_RM}" -rf "${__STDLIB_TESTING_MOCK_REGISTRY_FOLDER}";
     fi
 }
 
 _mock.__internal.persistence.registry.create ()
 {
-    if [[ -z "${__STDLIB_TESTING_MOCK_REGISTRY_FILENAME}" ]]; then
-        __STDLIB_TESTING_MOCK_REGISTRY_FILENAME="$("${_STDLIB_BINARY_MKTEMP}" -d)";
+    if [[ -z "${__STDLIB_TESTING_MOCK_REGISTRY_FOLDER}" ]]; then
+        __STDLIB_TESTING_MOCK_REGISTRY_FOLDER="$("${_STDLIB_BINARY_MKTEMP}" -d)";
     fi
 }
 
@@ -1082,7 +1082,7 @@ _mock.__internal.persistence.sequence.clear ()
 _mock.__internal.persistence.sequence.initialize ()
 {
     if [[ -z "${__STDLIB_TESTING_MOCK_SEQUENCE_FILENAME}" ]]; then
-        __STDLIB_TESTING_MOCK_SEQUENCE_FILENAME="$("${_STDLIB_BINARY_MKTEMP}" -p "${__STDLIB_TESTING_MOCK_REGISTRY_FILENAME}")";
+        __STDLIB_TESTING_MOCK_SEQUENCE_FILENAME="$("${_STDLIB_BINARY_MKTEMP}" -p "${__STDLIB_TESTING_MOCK_REGISTRY_FOLDER}")";
         _mock.__internal.persistence.sequence.update;
     fi
 }
