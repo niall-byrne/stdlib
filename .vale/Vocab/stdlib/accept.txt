@@ -32,6 +32,7 @@ jules
 kcov
 mktemp
 mock's
+not_empty
 parametrizer
 parametrizers
 pipeable
