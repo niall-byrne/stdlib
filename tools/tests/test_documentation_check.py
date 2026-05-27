@@ -20,8 +20,8 @@ class TestDocumentationCheck(unittest.TestCase):
 
     def test_valid_file(self):
         filepath = os.path.join(self.assets_dir, "valid.sh")
-        functions, _ = documentation_check.parse_file(filepath)
-        self.assertEqual(len(functions), 2)
+        parsed_file = documentation_check.parse_file(filepath)
+        self.assertEqual(len(parsed_file.functions), 2)
 
         undocumented_rule = documentation_check.UndocumentedRule()
         validation_rules = [
@@ -40,7 +40,7 @@ class TestDocumentationCheck(unittest.TestCase):
         ]
 
         errors = []
-        for func in functions:
+        for func in parsed_file.functions:
             undocumented_errors = undocumented_rule.check(func)
             if undocumented_errors:
                 errors.extend(undocumented_errors)
@@ -53,32 +53,32 @@ class TestDocumentationCheck(unittest.TestCase):
 
     def test_undocumented_file(self):
         filepath = os.path.join(self.assets_dir, "undocumented.sh")
-        functions, _ = documentation_check.parse_file(filepath)
+        parsed_file = documentation_check.parse_file(filepath)
         rule = documentation_check.UndocumentedRule()
-        errors = rule.check(functions[0])
+        errors = rule.check(parsed_file.functions[0])
         self.assertIn("Completely undocumented.", errors[0])
 
     def test_missing_description(self):
         filepath = os.path.join(self.assets_dir, "missing_description.sh")
-        functions, _ = documentation_check.parse_file(filepath)
+        parsed_file = documentation_check.parse_file(filepath)
         rule = documentation_check.MandatoryTagRule()
-        errors = rule.check(functions[0])
+        errors = rule.check(parsed_file.functions[0])
         self.assertIn(f"Missing @{Tags.DESCRIPTION.name}", errors[0])
 
     def test_missing_description_mock_component(self):
         filepath = os.path.join(self.assets_dir,
                                 "invalid_description_mock_component.sh")
-        functions, _ = documentation_check.parse_file(filepath)
+        parsed_file = documentation_check.parse_file(filepath)
         rule = documentation_check.MandatoryTagRule()
-        errors = rule.check(functions[0])
+        errors = rule.check(parsed_file.functions[0])
         self.assertIn(f"Missing @{Tags.DESCRIPTION.name}", errors[0])
 
     def test_invalid_description_global_variable_format(self):
         filepath = os.path.join(self.assets_dir, "invalid_description.sh")
-        functions, _ = documentation_check.parse_file(filepath)
+        parsed_file = documentation_check.parse_file(filepath)
         rule = documentation_check.GlobalVariableModifierFormatRule()
         errors = []
-        for func in functions:
+        for func in parsed_file.functions:
             errors.extend(rule.check(func))
         self.assertEqual(len(errors), 3)
         self.assertIn(
@@ -105,10 +105,10 @@ class TestDocumentationCheck(unittest.TestCase):
 
     def test_invalid_description_global_variable_indent(self):
         filepath = os.path.join(self.assets_dir, "invalid_description.sh")
-        functions, _ = documentation_check.parse_file(filepath)
+        parsed_file = documentation_check.parse_file(filepath)
         rule = documentation_check.GlobalVariableModifierIndentRule()
         errors = []
-        for func in functions:
+        for func in parsed_file.functions:
             errors.extend(rule.check(func))
         self.assertEqual(len(errors), 2)
         self.assertIn(
@@ -126,26 +126,26 @@ class TestDocumentationCheck(unittest.TestCase):
 
     def test_incorrect_order(self):
         filepath = os.path.join(self.assets_dir, "incorrect_order.sh")
-        functions, _ = documentation_check.parse_file(filepath)
+        parsed_file = documentation_check.parse_file(filepath)
         rule = documentation_check.FieldOrderRule()
-        errors = rule.check(functions[0])
+        errors = rule.check(parsed_file.functions[0])
         self.assertIn("Incorrect field order.", errors[0])
 
     def test_invalid_type(self):
         filepath = os.path.join(self.assets_dir, "invalid_type.sh")
-        functions, _ = documentation_check.parse_file(filepath)
+        parsed_file = documentation_check.parse_file(filepath)
         rule = documentation_check.TypeValidationRule()
-        errors = rule.check(functions[0])
+        errors = rule.check(parsed_file.functions[0])
         self.assertIn(f"Missing or invalid type in @{Tags.ARG.name}.",
                       errors[0])
 
     def test_non_standard_exitcodes(self):
         filepath = os.path.join(self.assets_dir, "non_standard_exitcodes.sh")
-        functions, _ = documentation_check.parse_file(filepath)
+        parsed_file = documentation_check.parse_file(filepath)
 
         # Test standard exit codes rule
         rule_std = documentation_check.StandardExitCodesRule()
-        errors_std = rule_std.check(functions[0])
+        errors_std = rule_std.check(parsed_file.functions[0])
         self.assertEqual(len(errors_std), 5)
         self.assertIn(f"Non-standard @{Tags.EXITCODE.name} 123", errors_std[0])
         self.assertIn(f"Non-standard @{Tags.EXITCODE.name} 124", errors_std[1])
@@ -155,10 +155,10 @@ class TestDocumentationCheck(unittest.TestCase):
 
     def test_exitcode_description(self):
         filepath = os.path.join(self.assets_dir, "non_standard_exitcodes.sh")
-        functions, _ = documentation_check.parse_file(filepath)
+        parsed_file = documentation_check.parse_file(filepath)
 
         rule_if = documentation_check.ExitCodeDescriptionRule()
-        errors_if = rule_if.check(functions[0])
+        errors_if = rule_if.check(parsed_file.functions[0])
         # exitcode 123, 124, 125, 126 and 127 in assets don't start with "If"
         # exitcode 0 does.
         self.assertEqual(len(errors_if), 5)
@@ -171,119 +171,124 @@ class TestDocumentationCheck(unittest.TestCase):
 
     def test_global_variable_validation(self):
         filepath = os.path.join(self.assets_dir, "global_var_validation.sh")
-        functions, _ = documentation_check.parse_file(filepath)
+        parsed_file = documentation_check.parse_file(filepath)
         rule = documentation_check.GlobalVariableModifierValidationRule()
 
         # stdlib.no_global_vars
-        self.assertEqual(len(rule.check(functions[0])), 0)
+        self.assertEqual(len(rule.check(parsed_file.functions[0])), 0)
 
         # stdlib.validated_global_var
-        self.assertEqual(len(rule.check(functions[1])), 0)
+        self.assertEqual(len(rule.check(parsed_file.functions[1])), 0)
 
         # stdlib.manually_validated_global_var
-        self.assertEqual(len(rule.check(functions[2])), 0)
+        self.assertEqual(len(rule.check(parsed_file.functions[2])), 0)
 
         # stdlib.manually_validated_global_var_multiple
-        self.assertEqual(len(rule.check(functions[3])), 0)
+        self.assertEqual(len(rule.check(parsed_file.functions[3])), 0)
 
         # stdlib.unvalidated_global_var
-        errors = rule.check(functions[4])
+        errors = rule.check(parsed_file.functions[4])
         self.assertEqual(len(errors), 1)
         self.assertIn("STDLIB_UNVALIDATED_VAR", errors[0])
 
         # stdlib.multiple_global_vars
-        errors = rule.check(functions[5])
+        errors = rule.check(parsed_file.functions[5])
         self.assertEqual(len(errors), 1)
         self.assertIn("STDLIB_INVALID_VAR", errors[0])
 
         # stdlib.dynamic_validated_global_var
-        self.assertEqual(len(rule.check(functions[6])), 0)
+        self.assertEqual(len(rule.check(parsed_file.functions[6])), 0)
 
         # stdlib.dynamic_unvalidated_global_var
-        errors = rule.check(functions[7])
+        errors = rule.check(parsed_file.functions[7])
         self.assertEqual(len(errors), 1)
         self.assertIn("__${2}_mock_rc", errors[0])
 
         # stdlib.commented_validation
-        errors = rule.check(functions[8])
+        errors = rule.check(parsed_file.functions[8])
         self.assertEqual(len(errors), 1)
         self.assertIn("STDLIB_COMMENTED_VAR", errors[0])
 
         # stdlib.prefix_match_validation
-        errors = rule.check(functions[9])
+        errors = rule.check(parsed_file.functions[9])
         self.assertEqual(len(errors), 1)
         self.assertIn("STDLIB_PREFIX_VAR", errors[0])
 
         # stdlib.__internal_unvalidated_var
-        errors = rule.check(functions[10])
+        errors = rule.check(parsed_file.functions[10])
         self.assertEqual(len(errors), 1)
         self.assertIn("STDLIB_INTERNAL_UNVALIDATED_VAR", errors[0])
 
         # stdlib.already_clean
-        self.assertEqual(len(rule.check(functions[11])), 0)
+        self.assertEqual(len(rule.check(parsed_file.functions[11])), 0)
 
-    def test_global_variable_documentation(self):
+    def test_global_variable_modifier_usage(self):
         filepath = os.path.join(self.assets_dir, "global_variable_usage.sh")
-        functions, _ = documentation_check.parse_file(filepath)
-        rule = documentation_check.GlobalVariableDocumentationRule()
+        parsed_file = documentation_check.parse_file(filepath)
+        rule = documentation_check.GlobalVariableModifierUsageRule()
 
         # stdlib.documented_global_var
-        self.assertEqual(len(rule.check(functions[0])), 0)
+        self.assertEqual(len(rule.check(parsed_file.functions[0])), 0)
 
         # stdlib.undocumented_global_var
-        errors = rule.check(functions[1])
+        errors = rule.check(parsed_file.functions[1])
         self.assertEqual(len(errors), 1)
         self.assertIn("STDLIB_THEME_LOGGER_ERROR", errors[0])
 
         # stdlib.local_var_usage
-        self.assertEqual(len(rule.check(functions[2])), 0)
+        self.assertEqual(len(rule.check(parsed_file.functions[2])), 0)
 
         # stdlib.documented_via_set
-        self.assertEqual(len(rule.check(functions[3])), 0)
+        self.assertEqual(len(rule.check(parsed_file.functions[3])), 0)
 
         # stdlib.__undocumented_internal_var
-        errors = rule.check(functions[4])
+        errors = rule.check(parsed_file.functions[4])
         self.assertEqual(len(errors), 1)
         self.assertIn("__STDLIB_LOGGING_DECORATORS_ARRAY", errors[0])
 
         # stdlib.__documented_internal_var
-        self.assertEqual(len(rule.check(functions[5])), 0)
+        self.assertEqual(len(rule.check(parsed_file.functions[5])), 0)
 
         # stdlib.binary_var_usage
-        errors = rule.check(functions[6])
+        errors = rule.check(parsed_file.functions[6])
         self.assertEqual(len(errors), 1)
         self.assertIn("_STDLIB_BINARY_CAT", errors[0])
 
         # stdlib.noqa_usage
-        self.assertEqual(len(rule.check(functions[7])), 0)
+        self.assertEqual(len(rule.check(parsed_file.functions[7])), 0)
+
+        # stdlib.var_name_as_arg
+        errors = rule.check(parsed_file.functions[8])
+        self.assertEqual(len(errors), 1)
+        self.assertIn("STDLIB_THEME_LOGGER_ERROR", errors[0])
 
         # ${1}.mock.documented
-        self.assertEqual(len(rule.check(functions[8])), 0)
+        self.assertEqual(len(rule.check(parsed_file.functions[9])), 0)
 
         # ${1}.mock.undocumented
-        errors = rule.check(functions[9])
+        errors = rule.check(parsed_file.functions[10])
         self.assertEqual(len(errors), 1)
         self.assertIn("__${2}_mock_rc", errors[0])
 
     def test_missing_outputs(self):
         filepath = os.path.join(self.assets_dir, "missing_outputs.sh")
-        functions, _ = documentation_check.parse_file(filepath)
+        parsed_file = documentation_check.parse_file(filepath)
         rule = documentation_check.MissingOutputTagsRule()
-        errors = rule.check(functions[0])
+        errors = rule.check(parsed_file.functions[0])
         self.assertEqual(len(errors), 2)
         self.assertIn(f"Missing @{Tags.STDERR.name} tag", errors[0])
         self.assertIn(f"Missing @{Tags.STDOUT.name} tag", errors[1])
 
     def test_missing_exitcode_configurable(self):
         filepath = os.path.join(self.assets_dir, "valid.sh")
-        functions, _ = documentation_check.parse_file(filepath)
+        parsed_file = documentation_check.parse_file(filepath)
 
         # Override MANDATORY_EXIT_CODES
         original_codes = documentation_check.MANDATORY_EXIT_CODES
         try:
             documentation_check.MANDATORY_EXIT_CODES = ["0", "1"]
             rule = documentation_check.MandatoryExitCodeRule()
-            errors = rule.check(functions[0])
+            errors = rule.check(parsed_file.functions[0])
             self.assertEqual(len(errors), 1)
             self.assertIn(f"Missing @{Tags.EXITCODE.name} 1", errors[0])
         finally:
@@ -315,7 +320,7 @@ class TestDocumentationCheck(unittest.TestCase):
 
     def test_derive_valid(self):
         filepath = os.path.join(self.assets_dir, "derive_valid.sh")
-        functions, derive_calls = documentation_check.parse_file(filepath)
+        parsed_file = documentation_check.parse_file(filepath)
 
         rules = [
             documentation_check.DeriveStubDescriptionRule(),
@@ -328,11 +333,11 @@ class TestDocumentationCheck(unittest.TestCase):
         ]
 
         errors = []
-        for func in functions:
+        for func in parsed_file.functions:
             for rule in rules:
                 errors.extend(rule.check(func))
 
-        for call in derive_calls:
+        for call in parsed_file.derive_calls:
             for rule in derive_rules:
                 errors.extend(rule.check(call))
 
@@ -340,7 +345,7 @@ class TestDocumentationCheck(unittest.TestCase):
 
     def test_derive_invalid(self):
         filepath = os.path.join(self.assets_dir, "derive_invalid.sh")
-        functions, derive_calls = documentation_check.parse_file(filepath)
+        parsed_file = documentation_check.parse_file(filepath)
 
         rules = [
             documentation_check.DeriveStubDescriptionRule(),
@@ -353,11 +358,11 @@ class TestDocumentationCheck(unittest.TestCase):
         ]
 
         all_errors = []
-        for func in functions:
+        for func in parsed_file.functions:
             for rule in rules:
                 all_errors.extend(rule.check(func))
 
-        for call in derive_calls:
+        for call in parsed_file.derive_calls:
             for rule in derive_rules:
                 all_errors.extend(rule.check(call))
 

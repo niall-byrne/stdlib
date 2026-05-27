@@ -64,6 +64,13 @@ stdlib.noqa_usage() {
   builtin echo "${STDLIB_UNDOCUMENTED_VAR}" # noqa
 }
 
+# @description Global variable name as argument.
+# @arg $1 string The array name.
+# @exitcode 0 If it is an array.
+stdlib.var_name_as_arg() {
+  stdlib.array.query.is_array STDLIB_THEME_LOGGER_ERROR
+}
+
 eval "$(
   "${_STDLIB_BINARY_CAT}" << 'EOF'
 
