@@ -3,10 +3,17 @@
 import json
 import re
 import sys
-from typing import Callable, Dict, List, Optional, Tuple
+from typing import Callable, Dict, List, NamedTuple, Optional
 
 
 # Dataclasses
+class ParsedFile(NamedTuple):
+    """The result of parsing a BASH script file."""
+
+    functions: List["BashFunction"]
+    derive_calls: List["DeriveCall"]
+
+
 class BashFunction:
     """A parsed BASH function with it's documentation."""
 
@@ -811,7 +818,7 @@ class UndocumentedRule(Rule):
         return []
 
 
-def parse_file(filepath: str) -> Tuple[List[BashFunction], List[DeriveCall]]:
+def parse_file(filepath: str) -> ParsedFile:
     """Parse BashFunction instances from the given filepath."""
     with open(filepath, "r") as file_handle:
         lines = file_handle.read().splitlines()
@@ -869,7 +876,7 @@ def parse_file(filepath: str) -> Tuple[List[BashFunction], List[DeriveCall]]:
         ):
             doc_buffer = []
         index += 1
-    return functions, all_derive_calls
+    return ParsedFile(functions, all_derive_calls)
 
 
 def main():
@@ -902,9 +909,9 @@ def main():
     all_discrepancies: Dict[str, List[str]] = {}
     for filepath in sys.argv[1:]:
         try:
-            functions, derive_calls = parse_file(filepath)
+            parsed_file = parse_file(filepath)
             file_errors = []
-            for func in functions:
+            for func in parsed_file.functions:
                 undocumented_errors = []
                 for rule in undocumented_rule:
                     undocumented_errors.extend(rule.check(func))
@@ -913,7 +920,7 @@ def main():
                     continue
                 for rule in validation_rules:
                     file_errors.extend(rule.check(func))
-            for call in derive_calls:
+            for call in parsed_file.derive_calls:
                 for rule in derive_rules:
                     file_errors.extend(rule.check(call))
             if file_errors:
