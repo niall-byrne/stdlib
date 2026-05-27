@@ -269,6 +269,20 @@ class TestDocumentationCheck(unittest.TestCase):
         self.assertEqual(len(errors), 1)
         self.assertIn("__${2}_mock_rc", errors[0])
 
+    def test_inline_assignment_usage(self):
+        filepath = os.path.join(self.assets_dir, "inline_assignment.sh")
+        parsed_file = documentation_check.parse_file(filepath)
+        rule = documentation_check.GlobalVariableModifierUsageRule()
+
+        # stdlib.inline_assignment_usage
+        errors = rule.check(parsed_file.functions[0])
+
+        # STDLIB_KW_SOURCE_VAR should NOT be in errors
+        self.assertFalse(any("STDLIB_KW_SOURCE_VAR" in e for e in errors))
+
+        # STDLIB_LOCK_PERMISSION_OCTAL SHOULD be in errors (as it's used as an argument)
+        self.assertTrue(any("STDLIB_LOCK_PERMISSION_OCTAL" in e for e in errors))
+
     def test_missing_outputs(self):
         filepath = os.path.join(self.assets_dir, "missing_outputs.sh")
         parsed_file = documentation_check.parse_file(filepath)
