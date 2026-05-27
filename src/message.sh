@@ -118,6 +118,10 @@ stdlib.__message.get() {
       required_options=1
       message="$(stdlib.__gettext "The value '\${option1}' is a shell builtin!")"
       ;;
+    IS_EMPTY_STRING)
+      required_options=1
+      message="$(stdlib.__gettext "The value '\${option1}' is an empty string!")" # noqa
+      ;;
     IS_EQUAL)
       required_options=1
       message="$(stdlib.__gettext "A value equal to '\${option1}' cannot be used!")"
