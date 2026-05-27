@@ -240,6 +240,37 @@ class TestDocumentationCheck(unittest.TestCase):
 
         self.assertEqual(errors, [])
 
+    def test_global_variable_documentation(self):
+        filepath = os.path.join(self.assets_dir, "global_variables.sh")
+        functions, _ = documentation_check.parse_file(filepath)
+        rule = documentation_check.GlobalVariableDocumentationRule()
+
+        # stdlib.documented_usage
+        errors = rule.check(functions[0])
+        self.assertEqual(errors, [])
+
+        # stdlib.undocumented_usage
+        errors = rule.check(functions[1])
+        self.assertEqual(len(errors), 1)
+        self.assertIn("Undocumented global variable usage: 'STDLIB_UNDOC_VAR'",
+                      errors[0])
+
+        # stdlib.inline_assignment
+        errors = rule.check(functions[2])
+        self.assertEqual(errors, [])
+
+        # stdlib.local_variable
+        errors = rule.check(functions[3])
+        self.assertEqual(errors, [])
+
+        # stdlib.set_documented
+        errors = rule.check(functions[4])
+        self.assertEqual(errors, [])
+
+        # stdlib.mock_template
+        errors = rule.check(functions[5])
+        self.assertEqual(errors, [])
+
     def test_derive_invalid(self):
         filepath = os.path.join(self.assets_dir, "derive_invalid.sh")
         functions, derive_calls = documentation_check.parse_file(filepath)

@@ -543,6 +543,67 @@ class GlobalVariableModifierIndentRule(Rule):
         return errors
 
 
+class GlobalVariableDocumentationRule(Rule):
+    """A rule that checks if global variables used are documented."""
+
+    def check(self, func: BashFunction) -> List[str]:
+        """Validate the given BASH function."""
+        local_vars = set()
+        for line in func.body_lines:
+            match = re.search(
+                r"^\s*(?:builtin\s+)?local\s+(?:-[a-zA-Z]+\s+)?(.+)$", line)
+            if match:
+                parts = match.group(1).split()
+                for part in parts:
+                    name = part.split("=")[0].strip("\"'")
+                    if name:
+                        local_vars.add(name)
+
+        documented_vars = set()
+        for line in func.global_var_lines:
+            match = re.search(REGEX_GLOBAL_VARIABLE_MODIFIER_NAME, line)
+            if match:
+                documented_vars.add(match.group(1))
+        for tag in func.find_tags(Tags.SET):
+            parts = tag.content.split()
+            if parts:
+                documented_vars.add(parts[0])
+
+        used_vars = set()
+        global_var_pattern = (
+            r"\b((?:STDLIB_|__STDLIB_|_STDLIB_)[A-Z0-9_]*|"
+            r"__\$\{2\}[a-z_]+)\b")
+
+        for line in func.body_lines:
+            if line.strip().startswith("#"):
+                continue
+
+            matches = re.finditer(global_var_pattern, line)
+            for match in matches:
+                var_name = match.group(1)
+
+                if var_name in local_vars:
+                    continue
+
+                # Check for inline assignment: VAR=val command
+                inline_pattern = (
+                    rf"(?:^|\s|\||&|;)\b{re.escape(var_name)}="
+                    r"(?:\"[^\"]*\"|\'[^\']*\'|[^\s;]+)\s+\S+")
+                if re.search(inline_pattern, line):
+                    continue
+
+                used_vars.add(var_name)
+
+        errors = []
+        for var in sorted(list(used_vars)):
+            if var not in documented_vars:
+                errors.append(
+                    f"{func.name}: Undocumented global variable usage: '{var}'"
+                )
+
+        return errors
+
+
 class InternalTagRule(Rule):
     """A rule that checks private functions have an internal tag."""
 
@@ -801,6 +862,7 @@ def main():
         DeriveStubRequiredTagsRule(),
         ExitCodeDescriptionRule(),
         FieldOrderRule(),
+        GlobalVariableDocumentationRule(),
         GlobalVariableModifierFormatRule(),
         GlobalVariableModifierIndentRule(),
         InternalTagRule(),
