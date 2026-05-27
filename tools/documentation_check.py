@@ -76,43 +76,57 @@ class BashFunction:
             if TRIGGER_IGNORE_COMMENT in line:
                 continue
 
-            inline_assignment_match = re.match(REGEX_INLINE_VARIABLE_ASSIGNMENT,
-                                               line)
+            inline_assignment_match = re.match(
+                REGEX_GLOBAL_VARIABLE_INLINE_ASSIGNMENT,
+                line,
+            )
             inline_assignment_part = ""
             if inline_assignment_match:
                 inline_assignment_part = inline_assignment_match.group(0)
 
-            for match in re.finditer(REGEX_GLOBAL_VARIABLE_USAGE, line):
+            for match in re.finditer(
+                    REGEX_GLOBAL_VARIABLE_USAGE,
+                    line,
+            ):
                 var_name = match.group(1).replace("\\", "")
                 if var_name in local_vars:
                     continue
 
-                # If the variable is part of an inline assignment at the start
-                # of the line, and doesn't appear in the rest of the line as
-                # a usage (not an assignment), we don't count it as "used"
-                # by the calling function.
-                if inline_assignment_part:
-                    # Check if the match is within the inline assignment part
-                    if match.start() < len(inline_assignment_part):
-                        # Check if this is an assignment (followed by =)
-                        if line[match.end():].startswith("="):
-                            # It is an assignment.
-                            # Now check if it appears elsewhere in the line
-                            # as a usage (not followed by =).
-                            is_used_elsewhere = False
-                            for other_match in re.finditer(
-                                    REGEX_GLOBAL_VARIABLE_USAGE, line):
-                                if (other_match.group(1).replace("\\", "")
-                                        == var_name and not line[
-                                            other_match.end():].startswith("=")
-                                    ):
-                                    is_used_elsewhere = True
-                                    break
-                            if not is_used_elsewhere:
-                                continue
+                if self._is_exclusive_inline_assignment(
+                        line,
+                        match,
+                        inline_assignment_part,
+                ):
+                    continue
 
                 used_vars.add(var_name)
         return used_vars
+
+    def _is_exclusive_inline_assignment(
+        self,
+        line: str,
+        match: re.Match,
+        inline_assignment_part: str,
+    ) -> bool:
+        if not inline_assignment_part:
+            return False
+
+        if match.start() >= len(inline_assignment_part):
+            return False
+
+        if not line[match.end():].startswith("="):
+            return False
+
+        var_name = match.group(1).replace("\\", "")
+        for other_match in re.finditer(
+                REGEX_GLOBAL_VARIABLE_USAGE,
+                line,
+        ):
+            if (other_match.group(1).replace("\\", "") == var_name
+                    and not line[other_match.end():].startswith("=")):
+                return False
+
+        return True
 
     def _extract_documentation(self):
         desc_started = False
@@ -366,7 +380,7 @@ REGEX_DOC_TAGS = (
     rf"^#\s*@({'|'.join([tag_def.name for tag_def in Tags.get_sequence()])})")
 REGEX_ECHO_ASSIGNMENT = r"=\s*\"?builtin echo"
 REGEX_FUNCTION_DEFINITION = r"^(([a-zA-Z_@]|\$\{1\}\.)[a-zA-Z0-9._]*) *\(\) *\{"
-REGEX_INLINE_VARIABLE_ASSIGNMENT = (
+REGEX_GLOBAL_VARIABLE_INLINE_ASSIGNMENT = (
     r"^\s*(?:(?:[A-Z_]+|__\$\{2\}[a-z_]+)="
     r"(?:'[^']*'|\"[^\"]*\"|\$?\([^)]*\)|[^\s;]+)\s+)+")
 REGEX_GLOBAL_VARIABLE_MODIFIER_NAME = r"(__\$\{2\}[a-z_]+|[A-Z_]+): "
