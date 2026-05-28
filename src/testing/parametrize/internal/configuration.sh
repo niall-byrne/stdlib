@@ -5,7 +5,8 @@
 builtin set -eo pipefail
 
 # @description Parses the parametrize configuration array.
-#   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR: The field separator for scenarios (default=";").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR string keyword: The field separator for scenarios (default=";").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX string keyword: The prefix for fixture commands (default="@fixture ").
 # @arg $1 string The name of the array containing the configuration.
 # @arg $2 string The name of the variable to store the scenario start index.
 # @arg $3 string The name of the array to store environment variables.
@@ -21,6 +22,9 @@ builtin set -eo pipefail
   builtin local parse_fixture_commands_array_indirect_reference
   builtin local -a parse_fixture_commands_array
   builtin local parse_variant_padding_value=0
+
+  builtin local setting_field_separator_char="${setting_field_separator_char}"     # clean STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR
+  builtin local setting_fixture_command_prefix="${setting_fixture_command_prefix}" # clean STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX
 
   parse_configuration_array_indirect_reference="${1}[@]"
   parse_configuration_array=("${!parse_configuration_array_indirect_reference}")
@@ -42,24 +46,27 @@ builtin set -eo pipefail
 }
 
 # @description Parses the header portion of the parametrize configuration.
-#   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX: The prefix for fixture commands (default="@fixture ").
-#   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR: The field separator for scenarios (default=";").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR string keyword: The field separator for scenarios (default=";").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX string keyword: The prefix for fixture commands (default="@fixture ").
 # @arg $@ array The parametrize configuration to parse.
 # @exitcode 0 If the configuration header was parsed.
 # @internal
 @parametrize.__internal.configuration.parse_header() {
   # consumes and modifies the local variables from @parametrize.__internal.configuration.parse
 
+  builtin local setting_field_separator_char="${setting_field_separator_char}"     # clean STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR
+  builtin local setting_fixture_command_prefix="${setting_fixture_command_prefix}" # clean STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX
+
   while [[ -n "${1}" ]]; do
     ((parse_configuration_array_index = parse_configuration_array_index + 1))
-    if stdlib.string.query.starts_with "${STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX}" "${1}"; then
-      parse_fixture_commands_array+=("${1/"${STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX}"/}")
+    if stdlib.string.query.starts_with "${setting_fixture_command_prefix}" "${1}"; then
+      parse_fixture_commands_array+=("${1/"${setting_fixture_command_prefix}"/}")
       builtin shift
       builtin continue
     else
       _testing.__protected stdlib.array.make.from_string \
         "${parse_env_var_array_name?}" \
-        "${STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR}" \
+        "${setting_field_separator_char}" \
         "${1}"
       builtin shift
       builtin break
@@ -68,12 +75,14 @@ builtin set -eo pipefail
 }
 
 # @description Parses the scenario portion of the parametrize configuration.
-#   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR: The field separator for scenarios (default=";").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR string keyword: The field separator for scenarios (default=";").
 # @arg $@ array The parametrize configuration to parse.
 # @exitcode 0 If the configuration scenarios were parsed.
 # @internal
 @parametrize.__internal.configuration.parse_scenarios() {
   # consumes and modifies the local variables from @parametrize.__internal.configuration.parse
+
+  builtin local setting_field_separator_char="${setting_field_separator_char}" # clean STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR
 
   builtin local -a parse_scenario_array
 
@@ -82,7 +91,7 @@ builtin set -eo pipefail
 
     _testing.__protected stdlib.array.make.from_string \
       parse_scenario_array \
-      "${STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR}" \
+      "${setting_field_separator_char}" \
       "${1}"
 
     @parametrize.__internal.validate.scenario "${parse_env_var_array_name}" \
