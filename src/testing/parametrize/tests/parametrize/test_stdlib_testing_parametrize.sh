@@ -15,7 +15,7 @@ setup_suite() {
 }
 
 setup() {
-  _mock.create _testing.error
+  _mock.create stdlib.testing.internal.logger.error
   _mock.create test_function_mock_@vary
 }
 
@@ -29,25 +29,25 @@ test_parametrize__1st_run_test_variants__valid_config__________@vary__populate_i
   scenario_name_receiver "${PARAMETRIZE_SCENARIO_NAME}"
 }
 
-STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="" @parametrize \
+STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="0" @parametrize \
   test_parametrize__1st_run_test_variants__valid_config__________@vary__populate_indexes \
   "${SIMPLE_CONFIG_ONE[@]}"
 
 test_parametrize__1st_run_test_variants__invalid_args__________returns_status_code_127() {
-  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="" _capture.rc @parametrize
+  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="0" _capture.rc @parametrize
 
   assert_rc "127"
 }
 
 test_parametrize__1st_run_test_variants__invalid_args__________logs_correct_error_message() {
-  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="" _capture.rc @parametrize
+  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="0" _capture.rc @parametrize
 
-  _testing.error.mock.assert_called_once_with \
+  stdlib.testing.internal.logger.error.mock.assert_called_once_with \
     "1(@parametrize: $(stdlib.__message.get ARGUMENTS_INVALID))"
 }
 
 test_parametrize__1st_run_test_variants__invalid_config________returns_status_code_126() {
-  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="" _capture.rc @parametrize \
+  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="0" _capture.rc @parametrize \
     test_function_mock_@vary \
     "${INVALID_CONFIG_ONE[@]}" 2> /dev/null
 
@@ -55,27 +55,25 @@ test_parametrize__1st_run_test_variants__invalid_config________returns_status_co
 }
 
 test_parametrize__1st_run_test_variants__invalid_config________logs_correct_error_message() {
-  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="" @parametrize \
+  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="0" @parametrize \
     test_function_mock_@vary \
     "${INVALID_CONFIG_ONE[@]}" 2> /dev/null
 
-  _testing.error.mock.assert_called_once_with \
-    "1($(_testing.parametrize.__message.get PARAMETRIZE_CONFIGURATION_ERROR)) 2($(_testing.parametrize.__message.get PARAMETRIZE_PREFIX_SCENARIO_NAME): config_3_scenario_1) 3($(_testing.parametrize.__message.get PARAMETRIZE_PREFIX_SCENARIO_VARIABLE): VAR_1 VAR_2 VAR_3 = 3 variables) 4($(_testing.parametrize.__message.get PARAMETRIZE_PREFIX_SCENARIO_VALUES): config3-scenario1-value2 config3-scenario1-value3 = 2 values) 5($(_testing.parametrize.__message.get PARAMETRIZE_PREFIX_FIXTURE_COMMANDS): 'config_3_mocked_fixture_1' 'config_3_mocked_fixture_2' )"
-}
-
-test_parametrize__1st_run_test_variants__invalid_config________generates_correct_stderr() {
-  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="" _capture.stderr @parametrize \
-    test_function_mock_@vary \
-    "${INVALID_CONFIG_ONE[@]}"
-
-  assert_output $"$(_testing.parametrize.__message.get PARAMETRIZE_HEADER_SCENARIO_VALUES)
-  VAR_1 = config3-scenario1-value2
-  VAR_2 = config3-scenario1-value3
-  VAR_3 = "$'\n'"$(_testing.parametrize.__message.get PARAMETRIZE_FOOTER_SCENARIO_VALUES)"
+  stdlib.testing.internal.logger.error.mock.assert_calls_are \
+    "1($(_testing.parametrize.__message.get PARAMETRIZE_HEADER_SCENARIO_VALUES))" \
+    "1(  VAR_1 = config3-scenario1-value2)" \
+    "1(  VAR_2 = config3-scenario1-value3)" \
+    "1(  VAR_3 = )" \
+    "1($(_testing.parametrize.__message.get PARAMETRIZE_FOOTER_SCENARIO_VALUES))" \
+    "1($(_testing.parametrize.__message.get PARAMETRIZE_CONFIGURATION_ERROR))" \
+    "1($(_testing.parametrize.__message.get PARAMETRIZE_PREFIX_SCENARIO_NAME): config_3_scenario_1)" \
+    "1($(_testing.parametrize.__message.get PARAMETRIZE_PREFIX_SCENARIO_VARIABLE): VAR_1 VAR_2 VAR_3 = 3 variables)" \
+    "1($(_testing.parametrize.__message.get PARAMETRIZE_PREFIX_SCENARIO_VALUES): config3-scenario1-value2 config3-scenario1-value3 = 2 values)" \
+    "1($(_testing.parametrize.__message.get PARAMETRIZE_PREFIX_FIXTURE_COMMANDS): 'config_3_mocked_fixture_1' 'config_3_mocked_fixture_2' )"
 }
 
 test_parametrize__1st_run_test_variants__invalid_test_fn_______returns_status_code_126() {
-  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="" _capture.rc @parametrize \
+  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="0" _capture.rc @parametrize \
     invalid_test_fn \
     "${SIMPLE_CONFIG_ONE[@]}" 2> /dev/null
 
@@ -83,17 +81,17 @@ test_parametrize__1st_run_test_variants__invalid_test_fn_______returns_status_co
 }
 
 test_parametrize__1st_run_test_variants__invalid_test_fn_______logs_correct_error_message() {
-  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="" @parametrize \
+  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="0" @parametrize \
     invalid_test_fn \
     "${SIMPLE_CONFIG_ONE[@]}" 2> /dev/null
 
-  _testing.error.mock.assert_calls_are \
+  stdlib.testing.internal.logger.error.mock.assert_calls_are \
     "1($(_testing.parametrize.__message.get PARAMETRIZE_ERROR_TEST_FN_INVALID "invalid_test_fn"))" \
-    "1($(_testing.parametrize.__message.get PARAMETRIZE_ERROR_TEST_FN_NAME))"
+    "1($(_testing.parametrize.__message.get PARAMETRIZE_ERROR_TEST_FN_NAME "@vary"))"
 }
 
 test_parametrize__1st_run_test_variants__non_existent_test_fn__returns_status_code_126() {
-  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="" _capture.rc @parametrize \
+  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="0" _capture.rc @parametrize \
     test_non_existent_@vary \
     "${SIMPLE_CONFIG_ONE[@]}" 2> /dev/null
 
@@ -101,17 +99,17 @@ test_parametrize__1st_run_test_variants__non_existent_test_fn__returns_status_co
 }
 
 test_parametrize__1st_run_test_variants__non_existent_test_fn__logs_correct_error_message() {
-  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="" @parametrize \
+  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="0" @parametrize \
     test_non_existent_@vary \
     "${SIMPLE_CONFIG_ONE[@]}" 2> /dev/null
 
-  _testing.error.mock.assert_calls_are \
+  stdlib.testing.internal.logger.error.mock.assert_calls_are \
     "1($(_testing.parametrize.__message.get PARAMETRIZE_ERROR_TEST_FN_INVALID "test_non_existent_@vary"))" \
     "1($(_testing.parametrize.__message.get PARAMETRIZE_ERROR_FN_DOES_NOT_EXIST))"
 }
 
 test_parametrize__1st_run_test_variants__duplicate_variant_____generates_correct_stderr() {
-  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="" _capture.stderr @parametrize \
+  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="0" _capture.stderr @parametrize \
     test_function_mock_@vary \
     "${INVALID_CONFIG_TWO[@]}"
 
@@ -120,17 +118,17 @@ $(_testing.parametrize.__message.get PARAMETRIZE_PREFIX_VARIANT_NAME): '$(stdlib
 }
 
 test_parametrize__1st_run_test_variants__duplicate_variant_____logs_correct_error_message() {
-  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="" @parametrize \
+  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="0" @parametrize \
     test_function_mock_@vary \
     "${INVALID_CONFIG_TWO[@]}" 2> /dev/null
 
-  _testing.error.mock.assert_calls_are \
+  stdlib.testing.internal.logger.error.mock.assert_calls_are \
     "1($(_testing.parametrize.__message.get PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_NAME))" \
     "1($(_testing.parametrize.__message.get PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_DETAIL))"
 }
 
 test_parametrize__1st_run_test_variants__duplicate_variant_____returns_status_code_126() {
-  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="" _capture.rc @parametrize \
+  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="0" _capture.rc @parametrize \
     test_function_mock_@vary \
     "${INVALID_CONFIG_TWO[@]}" 2> /dev/null
 

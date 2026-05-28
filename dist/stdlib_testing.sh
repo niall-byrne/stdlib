@@ -6,12 +6,12 @@ set -eo pipefail
 
 # stdlib testing variable definitions
 
-declare -- STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="0"
-declare -- STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR=";"
-declare -- STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX="@fixture "
-declare -- STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX="@parametrize_with_"
-declare -- STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN="0"
-declare -- STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG="@vary"
+declare -- STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN=""
+declare -- STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR=""
+declare -- STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX=""
+declare -- STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX=""
+declare -- STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN=""
+declare -- STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG=""
 declare -- STDLIB_TESTING_PROTECT_PREFIX=""
 declare -- STDLIB_TESTING_THEME_DEBUG_FIXTURE="GREY"
 declare -- STDLIB_TESTING_THEME_ERROR="LIGHT_RED"
@@ -46,10 +46,25 @@ declare -a __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY=()
     builtin local test_function_variant_name="";
     builtin local test_function_variant_padding_value=0;
     builtin local PARAMETRIZE_SCENARIO_NAME;
+    {
+        builtin local setting_debug_boolean;
+        builtin local setting_field_separator_char;
+        builtin local setting_fixture_command_prefix;
+        builtin local setting_original_test_names_boolean;
+        builtin local setting_variant_tag;
+        @parametrize.__internal.default.keywords;
+        STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="";
+        STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR="";
+        STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX="";
+        STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN="";
+        STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG=""
+    };
+    @parametrize.__internal.validate.keywords || builtin return 125;
+    @parametrize.__internal.validate.reserved_variables || builtin return 123;
     original_test_function_name="${1}";
     original_test_function_reference="__parametrized_original_function_definition_${1}";
     [[ "${#@}" -gt "1" ]] || {
-        _testing.error "${FUNCNAME[0]}: $(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)";
+        _testing.__protected stdlib.logger.error "${FUNCNAME[0]}: $(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)";
         builtin return 127
     };
     @parametrize.__internal.validate.fn_name.test "${original_test_function_name}" || builtin return "$?";
@@ -62,17 +77,17 @@ declare -a __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY=()
     for ((parametrize_configuration_index = 0; "${parametrize_configuration_index}" < "${#parametrize_configuration[@]}"; parametrize_configuration_index++))
     do
         parametrize_configuration_line="${parametrize_configuration[parametrize_configuration_index]}";
-        IFS="${STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR}" builtin read -ra array_scenario_values <<< "${parametrize_configuration_line}";
+        IFS="${setting_field_separator_char}" builtin read -ra array_scenario_values <<< "${parametrize_configuration_line}";
         test_function_variant_name="$(@parametrize.__internal.create.string.padded_test_fn_variant_name "${original_test_function_name}" "${array_scenario_values[0]}" "${test_function_variant_padding_value}")";
         if stdlib.fn.query.is_fn "${test_function_variant_name}"; then
-            _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_NAME)";
+            _testing.__protected stdlib.logger.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_NAME)";
             {
                 _testing.parametrize.__message.get PARAMETRIZE_PREFIX_TEST_NAME;
                 builtin echo ": '$(_testing.__protected stdlib.string.colour "${STDLIB_TESTING_THEME_PARAMETRIZE_HIGHLIGHT}" "${original_test_function_name}")'";
                 _testing.parametrize.__message.get PARAMETRIZE_PREFIX_VARIANT_NAME;
                 builtin echo ": '$(_testing.__protected stdlib.string.colour "${STDLIB_TESTING_THEME_PARAMETRIZE_HIGHLIGHT}" "${test_function_variant_name}")'"
             } 1>&2;
-            _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_DETAIL)";
+            _testing.__protected stdlib.logger.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_DUPLICATE_TEST_VARIANT_DETAIL)";
             builtin return 126;
         fi;
         @parametrize.__internal.create.fn.test_variant "${test_function_variant_name}" "${original_test_function_name}" "${original_test_function_reference}" array_environment_variables array_fixture_commands array_scenario_values;
@@ -89,6 +104,8 @@ declare -a __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY=()
     builtin local parse_fixture_commands_array_indirect_reference;
     builtin local -a parse_fixture_commands_array;
     builtin local parse_variant_padding_value=0;
+    builtin local setting_field_separator_char="${setting_field_separator_char}";
+    builtin local setting_fixture_command_prefix="${setting_fixture_command_prefix}";
     parse_configuration_array_indirect_reference="${1}[@]";
     parse_configuration_array=("${!parse_configuration_array_indirect_reference}");
     parse_env_var_array_name="${3}";
@@ -107,14 +124,16 @@ declare -a __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY=()
 
 @parametrize.__internal.configuration.parse_header ()
 {
+    builtin local setting_field_separator_char="${setting_field_separator_char}";
+    builtin local setting_fixture_command_prefix="${setting_fixture_command_prefix}";
     while [[ -n "${1}" ]]; do
         ((parse_configuration_array_index = parse_configuration_array_index + 1));
-        if stdlib.string.query.starts_with "${STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX}" "${1}"; then
-            parse_fixture_commands_array+=("${1/"${STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX}"/}");
+        if stdlib.string.query.starts_with "${setting_fixture_command_prefix}" "${1}"; then
+            parse_fixture_commands_array+=("${1/"${setting_fixture_command_prefix}"/}");
             builtin shift;
             builtin continue;
         else
-            _testing.__protected stdlib.array.make.from_string "${parse_env_var_array_name?}" "${STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR}" "${1}";
+            _testing.__protected stdlib.array.make.from_string "${parse_env_var_array_name?}" "${setting_field_separator_char}" "${1}";
             builtin shift;
             builtin break;
         fi;
@@ -123,10 +142,11 @@ declare -a __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY=()
 
 @parametrize.__internal.configuration.parse_scenarios ()
 {
+    builtin local setting_field_separator_char="${setting_field_separator_char}";
     builtin local -a parse_scenario_array;
     while [[ -n "${1}" ]]; do
         ((parse_configuration_array_index++));
-        _testing.__protected stdlib.array.make.from_string parse_scenario_array "${STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR}" "${1}";
+        _testing.__protected stdlib.array.make.from_string parse_scenario_array "${setting_field_separator_char}" "${1}";
         @parametrize.__internal.validate.scenario "${parse_env_var_array_name}" parse_fixture_commands_array parse_scenario_array || builtin return "$?";
         if [[ "${#parse_scenario_array[0]}" -gt "${parse_variant_padding_value}" ]]; then
             parse_variant_padding_value="${#parse_scenario_array[0]}";
@@ -145,11 +165,12 @@ declare -a __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY=()
     builtin local variant_tag="";
     builtin local -a variants;
     builtin shift 2;
+    builtin local setting_fn_prefix="${setting_fn_prefix}";
     for ((variant_index = 1; variant_index <= "${#@}"; variant_index++))
     do
         parametrizer_function_name="${!variant_index}";
         @parametrize.__internal.validate.fn_name.parametrizer "${parametrizer_function_name}" || builtin return 126;
-        variant_tag="${parametrizer_function_name/${STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX}/}";
+        variant_tag="${parametrizer_function_name/${setting_fn_prefix}/}";
         variants+=("${variant_tag}");
         if [[ "${#variant_tag}" -gt "${padding_value}" ]]; then
             padding_value="${#variant_tag}";
@@ -172,6 +193,8 @@ declare -a __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY=()
     builtin local scenario_debug_message="";
     builtin local scenario_index;
     builtin local test_function_variant_name="${1}";
+    builtin local setting_debug_boolean="${setting_debug_boolean}";
+    builtin local setting_original_test_names_boolean="${setting_original_test_names_boolean}";
     array_indirect_environment_variables_reference="${4}[@]";
     array_indirect_environment_variables=("${!array_indirect_environment_variables_reference}");
     array_indirect_fixture_commands_reference="${5}[@]";
@@ -180,7 +203,7 @@ declare -a __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY=()
     array_indirect_scenario_definition=("${!array_indirect_scenario_definition_reference}");
     builtin eval "
   ${test_function_variant_name}(){
-  $(if [[ "${STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN}" == "1" ]]; then
+  $(if [[ "${setting_original_test_names_boolean}" == "1" ]]; then
     builtin echo -e "builtin echo -ne '\n                $(_testing.__protected stdlib.string.colour "${STDLIB_TESTING_THEME_PARAMETRIZE_ORIGINAL_TEST_NAMES}" "${original_test_function_name} ...")'";
 fi
 builtin echo "  builtin printf -v \"PARAMETRIZE_SCENARIO_NAME\" \"%s\" \"${array_indirect_scenario_definition[0]}\""
@@ -204,7 +227,7 @@ scenario_debug_message+='
 '
 builtin printf "%s\n" "${array_indirect_fixture_commands[scenario_index]}";
 done
-if [[ "${STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN}" == "1" ]]; then
+if [[ "${setting_debug_boolean}" == "1" ]]; then
     @parametrize.__internal.debug.message "${scenario_debug_message}";
 fi)
     ${original_test_function_reference};
@@ -215,12 +238,13 @@ fi)
 @parametrize.__internal.create.string.padded_test_fn_variant_name ()
 {
     builtin local padded_variant_name;
+    builtin local setting_variant_tag="${setting_variant_tag}";
     padded_variant_name="${2// /_}";
     if (("${3}" > "${#2}")); then
         padded_variant_name="$(stdlib.string.pad.right "$(("${3}" - "${#2}"))" "${padded_variant_name}")";
         padded_variant_name="${padded_variant_name// /_}";
     fi;
-    builtin echo "${1/"${STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG}"/"${padded_variant_name}"}"
+    builtin echo "${1/"${setting_variant_tag}"/"${padded_variant_name}"}"
 }
 
 @parametrize.__internal.debug.message ()
@@ -228,32 +252,81 @@ fi)
     builtin echo "builtin echo '${1}'"
 }
 
+@parametrize.__internal.default.keywords ()
+{
+    {
+        setting_debug_boolean="${STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN:-"0"}";
+        setting_field_separator_char="${STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR:-";"}";
+        setting_fixture_command_prefix="${STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX:-"@fixture "}";
+        setting_original_test_names_boolean="${STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN:-"0"}";
+        setting_variant_tag="${STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG:-"@vary"}"
+    }
+}
+
+@parametrize.__internal.default.keywords_aggregation ()
+{
+    {
+        setting_fn_prefix="${STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX:-"@parametrize_with_"}"
+    }
+}
+
 @parametrize.__internal.validate.fn_name.parametrizer ()
 {
-    if ! stdlib.fn.query.is_fn "${1}"; then
-        _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_PARAMETRIZER_FN_INVALID "${1}")";
-        _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_FN_DOES_NOT_EXIST)";
+    builtin local setting_fn_prefix="${setting_fn_prefix}";
+    if ! _testing.__protected stdlib.fn.query.is_fn "${1}"; then
+        _testing.__protected stdlib.logger.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_PARAMETRIZER_FN_INVALID "${1}")";
+        _testing.__protected stdlib.logger.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_FN_DOES_NOT_EXIST)";
         builtin return 126;
     fi;
-    if ! stdlib.string.query.starts_with "${STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX}" "${1}"; then
-        _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_PARAMETRIZER_FN_INVALID "${1}")";
-        _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_PARAMETRIZER_FN_NAME)";
+    if ! _testing.__protected stdlib.string.query.starts_with "${setting_fn_prefix}" "${1}"; then
+        _testing.__protected stdlib.logger.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_PARAMETRIZER_FN_INVALID "${1}")";
+        _testing.__protected stdlib.logger.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_PARAMETRIZER_FN_NAME "${setting_fn_prefix}")";
         builtin return 126;
     fi
 }
 
 @parametrize.__internal.validate.fn_name.test ()
 {
-    if ! stdlib.fn.query.is_fn "${1}"; then
-        _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_TEST_FN_INVALID "${1}")";
-        _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_FN_DOES_NOT_EXIST)";
+    builtin local setting_variant_tag="${setting_variant_tag}";
+    if ! _testing.__protected stdlib.fn.query.is_fn "${1}"; then
+        _testing.__protected stdlib.logger.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_TEST_FN_INVALID "${1}")";
+        _testing.__protected stdlib.logger.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_FN_DOES_NOT_EXIST)";
         builtin return 126;
     fi;
-    if ! stdlib.string.query.has_substring "${STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG}" "${1}" || ! stdlib.string.query.starts_with "test" "${1}"; then
-        _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_TEST_FN_INVALID "${1}")";
-        _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_TEST_FN_NAME)";
+    if ! _testing.__protected stdlib.string.query.has_substring "${setting_variant_tag}" "${1}" || ! _testing.__protected stdlib.string.query.starts_with "test" "${1}"; then
+        _testing.__protected stdlib.logger.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_TEST_FN_INVALID "${1}")";
+        _testing.__protected stdlib.logger.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_TEST_FN_NAME "${setting_variant_tag}")";
         builtin return 126;
     fi
+}
+
+@parametrize.__internal.validate.keywords ()
+{
+    builtin local STDLIB_LOGGING_MESSAGE_PREFIX="${STDLIB_LOGGING_MESSAGE_PREFIX:-"${FUNCNAME[2]}"}";
+    builtin local setting_debug_boolean="${setting_debug_boolean}";
+    {
+        STDLIB_KW_SOURCE_VAR="setting_debug_boolean" _testing.__protected stdlib.fn.keyword.assert.is_valid_with "$(_testing.__protected_name stdlib.string.assert.is_boolean)" STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN || builtin return 125;
+        STDLIB_KW_SOURCE_VAR="setting_field_separator_char" _testing.__protected stdlib.fn.keyword.assert.is_valid_with "$(_testing.__protected_name stdlib.string.assert.is_char)" STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR || builtin return 125;
+        STDLIB_KW_SOURCE_VAR="setting_fixture_command_prefix" _testing.__protected stdlib.fn.keyword.assert.is_valid_with "$(_testing.__protected_name stdlib.string.assert.not_empty)" STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX || builtin return 125;
+        STDLIB_KW_SOURCE_VAR="setting_original_test_names_boolean" _testing.__protected stdlib.fn.keyword.assert.is_valid_with "$(_testing.__protected_name stdlib.string.assert.is_boolean)" STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN || builtin return 125;
+        STDLIB_KW_SOURCE_VAR="setting_variant_tag" _testing.__protected stdlib.fn.keyword.assert.is_valid_with "$(_testing.__protected_name stdlib.string.assert.not_empty)" STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG || builtin return 125
+    }
+}
+
+@parametrize.__internal.validate.keywords_aggregation ()
+{
+    builtin local STDLIB_LOGGING_MESSAGE_PREFIX="${STDLIB_LOGGING_MESSAGE_PREFIX:-"${FUNCNAME[2]}"}";
+    {
+        STDLIB_KW_SOURCE_VAR="setting_fn_prefix" _testing.__protected stdlib.fn.keyword.assert.is_valid_with "$(_testing.__protected_name stdlib.string.assert.not_empty)" STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX || builtin return 125
+    }
+}
+
+@parametrize.__internal.validate.reserved_variables ()
+{
+    builtin local STDLIB_LOGGING_MESSAGE_PREFIX="${STDLIB_LOGGING_MESSAGE_PREFIX:-"${FUNCNAME[2]}"}";
+    {
+        _testing.__protected stdlib.var.reserved.assert.__is_valid_with "$(_testing.__protected_name stdlib.array.assert.is_array)" __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY name || builtin return 123
+    }
 }
 
 @parametrize.__internal.validate.scenario ()
@@ -272,17 +345,20 @@ fi)
     validate_scenario_indirect_array=("${!validate_scenario_indirect_array_reference}");
     builtin local validation_index;
     if (("${#validate_scenario_indirect_array[@]}" != "${#validate_env_var_indirect_array[@]}" + 1)); then
+        builtin local STDLIB_LOGGING_MESSAGE_PREFIX="${FUNCNAME[3]}";
         {
-            _testing.parametrize.__message.get PARAMETRIZE_HEADER_SCENARIO_VALUES;
-            builtin echo;
+            _testing.__protected stdlib.logger.error "$(_testing.parametrize.__message.get PARAMETRIZE_HEADER_SCENARIO_VALUES)";
             for ((validation_index = 0; validation_index < "${#validate_env_var_indirect_array[@]}"; validation_index++))
             do
-                builtin echo "  ${validate_env_var_indirect_array[validation_index]} = ${validate_scenario_indirect_array[validation_index + 1]}";
+                _testing.__protected stdlib.logger.error "  ${validate_env_var_indirect_array[validation_index]} = ${validate_scenario_indirect_array[validation_index + 1]}";
             done;
-            _testing.parametrize.__message.get PARAMETRIZE_FOOTER_SCENARIO_VALUES;
-            builtin echo
+            _testing.__protected stdlib.logger.error "$(_testing.parametrize.__message.get PARAMETRIZE_FOOTER_SCENARIO_VALUES)"
         } 1>&2;
-        _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_CONFIGURATION_ERROR)" "$(_testing.parametrize.__message.get PARAMETRIZE_PREFIX_SCENARIO_NAME): ${validate_scenario_indirect_array[0]}" "$(_testing.parametrize.__message.get PARAMETRIZE_PREFIX_SCENARIO_VARIABLE): ${validate_env_var_indirect_array[*]} = ${#validate_env_var_indirect_array[@]} variables" "$(_testing.parametrize.__message.get PARAMETRIZE_PREFIX_SCENARIO_VALUES): ${validate_scenario_indirect_array[*]:1} = $((${#validate_scenario_indirect_array[@]} - 1)) values" "$(_testing.parametrize.__message.get PARAMETRIZE_PREFIX_FIXTURE_COMMANDS): $(builtin printf "'%s' " "${validate_fixture_indirect_command_array[@]}")";
+        _testing.__protected stdlib.logger.error "$(_testing.parametrize.__message.get PARAMETRIZE_CONFIGURATION_ERROR)";
+        _testing.__protected stdlib.logger.error "$(_testing.parametrize.__message.get PARAMETRIZE_PREFIX_SCENARIO_NAME): ${validate_scenario_indirect_array[0]}";
+        _testing.__protected stdlib.logger.error "$(_testing.parametrize.__message.get PARAMETRIZE_PREFIX_SCENARIO_VARIABLE): ${validate_env_var_indirect_array[*]} = ${#validate_env_var_indirect_array[@]} variables";
+        _testing.__protected stdlib.logger.error "$(_testing.parametrize.__message.get PARAMETRIZE_PREFIX_SCENARIO_VALUES): ${validate_scenario_indirect_array[*]:1} = $((${#validate_scenario_indirect_array[@]} - 1)) values";
+        _testing.__protected stdlib.logger.error "$(_testing.parametrize.__message.get PARAMETRIZE_PREFIX_FIXTURE_COMMANDS): $(builtin printf "'%s' " "${validate_fixture_indirect_command_array[@]}")";
         builtin return 126;
     fi
 }
@@ -296,10 +372,23 @@ fi)
     builtin local -a parametrizer_fn_array;
     builtin local -a parametrizer_variant_array;
     builtin local parametrizer_variant_tag_padding;
+    {
+        builtin local setting_debug_boolean;
+        builtin local setting_field_separator_char;
+        builtin local setting_fixture_command_prefix;
+        builtin local setting_original_test_names_boolean;
+        builtin local setting_variant_tag;
+        builtin local setting_fn_prefix;
+        @parametrize.__internal.default.keywords;
+        @parametrize.__internal.default.keywords_aggregation
+    };
+    @parametrize.__internal.validate.keywords || builtin return 125;
+    @parametrize.__internal.validate.keywords_aggregation || builtin return 125;
+    @parametrize.__internal.validate.reserved_variables || builtin return 123;
     original_test_function_name="${1}";
     parametrizer_fn_array=("${@:2}");
     [[ "${#@}" -gt "1" ]] || {
-        _testing.error "${FUNCNAME[0]}: $(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)";
+        _testing.__protected stdlib.logger.error "${FUNCNAME[0]}: $(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)";
         builtin return 127
     };
     @parametrize.__internal.validate.fn_name.test "${original_test_function_name}" || builtin return 126;
@@ -309,7 +398,7 @@ fi)
         parametrizer_fn="${parametrizer_fn_array[parametrizer_index]}";
         parametrized_test_function_name="$(@parametrize.__internal.create.string.padded_test_fn_variant_name "${original_test_function_name}" "${parametrizer_variant_array[parametrizer_index]}" "${parametrizer_variant_tag_padding}")";
         stdlib.fn.derive.clone "${original_test_function_name}" "${parametrized_test_function_name}";
-        "${parametrizer_fn}" "${parametrized_test_function_name}";
+        "${parametrizer_fn}" "${parametrized_test_function_name}" || builtin return "$?";
     done;
     builtin unset -f "${original_test_function_name}"
 }
@@ -323,9 +412,22 @@ fi)
     builtin local parametrizer_fn_target;
     builtin local -a parametrizer_fn_targets;
     builtin local parametrizer_index=0;
+    {
+        builtin local setting_debug_boolean;
+        builtin local setting_field_separator_char;
+        builtin local setting_fixture_command_prefix;
+        builtin local setting_original_test_names_boolean;
+        builtin local setting_variant_tag;
+        builtin local setting_fn_prefix;
+        @parametrize.__internal.default.keywords;
+        @parametrize.__internal.default.keywords_aggregation
+    };
+    @parametrize.__internal.validate.keywords || builtin return 125;
+    @parametrize.__internal.validate.keywords_aggregation || builtin return 125;
+    @parametrize.__internal.validate.reserved_variables || builtin return 123;
     parametrizer_fn_array=("${@:2}");
     [[ "${#@}" -gt "1" ]] || {
-        _testing.error "${FUNCNAME[0]}: $(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)";
+        _testing.__protected stdlib.logger.error "${FUNCNAME[0]}: $(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)";
         builtin return 127
     };
     @parametrize.__internal.validate.fn_name.test "${original_test_function_name}" || builtin return 126;
@@ -337,7 +439,7 @@ fi)
         __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY=();
         for parametrizer_fn_target in "${parametrizer_fn_targets[@]}";
         do
-            "${parametrizer_fn}" "${parametrizer_fn_target}";
+            "${parametrizer_fn}" "${parametrizer_fn_target}" || builtin return "$?";
         done;
         parametrizer_fn_targets=("${__STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY[@]}");
     done;
@@ -1578,16 +1680,16 @@ _testing.parametrize.__message.get ()
             message="$(_testing.__gettext "The function '${option1}' cannot be used in a parametrize series!")"
         ;;
         PARAMETRIZE_ERROR_PARAMETRIZER_FN_NAME)
-            required_options=0;
-            message="$(_testing.__gettext "It's name must be prefixed with '${STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX}' !")"
+            required_options=1;
+            message="$(_testing.__gettext "It's name must be prefixed with '${option1}' !")"
         ;;
         PARAMETRIZE_ERROR_TEST_FN_INVALID)
             required_options=1;
             message="$(_testing.__gettext "The function '${option1}' cannot be parametrized.")"
         ;;
         PARAMETRIZE_ERROR_TEST_FN_NAME)
-            required_options=0;
-            message="$(_testing.__gettext "It's name must start with 'test' and contain a '${STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG}' tag, please rename this function!")"
+            required_options=1;
+            message="$(_testing.__gettext "It's name must start with 'test' and contain a '${option1}' tag, please rename this function!")"
         ;;
         PARAMETRIZE_FOOTER_SCENARIO_VALUES)
             required_options=0;
