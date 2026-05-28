@@ -29,7 +29,7 @@ teardown_suite() {
 @parametrize_with_simple_config_one() {
   # $1: the function you wish to parametrize
 
-  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="" @parametrize \
+  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="0" @parametrize \
     "${1}" \
     "${SIMPLE_CONFIG_ONE[@]}"
 }
@@ -37,7 +37,7 @@ teardown_suite() {
 @parametrize_with_simple_config_three() {
   # $1: the function you wish to parametrize
 
-  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="" @parametrize \
+  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN=0"" @parametrize \
     "${1}" \
     "${SIMPLE_CONFIG_THREE[@]}"
 }
@@ -56,7 +56,7 @@ test_parametrize_compose__1st_run_test_variants__@vary________@vary__populate_in
 test_parametrize_compose__1st_run_test_variants__@vary__returns_expected_status_code() {
   local args=()
 
-  _mock.create _testing.error
+  _mock.create stdlib.testing.internal.logger.error
   stdlib.array.make.from_string args "|" "${TEST_ARGS_DEFINITION}"
 
   _capture.rc @parametrize.compose "${args[@]}" > /dev/null
@@ -75,7 +75,7 @@ test_parametrize_compose__1st_run_test_variants__@vary__logs_expected_message() 
   local message_arg_definitions=()
   local message_args=()
 
-  _mock.create _testing.error
+  _mock.create stdlib.testing.internal.logger.error
   stdlib.array.make.from_string args "|" "${TEST_ARGS_DEFINITION}"
   if [[ -n "${TEST_ERROR_CALL_DEFINITION}" ]]; then
     stdlib.array.make.from_string message_args "|" "${TEST_ERROR_CALL_DEFINITION}"
@@ -89,7 +89,7 @@ test_parametrize_compose__1st_run_test_variants__@vary__logs_expected_message() 
 
   @parametrize.compose "${args[@]}" > /dev/null
 
-  _testing.error.mock.assert_calls_are "${expected_log_messages[@]}"
+  stdlib.testing.internal.logger.error.mock.assert_calls_are "${expected_log_messages[@]}"
 }
 
 @parametrize_with_incorrect_args \
