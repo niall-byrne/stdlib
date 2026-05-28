@@ -10,5 +10,7 @@ builtin source "${STDLIB_DIRECTORY}/testing/parametrize/internal/configuration.s
 builtin source "${STDLIB_DIRECTORY}/testing/parametrize/internal/create.sh"
 # shellcheck source=src/testing/parametrize/internal/debug.sh
 builtin source "${STDLIB_DIRECTORY}/testing/parametrize/internal/debug.sh"
+# shellcheck source=src/testing/parametrize/internal/default.sh
+builtin source "${STDLIB_DIRECTORY}/testing/parametrize/internal/default.sh"
 # shellcheck source=src/testing/parametrize/internal/validate.sh
 builtin source "${STDLIB_DIRECTORY}/testing/parametrize/internal/validate.sh"
