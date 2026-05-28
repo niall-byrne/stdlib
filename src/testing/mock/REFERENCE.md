@@ -50,6 +50,7 @@ Generates a mock argument string from a delimited string.
 #### Exit codes
 
 * **0**: If the mock argument string was generated.
+* **125**: If an invalid keyword has been provided.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 
