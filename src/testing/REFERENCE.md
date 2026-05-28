@@ -5,6 +5,7 @@
 ## Index
 
 * [_testing.error](#_testingerror)
+* [_testing.error_pipe](#_testingerror_pipe)
 * [_testing.load](#_testingload)
 
 ### _testing.error
@@ -19,6 +20,24 @@ Logs an error message.
 #### Exit codes
 
 * **0**: If the error message was logged.
+
+#### Output on stderr
+
+* The error message if the operation fails.
+
+### _testing.error_pipe
+
+A pipeable version _testing.error that can read from stdin and return specific error codes when errors are found.
+* STDLIB_TESTING_THEME_ERROR: The colour to use for the message (default="LIGHT_RED").
+
+#### Arguments
+
+* **$1** (integer): (optional, default=1) The error code that should be returned if any error message is piped to this function.
+
+#### Exit codes
+
+* **0**: If the error message was not logged.
+* **1**: If an error message is logged.  (This value is configurable via arguments).
 
 #### Output on stderr
 

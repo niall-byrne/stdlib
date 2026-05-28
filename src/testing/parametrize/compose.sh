@@ -5,20 +5,31 @@
 builtin set -eo pipefail
 
 # @description Composes multiple parametrizer functions to create a product of scenarios.
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN: Whether to show debug information (default="0").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR: The field separator for scenarios (default=";").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX: The prefix for fixture commands (default="@fixture ").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX: The prefix for parametrizer functions (default="@parametrize_with_").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN: Whether to show original test names (default="0").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG: The tag in the test function name to replace (default="@vary").
 # @arg $1 string The name of the test function to parametrize.
 # @arg $@ array A series of parametrizer functions to compose.
 # @exitcode 0 If the parametrizer functions were composed successfully.
+# @exitcode 123 If a variable reserved for use by the BASH stdlib has been assigned an invalid value.
+# @exitcode 125 If an invalid keyword has been provided.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stderr The error message if the operation fails.
 @parametrize.compose() {
-  builtin local -a __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY
+  builtin local -a __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY # defaults __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY
   builtin local original_test_function_name="${1}"
   builtin local parametrizer_fn
   builtin local -a parametrizer_fn_array
   builtin local parametrizer_fn_target
   builtin local -a parametrizer_fn_targets
   builtin local parametrizer_index=0
+
+  @parametrize.__internal.validate.keywords || builtin return 125             # validates STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN,STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR,STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX,STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN,STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG
+  @parametrize.__internal.validate.keywords_aggregation || builtin return 125 # validates STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX
 
   parametrizer_fn_array=("${@:2}")
 
@@ -34,7 +45,7 @@ builtin set -eo pipefail
     @parametrize.__internal.validate.fn_name.parametrizer "${parametrizer_fn}" || builtin return 126
     __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY=()
     for parametrizer_fn_target in "${parametrizer_fn_targets[@]}"; do
-      "${parametrizer_fn}" "${parametrizer_fn_target}"
+      "${parametrizer_fn}" "${parametrizer_fn_target}" || builtin return "$?"
     done
     parametrizer_fn_targets=("${__STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY[@]}")
   done
