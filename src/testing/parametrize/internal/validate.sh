@@ -12,6 +12,8 @@ builtin set -eo pipefail
 # @stderr The error message if validation fails.
 # @internal
 @parametrize.__internal.validate.fn_name.parametrizer() {
+  # clean STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX
+
   if ! stdlib.fn.query.is_fn "${1}"; then
     _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_PARAMETRIZER_FN_INVALID "${1}")"
     _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_FN_DOES_NOT_EXIST)"
@@ -33,6 +35,8 @@ builtin set -eo pipefail
 # @stderr The error message if validation fails.
 # @internal
 @parametrize.__internal.validate.fn_name.test() {
+  # clean STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG
+
   if ! stdlib.fn.query.is_fn "${1}"; then
     _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_TEST_FN_INVALID "${1}")"
     _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_FN_DOES_NOT_EXIST)"
@@ -45,6 +49,62 @@ builtin set -eo pipefail
     _testing.error "$(_testing.parametrize.__message.get PARAMETRIZE_ERROR_TEST_FN_NAME)"
     builtin return 126
   fi
+}
+
+# @description Validates the keywords used by the exposed parametrization commands.
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN: Whether to show debug information (default="0").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR: The field separator for scenarios (default=";").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX: The prefix for fixture commands (default="@fixture ").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN: Whether to show original test names (default="0").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG: The tag in the test function name to replace (default="@vary").
+# @noargs
+# @exitcode 0 If the keywords are all valid.
+# @exitcode 125 If an invalid keyword has been provided.
+# @stderr The error message if validation fails.
+# @internal
+@parametrize.__internal.validate.keywords() {
+  # shellcheck disable=SC2034
+  builtin local STDLIB_LOGGING_MESSAGE_PREFIX="${STDLIB_LOGGING_MESSAGE_PREFIX:-"${FUNCNAME[2]}"}"
+
+  { # KCOV_EXCLUDE_LINE # validates STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN,STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR,STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX,STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN,STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG
+    _testing.__protected stdlib.fn.keyword.assert.is_valid_with "$(_testing.__protected_name stdlib.string.assert.is_boolean)" STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN
+    _testing.__protected stdlib.fn.keyword.assert.is_valid_with "$(_testing.__protected_name stdlib.string.assert.is_char)" STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR
+    _testing.__protected stdlib.fn.keyword.assert.is_valid_with "$(_testing.__protected_name stdlib.string.assert.not_empty)" STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX
+    _testing.__protected stdlib.fn.keyword.assert.is_valid_with "$(_testing.__protected_name stdlib.string.assert.is_boolean)" STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN
+    _testing.__protected stdlib.fn.keyword.assert.is_valid_with "$(_testing.__protected_name stdlib.string.assert.not_empty)" STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG
+  } 2>&1 | _testing.error_pipe "125"
+}
+
+# @description Validates the keywords used by the parametrization aggregation commands.
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX: The prefix for parametrizer functions (default="@parametrize_with_").
+# @noargs
+# @exitcode 0 If the keywords are all valid.
+# @exitcode 125 If an invalid keyword has been provided.
+# @stderr The error message if validation fails.
+# @internal
+@parametrize.__internal.validate.keywords_aggregation() {
+  # shellcheck disable=SC2034
+  builtin local STDLIB_LOGGING_MESSAGE_PREFIX="${STDLIB_LOGGING_MESSAGE_PREFIX:-"${FUNCNAME[2]}"}"
+
+  { # KCOV_EXCLUDE_LINE # validates STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX
+    _testing.__protected stdlib.fn.keyword.assert.is_valid_with "$(_testing.__protected_name stdlib.string.assert.not_empty)" STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX
+  } 2>&1 | _testing.error_pipe "125"
+}
+
+# @description Validates the reserved variables used during test parametrization.
+#   * __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY: An array that stores the name of each generated test function (default=()).
+# @noargs
+# @exitcode 0 If the reservered variables are all valid.
+# @exitcode 123 If a variable reserved for use by the BASH stdlib has been assigned an invalid value.
+# @stderr The error message if validation fails.
+# @internal
+@parametrize.__internal.validate.reserved_variables() {
+  # shellcheck disable=SC2034
+  builtin local STDLIB_LOGGING_MESSAGE_PREFIX="${STDLIB_LOGGING_MESSAGE_PREFIX:-"${FUNCNAME[2]}"}"
+
+  { # KCOV_EXCLUDE_LINE # validates __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY
+    _testing.__protected stdlib.var.reserved.assert.__is_valid_with "$(_testing.__protected_name stdlib.array.assert.is_array)" __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY name
+  } 2>&1 | _testing.error_pipe "123"
 }
 
 # @description Validates a single parametrize scenario.
