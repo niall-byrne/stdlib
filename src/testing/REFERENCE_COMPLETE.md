@@ -35,6 +35,7 @@
 * [_capture.stdout](#_capturestdout)
 * [_capture.stdout_raw](#_capturestdout_raw)
 * [_testing.error](#_testingerror)
+* [_testing.error_pipe](#_testingerror_pipe)
 * [_testing.fixtures.debug.diff](#_testingfixturesdebugdiff)
 * [_testing.fixtures.mock.logger](#_testingfixturesmocklogger)
 * [_testing.fixtures.random.name](#_testingfixturesrandomname)
@@ -552,6 +553,24 @@ Logs an error message.
 
 * The error message if the operation fails.
 
+### _testing.error_pipe
+
+A pipeable version _testing.error that can read from stdin and return specific error codes when errors are found.
+* STDLIB_TESTING_THEME_ERROR: The colour to use for the message (default="LIGHT_RED").
+
+#### Arguments
+
+* **$1** (integer): (optional, default=1) The error code that should be returned if any error message is piped to this function.
+
+#### Exit codes
+
+* **0**: If the error message was not logged.
+* **1**: If an error message is logged.  (This value is configurable via arguments).
+
+#### Output on stderr
+
+* The error message if the operation fails.
+
 ### _testing.fixtures.debug.diff
 
 Prints a diff between two values for debugging.
@@ -662,6 +681,7 @@ Generates a mock argument string from a delimited string.
 #### Exit codes
 
 * **0**: If the mock argument string was generated.
+* **125**: If an invalid keyword has been provided.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 
@@ -805,6 +825,12 @@ _Function has no arguments._
 ### @parametrize.apply
 
 Applies multiple parametrizer functions to a test function.
+* STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN: Whether to show debug information (default="0").
+* STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR: The field separator for scenarios (default=";").
+* STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX: The prefix for fixture commands (default="@fixture ").
+* STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX: The prefix for parametrizer functions (default="@parametrize_with_").
+* STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN: Whether to show original test names (default="0").
+* STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG: The tag in the test function name to replace (default="@vary").
 
 #### Arguments
 
@@ -814,6 +840,8 @@ Applies multiple parametrizer functions to a test function.
 #### Exit codes
 
 * **0**: If the parametrizer functions were applied successfully.
+* **123**: If a variable reserved for use by the BASH stdlib has been assigned an invalid value.
+* **125**: If an invalid keyword has been provided.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 
@@ -824,6 +852,12 @@ Applies multiple parametrizer functions to a test function.
 ### @parametrize.compose
 
 Composes multiple parametrizer functions to create a product of scenarios.
+* STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN: Whether to show debug information (default="0").
+* STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR: The field separator for scenarios (default=";").
+* STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX: The prefix for fixture commands (default="@fixture ").
+* STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX: The prefix for parametrizer functions (default="@parametrize_with_").
+* STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN: Whether to show original test names (default="0").
+* STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG: The tag in the test function name to replace (default="@vary").
 
 #### Arguments
 
@@ -833,6 +867,8 @@ Composes multiple parametrizer functions to create a product of scenarios.
 #### Exit codes
 
 * **0**: If the parametrizer functions were composed successfully.
+* **123**: If a variable reserved for use by the BASH stdlib has been assigned an invalid value.
+* **125**: If an invalid keyword has been provided.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 
@@ -843,8 +879,11 @@ Composes multiple parametrizer functions to create a product of scenarios.
 ### @parametrize
 
 Parametrizes a test function with multiple scenarios.
+* STDLIB_TESTING_THEME_PARAMETRIZE_HIGHLIGHT: A theme colour used to highlight informational messages (default="LIGHT_BLUE").
+* STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN: Whether to show debug information (default="0").
 * STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR: The field separator for scenarios (default=";").
 * STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX: The prefix for fixture commands (default="@fixture ").
+* STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN: Whether to show original test names (default="0").
 * STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG: The tag in the test function name to replace (default="@vary").
 
 #### Arguments
@@ -855,6 +894,8 @@ Parametrizes a test function with multiple scenarios.
 #### Exit codes
 
 * **0**: If the test function was parametrized successfully.
+* **123**: If a variable reserved for use by the BASH stdlib has been assigned an invalid value.
+* **125**: If an invalid keyword has been provided.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 
