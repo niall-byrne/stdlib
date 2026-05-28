@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: stdlib \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-26 17:56-0400\n"
+"POT-Creation-Date: 2026-06-26 16:30-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -134,9 +134,9 @@ msgstr ""
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:686
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:704
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:737
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:809
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:828
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:850
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:815
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:842
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:869
 #: ../../reference_testing/src/testing/assertion/REFERENCE.md:31
 #: ../../reference_testing/src/testing/assertion/REFERENCE.md:49
 #: ../../reference_testing/src/testing/assertion/REFERENCE.md:67
@@ -184,9 +184,9 @@ msgstr ""
 #: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:359
 #: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:381
 #: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:403
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:15
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:34
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:56
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:21
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:48
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:75
 msgid "Arguments"
 msgstr ""
 
@@ -242,9 +242,9 @@ msgstr ""
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:781
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:791
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:801
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:814
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:833
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:855
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:820
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:847
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:874
 #: ../../reference_testing/src/testing/assertion/REFERENCE.md:36
 #: ../../reference_testing/src/testing/assertion/REFERENCE.md:54
 #: ../../reference_testing/src/testing/assertion/REFERENCE.md:71
@@ -308,9 +308,9 @@ msgstr ""
 #: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:367
 #: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:389
 #: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:407
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:20
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:39
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:61
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:26
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:53
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:80
 msgid "Exit codes"
 msgstr ""
 
@@ -347,9 +347,9 @@ msgstr ""
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:696
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:746
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:761
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:820
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:839
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:865
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:828
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:855
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:886
 #: ../../reference_testing/src/testing/assertion/REFERENCE.md:41
 #: ../../reference_testing/src/testing/assertion/REFERENCE.md:59
 #: ../../reference_testing/src/testing/assertion/REFERENCE.md:76
@@ -391,9 +391,9 @@ msgstr ""
 #: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:351
 #: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:373
 #: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:395
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:26
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:45
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:71
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:34
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:61
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:92
 msgid "Output on stderr"
 msgstr ""
 
@@ -403,9 +403,9 @@ msgstr ""
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:592
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:631
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:698
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:822
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:841
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:867
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:830
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:857
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:888
 #: ../../reference_testing/src/testing/fixtures/REFERENCE.md:48
 #: ../../reference_testing/src/testing/mock/REFERENCE.md:86
 #: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:210
@@ -418,9 +418,9 @@ msgstr ""
 #: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:353
 #: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:375
 #: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:397
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:28
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:47
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:73
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:36
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:63
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:94
 msgid "The error message if the operation fails."
 msgstr ""
 
@@ -461,9 +461,9 @@ msgstr ""
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:645
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:665
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:693
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:817
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:836
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:858
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:825
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:852
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:879
 #: ../../reference_testing/src/testing/capture/REFERENCE.md:74
 #: ../../reference_testing/src/testing/capture/REFERENCE.md:109
 #: ../../reference_testing/src/testing/capture/REFERENCE.md:128
@@ -483,9 +483,9 @@ msgstr ""
 #: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:349
 #: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:370
 #: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:392
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:23
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:42
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:64
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:31
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:58
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:85
 msgid "**126**: If an invalid argument has been provided."
 msgstr ""
 
@@ -500,9 +500,9 @@ msgstr ""
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:666
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:694
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:711
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:818
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:837
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:859
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:826
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:853
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:880
 #: ../../reference_testing/src/testing/capture/REFERENCE.md:75
 #: ../../reference_testing/src/testing/capture/REFERENCE.md:110
 #: ../../reference_testing/src/testing/capture/REFERENCE.md:129
@@ -525,9 +525,9 @@ msgstr ""
 #: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:328
 #: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:371
 #: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:393
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:24
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:43
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:65
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:32
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:59
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:86
 msgid "**127**: If the wrong number of arguments were provided."
 msgstr ""
 
@@ -539,7 +539,7 @@ msgstr ""
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:625
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:648
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:668
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:861
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:882
 #: ../../reference_testing/src/testing/capture/REFERENCE.md:34
 #: ../../reference_testing/src/testing/fixtures/REFERENCE.md:26
 #: ../../reference_testing/src/testing/fixtures/REFERENCE.md:42
@@ -552,7 +552,7 @@ msgstr ""
 #: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:223
 #: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:242
 #: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:261
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:67
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:88
 msgid "Output on stdout"
 msgstr ""
 
@@ -1613,9 +1613,9 @@ msgid "**0**: If the logger mocks were created successfully."
 msgstr ""
 
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:588
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:863
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:884
 #: ../../reference_testing/src/testing/fixtures/REFERENCE.md:44
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:69
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:90
 msgid "The informational messages."
 msgstr ""
 
@@ -1906,86 +1906,156 @@ msgstr ""
 msgid "Applies multiple parametrizer functions to a test function."
 msgstr ""
 
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:808
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:835
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:862
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:14
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:41
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:68
+msgid ""
+"STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN string keyword: Whether "
+"to show debug information (default=\"0\")."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:809
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:836
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:863
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:15
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:42
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:69
+msgid ""
+"STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR string keyword: The "
+"field separator for scenarios (default=\";\")."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:810
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:837
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:864
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:16
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:43
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:70
+msgid ""
+"STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX string keyword:"
+" The prefix for fixture commands (default=\"@fixture \")."
+msgstr ""
+
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:811
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:830
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:852
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:838
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:17
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:36
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:58
-msgid "**$1** (string): The name of the test function to parametrize."
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:44
+msgid ""
+"STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX string keyword: The required "
+"prefix for parametrizer functions (default=\"@parametrize_with_\")."
 msgstr ""
 
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:812
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:839
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:865
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:18
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:45
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:71
+msgid ""
+"STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN "
+"string keyword: Whether to show original test names (default=\"0\")."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:813
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:840
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:866
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:19
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:46
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:72
+msgid ""
+"STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG string keyword: The "
+"parameter tag in the test function name (default=\"@vary\")."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:817
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:844
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:871
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:23
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:50
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:77
+msgid "**$1** (string): The name of the test function to parametrize."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:818
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:24
 msgid "**...** (array): A series of parametrizer functions to apply."
 msgstr ""
 
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:816
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:22
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:822
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:28
 msgid "**0**: If the parametrizer functions were applied successfully."
 msgstr ""
 
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:823
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:850
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:877
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:29
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:56
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:83
+msgid ""
+"**123**: If a variable reserved for use by the BASH stdlib has been "
+"assigned an invalid value."
+msgstr ""
+
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:824
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:851
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:878
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:30
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:57
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:84
+msgid "**125**: If an invalid keyword has been provided."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:832
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:38
 msgid "@parametrize.compose"
 msgstr ""
 
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:826
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:32
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:834
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:40
 msgid "Composes multiple parametrizer functions to create a product of scenarios."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:831
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:37
-msgid "**...** (array): A series of parametrizer functions to compose."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:835
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:41
-msgid "**0**: If the parametrizer functions were composed successfully."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:843
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:49
-msgid "@parametrize"
 msgstr ""
 
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:845
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:51
+msgid "**...** (array): A series of parametrizer functions to compose."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:849
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:55
+msgid "**0**: If the parametrizer functions were composed successfully."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:859
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:65
+msgid "@parametrize"
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:861
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:67
 msgid "Parametrizes a test function with multiple scenarios."
 msgstr ""
 
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:846
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:52
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:867
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:73
 msgid ""
-"STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR: The field separator "
-"for scenarios (default=\";\")."
+"STDLIB_TESTING_THEME_PARAMETRIZE_HIGHLIGHT string global: A theme colour "
+"used to highlight informational messages (default=\"LIGHT_BLUE\")."
 msgstr ""
 
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:847
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:53
-msgid ""
-"STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX: The prefix for"
-" fixture commands (default=\"@fixture \")."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:848
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:54
-msgid ""
-"STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG: The tag in the test "
-"function name to replace (default=\"@vary\")."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:853
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:59
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:872
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:78
 msgid ""
 "**...** (array): Optional fixture commands (prefixed with '@fixture '), "
 "followed by a semicolon-separated list of variable names, and then one or"
 " more semicolon-separated scenarios (scenario name followed by values)."
 msgstr ""
 
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:857
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:63
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:876
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:82
 msgid "**0**: If the test function was parametrized successfully."
 msgstr ""
 
@@ -2575,4 +2645,73 @@ msgstr ""
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:1
 msgid "STDLIB Testing Parametrization Function Reference"
 msgstr ""
+
+#~ msgid "[_testing.error_pipe](#_testingerror_pipe)"
+#~ msgstr ""
+
+#~ msgid "_testing.error_pipe"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "A pipeable version _testing.error that "
+#~ "can read from stdin and return "
+#~ "specific error codes when errors are "
+#~ "found."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "**$1** (integer): (optional, default=1) The"
+#~ " error code that should be returned"
+#~ " if any error message is piped "
+#~ "to this function."
+#~ msgstr ""
+
+#~ msgid "**0**: If the error message was not logged."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "**1**: If an error message is "
+#~ "logged.  (This value is configurable via"
+#~ " arguments)."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN: Whether "
+#~ "to show debug information (default=\"0\")."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR: The "
+#~ "field separator for scenarios (default=\";\")."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX: The"
+#~ " prefix for fixture commands "
+#~ "(default=\"@fixture \")."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX: The required"
+#~ " prefix for parametrizer functions "
+#~ "(default=\"@parametrize_with_\")."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN:"
+#~ " Whether to show original test names"
+#~ " (default=\"0\")."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG: The "
+#~ "parameter tag in the test function "
+#~ "name (default=\"@vary\")."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "STDLIB_TESTING_THEME_PARAMETRIZE_HIGHLIGHT: A theme "
+#~ "colour used to highlight informational "
+#~ "messages (default=\"LIGHT_BLUE\")."
+#~ msgstr ""
 

@@ -5,7 +5,7 @@
 builtin set -eo pipefail
 
 # @description Generates an array of variant tags for multiple parametrizers.
-#   * STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX: The prefix to remove from parametrizer function names (default="@parametrize_with_").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX string keyword: The required prefix for parametrizer functions (default="@parametrize_with_").
 # @arg $1 string The name of the variable to store the calculated variant tag padding in.
 # @arg $2 string The name of the array to store the variant tags in.
 # @arg $@ array An array of parametrizer function names.
@@ -24,10 +24,12 @@ builtin set -eo pipefail
 
   builtin shift 2
 
+  builtin local setting_fn_prefix="${setting_fn_prefix}" # clean STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX
+
   for ((variant_index = 1; variant_index <= "${#@}"; variant_index++)); do
     parametrizer_function_name="${!variant_index}"
     @parametrize.__internal.validate.fn_name.parametrizer "${parametrizer_function_name}" || builtin return 126
-    variant_tag="${parametrizer_function_name/${STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX}/}"
+    variant_tag="${parametrizer_function_name/${setting_fn_prefix}/}"
     variants+=("${variant_tag}")
     if [[ "${#variant_tag}" -gt "${padding_value}" ]]; then
       padding_value="${#variant_tag}"
@@ -39,9 +41,9 @@ builtin set -eo pipefail
 }
 
 # @description Creates a test function variant for a specific scenario.
-#   * STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN: Whether to show original test names (default="0").
-#   * STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN: Whether to show debug information (default="0").
-#   * STDLIB_TESTING_THEME_PARAMETRIZE_ORIGINAL_TEST_NAMES: The colour for original test names (default="GREY").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN string keyword: Whether to show debug information (default="0").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN string keyword: Whether to show original test names (default="0").
+#   * STDLIB_TESTING_THEME_PARAMETRIZE_ORIGINAL_TEST_NAMES string global: The colour for original test names (default="GREY").
 # @arg $1 string The test function variant name to create.
 # @arg $2 string The original test function name.
 # @arg $3 string The original test function reference.
@@ -64,6 +66,9 @@ builtin set -eo pipefail
   builtin local scenario_index
   builtin local test_function_variant_name="${1}"
 
+  builtin local setting_debug_boolean="${setting_debug_boolean}"                             # clean STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN
+  builtin local setting_original_test_names_boolean="${setting_original_test_names_boolean}" # clean STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN
+
   array_indirect_environment_variables_reference="${4}[@]"
   array_indirect_environment_variables=("${!array_indirect_environment_variables_reference}")
   array_indirect_fixture_commands_reference="${5}[@]"
@@ -75,8 +80,9 @@ builtin set -eo pipefail
   builtin eval "
   ${test_function_variant_name}(){
   $(
-    if [[ "${STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN}" == "1" ]]; then
+    if [[ "${setting_original_test_names_boolean}" == "1" ]]; then
       builtin echo -e "builtin echo -ne '\n                $(
+        # defaults STDLIB_TESTING_THEME_PARAMETRIZE_ORIGINAL_TEST_NAMES
         _testing.__protected stdlib.string.colour \
           "${STDLIB_TESTING_THEME_PARAMETRIZE_ORIGINAL_TEST_NAMES}" \
           "${original_test_function_name} ..."
@@ -102,7 +108,7 @@ builtin set -eo pipefail
       builtin printf "%s\n" "${array_indirect_fixture_commands[scenario_index]}"
     done
 
-    if [[ "${STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN}" == "1" ]]; then
+    if [[ "${setting_debug_boolean}" == "1" ]]; then
       @parametrize.__internal.debug.message "${scenario_debug_message}"
     fi
   )
@@ -113,7 +119,7 @@ builtin set -eo pipefail
 }
 
 # @description Generates a padded test function variant name.
-#   * STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG: The tag in the test function name to replace (default="@vary").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG string keyword: The parameter tag in the test function name (default="@vary").
 # @arg $1 string The function name to parametrize.
 # @arg $2 string The function variant's description.
 # @arg $3 integer The length of the longest variant description for padding.
@@ -123,6 +129,8 @@ builtin set -eo pipefail
 @parametrize.__internal.create.string.padded_test_fn_variant_name() {
   builtin local padded_variant_name
 
+  builtin local setting_variant_tag="${setting_variant_tag}" # clean STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG
+
   padded_variant_name="${2// /_}"
 
   if (("${3}" > "${#2}")); then
@@ -130,5 +138,5 @@ builtin set -eo pipefail
     padded_variant_name="${padded_variant_name// /_}"
   fi
 
-  builtin echo "${1/"${STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG}"/"${padded_variant_name}"}"
+  builtin echo "${1/"${setting_variant_tag}"/"${padded_variant_name}"}"
 }
