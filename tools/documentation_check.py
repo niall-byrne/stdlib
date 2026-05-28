@@ -76,13 +76,13 @@ class BashFunction:
             if TRIGGER_IGNORE_COMMENT in line:
                 continue
 
-            inline_assignment_match = re.match(
-                REGEX_GLOBAL_VARIABLE_INLINE_ASSIGNMENT,
+            keyword_usage_match = re.match(
+                REGEX_GLOBAL_VARIABLE_KEYWORD_USAGE,
                 line,
             )
-            inline_assignment_part = ""
-            if inline_assignment_match:
-                inline_assignment_part = inline_assignment_match.group(0)
+            keyword_usage_prefix = ""
+            if keyword_usage_match:
+                keyword_usage_prefix = keyword_usage_match.group(0)
 
             for match in re.finditer(
                     REGEX_GLOBAL_VARIABLE_USAGE,
@@ -92,26 +92,26 @@ class BashFunction:
                 if var_name in local_vars:
                     continue
 
-                if self._is_exclusive_inline_assignment(
+                if self._is_exclusive_keyword_usage(
                         line,
                         match,
-                        inline_assignment_part,
+                        keyword_usage_prefix,
                 ):
                     continue
 
                 used_vars.add(var_name)
         return used_vars
 
-    def _is_exclusive_inline_assignment(
+    def _is_exclusive_keyword_usage(
         self,
         line: str,
         match: re.Match,
-        inline_assignment_part: str,
+        keyword_usage_prefix: str,
     ) -> bool:
-        if not inline_assignment_part:
+        if not keyword_usage_prefix:
             return False
 
-        if match.start() >= len(inline_assignment_part):
+        if match.start() >= len(keyword_usage_prefix):
             return False
 
         if not line[match.end():].startswith("="):
@@ -380,7 +380,7 @@ REGEX_DOC_TAGS = (
     rf"^#\s*@({'|'.join([tag_def.name for tag_def in Tags.get_sequence()])})")
 REGEX_ECHO_ASSIGNMENT = r"=\s*\"?builtin echo"
 REGEX_FUNCTION_DEFINITION = r"^(([a-zA-Z_@]|\$\{1\}\.)[a-zA-Z0-9._]*) *\(\) *\{"
-REGEX_GLOBAL_VARIABLE_INLINE_ASSIGNMENT = (
+REGEX_GLOBAL_VARIABLE_KEYWORD_USAGE = (
     r"^\s*(?:(?:[A-Z_]+|__\$\{2\}[a-z_]+)="
     r"(?:'[^']*'|\"[^\"]*\"|\$?\([^)]*\)|[^\s;]+)\s+)+")
 REGEX_GLOBAL_VARIABLE_MODIFIER_NAME = r"(__\$\{2\}[a-z_]+|[A-Z_]+): "
