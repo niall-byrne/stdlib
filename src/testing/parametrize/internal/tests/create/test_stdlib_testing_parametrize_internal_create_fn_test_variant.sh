@@ -37,7 +37,7 @@ setup() {
 }
 
 test_parametrize_internal_create_fn_test_variant__debug_disabled__does_not_call_debug() {
-  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN=0 @parametrize.__internal.create.fn.test_variant \
+  setting_debug_boolean=0 @parametrize.__internal.create.fn.test_variant \
     "new_test_variant" \
     "test_fn" \
     "test_fn_original_reference" \
@@ -49,7 +49,7 @@ test_parametrize_internal_create_fn_test_variant__debug_disabled__does_not_call_
 }
 
 test_parametrize_internal_create_fn_test_variant__debug_enabled___calls_debug_as_expected() {
-  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN=1 @parametrize.__internal.create.fn.test_variant \
+  setting_debug_boolean=1 @parametrize.__internal.create.fn.test_variant \
     "new_test_variant" \
     "test_fn" \
     "test_fn_original_reference" \
@@ -67,7 +67,7 @@ $(_testing.parametrize.__message.get PARAMETRIZE_PREFIX_FIXTURE_COMMAND): \"test
 }
 
 test_parametrize_internal_create_fn_test_variant__creates_test_fn() {
-  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN=0 @parametrize.__internal.create.fn.test_variant \
+  setting_debug_boolean=0 @parametrize.__internal.create.fn.test_variant \
     "new_test_variant" \
     "test_fn" \
     "test_fn_original_reference" \
@@ -79,8 +79,8 @@ test_parametrize_internal_create_fn_test_variant__creates_test_fn() {
 }
 
 test_parametrize_internal_create_fn_test_variant__@vary__test_fn________when_called__show_fn_names_enabled___generates_correct_stdout() {
-  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="${DEBUG_VALUE}" \
-    STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN=1 \
+  setting_debug_boolean="${DEBUG_VALUE}" \
+    setting_original_test_names_boolean=1 \
     @parametrize.__internal.create.fn.test_variant \
     "new_test_variant" \
     "test_fn" \
@@ -101,8 +101,8 @@ test_parametrize_internal_create_fn_test_variant__@vary__test_fn________when_cal
   test_parametrize_internal_create_fn_test_variant__@vary__test_fn________when_called__show_fn_names_enabled___generates_correct_stdout
 
 test_parametrize_internal_create_fn_test_variant__@vary__test_fn________when_called__show_fn_names_disabled__generates_correct_stdout() {
-  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="${DEBUG_VALUE}" \
-    STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN=0 \
+  setting_debug_boolean="${DEBUG_VALUE}" \
+    setting_original_test_names_boolean=0 \
     @parametrize.__internal.create.fn.test_variant \
     "new_test_variant" \
     "test_fn" \
@@ -120,8 +120,8 @@ test_parametrize_internal_create_fn_test_variant__@vary__test_fn________when_cal
   test_parametrize_internal_create_fn_test_variant__@vary__test_fn________when_called__show_fn_names_disabled__generates_correct_stdout
 
 test_parametrize_internal_create_fn_test_variant__@vary__test_fn________when_called__@vary__calls_original_fn_reference() {
-  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="${DEBUG_VALUE}" \
-    STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN="${SHOW_FN_NAME_VALUE}" \
+  setting_debug_boolean="${DEBUG_VALUE}" \
+    setting_original_test_names_boolean="${SHOW_FN_NAME_VALUE}" \
     @parametrize.__internal.create.fn.test_variant \
     "new_test_variant" \
     "test_fn" \
@@ -141,8 +141,8 @@ test_parametrize_internal_create_fn_test_variant__@vary__test_fn________when_cal
   @parametrize_with_fn_name_toggle
 
 test_parametrize_internal_create_fn_test_variant__@vary__test_fn________when_called__@vary__calls_fixture_functions() {
-  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="${DEBUG_VALUE}" \
-    STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN="${SHOW_FN_NAME_VALUE}" \
+  setting_debug_boolean="${DEBUG_VALUE}" \
+    setting_original_test_names_boolean="${SHOW_FN_NAME_VALUE}" \
     @parametrize.__internal.create.fn.test_variant \
     "new_test_variant" \
     "test_fn" \
@@ -168,8 +168,8 @@ test_parametrize_internal_create_fn_test_variant__@vary__test_fn________when_cal
   _mock.sequence.record.start
   [[ "${DEBUG_VALUE}" == "1" ]] && stdlib.array.mutate.insert "@parametrize.__internal.debug.message" 0 expected_sequence
 
-  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="${DEBUG_VALUE}" \
-    STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN="${SHOW_FN_NAME_VALUE}" \
+  setting_debug_boolean="${DEBUG_VALUE}" \
+    setting_original_test_names_boolean="${SHOW_FN_NAME_VALUE}" \
     @parametrize.__internal.create.fn.test_variant \
     "new_test_variant" \
     "test_fn" \
@@ -191,8 +191,8 @@ test_parametrize_internal_create_fn_test_variant__@vary__test_fn________when_cal
 test_parametrize_internal_create_fn_test_variant__@vary__test_fn________when_called__@vary__sets_environment_variables() {
   expected_environment_variables=("${test_array_scenario_definition[@]:1}")
 
-  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="${DEBUG_VALUE}" \
-    STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN="${SHOW_FN_NAME_VALUE}" \
+  setting_debug_boolean="${DEBUG_VALUE}" \
+    setting_original_test_names_boolean="${SHOW_FN_NAME_VALUE}" \
     @parametrize.__internal.create.fn.test_variant \
     "new_test_variant" \
     "test_fn" \
@@ -217,8 +217,8 @@ test_parametrize_internal_create_fn_test_variant__@vary__test_fn________when_cal
   expected_environment_variables=("${test_array_scenario_definition[@]:1}")
   test_fn_original_reference.mock.set.keywords "PARAMETRIZE_SCENARIO_NAME"
 
-  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="${DEBUG_VALUE}" \
-    STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN="${SHOW_FN_NAME_VALUE}" \
+  setting_debug_boolean="${DEBUG_VALUE}" \
+    setting_original_test_names_boolean="${SHOW_FN_NAME_VALUE}" \
     @parametrize.__internal.create.fn.test_variant \
     "new_test_variant" \
     "test_fn" \

@@ -42,16 +42,16 @@ _testing.parametrize.__message.get() {
       message="$(_testing.__gettext "The function '${option1}' cannot be used in a parametrize series!")"
       ;;
     PARAMETRIZE_ERROR_PARAMETRIZER_FN_NAME)
-      required_options=0
-      message="$(_testing.__gettext "It's name must be prefixed with '${STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX}' !")"
+      required_options=1
+      message="$(_testing.__gettext "It's name must be prefixed with '${option1}' !")"
       ;;
     PARAMETRIZE_ERROR_TEST_FN_INVALID)
       required_options=1
       message="$(_testing.__gettext "The function '${option1}' cannot be parametrized.")"
       ;;
     PARAMETRIZE_ERROR_TEST_FN_NAME)
-      required_options=0
-      message="$(_testing.__gettext "It's name must start with 'test' and contain a '${STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG}' tag, please rename this function!")"
+      required_options=1
+      message="$(_testing.__gettext "It's name must start with 'test' and contain a '${option1}' tag, please rename this function!")"
       ;;
     PARAMETRIZE_FOOTER_SCENARIO_VALUES)
       required_options=0
