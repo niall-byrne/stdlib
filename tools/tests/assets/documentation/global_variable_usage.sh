@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # @description Documented global variable usage.
-#   * STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="").
+#   * STDLIB_LOGGING_MESSAGE_PREFIX string keyword: A prefix identifying the calling function (default="").
 # @noargs
 # @exitcode 0 If the operation succeeded.
 stdlib.documented_global_var() {
@@ -41,7 +41,7 @@ stdlib.__undocumented_internal_var() {
 }
 
 # @description Documented internal global variable.
-#   * __STDLIB_LOGGING_DECORATORS_ARRAY: An array of decorators (default=()).
+#   * __STDLIB_LOGGING_DECORATORS_ARRAY array global: An array of decorators (default=()).
 # @noargs
 # @exitcode 0 If the operation succeeded.
 # @internal
@@ -76,7 +76,7 @@ eval "$(
   "${_STDLIB_BINARY_CAT}" << 'EOF'
 
 # @description Mock component documented.
-#   * __${2}_mock_rc: The return code (default=0).
+#   * __${2}_mock_rc integer global: The return code (default=0).
 # @noargs
 # @exitcode 0 If the operation succeeded.
 ${1}.mock.documented() {

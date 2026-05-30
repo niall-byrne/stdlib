@@ -381,6 +381,7 @@ MANDATORY_EXIT_CODES = ["0"]
 MANDATORY_TAGS = [
     tag_def for tag_def in Tags.get_sequence() if tag_def.is_mandatory
 ]
+MODIFIER_TYPES = ["global", "keyword"]
 REGEX_DOC_TAGS = (
     rf"^#\s*@({'|'.join([tag_def.name for tag_def in Tags.get_sequence()])})")
 REGEX_ECHO_ASSIGNMENT = r"=\s*\"?builtin echo"
@@ -388,7 +389,8 @@ REGEX_FUNCTION_DEFINITION = r"^(([a-zA-Z_@]|\$\{1\}\.)[a-zA-Z0-9._]*) *\(\) *\{"
 REGEX_GLOBAL_VARIABLE_KEYWORD_USAGE = (
     r"^\s*(?:(?:[A-Z_]+|__\$\{2\}[a-z_]+)="
     r"(?:'[^']*'|\"[^\"]*\"|\$?\([^)]*\)|[^\s;]+)\s+)+")
-REGEX_GLOBAL_VARIABLE_MODIFIER_NAME = r"(__\$\{2\}[a-z_]+|[A-Z_]+): "
+REGEX_GLOBAL_VARIABLE_MODIFIER_NAME = (
+    r"(__\$\{2\}[a-z_]+|[A-Z_]+) ([a-z_]+) ([a-z_]+): ")
 REGEX_GLOBAL_VARIABLE_MODIFIER_DESCRIPTION = (
     rf"^{re.escape(GLOBAL_VARIABLE_PREFIX)}"
     rf"{REGEX_GLOBAL_VARIABLE_MODIFIER_NAME}(.+)$")
@@ -613,23 +615,44 @@ class GlobalVariableModifierFormatRule(Rule):
         errors = []
         for line in func.global_var_lines:
 
-            match = re.match(REGEX_GLOBAL_VARIABLE_MODIFIER_DESCRIPTION,
-                             line.strip(), re.DOTALL)
+            match = re.match(
+                REGEX_GLOBAL_VARIABLE_MODIFIER_DESCRIPTION,
+                line.strip(),
+                re.DOTALL,
+            )
             if match:
-                if not match.group(2)[0].isupper():
+                var_type = match.group(2)
+                mod_type = match.group(3)
+                description = match.group(4)
+
+                if var_type not in VARIABLE_TYPES:
+                    errors.append(
+                        f"{func.name}: Global variable type in "
+                        f"@{Tags.DESCRIPTION.name} "
+                        f"should be one of {VARIABLE_TYPES}. "
+                        f"Found: '{var_type}' in '{line.strip()}'")
+
+                if mod_type not in MODIFIER_TYPES:
+                    errors.append(
+                        f"{func.name}: Global variable modifier in "
+                        f"@{Tags.DESCRIPTION.name} "
+                        f"should be one of {MODIFIER_TYPES}. "
+                        f"Found: '{mod_type}' in '{line.strip()}'")
+
+                if not description[0].isupper():
                     errors.append(
                         f"{func.name}: Global variable description in "
                         f"@{Tags.DESCRIPTION.name} "
                         f"should start with a capital letter. "
                         f"Found: '{line.strip()}'")
-                if not match.group(2).endswith("."):
+                if not description.endswith("."):
                     errors.append(
                         f"{func.name}: Global variable description in "
                         f"@{Tags.DESCRIPTION.name} "
                         f"should end with a period. Found: '{line.strip()}'")
                 if not re.match(
                         REGEX_GLOBAL_VARIABLE_MODIFIER_DESCRIPTION_DEFAULT,
-                        match.group(2)):
+                        description):
                     errors.append(
                         f"{func.name}: Global variable description in "
                         f"@{Tags.DESCRIPTION.name} "
@@ -654,7 +677,8 @@ class GlobalVariableModifierIndentRule(Rule):
                              line.strip()):
                 errors.append(
                     f"{func.name}: Global variable in @{Tags.DESCRIPTION.name} "
-                    f"should be in uppercase characters followed by a colon. "
+                    f"should be in uppercase characters followed by a type, "
+                    f"modifier and then a colon. "
                     f"Found: '{line.strip()}'")
         return errors
 

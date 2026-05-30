@@ -80,27 +80,39 @@ class TestDocumentationCheck(unittest.TestCase):
         errors = []
         for func in parsed_file.functions:
             errors.extend(rule.check(func))
-        self.assertEqual(len(errors), 3)
+        self.assertEqual(len(errors), 5)
         self.assertIn(
             f"stdlib.invalid_description_no_global_variable_capital: Global variable description in "  # noqa: E501
             f"@{Tags.DESCRIPTION.name} "
             f"should start with a capital letter. "
-            f"Found: '#   * _INVALID_GLOBAL_VARIABLE: this variable is not formatted correctly (default=1).'",  # noqa: E501
+            f"Found: '#   * _INVALID_GLOBAL_VARIABLE string keyword: this variable is not formatted correctly (default=1).'",  # noqa: E501
             errors[0],
         )
         self.assertIn(
             f"stdlib.invalid_description_no_global_variable_period: Global variable description in "  # noqa: E501
             f"@{Tags.DESCRIPTION.name} "
             f"should end with a period. "
-            f"Found: '#   * _INVALID_GLOBAL_VARIABLE: This variable is not formatted correctly (default=1)'",  # noqa: E501
+            f"Found: '#   * _INVALID_GLOBAL_VARIABLE string keyword: This variable is not formatted correctly (default=1)'",  # noqa: E501
             errors[1],
         )
         self.assertIn(
             f"stdlib.invalid_description_no_global_variable_default: Global variable description in "  # noqa: E501
             f"@{Tags.DESCRIPTION.name} "
             f"should detail a default value. "
-            f"Found: '#   * _INVALID_GLOBAL_VARIABLE: This variable is not formatted correctly.'",  # noqa: E501
+            f"Found: '#   * _INVALID_GLOBAL_VARIABLE string keyword: This variable is not formatted correctly.'",  # noqa: E501
             errors[2],
+        )
+        self.assertIn(
+            "stdlib.invalid_variable_type: Global variable type in @description "
+            "should be one of ['string', 'integer', 'boolean', 'array']. "
+            "Found: 'invalid_type' in '#   * _INVALID_TYPE_GLOBAL_VARIABLE invalid_type keyword: This variable has an invalid type (default=1).'",  # noqa: E501
+            errors[3],
+        )
+        self.assertIn(
+            "stdlib.invalid_modifier_type: Global variable modifier in @description "
+            "should be one of ['global', 'keyword']. "
+            "Found: 'invalid_modifier' in '#   * _INVALID_MODIFIER_GLOBAL_VARIABLE string invalid_modifier: This variable has an invalid modifier (default=\"\").'",  # noqa: E501
+            errors[4],
         )
 
     def test_invalid_description_global_variable_indent(self):
@@ -110,18 +122,19 @@ class TestDocumentationCheck(unittest.TestCase):
         errors = []
         for func in parsed_file.functions:
             errors.extend(rule.check(func))
-        self.assertEqual(len(errors), 2)
+        self.assertEqual(len(errors), 3)
         self.assertIn(
             f"stdlib.invalid_description_no_global_variable_list: Global variable in @{Tags.DESCRIPTION.name} "  # noqa: E501
             f"should be in 2 space indented asterisk list format. "
             f"Found: '#     _INVALID_GLOBAL_VARIABLE: This variable is not formatted correctly.'",  # noqa: E501
-            errors[0],
+            errors,
         )
         self.assertIn(
             f"stdlib.invalid_description_no_global_variable_colon: Global variable in @{Tags.DESCRIPTION.name} "  # noqa: E501
-            f"should be in uppercase characters followed by a colon. "
-            f"Found: '#   * _INVALID_GLOBAL_VARIABLE This variable is not formatted correctly.'",  # noqa: E501
-            errors[1],
+            f"should be in uppercase characters followed by a type, "
+            f"modifier and then a colon. "
+            f"Found: '#   * _INVALID_GLOBAL_VARIABLE string keyword This variable is not formatted correctly.'",  # noqa: E501
+            errors,
         )
 
     def test_incorrect_order(self):
