@@ -1,17 +1,17 @@
 #!/bin/bash
 
-# @description Documented global variable usage.
+# @description Documented modifier variable usage.
 #   * STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="").
 # @noargs
 # @exitcode 0 If the operation succeeded.
-stdlib.documented_global_var() {
+stdlib.documented_modifier_var() {
   builtin echo "${STDLIB_LOGGING_MESSAGE_PREFIX}"
 }
 
-# @description Undocumented global variable usage.
+# @description Undocumented modifier variable usage.
 # @noargs
 # @exitcode 0 If the operation succeeded.
-stdlib.undocumented_global_var() {
+stdlib.undocumented_modifier_var() {
   builtin echo "${STDLIB_THEME_LOGGER_ERROR}"
 }
 
@@ -32,7 +32,7 @@ stdlib.documented_via_set() {
   STDLIB_OUTPUT_VARIABLE="value"
 }
 
-# @description Undocumented internal global variable.
+# @description Undocumented internal modifier variable.
 # @noargs
 # @exitcode 0 If the operation succeeded.
 # @internal
@@ -40,7 +40,7 @@ stdlib.__undocumented_internal_var() {
   builtin echo "${__STDLIB_LOGGING_DECORATORS_ARRAY[@]}"
 }
 
-# @description Documented internal global variable.
+# @description Documented internal modifier variable.
 #   * __STDLIB_LOGGING_DECORATORS_ARRAY: An array of decorators (default=()).
 # @noargs
 # @exitcode 0 If the operation succeeded.
@@ -65,7 +65,7 @@ stdlib.noqa_usage() {
   builtin echo "${STDLIB_UNDOCUMENTED_VAR}" # noqa
 }
 
-# @description Global variable name as argument.
+# @description Modifier variable name as argument.
 # @arg $1 string The array name.
 # @exitcode 0 If it is an array.
 stdlib.var_name_as_arg() {
@@ -92,9 +92,8 @@ ${1}.mock.undocumented() {
 
 EOF
 )"
-#!/bin/bash
 
-# @description This function uses an inline global variable assignment.
+# @description This function uses an inline modifier variable assignment.
 # @noargs
 # @exitcode 0 If the operation succeeded.
 stdlib.inline_assignment_usage() {
