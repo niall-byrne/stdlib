@@ -22,6 +22,7 @@
 Validates the presence and number of arguments for a function.
 * STDLIB_ARGS_CALLER_FN_NAME: A string presented as the name of the calling function in logging messages (default="${FUNCNAME[1]}").
 * STDLIB_ARGS_NULL_SAFE_ARRAY: An array of argument indexes that are null safe, meaning they can be empty values (default=()).
+* STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN: A boolean that indicates all arguments are null safe, meaning they can be empty values (default="0").
 
 #### Arguments
 
