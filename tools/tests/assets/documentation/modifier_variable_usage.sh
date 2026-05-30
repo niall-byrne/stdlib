@@ -53,9 +53,9 @@ stdlib.__documented_internal_var() {
 # @noargs
 # @exitcode 0 If the operation succeeded.
 stdlib.binary_var_usage() {
-  "${_STDLIB_BINARY_CAT}" << ENEREOF
+  "${_STDLIB_BINARY_CAT}" << EOF
 hello
-ENEREOF
+EOF
 }
 
 # @description Usage with noqa should be ignored.
@@ -73,7 +73,7 @@ stdlib.var_name_as_arg() {
 }
 
 eval "$(
-  "${_STDLIB_BINARY_CAT}" << 'EVEOF'
+  "${_STDLIB_BINARY_CAT}" << 'EOF'
 
 # @description Mock component documented.
 #   * __${2}_mock_rc: The return code (default=0).
@@ -90,7 +90,7 @@ ${1}.mock.undocumented() {
   builtin return "${__${2}_mock_rc}"
 }
 
-EVEOF
+EOF
 )"
 
 # @description This function uses an inline modifier variable assignment.

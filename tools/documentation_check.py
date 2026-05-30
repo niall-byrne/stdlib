@@ -376,23 +376,23 @@ DERIVE_DEFINITIONS: List[DeriveDefinition] = [
         "The name of the variable to read from and write to.",
     ),
 ]
-MODIFIER_VARIABLE_PREFIX = r"#   * "
 MANDATORY_EXIT_CODES = ["0"]
 MANDATORY_TAGS = [
     tag_def for tag_def in Tags.get_sequence() if tag_def.is_mandatory
 ]
+MODIFIER_VARIABLE_PREFIX = r"#   * "
 REGEX_DOC_TAGS = (
     rf"^#\s*@({'|'.join([tag_def.name for tag_def in Tags.get_sequence()])})")
 REGEX_ECHO_ASSIGNMENT = r"=\s*\"?builtin echo"
 REGEX_FUNCTION_DEFINITION = r"^(([a-zA-Z_@]|\$\{1\}\.)[a-zA-Z0-9._]*) *\(\) *\{"
+REGEX_MODIFIER_VARIABLE_DESCRIPTION = (
+    rf"^{re.escape(MODIFIER_VARIABLE_PREFIX)}"
+    r"(__\$\{2\}[a-z_]+|[A-Z_]+): (.+)$")
+REGEX_MODIFIER_VARIABLE_DESCRIPTION_DEFAULT = r"^.+\(default=.+\)\.*$"
 REGEX_MODIFIER_VARIABLE_KEYWORD_USAGE = (
     r"^\s*(?:(?:[A-Z_]+|__\$\{2\}[a-z_]+)="
     r"(?:'[^']*'|\"[^\"]*\"|\$?\([^)]*\)|[^\s;]+)\s+)+")
 REGEX_MODIFIER_VARIABLE_NAME = r"(__\$\{2\}[a-z_]+|[A-Z_]+): "
-REGEX_MODIFIER_VARIABLE_DESCRIPTION = (
-    rf"^{re.escape(MODIFIER_VARIABLE_PREFIX)}"
-    rf"{REGEX_MODIFIER_VARIABLE_NAME}(.+)$")
-REGEX_MODIFIER_VARIABLE_DESCRIPTION_DEFAULT = r"^.+\(default=.+\)\.*$"
 REGEX_MODIFIER_VARIABLE_USAGE = (
     r"(\b__\\?\$\{2\}[a-z_]+\b|\b_?_?STDLIB_(?!BINARY)[A-Z0-9_]+\b)")
 REGEX_PROCESS_SUBSTITUTION = r"[\$=]\(builtin echo"
@@ -405,7 +405,7 @@ STANDARDIZED_EXIT_CODES = {
     rf"@{Tags.EXITCODE.name} 123 If a variable reserved "
     r"for use by the BASH stdlib has been assigned an invalid value\.",
     "124":
-    rf"@{Tags.EXITCODE.name} 124 If a modifier variable "
+    rf"@{Tags.EXITCODE.name} 124 If a global variable "
     r"has been assigned an invalid value\.",
     "125":
     rf"@{Tags.EXITCODE.name} 125 If an invalid "
