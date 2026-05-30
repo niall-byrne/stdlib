@@ -2119,6 +2119,41 @@ stdlib.setting.theme.load ()
     stdlib.setting.colour.state.theme
 }
 
+stdlib.string.args.join ()
+{
+    builtin local string_output;
+    builtin local delimiter="${1}";
+    STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN="1" stdlib.fn.args.require "2" "1000" "${@}" || builtin return "$?";
+    builtin shift;
+    while [[ -n "${1}" ]]; do
+        [[ -z "${string_output}" ]] || string_output+="${delimiter}";
+        string_output+="${1}";
+        builtin shift;
+    done;
+    builtin echo "${string_output}"
+}
+
+stdlib.string.args.join_pipe ()
+{
+    builtin local string_input_line;
+    builtin local -a string_input;
+    builtin local delimiter="${1}";
+    STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN="1" stdlib.fn.args.require "1" "0" "${@}" || builtin return "$?";
+    while IFS= builtin read -r string_input_line; do
+        string_input+=("${string_input_line}");
+    done;
+    stdlib.string.args.join "${delimiter}" "${string_input[@]}"
+}
+
+stdlib.string.args.join_var ()
+{
+    builtin local var_name="${1}";
+    STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN="1" stdlib.fn.args.require "3" "1000" "${@}" || builtin return "$?";
+    stdlib.var.query.is_valid_name "${var_name}" || builtin return 126;
+    builtin shift;
+    builtin printf -v "${var_name}" "%s" "$(stdlib.string.args.join "${@}")"
+}
+
 stdlib.string.assert.is_alpha ()
 {
     builtin local return_code=0;
