@@ -6,10 +6,12 @@ builtin set -eo pipefail
 
 STDLIB_ARGS_CALLER_FN_NAME=""
 STDLIB_ARGS_NULL_SAFE_ARRAY=()
+STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN="0"
 
 # @description Validates the presence and number of arguments for a function.
 #   * STDLIB_ARGS_CALLER_FN_NAME: A string presented as the name of the calling function in logging messages (default="${FUNCNAME[1]}").
 #   * STDLIB_ARGS_NULL_SAFE_ARRAY: An array of argument indexes that are null safe, meaning they can be empty values (default=()).
+#   * STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN: A boolean that indicates if all arguments are null safe, meaning they can be empty values (default="0").
 # @arg $1 integer The number of required arguments.
 # @arg $2 integer The number of optional arguments.
 # @arg $@ array The list of argument values to check.
@@ -28,10 +30,12 @@ stdlib.fn.args.require() {
   builtin local arg_index=1
   builtin local args_optional_count="${2}"
   builtin local args_required_count="${1}"
+  builtin local null_safe_all_boolean="${STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN}"
 
   stdlib.string.assert.is_digit "${args_required_count}" || builtin return 126
   stdlib.string.assert.is_digit "${args_optional_count}" || builtin return 126
   stdlib.array.assert.is_array args_null_safe_array || builtin return 126
+  stdlib.string.assert.is_boolean "${null_safe_all_boolean}" || builtin return 126
 
   builtin shift 2
 
@@ -39,6 +43,10 @@ stdlib.fn.args.require() {
     stdlib.logger.error "$(stdlib.__message.get ARGUMENT_REQUIREMENTS_VIOLATION "${args_required_count}" "${args_optional_count}")"
     stdlib.logger.error "$(stdlib.__message.get ARGUMENT_REQUIREMENTS_VIOLATION_DETAIL "${#@}")"
     builtin return 127
+  fi
+
+  if [[ "${null_safe_all_boolean}" == "1" ]]; then
+    builtin return 0
   fi
 
   for ((arg_index = 1; arg_index <= "${#@}"; arg_index++)); do
