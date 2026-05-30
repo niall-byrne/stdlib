@@ -28,8 +28,8 @@ class TestDocumentationCheck(unittest.TestCase):
             documentation_check.AssertionStderrRule(),
             documentation_check.ExitCodeDescriptionRule(),
             documentation_check.FieldOrderRule(),
-            documentation_check.GlobalVariableModifierFormatRule(),
-            documentation_check.GlobalVariableModifierIndentRule(),
+            documentation_check.ModifierVariableFormatRule(),
+            documentation_check.ModifierVariableIndentRule(),
             documentation_check.InternalTagRule(),
             documentation_check.MandatoryExitCodeRule(),
             documentation_check.MandatoryTagRule(),
@@ -73,54 +73,54 @@ class TestDocumentationCheck(unittest.TestCase):
         errors = rule.check(parsed_file.functions[0])
         self.assertIn(f"Missing @{Tags.DESCRIPTION.name}", errors[0])
 
-    def test_invalid_description_global_variable_format(self):
+    def test_invalid_description_modifier_variable_format(self):
         filepath = os.path.join(self.assets_dir, "invalid_description.sh")
         parsed_file = documentation_check.parse_file(filepath)
-        rule = documentation_check.GlobalVariableModifierFormatRule()
+        rule = documentation_check.ModifierVariableFormatRule()
         errors = []
         for func in parsed_file.functions:
             errors.extend(rule.check(func))
         self.assertEqual(len(errors), 3)
         self.assertIn(
-            f"stdlib.invalid_description_no_global_variable_capital: Global variable description in "  # noqa: E501
+            f"stdlib.invalid_description_no_modifier_variable_capital: Modifier variable description in "  # noqa: E501
             f"@{Tags.DESCRIPTION.name} "
             f"should start with a capital letter. "
-            f"Found: '#   * _INVALID_GLOBAL_VARIABLE: this variable is not formatted correctly (default=1).'",  # noqa: E501
+            f"Found: '#   * _INVALID_MODIFIER_VARIABLE: this variable is not formatted correctly (default=1).'",  # noqa: E501
             errors[0],
         )
         self.assertIn(
-            f"stdlib.invalid_description_no_global_variable_period: Global variable description in "  # noqa: E501
+            f"stdlib.invalid_description_no_modifier_variable_period: Modifier variable description in "  # noqa: E501
             f"@{Tags.DESCRIPTION.name} "
             f"should end with a period. "
-            f"Found: '#   * _INVALID_GLOBAL_VARIABLE: This variable is not formatted correctly (default=1)'",  # noqa: E501
+            f"Found: '#   * _INVALID_MODIFIER_VARIABLE: This variable is not formatted correctly (default=1)'",  # noqa: E501
             errors[1],
         )
         self.assertIn(
-            f"stdlib.invalid_description_no_global_variable_default: Global variable description in "  # noqa: E501
+            f"stdlib.invalid_description_no_modifier_variable_default: Modifier variable description in "  # noqa: E501
             f"@{Tags.DESCRIPTION.name} "
             f"should detail a default value. "
-            f"Found: '#   * _INVALID_GLOBAL_VARIABLE: This variable is not formatted correctly.'",  # noqa: E501
+            f"Found: '#   * _INVALID_MODIFIER_VARIABLE: This variable is not formatted correctly.'",  # noqa: E501
             errors[2],
         )
 
-    def test_invalid_description_global_variable_indent(self):
+    def test_invalid_description_modifier_variable_indent(self):
         filepath = os.path.join(self.assets_dir, "invalid_description.sh")
         parsed_file = documentation_check.parse_file(filepath)
-        rule = documentation_check.GlobalVariableModifierIndentRule()
+        rule = documentation_check.ModifierVariableIndentRule()
         errors = []
         for func in parsed_file.functions:
             errors.extend(rule.check(func))
         self.assertEqual(len(errors), 2)
         self.assertIn(
-            f"stdlib.invalid_description_no_global_variable_list: Global variable in @{Tags.DESCRIPTION.name} "  # noqa: E501
+            f"stdlib.invalid_description_no_modifier_variable_list: Modifier variable in @{Tags.DESCRIPTION.name} "  # noqa: E501
             f"should be in 2 space indented asterisk list format. "
-            f"Found: '#     _INVALID_GLOBAL_VARIABLE: This variable is not formatted correctly.'",  # noqa: E501
+            f"Found: '#     _INVALID_MODIFIER_VARIABLE: This variable is not formatted correctly.'",  # noqa: E501
             errors[0],
         )
         self.assertIn(
-            f"stdlib.invalid_description_no_global_variable_colon: Global variable in @{Tags.DESCRIPTION.name} "  # noqa: E501
+            f"stdlib.invalid_description_no_modifier_variable_colon: Modifier variable in @{Tags.DESCRIPTION.name} "  # noqa: E501
             f"should be in uppercase characters followed by a colon. "
-            f"Found: '#   * _INVALID_GLOBAL_VARIABLE This variable is not formatted correctly.'",  # noqa: E501
+            f"Found: '#   * _INVALID_MODIFIER_VARIABLE This variable is not formatted correctly.'",  # noqa: E501
             errors[1],
         )
 
@@ -169,37 +169,37 @@ class TestDocumentationCheck(unittest.TestCase):
             f"@{Tags.EXITCODE.name} description should start with 'If'",
             errors_if[1])
 
-    def test_global_variable_validation(self):
-        filepath = os.path.join(self.assets_dir, "global_var_validation.sh")
+    def test_modifier_variable_validation(self):
+        filepath = os.path.join(self.assets_dir, "modifier_var_validation.sh")
         parsed_file = documentation_check.parse_file(filepath)
-        rule = documentation_check.GlobalVariableModifierValidationRule()
+        rule = documentation_check.ModifierVariableValidationRule()
 
-        # stdlib.no_global_vars
+        # stdlib.no_modifier_vars
         self.assertEqual(len(rule.check(parsed_file.functions[0])), 0)
 
-        # stdlib.validated_global_var
+        # stdlib.validated_modifier_var
         self.assertEqual(len(rule.check(parsed_file.functions[1])), 0)
 
-        # stdlib.manually_validated_global_var
+        # stdlib.manually_validated_modifier_var
         self.assertEqual(len(rule.check(parsed_file.functions[2])), 0)
 
-        # stdlib.manually_validated_global_var_multiple
+        # stdlib.manually_validated_modifier_var_multiple
         self.assertEqual(len(rule.check(parsed_file.functions[3])), 0)
 
-        # stdlib.unvalidated_global_var
+        # stdlib.unvalidated_modifier_var
         errors = rule.check(parsed_file.functions[4])
         self.assertEqual(len(errors), 1)
         self.assertIn("STDLIB_UNVALIDATED_VAR", errors[0])
 
-        # stdlib.multiple_global_vars
+        # stdlib.multiple_modifier_vars
         errors = rule.check(parsed_file.functions[5])
         self.assertEqual(len(errors), 1)
         self.assertIn("STDLIB_INVALID_VAR", errors[0])
 
-        # stdlib.dynamic_validated_global_var
+        # stdlib.dynamic_validated_modifier_var
         self.assertEqual(len(rule.check(parsed_file.functions[6])), 0)
 
-        # stdlib.dynamic_unvalidated_global_var
+        # stdlib.dynamic_unvalidated_modifier_var
         errors = rule.check(parsed_file.functions[7])
         self.assertEqual(len(errors), 1)
         self.assertIn("__${2}_mock_rc", errors[0])
@@ -222,15 +222,15 @@ class TestDocumentationCheck(unittest.TestCase):
         # stdlib.already_clean
         self.assertEqual(len(rule.check(parsed_file.functions[11])), 0)
 
-    def test_global_variable_modifier_usage(self):
-        filepath = os.path.join(self.assets_dir, "global_variable_usage.sh")
+    def test_modifier_variable_modifier_usage(self):
+        filepath = os.path.join(self.assets_dir, "modifier_variable_usage.sh")
         parsed_file = documentation_check.parse_file(filepath)
-        rule = documentation_check.GlobalVariableModifierUsageRule()
+        rule = documentation_check.ModifierVariableUsageRule()
 
-        # stdlib.documented_global_var
+        # stdlib.documented_modifier_var
         self.assertEqual(len(rule.check(parsed_file.functions[0])), 0)
 
-        # stdlib.undocumented_global_var
+        # stdlib.undocumented_modifier_var
         errors = rule.check(parsed_file.functions[1])
         self.assertEqual(len(errors), 1)
         self.assertIn("STDLIB_THEME_LOGGER_ERROR", errors[0])

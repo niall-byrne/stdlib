@@ -1,26 +1,26 @@
 #!/bin/bash
 
-# @description A function with no global variables.
+# @description A function with no modifier variables.
 # @noargs
 # @exitcode 0 If successful.
-stdlib.no_global_vars() {
+stdlib.no_modifier_vars() {
   builtin return 0
 }
 
-# @description A function with a validated global variable.
+# @description A function with a validated modifier variable.
 #   * STDLIB_VALIDATED_VAR: A validated variable (default=0).
 # @noargs
 # @exitcode 0 If successful.
-stdlib.validated_global_var() {
+stdlib.validated_modifier_var() {
   stdlib.var.assert.is_valid_with stdlib.string.assert.is_boolean STDLIB_VALIDATED_VAR # validates STDLIB_VALIDATED_VAR
   builtin return 0
 }
 
-# @description A function with a manually validated global variable.
+# @description A function with a manually validated modifier variable.
 #   * STDLIB_VALIDATED_VAR: A validated variable (default="").
 # @noargs
 # @exitcode 0 If successful.
-stdlib.manually_validated_global_var() {
+stdlib.manually_validated_modifier_var() {
   # shellcheck disable=SC2034
   local value_with_default="${STDLIB_VALIDATED_VAR:-a}"
 
@@ -28,13 +28,13 @@ stdlib.manually_validated_global_var() {
   builtin return 0
 }
 
-# @description A function with a manually validated global variable.
+# @description A function with a manually validated modifier variable.
 #   * STDLIB_VALIDATED_VAR1: A validated variable (default="").
 #   * STDLIB_VALIDATED_VAR2: A validated variable (default="").
 # @noargs
 # @exitcode 0 If successful.
 # shellcheck disable=SC2034
-stdlib.manually_validated_global_var_multiple() {
+stdlib.manually_validated_modifier_var_multiple() {
   local value_with_default1="${STDLIB_VALIDATED_VAR1:-a}"
   local value_with_default2="${STDLIB_VALIDATED_VAR2:-a}"
 
@@ -42,38 +42,38 @@ stdlib.manually_validated_global_var_multiple() {
   builtin return 0
 }
 
-# @description A function with an unvalidated global variable.
+# @description A function with an unvalidated modifier variable.
 #   * STDLIB_UNVALIDATED_VAR: An unvalidated variable (default=0).
 # @noargs
 # @exitcode 0 If successful.
-stdlib.unvalidated_global_var() {
+stdlib.unvalidated_modifier_var() {
   builtin return 0
 }
 
-# @description A function with multiple global variables, one unvalidated.
+# @description A function with multiple modifier variables, one unvalidated.
 #   * STDLIB_VALID_VAR: A validated variable (default=0).
 #   * STDLIB_INVALID_VAR: An unvalidated variable (default=0).
 # @noargs
 # @exitcode 0 If successful.
-stdlib.multiple_global_vars() {
+stdlib.multiple_modifier_vars() {
   stdlib.var.assert.is_valid_with stdlib.string.assert.is_boolean STDLIB_VALID_VAR # validates STDLIB_VALID_VAR
   builtin return 0
 }
 
-# @description A function with a dynamic global variable that is validated.
+# @description A function with a dynamic modifier variable that is validated.
 #   * __${2}_mock_pipeable: A dynamic validated variable (default=0).
 # @noargs
 # @exitcode 0 If successful.
-stdlib.dynamic_validated_global_var() {
+stdlib.dynamic_validated_modifier_var() {
   stdlib.var.assert.is_valid_with stdlib.string.assert.is_boolean "__${2}_mock_pipeable" # validates __${2}_mock_pipeable
   builtin return 0
 }
 
-# @description A function with a dynamic global variable that is NOT validated.
+# @description A function with a dynamic modifier variable that is NOT validated.
 #   * __${2}_mock_rc: A dynamic unvalidated variable (default=0).
 # @noargs
 # @exitcode 0 If successful.
-stdlib.dynamic_unvalidated_global_var() {
+stdlib.dynamic_unvalidated_modifier_var() {
   builtin return 0
 }
 
@@ -95,7 +95,7 @@ stdlib.prefix_match_validation() {
   builtin return 0
 }
 
-# @description An internal function with unvalidated global variable.
+# @description An internal function with unvalidated modifier variable.
 #   * STDLIB_INTERNAL_UNVALIDATED_VAR: An unvalidated variable (default=0).
 # @noargs
 # @exitcode 0 If successful.
@@ -104,7 +104,7 @@ stdlib.__internal_unvalidated_var() {
   builtin return 0
 }
 
-# @description An function with a global variable marked as already clean.
+# @description An function with a modifier variable marked as already clean.
 #   * STDLIB_CLEANED_VAR: An variable that has already been validated elsewhere (default=0).
 # @noargs
 # @exitcode 0 If successful.
