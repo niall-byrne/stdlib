@@ -85,21 +85,21 @@ class TestDocumentationCheck(unittest.TestCase):
             f"stdlib.invalid_description_no_modifier_variable_capital: Modifier variable description in "  # noqa: E501
             f"@{Tags.DESCRIPTION.name} "
             f"should start with a capital letter. "
-            f"Found: '#   * _INVALID_MODIFIER_VARIABLE: this variable is not formatted correctly (default=1).'",  # noqa: E501
+            f"Found: '#   * INVALID_MODIFIER_VARIABLE: this variable is not formatted correctly (default=1).'",  # noqa: E501
             errors[0],
         )
         self.assertIn(
             f"stdlib.invalid_description_no_modifier_variable_period: Modifier variable description in "  # noqa: E501
             f"@{Tags.DESCRIPTION.name} "
             f"should end with a period. "
-            f"Found: '#   * _INVALID_MODIFIER_VARIABLE: This variable is not formatted correctly (default=1)'",  # noqa: E501
+            f"Found: '#   * INVALID_MODIFIER_VARIABLE: This variable is not formatted correctly (default=1)'",  # noqa: E501
             errors[1],
         )
         self.assertIn(
             f"stdlib.invalid_description_no_modifier_variable_default: Modifier variable description in "  # noqa: E501
             f"@{Tags.DESCRIPTION.name} "
             f"should detail a default value. "
-            f"Found: '#   * _INVALID_MODIFIER_VARIABLE: This variable is not formatted correctly.'",  # noqa: E501
+            f"Found: '#   * INVALID_MODIFIER_VARIABLE: This variable is not formatted correctly.'",  # noqa: E501
             errors[2],
         )
 
@@ -114,13 +114,13 @@ class TestDocumentationCheck(unittest.TestCase):
         self.assertIn(
             f"stdlib.invalid_description_no_modifier_variable_list: Modifier variable in @{Tags.DESCRIPTION.name} "  # noqa: E501
             f"should be in 2 space indented asterisk list format. "
-            f"Found: '#     _INVALID_MODIFIER_VARIABLE: This variable is not formatted correctly.'",  # noqa: E501
+            f"Found: '#     INVALID_MODIFIER_VARIABLE: This variable is not formatted correctly.'",  # noqa: E501
             errors[0],
         )
         self.assertIn(
             f"stdlib.invalid_description_no_modifier_variable_colon: Modifier variable in @{Tags.DESCRIPTION.name} "  # noqa: E501
             f"should be in uppercase characters followed by a colon. "
-            f"Found: '#   * _INVALID_MODIFIER_VARIABLE This variable is not formatted correctly.'",  # noqa: E501
+            f"Found: '#   * INVALID_MODIFIER_VARIABLE This variable is not formatted correctly.'",  # noqa: E501
             errors[1],
         )
 
