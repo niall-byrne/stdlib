@@ -12,7 +12,7 @@ class ParsedFile(NamedTuple):
 
     functions: List["BashFunction"]
     derive_calls: List["DeriveCall"]
-    global_assignments: Set[str]
+    modifier_assignments: Set[str]
 
 
 class BashFunction:
@@ -33,7 +33,7 @@ class BashFunction:
         self.end_line = end_line
         self.derive_call: Optional["DeriveCall"] = None
         self.doc_tags: List["BashFunctionDocumentationTag"] = []
-        self.global_var_lines: List[str] = []
+        self.modifier_var_lines: List[str] = []
         self._tag_map = {
             tag_def.name: tag_def
             for tag_def in Tags.get_sequence()
@@ -41,10 +41,10 @@ class BashFunction:
         self._extract_documentation()
 
     def get_documented_vars(self) -> set:
-        """Return a set of all documented global variables."""
+        """Return a set of all documented modifier variables."""
         documented_vars = set()
-        for line in self.global_var_lines:
-            match = re.search(REGEX_GLOBAL_VARIABLE_MODIFIER_NAME, line)
+        for line in self.modifier_var_lines:
+            match = re.search(REGEX_MODIFIER_VARIABLE_NAME, line)
             if match:
                 documented_vars.add(match.group(1))
 
@@ -68,8 +68,8 @@ class BashFunction:
                         local_vars.add(name_match.group(1))
         return local_vars
 
-    def get_used_global_vars(self) -> set:
-        """Return a set of all global variables used in the function."""
+    def get_used_modifier_vars(self) -> set:
+        """Return a set of all modifier variables used in the function."""
         local_vars = self.get_local_vars()
         used_vars = set()
         for line in self.body_lines:
@@ -77,7 +77,7 @@ class BashFunction:
                 continue
 
             keyword_usage_match = re.match(
-                REGEX_GLOBAL_VARIABLE_KEYWORD_USAGE,
+                REGEX_MODIFIER_VARIABLE_KEYWORD_USAGE,
                 line,
             )
             keyword_usage_prefix = ""
@@ -85,7 +85,7 @@ class BashFunction:
                 keyword_usage_prefix = keyword_usage_match.group(0)
 
             for match in re.finditer(
-                    REGEX_GLOBAL_VARIABLE_USAGE,
+                    REGEX_MODIFIER_VARIABLE_USAGE,
                     line,
             ):
                 var_name = match.group(1).replace("\\", "")
@@ -124,7 +124,7 @@ class BashFunction:
 
         var_name = match.group(1).replace("\\", "")
         for other_match in re.finditer(
-                REGEX_GLOBAL_VARIABLE_USAGE,
+                REGEX_MODIFIER_VARIABLE_USAGE,
                 line,
         ):
             if (other_match.group(1).replace("\\", "") == var_name
@@ -148,7 +148,7 @@ class BashFunction:
                 desc_started = tag_name == Tags.DESCRIPTION.name
             elif desc_started:
                 if line.strip().startswith("#") and not line.startswith("# @"):
-                    self.global_var_lines.append(line)
+                    self.modifier_var_lines.append(line)
                 elif line.startswith("# @"):
                     desc_started = False
 
@@ -376,24 +376,24 @@ DERIVE_DEFINITIONS: List[DeriveDefinition] = [
         "The name of the variable to read from and write to.",
     ),
 ]
-GLOBAL_VARIABLE_PREFIX = r"#   * "
 MANDATORY_EXIT_CODES = ["0"]
 MANDATORY_TAGS = [
     tag_def for tag_def in Tags.get_sequence() if tag_def.is_mandatory
 ]
+MODIFIER_VARIABLE_PREFIX = r"#   * "
 REGEX_DOC_TAGS = (
     rf"^#\s*@({'|'.join([tag_def.name for tag_def in Tags.get_sequence()])})")
 REGEX_ECHO_ASSIGNMENT = r"=\s*\"?builtin echo"
 REGEX_FUNCTION_DEFINITION = r"^(([a-zA-Z_@]|\$\{1\}\.)[a-zA-Z0-9._]*) *\(\) *\{"
-REGEX_GLOBAL_VARIABLE_KEYWORD_USAGE = (
+REGEX_MODIFIER_VARIABLE_DESCRIPTION = (
+    rf"^{re.escape(MODIFIER_VARIABLE_PREFIX)}"
+    r"(__\$\{2\}[a-z_]+|[A-Z_]+): (.+)$")
+REGEX_MODIFIER_VARIABLE_DESCRIPTION_DEFAULT = r"^.+\(default=.+\)\.*$"
+REGEX_MODIFIER_VARIABLE_KEYWORD_USAGE = (
     r"^\s*(?:(?:[A-Z_]+|__\$\{2\}[a-z_]+)="
     r"(?:'[^']*'|\"[^\"]*\"|\$?\([^)]*\)|[^\s;]+)\s+)+")
-REGEX_GLOBAL_VARIABLE_MODIFIER_NAME = r"(__\$\{2\}[a-z_]+|[A-Z_]+): "
-REGEX_GLOBAL_VARIABLE_MODIFIER_DESCRIPTION = (
-    rf"^{re.escape(GLOBAL_VARIABLE_PREFIX)}"
-    rf"{REGEX_GLOBAL_VARIABLE_MODIFIER_NAME}(.+)$")
-REGEX_GLOBAL_VARIABLE_MODIFIER_DESCRIPTION_DEFAULT = r"^.+\(default=.+\)\.*$"
-REGEX_GLOBAL_VARIABLE_USAGE = (
+REGEX_MODIFIER_VARIABLE_NAME = r"(__\$\{2\}[a-z_]+|[A-Z_]+): "
+REGEX_MODIFIER_VARIABLE_USAGE = (
     r"(\b__\\?\$\{2\}[a-z_]+\b|\b_?_?STDLIB_(?!BINARY)[A-Z0-9_]+\b)")
 REGEX_PROCESS_SUBSTITUTION = r"[\$=]\(builtin echo"
 REGEX_SKIP_PROCESSING = r"\s*# noqa$"
@@ -604,122 +604,6 @@ class FieldOrderRule(Rule):
         return []
 
 
-class GlobalVariableModifierFormatRule(Rule):
-    """A rule that checks formatting of global variable mod descriptions."""
-
-    def check(self, func: BashFunction) -> List[str]:
-        """Validate the given BASH function."""
-        errors = []
-        for line in func.global_var_lines:
-
-            match = re.match(REGEX_GLOBAL_VARIABLE_MODIFIER_DESCRIPTION,
-                             line.strip(), re.DOTALL)
-            if match:
-                if not match.group(2)[0].isupper():
-                    errors.append(
-                        f"{func.name}: Global variable description in "
-                        f"@{Tags.DESCRIPTION.name} "
-                        f"should start with a capital letter. "
-                        f"Found: '{line.strip()}'")
-                if not match.group(2).endswith("."):
-                    errors.append(
-                        f"{func.name}: Global variable description in "
-                        f"@{Tags.DESCRIPTION.name} "
-                        f"should end with a period. Found: '{line.strip()}'")
-                if not re.match(
-                        REGEX_GLOBAL_VARIABLE_MODIFIER_DESCRIPTION_DEFAULT,
-                        match.group(2)):
-                    errors.append(
-                        f"{func.name}: Global variable description in "
-                        f"@{Tags.DESCRIPTION.name} "
-                        f"should detail a default value. "
-                        f"Found: '{line.strip()}'")
-        return errors
-
-
-class GlobalVariableModifierIndentRule(Rule):
-    """A rule that checks indentation of global variable mod descriptions."""
-
-    def check(self, func: BashFunction) -> List[str]:
-        """Validate the given BASH function."""
-        errors = []
-        for line in func.global_var_lines:
-            if not line.startswith(GLOBAL_VARIABLE_PREFIX):
-                errors.append(
-                    f"{func.name}: Global variable in @{Tags.DESCRIPTION.name} "
-                    f"should be in 2 space indented asterisk list format. "
-                    f"Found: '{line.strip()}'")
-            if not re.search(REGEX_GLOBAL_VARIABLE_MODIFIER_NAME,
-                             line.strip()):
-                errors.append(
-                    f"{func.name}: Global variable in @{Tags.DESCRIPTION.name} "
-                    f"should be in uppercase characters followed by a colon. "
-                    f"Found: '{line.strip()}'")
-        return errors
-
-
-class GlobalVariableModifierUsageRule(Rule):
-    """A rule that checks global variables are documented when used."""
-
-    def check(self, func: BashFunction) -> List[str]:
-        """Validate the given BASH function."""
-        documented_vars = func.get_documented_vars()
-        used_vars = func.get_used_global_vars()
-        errors = []
-
-        for var_name in sorted(used_vars):
-            if var_name not in documented_vars:
-                errors.append(
-                    f"{func.name}: Undocumented global variable: '{var_name}'")
-
-        return errors
-
-
-class GlobalVariableModifierValidationRule(Rule):
-    """A rule that checks global variable modifiers are validated."""
-
-    def check(self, func: BashFunction) -> List[str]:
-        """Validate the given BASH function."""
-        errors = []
-        for line in func.global_var_lines:
-            match = re.match(
-                REGEX_GLOBAL_VARIABLE_MODIFIER_DESCRIPTION,
-                line.strip(),
-                re.DOTALL,
-            )
-            if match:
-                var_name = match.group(1)
-                line_start_comment_pattern = r"^# (clean) (\S+)$"
-                line_end_comment_pattern = r"# (defaults|validates) (\S+)$"
-
-                validated = False
-                for body_line in func.body_lines:
-                    stripped_body_line = body_line.strip()
-
-                    if (stripped_body_line.startswith("#")):
-                        comment_match = re.match(
-                            line_start_comment_pattern,
-                            stripped_body_line,
-                        )
-                    else:
-                        comment_match = re.search(
-                            line_end_comment_pattern,
-                            stripped_body_line,
-                        )
-
-                    if ((comment_match
-                         and var_name in comment_match.group(2).split(","))):
-                        validated = True
-                        break
-
-                if not validated:
-                    errors.append(
-                        f"{func.name}: Global Variable or Keyword '{var_name}' "
-                        f"in @{Tags.DESCRIPTION.name} and has not been marked "
-                        "as defaulted, validated or clean.")
-        return errors
-
-
 class InternalTagRule(Rule):
     """A rule that checks private functions have an internal tag."""
 
@@ -813,6 +697,122 @@ class MissingOutputTagsRule(Rule):
         if not func.contains_tag(Tags.STDOUT) and self._has_trigger(
                 func.body_lines, STDOUT_TRIGGERS, is_stdout=True):
             errors.append(f"{func.name}: Missing @{Tags.STDOUT.name} tag")
+        return errors
+
+
+class ModifierVariableFormatRule(Rule):
+    """A rule that checks formatting of modifier variable mod descriptions."""
+
+    def check(self, func: BashFunction) -> List[str]:
+        """Validate the given BASH function."""
+        errors = []
+        for line in func.modifier_var_lines:
+
+            match = re.match(REGEX_MODIFIER_VARIABLE_DESCRIPTION, line.strip(),
+                             re.DOTALL)
+            if match:
+                if not match.group(2)[0].isupper():
+                    errors.append(
+                        f"{func.name}: Modifier variable description in "
+                        f"@{Tags.DESCRIPTION.name} "
+                        f"should start with a capital letter. "
+                        f"Found: '{line.strip()}'")
+                if not match.group(2).endswith("."):
+                    errors.append(
+                        f"{func.name}: Modifier variable description in "
+                        f"@{Tags.DESCRIPTION.name} "
+                        f"should end with a period. Found: '{line.strip()}'")
+                if not re.match(REGEX_MODIFIER_VARIABLE_DESCRIPTION_DEFAULT,
+                                match.group(2)):
+                    errors.append(
+                        f"{func.name}: Modifier variable description in "
+                        f"@{Tags.DESCRIPTION.name} "
+                        f"should detail a default value. "
+                        f"Found: '{line.strip()}'")
+        return errors
+
+
+class ModifierVariableIndentRule(Rule):
+    """A rule that checks indentation of modifier variable mod descriptions."""
+
+    def check(self, func: BashFunction) -> List[str]:
+        """Validate the given BASH function."""
+        errors = []
+        for line in func.modifier_var_lines:
+            if not line.startswith(MODIFIER_VARIABLE_PREFIX):
+                errors.append(
+                    f"{func.name}: Modifier variable in "
+                    f"@{Tags.DESCRIPTION.name} "
+                    f"should be in 2 space indented asterisk list format. "
+                    f"Found: '{line.strip()}'")
+            if not re.search(REGEX_MODIFIER_VARIABLE_NAME, line.strip()):
+                errors.append(
+                    f"{func.name}: Modifier variable in "
+                    f"@{Tags.DESCRIPTION.name} "
+                    f"should be in uppercase characters followed by a colon. "
+                    f"Found: '{line.strip()}'")
+        return errors
+
+
+class ModifierVariableUsageRule(Rule):
+    """A rule that checks modifier variables are documented when used."""
+
+    def check(self, func: BashFunction) -> List[str]:
+        """Validate the given BASH function."""
+        documented_vars = func.get_documented_vars()
+        used_vars = func.get_used_modifier_vars()
+        errors = []
+
+        for var_name in sorted(used_vars):
+            if var_name not in documented_vars:
+                errors.append(f"{func.name}: Undocumented modifier variable: "
+                              f"'{var_name}'")
+
+        return errors
+
+
+class ModifierVariableValidationRule(Rule):
+    """A rule that checks modifier variable modifiers are validated."""
+
+    def check(self, func: BashFunction) -> List[str]:
+        """Validate the given BASH function."""
+        errors = []
+        for line in func.modifier_var_lines:
+            match = re.match(
+                REGEX_MODIFIER_VARIABLE_DESCRIPTION,
+                line.strip(),
+                re.DOTALL,
+            )
+            if match:
+                var_name = match.group(1)
+                line_start_comment_pattern = r"^# (clean) (\S+)$"
+                line_end_comment_pattern = r"# (defaults|validates) (\S+)$"
+
+                validated = False
+                for body_line in func.body_lines:
+                    stripped_body_line = body_line.strip()
+
+                    if (stripped_body_line.startswith("#")):
+                        comment_match = re.match(
+                            line_start_comment_pattern,
+                            stripped_body_line,
+                        )
+                    else:
+                        comment_match = re.search(
+                            line_end_comment_pattern,
+                            stripped_body_line,
+                        )
+
+                    if ((comment_match
+                         and var_name in comment_match.group(2).split(","))):
+                        validated = True
+                        break
+
+                if not validated:
+                    errors.append(
+                        f"{func.name}: Global Variable or Keyword '{var_name}' "
+                        f"in @{Tags.DESCRIPTION.name} and has not been marked "
+                        "as defaulted, validated or clean.")
         return errors
 
 
@@ -912,7 +912,7 @@ def parse_file(filepath: str) -> ParsedFile:
         lines = file_handle.read().splitlines()
     functions: List[BashFunction] = []
     all_derive_calls: List[DeriveCall] = []
-    global_assignments = set()
+    modifier_assignments = set()
     doc_buffer: List[str] = []
     index = 0
     while index < len(lines):
@@ -958,12 +958,12 @@ def parse_file(filepath: str) -> ParsedFile:
             continue
         if line.strip() and not (line.strip().startswith("# shellcheck")
                                  or line.strip().startswith("builtin source")):
-            match = re.match(rf"^\s*{REGEX_GLOBAL_VARIABLE_USAGE}=", line)
+            match = re.match(rf"^\s*{REGEX_MODIFIER_VARIABLE_USAGE}=", line)
             if match:
-                global_assignments.add(match.group(1))
+                modifier_assignments.add(match.group(1))
             doc_buffer = []
         index += 1
-    return ParsedFile(functions, all_derive_calls, global_assignments)
+    return ParsedFile(functions, all_derive_calls, modifier_assignments)
 
 
 def main():
@@ -982,14 +982,14 @@ def main():
         DeriveStubRequiredTagsRule(),
         ExitCodeDescriptionRule(),
         FieldOrderRule(),
-        GlobalVariableModifierUsageRule(),
-        GlobalVariableModifierFormatRule(),
-        GlobalVariableModifierIndentRule(),
-        GlobalVariableModifierValidationRule(),
         InternalTagRule(),
         MandatoryExitCodeRule(),
         MandatoryTagRule(),
         MissingOutputTagsRule(),
+        ModifierVariableFormatRule(),
+        ModifierVariableIndentRule(),
+        ModifierVariableUsageRule(),
+        ModifierVariableValidationRule(),
         SentenceFormatRule(),
         StandardExitCodesRule(),
         TypeValidationRule(),
