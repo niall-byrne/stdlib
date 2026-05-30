@@ -4,6 +4,9 @@
 
 ## Index
 
+* [stdlib.string.args.join](#stdlibstringargsjoin)
+* [stdlib.string.args.join_pipe](#stdlibstringargsjoin_pipe)
+* [stdlib.string.args.join_var](#stdlibstringargsjoin_var)
 * [stdlib.string.assert.is_alpha](#stdlibstringassertis_alpha)
 * [stdlib.string.assert.is_alpha_numeric](#stdlibstringassertis_alpha_numeric)
 * [stdlib.string.assert.is_boolean](#stdlibstringassertis_boolean)
@@ -85,6 +88,77 @@
 * [stdlib.string.trim.right_var](#stdlibstringtrimright_var)
 * [stdlib.string.wrap](#stdlibstringwrap)
 * [stdlib.string.wrap_pipe](#stdlibstringwrap_pipe)
+
+### stdlib.string.args.join
+
+Joins the given arguments into a string by using the given delimiter.
+
+#### Arguments
+
+* **$1** (string): The delimiter string used to join the arguments (an empty string is a valid argument).
+* **...** (array): A list of input strings to join together.
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stdout
+
+* The joined string.
+
+#### Output on stderr
+
+* The error message if the operation fails.
+
+### stdlib.string.args.join_pipe
+
+A derivative of stdlib.string.lines.join that can read from stdin.
+
+#### Arguments
+
+* **$1** (string): The delimiter string used to join the arguments.
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+* **127**: If the wrong number of arguments were provided.
+
+#### Input on stdin
+
+* The strings to process (separated by newlines).
+
+#### Output on stdout
+
+* The joined string.
+
+#### Output on stderr
+
+* The error message if the operation fails.
+
+### stdlib.string.args.join_var
+
+A derivative of stdlib.string.lines.join that can write to a variable.
+
+#### Arguments
+
+* **$1** (string): The name of the variable to write to.
+* **$2** (string): The delimiter string used to join the arguments (an empty string is a valid argument).
+* **...** (array): A list of input strings to join together.
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+* **126**: If an invalid argument has been provided.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stdout
+
+* The joined string.
+
+#### Output on stderr
+
+* The error message if the operation fails.
 
 ### stdlib.string.assert.is_alpha
 
