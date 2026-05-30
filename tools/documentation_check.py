@@ -647,13 +647,15 @@ class ModifierVariableIndentRule(Rule):
         for line in func.modifier_var_lines:
             if not line.startswith(MODIFIER_VARIABLE_PREFIX):
                 errors.append(
-                    f"{func.name}: Modifier variable in @{Tags.DESCRIPTION.name} "
+                    f"{func.name}: Modifier variable in "
+                    f"@{Tags.DESCRIPTION.name} "
                     f"should be in 2 space indented asterisk list format. "
                     f"Found: '{line.strip()}'")
             if not re.search(REGEX_MODIFIER_VARIABLE_NAME,
                              line.strip()):
                 errors.append(
-                    f"{func.name}: Modifier variable in @{Tags.DESCRIPTION.name} "
+                    f"{func.name}: Modifier variable in "
+                    f"@{Tags.DESCRIPTION.name} "
                     f"should be in uppercase characters followed by a colon. "
                     f"Found: '{line.strip()}'")
         return errors
@@ -671,7 +673,8 @@ class ModifierVariableUsageRule(Rule):
         for var_name in sorted(used_vars):
             if var_name not in documented_vars:
                 errors.append(
-                    f"{func.name}: Undocumented modifier variable: '{var_name}'")
+                    f"{func.name}: Undocumented modifier variable: "
+                    f"'{var_name}'")
 
         return errors
 
