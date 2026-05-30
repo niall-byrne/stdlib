@@ -98,6 +98,15 @@ test_stdlib_fn_args_require__1_required__1_optional_args__invalid_null_safe_arra
 }
 
 # shellcheck disable=SC2034
+test_stdlib_fn_args_require__1_required__1_optional_args__invalid_null_safe_all_boolean_____returns_status_code_126() {
+  local STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN="not_a_boolean"
+
+  _capture.rc stdlib.fn.args.require 1 0 "one"
+
+  assert_rc "126"
+}
+
+# shellcheck disable=SC2034
 test_stdlib_fn_args_require__@vary__overridden_function_name__generates_correct_error_logs() {
   local STDLIB_ARGS_NULL_SAFE_ARRAY=()
   local STDLIB_ARGS_CALLER_FN_NAME="override logging message prefix"
