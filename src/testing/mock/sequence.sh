@@ -22,8 +22,8 @@ _mock.sequence.assert_is() {
 
   _mock.sequence.record.stop
 
-  _mock.__internal.persistence.sequence.retrieve
-  mock_sequence=("${__STDLIB_TESTING_MOCK_SEQUENCE_ARRAY[@]}")
+  _mock.__internal.persistence.sequence.retrieve  # defaults __STDLIB_TESTING_MOCK_SEQUENCE_ARRAY
+  mock_sequence=("${__STDLIB_TESTING_MOCK_SEQUENCE_ARRAY[@]}")  # noqa
 
   assert_array_equals expected_mock_sequence mock_sequence
 }
@@ -40,9 +40,9 @@ _mock.sequence.assert_is_empty() {
 
   _mock.sequence.record.stop
 
-  _mock.__internal.persistence.sequence.retrieve
+  _mock.__internal.persistence.sequence.retrieve  # defaults __STDLIB_TESTING_MOCK_SEQUENCE_ARRAY
   # shellcheck disable=SC2034
-  mock_sequence=("${__STDLIB_TESTING_MOCK_SEQUENCE_ARRAY[@]}")
+  mock_sequence=("${__STDLIB_TESTING_MOCK_SEQUENCE_ARRAY[@]}") # noqa
 
   assert_array_equals expected_mock_sequence mock_sequence
 }
@@ -58,7 +58,7 @@ _mock.sequence.clear() {
 # @noargs
 # @exitcode 0 If the recording was resumed.
 _mock.sequence.record.resume() {
-  __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN="1"
+  __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN="1"   # defaults __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN
 }
 
 # @description Starts recording a new sequence of mock calls.
@@ -66,12 +66,12 @@ _mock.sequence.record.resume() {
 # @exitcode 0 If the recording was started.
 _mock.sequence.record.start() {
   _mock.__internal.persistence.sequence.clear
-  __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN="1"
+  __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN="1"   # defaults __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN
 }
 
 # @description Stops recording of mock calls in the sequence.
 # @noargs
 # @exitcode 0 If the recording was stopped.
 _mock.sequence.record.stop() {
-  __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN="0"
+  __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN="0"   # defaults __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN
 }
