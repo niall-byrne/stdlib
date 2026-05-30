@@ -4,6 +4,8 @@
 
 builtin set -eo pipefail
 
+# shellcheck source=src/string/args/__lib__.sh
+builtin source "${STDLIB_DIRECTORY}/string/args/__lib__.sh"
 # shellcheck source=src/string/assert/__lib__.sh
 builtin source "${STDLIB_DIRECTORY}/string/assert/__lib__.sh"
 # shellcheck source=src/string/colour/__lib__.sh
