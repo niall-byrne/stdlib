@@ -85,21 +85,21 @@ class TestDocumentationCheck(unittest.TestCase):
             f"stdlib.invalid_description_no_modifier_variable_capital: Modifier variable description in "  # noqa: E501
             f"@{Tags.DESCRIPTION.name} "
             f"should start with a capital letter. "
-            f"Found: '#   * INVALID_MODIFIER_VARIABLE: this variable is not formatted correctly (default=1).'",  # noqa: E501
+            f"Found: '#   * INVALID_MODIFIER_VARIABLE global string: this variable is not formatted correctly (default=1).'",  # noqa: E501
             errors[0],
         )
         self.assertIn(
             f"stdlib.invalid_description_no_modifier_variable_period: Modifier variable description in "  # noqa: E501
             f"@{Tags.DESCRIPTION.name} "
             f"should end with a period. "
-            f"Found: '#   * INVALID_MODIFIER_VARIABLE: This variable is not formatted correctly (default=1)'",  # noqa: E501
+            f"Found: '#   * INVALID_MODIFIER_VARIABLE global string: This variable is not formatted correctly (default=1)'",  # noqa: E501
             errors[1],
         )
         self.assertIn(
             f"stdlib.invalid_description_no_modifier_variable_default: Modifier variable description in "  # noqa: E501
             f"@{Tags.DESCRIPTION.name} "
             f"should detail a default value. "
-            f"Found: '#   * INVALID_MODIFIER_VARIABLE: This variable is not formatted correctly.'",  # noqa: E501
+            f"Found: '#   * INVALID_MODIFIER_VARIABLE global string: This variable is not formatted correctly.'",  # noqa: E501
             errors[2],
         )
 
@@ -110,18 +110,18 @@ class TestDocumentationCheck(unittest.TestCase):
         errors = []
         for func in parsed_file.functions:
             errors.extend(rule.check(func))
-        self.assertEqual(len(errors), 2)
+        self.assertEqual(len(errors), 3)
         self.assertIn(
             f"stdlib.invalid_description_no_modifier_variable_list: Modifier variable in @{Tags.DESCRIPTION.name} "  # noqa: E501
             f"should be in 2 space indented asterisk list format. "
             f"Found: '#     INVALID_MODIFIER_VARIABLE: This variable is not formatted correctly.'",  # noqa: E501
-            errors[0],
+            errors,
         )
         self.assertIn(
             f"stdlib.invalid_description_no_modifier_variable_colon: Modifier variable in @{Tags.DESCRIPTION.name} "  # noqa: E501
-            f"should be in uppercase characters followed by a colon. "
+            f"should be in uppercase characters, followed by modifier type and a variable type followed by a colon. "
             f"Found: '#   * INVALID_MODIFIER_VARIABLE This variable is not formatted correctly.'",  # noqa: E501
-            errors[1],
+            errors,
         )
 
     def test_incorrect_order(self):
@@ -396,6 +396,26 @@ class TestDocumentationCheck(unittest.TestCase):
                 f"Pattern '{pattern}' not found in errors",
             )
 
+
+
+    def test_invalid_set_tag_format(self):
+        filepath = os.path.join(self.assets_dir, "modifier_variable_usage.sh")
+        # Temporary modify file content for test
+        with open(filepath, 'r') as f:
+            orig_content = f.read()
+
+        try:
+            with open(filepath, 'w') as f:
+                f.write("# @description Test.\n# @set VAR string Description.\nstdlib.test() { :; }")
+
+            parsed_file = documentation_check.parse_file(filepath)
+            rule = documentation_check.TypeValidationRule()
+            errors = rule.check(parsed_file.functions[0])
+            self.assertEqual(len(errors), 1)
+            self.assertIn("Invalid modifier or type in @set", errors[0])
+        finally:
+            with open(filepath, 'w') as f:
+                f.write(orig_content)
 
 if __name__ == "__main__":
     unittest.main()
