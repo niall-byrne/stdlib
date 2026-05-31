@@ -384,15 +384,20 @@ MODIFIER_VARIABLE_PREFIX = r"#   * "
 REGEX_DOC_TAGS = (
     rf"^#\s*@({'|'.join([tag_def.name for tag_def in Tags.get_sequence()])})")
 REGEX_ECHO_ASSIGNMENT = r"=\s*\"?builtin echo"
-REGEX_FUNCTION_DEFINITION = r"^(([a-zA-Z_@]|\$\{1\}\.)[a-zA-Z0-9._]*) *\(\) *\{"
+REGEX_FUNCTION_DEFINITION = r"^(([a-zA-Z_@]|\$\{1\}\.)[a-zA-Z0-9._]*) *\(\) *{"
+MODIFIER_TYPES = ["global", "keyword"]
+VARIABLE_TYPES = ["string", "integer", "boolean", "array"]
 REGEX_MODIFIER_VARIABLE_DESCRIPTION = (
     rf"^{re.escape(MODIFIER_VARIABLE_PREFIX)}"
-    r"(__\$\{2\}[a-z_]+|[A-Z_]+): (.+)$")
+    r"(__\$\{2\}[a-z_]+|[A-Z_]+) " +
+    rf"({'|'.join(MODIFIER_TYPES)}) ({'|'.join(VARIABLE_TYPES)}):\s+(.+)$")
 REGEX_MODIFIER_VARIABLE_DESCRIPTION_DEFAULT = r"^.+\(default=.+\)\.*$"
 REGEX_MODIFIER_VARIABLE_KEYWORD_USAGE = (
     r"^\s*(?:(?:[A-Z_]+|__\$\{2\}[a-z_]+)="
-    r"(?:'[^']*'|\"[^\"]*\"|\$?\([^)]*\)|[^\s;]+)\s+)+")
-REGEX_MODIFIER_VARIABLE_NAME = r"(__\$\{2\}[a-z_]+|[A-Z_]+): "
+    r"(?:'[^']*'|\"[^\"]*\"|\\$\([^)]*\)|[^\s;]+)\s+)+")
+REGEX_MODIFIER_VARIABLE_NAME = (
+    r"(__\$\{2\}[a-z_]+|[A-Z_]+) " +
+    rf"({'|'.join(MODIFIER_TYPES)}) ({'|'.join(VARIABLE_TYPES)}): ")
 REGEX_MODIFIER_VARIABLE_USAGE = (
     r"(\b__\\?\$\{2\}[a-z_]+\b|\b_?_?STDLIB_(?!BINARY)[A-Z0-9_]+\b)")
 REGEX_PROCESS_SUBSTITUTION = r"[\$=]\(builtin echo"
@@ -426,14 +431,13 @@ STDOUT_TRIGGERS = [
 ]
 TRIGGER_IGNORE_COMMENT = "# noqa"
 TYPE_TAGS = [tag_def for tag_def in Tags.get_sequence() if tag_def.has_types]
-VARIABLE_TYPES = ["string", "integer", "boolean", "array"]
 
 
 # Rule Bases
 class DeriveRule:
     """A base class for validating calls to derived functions."""
 
-    def check(self, call: DeriveCall) -> List[str]:
+    def check(self, call: "DeriveCall") -> List[str]:
         """Validate the given derive function call."""
         raise NotImplementedError
 
@@ -441,16 +445,19 @@ class DeriveRule:
 class Rule:
     """A base class for validation rules."""
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         raise NotImplementedError
 
 
 # Rules
+# Rules
+
+
 class AssertionStderrRule(Rule):
     """A rule that checks assertion functions for stderr documentation."""
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         if "assert" not in func.name:
             return []
@@ -467,7 +474,7 @@ class AssertionStderrRule(Rule):
 class DeriveStubArgRule(Rule):
     """A rule for validating a derived function stub's argument tags."""
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         if not func.derive_call:
             return []
@@ -492,8 +499,8 @@ class DeriveStubArgRule(Rule):
                 f"description should end with '{derive_def.arg_desc_suffix}'")
         return errors
 
-    def _check_fallback(self, func: BashFunction,
-                        derive_def: DeriveDefinition) -> List[str]:
+    def _check_fallback(self, func: "BashFunction",
+                        derive_def: "DeriveDefinition") -> List[str]:
         arg_tags = func.find_tags(Tags.ARG)
         if derive_def.arg_desc_requirement:
             if not any(derive_def.arg_desc_requirement in tag.content
@@ -515,7 +522,7 @@ class DeriveStubArgRule(Rule):
 class DeriveStubDescriptionRule(Rule):
     """A rule for validating a derived function stub's description tag."""
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given derive function call."""
         if not func.derive_call:
             return []
@@ -535,7 +542,7 @@ class DeriveStubDescriptionRule(Rule):
 class DeriveStubNamingRule(DeriveRule):
     """A rule for validating a documented stub is correctly named."""
 
-    def check(self, call: DeriveCall) -> List[str]:
+    def check(self, call: "DeriveCall") -> List[str]:
         """Validate the given call to a derive function."""
         if not call.linked_function:
             return []
@@ -551,7 +558,7 @@ class DeriveStubNamingRule(DeriveRule):
 class DeriveStubRequiredTagsRule(Rule):
     """A rule for validating a derived function stub's required tags."""
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         if not func.derive_call:
             return []
@@ -567,7 +574,7 @@ class DeriveStubRequiredTagsRule(Rule):
 class ExitCodeDescriptionRule(Rule):
     """A rule that checks the exit code documention."""
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         errors = []
         for doc_tag in func.find_tags(Tags.EXITCODE):
@@ -584,7 +591,7 @@ class ExitCodeDescriptionRule(Rule):
 class FieldOrderRule(Rule):
     """A rule that checks the documentation tags are in the correct order."""
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         tag_names = [tag_def.name for tag_def in Tags.get_sequence()]
         actual_order = [
@@ -608,7 +615,7 @@ class FieldOrderRule(Rule):
 class InternalTagRule(Rule):
     """A rule that checks private functions have an internal tag."""
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         if "__" in func.name and not func.contains_tag(Tags.INTERNAL):
             return [f"{func.name}: Missing @{Tags.INTERNAL.name}"]
@@ -618,7 +625,7 @@ class InternalTagRule(Rule):
 class MandatoryExitCodeRule(Rule):
     """A rule that checks all mandatory exit codes are present."""
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         errors = []
         for code in MANDATORY_EXIT_CODES:
@@ -633,7 +640,7 @@ class MandatoryExitCodeRule(Rule):
 class MandatoryTagRule(Rule):
     """A rule that checks all mandatory tags are present."""
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         errors = [
             f"{func.name}: Missing @{tag_def.name}"
@@ -649,7 +656,7 @@ class MandatoryTagRule(Rule):
 class MissingDeriveStubRule(DeriveRule):
     """A rule that checks if a call to a derived function is missing a stub."""
 
-    def check(self, call: DeriveCall) -> List[str]:
+    def check(self, call: "DeriveCall") -> List[str]:
         """Validate the given call to a derive function."""
         if not call.linked_function:
             return [
@@ -688,7 +695,7 @@ class MissingOutputTagsRule(Rule):
                 return True
         return False
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         errors = []
         if not func.contains_tag(Tags.STDERR) and self._has_trigger(
@@ -704,7 +711,7 @@ class MissingOutputTagsRule(Rule):
 class ModifierVariableFormatRule(Rule):
     """A rule that checks formatting of modifier variable mod descriptions."""
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         errors = []
         for line in func.modifier_var_lines:
@@ -712,19 +719,19 @@ class ModifierVariableFormatRule(Rule):
             match = re.match(REGEX_MODIFIER_VARIABLE_DESCRIPTION, line.strip(),
                              re.DOTALL)
             if match:
-                if not match.group(2)[0].isupper():
+                if not match.group(4)[0].isupper():
                     errors.append(
                         f"{func.name}: Modifier variable description in "
                         f"@{Tags.DESCRIPTION.name} "
                         f"should start with a capital letter. "
                         f"Found: '{line.strip()}'")
-                if not match.group(2).endswith("."):
+                if not match.group(4).endswith("."):
                     errors.append(
                         f"{func.name}: Modifier variable description in "
                         f"@{Tags.DESCRIPTION.name} "
                         f"should end with a period. Found: '{line.strip()}'")
                 if not re.match(REGEX_MODIFIER_VARIABLE_DESCRIPTION_DEFAULT,
-                                match.group(2)):
+                                match.group(4)):
                     errors.append(
                         f"{func.name}: Modifier variable description in "
                         f"@{Tags.DESCRIPTION.name} "
@@ -740,25 +747,30 @@ class ModifierVariableIndentRule(Rule):
         """Validate the given BASH function."""
         errors = []
         for line in func.modifier_var_lines:
+            stripped = line.strip()
             if not line.startswith(MODIFIER_VARIABLE_PREFIX):
                 errors.append(
                     f"{func.name}: Modifier variable in "
                     f"@{Tags.DESCRIPTION.name} "
                     f"should be in 2 space indented asterisk list format. "
-                    f"Found: '{line.strip()}'")
-            if not re.search(REGEX_MODIFIER_VARIABLE_NAME, line.strip()):
-                errors.append(
-                    f"{func.name}: Modifier variable in "
-                    f"@{Tags.DESCRIPTION.name} "
-                    f"should be in uppercase characters followed by a colon. "
-                    f"Found: '{line.strip()}'")
+                    f"Found: '{stripped}'")
+
+            # Check if it's a variable with wrong elements or has wrong format
+            if re.search(r"^[#\s\*]*(__\\$\{2\}[a-z_]+|[A-Z_]+)", stripped):
+                if not re.search(REGEX_MODIFIER_VARIABLE_NAME, stripped):
+                    errors.append(
+                        f"{func.name}: Modifier variable in "
+                        f"@{Tags.DESCRIPTION.name} "
+                        "should be in uppercase characters, followed by "
+                        "a modifier type, a variable type, and a colon. "
+                        f"Found: '{stripped}'")
         return errors
 
 
 class ModifierVariableUsageRule(Rule):
     """A rule that checks modifier variables are documented when used."""
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         documented_vars = func.get_documented_vars()
         used_vars = func.get_used_modifier_vars()
@@ -775,7 +787,7 @@ class ModifierVariableUsageRule(Rule):
 class ModifierVariableValidationRule(Rule):
     """A rule that checks modifier variable modifiers are validated."""
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         errors = []
         for line in func.modifier_var_lines:
@@ -822,12 +834,12 @@ class SentenceFormatRule(Rule):
 
     def _get_description_text(
         self,
-        doc_tag: BashFunctionDocumentationTag,
+        doc_tag: "BashFunctionDocumentationTag",
     ) -> str:
         m = re.search(doc_tag.tag_def.description_pattern, doc_tag.line)
         return m.group(1).strip() if m else ""
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         errors = []
         for doc_tag in func.doc_tags:
@@ -852,7 +864,7 @@ class SentenceFormatRule(Rule):
 class StandardExitCodesRule(Rule):
     """A rule that checks documentation exit codes with a defined standard."""
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         errors = []
         for doc_tag in func.find_tags(Tags.EXITCODE):
@@ -871,22 +883,37 @@ class TypeValidationRule(Rule):
     def _validate_type(
         self,
         func_name: str,
-        doc_tag: BashFunctionDocumentationTag,
+        doc_tag: "BashFunctionDocumentationTag",
     ) -> Optional[str]:
         parts = doc_tag.content.split()
-        if len(parts) < 2:
-            return (
-                f"{func_name}: Missing or invalid type in "
-                f"@{doc_tag.tag_def.name}. Found: '{doc_tag.line.strip()}'")
-
-        tag_type = parts[1].split("(")[0]
-        if tag_type not in VARIABLE_TYPES:
-            return (
-                f"{func_name}: Missing or invalid type in "
-                f"@{doc_tag.tag_def.name}. Found: '{doc_tag.line.strip()}'")
+        if doc_tag.tag_def == Tags.SET:
+            if len(parts) < 3:
+                return (
+                    f"{func_name}: Missing modifier or type in "
+                    f"@{doc_tag.tag_def.name}. Found: '{doc_tag.line.strip()}'"
+                )
+            modifier = parts[1]
+            tag_type = parts[2].split("(")[0]
+            if modifier not in MODIFIER_TYPES or tag_type not in VARIABLE_TYPES:
+                return (
+                    f"{func_name}: Invalid modifier or type in "
+                    f"@{doc_tag.tag_def.name}. Found: '{doc_tag.line.strip()}'"
+                )
+        else:
+            if len(parts) < 2:
+                return (
+                    f"{func_name}: Missing or invalid type in "
+                    f"@{doc_tag.tag_def.name}. Found: '{doc_tag.line.strip()}'"
+                )
+            tag_type = parts[1].split("(")[0]
+            if tag_type not in VARIABLE_TYPES:
+                return (
+                    f"{func_name}: Missing or invalid type in "
+                    f"@{doc_tag.tag_def.name}. Found: '{doc_tag.line.strip()}'"
+                )
         return None
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         errors = []
         for tag_def in TYPE_TAGS:
@@ -900,7 +927,7 @@ class TypeValidationRule(Rule):
 class UndocumentedRule(Rule):
     """A rule that checks if the function is undocumented."""
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         if not any("@" in line for line in func.doc_lines):
             return [f"{func.name}: Completely undocumented."]

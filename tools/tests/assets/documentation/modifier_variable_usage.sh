@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # @description Documented modifier variable usage.
-#   * STDLIB_LOGGING_MESSAGE_PREFIX: A prefix identifying the calling function (default="").
+#   * STDLIB_LOGGING_MESSAGE_PREFIX global string: A prefix identifying the calling function (default="").
 # @noargs
 # @exitcode 0 If the operation succeeded.
 stdlib.documented_modifier_var() {
@@ -26,7 +26,7 @@ stdlib.local_var_usage() {
 # @description Documented via @set tag.
 # @noargs
 # @exitcode 0 If the operation succeeded.
-# @set STDLIB_OUTPUT_VARIABLE string The output variable.
+# @set STDLIB_OUTPUT_VARIABLE global string The output variable.
 stdlib.documented_via_set() {
   # shellcheck disable=SC2034
   STDLIB_OUTPUT_VARIABLE="value"
@@ -41,7 +41,7 @@ stdlib.__undocumented_internal_var() {
 }
 
 # @description Documented internal modifier variable.
-#   * __STDLIB_LOGGING_DECORATORS_ARRAY: An array of decorators (default=()).
+#   * __STDLIB_LOGGING_DECORATORS_ARRAY global array: An array of decorators (default=()).
 # @noargs
 # @exitcode 0 If the operation succeeded.
 # @internal
@@ -76,7 +76,7 @@ eval "$(
   "${_STDLIB_BINARY_CAT}" << 'EOF'
 
 # @description Mock component documented.
-#   * __${2}_mock_rc: The return code (default=0).
+#   * __${2}_mock_rc global integer: The return code (default=0).
 # @noargs
 # @exitcode 0 If the operation succeeded.
 ${1}.mock.documented() {
