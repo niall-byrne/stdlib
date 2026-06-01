@@ -19,7 +19,7 @@ stdlib.invalid_description_no_modifier_variable_colon() {
 }
 
 # @description This description has an improperly formatted modifier variable.
-#   * INVALID_MODIFIER_VARIABLE global string: this variable is not formatted correctly (default=1).
+#   * INVALID_MODIFIER_VARIABLE string global: this variable is not formatted correctly (default=1).
 # @arg $1 string A string argument.
 # @exitcode 0 If the operation succeeded.
 # @stdout A greeting message.
@@ -28,7 +28,7 @@ stdlib.invalid_description_no_modifier_variable_capital() {
 }
 
 # @description This description has an improperly formatted modifier variable.
-#   * INVALID_MODIFIER_VARIABLE global string: This variable is not formatted correctly (default=1)
+#   * INVALID_MODIFIER_VARIABLE string global: This variable is not formatted correctly (default=1)
 # @arg $1 string A string argument.
 # @exitcode 0 If the operation succeeded.
 # @stdout A greeting message.
@@ -37,7 +37,7 @@ stdlib.invalid_description_no_modifier_variable_period() {
 }
 
 # @description This description has an improperly formatted modifier variable.
-#   * INVALID_MODIFIER_VARIABLE global string: This variable is not formatted correctly.
+#   * INVALID_MODIFIER_VARIABLE string global: This variable is not formatted correctly.
 # @arg $1 string A string argument.
 # @exitcode 0 If the operation succeeded.
 # @stdout A greeting message.

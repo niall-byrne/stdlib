@@ -390,14 +390,14 @@ VARIABLE_TYPES = ["string", "integer", "boolean", "array"]
 REGEX_MODIFIER_VARIABLE_DESCRIPTION = (
     rf"^{re.escape(MODIFIER_VARIABLE_PREFIX)}"
     r"(__\$\{2\}[a-z_]+|[A-Z_]+) " +
-    rf"({'|'.join(MODIFIER_TYPES)}) ({'|'.join(VARIABLE_TYPES)}):\s+(.+)$")
+    rf"({'|'.join(VARIABLE_TYPES)}) ({'|'.join(MODIFIER_TYPES)}):\s+(.+)$")
 REGEX_MODIFIER_VARIABLE_DESCRIPTION_DEFAULT = r"^.+\(default=.+\)\.*$"
 REGEX_MODIFIER_VARIABLE_KEYWORD_USAGE = (
     r"^\s*(?:(?:[A-Z_]+|__\$\{2\}[a-z_]+)="
     r"(?:'[^']*'|\"[^\"]*\"|\\$\([^)]*\)|[^\s;]+)\s+)+")
 REGEX_MODIFIER_VARIABLE_NAME = (
     r"(__\$\{2\}[a-z_]+|[A-Z_]+) " +
-    rf"({'|'.join(MODIFIER_TYPES)}) ({'|'.join(VARIABLE_TYPES)}): ")
+    rf"({'|'.join(VARIABLE_TYPES)}) ({'|'.join(MODIFIER_TYPES)}): ")
 REGEX_MODIFIER_VARIABLE_USAGE = (
     r"(\b__\\?\$\{2\}[a-z_]+\b|\b_?_?STDLIB_(?!BINARY)[A-Z0-9_]+\b)")
 REGEX_PROCESS_SUBSTITUTION = r"[\$=]\(builtin echo"
@@ -762,7 +762,7 @@ class ModifierVariableIndentRule(Rule):
                         f"{func.name}: Modifier variable in "
                         f"@{Tags.DESCRIPTION.name} "
                         "should be in uppercase characters, followed by "
-                        "a modifier type, a variable type, and a colon. "
+                        "a variable type, a modifier type, and a colon. "
                         f"Found: '{stripped}'")
         return errors
 
@@ -887,16 +887,15 @@ class TypeValidationRule(Rule):
     ) -> Optional[str]:
         parts = doc_tag.content.split()
         if doc_tag.tag_def == Tags.SET:
-            if len(parts) < 3:
+            if len(parts) < 2:
                 return (
-                    f"{func_name}: Missing modifier or type in "
+                    f"{func_name}: Missing type in "
                     f"@{doc_tag.tag_def.name}. Found: '{doc_tag.line.strip()}'"
                 )
-            modifier = parts[1]
-            tag_type = parts[2].split("(")[0]
-            if modifier not in MODIFIER_TYPES or tag_type not in VARIABLE_TYPES:
+            tag_type = parts[1].split("(")[0]
+            if tag_type not in VARIABLE_TYPES:
                 return (
-                    f"{func_name}: Invalid modifier or type in "
+                    f"{func_name}: Invalid type in "
                     f"@{doc_tag.tag_def.name}. Found: '{doc_tag.line.strip()}'"
                 )
         else:

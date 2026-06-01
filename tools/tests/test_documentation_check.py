@@ -85,21 +85,21 @@ class TestDocumentationCheck(unittest.TestCase):
             f"stdlib.invalid_description_no_modifier_variable_capital: Modifier variable description in "  # noqa: E501
             f"@{Tags.DESCRIPTION.name} "
             f"should start with a capital letter. "
-            f"Found: '#   * INVALID_MODIFIER_VARIABLE global string: this variable is not formatted correctly (default=1).'",  # noqa: E501
+            f"Found: '#   * INVALID_MODIFIER_VARIABLE string global: this variable is not formatted correctly (default=1).'",  # noqa: E501
             errors[0],
         )
         self.assertIn(
             f"stdlib.invalid_description_no_modifier_variable_period: Modifier variable description in "  # noqa: E501
             f"@{Tags.DESCRIPTION.name} "
             f"should end with a period. "
-            f"Found: '#   * INVALID_MODIFIER_VARIABLE global string: This variable is not formatted correctly (default=1)'",  # noqa: E501
+            f"Found: '#   * INVALID_MODIFIER_VARIABLE string global: This variable is not formatted correctly (default=1)'",  # noqa: E501
             errors[1],
         )
         self.assertIn(
             f"stdlib.invalid_description_no_modifier_variable_default: Modifier variable description in "  # noqa: E501
             f"@{Tags.DESCRIPTION.name} "
             f"should detail a default value. "
-            f"Found: '#   * INVALID_MODIFIER_VARIABLE global string: This variable is not formatted correctly.'",  # noqa: E501
+            f"Found: '#   * INVALID_MODIFIER_VARIABLE string global: This variable is not formatted correctly.'",  # noqa: E501
             errors[2],
         )
 
@@ -119,7 +119,7 @@ class TestDocumentationCheck(unittest.TestCase):
         )
         self.assertIn(
             f"stdlib.invalid_description_no_modifier_variable_colon: Modifier variable in @{Tags.DESCRIPTION.name} "  # noqa: E501
-            f"should be in uppercase characters, followed by a modifier type, a variable type, and a colon. "  # noqa: E501
+            f"should be in uppercase characters, followed by a variable type, a modifier type, and a colon. "  # noqa: E501
             f"Found: '#   * INVALID_MODIFIER_VARIABLE This variable is not formatted correctly.'",  # noqa: E501
             errors,
         )
@@ -405,14 +405,14 @@ class TestDocumentationCheck(unittest.TestCase):
         try:
             with open(filepath, "w") as f:
                 f.write("# @description Test.\n"
-                        "# @set VAR string Description.\n"
+                        "# @set VAR invalid_type Description.\n"
                         "stdlib.test() { :; }")
 
             parsed_file = documentation_check.parse_file(filepath)
             rule = documentation_check.TypeValidationRule()
             errors = rule.check(parsed_file.functions[0])
             self.assertEqual(len(errors), 1)
-            self.assertIn("Invalid modifier or type in @set", errors[0])
+            self.assertIn("Invalid type in @set", errors[0])
         finally:
             with open(filepath, "w") as f:
                 f.write(orig_content)
