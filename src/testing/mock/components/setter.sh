@@ -61,6 +61,7 @@ ${1}.mock.set.rc() {
 }
 
 # @description This function will set the side effects of the mock.  These are a series of one or more commands the mock will execute each time it's called.
+#   * __${2}_mock_side_effects_file string global: The filename containing the persisted side effects of the mock (default="").
 # @arg $@ array This is a series of commands the mock will execute each time it's called. (Call this function without any arguments to disable this feature).
 # @exitcode 0 If the mock's side effects were set successfully.
 # @exitcode 126 If an invalid argument has been provided.
@@ -72,7 +73,7 @@ ${1}.mock.set.side_effects() {
   _mock_object_side_effects=("\${@}")
   _mock.__internal.security.assert.is_builtin "declare" || builtin return "\$?"
 
-  builtin declare -p _mock_object_side_effects > "\${__${2}_mock_side_effects_file}"
+  builtin declare -p _mock_object_side_effects > "\${__${2}_mock_side_effects_file}" # validates __${2}_mock_side_effects_file
   builtin printf -v "__${2}_mock_side_effects_boolean" "%s" "1"
 }
 

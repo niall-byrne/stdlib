@@ -13,11 +13,11 @@ STDLIB_LOCK_WORKSPACE_PERMISSION_OCTAL=""
 builtin export STDLIB_LOCK_WORKSPACE=""
 
 # @description Acquires a named exclusive execution lock, or waits until able to do so.
-#   * STDLIB_LOCK_PERMISSION_OCTAL: An octal file system permission value for the created lock (default="0700").
-#   * STDLIB_LOCK_POLLING_INTERVAL: A decimal value for the number of seconds the process will wait before retrying lock acquisition (default="0.1").
-#   * STDLIB_LOCK_QUIET_FAILURE_BOOLEAN: A boolean to disable errors messages on a lock acquisition failure (default=0).
-#   * STDLIB_LOCK_WAIT_SECONDS: An integer for the number of seconds the process will wait for the lock to become available.  To create an infinite wait, use a negative value. (default=30).
-#   * STDLIB_LOCK_WORKSPACE: A string for the name of a managed temporary directory which has been allocated for lock operations (default="").
+#   * STDLIB_LOCK_PERMISSION_OCTAL string keyword: An octal file system permission value for the created lock (default="0700").
+#   * STDLIB_LOCK_POLLING_INTERVAL string keyword: A decimal value for the number of seconds the process will wait before retrying lock acquisition (default="0.1").
+#   * STDLIB_LOCK_QUIET_FAILURE_BOOLEAN boolean keyword: A boolean to disable errors messages on a lock acquisition failure (default=0).
+#   * STDLIB_LOCK_WAIT_SECONDS integer keyword: An integer for the number of seconds the process will wait for the lock to become available.  To create an infinite wait, use a negative value. (default=30).
+#   * STDLIB_LOCK_WORKSPACE string global: A string for the name of a managed temporary directory which has been allocated for lock operations (default="").
 # @arg $1 string A unique alpha-numeric, underscored name for this lock.
 # @exitcode 0 If the lock was successfully acquired.
 # @exitcode 1 If the lock could not be acquired.
@@ -76,7 +76,7 @@ stdlib.io.lock.acquire() {
 }
 
 # @description Releases a named exclusive execution lock.
-#   * STDLIB_LOCK_WORKSPACE: A string for the name of a managed temporary directory which has been allocated for lock operations (default="").
+#   * STDLIB_LOCK_WORKSPACE string global: A string for the name of a managed temporary directory which has been allocated for lock operations (default="").
 # @arg $1 string A unique alpha-numeric name for this lock.
 # @exitcode 0 If the lock was successfully released.
 # @exitcode 1 If the lock could not be released.
@@ -102,12 +102,12 @@ stdlib.io.lock.release() {
 }
 
 # @description Runs a command with a named exclusive execution lock. A lock workspace is allocated as needed.
-#   * STDLIB_LOCK_PERMISSION_OCTAL: An octal file system permission value for the created lock (default="0700").
-#   * STDLIB_LOCK_POLLING_INTERVAL: A decimal value for the number of seconds the process will wait before retrying lock acquisition (default="0.1").
-#   * STDLIB_LOCK_QUIET_FAILURE_BOOLEAN: A boolean to disable errors messages on a lock acquisition failure (default=0).
-#   * STDLIB_LOCK_WAIT_SECONDS: An integer for the number of seconds the process will wait for the lock to become available.  To create an infinite wait, use a negative value. (default=30).
-#   * STDLIB_LOCK_WORKSPACE: A string for the name of a managed temporary directory which has been allocated for lock operations (default="").
-#   * STDLIB_LOCK_WORKSPACE_PERMISSION_OCTAL: An octal file system permission value for the created workspace folder (if allocation is performed) (default="0700").
+#   * STDLIB_LOCK_PERMISSION_OCTAL string keyword: An octal file system permission value for the created lock (default="0700").
+#   * STDLIB_LOCK_POLLING_INTERVAL string keyword: A decimal value for the number of seconds the process will wait before retrying lock acquisition (default="0.1").
+#   * STDLIB_LOCK_QUIET_FAILURE_BOOLEAN boolean keyword: A boolean to disable errors messages on a lock acquisition failure (default=0).
+#   * STDLIB_LOCK_WAIT_SECONDS integer keyword: An integer for the number of seconds the process will wait for the lock to become available.  To create an infinite wait, use a negative value. (default=30).
+#   * STDLIB_LOCK_WORKSPACE string global: A string for the name of a managed temporary directory which has been allocated for lock operations (default="").
+#   * STDLIB_LOCK_WORKSPACE_PERMISSION_OCTAL string keyword: An octal file system permission value for the created workspace folder (if allocation is performed) (default="0700").
 # @arg $1 string A unique alpha-numeric name for this lock.
 # @arg $@ string The command or function and any arguments that will be executed with this execution lock.
 # @exitcode 0 If the lock was successfully acquired.
@@ -137,8 +137,9 @@ stdlib.io.lock.with() {
 }
 
 # @description Creates a temporary folder dedicated for execution locking, and handles it's clean up.
-#   * STDLIB_LOCK_WORKSPACE: A string for the name of a managed temporary directory which has been allocated for lock operations (default="").
-#   * STDLIB_LOCK_WORKSPACE_PERMISSION_OCTAL: An octal file system permission value for the created workspace folder (default="0700").
+#   * STDLIB_LOCK_WORKSPACE string global: A string for the name of a managed temporary directory which has been allocated for lock operations (default="").
+#   * STDLIB_LOCK_WORKSPACE_PERMISSION_OCTAL string keyword: An octal file system permission value for the created workspace folder (default="0700").
+#   * STDLIB_HANDLER_EXIT_FN_ARRAY array global: An array used to store exit handler functions (default=()).
 # @noargs
 # @exitcode 0 If the workspace was successfully allocated.
 # @exitcode 1 If the workspace could not be allocated.
@@ -149,6 +150,7 @@ stdlib.io.lock.with() {
 # @stderr The error message if the operation fails.
 # shellcheck disable=SC2120
 stdlib.io.lock.workspace_allocate() {
+  # clean STDLIB_HANDLER_EXIT_FN_ARRAY
   builtin local successful_allocation_boolean=1
   builtin local lock_workspace_permissions="${STDLIB_LOCK_WORKSPACE_PERMISSION_OCTAL:-"0700"}"
 
@@ -180,7 +182,7 @@ stdlib.io.lock.workspace_allocate() {
 }
 
 # @description Cleans up the temporary folder dedicated for execution locking.
-#   * STDLIB_LOCK_WORKSPACE: A string for the name of a managed temporary directory which has been allocated for lock operations (default="").
+#   * STDLIB_LOCK_WORKSPACE string global: A string for the name of a managed temporary directory which has been allocated for lock operations (default="").
 # @noargs
 # @exitcode 0 If the workspace was successfully removed.
 # @exitcode 1 If the workspace could not be removed.
@@ -192,7 +194,7 @@ stdlib.io.lock.__workspace_cleanup() {
 }
 
 # @description Validates the current value of STDLIB_LOCK_WORKSPACE.
-#   * STDLIB_LOCK_WORKSPACE: A string for the name of a managed temporary directory which has been allocated for lock operations (default="").
+#   * STDLIB_LOCK_WORKSPACE string global: A string for the name of a managed temporary directory which has been allocated for lock operations (default="").
 # @noargs
 # @exitcode 0 If STDLIB_LOCK_WORKSPACE is set to a valid value.
 # @exitcode 1 If STDLIB_LOCK_WORKSPACE is set to an invalid value.

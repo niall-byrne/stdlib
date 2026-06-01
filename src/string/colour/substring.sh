@@ -5,6 +5,7 @@
 builtin set -eo pipefail
 
 # @description Colours the first occurrence of a substring in a string.
+#   * STDLIB_COLOUR_NC string global: The no-colour escape sequence (default="\e[0m").
 # @arg $1 string The name of the colour to use.
 # @arg $2 string The substring to colour.
 # @arg $3 string The source string.
@@ -23,7 +24,7 @@ stdlib.string.colour.substring() {
 
   string_colour="$(stdlib.setting.theme.get_colour "${1}")"
 
-  builtin echo -e "${3/${2}/${!string_colour}${2}${STDLIB_COLOUR_NC}}"
+  builtin echo -e "${3/${2}/${!string_colour}${2}${STDLIB_COLOUR_NC}}" # validates STDLIB_COLOUR_NC
 }
 
 # @description A derivative of stdlib.string.colour.substring that can read from stdin.
@@ -49,6 +50,7 @@ stdlib.string.colour.substring_var() { :; }
 stdlib.fn.derive.var "stdlib.string.colour.substring"
 
 # @description Colours all occurrences of a substring in a string.
+#   * STDLIB_COLOUR_NC string global: The no-colour escape sequence (default="\e[0m").
 # @arg $1 string The name of the colour to use.
 # @arg $2 string The substring to colour.
 # @arg $3 string The source string.
@@ -67,7 +69,7 @@ stdlib.string.colour.substrings() {
 
   string_colour="$(stdlib.setting.theme.get_colour "${1}")"
 
-  builtin echo -e "${3//${2}/${!string_colour}${2}${STDLIB_COLOUR_NC}}"
+  builtin echo -e "${3//${2}/${!string_colour}${2}${STDLIB_COLOUR_NC}}" # validates STDLIB_COLOUR_NC
 }
 
 # @description A derivative of stdlib.string.colour.substrings that can read from stdin.

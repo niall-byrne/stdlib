@@ -79,7 +79,7 @@ stdlib.var.query.is_valid_name() {
 }
 
 # @description Checks if a variable's value is valid against a validation function.
-#   * STDLIB_VALIDATION_SOURCE_VAR: An optional variable name that can be used as a source for validation (default="").
+#   * STDLIB_VALIDATION_SOURCE_VAR string keyword: An optional variable name that can be used as a source for validation (default="").
 # @arg $1 string The validation function to run.
 # @arg $2 string The name of the variable containing the value to perform validation on.
 # @arg $3 string (optional, default="value") Controls whether the 'name' or 'value' of the variable is passed to the validation function.

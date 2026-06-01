@@ -5,7 +5,7 @@
 builtin set -eo pipefail
 
 # @description Joins lines in a string by removing a delimiter.
-#   * STDLIB_LINE_BREAK_DELIMITER: A line break char sequence which is replaced to join the string (default=$'\n').
+#   * STDLIB_LINE_BREAK_DELIMITER string keyword: A line break char sequence which is replaced to join the string (default=$'\n').
 # @arg $1 string The string to process.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 127 If the wrong number of arguments were provided.
@@ -13,7 +13,7 @@ builtin set -eo pipefail
 # @stderr The error message if the operation fails.
 stdlib.string.lines.join() {
   builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
-  builtin local delimiter="${STDLIB_LINE_BREAK_DELIMITER:-$'\n'}"
+  builtin local delimiter="${STDLIB_LINE_BREAK_DELIMITER:-$'\n'}" # defaults STDLIB_LINE_BREAK_DELIMITER
 
   # shellcheck disable=SC2034
   STDLIB_ARGS_NULL_SAFE_ARRAY=("1")

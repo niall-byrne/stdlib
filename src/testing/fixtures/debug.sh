@@ -5,7 +5,7 @@
 builtin set -eo pipefail
 
 # @description Prints a diff between two values for debugging.
-#   * STDLIB_TESTING_THEME_DEBUG_FIXTURE: The colour to use for the debug output (default="GREY").
+#   * STDLIB_TESTING_THEME_DEBUG_FIXTURE string global: The colour to use for the debug output (default="GREY").
 # @arg $1 string The expected value.
 # @arg $2 string The actual value.
 # @exitcode 0 If the values match.

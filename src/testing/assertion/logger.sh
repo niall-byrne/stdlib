@@ -5,7 +5,7 @@
 builtin set -eo pipefail
 
 # @description Asserts that the stdlib.logger.error function was mocked and called with specific arguments, or alternatively, not called at all.
-#   * STDLIB_LOGGING_MESSAGE_PREFIX: If the mock has this keyword set, then the value of this keyword is used when matching (default="").
+#   * STDLIB_LOGGING_MESSAGE_PREFIX string keyword: If the mock has this keyword set, then the value of this keyword is used when matching (default="").
 # @arg $@ array A list of message strings the logger is expected to have been called with.  An empty list asserts that the logger was not called.
 # @exitcode 0 If the assertion passed.
 # @exitcode 1 If the assertion fails, or if the logger has not been mocked.
@@ -34,7 +34,7 @@ assert_logger_error_matches() {
 }
 
 # @description Asserts that the stdlib.logger.info function was mocked and called with specific arguments, or alternatively, not called at all.
-#   * STDLIB_LOGGING_MESSAGE_PREFIX: If the mock has this keyword set, then the value of this keyword is used when matching (default="").
+#   * STDLIB_LOGGING_MESSAGE_PREFIX string keyword: If the mock has this keyword set, then the value of this keyword is used when matching (default="").
 # @arg $@ array A list of message strings the logger is expected to have been called with.  An empty list asserts that the logger was not called.
 # @exitcode 0 If the assertion passed.
 # @exitcode 1 If the assertion fails, or if the logger has not been mocked.
@@ -63,7 +63,7 @@ assert_logger_info_matches() {
 }
 
 # @description Asserts that the stdlib.logger.notice function was mocked and called with specific arguments, or alternatively, not called at all.
-#   * STDLIB_LOGGING_MESSAGE_PREFIX: If the mock has this keyword set, then the value of this keyword is used when matching (default="").
+#   * STDLIB_LOGGING_MESSAGE_PREFIX string keyword: If the mock has this keyword set, then the value of this keyword is used when matching (default="").
 # @arg $@ array A list of message strings the logger is expected to have been called with.  An empty list asserts that the logger was not called.
 # @exitcode 0 If the assertion passed.
 # @exitcode 1 If the assertion fails, or if the logger has not been mocked.
@@ -92,7 +92,7 @@ assert_logger_notice_matches() {
 }
 
 # @description Asserts that the stdlib.logger.success function was mocked and called with specific arguments, or alternatively, not called at all.
-#   * STDLIB_LOGGING_MESSAGE_PREFIX: If the mock has this keyword set, then the value of this keyword is used when matching (default="").
+#   * STDLIB_LOGGING_MESSAGE_PREFIX string keyword: If the mock has this keyword set, then the value of this keyword is used when matching (default="").
 # @arg $@ array A list of message strings the logger is expected to have been called with.  An empty list asserts that the logger was not called.
 # @exitcode 0 If the assertion passed.
 # @exitcode 1 If the assertion fails, or if the logger has not been mocked.
@@ -121,7 +121,7 @@ assert_logger_success_matches() {
 }
 
 # @description Asserts that the stdlib.logger.warning function was mocked and called with specific arguments, or alternatively, not called at all.
-#   * STDLIB_LOGGING_MESSAGE_PREFIX: If the mock has this keyword set, then the value of this keyword is used when matching (default="").
+#   * STDLIB_LOGGING_MESSAGE_PREFIX string keyword: If the mock has this keyword set, then the value of this keyword is used when matching (default="").
 # @arg $@ array A list of message strings the logger is expected to have been called with.  An empty list asserts that the logger was not called.
 # @exitcode 0 If the assertion passed.
 # @exitcode 1 If the assertion fails, or if the logger has not been mocked.
