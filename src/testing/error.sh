@@ -5,7 +5,7 @@
 builtin set -eo pipefail
 
 # @description Logs an error message.
-#   * STDLIB_TESTING_THEME_ERROR: The colour to use for the message (default="LIGHT_RED").
+#   * STDLIB_TESTING_THEME_ERROR string global: The colour to use for the message (default="LIGHT_RED").
 # @arg $@ array The error messages to log.
 # @exitcode 0 If the error message was logged.
 # @stderr The error message if the operation fails.
@@ -21,7 +21,7 @@ _testing.error() {
 }
 
 # @description A pipeable version _testing.error that can read from stdin and return specific error codes when errors are found.
-#   * STDLIB_TESTING_THEME_ERROR: The colour to use for the message (default="LIGHT_RED").
+#   * STDLIB_TESTING_THEME_ERROR string global: The colour to use for the message (default="LIGHT_RED").
 # @arg $1 integer (optional, default=1) The error code that should be returned if any error message is piped to this function.
 # @exitcode 0 If the error message was not logged.
 # @exitcode 1 If an error message is logged.  (This value is configurable via arguments).

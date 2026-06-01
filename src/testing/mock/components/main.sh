@@ -44,18 +44,25 @@ ${1}() {
 
 
 # @description Clears the mock's call history and configured side effects.
+#   * __${2}_mock_calls_file string global: The filename containing the persisted calls of the mock (default="").
+#   * __${2}_mock_side_effects_file string global: The filename containing the persisted side effects of the mock (default="").
 # @noargs
 # @exitcode 0 If the mock's history was cleared successfully.
 ${1}.mock.clear() {
+  # clean __${2}_mock_calls_file,__${2}_mock_side_effects_file
   builtin local -a _mock_object_side_effects
   builtin echo -n "" > "\${__${2}_mock_calls_file}"  # noqa
   builtin declare -p _mock_object_side_effects > "\${__${2}_mock_side_effects_file}"
 }
 
 # @description Clears the mock's call history and configured side effects as well as its configured exit code, stdout, stderr and subcommand properties.
+#   * __${2}_mock_rc integer global: This is the exit code the mock is configured to return (default="0").
+#   * __${2}_mock_stderr string global: This is the string that will be emitted to stderr when the mock is called (default="").
+#   * __${2}_mock_stdout string global: This is the string that will be emitted to stdout when the mock is called (default="").
 # @noargs
 # @exitcode 0 If the mock was reset successfully.
 ${1}.mock.reset() {
+  # clean __${2}_mock_rc,__${2}_mock_stderr,__${2}_mock_stdout
   ${1}.mock.clear
   __${2}_mock_rc=""
   __${2}_mock_stderr=""

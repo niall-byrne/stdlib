@@ -5,11 +5,14 @@
 builtin set -eo pipefail
 
 # @description Compiles the mock generator function.
+#   * STDLIB_DIRECTORY string global: The directory where the stdlib is installed (default="").
+#   * __STDLIB_TESTING_MOCK_COMPONENT string global: A variable used to store the content of a mock component (default="").
 # @noargs
 # @exitcode 0 If the mock generator function was compiled successfully.
 # @stdout The generated mock function definition.
 # @internal
 _mock.__internal.compile() {
+  # clean STDLIB_DIRECTORY,__STDLIB_TESTING_MOCK_COMPONENT
   builtin local mock_component
   builtin local -a mock_component_file_set
 

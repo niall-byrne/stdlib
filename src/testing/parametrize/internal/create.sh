@@ -5,7 +5,7 @@
 builtin set -eo pipefail
 
 # @description Generates an array of variant tags for multiple parametrizers.
-#   * STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX: The prefix to remove from parametrizer function names (default="@parametrize_with_").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX string global: The prefix to remove from parametrizer function names (default="@parametrize_with_").
 # @arg $1 string The name of the variable to store the calculated variant tag padding in.
 # @arg $2 string The name of the array to store the variant tags in.
 # @arg $@ array An array of parametrizer function names.
@@ -41,9 +41,9 @@ builtin set -eo pipefail
 }
 
 # @description Creates a test function variant for a specific scenario.
-#   * STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN: Whether to show debug information (default="0").
-#   * STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN: Whether to show original test names (default="0").
-#   * STDLIB_TESTING_THEME_PARAMETRIZE_ORIGINAL_TEST_NAMES: The colour for original test names (default="GREY").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN boolean global: Whether to show debug information (default="0").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN boolean global: Whether to show original test names (default="0").
+#   * STDLIB_TESTING_THEME_PARAMETRIZE_ORIGINAL_TEST_NAMES string global: The colour for original test names (default="GREY").
 # @arg $1 string The test function variant name to create.
 # @arg $2 string The original test function name.
 # @arg $3 string The original test function reference.
@@ -117,7 +117,7 @@ builtin set -eo pipefail
 }
 
 # @description Generates a padded test function variant name.
-#   * STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG: The tag in the test function name to replace (default="@vary").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG string global: The tag in the test function name to replace (default="@vary").
 # @arg $1 string The function name to parametrize.
 # @arg $2 string The function variant's description.
 # @arg $3 integer The length of the longest variant description for padding.

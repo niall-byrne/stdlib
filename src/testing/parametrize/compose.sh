@@ -5,12 +5,12 @@
 builtin set -eo pipefail
 
 # @description Composes multiple parametrizer functions to create a product of scenarios.
-#   * STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN: Whether to show debug information (default="0").
-#   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR: The field separator for scenarios (default=";").
-#   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX: The prefix for fixture commands (default="@fixture ").
-#   * STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX: The prefix for parametrizer functions (default="@parametrize_with_").
-#   * STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN: Whether to show original test names (default="0").
-#   * STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG: The tag in the test function name to replace (default="@vary").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN boolean global: Whether to show debug information (default="0").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR string global: The field separator for scenarios (default=";").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX string global: The prefix for fixture commands (default="@fixture ").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX string global: The prefix for parametrizer functions (default="@parametrize_with_").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN boolean global: Whether to show original test names (default="0").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG string global: The tag in the test function name to replace (default="@vary").
 # @arg $1 string The name of the test function to parametrize.
 # @arg $@ array A series of parametrizer functions to compose.
 # @exitcode 0 If the parametrizer functions were composed successfully.

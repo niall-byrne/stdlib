@@ -35,7 +35,7 @@ _mock.arg_string.make.from_array() {
 }
 
 # @description Generates a mock argument string from a delimited string.
-#   * STDLIB_LINE_BREAK_DELIMITER: The delimiter used to split the string (default=" ").
+#   * STDLIB_LINE_BREAK_DELIMITER string keyword: The delimiter used to split the string (default=" ").
 # @arg $1 string The delimited string of positional arguments.
 # @arg $2 string (optional) The name of the array containing keyword arguments.
 # @exitcode 0 If the mock argument string was generated.

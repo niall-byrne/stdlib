@@ -15,7 +15,7 @@ stdlib.setting.colour.disable() {
 }
 
 # @description Enables terminal colours.
-#   * STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN: Disables the error message on failure (default="0").
+#   * STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN boolean keyword: Disables the error message on failure (default="0").
 # @noargs
 # @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the operation failed.

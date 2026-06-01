@@ -26,6 +26,7 @@ stdlib.string.colour() {
 }
 
 # @description Colours a string and prints it without a newline.
+#   * STDLIB_COLOUR_NC string global: The no-colour escape sequence (default="\e[0m").
 # @arg $1 string The name of the colour to use.
 # @arg $2 string The string to colour.
 # @exitcode 0 If the operation succeeded.
@@ -42,7 +43,7 @@ stdlib.string.colour_n() {
 
   string_colour="$(stdlib.setting.theme.get_colour "${1}")"
 
-  builtin echo -ne "${!string_colour}${2}${STDLIB_COLOUR_NC}"
+  builtin echo -ne "${!string_colour}${2}${STDLIB_COLOUR_NC}" # validates STDLIB_COLOUR_NC
 }
 
 # @description A derivative of stdlib.string.colour_n that can read from stdin.
