@@ -21,7 +21,7 @@ stdlib.fn.keyword.assert.is_valid_with() {
   # shellcheck disable=SC2034
   builtin local STDLIB_LOGGING_MESSAGE_PREFIX="${STDLIB_LOGGING_MESSAGE_PREFIX:-"${FUNCNAME[2]}"}"
 
-  stdlib.fn.keyword.query.is_valid_with "${@}" || return_code="$?"  # validates STDLIB_KW_SOURCE_VAR
+  stdlib.fn.keyword.query.is_valid_with "${@}" || return_code="$?" # validates STDLIB_KW_SOURCE_VAR
 
   case "${return_code}" in
     0) ;; # KCOV_EXCLUDE_LINE

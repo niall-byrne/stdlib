@@ -32,7 +32,7 @@ stdlib.fn.keyword.query.is_valid_with() {
   stdlib.array.query.is_contains "${validation_source_selection}" kw_source_types || builtin return 126
 
   if ! stdlib.string.query.is_empty "${STDLIB_KW_SOURCE_VAR}"; then
-    stdlib.var.query.is_set "${STDLIB_KW_SOURCE_VAR}" || builtin return 125  # validates STDLIB_KW_SOURCE_VAR
+    stdlib.var.query.is_set "${STDLIB_KW_SOURCE_VAR}" || builtin return 125 # validates STDLIB_KW_SOURCE_VAR
     validation_source="${STDLIB_KW_SOURCE_VAR}"
   fi
 
