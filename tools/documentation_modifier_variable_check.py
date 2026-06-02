@@ -9,9 +9,14 @@ sys.path.append(os.path.dirname(__file__))
 from documentation_check import parse_file, Tags, MODIFIER_VARIABLE_PREFIX
 
 
+SOURCE_DIRECTORY = "src"
+SHELL_EXTENSION = ".sh"
+SNIPPET_EXTENSION = ".snippet"
+
+
 class ModifierVariableMetadata(NamedTuple):
     name: str
-    var_type: Optional[str]
+    var_type: str
     modifier: Optional[str]
     description: str
     filepath: str
@@ -30,18 +35,9 @@ class ModifierVariableInconsistencyError:
         first: ModifierVariableMetadata,
         other: ModifierVariableMetadata,
     ) -> bool:
-        if first.var_type is not None and other.var_type is not None:
-            if first.var_type != other.var_type:
-                return True
-
-        if first.description != other.description:
-            return True
-
-        if first.modifier is not None and other.modifier is not None:
-            if first.modifier != other.modifier:
-                return True
-
-        return False
+        return (first.var_type != other.var_type or
+                first.modifier != other.modifier or
+                first.description != other.description)
 
     @staticmethod
     def format_instance_details(instance: ModifierVariableMetadata) -> str:
@@ -53,16 +49,28 @@ class ModifierVariableInconsistencyError:
                 f"description='{instance.description}'")
 
 
+class ModifierVariableFileReport(Dict):
+    """Represents a report for a specific file: {file_name: [ {function_name: [ {tag: details} ] } ] }."""
+
+    def __init__(self, filepath: str):
+        super().__init__({filepath: []})
+        self.filepath = filepath
+
+    def add_instance(self, instance: ModifierVariableMetadata):
+        details = ModifierVariableInconsistencyError.format_instance_details(instance)
+        tag_key = f"@{instance.tag_type}"
+        self[self.filepath].append({
+            instance.function_name: [{
+                tag_key: details
+            }],
+        })
+
+
 class ModifierVariableConsistencyChecker:
 
-    DESC_WITH_TYPE_PATTERN = (
+    DESCRIPTION_TAG_PATTERN = (
         rf"^{re.escape(MODIFIER_VARIABLE_PREFIX)}"
         r"(__\$\{2\}[a-z_]+|[A-Z0-9_]+)\s+(\S+)\s+(\S+):\s+(.*)$"
-    )
-
-    DESC_SIMPLE_PATTERN = (
-        rf"^{re.escape(MODIFIER_VARIABLE_PREFIX)}"
-        r"(__\$\{2\}[a-z_]+|[A-Z0-9_]+):\s+(.*)$"
     )
 
     def __init__(self, modified_files: List[str]):
@@ -80,9 +88,10 @@ class ModifierVariableConsistencyChecker:
 
     def _get_all_relevant_files(self) -> Set[str]:
         files = set()
-        for root, _, filenames in os.walk("src"):
+        for root, _, filenames in os.walk(SOURCE_DIRECTORY):
             for filename in filenames:
-                if filename.endswith(".sh") or filename.endswith(".snippet"):
+                if filename.endswith(SHELL_EXTENSION) or filename.endswith(
+                        SNIPPET_EXTENSION):
                     files.add(os.path.join(root, filename))
 
         if os.path.exists("dist/docs.sh"):
@@ -144,26 +153,13 @@ class ModifierVariableConsistencyChecker:
         function_name: str,
         filepath: str,
     ) -> Optional[ModifierVariableMetadata]:
-        match = re.search(self.DESC_WITH_TYPE_PATTERN, line)
+        match = re.search(self.DESCRIPTION_TAG_PATTERN, line)
         if match:
             var_name, var_type, modifier, description = match.groups()
             return ModifierVariableMetadata(
                 name=var_name,
                 var_type=var_type,
                 modifier=modifier,
-                description=description.strip(),
-                filepath=filepath,
-                function_name=function_name,
-                tag_type="description",
-            )
-
-        match = re.search(self.DESC_SIMPLE_PATTERN, line)
-        if match:
-            var_name, description = match.groups()
-            return ModifierVariableMetadata(
-                name=var_name,
-                var_type=None,
-                modifier=None,
                 description=description.strip(),
                 filepath=filepath,
                 function_name=function_name,
@@ -222,35 +218,26 @@ class ModifierVariableConsistencyChecker:
 
     def _report_errors(self, errors: List[ModifierVariableInconsistencyError]):
         # { variable_name: [ {file_name: [ {function_name: [ {tag: output} ] } ] } ] }
-        output: Dict[str, List[Dict]] = {}
+        output: Dict[str, List[ModifierVariableFileReport]] = {}
 
         for error in errors:
-            involved_files = {inst.filepath for inst in error.instances}
-            if self.modified_files and not (involved_files & self.modified_files):
-                continue
-
-            output[error.var_name] = []
-            files_to_instances: Dict[str, List[ModifierVariableMetadata]] = {}
-            for instance in error.instances:
-                if instance.filepath not in files_to_instances:
-                    files_to_instances[instance.filepath] = []
-                files_to_instances[instance.filepath].append(instance)
-
-            for filepath in sorted(files_to_instances.keys()):
-                file_entry = {filepath: []}
-                for instance in files_to_instances[filepath]:
-                    details = ModifierVariableInconsistencyError.format_instance_details(
-                        instance)
-                    tag_key = f"@{instance.tag_type}"
-                    file_entry[filepath].append({
-                        instance.function_name: [{
-                            tag_key: details
-                        }],
-                    })
-                output[error.var_name].append(file_entry)
+            output[error.var_name] = self._build_variable_report(error.instances)
 
         if output:
             print(json.dumps(output, indent=2))
+
+    def _build_variable_report(
+        self,
+        instances: List[ModifierVariableMetadata],
+    ) -> List[ModifierVariableFileReport]:
+        files_to_reports: Dict[str, ModifierVariableFileReport] = {}
+        for instance in instances:
+            if instance.filepath not in files_to_reports:
+                files_to_reports[instance.filepath] = ModifierVariableFileReport(
+                    instance.filepath)
+            files_to_reports[instance.filepath].add_instance(instance)
+
+        return [files_to_reports[filepath] for filepath in sorted(files_to_reports.keys())]
 
 
 def main():
