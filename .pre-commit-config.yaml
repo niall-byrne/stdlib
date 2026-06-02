@@ -177,6 +177,14 @@ repos:
         exclude: "^((.+/)*tests/.+\\.sh)$"
         pass_filenames: true
         require_serial: true
+      - id: documentation-source-files-modifier-variable-consistency
+        name: ensure modifier variable descriptions are consistent
+        entry: python tools/documentation_modifier_variable_check.py
+        language: system
+        files: "^(src/.+\\.(sh|snippet)|dist/docs.sh)$"
+        exclude: "^((.+/)*tests/.+\\.sh)$"
+        pass_filenames: true
+        require_serial: true
       - id: documentation-sphinx-build-gettext
         name: build documentation using sphinx
         entry: poetry run bash -c "cd docs && sphinx-intl update -p _build/gettext -l en"
