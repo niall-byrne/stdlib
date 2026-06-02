@@ -385,7 +385,7 @@ REGEX_DOC_TAGS = (
     rf"^#\s*@({'|'.join([tag_def.name for tag_def in Tags.get_sequence()])})")
 REGEX_ECHO_ASSIGNMENT = r"=\s*\"?builtin echo"
 REGEX_FUNCTION_DEFINITION = r"^(([a-zA-Z_@]|\$\{1\}\.)[a-zA-Z0-9._]*) *\(\) *{"
-MODIFIER_TYPES = ["global", "keyword"]
+MODIFIER_TYPES = ["global", "keyword", "reserved"]
 VARIABLE_TYPES = ["string", "integer", "boolean", "array"]
 REGEX_MODIFIER_VARIABLE_DESCRIPTION = (
     rf"^{re.escape(MODIFIER_VARIABLE_PREFIX)}"
@@ -823,7 +823,7 @@ class ModifierVariableValidationRule(Rule):
 
                 if not validated:
                     errors.append(
-                        f"{func.name}: Global Variable or Keyword '{var_name}' "
+                        f"{func.name}: Modifier Variable '{var_name}' "
                         f"in @{Tags.DESCRIPTION.name} and has not been marked "
                         "as defaulted, validated or clean.")
         return errors
