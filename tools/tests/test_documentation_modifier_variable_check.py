@@ -1,3 +1,4 @@
+import json
 import os
 import sys
 import unittest
@@ -78,10 +79,12 @@ class TestModifierVariableCheck(unittest.TestCase):
             documentation_modifier_variable_check.main()
 
         mock_exit.assert_called_with(1)
-        output = mock_stdout.getvalue()
-        self.assertIn("Inconsistent documentation for 'STDLIB_VAR2'", output)
-        self.assertIn("Description 2", output)
-        self.assertIn("Inconsistent description", output)
+        output = json.loads(mock_stdout.getvalue())
+        self.assertIn(file1, output)
+        self.assertIn(file2, output)
+        self.assertIn("Inconsistent documentation for 'STDLIB_VAR2'", output[file1][0])
+        self.assertIn("Description 2", output[file1][0])
+        self.assertIn("Inconsistent description", output[file1][0])
 
     @patch("sys.exit")
     @patch("sys.stdout", new_callable=StringIO)
@@ -91,10 +94,11 @@ class TestModifierVariableCheck(unittest.TestCase):
             documentation_modifier_variable_check.main()
 
         mock_exit.assert_called_with(1)
-        output = mock_stdout.getvalue()
-        self.assertIn("Inconsistent documentation for 'STDLIB_VAR3'", output)
-        self.assertIn("The count of items.", output)
-        self.assertIn("Inconsistent @set.", output)
+        output = json.loads(mock_stdout.getvalue())
+        self.assertIn(file3, output)
+        self.assertIn("Inconsistent documentation for 'STDLIB_VAR3'", output[file3][0])
+        self.assertIn("The count of items.", output[file3][0])
+        self.assertIn("Inconsistent @set.", output[file3][0])
 
     @patch("sys.exit")
     @patch("sys.stdout", new_callable=StringIO)
@@ -104,8 +108,9 @@ class TestModifierVariableCheck(unittest.TestCase):
             documentation_modifier_variable_check.main()
 
         mock_exit.assert_called_with(1)
-        output = mock_stdout.getvalue()
-        self.assertIn("Inconsistent documentation for 'STDLIB_VAR4'", output)
+        output = json.loads(mock_stdout.getvalue())
+        self.assertIn(file4, output)
+        self.assertIn("Inconsistent documentation for 'STDLIB_VAR4'", output[file4][0])
 
 
 if __name__ == "__main__":

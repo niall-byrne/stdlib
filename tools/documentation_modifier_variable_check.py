@@ -1,3 +1,4 @@
+import json
 import os
 import re
 import sys
@@ -26,7 +27,6 @@ class ModifierVariableInconsistencyError:
 
     def __str__(self) -> str:
         first = self.instances[0]
-        # We find the first instance that is inconsistent with the first one
         other = self._find_first_inconsistent_instance()
 
         message = f"Inconsistent documentation for '{self.var_name}':\n"
@@ -37,12 +37,12 @@ class ModifierVariableInconsistencyError:
     def _find_first_inconsistent_instance(self) -> ModifierVariableMetadata:
         first = self.instances[0]
         for inst in self.instances[1:]:
-            if self._is_inconsistent(first, inst):
+            if self.is_inconsistent(first, inst):
                 return inst
-        return self.instances[1]  # Fallback, should not happen if used correctly
+        return self.instances[1]
 
-    def _is_inconsistent(
-        self,
+    @staticmethod
+    def is_inconsistent(
         first: ModifierVariableMetadata,
         other: ModifierVariableMetadata,
     ) -> bool:
@@ -60,15 +60,17 @@ class ModifierVariableInconsistencyError:
         return False
 
     def _format_instance(self, instance: ModifierVariableMetadata) -> str:
+        var_type = instance.var_type if instance.var_type else "None"
         if instance.tag_type == "description":
+            modifier = instance.modifier if instance.modifier else "None"
             return (
                 f"  {instance.filepath} ({instance.function_name}, @description): "
-                f"type='{instance.var_type}', "
-                f"modifier='{instance.modifier}', "
+                f"type='{var_type}', "
+                f"modifier='{modifier}', "
                 f"description='{instance.description}'\n")
         return (
             f"  {instance.filepath} ({instance.function_name}, @set): "
-            f"type='{instance.var_type}', "
+            f"type='{var_type}', "
             f"description='{instance.description}'\n")
 
 
@@ -226,26 +228,8 @@ class ModifierVariableConsistencyChecker:
     def _has_inconsistency(self, instances: List[ModifierVariableMetadata]) -> bool:
         first = instances[0]
         for other in instances[1:]:
-            if self._is_inconsistent(first, other):
+            if ModifierVariableInconsistencyError.is_inconsistent(first, other):
                 return True
-        return False
-
-    def _is_inconsistent(
-        self,
-        first: ModifierVariableMetadata,
-        other: ModifierVariableMetadata,
-    ) -> bool:
-        if first.var_type is not None and other.var_type is not None:
-            if first.var_type != other.var_type:
-                return True
-
-        if first.description != other.description:
-            return True
-
-        if first.modifier is not None and other.modifier is not None:
-            if first.modifier != other.modifier:
-                return True
-
         return False
 
     def _should_report_inconsistency(
@@ -258,8 +242,24 @@ class ModifierVariableConsistencyChecker:
         return bool(involved_files & self.modified_files)
 
     def _report_errors(self, errors: List[ModifierVariableInconsistencyError]):
+        output: Dict[str, List[str]] = {}
         for error in errors:
-            print(str(error))
+            message = str(error)
+            involved_files = {inst.filepath for inst in error.instances}
+
+            files_to_attribute = set()
+            if self.modified_files:
+                files_to_attribute = involved_files & self.modified_files
+            else:
+                files_to_attribute = involved_files
+
+            for filepath in sorted(files_to_attribute):
+                if filepath not in output:
+                    output[filepath] = []
+                output[filepath].append(message)
+
+        if output:
+            print(json.dumps(output, indent=2))
 
 
 def main():
