@@ -189,7 +189,7 @@ class TestDocumentationCheck(unittest.TestCase):
         # stdlib.unvalidated_modifier_var
         errors = rule.check(parsed_file.functions[4])
         self.assertEqual(len(errors), 1)
-        self.assertIn("STDLIB_UNVALIDATED_VAR", errors[0])
+        self.assertIn("Global Variable or Keyword 'STDLIB_UNVALIDATED_VAR'", errors[0])
 
         # stdlib.multiple_modifier_vars
         errors = rule.check(parsed_file.functions[5])
@@ -416,6 +416,23 @@ class TestDocumentationCheck(unittest.TestCase):
         finally:
             with open(filepath, "w") as f:
                 f.write(orig_content)
+
+    def test_modifier_variable_rules__reserved_modifier__no_errors(self):
+        """Test that the 'reserved' modifier type is recognized without errors."""
+        filepath = os.path.join(self.assets_dir, "reserved_modifier.sh")
+        parsed_file = documentation_check.parse_file(filepath)
+        func = parsed_file.functions[0]
+        rules = [
+            documentation_check.ModifierVariableFormatRule(),
+            documentation_check.ModifierVariableIndentRule(),
+            documentation_check.ModifierVariableValidationRule(),
+        ]
+
+        errors = []
+        for rule in rules:
+            errors.extend(rule.check(func))
+
+        self.assertEqual(errors, [])
 
 
 if __name__ == "__main__":
