@@ -26,20 +26,10 @@ class ModifierVariableInconsistencyError:
         self.instances = instances
 
     def __str__(self) -> str:
-        first = self.instances[0]
-        other = self._find_first_inconsistent_instance()
-
         message = f"Inconsistent documentation for '{self.var_name}':\n"
-        message += self._format_instance(first)
-        message += self._format_instance(other)
+        for instance in self.instances:
+            message += self._format_instance(instance)
         return message
-
-    def _find_first_inconsistent_instance(self) -> ModifierVariableMetadata:
-        first = self.instances[0]
-        for inst in self.instances[1:]:
-            if self.is_inconsistent(first, inst):
-                return inst
-        return self.instances[1]
 
     @staticmethod
     def is_inconsistent(
@@ -60,17 +50,15 @@ class ModifierVariableInconsistencyError:
         return False
 
     def _format_instance(self, instance: ModifierVariableMetadata) -> str:
-        var_type = instance.var_type if instance.var_type else "None"
         if instance.tag_type == "description":
-            modifier = instance.modifier if instance.modifier else "None"
             return (
                 f"  {instance.filepath} ({instance.function_name}, @description): "
-                f"type='{var_type}', "
-                f"modifier='{modifier}', "
+                f"type='{instance.var_type}', "
+                f"modifier='{instance.modifier}', "
                 f"description='{instance.description}'\n")
         return (
             f"  {instance.filepath} ({instance.function_name}, @set): "
-            f"type='{var_type}', "
+            f"type='{instance.var_type}', "
             f"description='{instance.description}'\n")
 
 
