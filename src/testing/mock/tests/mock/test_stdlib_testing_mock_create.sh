@@ -85,7 +85,7 @@ test_stdlib_testing_mock_create__binary__invalid_name__logs_error_message() {
 
 test_stdlib_testing_mock_create__binary__invalid_var___returns_status_code_123() {
   local __STDLIB_TESTING_MOCK_RESTRICTED_ATTRIBUTES="not_an_array"
-  
+
   _capture.rc _mock.create ls
 
   assert_rc "123"
@@ -97,7 +97,8 @@ test_stdlib_testing_mock_create__binary__invalid_var___logs_error_message() {
   _mock.create ls
 
   _testing.error.mock.assert_calls_are \
-    "$(stdlib.string.args.join " " \
+    "$(
+      stdlib.string.args.join " " \
         "1(_mock.create: $(stdlib.__message.get IS_NOT_ARRAY __STDLIB_TESTING_MOCK_RESTRICTED_ATTRIBUTES))" \
         "2(_mock.create: $(stdlib.__message.get VAR_VALUE_INVALID_RESERVED_DETAIL __STDLIB_TESTING_MOCK_RESTRICTED_ATTRIBUTES))"
     )"
@@ -119,7 +120,7 @@ test_stdlib_testing_mock_create__binary__valid_name____with_mock_create______ori
 
 test_stdlib_testing_mock_create__binary__valid_var_____returns_status_code_123() {
   local __STDLIB_TESTING_MOCK_RESTRICTED_ATTRIBUTES="not_an_array"
-  
+
   _capture.rc _mock.create ls
 
   assert_rc "123"
@@ -131,7 +132,8 @@ test_stdlib_testing_mock_create__binary__valid_var_____logs_error_message() {
   _mock.create ls
 
   _testing.error.mock.assert_calls_are \
-    "$(stdlib.string.args.join " " \
+    "$(
+      stdlib.string.args.join " " \
         "1(_mock.create: $(stdlib.__message.get IS_NOT_ARRAY __STDLIB_TESTING_MOCK_RESTRICTED_ATTRIBUTES))" \
         "2(_mock.create: $(stdlib.__message.get VAR_VALUE_INVALID_RESERVED_DETAIL __STDLIB_TESTING_MOCK_RESTRICTED_ATTRIBUTES))"
     )"
