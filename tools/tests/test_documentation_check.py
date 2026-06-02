@@ -189,7 +189,7 @@ class TestDocumentationCheck(unittest.TestCase):
         # stdlib.unvalidated_modifier_var
         errors = rule.check(parsed_file.functions[4])
         self.assertEqual(len(errors), 1)
-        self.assertIn("Modifier Variable 'STDLIB_UNVALIDATED_VAR'", errors[0])
+        self.assertIn("Global Variable or Keyword 'STDLIB_UNVALIDATED_VAR'", errors[0])
 
         # stdlib.multiple_modifier_vars
         errors = rule.check(parsed_file.functions[5])

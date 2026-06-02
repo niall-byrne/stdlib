@@ -823,7 +823,7 @@ class ModifierVariableValidationRule(Rule):
 
                 if not validated:
                     errors.append(
-                        f"{func.name}: Modifier Variable '{var_name}' "
+                        f"{func.name}: Global Variable or Keyword '{var_name}' "
                         f"in @{Tags.DESCRIPTION.name} and has not been marked "
                         "as defaulted, validated or clean.")
         return errors
