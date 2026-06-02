@@ -5,7 +5,6 @@ import unittest
 from io import StringIO
 from unittest.mock import patch
 
-# Add the tools directory to the path so we can import the script
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 import documentation_modifier_variable_check
