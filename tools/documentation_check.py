@@ -453,6 +453,9 @@ class Rule:
 
 
 # Rules
+# Rules
+
+
 class AssertionStderrRule(Rule):
     """A rule that checks assertion functions for stderr documentation."""
 

@@ -7,7 +7,7 @@ builtin set -eo pipefail
 STDLIB_PIPEABLE_STDIN_SOURCE_SPECIFIER=""
 
 # @description Creates a pipeable version of an existing function.
-#   * STDLIB_PIPEABLE_STDIN_SOURCE_SPECIFIER: A string used to specify the position of stdin in the arguments (default='-').
+#   * STDLIB_PIPEABLE_STDIN_SOURCE_SPECIFIER string keyword: A string used to specify the position of stdin in the arguments (default='-').
 # @arg $1 string The name of the function to make pipeable.
 # @arg $2 integer The number of arguments the function requires.
 # @exitcode 0 If the operation succeeded.
@@ -16,7 +16,7 @@ STDLIB_PIPEABLE_STDIN_SOURCE_SPECIFIER=""
 # @stderr The error message if the operation fails.
 stdlib.fn.derive.pipeable() {
   builtin local derive_target_fn_name
-  builtin local stdin_source_specifier="${STDLIB_PIPEABLE_STDIN_SOURCE_SPECIFIER:-"-"}" # defaults STDLIB_PIPEABLE_STDIN_SOURCE_SPECIFIER
+  builtin local stdin_source_specifier="${STDLIB_PIPEABLE_STDIN_SOURCE_SPECIFIER:-"-"}"
 
   stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?"
   stdlib.fn.assert.is_fn "${1}" || builtin return 126

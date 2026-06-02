@@ -14,13 +14,13 @@ STDLIB_HANDLER_EXIT_FN_ARRAY=()
 STDLIB_CLEANUP_FN_TARGETS_ARRAY=()
 
 # @description A handler function that removes files when called (by default this handler is registered to the exit signal).
-#   * STDLIB_CLEANUP_FN_TARGETS_ARRAY: An array used to store file names targeted by the cleanup_on_exit function (default=()).
+#   * STDLIB_CLEANUP_FN_TARGETS_ARRAY array global: An array used to store file names targeted by the cleanup_on_exit function (default=()).
 # @noargs
 # @exitcode 0 If the operation succeeded.
 stdlib.trap.fn.cleanup_on_exit() { :; } # validates STDLIB_CLEANUP_FN_TARGETS_ARRAY
 
 # @description A handler function that is invoked on an error trap.
-#   * STDLIB_HANDLER_ERR_FN_ARRAY: An array containing a list of functions that are run on error (default=()).
+#   * STDLIB_HANDLER_ERR_FN_ARRAY array global: An array containing a list of functions that are run on error (default=()).
 # @noargs
 # @exitcode 0 If the operation succeeded.
 stdlib.trap.handler.err.fn() { :; } # validates STDLIB_HANDLER_ERR_FN_ARRAY
@@ -32,7 +32,7 @@ stdlib.trap.handler.err.fn() { :; } # validates STDLIB_HANDLER_ERR_FN_ARRAY
 stdlib.trap.handler.err.fn.register() { :; }
 
 # @description A handler function that is invoked on an exit trap.
-#   * STDLIB_HANDLER_EXIT_FN_ARRAY: An array containing a list of functions that are run on an exit call (default=("stdlib.trap.fn.cleanup_on_exit")).
+#   * STDLIB_HANDLER_EXIT_FN_ARRAY array global: An array containing a list of functions that are run on an exit call (default=("stdlib.trap.fn.cleanup_on_exit")).
 # @noargs
 # @exitcode 0 If the operation succeeded.
 stdlib.trap.handler.exit.fn() { :; } # validates STDLIB_HANDLER_EXIT_FN_ARRAY
@@ -44,10 +44,10 @@ stdlib.trap.handler.exit.fn() { :; } # validates STDLIB_HANDLER_EXIT_FN_ARRAY
 stdlib.trap.handler.exit.fn.register() { :; }
 
 # @description Creates the default trap handlers for stdlib.
-#   * STDLIB_CLEANUP_FN_TARGETS_ARRAY: An array used to store file names targeted by the cleanup_on_exit function (default=()).
-#   * STDLIB_HANDLER_ERR_FN_ARRAY: An array used to store error handler functions (default=()).
-#   * STDLIB_HANDLER_EXIT_FN_ARRAY: An array used to store exit handler functions (default=()).
-#   * STDLIB_TRACEBACK_DISABLE_BOOLEAN: Disables the default traceback logger on errors (default=1).
+#   * STDLIB_CLEANUP_FN_TARGETS_ARRAY array global: An array used to store file names targeted by the cleanup_on_exit function (default=()).
+#   * STDLIB_HANDLER_ERR_FN_ARRAY array global: An array used to store error handler functions (default=()).
+#   * STDLIB_HANDLER_EXIT_FN_ARRAY array global: An array used to store exit handler functions (default=()).
+#   * STDLIB_TRACEBACK_DISABLE_BOOLEAN boolean global: Disables the default traceback logger on errors (default=1).
 # @noargs
 # @exitcode 0 If the operation succeeded.
 # @exitcode 123 If a variable reserved for use by the BASH stdlib has been assigned an invalid value.

@@ -11,6 +11,7 @@ __STDLIB_TESTING_MOCK_COMPONENT="$(
   "${_STDLIB_BINARY_CAT}" << 'EOF'
 
 # @description Counts the number of times a mock has been called with a given arg string.
+#   * __${2}_mock_calls_file string global: The filename containing the persisted calls of the mock (default="").
 # @arg $1 string The arg string to compare against the mock's call history.
 # @exitcode 0 If the mock's match count was retrieved successfully.
 # @stdout The count of matches identified.
@@ -134,6 +135,7 @@ ${1}.mock.assert_called_once_with() {
 }
 
 # @description Asserts the mock's call history matches the given arg strings. (Call this function without args to assert this mock was not called at all).
+#   * __${2}_mock_calls_file string global: The filename containing the persisted calls of the mock (default="").
 # @arg $@ array An array of arg strings that is expected to match the mock's call history.
 # @exitcode 0 If the mock's call history matches the given arg strings.
 # @exitcode 1 If the mock's call history does not match the given arg strings.
