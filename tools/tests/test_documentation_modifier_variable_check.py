@@ -7,7 +7,7 @@ from unittest.mock import patch
 # Add the tools directory to the path so we can import the script
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-import modifier_variable_check
+import documentation_modifier_variable_check
 
 
 class TestModifierVariableCheck(unittest.TestCase):
@@ -15,12 +15,12 @@ class TestModifierVariableCheck(unittest.TestCase):
     def setUp(self):
         self.assets_dir = os.path.join(
             os.path.dirname(__file__),
-            "assets/modifier_variable_check",
+            "assets/documentation_modifier_variable_check",
         )
 
     def test_extract_metadata(self):
         filepath = os.path.join(self.assets_dir, "file1.sh")
-        checker = modifier_variable_check.ModifierVariableConsistencyChecker([])
+        checker = documentation_modifier_variable_check.ModifierVariableConsistencyChecker([])
         metadata_dict = checker._parse_file_for_metadata(filepath)
         metadata = []
         for instances in metadata_dict.values():
@@ -44,7 +44,7 @@ class TestModifierVariableCheck(unittest.TestCase):
 
     def test_extract_metadata_set(self):
         filepath = os.path.join(self.assets_dir, "file2.sh")
-        checker = modifier_variable_check.ModifierVariableConsistencyChecker([])
+        checker = documentation_modifier_variable_check.ModifierVariableConsistencyChecker([])
         metadata_dict = checker._parse_file_for_metadata(filepath)
         metadata = []
         for instances in metadata_dict.values():
@@ -62,8 +62,8 @@ class TestModifierVariableCheck(unittest.TestCase):
     @patch("sys.stdout", new_callable=StringIO)
     def test_main_consistent(self, mock_stdout, mock_exit):
         filepath = os.path.join(self.assets_dir, "file1.sh")
-        with patch("sys.argv", ["modifier_variable_check.py", filepath]):
-            modifier_variable_check.main()
+        with patch("sys.argv", ["documentation_modifier_variable_check.py", filepath]):
+            documentation_modifier_variable_check.main()
 
         # Should not exit with 1
         mock_exit.assert_not_called()
@@ -74,8 +74,8 @@ class TestModifierVariableCheck(unittest.TestCase):
     def test_main_inconsistent_description(self, mock_stdout, mock_exit):
         file1 = os.path.join(self.assets_dir, "file1.sh")
         file2 = os.path.join(self.assets_dir, "file2.sh")
-        with patch("sys.argv", ["modifier_variable_check.py", file1, file2]):
-            modifier_variable_check.main()
+        with patch("sys.argv", ["documentation_modifier_variable_check.py", file1, file2]):
+            documentation_modifier_variable_check.main()
 
         mock_exit.assert_called_with(1)
         output = mock_stdout.getvalue()
@@ -87,8 +87,8 @@ class TestModifierVariableCheck(unittest.TestCase):
     @patch("sys.stdout", new_callable=StringIO)
     def test_main_inconsistent_set(self, mock_stdout, mock_exit):
         file3 = os.path.join(self.assets_dir, "file3.sh")
-        with patch("sys.argv", ["modifier_variable_check.py", file3]):
-            modifier_variable_check.main()
+        with patch("sys.argv", ["documentation_modifier_variable_check.py", file3]):
+            documentation_modifier_variable_check.main()
 
         mock_exit.assert_called_with(1)
         output = mock_stdout.getvalue()
@@ -100,8 +100,8 @@ class TestModifierVariableCheck(unittest.TestCase):
     @patch("sys.stdout", new_callable=StringIO)
     def test_main_inconsistent_mixed(self, mock_stdout, mock_exit):
         file4 = os.path.join(self.assets_dir, "file4.sh")
-        with patch("sys.argv", ["modifier_variable_check.py", file4]):
-            modifier_variable_check.main()
+        with patch("sys.argv", ["documentation_modifier_variable_check.py", file4]):
+            documentation_modifier_variable_check.main()
 
         mock_exit.assert_called_with(1)
         output = mock_stdout.getvalue()

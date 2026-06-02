@@ -18,7 +18,7 @@ class ModifierVariableMetadata(NamedTuple):
     tag_type: str
 
 
-class ModifierVariableConsistencyError:
+class ModifierVariableInconsistencyError:
 
     def __init__(self, var_name: str, instances: List[ModifierVariableMetadata]):
         self.var_name = var_name
@@ -212,7 +212,7 @@ class ModifierVariableConsistencyChecker:
                     ))
         return metadata_list
 
-    def _identify_consistency_errors(self) -> List[ModifierVariableConsistencyError]:
+    def _identify_consistency_errors(self) -> List[ModifierVariableInconsistencyError]:
         errors = []
         for var_name, instances in self.all_metadata.items():
             if len(instances) < 2:
@@ -220,7 +220,7 @@ class ModifierVariableConsistencyChecker:
 
             if self._has_inconsistency(instances):
                 if self._should_report_inconsistency(instances):
-                    errors.append(ModifierVariableConsistencyError(var_name, instances))
+                    errors.append(ModifierVariableInconsistencyError(var_name, instances))
         return errors
 
     def _has_inconsistency(self, instances: List[ModifierVariableMetadata]) -> bool:
@@ -257,7 +257,7 @@ class ModifierVariableConsistencyChecker:
         involved_files = {inst.filepath for inst in instances}
         return bool(involved_files & self.modified_files)
 
-    def _report_errors(self, errors: List[ModifierVariableConsistencyError]):
+    def _report_errors(self, errors: List[ModifierVariableInconsistencyError]):
         for error in errors:
             print(str(error))
 

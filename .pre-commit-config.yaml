@@ -171,7 +171,7 @@ repos:
         require_serial: true
       - id: documentation-source-files-modifier-variable-consistency
         name: ensure modifier variable descriptions are consistent
-        entry: python tools/modifier_variable_check.py
+        entry: python tools/documentation_modifier_variable_check.py
         language: system
         files: "^(src/.+\\.(sh|snippet)|dist/docs.sh)$"
         exclude: "^((.+/)*tests/.+\\.sh)$"
