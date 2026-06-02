@@ -169,7 +169,7 @@ repos:
         exclude: "^((.+/)*tests/.+\\.sh)$"
         pass_filenames: false
         require_serial: true
-      - id: documentation-modifier-variable-consistency
+      - id: documentation-source-files-modifier-variable-consistency
         name: ensure modifier variable descriptions are consistent
         entry: python tools/modifier_variable_check.py
         language: system

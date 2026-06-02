@@ -18,6 +18,60 @@ class ModifierVariableMetadata(NamedTuple):
     tag_type: str
 
 
+class ModifierVariableConsistencyError:
+
+    def __init__(self, var_name: str, instances: List[ModifierVariableMetadata]):
+        self.var_name = var_name
+        self.instances = instances
+
+    def __str__(self) -> str:
+        first = self.instances[0]
+        # We find the first instance that is inconsistent with the first one
+        other = self._find_first_inconsistent_instance()
+
+        message = f"Inconsistent documentation for '{self.var_name}':\n"
+        message += self._format_instance(first)
+        message += self._format_instance(other)
+        return message
+
+    def _find_first_inconsistent_instance(self) -> ModifierVariableMetadata:
+        first = self.instances[0]
+        for inst in self.instances[1:]:
+            if self._is_inconsistent(first, inst):
+                return inst
+        return self.instances[1]  # Fallback, should not happen if used correctly
+
+    def _is_inconsistent(
+        self,
+        first: ModifierVariableMetadata,
+        other: ModifierVariableMetadata,
+    ) -> bool:
+        if first.var_type is not None and other.var_type is not None:
+            if first.var_type != other.var_type:
+                return True
+
+        if first.description != other.description:
+            return True
+
+        if first.modifier is not None and other.modifier is not None:
+            if first.modifier != other.modifier:
+                return True
+
+        return False
+
+    def _format_instance(self, instance: ModifierVariableMetadata) -> str:
+        if instance.tag_type == "description":
+            return (
+                f"  {instance.filepath} ({instance.function_name}, @description): "
+                f"type='{instance.var_type}', "
+                f"modifier='{instance.modifier}', "
+                f"description='{instance.description}'\n")
+        return (
+            f"  {instance.filepath} ({instance.function_name}, @set): "
+            f"type='{instance.var_type}', "
+            f"description='{instance.description}'\n")
+
+
 class ModifierVariableConsistencyChecker:
 
     DESC_WITH_TYPE_PATTERN = (
@@ -158,7 +212,7 @@ class ModifierVariableConsistencyChecker:
                     ))
         return metadata_list
 
-    def _identify_consistency_errors(self) -> List[str]:
+    def _identify_consistency_errors(self) -> List[ModifierVariableConsistencyError]:
         errors = []
         for var_name, instances in self.all_metadata.items():
             if len(instances) < 2:
@@ -166,7 +220,7 @@ class ModifierVariableConsistencyChecker:
 
             if self._has_inconsistency(instances):
                 if self._should_report_inconsistency(instances):
-                    errors.append(self._format_error(var_name, instances))
+                    errors.append(ModifierVariableConsistencyError(var_name, instances))
         return errors
 
     def _has_inconsistency(self, instances: List[ModifierVariableMetadata]) -> bool:
@@ -194,7 +248,6 @@ class ModifierVariableConsistencyChecker:
 
         return False
 
-
     def _should_report_inconsistency(
         self,
         instances: List[ModifierVariableMetadata],
@@ -204,33 +257,9 @@ class ModifierVariableConsistencyChecker:
         involved_files = {inst.filepath for inst in instances}
         return bool(involved_files & self.modified_files)
 
-    def _format_error(self, var_name: str,
-                      instances: List[ModifierVariableMetadata]) -> str:
-        first = instances[0]
-        other = next(inst for inst in instances[1:] if self._is_inconsistent(first, inst))
-
-        message = f"Inconsistent documentation for '{var_name}':\n"
-        message += self._format_instance_error(first)
-        message += self._format_instance_error(other)
-        return message
-
-    def _format_instance_error(self, instance: ModifierVariableMetadata) -> str:
-        if instance.tag_type == "description":
-            var_type = instance.var_type if instance.var_type else "N/A"
-            modifier = instance.modifier if instance.modifier else "N/A"
-            return (
-                f"  {instance.filepath} ({instance.function_name}, @description): "
-                f"type='{var_type}', "
-                f"modifier='{modifier}', "
-                f"description='{instance.description}'\n")
-        return (
-            f"  {instance.filepath} ({instance.function_name}, @set): "
-            f"type='{instance.var_type}', "
-            f"description='{instance.description}'\n")
-
-    def _report_errors(self, errors: List[str]):
+    def _report_errors(self, errors: List[ModifierVariableConsistencyError]):
         for error in errors:
-            print(error)
+            print(str(error))
 
 
 def main():
