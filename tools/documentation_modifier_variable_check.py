@@ -25,12 +25,6 @@ class ModifierVariableInconsistencyError:
         self.var_name = var_name
         self.instances = instances
 
-    def __str__(self) -> str:
-        message = f"Inconsistent documentation for '{self.var_name}':\n"
-        for instance in self.instances:
-            message += self._format_instance(instance)
-        return message
-
     @staticmethod
     def is_inconsistent(
         first: ModifierVariableMetadata,
@@ -49,17 +43,14 @@ class ModifierVariableInconsistencyError:
 
         return False
 
-    def _format_instance(self, instance: ModifierVariableMetadata) -> str:
+    @staticmethod
+    def format_instance_details(instance: ModifierVariableMetadata) -> str:
         if instance.tag_type == "description":
-            return (
-                f"  {instance.filepath} ({instance.function_name}, @description): "
-                f"type='{instance.var_type}', "
-                f"modifier='{instance.modifier}', "
-                f"description='{instance.description}'\n")
-        return (
-            f"  {instance.filepath} ({instance.function_name}, @set): "
-            f"type='{instance.var_type}', "
-            f"description='{instance.description}'\n")
+            return (f"type='{instance.var_type}', "
+                    f"modifier='{instance.modifier}', "
+                    f"description='{instance.description}'")
+        return (f"type='{instance.var_type}', "
+                f"description='{instance.description}'")
 
 
 class ModifierVariableConsistencyChecker:
@@ -230,21 +221,29 @@ class ModifierVariableConsistencyChecker:
         return bool(involved_files & self.modified_files)
 
     def _report_errors(self, errors: List[ModifierVariableInconsistencyError]):
-        output: Dict[str, List[str]] = {}
-        for error in errors:
-            message = str(error)
-            involved_files = {inst.filepath for inst in error.instances}
+        output: Dict[str, List[Dict]] = {}
 
-            files_to_attribute = set()
-            if self.modified_files:
-                files_to_attribute = involved_files & self.modified_files
-            else:
-                files_to_attribute = involved_files
+        for error in errors:
+            involved_files = {inst.filepath for inst in error.instances}
+            files_to_attribute = (involved_files & self.modified_files
+                                  if self.modified_files else involved_files)
 
             for filepath in sorted(files_to_attribute):
                 if filepath not in output:
                     output[filepath] = []
-                output[filepath].append(message)
+
+                # {variable_name: [ {function_name: [ {tag: output} ] } ] }
+                var_entry = {error.var_name: []}
+                for instance in error.instances:
+                    details = ModifierVariableInconsistencyError.format_instance_details(
+                        instance)
+                    tag_key = f"@{instance.tag_type}"
+                    var_entry[error.var_name].append({
+                        instance.function_name: [{
+                            tag_key: details
+                        }],
+                    })
+                output[filepath].append(var_entry)
 
         if output:
             print(json.dumps(output, indent=2))

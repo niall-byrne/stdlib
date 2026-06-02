@@ -82,9 +82,13 @@ class TestModifierVariableCheck(unittest.TestCase):
         output = json.loads(mock_stdout.getvalue())
         self.assertIn(file1, output)
         self.assertIn(file2, output)
-        self.assertIn("Inconsistent documentation for 'STDLIB_VAR2'", output[file1][0])
-        self.assertIn("Description 2", output[file1][0])
-        self.assertIn("Inconsistent description", output[file1][0])
+
+        # { filename: [ {variable_name: [ {function_name: [ {tag: output} ] } ] } ] }
+        var2_entry = [e for e in output[file1] if "STDLIB_VAR2" in e][0]
+        self.assertIn("STDLIB_VAR2", var2_entry)
+        details = str(var2_entry["STDLIB_VAR2"])
+        self.assertIn("Description 2", details)
+        self.assertIn("Inconsistent description", details)
 
     @patch("sys.exit")
     @patch("sys.stdout", new_callable=StringIO)
@@ -96,9 +100,11 @@ class TestModifierVariableCheck(unittest.TestCase):
         mock_exit.assert_called_with(1)
         output = json.loads(mock_stdout.getvalue())
         self.assertIn(file3, output)
-        self.assertIn("Inconsistent documentation for 'STDLIB_VAR3'", output[file3][0])
-        self.assertIn("The count of items.", output[file3][0])
-        self.assertIn("Inconsistent @set.", output[file3][0])
+        var3_entry = output[file3][0]
+        self.assertIn("STDLIB_VAR3", var3_entry)
+        details = str(var3_entry["STDLIB_VAR3"])
+        self.assertIn("The count of items.", details)
+        self.assertIn("Inconsistent @set.", details)
 
     @patch("sys.exit")
     @patch("sys.stdout", new_callable=StringIO)
@@ -110,7 +116,8 @@ class TestModifierVariableCheck(unittest.TestCase):
         mock_exit.assert_called_with(1)
         output = json.loads(mock_stdout.getvalue())
         self.assertIn(file4, output)
-        self.assertIn("Inconsistent documentation for 'STDLIB_VAR4'", output[file4][0])
+        var4_entry = output[file4][0]
+        self.assertIn("STDLIB_VAR4", var4_entry)
 
 
 if __name__ == "__main__":
