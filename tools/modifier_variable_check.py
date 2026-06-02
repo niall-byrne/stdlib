@@ -10,8 +10,8 @@ from documentation_check import parse_file, Tags, MODIFIER_VARIABLE_PREFIX
 
 class ModifierVariableMetadata(NamedTuple):
     name: str
-    var_type: str
-    modifier: str
+    var_type: Optional[str]
+    modifier: Optional[str]
     description: str
     filepath: str
     function_name: str
@@ -127,8 +127,8 @@ class ModifierVariableConsistencyChecker:
             var_name, description = match.groups()
             return ModifierVariableMetadata(
                 name=var_name,
-                var_type="N/A",
-                modifier="N/A",
+                var_type=None,
+                modifier=None,
                 description=description.strip(),
                 filepath=filepath,
                 function_name=function_name,
@@ -150,7 +150,7 @@ class ModifierVariableConsistencyChecker:
                     ModifierVariableMetadata(
                         name=var_name,
                         var_type=var_type,
-                        modifier="N/A",
+                        modifier=None,
                         description=description.strip(),
                         filepath=filepath,
                         function_name=function.name,
@@ -181,14 +181,14 @@ class ModifierVariableConsistencyChecker:
         first: ModifierVariableMetadata,
         other: ModifierVariableMetadata,
     ) -> bool:
-        if first.var_type != "N/A" and other.var_type != "N/A":
+        if first.var_type is not None and other.var_type is not None:
             if first.var_type != other.var_type:
                 return True
 
         if first.description != other.description:
             return True
 
-        if first.modifier != "N/A" and other.modifier != "N/A":
+        if first.modifier is not None and other.modifier is not None:
             if first.modifier != other.modifier:
                 return True
 
@@ -208,13 +208,25 @@ class ModifierVariableConsistencyChecker:
                       instances: List[ModifierVariableMetadata]) -> str:
         first = instances[0]
         other = next(inst for inst in instances[1:] if self._is_inconsistent(first, inst))
+
+        message = f"Inconsistent documentation for '{var_name}':\n"
+        message += self._format_instance_error(first)
+        message += self._format_instance_error(other)
+        return message
+
+    def _format_instance_error(self, instance: ModifierVariableMetadata) -> str:
+        if instance.tag_type == "description":
+            var_type = instance.var_type if instance.var_type else "N/A"
+            modifier = instance.modifier if instance.modifier else "N/A"
+            return (
+                f"  {instance.filepath} ({instance.function_name}, @description): "
+                f"type='{var_type}', "
+                f"modifier='{modifier}', "
+                f"description='{instance.description}'\n")
         return (
-            f"Inconsistent documentation for '{var_name}':\n"
-            f"  {first.filepath} ({first.function_name}, {first.tag_type}): "
-            f"type='{first.var_type}', modifier='{first.modifier}', description='{first.description}'\n"
-            f"  {other.filepath} ({other.function_name}, {other.tag_type}): "
-            f"type='{other.var_type}', modifier='{other.modifier}', description='{other.description}'"
-        )
+            f"  {instance.filepath} ({instance.function_name}, @set): "
+            f"type='{instance.var_type}', "
+            f"description='{instance.description}'\n")
 
     def _report_errors(self, errors: List[str]):
         for error in errors:

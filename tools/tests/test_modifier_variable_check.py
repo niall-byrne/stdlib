@@ -29,18 +29,18 @@ class TestModifierVariableCheck(unittest.TestCase):
 
         self.assertEqual(len(metadata), 3)
 
-        self.assertEqual(metadata[0].name, "VAR1")
+        self.assertEqual(metadata[0].name, "STDLIB_VAR1")
         self.assertEqual(metadata[0].var_type, "string")
         self.assertEqual(metadata[0].modifier, "global")
         self.assertEqual(metadata[0].description, "Description 1 (default=\"val1\").")
-        self.assertEqual(metadata[0].function_name, "fn1")
+        self.assertEqual(metadata[0].function_name, "stdlib.fn1")
         self.assertEqual(metadata[0].tag_type, "description")
 
-        self.assertEqual(metadata[1].name, "VAR2")
-        self.assertEqual(metadata[1].function_name, "fn1")
+        self.assertEqual(metadata[1].name, "STDLIB_VAR2")
+        self.assertEqual(metadata[1].function_name, "stdlib.fn1")
 
-        self.assertEqual(metadata[2].name, "VAR1")
-        self.assertEqual(metadata[2].function_name, "fn2")
+        self.assertEqual(metadata[2].name, "STDLIB_VAR1")
+        self.assertEqual(metadata[2].function_name, "stdlib.fn2")
 
     def test_extract_metadata_set(self):
         filepath = os.path.join(self.assets_dir, "file2.sh")
@@ -52,9 +52,9 @@ class TestModifierVariableCheck(unittest.TestCase):
         # VAR1, VAR2, VAR3
         self.assertEqual(len(metadata), 3)
 
-        var3 = [m for m in metadata if m.name == "VAR3"][0]
+        var3 = [m for m in metadata if m.name == "STDLIB_VAR3"][0]
         self.assertEqual(var3.var_type, "integer")
-        self.assertEqual(var3.modifier, "N/A")
+        self.assertEqual(var3.modifier, None)
         self.assertEqual(var3.description, "The count of items.")
         self.assertEqual(var3.tag_type, "set")
 
@@ -79,7 +79,7 @@ class TestModifierVariableCheck(unittest.TestCase):
 
         mock_exit.assert_called_with(1)
         output = mock_stdout.getvalue()
-        self.assertIn("Inconsistent documentation for 'VAR2'", output)
+        self.assertIn("Inconsistent documentation for 'STDLIB_VAR2'", output)
         self.assertIn("Description 2", output)
         self.assertIn("Inconsistent description", output)
 
@@ -92,7 +92,7 @@ class TestModifierVariableCheck(unittest.TestCase):
 
         mock_exit.assert_called_with(1)
         output = mock_stdout.getvalue()
-        self.assertIn("Inconsistent documentation for 'VAR3'", output)
+        self.assertIn("Inconsistent documentation for 'STDLIB_VAR3'", output)
         self.assertIn("The count of items.", output)
         self.assertIn("Inconsistent @set.", output)
 
@@ -105,7 +105,7 @@ class TestModifierVariableCheck(unittest.TestCase):
 
         mock_exit.assert_called_with(1)
         output = mock_stdout.getvalue()
-        self.assertIn("Inconsistent documentation for 'VAR4'", output)
+        self.assertIn("Inconsistent documentation for 'STDLIB_VAR4'", output)
 
 
 if __name__ == "__main__":
