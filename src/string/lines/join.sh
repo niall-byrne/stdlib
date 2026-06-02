@@ -5,7 +5,7 @@
 builtin set -eo pipefail
 
 # @description Joins lines in a string by removing a delimiter.
-#   * STDLIB_LINE_BREAK_DELIMITER: A line break char sequence which is replaced to join the string (default=$'\n').
+#   * STDLIB_LINE_BREAK_DELIMITER string keyword: A line break char sequence which is replaced to join the string (default=$'\n').
 # @arg $1 string The string to process.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 127 If the wrong number of arguments were provided.

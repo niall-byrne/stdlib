@@ -79,7 +79,7 @@ stdlib.var.query.is_valid_name() {
 }
 
 # @description Checks if a variable's value is valid against a validation function.
-#   * STDLIB_VALIDATION_SOURCE_VAR: An optional variable name that can be used as a source for validation (default="").
+#   * STDLIB_VALIDATION_SOURCE_VAR string keyword: An optional variable name that can be used as a source for validation (default="").
 # @arg $1 string The validation function to run.
 # @arg $2 string The name of the variable containing the value to perform validation on.
 # @arg $3 string (optional, default="value") Controls whether the 'name' or 'value' of the variable is passed to the validation function.
@@ -105,7 +105,7 @@ stdlib.var.query.is_valid_with() {
   stdlib.array.query.is_contains "${validation_source_selection}" var_source_types || builtin return 126
 
   if [[ -n "${validate_default_value}" ]]; then
-    stdlib.var.query.is_set "${validate_default_value}" || builtin return 125 # validates STDLIB_VALIDATION_SOURCE_VAR
+    stdlib.var.query.is_set "${validate_default_value}" || builtin return 125
     validation_source="${validate_default_value}"
   fi
 
