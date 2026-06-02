@@ -17,7 +17,6 @@ __STDLIB_TESTING_MOCK_REGISTERED_INSTANCES_ARRAY=()
 # @exitcode 0 If the mock was added to the registry.
 # @internal
 _mock.__internal.persistence.registry.add_mock() {
-  # clean __STDLIB_TESTING_MOCK_REGISTERED_INSTANCES_ARRAY,__STDLIB_TESTING_MOCK_REGISTRY_FOLDER,__${2}_mock_calls_file,__${2}_mock_side_effects_file
   __STDLIB_TESTING_MOCK_REGISTERED_INSTANCES_ARRAY+=("${1}")
   builtin printf -v "__${2}_mock_calls_file" "%s" "$("${_STDLIB_BINARY_MKTEMP}" -p "${__STDLIB_TESTING_MOCK_REGISTRY_FOLDER}")"
   builtin printf -v "__${2}_mock_side_effects_file" "%s" "$("${_STDLIB_BINARY_MKTEMP}" -p "${__STDLIB_TESTING_MOCK_REGISTRY_FOLDER}")"
@@ -29,7 +28,6 @@ _mock.__internal.persistence.registry.add_mock() {
 # @exitcode 0 If the command was applied to all mocks.
 # @internal
 _mock.__internal.persistence.registry.apply_to_all() {
-  # clean __STDLIB_TESTING_MOCK_REGISTERED_INSTANCES_ARRAY
   builtin local mock_instance
 
   for mock_instance in "${__STDLIB_TESTING_MOCK_REGISTERED_INSTANCES_ARRAY[@]}"; do
@@ -43,7 +41,6 @@ _mock.__internal.persistence.registry.apply_to_all() {
 # @exitcode 0 If the mock registry was cleaned up.
 # @internal
 _mock.__internal.persistence.registry.cleanup() {
-  # clean __STDLIB_TESTING_MOCK_REGISTRY_FOLDER
   if [[ -n "${__STDLIB_TESTING_MOCK_REGISTRY_FOLDER}" ]]; then
     "${_STDLIB_BINARY_RM}" -rf "${__STDLIB_TESTING_MOCK_REGISTRY_FOLDER}"
   fi
@@ -55,7 +52,6 @@ _mock.__internal.persistence.registry.cleanup() {
 # @exitcode 0 If the mock registry directory was created.
 # @internal
 _mock.__internal.persistence.registry.create() {
-  # clean __STDLIB_TESTING_MOCK_REGISTRY_FOLDER
   if [[ -z "${__STDLIB_TESTING_MOCK_REGISTRY_FOLDER}" ]]; then
     __STDLIB_TESTING_MOCK_REGISTRY_FOLDER="$("${_STDLIB_BINARY_MKTEMP}" -d)"
   fi

@@ -125,7 +125,7 @@ stdlib.fn.derive.pipeable "stdlib.logger.warning" "1"
 
 # @description Prints the message prefix for logging.
 #   * STDLIB_LOGGING_MESSAGE_PREFIX string keyword: A prefix identifying the calling function (default="${FUNCNAME[3]}").
-#   * __STDLIB_LOGGING_DECORATORS_ARRAY array global: An array containing known decorating functions used to preserve the original calling function's name (default=notated at top of file).
+#   * __STDLIB_LOGGING_DECORATORS_ARRAY array reserved: An array containing known decorating functions used to preserve the original calling function's name (default=notated at top of file).
 # @noargs
 # @exitcode 0 If the operation succeeded.
 # @stdout The message prefix.

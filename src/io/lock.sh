@@ -150,7 +150,6 @@ stdlib.io.lock.with() {
 # @stderr The error message if the operation fails.
 # shellcheck disable=SC2120
 stdlib.io.lock.workspace_allocate() {
-  # clean STDLIB_HANDLER_EXIT_FN_ARRAY
   builtin local successful_allocation_boolean=1
   builtin local lock_workspace_permissions="${STDLIB_LOCK_WORKSPACE_PERMISSION_OCTAL:-"0700"}"
 

@@ -24,7 +24,7 @@ stdlib.string.colour.substring() {
 
   string_colour="$(stdlib.setting.theme.get_colour "${1}")"
 
-  builtin echo -e "${3/${2}/${!string_colour}${2}${STDLIB_COLOUR_NC}}" # validates STDLIB_COLOUR_NC
+  builtin echo -e "${3/${2}/${!string_colour}${2}${STDLIB_COLOUR_NC}}"
 }
 
 # @description A derivative of stdlib.string.colour.substring that can read from stdin.
@@ -69,7 +69,7 @@ stdlib.string.colour.substrings() {
 
   string_colour="$(stdlib.setting.theme.get_colour "${1}")"
 
-  builtin echo -e "${3//${2}/${!string_colour}${2}${STDLIB_COLOUR_NC}}" # validates STDLIB_COLOUR_NC
+  builtin echo -e "${3//${2}/${!string_colour}${2}${STDLIB_COLOUR_NC}}"
 }
 
 # @description A derivative of stdlib.string.colour.substrings that can read from stdin.

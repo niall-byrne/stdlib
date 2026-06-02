@@ -15,7 +15,7 @@ builtin set -eo pipefail
 # @stderr The error message if the operation fails.
 stdlib.string.lines.map.fn() {
   builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
-  builtin local delimiter="${STDLIB_LINE_BREAK_DELIMITER:-$'\n'}" # defaults STDLIB_LINE_BREAK_DELIMITER
+  builtin local delimiter="${STDLIB_LINE_BREAK_DELIMITER:-$'\n'}"
   builtin local line=""
   builtin local output=""
 
@@ -48,10 +48,7 @@ stdlib.string.lines.map.fn() {
 # @stdin The input string to process.
 # @stdout The mapped lines.
 # @stderr The error message if the operation fails.
-stdlib.string.lines.map.fn_pipe() {
-  # clean STDLIB_LINE_BREAK_DELIMITER
-  :;
-}
+stdlib.string.lines.map.fn_pipe() { :; }
 stdlib.fn.derive.pipeable "stdlib.string.lines.map.fn" "2"
 
 # @description A derivative of stdlib.string.lines.map.fn that can read from and write to a variable.
@@ -62,10 +59,7 @@ stdlib.fn.derive.pipeable "stdlib.string.lines.map.fn" "2"
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stderr The error message if the operation fails.
-stdlib.string.lines.map.fn_var() {
-  # clean STDLIB_LINE_BREAK_DELIMITER
-  :;
-}
+stdlib.string.lines.map.fn_var() { :; }
 stdlib.fn.derive.var "stdlib.string.lines.map.fn"
 
 # @description Maps a format string over each line of a string.
@@ -78,7 +72,7 @@ stdlib.fn.derive.var "stdlib.string.lines.map.fn"
 # @stderr The error message if the operation fails.
 stdlib.string.lines.map.format() {
   builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
-  builtin local delimiter="${STDLIB_LINE_BREAK_DELIMITER:-$'\n'}" # defaults STDLIB_LINE_BREAK_DELIMITER
+  builtin local delimiter="${STDLIB_LINE_BREAK_DELIMITER:-$'\n'}"
   builtin local line=""
   builtin local output=""
 
@@ -111,10 +105,7 @@ stdlib.string.lines.map.format() {
 # @stdin The input string to process.
 # @stdout The formatted lines.
 # @stderr The error message if the operation fails.
-stdlib.string.lines.map.format_pipe() {
-  # clean STDLIB_LINE_BREAK_DELIMITER
-  :;
-}
+stdlib.string.lines.map.format_pipe() { :; }
 stdlib.fn.derive.pipeable "stdlib.string.lines.map.format" "2"
 
 # @description A derivative of stdlib.string.lines.map.format that can read from and write to a variable.
@@ -124,8 +115,5 @@ stdlib.fn.derive.pipeable "stdlib.string.lines.map.format" "2"
 # @exitcode 0 If the operation succeeded.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stderr The error message if the operation fails.
-stdlib.string.lines.map.format_var() {
-  # clean STDLIB_LINE_BREAK_DELIMITER
-  :;
-}
+stdlib.string.lines.map.format_var() { :; }
 stdlib.fn.derive.var "stdlib.string.lines.map.format"

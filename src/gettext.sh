@@ -25,7 +25,7 @@ stdlib.__gettext.call() {
   builtin local original_text_domain_dir="${TEXTDOMAINDIR}"
 
   TEXTDOMAIN="${1}"
-  TEXTDOMAINDIR="${STDLIB_TEXTDOMAINDIR}" # validates STDLIB_TEXTDOMAINDIR
+  TEXTDOMAINDIR="${STDLIB_TEXTDOMAINDIR}"
   eval_gettext "${2}"
   TEXTDOMAIN="${original_text_domain}"
   TEXTDOMAINDIR="${original_text_domain_dir}"

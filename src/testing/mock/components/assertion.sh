@@ -30,7 +30,7 @@ ${1}.mock.__count_matches() {
     if [[ "\${_mock_object_arg_string_expected}" == "\${_mock_object_arg_string_actual}" ]]; then
       ((_mock_object_match_count++))
     fi
-  done < "\${__${2}_mock_calls_file}" # validates __${2}_mock_calls_file
+  done < "\${__${2}_mock_calls_file}"
 
   builtin echo "\${_mock_object_match_count}"
 }
@@ -160,7 +160,7 @@ ${1}.mock.assert_calls_are() {
       "\${_mock_object_arg_string_actual}" \
       "\$(_testing.mock.__message.get MOCK_CALL_N_NOT_AS_EXPECTED "${1}" "\$((_mock_object_call_index + 1))")"
     ((_mock_object_call_index++))
-  done < "\${__${2}_mock_calls_file}" || builtin true # validates __${2}_mock_calls_file
+  done < "\${__${2}_mock_calls_file}" || builtin true
 
   if [[ "\${_mock_object_call_index}" == 0 ]] && [[ "\${#@}" != 0 ]]; then
     fail "\$(_testing.mock.__message.get "MOCK_NOT_CALLED" "${1}")"

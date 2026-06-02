@@ -43,7 +43,7 @@ stdlib.string.colour_n() {
 
   string_colour="$(stdlib.setting.theme.get_colour "${1}")"
 
-  builtin echo -ne "${!string_colour}${2}${STDLIB_COLOUR_NC}" # validates STDLIB_COLOUR_NC
+  builtin echo -ne "${!string_colour}${2}${STDLIB_COLOUR_NC}"
 }
 
 # @description A derivative of stdlib.string.colour_n that can read from stdin.

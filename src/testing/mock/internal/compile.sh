@@ -12,7 +12,6 @@ builtin set -eo pipefail
 # @stdout The generated mock function definition.
 # @internal
 _mock.__internal.compile() {
-  # clean STDLIB_DIRECTORY,__STDLIB_TESTING_MOCK_COMPONENT
   builtin local mock_component
   builtin local -a mock_component_file_set
 

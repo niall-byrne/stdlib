@@ -5,7 +5,7 @@
 builtin set -eo pipefail
 
 # @description Parses the parametrize configuration array.
-#   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR string global: The field separator for scenarios (default=";").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR string keyword: The field separator for scenarios (default=";").
 # @arg $1 string The name of the array containing the configuration.
 # @arg $2 string The name of the variable to store the scenario start index.
 # @arg $3 string The name of the array to store environment variables.
@@ -44,8 +44,8 @@ builtin set -eo pipefail
 }
 
 # @description Parses the header portion of the parametrize configuration.
-#   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX string global: The prefix for fixture commands (default="@fixture ").
-#   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR string global: The field separator for scenarios (default=";").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX string keyword: The prefix for fixture commands (default="@fixture ").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR string keyword: The field separator for scenarios (default=";").
 # @arg $@ array The parametrize configuration to parse.
 # @exitcode 0 If the configuration header was parsed.
 # @internal
@@ -72,7 +72,7 @@ builtin set -eo pipefail
 }
 
 # @description Parses the scenario portion of the parametrize configuration.
-#   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR string global: The field separator for scenarios (default=";").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR string keyword: The field separator for scenarios (default=";").
 # @arg $@ array The parametrize configuration to parse.
 # @exitcode 0 If the configuration scenarios were parsed.
 # @internal

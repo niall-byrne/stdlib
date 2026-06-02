@@ -13,7 +13,7 @@ builtin set -eo pipefail
 # @stderr The error message if the operation fails.
 stdlib.string.lines.join() {
   builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
-  builtin local delimiter="${STDLIB_LINE_BREAK_DELIMITER:-$'\n'}" # defaults STDLIB_LINE_BREAK_DELIMITER
+  builtin local delimiter="${STDLIB_LINE_BREAK_DELIMITER:-$'\n'}"
 
   # shellcheck disable=SC2034
   STDLIB_ARGS_NULL_SAFE_ARRAY=("1")

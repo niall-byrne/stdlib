@@ -15,7 +15,6 @@ STDLIB_COLOUR_NULL=""
 # @stdout The name of the colour variable.
 # @stderr The error message if the operation fails.
 stdlib.setting.theme.get_colour() {
-  # clean STDLIB_COLOUR_,STDLIB_COLOUR_NULL
   builtin local theme_colour
 
   theme_colour="STDLIB_COLOUR_${1}"

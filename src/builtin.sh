@@ -17,7 +17,7 @@ __STDLIB_SECURE_DISTRIBUTION="${__STDLIB_SECURE_DISTRIBUTION:-"0"}"
 # @stderr The error output of the command.
 # @internal
 stdlib.__builtin.overridable() {
-  builtin local use_builtin_boolean="${STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN:-0}" # defaults STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN
+  builtin local use_builtin_boolean="${STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN:-0}"
 
   if [[ "${use_builtin_boolean}" == "0" ]]; then
     builtin "${@}"

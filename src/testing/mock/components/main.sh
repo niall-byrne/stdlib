@@ -49,7 +49,6 @@ ${1}() {
 # @noargs
 # @exitcode 0 If the mock's history was cleared successfully.
 ${1}.mock.clear() {
-  # clean __${2}_mock_calls_file,__${2}_mock_side_effects_file
   builtin local -a _mock_object_side_effects
   builtin echo -n "" > "\${__${2}_mock_calls_file}"  # noqa
   builtin declare -p _mock_object_side_effects > "\${__${2}_mock_side_effects_file}"
@@ -62,7 +61,6 @@ ${1}.mock.clear() {
 # @noargs
 # @exitcode 0 If the mock was reset successfully.
 ${1}.mock.reset() {
-  # clean __${2}_mock_rc,__${2}_mock_stderr,__${2}_mock_stdout
   ${1}.mock.clear
   __${2}_mock_rc=""
   __${2}_mock_stderr=""

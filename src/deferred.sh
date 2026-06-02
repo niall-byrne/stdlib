@@ -33,14 +33,13 @@ EOF
 }
 
 # @description Executes all deferred function calls and cleans up the functions.
-#   * STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY array global: The array where the created functions are stored (default=()).
+#   * STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY array global: An array where each deferred function call is stored as a closure (default=()).
 # @noargs
 # @exitcode 0 If the operations was successful.
 # @set STDLIB_DEFERRED_FN_ARRAY array The array of functions to defer calls to.
 # @set STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY array The array where the created functions are stored.
 # @internal
 stdlib.deferred.__execute() {
-  # clean STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY
   builtin local func
 
   for func in "${STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY[@]}"; do
@@ -53,12 +52,11 @@ stdlib.deferred.__execute() {
 }
 
 # @description Defers calls to critical functions during the bootstrap process.
-#   * STDLIB_DEFERRED_FN_ARRAY array global: The array of functions to defer calls to (default=("stdlib.fn.derive.pipeable" "stdlib.fn.derive.var")).
+#   * STDLIB_DEFERRED_FN_ARRAY array global: An array storing the names of functions that have their calls intercepted and deferred (default=("stdlib.fn.derive.pipeable" "stdlib.fn.derive.var")).
 # @noargs
 # @exitcode 0 If the operations was successful.
 # @internal
 stdlib.deferred.__initialize() {
-  # clean STDLIB_DEFERRED_FN_ARRAY
   builtin local func
 
   for func in "${STDLIB_DEFERRED_FN_ARRAY[@]}"; do

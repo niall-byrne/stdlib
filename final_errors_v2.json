@@ -1,0 +1,93 @@
+{
+  "src/testing/mock/components/assertion.sh": [
+    "${1}.mock.__count_matches: Global Variable or Keyword '__${2}_mock_calls_file' in @description and has not been marked as defaulted, validated or clean.",
+    "${1}.mock.assert_calls_are: Global Variable or Keyword '__${2}_mock_calls_file' in @description and has not been marked as defaulted, validated or clean."
+  ],
+  "src/testing/mock/components/setter.sh": [
+    "${1}.mock.set.side_effects: Global Variable or Keyword '__${2}_mock_side_effects_file' in @description and has not been marked as defaulted, validated or clean."
+  ],
+  "src/testing/mock/components/getter.sh": [
+    "${1}.mock.__get_apply_to_matching_mock_calls: Global Variable or Keyword '__${2}_mock_calls_file' in @description and has not been marked as defaulted, validated or clean.",
+    "${1}.mock.get.count: Global Variable or Keyword '__${2}_mock_calls_file' in @description and has not been marked as defaulted, validated or clean.",
+    "${1}.mock.get.keywords: Global Variable or Keyword '__${2}_mock_keywords' in @description and has not been marked as defaulted, validated or clean."
+  ],
+  "src/testing/mock/components/main.sh": [
+    "${1}.mock.clear: Global Variable or Keyword '__${2}_mock_calls_file' in @description and has not been marked as defaulted, validated or clean.",
+    "${1}.mock.clear: Global Variable or Keyword '__${2}_mock_side_effects_file' in @description and has not been marked as defaulted, validated or clean.",
+    "${1}.mock.reset: Global Variable or Keyword '__${2}_mock_rc' in @description and has not been marked as defaulted, validated or clean.",
+    "${1}.mock.reset: Global Variable or Keyword '__${2}_mock_stderr' in @description and has not been marked as defaulted, validated or clean.",
+    "${1}.mock.reset: Global Variable or Keyword '__${2}_mock_stdout' in @description and has not been marked as defaulted, validated or clean."
+  ],
+  "src/testing/mock/components/call.sh": [
+    "${1}.mock.__call: Global Variable or Keyword '__${2}_mock_calls_file' in @description and has not been marked as defaulted, validated or clean.",
+    "${1}.mock.__call: Global Variable or Keyword '__${2}_mock_keywords' in @description and has not been marked as defaulted, validated or clean.",
+    "${1}.mock.__call: Global Variable or Keyword '__STDLIB_TESTING_MOCK_SEQUENCE_ARRAY' in @description and has not been marked as defaulted, validated or clean."
+  ],
+  "src/testing/mock/components/controller.sh": [
+    "${1}.mock.__controller: Global Variable or Keyword '__${2}_mock_side_effects_boolean' in @description and has not been marked as defaulted, validated or clean.",
+    "${1}.mock.__controller: Global Variable or Keyword '__${2}_mock_side_effects_file' in @description and has not been marked as defaulted, validated or clean.",
+    "${1}.mock.__controller: Global Variable or Keyword '__${2}_mock_stderr' in @description and has not been marked as defaulted, validated or clean.",
+    "${1}.mock.__controller: Global Variable or Keyword '__${2}_mock_stdout' in @description and has not been marked as defaulted, validated or clean."
+  ],
+  "src/testing/mock/internal/persistence/sequence.sh": [
+    "_mock.__internal.persistence.sequence.clear: Global Variable or Keyword '__STDLIB_TESTING_MOCK_SEQUENCE_ARRAY' in @description and has not been marked as defaulted, validated or clean.",
+    "_mock.__internal.persistence.sequence.clear: Global Variable or Keyword '__STDLIB_TESTING_MOCK_SEQUENCE_FILENAME' in @description and has not been marked as defaulted, validated or clean.",
+    "_mock.__internal.persistence.sequence.initialize: Global Variable or Keyword '__STDLIB_TESTING_MOCK_SEQUENCE_ARRAY' in @description and has not been marked as defaulted, validated or clean.",
+    "_mock.__internal.persistence.sequence.initialize: Global Variable or Keyword '__STDLIB_TESTING_MOCK_REGISTRY_FOLDER' in @description and has not been marked as defaulted, validated or clean.",
+    "_mock.__internal.persistence.sequence.initialize: Global Variable or Keyword '__STDLIB_TESTING_MOCK_SEQUENCE_FILENAME' in @description and has not been marked as defaulted, validated or clean.",
+    "_mock.__internal.persistence.sequence.retrieve: Global Variable or Keyword '__STDLIB_TESTING_MOCK_SEQUENCE_FILENAME' in @description and has not been marked as defaulted, validated or clean.",
+    "_mock.__internal.persistence.sequence.update: Global Variable or Keyword '__STDLIB_TESTING_MOCK_SEQUENCE_ARRAY' in @description and has not been marked as defaulted, validated or clean.",
+    "_mock.__internal.persistence.sequence.update: Global Variable or Keyword '__STDLIB_TESTING_MOCK_SEQUENCE_FILENAME' in @description and has not been marked as defaulted, validated or clean."
+  ],
+  "src/testing/mock/internal/persistence/registry.sh": [
+    "_mock.__internal.persistence.registry.add_mock: Global Variable or Keyword '__STDLIB_TESTING_MOCK_REGISTERED_INSTANCES_ARRAY' in @description and has not been marked as defaulted, validated or clean.",
+    "_mock.__internal.persistence.registry.add_mock: Global Variable or Keyword '__STDLIB_TESTING_MOCK_REGISTRY_FOLDER' in @description and has not been marked as defaulted, validated or clean.",
+    "_mock.__internal.persistence.registry.add_mock: Global Variable or Keyword '__${2}_mock_calls_file' in @description and has not been marked as defaulted, validated or clean.",
+    "_mock.__internal.persistence.registry.add_mock: Global Variable or Keyword '__${2}_mock_side_effects_file' in @description and has not been marked as defaulted, validated or clean.",
+    "_mock.__internal.persistence.registry.apply_to_all: Global Variable or Keyword '__STDLIB_TESTING_MOCK_REGISTERED_INSTANCES_ARRAY' in @description and has not been marked as defaulted, validated or clean.",
+    "_mock.__internal.persistence.registry.cleanup: Global Variable or Keyword '__STDLIB_TESTING_MOCK_REGISTRY_FOLDER' in @description and has not been marked as defaulted, validated or clean.",
+    "_mock.__internal.persistence.registry.create: Global Variable or Keyword '__STDLIB_TESTING_MOCK_REGISTRY_FOLDER' in @description and has not been marked as defaulted, validated or clean."
+  ],
+  "src/testing/mock/internal/compile.sh": [
+    "_mock.__internal.compile: Global Variable or Keyword 'STDLIB_DIRECTORY' in @description and has not been marked as defaulted, validated or clean.",
+    "_mock.__internal.compile: Global Variable or Keyword '__STDLIB_TESTING_MOCK_COMPONENT' in @description and has not been marked as defaulted, validated or clean."
+  ],
+  "src/io/lock.sh": [
+    "stdlib.io.lock.workspace_allocate: Global Variable or Keyword 'STDLIB_HANDLER_EXIT_FN_ARRAY' in @description and has not been marked as defaulted, validated or clean."
+  ],
+  "src/builtin.sh": [
+    "stdlib.__builtin.overridable: Global Variable or Keyword 'STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN' in @description and has not been marked as defaulted, validated or clean."
+  ],
+  "src/deferred.sh": [
+    "stdlib.deferred.__execute: Global Variable or Keyword 'STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY' in @description and has not been marked as defaulted, validated or clean.",
+    "stdlib.deferred.__initialize: Global Variable or Keyword 'STDLIB_DEFERRED_FN_ARRAY' in @description and has not been marked as defaulted, validated or clean."
+  ],
+  "src/setting/theme.sh": [
+    "stdlib.setting.theme.get_colour: Global Variable or Keyword 'STDLIB_COLOUR_' in @description and has not been marked as defaulted, validated or clean.",
+    "stdlib.setting.theme.get_colour: Global Variable or Keyword 'STDLIB_COLOUR_NULL' in @description and has not been marked as defaulted, validated or clean."
+  ],
+  "src/gettext.sh": [
+    "stdlib.__gettext.call: Global Variable or Keyword 'STDLIB_TEXTDOMAINDIR' in @description and has not been marked as defaulted, validated or clean."
+  ],
+  "src/logger/logger.sh": [
+    "stdlib.logger.__message_prefix: Modifier variable in @description should be in uppercase characters, followed by a variable type, a modifier type, and a colon. Found: '#   * __STDLIB_LOGGING_DECORATORS_ARRAY array reserved: An array containing known decorating functions used to preserve the original calling function's name (default=notated at top of file).'"
+  ],
+  "src/string/colour/colour.sh": [
+    "stdlib.string.colour_n: Global Variable or Keyword 'STDLIB_COLOUR_NC' in @description and has not been marked as defaulted, validated or clean."
+  ],
+  "src/string/colour/substring.sh": [
+    "stdlib.string.colour.substring: Global Variable or Keyword 'STDLIB_COLOUR_NC' in @description and has not been marked as defaulted, validated or clean.",
+    "stdlib.string.colour.substrings: Global Variable or Keyword 'STDLIB_COLOUR_NC' in @description and has not been marked as defaulted, validated or clean."
+  ],
+  "src/string/lines/map.sh": [
+    "stdlib.string.lines.map.fn: Global Variable or Keyword 'STDLIB_LINE_BREAK_DELIMITER' in @description and has not been marked as defaulted, validated or clean.",
+    "stdlib.string.lines.map.fn_pipe: Global Variable or Keyword 'STDLIB_LINE_BREAK_DELIMITER' in @description and has not been marked as defaulted, validated or clean.",
+    "stdlib.string.lines.map.fn_var: Global Variable or Keyword 'STDLIB_LINE_BREAK_DELIMITER' in @description and has not been marked as defaulted, validated or clean.",
+    "stdlib.string.lines.map.format: Global Variable or Keyword 'STDLIB_LINE_BREAK_DELIMITER' in @description and has not been marked as defaulted, validated or clean.",
+    "stdlib.string.lines.map.format_pipe: Global Variable or Keyword 'STDLIB_LINE_BREAK_DELIMITER' in @description and has not been marked as defaulted, validated or clean.",
+    "stdlib.string.lines.map.format_var: Global Variable or Keyword 'STDLIB_LINE_BREAK_DELIMITER' in @description and has not been marked as defaulted, validated or clean."
+  ],
+  "src/string/lines/join.sh": [
+    "stdlib.string.lines.join: Global Variable or Keyword 'STDLIB_LINE_BREAK_DELIMITER' in @description and has not been marked as defaulted, validated or clean."
+  ]
+}
