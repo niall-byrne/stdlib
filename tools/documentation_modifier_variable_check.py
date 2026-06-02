@@ -221,29 +221,33 @@ class ModifierVariableConsistencyChecker:
         return bool(involved_files & self.modified_files)
 
     def _report_errors(self, errors: List[ModifierVariableInconsistencyError]):
+        # { variable_name: [ {file_name: [ {function_name: [ {tag: output} ] } ] } ] }
         output: Dict[str, List[Dict]] = {}
 
         for error in errors:
             involved_files = {inst.filepath for inst in error.instances}
-            files_to_attribute = (involved_files & self.modified_files
-                                  if self.modified_files else involved_files)
+            if self.modified_files and not (involved_files & self.modified_files):
+                continue
 
-            for filepath in sorted(files_to_attribute):
-                if filepath not in output:
-                    output[filepath] = []
+            output[error.var_name] = []
+            files_to_instances: Dict[str, List[ModifierVariableMetadata]] = {}
+            for instance in error.instances:
+                if instance.filepath not in files_to_instances:
+                    files_to_instances[instance.filepath] = []
+                files_to_instances[instance.filepath].append(instance)
 
-                # {variable_name: [ {function_name: [ {tag: output} ] } ] }
-                var_entry = {error.var_name: []}
-                for instance in error.instances:
+            for filepath in sorted(files_to_instances.keys()):
+                file_entry = {filepath: []}
+                for instance in files_to_instances[filepath]:
                     details = ModifierVariableInconsistencyError.format_instance_details(
                         instance)
                     tag_key = f"@{instance.tag_type}"
-                    var_entry[error.var_name].append({
+                    file_entry[filepath].append({
                         instance.function_name: [{
                             tag_key: details
                         }],
                     })
-                output[filepath].append(var_entry)
+                output[error.var_name].append(file_entry)
 
         if output:
             print(json.dumps(output, indent=2))
