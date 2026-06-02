@@ -169,17 +169,17 @@ repos:
         exclude: "^((.+/)*tests/.+\\.sh)$"
         pass_filenames: false
         require_serial: true
-      - id: documentation-source-files-modifier-variable-consistency
-        name: ensure modifier variable descriptions are consistent
-        entry: python tools/documentation_modifier_variable_check.py
+      - id: documentation-source-files
+        name: ensure source functions are correctly documented
+        entry: python tools/documentation_check.py
         language: system
         files: "^(src/.+\\.(sh|snippet)|dist/docs.sh)$"
         exclude: "^((.+/)*tests/.+\\.sh)$"
         pass_filenames: true
         require_serial: true
-      - id: documentation-source-files
-        name: ensure source functions are correctly documented
-        entry: python tools/documentation_check.py
+      - id: documentation-source-files-modifier-variable-consistency
+        name: ensure modifier variable descriptions are consistent
+        entry: python tools/documentation_modifier_variable_check.py
         language: system
         files: "^(src/.+\\.(sh|snippet)|dist/docs.sh)$"
         exclude: "^((.+/)*tests/.+\\.sh)$"
