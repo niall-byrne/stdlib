@@ -14,6 +14,7 @@ stdlib.__gettext() {
 }
 
 # @description Calls gettext with a specific text domain and directory.
+#   * STDLIB_TEXTDOMAINDIR string global: The directory where the translations are stored (default="locales" folder in the root of the library).
 # @arg $1 string The translation base (text domain) to use.
 # @arg $2 string The message key to translate.
 # @exitcode 0 If the operation succeeded.

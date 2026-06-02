@@ -5,8 +5,8 @@
 builtin set -eo pipefail
 
 # @description Retrieves a parametrize message by its key and optionally interpolates values.
-#   * STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX: The prefix for parametrizer functions (default="@parametrize_with_").
-#   * STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG: The tag in the test function name to replace (default="@vary").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX string keyword: The prefix for parametrizer functions (default="@parametrize_with_").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG string keyword: The tag in the test function name to replace (default="@vary").
 # @arg $1 string The message key to retrieve.
 # @arg $2 string (optional) Interpolation option 1.
 # @exitcode 0 If the operation succeeded.
