@@ -13,7 +13,7 @@ _testing.error() {
   {
     (
       while [[ -n "${1}" ]]; do
-        _testing.__protected stdlib.string.colour "${STDLIB_TESTING_THEME_ERROR}" "${1}" # validates STDLIB_TESTING_THEME_ERROR
+        _testing.__protected stdlib.string.colour "${STDLIB_TESTING_THEME_ERROR}" "${1}"
         builtin shift
       done
     )
@@ -39,7 +39,7 @@ _testing.error_pipe() {
   done
 
   if [[ "${#received_args[@]}" -ne "0" ]]; then
-    _testing.error "${received_args[@]}" # validates STDLIB_TESTING_THEME_ERROR
+    _testing.error "${received_args[@]}"
     builtin return "${return_code}"
   fi
 

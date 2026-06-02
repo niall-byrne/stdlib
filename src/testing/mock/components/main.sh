@@ -56,8 +56,8 @@ ${1}.mock.clear() {
 
 # @description Clears the mock's call history and configured side effects as well as its configured exit code, stdout, stderr and subcommand properties.
 #   * __${2}_mock_rc integer global: This is the exit code the mock is configured to return (default="0").
-#   * __${2}_mock_stderr string global: This is the string that will be emitted to stderr when the mock is called (default="").
-#   * __${2}_mock_stdout string global: This is the string that will be emitted to stdout when the mock is called (default="").
+#   * __${2}_mock_stderr string global: When the mock is called, if this variable contains a value, it will be emitted to stderr (default="").
+#   * __${2}_mock_stdout string global: When the mock is called, if this variable contains a value, it will be emitted to stdout (default="").
 # @noargs
 # @exitcode 0 If the mock was reset successfully.
 ${1}.mock.reset() {

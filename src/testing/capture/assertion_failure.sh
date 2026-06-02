@@ -17,7 +17,7 @@ STDLIB_TESTING_TRACEBACK_REGEX=""
 _capture.assertion_failure() {
   builtin local output
   builtin local rc
-  builtin local traceback_regex="${STDLIB_TESTING_TRACEBACK_REGEX:-$'^([^:]+:[0-9]+|environment:[0-9]+):.+$'}" # defaults STDLIB_TESTING_TRACEBACK_REGEX
+  builtin local traceback_regex="${STDLIB_TESTING_TRACEBACK_REGEX:-$'^([^:]+:[0-9]+|environment:[0-9]+):.+$'}"
 
   builtin set +e
   LC_ALL=C IFS= builtin read -rd '' output < <("$@" 2>&1)

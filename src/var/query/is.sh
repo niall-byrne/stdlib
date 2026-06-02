@@ -105,7 +105,7 @@ stdlib.var.query.is_valid_with() {
   stdlib.array.query.is_contains "${validation_source_selection}" var_source_types || builtin return 126
 
   if [[ -n "${validate_default_value}" ]]; then
-    stdlib.var.query.is_set "${validate_default_value}" || builtin return 125 # validates STDLIB_VALIDATION_SOURCE_VAR
+    stdlib.var.query.is_set "${validate_default_value}" || builtin return 125
     validation_source="${validate_default_value}"
   fi
 

@@ -20,8 +20,8 @@ STDLIB_WRAP_PREFIX=""
 # @stderr The error message if the operation fails.
 stdlib.string.wrap() {
   builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
-  builtin local wrap_indent_string="${STDLIB_WRAP_PREFIX:-""}" # defaults STDLIB_WRAP_PREFIX
-  builtin local forced_line_break_char="${STDLIB_LINE_BREAK_FORCE_CHAR:-*}" # defaults STDLIB_LINE_BREAK_FORCE_CHAR
+  builtin local wrap_indent_string="${STDLIB_WRAP_PREFIX:-""}"
+  builtin local forced_line_break_char="${STDLIB_LINE_BREAK_FORCE_CHAR:-*}"
 
   builtin local current_line=""
   builtin local current_line_length=0

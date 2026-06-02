@@ -16,7 +16,7 @@ STDLIB_PIPEABLE_STDIN_SOURCE_SPECIFIER=""
 # @stderr The error message if the operation fails.
 stdlib.fn.derive.pipeable() {
   builtin local derive_target_fn_name
-  builtin local stdin_source_specifier="${STDLIB_PIPEABLE_STDIN_SOURCE_SPECIFIER:-"-"}" # defaults STDLIB_PIPEABLE_STDIN_SOURCE_SPECIFIER
+  builtin local stdin_source_specifier="${STDLIB_PIPEABLE_STDIN_SOURCE_SPECIFIER:-"-"}"
 
   stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?"
   stdlib.fn.assert.is_fn "${1}" || builtin return 126

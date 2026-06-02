@@ -18,10 +18,10 @@ __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY=()
 
 # @description Parametrizes a test function with multiple scenarios.
 #   * STDLIB_TESTING_THEME_PARAMETRIZE_HIGHLIGHT string global: A theme colour used to highlight informational messages (default="LIGHT_BLUE").
-#   * STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN boolean keyword: Whether to show debug information (default="0").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN string keyword: Whether to show debug information (default="0").
 #   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR string keyword: The field separator for scenarios (default=";").
 #   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX string keyword: The prefix for fixture commands (default="@fixture ").
-#   * STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN boolean keyword: Whether to show original test names (default="0").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN string keyword: Whether to show original test names (default="0").
 #   * STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG string keyword: The tag in the test function name to replace (default="@vary").
 # @arg $1 string The name of the test function to parametrize.
 # @arg $@ array Optional fixture commands (prefixed with '@fixture '), followed by a semicolon-separated list of variable names, and then one or more semicolon-separated scenarios (scenario name followed by values).

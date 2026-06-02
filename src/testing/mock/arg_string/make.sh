@@ -54,7 +54,7 @@ _mock.arg_string.make.from_string() {
   _mock_arg_string_args=("_mock_args_array")
 
   _testing.__protected stdlib.fn.args.require "1" "1" "${@}" || builtin return 127
-  _testing.__protected stdlib.string.assert.is_char "${_mock_separator}" || builtin return 125 # validates STDLIB_LINE_BREAK_DELIMITER
+  _testing.__protected stdlib.string.assert.is_char "${_mock_separator}" || builtin return 125
 
   if [[ -n "${2}" ]]; then
     _mock_arg_string_args+=("${2}")

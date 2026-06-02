@@ -93,7 +93,7 @@ stdlib.var.assert.is_valid_name() {
 stdlib.var.assert.is_valid_with() {
   builtin local return_code=0
 
-  stdlib.var.query.is_valid_with "${@}" || return_code="$?" # validates STDLIB_VALIDATION_SOURCE_VAR
+  stdlib.var.query.is_valid_with "${@}" || return_code="$?"
 
   case "${return_code}" in
     0) ;; # KCOV_EXCLUDE_LINE

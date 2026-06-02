@@ -52,10 +52,10 @@ builtin set -eo pipefail
 }
 
 # @description Validates the keywords used by the exposed parametrization commands.
-#   * STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN boolean keyword: Whether to show debug information (default="0").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN string keyword: Whether to show debug information (default="0").
 #   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR string keyword: The field separator for scenarios (default=";").
 #   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX string keyword: The prefix for fixture commands (default="@fixture ").
-#   * STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN boolean keyword: Whether to show original test names (default="0").
+#   * STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN string keyword: Whether to show original test names (default="0").
 #   * STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG string keyword: The tag in the test function name to replace (default="@vary").
 # @noargs
 # @exitcode 0 If the keywords are all valid.
@@ -92,7 +92,7 @@ builtin set -eo pipefail
 }
 
 # @description Validates the reserved variables used during test parametrization.
-#   * __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY array global: An array that stores the name of each generated test function (default=()).
+#   * __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY array reserved: An array that stores the name of each generated test function (default=()).
 # @noargs
 # @exitcode 0 If the reservered variables are all valid.
 # @exitcode 123 If a variable reserved for use by the BASH stdlib has been assigned an invalid value.

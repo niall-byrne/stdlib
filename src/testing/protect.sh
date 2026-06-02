@@ -12,7 +12,7 @@ STDLIB_TESTING_PROTECT_PREFIX=""
 # @exitcode 0 If the operation succeeded.
 # @internal
 _testing.__protect_stdlib() {
-  builtin local stdlib_library_prefix="${STDLIB_TESTING_PROTECT_PREFIX:-"stdlib"}" # defaults STDLIB_TESTING_PROTECT_PREFIX
+  builtin local stdlib_library_prefix="${STDLIB_TESTING_PROTECT_PREFIX:-"stdlib"}"
   builtin local stdlib_function_regex="${stdlib_library_prefix}\\..*"
 
   while IFS= builtin read -r stdlib_fn_name; do
@@ -34,7 +34,7 @@ _testing.__protect_stdlib() {
 # @internal
 _testing.__protected() {
   STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=1 \
-    "$(_testing.__protected_name "${1}")" "${@:2}" # defaults STDLIB_TESTING_PROTECT_PREFIX
+    "$(_testing.__protected_name "${1}")" "${@:2}"
 }
 
 # @description Retrieves the name of a protected stdlib function.
@@ -44,7 +44,7 @@ _testing.__protected() {
 # @stdout The name of the protected function.
 # @internal
 _testing.__protected_name() {
-  builtin local stdlib_library_prefix="${STDLIB_TESTING_PROTECT_PREFIX:-"stdlib"}" # defaults STDLIB_TESTING_PROTECT_PREFIX
+  builtin local stdlib_library_prefix="${STDLIB_TESTING_PROTECT_PREFIX:-"stdlib"}"
 
   builtin echo "${1//"${stdlib_library_prefix}."/"${stdlib_library_prefix}.testing.internal."}"
 }

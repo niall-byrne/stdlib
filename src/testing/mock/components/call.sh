@@ -32,8 +32,8 @@ ${1}.mock.__call() {
 
   builtin declare -p _mock_object_call_array >> "\${__${2}_mock_calls_file}"
 
-  if [[ "\${__STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN}" == "1" ]]; then  # validates __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN
-    _testing.__protected stdlib.io.lock.acquire "${__STDLIB_TESTING_MOCK_SEQUENCE_LOCK_NAME}"  # validates __STDLIB_TESTING_MOCK_SEQUENCE_LOCK_NAME
+  if [[ "\${__STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN}" == "1" ]]; then
+    _testing.__protected stdlib.io.lock.acquire "${__STDLIB_TESTING_MOCK_SEQUENCE_LOCK_NAME}"
     _mock.__internal.persistence.sequence.retrieve
     __STDLIB_TESTING_MOCK_SEQUENCE_ARRAY+=("${1}")
     _mock.__internal.persistence.sequence.update

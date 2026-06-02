@@ -20,6 +20,7 @@ builtin export STDLIB_LOCK_WORKSPACE=""
 #   * STDLIB_LOCK_WORKSPACE string global: A string for the name of a managed temporary directory which has been allocated for lock operations (default="").
 # @arg $1 string A unique alpha-numeric, underscored name for this lock.
 # @exitcode 0 If the lock was successfully acquired.
+# @set STDLIB_LOCK_WORKSPACE string The name of a managed temporary directory which has been allocated for lock operations.
 # @exitcode 1 If the lock could not be acquired.
 # @exitcode 123 If a variable reserved for use by the BASH stdlib has been assigned an invalid value.
 # @exitcode 125 If an invalid keyword has been provided.
@@ -111,6 +112,7 @@ stdlib.io.lock.release() {
 # @arg $1 string A unique alpha-numeric name for this lock.
 # @arg $@ string The command or function and any arguments that will be executed with this execution lock.
 # @exitcode 0 If the lock was successfully acquired.
+# @set STDLIB_LOCK_WORKSPACE string The name of a managed temporary directory which has been allocated for lock operations.
 # @exitcode 1 If the time out elapsed without the lock becoming available.
 # @exitcode 123 If a variable reserved for use by the BASH stdlib has been assigned an invalid value.
 # @exitcode 125 If an invalid keyword has been provided.
@@ -147,6 +149,7 @@ stdlib.io.lock.with() {
 # @exitcode 125 If an invalid keyword has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @set STDLIB_LOCK_WORKSPACE string The name of a managed temporary directory which has been allocated for lock operations.
+# @set STDLIB_HANDLER_EXIT_FN_ARRAY array An array used to store exit handler functions.
 # @stderr The error message if the operation fails.
 # shellcheck disable=SC2120
 stdlib.io.lock.workspace_allocate() {
@@ -177,7 +180,7 @@ stdlib.io.lock.workspace_allocate() {
 
   "${_STDLIB_BINARY_CHMOD}" "${lock_workspace_permissions}" "${STDLIB_LOCK_WORKSPACE}"
 
-  STDLIB_HANDLER_EXIT_FN_ARRAY+=("stdlib.io.lock.__workspace_cleanup")
+  STDLIB_HANDLER_EXIT_FN_ARRAY+=("stdlib.io.lock.__workspace_cleanup") # validates STDLIB_HANDLER_EXIT_FN_ARRAY
 }
 
 # @description Cleans up the temporary folder dedicated for execution locking.

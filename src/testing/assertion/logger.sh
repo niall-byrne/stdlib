@@ -20,7 +20,7 @@ assert_logger_error_matches() {
 
   if ! _testing.__protected stdlib.array.query.is_empty message_args; then
     if _testing.__protected stdlib.string.query.has_substring STDLIB_LOGGING_MESSAGE_PREFIX "$(stdlib.logger.error.mock.get.keywords)"; then
-      # clean STDLIB_LOGGING_MESSAGE_PREFIX
+
       _testing.__protected stdlib.array.mutate.format "1(%s) STDLIB_LOGGING_MESSAGE_PREFIX(${STDLIB_LOGGING_MESSAGE_PREFIX})" message_args
     else
       _testing.__protected stdlib.array.mutate.format "1(%s)" message_args
@@ -49,7 +49,7 @@ assert_logger_info_matches() {
 
   if ! _testing.__protected stdlib.array.query.is_empty message_args; then
     if _testing.__protected stdlib.string.query.has_substring STDLIB_LOGGING_MESSAGE_PREFIX "$(stdlib.logger.info.mock.get.keywords)"; then
-      # clean STDLIB_LOGGING_MESSAGE_PREFIX
+
       _testing.__protected stdlib.array.mutate.format "1(%s) STDLIB_LOGGING_MESSAGE_PREFIX(${STDLIB_LOGGING_MESSAGE_PREFIX})" message_args
     else
       _testing.__protected stdlib.array.mutate.format "1(%s)" message_args
@@ -78,7 +78,7 @@ assert_logger_notice_matches() {
 
   if ! _testing.__protected stdlib.array.query.is_empty message_args; then
     if _testing.__protected stdlib.string.query.has_substring STDLIB_LOGGING_MESSAGE_PREFIX "$(stdlib.logger.notice.mock.get.keywords)"; then
-      # clean STDLIB_LOGGING_MESSAGE_PREFIX
+
       _testing.__protected stdlib.array.mutate.format "1(%s) STDLIB_LOGGING_MESSAGE_PREFIX(${STDLIB_LOGGING_MESSAGE_PREFIX})" message_args
     else
       _testing.__protected stdlib.array.mutate.format "1(%s)" message_args
@@ -107,7 +107,7 @@ assert_logger_success_matches() {
 
   if ! _testing.__protected stdlib.array.query.is_empty message_args; then
     if _testing.__protected stdlib.string.query.has_substring STDLIB_LOGGING_MESSAGE_PREFIX "$(stdlib.logger.success.mock.get.keywords)"; then
-      # clean STDLIB_LOGGING_MESSAGE_PREFIX
+
       _testing.__protected stdlib.array.mutate.format "1(%s) STDLIB_LOGGING_MESSAGE_PREFIX(${STDLIB_LOGGING_MESSAGE_PREFIX})" message_args
     else
       _testing.__protected stdlib.array.mutate.format "1(%s)" message_args
@@ -136,7 +136,7 @@ assert_logger_warning_matches() {
 
   if ! _testing.__protected stdlib.array.query.is_empty message_args; then
     if _testing.__protected stdlib.string.query.has_substring STDLIB_LOGGING_MESSAGE_PREFIX "$(stdlib.logger.warning.mock.get.keywords)"; then
-      # clean STDLIB_LOGGING_MESSAGE_PREFIX
+
       _testing.__protected stdlib.array.mutate.format "1(%s) STDLIB_LOGGING_MESSAGE_PREFIX(${STDLIB_LOGGING_MESSAGE_PREFIX})" message_args
     else
       _testing.__protected stdlib.array.mutate.format "1(%s)" message_args

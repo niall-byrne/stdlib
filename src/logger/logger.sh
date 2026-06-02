@@ -15,8 +15,8 @@ __STDLIB_LOGGING_DECORATORS_ARRAY=("_testing.__protected")
 # @stderr The error message.
 stdlib.logger.error() {
   {
-    stdlib.logger.__message_prefix                             # defaults STDLIB_LOGGING_MESSAGE_PREFIX
-    stdlib.string.colour "${STDLIB_THEME_LOGGER_ERROR}" "${1}" # validates STDLIB_THEME_LOGGER_ERROR
+    stdlib.logger.__message_prefix
+    stdlib.string.colour "${STDLIB_THEME_LOGGER_ERROR}" "${1}"
   } >&2                                                        # KCOV_EXCLUDE_LINE
 }
 
@@ -35,8 +35,8 @@ stdlib.fn.derive.pipeable "stdlib.logger.error" "1"
 # @exitcode 0 If the operation succeeded.
 # @stdout The informational message.
 stdlib.logger.info() {
-  stdlib.logger.__message_prefix                            # defaults STDLIB_LOGGING_MESSAGE_PREFIX
-  stdlib.string.colour "${STDLIB_THEME_LOGGER_INFO}" "${1}" # validates STDLIB_THEME_LOGGER_INFO
+  stdlib.logger.__message_prefix
+  stdlib.string.colour "${STDLIB_THEME_LOGGER_INFO}" "${1}"
 }
 
 # @description A derivative of stdlib.logger.info that can read from stdin.
@@ -54,8 +54,8 @@ stdlib.fn.derive.pipeable "stdlib.logger.info" "1"
 # @exitcode 0 If the operation succeeded.
 # @stdout The notice message.
 stdlib.logger.notice() {
-  stdlib.logger.__message_prefix                              # defaults STDLIB_LOGGING_MESSAGE_PREFIX
-  stdlib.string.colour "${STDLIB_THEME_LOGGER_NOTICE}" "${1}" # validates STDLIB_THEME_LOGGER_NOTICE
+  stdlib.logger.__message_prefix
+  stdlib.string.colour "${STDLIB_THEME_LOGGER_NOTICE}" "${1}"
 }
 
 # @description A derivative of stdlib.logger.notice that can read from stdin.
@@ -73,8 +73,8 @@ stdlib.fn.derive.pipeable "stdlib.logger.notice" "1"
 # @exitcode 0 If the operation succeeded.
 # @stdout The success message.
 stdlib.logger.success() {
-  stdlib.logger.__message_prefix                               # defaults STDLIB_LOGGING_MESSAGE_PREFIX
-  stdlib.string.colour "${STDLIB_THEME_LOGGER_SUCCESS}" "${1}" # validates STDLIB_THEME_LOGGER_SUCCESS
+  stdlib.logger.__message_prefix
+  stdlib.string.colour "${STDLIB_THEME_LOGGER_SUCCESS}" "${1}"
 }
 
 # @description A derivative of stdlib.logger.success that can read from stdin.
@@ -110,8 +110,8 @@ stdlib.logger.traceback() {
 # @stderr The warning message.
 stdlib.logger.warning() {
   {
-    stdlib.logger.__message_prefix                               # defaults STDLIB_LOGGING_MESSAGE_PREFIX
-    stdlib.string.colour "${STDLIB_THEME_LOGGER_WARNING}" "${1}" # validates STDLIB_THEME_LOGGER_WARNING
+    stdlib.logger.__message_prefix
+    stdlib.string.colour "${STDLIB_THEME_LOGGER_WARNING}" "${1}"
   } >&2                                                          # KCOV_EXCLUDE_LINE
 }
 
@@ -131,9 +131,9 @@ stdlib.fn.derive.pipeable "stdlib.logger.warning" "1"
 # @stdout The message prefix.
 # @internal
 stdlib.logger.__message_prefix() {
-  builtin local message_prefix="${STDLIB_LOGGING_MESSAGE_PREFIX:-${FUNCNAME[3]}}" # defaults STDLIB_LOGGING_MESSAGE_PREFIX
+  builtin local message_prefix="${STDLIB_LOGGING_MESSAGE_PREFIX:-${FUNCNAME[3]}}"
 
-  if stdlib.array.query.is_contains "${message_prefix}" __STDLIB_LOGGING_DECORATORS_ARRAY; then # validates __STDLIB_LOGGING_DECORATORS_ARRAY
+  if stdlib.array.query.is_contains "${message_prefix}" __STDLIB_LOGGING_DECORATORS_ARRAY; then
     message_prefix="${FUNCNAME[4]}"
   fi
 
