@@ -15,7 +15,7 @@ stdlib.setting.colour.disable() {
 }
 
 # @description Enables terminal colours.
-#   * STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN boolean global: Disables the error message on failure (default="0").
+#   * STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN: Disables the error message on failure (default="0").
 # @noargs
 # @exitcode 0 If the operation succeeded.
 # @exitcode 1 If the operation failed.
@@ -25,7 +25,7 @@ stdlib.setting.colour.enable() {
   builtin local error_message=""
 
   stdlib.string.query.is_boolean "${silent_fallback_boolean}" ||
-    silent_fallback_boolean="0"
+    silent_fallback_boolean="0" # validates STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN
 
   if ! "${_STDLIB_BINARY_TPUT}" init 2> /dev/null; then
     if [[ "${silent_fallback_boolean}" != "1" ]]; then

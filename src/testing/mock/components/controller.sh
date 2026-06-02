@@ -11,10 +11,9 @@ __STDLIB_TESTING_MOCK_COMPONENT="$(
   "${_STDLIB_BINARY_CAT}" << 'EOF'
 
 # @description This function is the central controller of the mock's behaviour.  It dispatches according to the command string it receives.
-#   * __${2}_mock_side_effects_boolean boolean global: This boolean determines if side effects have been configured on this mock (default="0").
-#   * __${2}_mock_side_effects_file string global: The filename containing the persisted side effects of the mock (default="").
-#   * __${2}_mock_stderr string global: When the mock is called, if this variable contains a value, it will be emitted to stderr (default="").
-#   * __${2}_mock_stdout string global: When the mock is called, if this variable contains a value, it will be emitted to stdout (default="").
+#   * __${2}_mock_side_effects_boolean: This boolean determines if side effects have been configured on this mock (default="0").
+#   * __${2}_mock_stderr: If this variable contains a value, it will be emitted to stderr (default="").
+#   * __${2}_mock_stdout: If this variable contains a value, it will be emitted to stdout (default="").
 # @arg $1 string The controller command to dispatch (pipeable|side_effects|stderr|stdout|subcommand|update_rc).
 # @arg $@ array Additional arguments to pass to the specified controller command.
 # @exitcode 0 If the mock's controller command was successful.

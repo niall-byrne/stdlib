@@ -5,7 +5,7 @@
 builtin set -eo pipefail
 
 # @description Logs an error message.
-#   * STDLIB_TESTING_THEME_ERROR string global: The colour to use for the message (default="LIGHT_RED").
+#   * STDLIB_TESTING_THEME_ERROR: The colour to use for the message (default="LIGHT_RED").
 # @arg $@ array The error messages to log.
 # @exitcode 0 If the error message was logged.
 # @stderr The error message if the operation fails.
@@ -13,7 +13,7 @@ _testing.error() {
   {
     (
       while [[ -n "${1}" ]]; do
-        _testing.__protected stdlib.string.colour "${STDLIB_TESTING_THEME_ERROR}" "${1}"
+        _testing.__protected stdlib.string.colour "${STDLIB_TESTING_THEME_ERROR}" "${1}" # validates STDLIB_TESTING_THEME_ERROR
         builtin shift
       done
     )
@@ -21,7 +21,7 @@ _testing.error() {
 }
 
 # @description A pipeable version _testing.error that can read from stdin and return specific error codes when errors are found.
-#   * STDLIB_TESTING_THEME_ERROR string global: The colour to use for the message (default="LIGHT_RED").
+#   * STDLIB_TESTING_THEME_ERROR: The colour to use for the message (default="LIGHT_RED").
 # @arg $1 integer (optional, default=1) The error code that should be returned if any error message is piped to this function.
 # @exitcode 0 If the error message was not logged.
 # @exitcode 1 If an error message is logged.  (This value is configurable via arguments).
@@ -39,7 +39,7 @@ _testing.error_pipe() {
   done
 
   if [[ "${#received_args[@]}" -ne "0" ]]; then
-    _testing.error "${received_args[@]}"
+    _testing.error "${received_args[@]}" # validates STDLIB_TESTING_THEME_ERROR
     builtin return "${return_code}"
   fi
 

@@ -71,20 +71,44 @@ class ModifierVariableInconsistencyError:
                 f"description='{instance.description}'")
 
 
-class ModifierVariableFileReport(Dict):
+class ModifierVariableInconsistencyReport(Dict):
+    """Represents a report for an inconsistent variable:
+    {tag: [{ output: {file_name: [ function_name ] } } ] }
+    """
 
-    def __init__(self, filepath: str):
-        super().__init__({filepath: []})
-        self.filepath = filepath
+    def __init__(self, instances: List[ModifierVariableMetadata]):
+        super().__init__({})
+        self._build_report(instances)
 
-    def add_instance(self, instance: ModifierVariableMetadata):
-        details = ModifierVariableInconsistencyError.format_instance_details(instance)
-        tag_key = f"@{instance.tag_type}"
-        self[self.filepath].append({
-            instance.function_name: [{
-                tag_key: details
-            }],
-        })
+    def _build_report(self, instances: List[ModifierVariableMetadata]):
+        # Group by tag type: { "@tag": { output_details: { filepath: [functions] } } }
+        tag_groups = {}
+        for instance in instances:
+            tag_key = f"@{instance.tag_type}"
+            if tag_key not in tag_groups:
+                tag_groups[tag_key] = {}
+
+            details = ModifierVariableInconsistencyError.format_instance_details(
+                instance)
+            if details not in tag_groups[tag_key]:
+                tag_groups[tag_key][details] = {}
+
+            if instance.filepath not in tag_groups[tag_key][details]:
+                tag_groups[tag_key][details][instance.filepath] = []
+
+            tag_groups[tag_key][details][instance.filepath].append(
+                instance.function_name)
+
+        # Convert to requested list-based hierarchy
+        for tag, details_map in sorted(tag_groups.items()):
+            self[tag] = []
+            for details, file_map in sorted(details_map.items()):
+                # Sort file map keys and ensure function names are sorted
+                sorted_file_map = {
+                    fp: sorted(file_map[fp])
+                    for fp in sorted(file_map.keys())
+                }
+                self[tag].append({details: sorted_file_map})
 
 
 class ModifierVariableConsistencyChecker:
@@ -270,26 +294,16 @@ class ModifierVariableConsistencyChecker:
         return bool(involved_files & self.modified_files)
 
     def _report_errors(self, errors: List[ModifierVariableInconsistencyError]):
-        output: Dict[str, List[ModifierVariableFileReport]] = {}
+        output: Dict[str, List[Dict]] = {}
 
         for error in errors:
-            output[error.var_name] = self._build_variable_report(error.instances)
+            report = ModifierVariableInconsistencyReport(error.instances)
+            # { variable_name: [ {tag: [ {details: file_map} ] } ] }
+            output[error.var_name] = [{tag: items}
+                                      for tag, items in sorted(report.items())]
 
         if output:
             print(json.dumps(output, indent=2))
-
-    def _build_variable_report(
-        self,
-        instances: List[ModifierVariableMetadata],
-    ) -> List[ModifierVariableFileReport]:
-        files_to_reports: Dict[str, ModifierVariableFileReport] = {}
-        for instance in instances:
-            if instance.filepath not in files_to_reports:
-                files_to_reports[instance.filepath] = ModifierVariableFileReport(
-                    instance.filepath)
-            files_to_reports[instance.filepath].add_instance(instance)
-
-        return [files_to_reports[filepath] for filepath in sorted(files_to_reports.keys())]
 
 
 def main():

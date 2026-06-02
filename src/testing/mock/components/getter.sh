@@ -11,7 +11,6 @@ __STDLIB_TESTING_MOCK_COMPONENT="$(
   "${_STDLIB_BINARY_CAT}" << 'EOF'
 
 # @description This function will iterate through each call made with this mock, and evaluate a given conditional command.  If this command passes, then the subsequent given commands are then executed.
-#   * __${2}_mock_calls_file string global: The filename containing the persisted calls of the mock (default="").
 # @arg $1 string An escaped bash command that can be safely evaluated as the function iterates through each mock call.
 # @arg $@ array Additional bash commands that will be evaluated and executed if the comparison succeeds.
 # @exitcode 0 If the command was applied successfully to the mock's calls.
@@ -74,7 +73,6 @@ ${1}.mock.get.calls() {
 }
 
 # @description This function will retrieve a count of the number of times this mock has been called.
-#   * __${2}_mock_calls_file string global: The filename containing the persisted calls of the mock (default="").
 # @noargs
 # @exitcode 0 If the mock's call count was retrieved successfully.
 # @exitcode 127 If the wrong number of arguments were provided.
@@ -89,7 +87,6 @@ ${1}.mock.get.count() {
 }
 
 # @description This function will retrieve the keywords assigned to this mock. (These keywords are variables whose values are recorded during each mock call).
-#   * __${2}_mock_keywords array global: These are the keywords, or variables, that the mock will record each time it's called (default=()).
 # @noargs
 # @exitcode 0 If the mock's keywords were retrieved successfully.
 # @exitcode 127 If the wrong number of arguments were provided.

@@ -5,7 +5,7 @@
 builtin set -eo pipefail
 
 # @description Asserts a global variable's value is valid against a validation function.
-#   * STDLIB_VALIDATION_SOURCE_VAR string keyword: An optional variable name that can be used as a source for validation (logging will still attribute the value to the argument provided variable name) (default="").
+#   * STDLIB_VALIDATION_SOURCE_VAR: An optional variable name that can be used as a source for validation (logging will still attribute the value to the argument provided variable name) (default="").
 # @arg $1 string The validation function to run.
 # @arg $2 string The name of the global variable containing the value to perform validation on.
 # @arg $3 string (optional, default="value") Controls whether the 'name' or 'value' of the variable is passed to the validation function.
@@ -18,7 +18,7 @@ builtin set -eo pipefail
 stdlib.var.global.assert.is_valid_with() {
   builtin local return_code=0
 
-  stdlib.var.query.is_valid_with "${@}" || return_code="$?"
+  stdlib.var.query.is_valid_with "${@}" || return_code="$?" # validates STDLIB_VALIDATION_SOURCE_VAR
 
   case "${return_code}" in
     0) ;; # KCOV_EXCLUDE_LINE

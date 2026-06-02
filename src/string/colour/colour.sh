@@ -26,7 +26,6 @@ stdlib.string.colour() {
 }
 
 # @description Colours a string and prints it without a newline.
-#   * STDLIB_COLOUR_NC string global: The no-colour escape sequence (default="\e[0m").
 # @arg $1 string The name of the colour to use.
 # @arg $2 string The string to colour.
 # @exitcode 0 If the operation succeeded.

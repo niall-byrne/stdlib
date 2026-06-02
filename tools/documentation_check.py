@@ -350,10 +350,6 @@ class Tags:
         ]
 
 
-# Constants
-MODIFIER_TYPES = ["global", "keyword", "reserved"]
-VARIABLE_TYPES = ["string", "integer", "boolean", "array"]
-
 # Configuration
 DERIVE_DEFINITIONS: List[DeriveDefinition] = [
     DeriveDefinition(
@@ -389,6 +385,8 @@ REGEX_DOC_TAGS = (
     rf"^#\s*@({'|'.join([tag_def.name for tag_def in Tags.get_sequence()])})")
 REGEX_ECHO_ASSIGNMENT = r"=\s*\"?builtin echo"
 REGEX_FUNCTION_DEFINITION = r"^(([a-zA-Z_@]|\$\{1\}\.)[a-zA-Z0-9._]*) *\(\) *{"
+MODIFIER_TYPES = ["global", "keyword"]
+VARIABLE_TYPES = ["string", "integer", "boolean", "array"]
 REGEX_MODIFIER_VARIABLE_DESCRIPTION = (
     rf"^{re.escape(MODIFIER_VARIABLE_PREFIX)}"
     r"(__\$\{2\}[a-z_]+|[A-Z_]+) " +

@@ -61,7 +61,6 @@ ${1}.mock.set.rc() {
 }
 
 # @description This function will set the side effects of the mock.  These are a series of one or more commands the mock will execute each time it's called.
-#   * __${2}_mock_side_effects_file string global: The filename containing the persisted side effects of the mock (default="").
 # @arg $@ array This is a series of commands the mock will execute each time it's called. (Call this function without any arguments to disable this feature).
 # @exitcode 0 If the mock's side effects were set successfully.
 # @exitcode 126 If an invalid argument has been provided.

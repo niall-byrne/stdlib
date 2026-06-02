@@ -8,8 +8,6 @@ builtin set -eo pipefail
 STDLIB_COLOUR_NULL=""
 
 # @description Gets the name of a colour variable from the theme.
-#   * STDLIB_COLOUR_ string global: A prefix used for all theme colour variables (default="STDLIB_COLOUR_").
-#   * STDLIB_COLOUR_NULL string global: A default value for null or missing colours (default="").
 # @arg $1 string The name of the colour.
 # @exitcode 0 If the operation succeeded.
 # @stdout The name of the colour variable.

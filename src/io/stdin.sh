@@ -55,7 +55,7 @@ stdlib.io.stdin.pause() {
 }
 
 # @description Prompts the user for a value and saves it to a variable.
-#   * STDLIB_STDIN_PASSWORD_MASK_BOOLEAN boolean global: Indicates if the input should be masked, i.e. for passwords (default="0").
+#   * STDLIB_STDIN_PASSWORD_MASK_BOOLEAN: Indicates if the input should be masked, i.e. for passwords (default="0").
 # @arg $1 string The variable name to save the input to.
 # @arg $2 string (optional, default=STDIN_DEFAULT_VALUE_PROMPT) The prompt to display.
 # @exitcode 0 If the operation succeeded.
@@ -73,7 +73,7 @@ stdlib.io.stdin.prompt() {
   stdlib.fn.args.require "1" "1" "${@}" || builtin return "$?"
 
   STDLIB_KW_SOURCE_VAR="password" \
-    stdlib.fn.keyword.assert.is_valid_with stdlib.string.assert.is_boolean STDLIB_STDIN_PASSWORD_MASK_BOOLEAN || builtin return 125
+    stdlib.fn.keyword.assert.is_valid_with stdlib.string.assert.is_boolean STDLIB_STDIN_PASSWORD_MASK_BOOLEAN || builtin return 125 # validates STDLIB_STDIN_PASSWORD_MASK_BOOLEAN
 
   if [[ "${password}" == "1" ]]; then
     flags="-rsp"
