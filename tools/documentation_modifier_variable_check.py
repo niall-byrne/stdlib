@@ -2,6 +2,7 @@ import json
 import os
 import re
 import sys
+from collections import defaultdict
 from typing import Dict, List, NamedTuple, Optional, Set
 
 
@@ -81,21 +82,11 @@ class ModifierVariableInconsistencyReport(Dict):
         self._build_report(instances)
 
     def _build_report(self, instances: List[ModifierVariableMetadata]):
-        # Group by tag type: { "@tag": { output_details: { filepath: [functions] } } }
-        tag_groups = {}
+        tag_groups = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
         for instance in instances:
             tag_key = f"@{instance.tag_type}"
-            if tag_key not in tag_groups:
-                tag_groups[tag_key] = {}
-
             details = ModifierVariableInconsistencyError.format_instance_details(
                 instance)
-            if details not in tag_groups[tag_key]:
-                tag_groups[tag_key][details] = {}
-
-            if instance.filepath not in tag_groups[tag_key][details]:
-                tag_groups[tag_key][details][instance.filepath] = []
-
             tag_groups[tag_key][details][instance.filepath].append(
                 instance.function_name)
 
