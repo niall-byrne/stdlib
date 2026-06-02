@@ -118,6 +118,31 @@ class TestModifierVariableCheck(unittest.TestCase):
         details = str(output["STDLIB_VAR4"])
         self.assertIn(file4, details)
 
+    @patch("sys.exit")
+    @patch("sys.stdout", new_callable=StringIO)
+    def test_main_malformed(self, mock_stdout, mock_exit):
+        file5 = os.path.join(self.assets_dir, "file5.sh")
+        with patch("sys.argv", ["documentation_modifier_variable_check.py", file5]):
+            documentation_modifier_variable_check.main()
+
+        mock_exit.assert_called_with(1)
+        output = json.loads(mock_stdout.getvalue())
+        self.assertIn("STDLIB_VAR5", output)
+        self.assertIn("STDLIB_VAR6", output)
+        self.assertIn("MALFORMED", str(output["STDLIB_VAR5"]))
+        self.assertIn("MALFORMED", str(output["STDLIB_VAR6"]))
+
+    @patch("sys.exit")
+    @patch("sys.stdout", new_callable=StringIO)
+    def test_main_consistent_mixed_description_set(self, mock_stdout, mock_exit):
+        file6 = os.path.join(self.assets_dir, "file6.sh")
+        with patch("sys.argv", ["documentation_modifier_variable_check.py", file6]):
+            documentation_modifier_variable_check.main()
+
+        # Should not exit with 1 because @set is consistent with @description even with missing modifier
+        mock_exit.assert_not_called()
+        self.assertEqual(mock_stdout.getvalue(), "")
+
 
 if __name__ == "__main__":
     unittest.main()

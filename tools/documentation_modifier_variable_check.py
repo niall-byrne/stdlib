@@ -9,21 +9,26 @@ sys.path.append(os.path.dirname(__file__))
 from documentation_check import parse_file, Tags, MODIFIER_VARIABLE_PREFIX
 
 
+# Constants
 SOURCE_DIRECTORY = "src"
 SHELL_EXTENSION = ".sh"
 SNIPPET_EXTENSION = ".snippet"
+VARIABLE_TYPES = ["string", "integer", "boolean", "array"]
 
 
+# Dataclasses
 class ModifierVariableMetadata(NamedTuple):
     name: str
-    var_type: str
+    var_type: Optional[str]
     modifier: Optional[str]
     description: str
     filepath: str
     function_name: str
     tag_type: str
+    is_well_formed: bool
 
 
+# Errors
 class ModifierVariableInconsistencyError:
 
     def __init__(self, var_name: str, instances: List[ModifierVariableMetadata]):
@@ -35,12 +40,32 @@ class ModifierVariableInconsistencyError:
         first: ModifierVariableMetadata,
         other: ModifierVariableMetadata,
     ) -> bool:
-        return (first.var_type != other.var_type or
-                first.modifier != other.modifier or
-                first.description != other.description)
+        if first.var_type != other.var_type:
+            return True
+
+        if ModifierVariableInconsistencyError._normalize_description(
+                first.description) != ModifierVariableInconsistencyError._normalize_description(
+                    other.description):
+            return True
+
+        if first.tag_type == "description" and other.tag_type == "description":
+            if first.modifier != other.modifier:
+                return True
+
+        return False
+
+    @staticmethod
+    def _normalize_description(description: str) -> str:
+        description = re.sub(r"\s*\(default=.*\)\.*$", "", description)
+        if not description.endswith("."):
+            description += "."
+        return description
 
     @staticmethod
     def format_instance_details(instance: ModifierVariableMetadata) -> str:
+        if not instance.is_well_formed:
+            return f"MALFORMED: '{instance.description}'"
+
         if instance.tag_type == "description":
             return (f"type='{instance.var_type}', "
                     f"modifier='{instance.modifier}', "
@@ -66,11 +91,19 @@ class ModifierVariableFileReport(Dict):
         })
 
 
+# Checker
 class ModifierVariableConsistencyChecker:
 
-    DESCRIPTION_TAG_PATTERN = (
+    # #   * NAME TYPE MODIFIER: DESCRIPTION
+    DESCRIPTION_BLOCK_PATTERN = (
         rf"^{re.escape(MODIFIER_VARIABLE_PREFIX)}"
         r"(__\$\{2\}[a-z_]+|[A-Z0-9_]+)\s+(\S+)\s+(\S+):\s+(.*)$"
+    )
+
+    # Simple fallback to catch the variable name even if malformed
+    DESCRIPTION_BLOCK_NAME_ONLY_PATTERN = (
+        rf"^{re.escape(MODIFIER_VARIABLE_PREFIX)}"
+        r"(__\$\{2\}[a-z_]+|[A-Z0-9_]+).*"
     )
 
     def __init__(self, modified_files: List[str]):
@@ -93,9 +126,6 @@ class ModifierVariableConsistencyChecker:
                 if filename.endswith(SHELL_EXTENSION) or filename.endswith(
                         SNIPPET_EXTENSION):
                     files.add(os.path.join(root, filename))
-
-        if os.path.exists("dist/docs.sh"):
-            files.add("dist/docs.sh")
 
         for arg in self.modified_files:
             if os.path.isfile(arg):
@@ -142,30 +172,36 @@ class ModifierVariableConsistencyChecker:
     ) -> List[ModifierVariableMetadata]:
         metadata_list = []
         for line in function.modifier_var_lines:
-            metadata = self._parse_description_line(line, function.name, filepath)
-            if metadata:
-                metadata_list.append(metadata)
+            match = re.search(self.DESCRIPTION_BLOCK_PATTERN, line)
+            if match:
+                var_name, var_type, modifier, description = match.groups()
+                metadata_list.append(
+                    ModifierVariableMetadata(
+                        name=var_name,
+                        var_type=var_type,
+                        modifier=modifier,
+                        description=description.strip(),
+                        filepath=filepath,
+                        function_name=function.name,
+                        tag_type="description",
+                        is_well_formed=True,
+                    ))
+            else:
+                match = re.search(self.DESCRIPTION_BLOCK_NAME_ONLY_PATTERN, line)
+                if match:
+                    var_name = match.group(1)
+                    metadata_list.append(
+                        ModifierVariableMetadata(
+                            name=var_name,
+                            var_type=None,
+                            modifier=None,
+                            description=line.strip(),
+                            filepath=filepath,
+                            function_name=function.name,
+                            tag_type="description",
+                            is_well_formed=False,
+                        ))
         return metadata_list
-
-    def _parse_description_line(
-        self,
-        line: str,
-        function_name: str,
-        filepath: str,
-    ) -> Optional[ModifierVariableMetadata]:
-        match = re.search(self.DESCRIPTION_TAG_PATTERN, line)
-        if match:
-            var_name, var_type, modifier, description = match.groups()
-            return ModifierVariableMetadata(
-                name=var_name,
-                var_type=var_type,
-                modifier=modifier,
-                description=description.strip(),
-                filepath=filepath,
-                function_name=function_name,
-                tag_type="description",
-            )
-        return None
 
     def _extract_from_set_tags(
         self,
@@ -174,8 +210,10 @@ class ModifierVariableConsistencyChecker:
     ) -> List[ModifierVariableMetadata]:
         metadata_list = []
         for tag in function.find_tags(Tags.SET):
-            parts = tag.content.split(maxsplit=2)
-            if len(parts) >= 3:
+            # @set NAME TYPE DESCRIPTION
+            parts = tag.content.split()
+            if len(parts) >= 3 and parts[1] in VARIABLE_TYPES:
+                parts = tag.content.split(maxsplit=2)
                 var_name, var_type, description = parts
                 metadata_list.append(
                     ModifierVariableMetadata(
@@ -186,25 +224,43 @@ class ModifierVariableConsistencyChecker:
                         filepath=filepath,
                         function_name=function.name,
                         tag_type="set",
+                        is_well_formed=True,
+                    ))
+            else:
+                parts = tag.content.split(maxsplit=1)
+                var_name = parts[0] if parts else "UNKNOWN"
+                metadata_list.append(
+                    ModifierVariableMetadata(
+                        name=var_name,
+                        var_type=None,
+                        modifier=None,
+                        description=tag.content.strip(),
+                        filepath=filepath,
+                        function_name=function.name,
+                        tag_type="set",
+                        is_well_formed=False,
                     ))
         return metadata_list
 
     def _identify_consistency_errors(self) -> List[ModifierVariableInconsistencyError]:
         errors = []
         for var_name, instances in self.all_metadata.items():
-            if len(instances) < 2:
+            if not self._should_report_inconsistency(instances):
                 continue
 
             if self._has_inconsistency(instances):
-                if self._should_report_inconsistency(instances):
-                    errors.append(ModifierVariableInconsistencyError(var_name, instances))
+                errors.append(ModifierVariableInconsistencyError(var_name, instances))
         return errors
 
     def _has_inconsistency(self, instances: List[ModifierVariableMetadata]) -> bool:
-        first = instances[0]
-        for other in instances[1:]:
-            if ModifierVariableInconsistencyError.is_inconsistent(first, other):
+        for i in range(len(instances)):
+            if not instances[i].is_well_formed:
                 return True
+
+            for j in range(i + 1, len(instances)):
+                if ModifierVariableInconsistencyError.is_inconsistent(
+                        instances[i], instances[j]):
+                    return True
         return False
 
     def _should_report_inconsistency(
@@ -217,7 +273,7 @@ class ModifierVariableConsistencyChecker:
         return bool(involved_files & self.modified_files)
 
     def _report_errors(self, errors: List[ModifierVariableInconsistencyError]):
-        # { variable_name: [ {file_name: [ {function_name: [ {tag: output} ] } ] } ] }
+        # { variable_name: [ {file_name: [ {function_name: [ {tag: details} ] } ] } ] }
         output: Dict[str, List[ModifierVariableFileReport]] = {}
 
         for error in errors:
