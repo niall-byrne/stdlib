@@ -96,6 +96,17 @@ class TestModifierVariableCheck(unittest.TestCase):
         self.assertIn("The count of items.", output)
         self.assertIn("Inconsistent @set.", output)
 
+    @patch("sys.exit")
+    @patch("sys.stdout", new_callable=StringIO)
+    def test_main_inconsistent_mixed(self, mock_stdout, mock_exit):
+        file4 = os.path.join(self.assets_dir, "file4.sh")
+        with patch("sys.argv", ["modifier_variable_check.py", file4]):
+            modifier_variable_check.main()
+
+        mock_exit.assert_called_with(1)
+        output = mock_stdout.getvalue()
+        self.assertIn("Inconsistent documentation for 'VAR4'", output)
+
 
 if __name__ == "__main__":
     unittest.main()

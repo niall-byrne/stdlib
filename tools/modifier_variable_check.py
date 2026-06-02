@@ -171,9 +171,29 @@ class ModifierVariableConsistencyChecker:
 
     def _has_inconsistency(self, instances: List[ModifierVariableMetadata]) -> bool:
         first = instances[0]
-        return any(
-            inst.var_type != first.var_type or inst.modifier != first.modifier or
-            inst.description != first.description for inst in instances[1:])
+        for other in instances[1:]:
+            if self._is_inconsistent(first, other):
+                return True
+        return False
+
+    def _is_inconsistent(
+        self,
+        first: ModifierVariableMetadata,
+        other: ModifierVariableMetadata,
+    ) -> bool:
+        if first.var_type != "N/A" and other.var_type != "N/A":
+            if first.var_type != other.var_type:
+                return True
+
+        if first.description != other.description:
+            return True
+
+        if first.modifier != "N/A" and other.modifier != "N/A":
+            if first.modifier != other.modifier:
+                return True
+
+        return False
+
 
     def _should_report_inconsistency(
         self,
@@ -187,10 +207,7 @@ class ModifierVariableConsistencyChecker:
     def _format_error(self, var_name: str,
                       instances: List[ModifierVariableMetadata]) -> str:
         first = instances[0]
-        other = next(
-            inst for inst in instances[1:]
-            if inst.var_type != first.var_type or inst.modifier != first.modifier
-            or inst.description != first.description)
+        other = next(inst for inst in instances[1:] if self._is_inconsistent(first, inst))
         return (
             f"Inconsistent documentation for '{var_name}':\n"
             f"  {first.filepath} ({first.function_name}, {first.tag_type}): "
