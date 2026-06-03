@@ -19,12 +19,16 @@ class TestParsing(unittest.TestCase):
 
     def test_parse_file_valid(self):
         filepath = os.path.join(self.assets_dir, "valid.sh")
+
         parsed_file = documentation_check.parse_file(filepath)
+
         self.assertEqual(len(parsed_file.functions), 2)
 
     def test_derive_valid_parsing(self):
         filepath = os.path.join(self.assets_dir, "derive_valid.sh")
+
         parsed_file = documentation_check.parse_file(filepath)
+
         self.assertTrue(len(parsed_file.functions) > 0)
         self.assertTrue(len(parsed_file.derive_calls) > 0)
 

@@ -24,6 +24,7 @@ class TestMain(unittest.TestCase):
     @patch("sys.stdout", new_callable=StringIO)
     def test_main_with_errors(self, mock_stdout, mock_exit):
         filepath = os.path.join(self.assets_dir, "undocumented.sh")
+
         with patch("sys.argv", ["documentation_check.py", filepath]):
             documentation_check.main()
 
@@ -37,6 +38,7 @@ class TestMain(unittest.TestCase):
     @patch("sys.stdout", new_callable=StringIO)
     def test_main_with_parse_error(self, mock_stdout, mock_exit):
         filepath = "non_existent_file.sh"
+
         with patch("sys.argv", ["documentation_check.py", filepath]):
             documentation_check.main()
 

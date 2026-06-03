@@ -24,6 +24,7 @@ class TestModifierVariableConsistency(unittest.TestCase):
         filepath = os.path.join(self.assets_dir, "file1.sh")
         parsed_file = documentation_check.parse_file(filepath)
         metadata = []
+
         for func in parsed_file.functions:
             extractor = documentation_check.ModifierVariableMetadataExtractor(
                 func, filepath)
@@ -37,6 +38,7 @@ class TestModifierVariableConsistency(unittest.TestCase):
     def test_main_inconsistent_description(self, mock_stdout, mock_exit):
         file1 = os.path.abspath(os.path.join(self.assets_dir, "file1.sh"))
         file2 = os.path.abspath(os.path.join(self.assets_dir, "file2.sh"))
+
         with patch("documentation_check.PATH_SOURCE_DIRECTORY",
                    self.assets_dir):
             with patch("sys.argv", ["documentation_check.py", file1, file2]):

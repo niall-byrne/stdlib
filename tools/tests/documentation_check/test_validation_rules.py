@@ -18,12 +18,21 @@ class TestValidationRules(unittest.TestCase):
             "../assets/documentation",
         ))
 
-    def test_valid_file(self):
-        filepath = os.path.join(self.assets_dir, "valid.sh")
+    def _get_errors_for_file(self, filename, rules, func_index=None):
+        filepath = os.path.join(self.assets_dir, filename)
         parsed_file = documentation_check.parse_file(filepath)
 
-        undocumented_rule = documentation_check.UndocumentedRule()
-        validation_rules = [
+        errors = []
+        functions = [parsed_file.functions[func_index]] if func_index is not None else parsed_file.functions
+
+        for func in functions:
+            for rule in rules:
+                errors.extend(rule.check(func))
+        return errors
+
+    def test_valid_file(self):
+        filename = "valid.sh"
+        rules = [
             documentation_check.AssertionStderrRule(),
             documentation_check.ExitCodeDescriptionRule(),
             documentation_check.FieldOrderRule(),
@@ -40,161 +49,159 @@ class TestValidationRules(unittest.TestCase):
             documentation_check.ModifierVariableValidationRule(),
         ]
 
-        errors = []
-        for func in parsed_file.functions:
-            undocumented_errors = undocumented_rule.check(func)
-            if undocumented_errors:
-                errors.extend(undocumented_errors)
-                continue
-
-            for rule in validation_rules:
-                errors.extend(rule.check(func))
-
-        # Filtering out validation rule errors for mock variables in valid.sh
-        # which are known to trigger ModifierVariableValidationRule because they don't have markers.
+        errors = self._get_errors_for_file(filename, rules)
         errors = [
             e for e in errors
             if "marked as defaulted, validated or clean" not in e
         ]
+
         self.assertEqual(errors, [])
 
     def test_undocumented_file(self):
-        filepath = os.path.join(self.assets_dir, "undocumented.sh")
-        parsed_file = documentation_check.parse_file(filepath)
+        filename = "undocumented.sh"
         rule = documentation_check.UndocumentedRule()
-        errors = rule.check(parsed_file.functions[0])
+
+        errors = self._get_errors_for_file(filename, [rule], func_index=0)
+
         self.assertIn("Completely undocumented.", errors[0])
 
     def test_missing_description(self):
-        filepath = os.path.join(self.assets_dir, "missing_description.sh")
-        parsed_file = documentation_check.parse_file(filepath)
+        filename = "missing_description.sh"
         rule = documentation_check.MandatoryTagRule()
-        errors = rule.check(parsed_file.functions[0])
+
+        errors = self._get_errors_for_file(filename, [rule], func_index=0)
+
         self.assertIn(f"Missing @{Tags.DESCRIPTION.name}", errors[0])
 
     def test_missing_description_mock_component(self):
-        filepath = os.path.join(self.assets_dir,
-                                "invalid_description_mock_component.sh")
-        parsed_file = documentation_check.parse_file(filepath)
+        filename = "invalid_description_mock_component.sh"
         rule = documentation_check.MandatoryTagRule()
-        errors = rule.check(parsed_file.functions[0])
+
+        errors = self._get_errors_for_file(filename, [rule], func_index=0)
+
         self.assertIn(f"Missing @{Tags.DESCRIPTION.name}", errors[0])
 
     def test_invalid_description_modifier_variable_format(self):
-        filepath = os.path.join(self.assets_dir, "invalid_description.sh")
-        parsed_file = documentation_check.parse_file(filepath)
+        filename = "invalid_description.sh"
         rule = documentation_check.ModifierVariableFormatRule()
-        errors = []
-        for func in parsed_file.functions:
-            errors.extend(rule.check(func))
+
+        errors = self._get_errors_for_file(filename, [rule])
+
         self.assertEqual(len(errors), 3)
         self.assertIn("should start with a capital letter.", errors[0])
         self.assertIn("should end with a period.", errors[1])
         self.assertIn("should detail a default value.", errors[2])
 
     def test_invalid_description_modifier_variable_indent(self):
-        filepath = os.path.join(self.assets_dir, "invalid_description.sh")
-        parsed_file = documentation_check.parse_file(filepath)
+        filename = "invalid_description.sh"
         rule = documentation_check.ModifierVariableIndentRule()
-        errors = []
-        for func in parsed_file.functions:
-            errors.extend(rule.check(func))
+
+        errors = self._get_errors_for_file(filename, [rule])
+
         self.assertEqual(len(errors), 3)
         self.assertIn("should be in 2 space indented asterisk list format.", errors[0])
         self.assertIn("should be in uppercase characters", errors[2])
 
     def test_incorrect_order(self):
-        filepath = os.path.join(self.assets_dir, "incorrect_order.sh")
-        parsed_file = documentation_check.parse_file(filepath)
+        filename = "incorrect_order.sh"
         rule = documentation_check.FieldOrderRule()
-        errors = rule.check(parsed_file.functions[0])
+
+        errors = self._get_errors_for_file(filename, [rule], func_index=0)
+
         self.assertIn("Incorrect field order.", errors[0])
 
     def test_invalid_type(self):
-        filepath = os.path.join(self.assets_dir, "invalid_type.sh")
-        parsed_file = documentation_check.parse_file(filepath)
+        filename = "invalid_type.sh"
         rule = documentation_check.TypeValidationRule()
-        errors = rule.check(parsed_file.functions[0])
-        self.assertIn(f"Missing or invalid type in @{Tags.ARG.name}.",
-                      errors[0])
+
+        errors = self._get_errors_for_file(filename, [rule], func_index=0)
+
+        self.assertIn(f"Missing or invalid type in @{Tags.ARG.name}.", errors[0])
 
     def test_non_standard_exitcodes(self):
-        filepath = os.path.join(self.assets_dir, "non_standard_exitcodes.sh")
-        parsed_file = documentation_check.parse_file(filepath)
+        filename = "non_standard_exitcodes.sh"
         rule = documentation_check.StandardExitCodesRule()
-        errors = rule.check(parsed_file.functions[0])
+
+        errors = self._get_errors_for_file(filename, [rule], func_index=0)
+
         self.assertEqual(len(errors), 5)
         for code in ["123", "124", "125", "126", "127"]:
             self.assertTrue(any(f"Non-standard @{Tags.EXITCODE.name} {code}" in e for e in errors))
 
     def test_exitcode_description(self):
-        filepath = os.path.join(self.assets_dir, "non_standard_exitcodes.sh")
-        parsed_file = documentation_check.parse_file(filepath)
+        filename = "non_standard_exitcodes.sh"
         rule = documentation_check.ExitCodeDescriptionRule()
-        errors = rule.check(parsed_file.functions[0])
+
+        errors = self._get_errors_for_file(filename, [rule], func_index=0)
+
         self.assertEqual(len(errors), 5)
         self.assertIn(f"@{Tags.EXITCODE.name} description should start with 'If'", errors[0])
 
     def test_modifier_variable_validation(self):
-        filepath = os.path.join(self.assets_dir, "modifier_var_validation.sh")
-        parsed_file = documentation_check.parse_file(filepath)
+        filename = "modifier_var_validation.sh"
         rule = documentation_check.ModifierVariableValidationRule()
 
-        self.assertEqual(len(rule.check(parsed_file.functions[0])), 0) # no_modifier_vars
-        self.assertEqual(len(rule.check(parsed_file.functions[1])), 0) # validated_modifier_var
-        self.assertEqual(len(rule.check(parsed_file.functions[2])), 0) # manually_validated_modifier_var
-        self.assertEqual(len(rule.check(parsed_file.functions[3])), 0) # manually_validated_modifier_var_multiple
+        err0 = self._get_errors_for_file(filename, [rule], func_index=0)
+        err1 = self._get_errors_for_file(filename, [rule], func_index=1)
+        err2 = self._get_errors_for_file(filename, [rule], func_index=2)
+        err3 = self._get_errors_for_file(filename, [rule], func_index=3)
+        err4 = self._get_errors_for_file(filename, [rule], func_index=4)
+        err5 = self._get_errors_for_file(filename, [rule], func_index=5)
 
-        errors = rule.check(parsed_file.functions[4]) # unvalidated_modifier_var
-        self.assertEqual(len(errors), 1)
-        self.assertIn("STDLIB_UNVALIDATED_VAR", errors[0])
-
-        errors = rule.check(parsed_file.functions[5]) # multiple_modifier_vars
-        self.assertEqual(len(errors), 1)
-        self.assertIn("STDLIB_INVALID_VAR", errors[0])
+        self.assertEqual(len(err0), 0)
+        self.assertEqual(len(err1), 0)
+        self.assertEqual(len(err2), 0)
+        self.assertEqual(len(err3), 0)
+        self.assertEqual(len(err4), 1)
+        self.assertIn("STDLIB_UNVALIDATED_VAR", err4[0])
+        self.assertEqual(len(err5), 1)
+        self.assertIn("STDLIB_INVALID_VAR", err5[0])
 
     def test_modifier_variable_modifier_usage(self):
-        filepath = os.path.join(self.assets_dir, "modifier_variable_usage.sh")
-        parsed_file = documentation_check.parse_file(filepath)
+        filename = "modifier_variable_usage.sh"
         rule = documentation_check.ModifierVariableUsageRule()
 
-        self.assertEqual(len(rule.check(parsed_file.functions[0])), 0)
+        err0 = self._get_errors_for_file(filename, [rule], func_index=0)
+        err1 = self._get_errors_for_file(filename, [rule], func_index=1)
 
-        errors = rule.check(parsed_file.functions[1])
-        self.assertEqual(len(errors), 1)
-        self.assertIn("STDLIB_THEME_LOGGER_ERROR", errors[0])
+        self.assertEqual(len(err0), 0)
+        self.assertEqual(len(err1), 1)
+        self.assertIn("STDLIB_THEME_LOGGER_ERROR", err1[0])
 
     def test_missing_outputs(self):
-        filepath = os.path.join(self.assets_dir, "missing_outputs.sh")
-        parsed_file = documentation_check.parse_file(filepath)
+        filename = "missing_outputs.sh"
         rule = documentation_check.MissingOutputTagsRule()
-        errors = rule.check(parsed_file.functions[0])
+
+        errors = self._get_errors_for_file(filename, [rule], func_index=0)
+
         self.assertEqual(len(errors), 2)
         self.assertIn(f"Missing @{Tags.STDERR.name} tag", errors[0])
         self.assertIn(f"Missing @{Tags.STDOUT.name} tag", errors[1])
 
     def test_missing_exitcode_configurable(self):
-        filepath = os.path.join(self.assets_dir, "valid.sh")
-        parsed_file = documentation_check.parse_file(filepath)
+        filename = "valid.sh"
+        rule = documentation_check.MandatoryExitCodeRule()
         original_codes = documentation_check.MANDATORY_EXIT_CODES
+        documentation_check.MANDATORY_EXIT_CODES = ["0", "1"]
+
         try:
-            documentation_check.MANDATORY_EXIT_CODES = ["0", "1"]
-            rule = documentation_check.MandatoryExitCodeRule()
-            errors = rule.check(parsed_file.functions[0])
-            self.assertEqual(len(errors), 1)
-            self.assertIn(f"Missing @{Tags.EXITCODE.name} 1", errors[0])
+            errors = self._get_errors_for_file(filename, [rule], func_index=0)
         finally:
             documentation_check.MANDATORY_EXIT_CODES = original_codes
 
+        self.assertEqual(len(errors), 1)
+        self.assertIn(f"Missing @{Tags.EXITCODE.name} 1", errors[0])
+
     def test_assertion_stderr_rule(self):
-        # Additional coverage for AssertionStderrRule
         func = documentation_check.BashFunction(
             "assert_test",
             ["# @description Test.", "# @stderr Something else."],
             ["{ :; }"], 0, 1
         )
         rule = documentation_check.AssertionStderrRule()
+
         errors = rule.check(func)
+
         self.assertEqual(len(errors), 1)
         self.assertIn("for assertion should use", errors[0])
 
@@ -205,7 +212,9 @@ class TestValidationRules(unittest.TestCase):
             ["{ :; }"], 0, 1
         )
         rule = documentation_check.SentenceFormatRule()
+
         errors = rule.check(func)
+
         self.assertEqual(len(errors), 3)
         self.assertIn("content should start with a capital letter.", errors[0])
         self.assertIn("content should start with a capital letter.", errors[1])
