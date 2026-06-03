@@ -640,6 +640,25 @@ class ExitCodeDescriptionRule(Rule):
         return errors
 
 
+class ExitCodeSortRule(Rule):
+    """A rule that checks if exit codes are sorted numerically."""
+
+    def check(self, func: "BashFunction") -> List[str]:
+        """Validate the given BASH function."""
+        exit_codes = []
+        for tag in func.find_tags(Tags.EXITCODE):
+            parts = tag.content.split()
+            if parts and parts[0].isdigit():
+                exit_codes.append(int(parts[0]))
+
+        if exit_codes != sorted(exit_codes):
+            return [
+                f"{func.name}: @{Tags.EXITCODE.name} tags should be sorted "
+                f"numerically. Found: {exit_codes}"
+            ]
+        return []
+
+
 class FieldOrderRule(Rule):
     """A rule that checks the documentation tags are in the correct order."""
 
@@ -981,6 +1000,25 @@ class ModifierVariableIndentRule(Rule):
         return errors
 
 
+class ModifierVariableSortRule(Rule):
+    """A rule that checks if modifier variables are sorted alphabetically."""
+
+    def check(self, func: "BashFunction") -> List[str]:
+        """Validate the given BASH function."""
+        var_names = []
+        for line in func.modifier_var_lines:
+            match = re.search(REGEX_MODIFIER_VARIABLE_NAME, line)
+            if match:
+                var_names.append(match.group(1))
+
+        if var_names != sorted(var_names):
+            return [
+                f"{func.name}: Modifier variables should be sorted "
+                f"alphabetically. Found: {var_names}"
+            ]
+        return []
+
+
 class ModifierVariableUsageRule(Rule):
     """A rule that checks modifier variables are documented when used."""
 
@@ -1071,6 +1109,25 @@ class SentenceFormatRule(Rule):
                     f"end with a period. Found: '{text}'"
                 )
         return errors
+
+
+class SetTagSortRule(Rule):
+    """A rule that checks if @set tags are sorted alphabetically."""
+
+    def check(self, func: "BashFunction") -> List[str]:
+        """Validate the given BASH function."""
+        var_names = []
+        for tag in func.find_tags(Tags.SET):
+            parts = tag.content.split()
+            if parts:
+                var_names.append(parts[0])
+
+        if var_names != sorted(var_names):
+            return [
+                f"{func.name}: @{Tags.SET.name} tags should be sorted "
+                f"alphabetically by variable name. Found: {var_names}"
+            ]
+        return []
 
 
 class StandardExitCodesRule(Rule):
@@ -1384,6 +1441,7 @@ def main():
             DeriveStubDescriptionRule(),
             DeriveStubRequiredTagsRule(),
             ExitCodeDescriptionRule(),
+            ExitCodeSortRule(),
             FieldOrderRule(),
             InternalTagRule(),
             MandatoryExitCodeRule(),
@@ -1391,9 +1449,11 @@ def main():
             MissingOutputTagsRule(),
             ModifierVariableFormatRule(),
             ModifierVariableIndentRule(),
+            ModifierVariableSortRule(),
             ModifierVariableUsageRule(),
             ModifierVariableValidationRule(),
             SentenceFormatRule(),
+            SetTagSortRule(),
             StandardExitCodesRule(),
             TypeValidationRule(),
         ],
