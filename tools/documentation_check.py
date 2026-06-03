@@ -1,9 +1,11 @@
 """Validate BASH function documentation against a series of rules."""
 
 import json
+import os
 import re
 import sys
-from typing import Callable, Dict, List, NamedTuple, Optional, Set
+from collections import defaultdict
+from typing import Any, Callable, Dict, List, NamedTuple, Optional, Set
 
 
 # Dataclasses
@@ -13,6 +15,19 @@ class ParsedFile(NamedTuple):
     functions: List["BashFunction"]
     derive_calls: List["DeriveCall"]
     modifier_assignments: Set[str]
+
+
+class ModifierVariableMetadata(NamedTuple):
+    """Metadata extracted from a modifier variable's documentation."""
+
+    name: str
+    var_type: Optional[str]
+    modifier: Optional[str]
+    description: str
+    filepath: str
+    function_name: str
+    tag_type: str
+    is_well_formed: bool
 
 
 class BashFunction:
@@ -88,7 +103,7 @@ class BashFunction:
                     REGEX_MODIFIER_VARIABLE_USAGE,
                     line,
             ):
-                var_name = match.group(1).replace("\\", "")
+                var_name = match.group(1).replace("\\\\", "")
                 if var_name in local_vars:
                     continue
                 if re.search(
@@ -122,12 +137,12 @@ class BashFunction:
         if not line[match.end():].startswith("="):
             return False
 
-        var_name = match.group(1).replace("\\", "")
+        var_name = match.group(1).replace("\\\\", "")
         for other_match in re.finditer(
                 REGEX_MODIFIER_VARIABLE_USAGE,
                 line,
         ):
-            if (other_match.group(1).replace("\\", "") == var_name
+            if (other_match.group(1).replace("\\\\", "") == var_name
                     and not line[other_match.end():].startswith("=")):
                 return False
 
@@ -351,10 +366,6 @@ class Tags:
 
 
 # Constants
-MODIFIER_TYPES = ["global", "keyword", "reserved"]
-VARIABLE_TYPES = ["string", "integer", "boolean", "array"]
-
-# Configuration
 DERIVE_DEFINITIONS: List[DeriveDefinition] = [
     DeriveDefinition(
         type_name="pipeable",
@@ -384,22 +395,32 @@ MANDATORY_EXIT_CODES = ["0"]
 MANDATORY_TAGS = [
     tag_def for tag_def in Tags.get_sequence() if tag_def.is_mandatory
 ]
+MODIFIER_TYPES = ["global", "keyword", "reserved"]
 MODIFIER_VARIABLE_PREFIX = r"#   * "
+VARIABLE_TYPES = ["string", "integer", "boolean", "array"]
 REGEX_DOC_TAGS = (
     rf"^#\s*@({'|'.join([tag_def.name for tag_def in Tags.get_sequence()])})")
 REGEX_ECHO_ASSIGNMENT = r"=\s*\"?builtin echo"
 REGEX_FUNCTION_DEFINITION = r"^(([a-zA-Z_@]|\$\{1\}\.)[a-zA-Z0-9._]*) *\(\) *{"
 REGEX_MODIFIER_VARIABLE_DESCRIPTION = (
     rf"^{re.escape(MODIFIER_VARIABLE_PREFIX)}"
-    r"(__\$\{2\}[a-z_]+|[A-Z_]+) " +
-    rf"({'|'.join(VARIABLE_TYPES)}) ({'|'.join(MODIFIER_TYPES)}):\s+(.+)$")
+    r"(__\\?\$\{2\}[a-z_]+|[A-Z0-9_]+) " +
+    rf"({'|'.join(VARIABLE_TYPES)}) "
+    rf"({'|'.join(MODIFIER_TYPES)}):\s+(.+)$")
+REGEX_MODIFIER_VARIABLE_DESCRIPTION_CONSISTENCY = (
+    rf"^{re.escape(MODIFIER_VARIABLE_PREFIX)}"
+    r"(__\\?\$\{2\}[a-z_]+|[A-Z0-9_]+)\s+(\S+)\s+(\S+):\s+(.*)$")
 REGEX_MODIFIER_VARIABLE_DESCRIPTION_DEFAULT = r"^.+\(default=.+\)\.*$"
+REGEX_MODIFIER_VARIABLE_DESCRIPTION_MALFORMED = (
+    rf"^{re.escape(MODIFIER_VARIABLE_PREFIX)}"
+    r"(__\\?\$\{2\}[a-z_]+|[A-Z0-9_]+).*")
 REGEX_MODIFIER_VARIABLE_KEYWORD_USAGE = (
     r"^\s*(?:(?:[A-Z_]+|__\$\{2\}[a-z_]+)="
     r"(?:'[^']*'|\"[^\"]*\"|\\$\([^)]*\)|[^\s;]+)\s+)+")
 REGEX_MODIFIER_VARIABLE_NAME = (
-    r"(__\$\{2\}[a-z_]+|[A-Z_]+) " +
-    rf"({'|'.join(VARIABLE_TYPES)}) ({'|'.join(MODIFIER_TYPES)}): ")
+    r"(__\\?\$\{2\}[a-z_]+|[A-Z0-9_]+) " +
+    rf"({'|'.join(VARIABLE_TYPES)}) "
+    rf"({'|'.join(MODIFIER_TYPES)}): ")
 REGEX_MODIFIER_VARIABLE_USAGE = (
     r"(\b__\\?\$\{2\}[a-z_]+\b|\b_?_?STDLIB_(?!BINARY)[A-Z0-9_]+\b)")
 REGEX_PROCESS_SUBSTITUTION = r"[\$=]\(builtin echo"
@@ -407,6 +428,9 @@ REGEX_SKIP_PROCESSING = r"\s*# noqa$"
 SENTENCE_FORMAT_TAGS = [
     tag_def for tag_def in Tags.get_sequence() if tag_def.check_sentence_format
 ]
+SHELL_EXTENSION = ".sh"
+SNIPPET_EXTENSION = ".snippet"
+SOURCE_DIRECTORY = "src"
 STANDARDIZED_EXIT_CODES = {
     "123":
     rf"@{Tags.EXITCODE.name} 123 If a variable reserved "
@@ -444,6 +468,18 @@ class DeriveRule:
         raise NotImplementedError
 
 
+class ProjectRule:
+    """A base class for project-wide validation rules."""
+
+    def check(
+        self,
+        all_metadata: Dict[str, List[ModifierVariableMetadata]],
+        modified_files: Set[str],
+    ) -> Dict[str, List[Dict]]:
+        """Validate the project-wide metadata."""
+        raise NotImplementedError
+
+
 class Rule:
     """A base class for validation rules."""
 
@@ -453,9 +489,6 @@ class Rule:
 
 
 # Rules
-# Rules
-
-
 class AssertionStderrRule(Rule):
     """A rule that checks assertion functions for stderr documentation."""
 
@@ -710,6 +743,52 @@ class MissingOutputTagsRule(Rule):
         return errors
 
 
+class ModifierVariableConsistencyRule(ProjectRule):
+    """A rule that checks consistency of modifier variables."""
+
+    def check(
+        self,
+        all_metadata: Dict[str, List[ModifierVariableMetadata]],
+        modified_files: Set[str],
+    ) -> Dict[str, List[Dict]]:
+        """Validate the project-wide metadata."""
+        errors: Dict[str, List[Dict]] = {}
+        for var_name, instances in all_metadata.items():
+            if not self._should_report_inconsistency(instances, modified_files):
+                continue
+
+            if self._has_inconsistency(instances):
+                report = ModifierVariableInconsistencyReport(instances)
+                errors[var_name] = [{
+                    tag: items
+                } for tag, items in sorted(report.items())]
+        return errors
+
+    def _has_inconsistency(self,
+                           instances: List[ModifierVariableMetadata]) -> bool:
+        """Check if metadata instances have any inconsistencies."""
+        for i in range(len(instances)):
+            if not instances[i].is_well_formed:
+                return True
+
+            for j in range(i + 1, len(instances)):
+                if ModifierVariableInconsistencyError.is_inconsistent(
+                        instances[i], instances[j]):
+                    return True
+        return False
+
+    def _should_report_inconsistency(
+        self,
+        instances: List[ModifierVariableMetadata],
+        modified_files: Set[str],
+    ) -> bool:
+        """Determine if an inconsistency should be reported."""
+        if not modified_files:
+            return True
+        involved_files = {os.path.abspath(inst.filepath) for inst in instances}
+        return bool(involved_files & modified_files)
+
+
 class ModifierVariableFormatRule(Rule):
     """A rule that checks formatting of modifier variable mod descriptions."""
 
@@ -742,6 +821,83 @@ class ModifierVariableFormatRule(Rule):
         return errors
 
 
+class ModifierVariableInconsistencyError:
+    """Represents an inconsistency error in a modifier variable."""
+
+    @staticmethod
+    def is_inconsistent(
+        first: ModifierVariableMetadata,
+        other: ModifierVariableMetadata,
+    ) -> bool:
+        """Check if two metadata instances are inconsistent."""
+        if first.var_type != other.var_type:
+            return True
+
+        if ModifierVariableInconsistencyError.get_normalized_description(
+                first.description
+        ) != ModifierVariableInconsistencyError.get_normalized_description(
+                other.description):
+            return True
+
+        if first.tag_type == "description" and other.tag_type == "description":
+            if first.modifier != other.modifier:
+                return True
+
+        return False
+
+    @staticmethod
+    def get_normalized_description(description: str) -> str:
+        """Normalize a description by removing defaults and ensuring period."""
+        description = re.sub(r"\s*\(default=.*\)\.*$", "", description)
+        if not description.endswith("."):
+            description += "."
+        return description
+
+    @staticmethod
+    def format_instance_details(instance: ModifierVariableMetadata) -> str:
+        """Format instance details for error reporting."""
+        if not instance.is_well_formed:
+            return f"MALFORMED: '{instance.description}'"
+
+        if instance.tag_type == "description":
+            return (f"type='{instance.var_type}', "
+                    f"modifier='{instance.modifier}', "
+                    f"description='{instance.description}'")
+        return (f"type='{instance.var_type}', "
+                f"description='{instance.description}'")
+
+
+class ModifierVariableInconsistencyReport(Dict):
+    """Represents a report for an inconsistent variable."""
+
+    def __init__(self, instances: List[ModifierVariableMetadata]):
+        """Initialize the report from a list of metadata instances."""
+        super().__init__({})
+        self._build_report(instances)
+
+    def _build_report(self, instances: List[ModifierVariableMetadata]):
+        """Build the hierarchical report structure from metadata instances."""
+        tag_groups: Dict[str, Dict[str, Dict[str, List[str]]]] = defaultdict(
+            lambda: defaultdict(lambda: defaultdict(list)))
+        for instance in instances:
+            tag_key = f"@{instance.tag_type}"
+            details = ModifierVariableInconsistencyError.format_instance_details(
+                instance)
+            tag_groups[tag_key][details][instance.filepath].append(
+                instance.function_name)
+
+        # Convert to requested list-based hierarchy
+        for tag, details_map in sorted(tag_groups.items()):
+            self[tag] = []
+            for details, file_map in sorted(details_map.items()):
+                # Sort file map keys and ensure function names are sorted
+                sorted_file_map = {
+                    fp: sorted(file_map[fp])
+                    for fp in sorted(file_map.keys())
+                }
+                self[tag].append({details: sorted_file_map})
+
+
 class ModifierVariableIndentRule(Rule):
     """A rule that checks indentation of modifier variable mod descriptions."""
 
@@ -758,7 +914,7 @@ class ModifierVariableIndentRule(Rule):
                     f"Found: '{stripped}'")
 
             # Check if it's a variable with wrong elements or has wrong format
-            if re.search(r"^[#\s\*]*(__\\$\{2\}[a-z_]+|[A-Z_]+)", stripped):
+            if re.search(r"^[#\s\*]*(__\\?\$\{2\}[a-z_]+|[A-Z_]+)", stripped):
                 if not re.search(REGEX_MODIFIER_VARIABLE_NAME, stripped):
                     errors.append(
                         f"{func.name}: Modifier variable in "
@@ -799,7 +955,7 @@ class ModifierVariableValidationRule(Rule):
                 re.DOTALL,
             )
             if match:
-                var_name = match.group(1)
+                var_name = match.group(1).replace("\\\\", "")
                 line_start_comment_pattern = r"^# (clean) (\S+)$"
                 line_end_comment_pattern = r"# (defaults|validates) (\S+)$"
 
@@ -882,46 +1038,38 @@ class StandardExitCodesRule(Rule):
 class TypeValidationRule(Rule):
     """A rule that checks the data types present in documentation tags."""
 
-    def _validate_type(
-        self,
-        func_name: str,
-        doc_tag: "BashFunctionDocumentationTag",
-    ) -> Optional[str]:
-        parts = doc_tag.content.split()
-        if doc_tag.tag_def == Tags.SET:
-            if len(parts) < 2:
-                return (
-                    f"{func_name}: Missing type in "
-                    f"@{doc_tag.tag_def.name}. Found: '{doc_tag.line.strip()}'"
-                )
-            tag_type = parts[1].split("(")[0]
-            if tag_type not in VARIABLE_TYPES:
-                return (
-                    f"{func_name}: Invalid type in "
-                    f"@{doc_tag.tag_def.name}. Found: '{doc_tag.line.strip()}'"
-                )
-        else:
-            if len(parts) < 2:
-                return (
-                    f"{func_name}: Missing or invalid type in "
-                    f"@{doc_tag.tag_def.name}. Found: '{doc_tag.line.strip()}'"
-                )
-            tag_type = parts[1].split("(")[0]
-            if tag_type not in VARIABLE_TYPES:
-                return (
-                    f"{func_name}: Missing or invalid type in "
-                    f"@{doc_tag.tag_def.name}. Found: '{doc_tag.line.strip()}'"
-                )
-        return None
-
     def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         errors = []
         for tag_def in TYPE_TAGS:
             for doc_tag in func.find_tags(tag_def):
-                error = self._validate_type(func.name, doc_tag)
-                if error:
-                    errors.append(error)
+                parts = doc_tag.content.split()
+                if doc_tag.tag_def == Tags.SET:
+                    if len(parts) < 2:
+                        errors.append(
+                            f"{func.name}: Missing type in "
+                            f"@{doc_tag.tag_def.name}. Found: '{doc_tag.line.strip()}'"
+                        )
+                    else:
+                        tag_type = parts[1].split("(")[0]
+                        if tag_type not in VARIABLE_TYPES:
+                            errors.append(
+                                f"{func.name}: Invalid type in "
+                                f"@{doc_tag.tag_def.name}. Found: '{doc_tag.line.strip()}'"
+                            )
+                else:
+                    if len(parts) < 2:
+                        errors.append(
+                            f"{func.name}: Missing or invalid type in "
+                            f"@{tag_def.name}. Found: '{doc_tag.line.strip()}'"
+                        )
+                    else:
+                        tag_type = parts[1].split("(")[0]
+                        if tag_type not in VARIABLE_TYPES:
+                            errors.append(
+                                f"{func.name}: Missing or invalid type in "
+                                f"@{tag_def.name}. Found: '{doc_tag.line.strip()}'"
+                            )
         return errors
 
 
@@ -933,6 +1081,80 @@ class UndocumentedRule(Rule):
         if not any("@" in line for line in func.doc_lines):
             return [f"{func.name}: Completely undocumented."]
         return []
+
+
+def extract_metadata_from_function(
+    function: BashFunction,
+    filepath: str,
+) -> List[ModifierVariableMetadata]:
+    """Extract all modifier variable metadata from a function."""
+    metadata_list = []
+
+    # Extract from description block
+    for line in function.modifier_var_lines:
+        params = {
+            "filepath": filepath,
+            "function_name": function.name,
+            "tag_type": "description",
+        }
+
+        match = re.search(REGEX_MODIFIER_VARIABLE_DESCRIPTION_CONSISTENCY, line)
+        if match:
+            var_name, var_type, modifier, description = match.groups()
+            metadata_list.append(
+                ModifierVariableMetadata(
+                    name=var_name,
+                    var_type=var_type,
+                    modifier=modifier,
+                    description=description.strip(),
+                    is_well_formed=True,
+                    **params,
+                ))
+        else:
+            match = re.search(REGEX_MODIFIER_VARIABLE_DESCRIPTION_MALFORMED,
+                              line)
+            metadata_list.append(
+                ModifierVariableMetadata(
+                    name=match.group(1) if match else "UNKNOWN",
+                    var_type=None,
+                    modifier=None,
+                    description=line.strip(),
+                    is_well_formed=False,
+                    **params,
+                ))
+
+    # Extract from @set tags
+    for tag in function.find_tags(Tags.SET):
+        params = {
+            "filepath": filepath,
+            "function_name": function.name,
+            "tag_type": "set",
+        }
+
+        parts = tag.content.split()
+        if len(parts) >= 3 and parts[1] in VARIABLE_TYPES:
+            parts = tag.content.split(maxsplit=2)
+            metadata_list.append(
+                ModifierVariableMetadata(
+                    name=parts[0],
+                    var_type=parts[1],
+                    modifier=None,
+                    description=parts[2].strip(),
+                    is_well_formed=True,
+                    **params,
+                ))
+        else:
+            metadata_list.append(
+                ModifierVariableMetadata(
+                    name=parts[0] if parts else "UNKNOWN",
+                    var_type=None,
+                    modifier=None,
+                    description=tag.content.strip(),
+                    is_well_formed=False,
+                    **params,
+                ))
+
+    return metadata_list
 
 
 def parse_file(filepath: str) -> ParsedFile:
@@ -1023,7 +1245,32 @@ def main():
         StandardExitCodesRule(),
         TypeValidationRule(),
     ]
+    project_rules = [
+        ModifierVariableConsistencyRule(),
+    ]
+
     all_discrepancies: Dict[str, List[str]] = {}
+    all_metadata: Dict[str, List[ModifierVariableMetadata]] = {}
+    modified_files = {os.path.abspath(f) for f in sys.argv[1:]}
+
+    # Project-wide metadata collection
+    for root, _, filenames in os.walk(SOURCE_DIRECTORY):
+        for filename in filenames:
+            if filename.endswith(SHELL_EXTENSION) or filename.endswith(
+                    SNIPPET_EXTENSION):
+                filepath = os.path.abspath(os.path.join(root, filename))
+                try:
+                    parsed_file = parse_file(filepath)
+                    for func in parsed_file.functions:
+                        for metadata in extract_metadata_from_function(
+                                func, filepath):
+                            if metadata.name not in all_metadata:
+                                all_metadata[metadata.name] = []
+                            all_metadata[metadata.name].append(metadata)
+                except Exception:
+                    pass
+
+    # Per-file validation
     for filepath in sys.argv[1:]:
         try:
             parsed_file = parse_file(filepath)
@@ -1046,8 +1293,20 @@ def main():
             all_discrepancies[filepath] = [
                 f"File could not be parsed: {str(exception)}"
             ]
-    if all_discrepancies:
-        print(json.dumps(all_discrepancies, indent=2))
+
+    # Project-wide validation
+    all_inconsistencies: Dict[str, List[Dict]] = {}
+    for rule in project_rules:
+        all_inconsistencies.update(
+            rule.check(all_metadata, modified_files))
+
+    if all_discrepancies or all_inconsistencies:
+        output = {}
+        if all_discrepancies:
+            output["discrepancies"] = all_discrepancies
+        if all_inconsistencies:
+            output["inconsistencies"] = all_inconsistencies
+        print(json.dumps(output, indent=2))
         sys.exit(1)
 
 
