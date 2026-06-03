@@ -1,12 +1,282 @@
 """Validate BASH function documentation against a series of rules."""
 
 import json
+import os
 import re
 import sys
-from typing import Callable, Dict, List, NamedTuple, Optional, Set
+from collections import defaultdict
+from typing import Any, Callable, Dict, List, NamedTuple, Optional, Set
 
 
-# Dataclasses
+class TagDefinition:
+    """Defines a shdoc documentation tag."""
+
+    def __init__(
+        self,
+        name: str,
+        is_mandatory: bool = False,
+        check_sentence_format: bool = False,
+        has_types: bool = False,
+    ):
+        self.name = name
+        self.is_mandatory = is_mandatory
+        self.check_sentence_format = check_sentence_format
+        self.has_types = has_types
+
+    def __eq__(self, other):
+        if not isinstance(other, TagDefinition):
+            return False
+        return self.name == other.name
+
+    @property
+    def description_pattern(self) -> str:
+        """Return a regex for validating the description."""
+        if self.has_types:
+            return rf"@{self.name}\s+\S+\s+\S+\s+(.*)"
+        if self.name == "exitcode":
+            return rf"@{self.name}\s+\S+\s+(.*)"
+        return rf"@{self.name}\s+(.*)"
+
+
+class Tags:
+    """All shdoc documentation tags."""
+
+    DESCRIPTION = TagDefinition(
+        name="description",
+        is_mandatory=True,
+        check_sentence_format=True,
+    )
+    ARG = TagDefinition(
+        name="arg",
+        check_sentence_format=True,
+        has_types=True,
+    )
+    NOARGS = TagDefinition(
+        name="noargs",
+        check_sentence_format=True,
+    )
+    EXITCODE = TagDefinition(
+        name="exitcode",
+        check_sentence_format=True,
+    )
+    SET = TagDefinition(
+        name="set",
+        check_sentence_format=True,
+        has_types=True,
+    )
+    STDIN = TagDefinition(
+        name="stdin",
+        check_sentence_format=True,
+    )
+    STDOUT = TagDefinition(
+        name="stdout",
+        check_sentence_format=True,
+    )
+    STDERR = TagDefinition(
+        name="stderr",
+        check_sentence_format=True,
+    )
+    INTERNAL = TagDefinition(name="internal")
+
+    @classmethod
+    def get_sequence(cls) -> List[TagDefinition]:
+        """Return the ordered sequence of shdoc documentation tags."""
+        return [
+            cls.DESCRIPTION,
+            cls.ARG,
+            cls.NOARGS,
+            cls.EXITCODE,
+            cls.SET,
+            cls.STDIN,
+            cls.STDOUT,
+            cls.STDERR,
+            cls.INTERNAL,
+        ]
+
+
+class DeriveDefinition:
+    """Defines a function that creates derivitives of functions."""
+
+    def __init__(
+        self,
+        type_name: str,
+        regex: str,
+        expected_desc_template: str,
+        get_source: Callable[[re.Match], str],
+        get_target: Callable[[re.Match], str],
+        get_arg_index: Callable[[re.Match], str],
+        arg_desc_requirement: Optional[str] = None,
+        arg_desc_suffix: Optional[str] = None,
+        required_tags: Optional[List["TagDefinition"]] = None,
+    ):
+        self.type_name = type_name
+        self.regex = regex
+        self.expected_desc_template = expected_desc_template
+        self.get_source = get_source
+        self.get_target = get_target
+        self.get_arg_index = get_arg_index
+        self.arg_desc_requirement = arg_desc_requirement
+        self.arg_desc_suffix = arg_desc_suffix
+        self.required_tags = required_tags or []
+
+
+# Configuration Constants
+DERIVE_DEFINITIONS: List[DeriveDefinition] = [
+    DeriveDefinition(
+        type_name="pipeable",
+        regex=r'stdlib\.(?:fn\.)?derive\.pipeable\s+"([^"]+)"\s+"([^"]+)"',
+        expected_desc_template=
+        "A derivative of {source} that can read from stdin.",
+        get_source=lambda match: match.group(1),
+        get_target=lambda match: match.group(1) + "_pipe",
+        get_arg_index=lambda match: match.group(2),
+        arg_desc_suffix=", by default this function reads from stdin.",
+        required_tags=[Tags.STDIN],
+    ),
+    DeriveDefinition(
+        type_name="var",
+        regex=r'stdlib\.(?:fn\.)?derive\.var\s+"([^"]+)"(?:\s+"([^"]+)")?'
+        r'(?:\s+"([^"]+)")?',
+        expected_desc_template=
+        "A derivative of {source} that can read from and write to a variable.",
+        get_source=lambda match: match.group(1),
+        get_target=lambda match: match.group(2) or (match.group(1) + "_var"),
+        get_arg_index=lambda match: match.group(3) or "-1",
+        arg_desc_requirement=
+        "The name of the variable to read from and write to.",
+    ),
+]
+MANDATORY_EXIT_CODES = ["0"]
+MANDATORY_TAGS = [
+    tag_def for tag_def in Tags.get_sequence() if tag_def.is_mandatory
+]
+MODIFIER_TYPES = ["global", "keyword", "reserved"]
+MODIFIER_VARIABLE_PREFIX = r"#   * "
+PATH_SHELL_EXTENSION = ".sh"
+PATH_SNIPPET_EXTENSION = ".snippet"
+PATH_SOURCE_DIRECTORY = os.getenv("SRC_DIRECTORY", "src")
+VARIABLE_TYPES = ["string", "integer", "boolean", "array"]
+REGEX_DOC_TAGS = (
+    rf"^#\s*@({'|'.join([tag_def.name for tag_def in Tags.get_sequence()])})")
+REGEX_ECHO_ASSIGNMENT = r"=\s*\"?builtin echo"
+REGEX_FUNCTION_DEFINITION = r"^(([a-zA-Z_@]|\$\{1\}\.)[a-zA-Z0-9._]*) *\(\) *{"
+REGEX_MODIFIER_VARIABLE_DESCRIPTION = (
+    rf"^{re.escape(MODIFIER_VARIABLE_PREFIX)}"
+    r"(__\\?\$\{2\}[a-z_]+|[A-Z0-9_]+) " + rf"({'|'.join(VARIABLE_TYPES)}) "
+    rf"({'|'.join(MODIFIER_TYPES)}):\s+(.+)$")
+REGEX_MODIFIER_VARIABLE_DESCRIPTION_CONSISTENCY = (
+    rf"^{re.escape(MODIFIER_VARIABLE_PREFIX)}"
+    r"(__\\?\$\{2\}[a-z_]+|[A-Z0-9_]+)\s+(\S+)\s+(\S+):\s+(.*)$")
+REGEX_MODIFIER_VARIABLE_DESCRIPTION_DEFAULT = r"^.+\(default=.+\)\.*$"
+REGEX_MODIFIER_VARIABLE_DESCRIPTION_MALFORMED = (
+    rf"^{re.escape(MODIFIER_VARIABLE_PREFIX)}"
+    r"(__\\?\$\{2\}[a-z_]+|[A-Z0-9_]+).*")
+REGEX_MODIFIER_VARIABLE_KEYWORD_USAGE = (
+    r"^\s*(?:(?:[A-Z_]+|__\$\{2\}[a-z_]+)="
+    r"(?:'[^']*'|\"[^\"]*\"|\\$\([^)]*\)|[^\s;]+)\s+)+")
+REGEX_MODIFIER_VARIABLE_NAME = (r"(__\\?\$\{2\}[a-z_]+|[A-Z0-9_]+) " +
+                                rf"({'|'.join(VARIABLE_TYPES)}) "
+                                rf"({'|'.join(MODIFIER_TYPES)}): ")
+REGEX_MODIFIER_VARIABLE_USAGE = (
+    r"(\b__\\?\$\{2\}[a-z_]+\b|\b_?_?STDLIB_(?!BINARY)[A-Z0-9_]+\b)")
+REGEX_PROCESS_SUBSTITUTION = r"[\$=]\(builtin echo"
+REGEX_SKIP_PROCESSING = r"\s*# noqa$"
+SENTENCE_FORMAT_TAGS = [
+    tag_def for tag_def in Tags.get_sequence() if tag_def.check_sentence_format
+]
+STANDARDIZED_EXIT_CODES = {
+    "123":
+    rf"@{Tags.EXITCODE.name} 123 If a variable reserved "
+    r"for use by the BASH stdlib has been assigned an invalid value\.",
+    "124":
+    rf"@{Tags.EXITCODE.name} 124 If a global variable "
+    r"has been assigned an invalid value\.",
+    "125":
+    rf"@{Tags.EXITCODE.name} 125 If an invalid "
+    r"keyword has been provided\.",
+    "126":
+    rf"@{Tags.EXITCODE.name} 126 If an invalid "
+    r"argument has been provided\.",
+    "127":
+    rf"@{Tags.EXITCODE.name} 127 If the wrong "
+    r"number of arguments were provided\.",
+}
+STDERR_TRIGGERS = ["stdlib.logger.error", "stdlib.logger.warning", ">&2"]
+STDOUT_TRIGGERS = [
+    "stdlib.logger.info",
+    "stdlib.logger.success",
+    "stdlib.logger.notice",
+    "builtin echo",
+]
+TRIGGER_IGNORE_COMMENT = "# noqa"
+TYPE_TAGS = [tag_def for tag_def in Tags.get_sequence() if tag_def.has_types]
+
+
+# Helper Models
+class BashFunctionDocumentationTag:
+    """A parsed documentation tag for a BASH function."""
+
+    def __init__(self, tag_def: "TagDefinition", content: str, line: str):
+        self.tag_def = tag_def
+        self.content = content
+        self.line = line
+
+
+class DeriveCall:
+    """A call to a derive function creating a derivitive function."""
+
+    def __init__(
+        self,
+        definition: "DeriveDefinition",
+        source: str,
+        target: str,
+        arg_index: str,
+        line_number: int,
+    ):
+        self.definition = definition
+        self.source = source
+        self.target = target
+        self.arg_index = arg_index
+        self.line_number = line_number
+        self.linked_function: Optional["BashFunction"] = None
+
+    @classmethod
+    def from_line(cls, line: str, line_number: int) -> Optional["DeriveCall"]:
+        """Create an instance from a line in a script file."""
+        for derive_def in DERIVE_DEFINITIONS:
+            match = re.search(derive_def.regex, line)
+            if match:
+                return cls(
+                    definition=derive_def,
+                    source=derive_def.get_source(match),
+                    target=derive_def.get_target(match),
+                    arg_index=derive_def.get_arg_index(match),
+                    line_number=line_number,
+                )
+        return None
+
+    def link(self, functions: List["BashFunction"]):
+        """Link the derived function call to a BashFunction stub instance."""
+        for func in functions:
+            if func.end_line == self.line_number - 1:
+                func.derive_call = self
+                self.linked_function = func
+                break
+
+
+class ModifierVariableMetadata(NamedTuple):
+    """Metadata extracted from a modifier variable's documentation."""
+
+    name: str
+    var_type: Optional[str]
+    modifier: Optional[str]
+    description: str
+    filepath: str
+    function_name: str
+    tag_type: str
+    is_well_formed: bool
+
+
 class ParsedFile(NamedTuple):
     """The result of parsing a BASH script file."""
 
@@ -187,261 +457,31 @@ class BashFunction:
         return None
 
 
-class BashFunctionDocumentationTag:
-    """A parsed documentation tag for a BASH function."""
-
-    def __init__(self, tag_def: "TagDefinition", content: str, line: str):
-        self.tag_def = tag_def
-        self.content = content
-        self.line = line
-
-
-class DeriveCall:
-    """A call to a derive function creating a derivitive function."""
-
-    def __init__(
-        self,
-        definition: "DeriveDefinition",
-        source: str,
-        target: str,
-        arg_index: str,
-        line_number: int,
-    ):
-        self.definition = definition
-        self.source = source
-        self.target = target
-        self.arg_index = arg_index
-        self.line_number = line_number
-        self.linked_function: Optional["BashFunction"] = None
-
-    @classmethod
-    def from_line(cls, line: str, line_number: int) -> Optional["DeriveCall"]:
-        """Create an instance from a line in a script file."""
-        for derive_def in DERIVE_DEFINITIONS:
-            match = re.search(derive_def.regex, line)
-            if match:
-                return cls(
-                    definition=derive_def,
-                    source=derive_def.get_source(match),
-                    target=derive_def.get_target(match),
-                    arg_index=derive_def.get_arg_index(match),
-                    line_number=line_number,
-                )
-        return None
-
-    def link(self, functions: List["BashFunction"]):
-        """Link the derived function call to a BashFunction stub instance."""
-        for func in functions:
-            if func.end_line == self.line_number - 1:
-                func.derive_call = self
-                self.linked_function = func
-                break
-
-
-class DeriveDefinition:
-    """Defines a function that creates derivitives of functions."""
-
-    def __init__(
-        self,
-        type_name: str,
-        regex: str,
-        expected_desc_template: str,
-        get_source: Callable[[re.Match], str],
-        get_target: Callable[[re.Match], str],
-        get_arg_index: Callable[[re.Match], str],
-        arg_desc_requirement: Optional[str] = None,
-        arg_desc_suffix: Optional[str] = None,
-        required_tags: Optional[List["TagDefinition"]] = None,
-    ):
-        self.type_name = type_name
-        self.regex = regex
-        self.expected_desc_template = expected_desc_template
-        self.get_source = get_source
-        self.get_target = get_target
-        self.get_arg_index = get_arg_index
-        self.arg_desc_requirement = arg_desc_requirement
-        self.arg_desc_suffix = arg_desc_suffix
-        self.required_tags = required_tags or []
-
-
-class TagDefinition:
-    """Defines a shdoc documentation tag."""
-
-    def __init__(
-        self,
-        name: str,
-        is_mandatory: bool = False,
-        check_sentence_format: bool = False,
-        has_types: bool = False,
-    ):
-        self.name = name
-        self.is_mandatory = is_mandatory
-        self.check_sentence_format = check_sentence_format
-        self.has_types = has_types
-
-    def __eq__(self, other):
-        if not isinstance(other, TagDefinition):
-            return False
-        return self.name == other.name
-
-    @property
-    def description_pattern(self) -> str:
-        """Return a regex for validating the description."""
-        if self.has_types:
-            return rf"@{self.name}\s+\S+\s+\S+\s+(.*)"
-        if self.name == "exitcode":
-            return rf"@{self.name}\s+\S+\s+(.*)"
-        return rf"@{self.name}\s+(.*)"
-
-
-class Tags:
-    """All shdoc documentation tags."""
-
-    DESCRIPTION = TagDefinition(
-        name="description",
-        is_mandatory=True,
-        check_sentence_format=True,
-    )
-    ARG = TagDefinition(
-        name="arg",
-        check_sentence_format=True,
-        has_types=True,
-    )
-    NOARGS = TagDefinition(
-        name="noargs",
-        check_sentence_format=True,
-    )
-    EXITCODE = TagDefinition(
-        name="exitcode",
-        check_sentence_format=True,
-    )
-    SET = TagDefinition(
-        name="set",
-        check_sentence_format=True,
-        has_types=True,
-    )
-    STDIN = TagDefinition(
-        name="stdin",
-        check_sentence_format=True,
-    )
-    STDOUT = TagDefinition(
-        name="stdout",
-        check_sentence_format=True,
-    )
-    STDERR = TagDefinition(
-        name="stderr",
-        check_sentence_format=True,
-    )
-    INTERNAL = TagDefinition(name="internal")
-
-    @classmethod
-    def get_sequence(cls) -> List[TagDefinition]:
-        """Return the ordered sequence of shdoc documentation tags."""
-        return [
-            cls.DESCRIPTION,
-            cls.ARG,
-            cls.NOARGS,
-            cls.EXITCODE,
-            cls.SET,
-            cls.STDIN,
-            cls.STDOUT,
-            cls.STDERR,
-            cls.INTERNAL,
-        ]
-
-
-# Configuration
-DERIVE_DEFINITIONS: List[DeriveDefinition] = [
-    DeriveDefinition(
-        type_name="pipeable",
-        regex=r'stdlib\.(?:fn\.)?derive\.pipeable\s+"([^"]+)"\s+"([^"]+)"',
-        expected_desc_template=
-        "A derivative of {source} that can read from stdin.",
-        get_source=lambda match: match.group(1),
-        get_target=lambda match: match.group(1) + "_pipe",
-        get_arg_index=lambda match: match.group(2),
-        arg_desc_suffix=", by default this function reads from stdin.",
-        required_tags=[Tags.STDIN],
-    ),
-    DeriveDefinition(
-        type_name="var",
-        regex=r'stdlib\.(?:fn\.)?derive\.var\s+"([^"]+)"(?:\s+"([^"]+)")?'
-        r'(?:\s+"([^"]+)")?',
-        expected_desc_template=
-        "A derivative of {source} that can read from and write to a variable.",
-        get_source=lambda match: match.group(1),
-        get_target=lambda match: match.group(2) or (match.group(1) + "_var"),
-        get_arg_index=lambda match: match.group(3) or "-1",
-        arg_desc_requirement=
-        "The name of the variable to read from and write to.",
-    ),
-]
-MANDATORY_EXIT_CODES = ["0"]
-MANDATORY_TAGS = [
-    tag_def for tag_def in Tags.get_sequence() if tag_def.is_mandatory
-]
-MODIFIER_VARIABLE_PREFIX = r"#   * "
-REGEX_DOC_TAGS = (
-    rf"^#\s*@({'|'.join([tag_def.name for tag_def in Tags.get_sequence()])})")
-REGEX_ECHO_ASSIGNMENT = r"=\s*\"?builtin echo"
-REGEX_FUNCTION_DEFINITION = r"^(([a-zA-Z_@]|\$\{1\}\.)[a-zA-Z0-9._]*) *\(\) *\{"
-REGEX_MODIFIER_VARIABLE_DESCRIPTION = (
-    rf"^{re.escape(MODIFIER_VARIABLE_PREFIX)}"
-    r"(__\$\{2\}[a-z_]+|[A-Z_]+): (.+)$")
-REGEX_MODIFIER_VARIABLE_DESCRIPTION_DEFAULT = r"^.+\(default=.+\)\.*$"
-REGEX_MODIFIER_VARIABLE_KEYWORD_USAGE = (
-    r"^\s*(?:(?:[A-Z_]+|__\$\{2\}[a-z_]+)="
-    r"(?:'[^']*'|\"[^\"]*\"|\$?\([^)]*\)|[^\s;]+)\s+)+")
-REGEX_MODIFIER_VARIABLE_NAME = r"(__\$\{2\}[a-z_]+|[A-Z_]+): "
-REGEX_MODIFIER_VARIABLE_USAGE = (
-    r"(\b__\\?\$\{2\}[a-z_]+\b|\b_?_?STDLIB_(?!BINARY)[A-Z0-9_]+\b)")
-REGEX_PROCESS_SUBSTITUTION = r"[\$=]\(builtin echo"
-REGEX_SKIP_PROCESSING = r"\s*# noqa$"
-SENTENCE_FORMAT_TAGS = [
-    tag_def for tag_def in Tags.get_sequence() if tag_def.check_sentence_format
-]
-STANDARDIZED_EXIT_CODES = {
-    "123":
-    rf"@{Tags.EXITCODE.name} 123 If a variable reserved "
-    r"for use by the BASH stdlib has been assigned an invalid value\.",
-    "124":
-    rf"@{Tags.EXITCODE.name} 124 If a global variable "
-    r"has been assigned an invalid value\.",
-    "125":
-    rf"@{Tags.EXITCODE.name} 125 If an invalid "
-    r"keyword has been provided\.",
-    "126":
-    rf"@{Tags.EXITCODE.name} 126 If an invalid "
-    r"argument has been provided\.",
-    "127":
-    rf"@{Tags.EXITCODE.name} 127 If the wrong "
-    r"number of arguments were provided\.",
-}
-STDERR_TRIGGERS = ["stdlib.logger.error", "stdlib.logger.warning", ">&2"]
-STDOUT_TRIGGERS = [
-    "stdlib.logger.info",
-    "stdlib.logger.success",
-    "stdlib.logger.notice",
-    "builtin echo",
-]
-TRIGGER_IGNORE_COMMENT = "# noqa"
-TYPE_TAGS = [tag_def for tag_def in Tags.get_sequence() if tag_def.has_types]
-VARIABLE_TYPES = ["string", "integer", "boolean", "array"]
-
-
-# Rule Bases
+# Base Rules
 class DeriveRule:
     """A base class for validating calls to derived functions."""
 
-    def check(self, call: DeriveCall) -> List[str]:
+    def check(self, call: "DeriveCall") -> List[str]:
         """Validate the given derive function call."""
+        raise NotImplementedError
+
+
+class ProjectRule:
+    """A base class for project-wide validation rules."""
+
+    def check(
+        self,
+        all_metadata: Dict[str, List[ModifierVariableMetadata]],
+        modified_files: Set[str],
+    ) -> Dict[str, List[Dict]]:
+        """Validate the project-wide metadata."""
         raise NotImplementedError
 
 
 class Rule:
     """A base class for validation rules."""
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         raise NotImplementedError
 
@@ -450,7 +490,7 @@ class Rule:
 class AssertionStderrRule(Rule):
     """A rule that checks assertion functions for stderr documentation."""
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         if "assert" not in func.name:
             return []
@@ -467,7 +507,7 @@ class AssertionStderrRule(Rule):
 class DeriveStubArgRule(Rule):
     """A rule for validating a derived function stub's argument tags."""
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         if not func.derive_call:
             return []
@@ -492,8 +532,8 @@ class DeriveStubArgRule(Rule):
                 f"description should end with '{derive_def.arg_desc_suffix}'")
         return errors
 
-    def _check_fallback(self, func: BashFunction,
-                        derive_def: DeriveDefinition) -> List[str]:
+    def _check_fallback(self, func: "BashFunction",
+                        derive_def: "DeriveDefinition") -> List[str]:
         arg_tags = func.find_tags(Tags.ARG)
         if derive_def.arg_desc_requirement:
             if not any(derive_def.arg_desc_requirement in tag.content
@@ -515,7 +555,7 @@ class DeriveStubArgRule(Rule):
 class DeriveStubDescriptionRule(Rule):
     """A rule for validating a derived function stub's description tag."""
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given derive function call."""
         if not func.derive_call:
             return []
@@ -535,7 +575,7 @@ class DeriveStubDescriptionRule(Rule):
 class DeriveStubNamingRule(DeriveRule):
     """A rule for validating a documented stub is correctly named."""
 
-    def check(self, call: DeriveCall) -> List[str]:
+    def check(self, call: "DeriveCall") -> List[str]:
         """Validate the given call to a derive function."""
         if not call.linked_function:
             return []
@@ -551,7 +591,7 @@ class DeriveStubNamingRule(DeriveRule):
 class DeriveStubRequiredTagsRule(Rule):
     """A rule for validating a derived function stub's required tags."""
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         if not func.derive_call:
             return []
@@ -567,7 +607,7 @@ class DeriveStubRequiredTagsRule(Rule):
 class ExitCodeDescriptionRule(Rule):
     """A rule that checks the exit code documention."""
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         errors = []
         for doc_tag in func.find_tags(Tags.EXITCODE):
@@ -584,7 +624,7 @@ class ExitCodeDescriptionRule(Rule):
 class FieldOrderRule(Rule):
     """A rule that checks the documentation tags are in the correct order."""
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         tag_names = [tag_def.name for tag_def in Tags.get_sequence()]
         actual_order = [
@@ -608,7 +648,7 @@ class FieldOrderRule(Rule):
 class InternalTagRule(Rule):
     """A rule that checks private functions have an internal tag."""
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         if "__" in func.name and not func.contains_tag(Tags.INTERNAL):
             return [f"{func.name}: Missing @{Tags.INTERNAL.name}"]
@@ -618,7 +658,7 @@ class InternalTagRule(Rule):
 class MandatoryExitCodeRule(Rule):
     """A rule that checks all mandatory exit codes are present."""
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         errors = []
         for code in MANDATORY_EXIT_CODES:
@@ -633,7 +673,7 @@ class MandatoryExitCodeRule(Rule):
 class MandatoryTagRule(Rule):
     """A rule that checks all mandatory tags are present."""
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         errors = [
             f"{func.name}: Missing @{tag_def.name}"
@@ -649,7 +689,7 @@ class MandatoryTagRule(Rule):
 class MissingDeriveStubRule(DeriveRule):
     """A rule that checks if a call to a derived function is missing a stub."""
 
-    def check(self, call: DeriveCall) -> List[str]:
+    def check(self, call: "DeriveCall") -> List[str]:
         """Validate the given call to a derive function."""
         if not call.linked_function:
             return [
@@ -688,7 +728,7 @@ class MissingOutputTagsRule(Rule):
                 return True
         return False
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         errors = []
         if not func.contains_tag(Tags.STDERR) and self._has_trigger(
@@ -701,10 +741,55 @@ class MissingOutputTagsRule(Rule):
         return errors
 
 
+class ModifierVariableConsistencyRule(ProjectRule):
+    """A rule that checks consistency of modifier variables."""
+
+    def check(
+        self,
+        all_metadata: Dict[str, List["ModifierVariableMetadata"]],
+        modified_files: Set[str],
+    ) -> Dict[str, List[Dict]]:
+        """Validate the project-wide metadata."""
+        errors: Dict[str, List[Dict]] = {}
+        for var_name, instances in all_metadata.items():
+            if not self._should_report_inconsistency(instances,
+                                                     modified_files):
+                continue
+
+            if self._has_inconsistency(instances):
+                errors[var_name] = ModifierVariableInconsistencyReport(
+                    instances, )
+        return errors
+
+    def _has_inconsistency(
+            self, instances: List["ModifierVariableMetadata"]) -> bool:
+        """Check if metadata instances have any inconsistencies."""
+        for i in range(len(instances)):
+            if not instances[i].is_well_formed:
+                return True
+
+            for j in range(i + 1, len(instances)):
+                if ModifierVariableInconsistencyError.is_inconsistent(
+                        instances[i], instances[j]):
+                    return True
+        return False
+
+    def _should_report_inconsistency(
+        self,
+        instances: List["ModifierVariableMetadata"],
+        modified_files: Set[str],
+    ) -> bool:
+        """Determine if an inconsistency should be reported."""
+        if not modified_files:
+            return True
+        involved_files = {os.path.abspath(inst.filepath) for inst in instances}
+        return bool(involved_files & modified_files)
+
+
 class ModifierVariableFormatRule(Rule):
     """A rule that checks formatting of modifier variable mod descriptions."""
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         errors = []
         for line in func.modifier_var_lines:
@@ -712,19 +797,19 @@ class ModifierVariableFormatRule(Rule):
             match = re.match(REGEX_MODIFIER_VARIABLE_DESCRIPTION, line.strip(),
                              re.DOTALL)
             if match:
-                if not match.group(2)[0].isupper():
+                if not match.group(4)[0].isupper():
                     errors.append(
                         f"{func.name}: Modifier variable description in "
                         f"@{Tags.DESCRIPTION.name} "
                         f"should start with a capital letter. "
                         f"Found: '{line.strip()}'")
-                if not match.group(2).endswith("."):
+                if not match.group(4).endswith("."):
                     errors.append(
                         f"{func.name}: Modifier variable description in "
                         f"@{Tags.DESCRIPTION.name} "
                         f"should end with a period. Found: '{line.strip()}'")
                 if not re.match(REGEX_MODIFIER_VARIABLE_DESCRIPTION_DEFAULT,
-                                match.group(2)):
+                                match.group(4)):
                     errors.append(
                         f"{func.name}: Modifier variable description in "
                         f"@{Tags.DESCRIPTION.name} "
@@ -733,32 +818,125 @@ class ModifierVariableFormatRule(Rule):
         return errors
 
 
+class ModifierVariableInconsistencyError:
+    """Represents an inconsistency error in a modifier variable."""
+
+    @staticmethod
+    def is_inconsistent(
+        metadata: "ModifierVariableMetadata",
+        other_metadata: "ModifierVariableMetadata",
+    ) -> bool:
+        """Check if two metadata instances are inconsistent."""
+        if metadata.var_type != other_metadata.var_type:
+            return True
+
+        if ModifierVariableInconsistencyError.get_normalized_description(
+                metadata.description
+        ) != ModifierVariableInconsistencyError.get_normalized_description(
+                other_metadata.description):
+            return True
+
+        if (metadata.tag_type == "description"
+                and other_metadata.tag_type == "description"):
+            if metadata.modifier != other_metadata.modifier:
+                return True
+
+        return False
+
+    @staticmethod
+    def get_normalized_description(description: str) -> str:
+        """Normalize a description by removing defaults and ensuring period."""
+        description = re.sub(r"\s*\(default=.*\)\.*$", "", description)
+        if not description.endswith("."):
+            description += "."
+        return description
+
+    @staticmethod
+    def get_instance_documentation(
+            instance: "ModifierVariableMetadata") -> Dict[str, Any]:
+        """Return the documentation details for a metadata instance."""
+        if not instance.is_well_formed:
+            return {"malformed": instance.description}
+
+        details = {
+            "type": instance.var_type,
+            "description": instance.description
+        }
+        if instance.tag_type == "description":
+            details["modifier"] = instance.modifier
+        return details
+
+
+class ModifierVariableInconsistencyReport(List):
+    """Represents a list of inconsistency report items for a variable."""
+
+    def __init__(self, instances: List["ModifierVariableMetadata"]):
+        """Initialize the report from a list of metadata instances."""
+        super().__init__([])
+        self._build_report(instances)
+
+    def _build_report(self, instances: List["ModifierVariableMetadata"]):
+        """Build the hierarchical report structure from metadata instances."""
+        groups = defaultdict(list)
+        for instance in instances:
+            doc = ModifierVariableInconsistencyError.get_instance_documentation(
+                instance)
+            key = (instance.tag_type, json.dumps(doc, sort_keys=True))
+            groups[key].append(instance)
+
+        for (tag_type, doc_json), group_instances in sorted(groups.items()):
+            usage = defaultdict(list)
+            for inst in group_instances:
+                try:
+                    rel_path = os.path.relpath(inst.filepath)
+                except ValueError:
+                    rel_path = inst.filepath
+                usage[rel_path].append(inst.function_name)
+
+            # Sort usage by filepath and function names
+            sorted_usage = {
+                fp: sorted(usage[fp])
+                for fp in sorted(usage.keys())
+            }
+
+            self.append({
+                "tag": f"@{tag_type}",
+                "documentation": json.loads(doc_json),
+                "usage": sorted_usage,
+            })
+
+
 class ModifierVariableIndentRule(Rule):
     """A rule that checks indentation of modifier variable mod descriptions."""
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         errors = []
         for line in func.modifier_var_lines:
+            stripped = line.strip()
             if not line.startswith(MODIFIER_VARIABLE_PREFIX):
                 errors.append(
                     f"{func.name}: Modifier variable in "
                     f"@{Tags.DESCRIPTION.name} "
                     f"should be in 2 space indented asterisk list format. "
-                    f"Found: '{line.strip()}'")
-            if not re.search(REGEX_MODIFIER_VARIABLE_NAME, line.strip()):
-                errors.append(
-                    f"{func.name}: Modifier variable in "
-                    f"@{Tags.DESCRIPTION.name} "
-                    f"should be in uppercase characters followed by a colon. "
-                    f"Found: '{line.strip()}'")
+                    f"Found: '{stripped}'")
+
+            # Check if it's a variable with wrong elements or has wrong format
+            if re.search(r"^[#\s\*]*(__\\?\$\{2\}[a-z_]+|[A-Z_]+)", stripped):
+                if not re.search(REGEX_MODIFIER_VARIABLE_NAME, stripped):
+                    errors.append(
+                        f"{func.name}: Modifier variable in "
+                        f"@{Tags.DESCRIPTION.name} "
+                        "should be in uppercase characters, followed by "
+                        "a variable type, a modifier type, and a colon. "
+                        f"Found: '{stripped}'")
         return errors
 
 
 class ModifierVariableUsageRule(Rule):
     """A rule that checks modifier variables are documented when used."""
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         documented_vars = func.get_documented_vars()
         used_vars = func.get_used_modifier_vars()
@@ -775,7 +953,7 @@ class ModifierVariableUsageRule(Rule):
 class ModifierVariableValidationRule(Rule):
     """A rule that checks modifier variable modifiers are validated."""
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         errors = []
         for line in func.modifier_var_lines:
@@ -785,7 +963,7 @@ class ModifierVariableValidationRule(Rule):
                 re.DOTALL,
             )
             if match:
-                var_name = match.group(1)
+                var_name = match.group(1).replace("\\", "")
                 line_start_comment_pattern = r"^# (clean) (\S+)$"
                 line_end_comment_pattern = r"# (defaults|validates) (\S+)$"
 
@@ -822,12 +1000,12 @@ class SentenceFormatRule(Rule):
 
     def _get_description_text(
         self,
-        doc_tag: BashFunctionDocumentationTag,
+        doc_tag: "BashFunctionDocumentationTag",
     ) -> str:
         m = re.search(doc_tag.tag_def.description_pattern, doc_tag.line)
         return m.group(1).strip() if m else ""
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         errors = []
         for doc_tag in func.doc_tags:
@@ -852,7 +1030,7 @@ class SentenceFormatRule(Rule):
 class StandardExitCodesRule(Rule):
     """A rule that checks documentation exit codes with a defined standard."""
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         errors = []
         for doc_tag in func.find_tags(Tags.EXITCODE):
@@ -868,43 +1046,210 @@ class StandardExitCodesRule(Rule):
 class TypeValidationRule(Rule):
     """A rule that checks the data types present in documentation tags."""
 
-    def _validate_type(
-        self,
-        func_name: str,
-        doc_tag: BashFunctionDocumentationTag,
-    ) -> Optional[str]:
-        parts = doc_tag.content.split()
-        if len(parts) < 2:
-            return (
-                f"{func_name}: Missing or invalid type in "
-                f"@{doc_tag.tag_def.name}. Found: '{doc_tag.line.strip()}'")
-
-        tag_type = parts[1].split("(")[0]
-        if tag_type not in VARIABLE_TYPES:
-            return (
-                f"{func_name}: Missing or invalid type in "
-                f"@{doc_tag.tag_def.name}. Found: '{doc_tag.line.strip()}'")
-        return None
-
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         errors = []
         for tag_def in TYPE_TAGS:
             for doc_tag in func.find_tags(tag_def):
-                error = self._validate_type(func.name, doc_tag)
-                if error:
-                    errors.append(error)
+                parts = doc_tag.content.split()
+                if doc_tag.tag_def == Tags.SET:
+                    if len(parts) < 2:
+                        errors.append(f"{func.name}: Missing type in "
+                                      f"@{doc_tag.tag_def.name}. "
+                                      f"Found: '{doc_tag.line.strip()}'")
+                    else:
+                        tag_type = parts[1].split("(")[0]
+                        if tag_type not in VARIABLE_TYPES:
+                            errors.append(f"{func.name}: Invalid type in "
+                                          f"@{doc_tag.tag_def.name}. "
+                                          f"Found: '{doc_tag.line.strip()}'")
+                else:
+                    if len(parts) < 2:
+                        errors.append(
+                            f"{func.name}: Missing or invalid type in "
+                            f"@{tag_def.name}. Found: '{doc_tag.line.strip()}'"
+                        )
+                    else:
+                        tag_type = parts[1].split("(")[0]
+                        if tag_type not in VARIABLE_TYPES:
+                            errors.append(
+                                f"{func.name}: Missing or invalid type in "
+                                f"@{tag_def.name}. "
+                                f"Found: '{doc_tag.line.strip()}'")
         return errors
 
 
 class UndocumentedRule(Rule):
     """A rule that checks if the function is undocumented."""
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         if not any("@" in line for line in func.doc_lines):
             return [f"{func.name}: Completely undocumented."]
         return []
+
+
+# Orchestration Classes
+class ModifierVariableMetadataExtractor:
+    """Extracts modifier variable metadata from BASH functions."""
+
+    def __init__(self, function: "BashFunction", filepath: str):
+        self.function = function
+        self.filepath = filepath
+
+    def extract(self) -> List["ModifierVariableMetadata"]:
+        """Extract all modifier variable metadata."""
+        return (self._extract_from_description() +
+                self._extract_from_set_tags())
+
+    def _extract_from_description(self) -> List["ModifierVariableMetadata"]:
+        metadata_list = []
+        for line in self.function.modifier_var_lines:
+            params = {
+                "filepath": self.filepath,
+                "function_name": self.function.name,
+                "tag_type": "description",
+            }
+            match = re.search(REGEX_MODIFIER_VARIABLE_DESCRIPTION_CONSISTENCY,
+                              line)
+            if match:
+                var_name, var_type, modifier, description = match.groups()
+                metadata_list.append(
+                    ModifierVariableMetadata(
+                        name=var_name,
+                        var_type=var_type,
+                        modifier=modifier,
+                        description=description.strip(),
+                        is_well_formed=True,
+                        **params,
+                    ))
+            else:
+                match = re.search(
+                    REGEX_MODIFIER_VARIABLE_DESCRIPTION_MALFORMED, line)
+                metadata_list.append(
+                    ModifierVariableMetadata(
+                        name=match.group(1) if match else "UNKNOWN",
+                        var_type=None,
+                        modifier=None,
+                        description=line.strip(),
+                        is_well_formed=False,
+                        **params,
+                    ))
+        return metadata_list
+
+    def _extract_from_set_tags(self) -> List["ModifierVariableMetadata"]:
+        metadata_list = []
+        for tag in self.function.find_tags(Tags.SET):
+            params = {
+                "filepath": self.filepath,
+                "function_name": self.function.name,
+                "tag_type": "set",
+            }
+            parts = tag.content.split()
+            if len(parts) >= 3 and parts[1] in VARIABLE_TYPES:
+                parts = tag.content.split(maxsplit=2)
+                metadata_list.append(
+                    ModifierVariableMetadata(
+                        name=parts[0],
+                        var_type=parts[1],
+                        modifier=None,
+                        description=parts[2].strip(),
+                        is_well_formed=True,
+                        **params,
+                    ))
+            else:
+                metadata_list.append(
+                    ModifierVariableMetadata(
+                        name=parts[0] if parts else "UNKNOWN",
+                        var_type=None,
+                        modifier=None,
+                        description=tag.content.strip(),
+                        is_well_formed=False,
+                        **params,
+                    ))
+        return metadata_list
+
+
+class ProjectMetadataCollector:
+    """Collects metadata from all files in the project."""
+
+    def __init__(self, source_directory: str):
+        self.source_directory = source_directory
+
+    def collect(self) -> Dict[str, List["ModifierVariableMetadata"]]:
+        """Collect metadata from all relevant files in the source directory."""
+        all_metadata = defaultdict(list)
+        for root, _, filenames in os.walk(self.source_directory):
+            for filename in filenames:
+                if filename.endswith(
+                        PATH_SHELL_EXTENSION) or filename.endswith(
+                            PATH_SNIPPET_EXTENSION):
+                    filepath = os.path.abspath(os.path.join(root, filename))
+                    try:
+                        parsed_file = parse_file(filepath)
+                        for func in parsed_file.functions:
+                            extractor = ModifierVariableMetadataExtractor(
+                                func, filepath)
+                            for metadata in extractor.extract():
+                                all_metadata[metadata.name].append(metadata)
+                    except Exception:
+                        pass
+        return all_metadata
+
+
+class ProjectValidator:
+    """Orchestrates validation of both per-file and project-wide rules."""
+
+    def __init__(
+        self,
+        validation_rules: List[Rule],
+        derive_rules: List[DeriveRule],
+        project_rules: List[ProjectRule],
+        undocumented_rule: List[Rule],
+    ):
+        self.validation_rules = validation_rules
+        self.derive_rules = derive_rules
+        self.project_rules = project_rules
+        self.undocumented_rule = undocumented_rule
+
+    def validate_files(self, filepaths: List[str]) -> Dict[str, List[str]]:
+        """Validate a list of files against per-file rules."""
+        all_discrepancies = {}
+        for filepath in filepaths:
+            try:
+                parsed_file = parse_file(filepath)
+                file_errors = []
+                for func in parsed_file.functions:
+                    undocumented_errors = []
+                    for rule in self.undocumented_rule:
+                        undocumented_errors.extend(rule.check(func))
+                    if undocumented_errors:
+                        file_errors.extend(undocumented_errors)
+                        continue
+                    for rule in self.validation_rules:
+                        file_errors.extend(rule.check(func))
+                for call in parsed_file.derive_calls:
+                    for rule in self.derive_rules:
+                        file_errors.extend(rule.check(call))
+                if file_errors:
+                    all_discrepancies[filepath] = file_errors
+            except Exception as exception:
+                all_discrepancies[filepath] = [
+                    f"File could not be parsed: {str(exception)}"
+                ]
+        return all_discrepancies
+
+    def validate_project(
+        self,
+        all_metadata: Dict[str, List["ModifierVariableMetadata"]],
+        modified_files: Set[str],
+    ) -> Dict[str, List[Dict]]:
+        """Validate project-wide rules."""
+        all_inconsistencies = {}
+        for rule in self.project_rules:
+            all_inconsistencies.update(rule.check(all_metadata,
+                                                  modified_files))
+        return all_inconsistencies
 
 
 def parse_file(filepath: str) -> ParsedFile:
@@ -969,57 +1314,83 @@ def parse_file(filepath: str) -> ParsedFile:
 
 def main():
     """Validate the given list of input files."""
-    derive_rules = [
-        DeriveStubNamingRule(),
-        MissingDeriveStubRule(),
-    ]
-    undocumented_rule = [
-        UndocumentedRule(),
-    ]
-    validation_rules = [
-        AssertionStderrRule(),
-        DeriveStubArgRule(),
-        DeriveStubDescriptionRule(),
-        DeriveStubRequiredTagsRule(),
-        ExitCodeDescriptionRule(),
-        FieldOrderRule(),
-        InternalTagRule(),
-        MandatoryExitCodeRule(),
-        MandatoryTagRule(),
-        MissingOutputTagsRule(),
-        ModifierVariableFormatRule(),
-        ModifierVariableIndentRule(),
-        ModifierVariableUsageRule(),
-        ModifierVariableValidationRule(),
-        SentenceFormatRule(),
-        StandardExitCodesRule(),
-        TypeValidationRule(),
-    ]
-    all_discrepancies: Dict[str, List[str]] = {}
-    for filepath in sys.argv[1:]:
-        try:
-            parsed_file = parse_file(filepath)
-            file_errors = []
-            for func in parsed_file.functions:
-                undocumented_errors = []
-                for rule in undocumented_rule:
-                    undocumented_errors.extend(rule.check(func))
-                if undocumented_errors:
-                    file_errors.extend(undocumented_errors)
-                    continue
-                for rule in validation_rules:
-                    file_errors.extend(rule.check(func))
-            for call in parsed_file.derive_calls:
-                for rule in derive_rules:
-                    file_errors.extend(rule.check(call))
-            if file_errors:
-                all_discrepancies[filepath] = file_errors
-        except Exception as exception:
-            all_discrepancies[filepath] = [
-                f"File could not be parsed: {str(exception)}"
-            ]
-    if all_discrepancies:
-        print(json.dumps(all_discrepancies, indent=2))
+    validator = ProjectValidator(
+        validation_rules=[
+            AssertionStderrRule(),
+            DeriveStubArgRule(),
+            DeriveStubDescriptionRule(),
+            DeriveStubRequiredTagsRule(),
+            ExitCodeDescriptionRule(),
+            FieldOrderRule(),
+            InternalTagRule(),
+            MandatoryExitCodeRule(),
+            MandatoryTagRule(),
+            MissingOutputTagsRule(),
+            ModifierVariableFormatRule(),
+            ModifierVariableIndentRule(),
+            ModifierVariableUsageRule(),
+            ModifierVariableValidationRule(),
+            SentenceFormatRule(),
+            StandardExitCodesRule(),
+            TypeValidationRule(),
+        ],
+        derive_rules=[
+            DeriveStubNamingRule(),
+            MissingDeriveStubRule(),
+        ],
+        project_rules=[
+            ModifierVariableConsistencyRule(),
+        ],
+        undocumented_rule=[
+            UndocumentedRule(),
+        ],
+    )
+
+    collector = ProjectMetadataCollector(PATH_SOURCE_DIRECTORY)
+    all_metadata = collector.collect()
+    modified_files = {os.path.abspath(f) for f in sys.argv[1:]}
+
+    all_discrepancies = validator.validate_files(sys.argv[1:])
+    all_inconsistencies = validator.validate_project(
+        all_metadata,
+        modified_files,
+    )
+
+    if all_discrepancies or all_inconsistencies:
+        consolidated = defaultdict(list)
+
+        for filepath, errors in all_discrepancies.items():
+            consolidated[filepath].extend(errors)
+
+        abs_to_orig = {os.path.abspath(f): f for f in sys.argv[1:]}
+
+        for var_name, report in all_inconsistencies.items():
+            involved_files = set()
+            for item in report:
+                involved_files.update(item["usage"].keys())
+
+            for involved_file in involved_files:
+                abs_involved = os.path.abspath(involved_file)
+                if abs_involved in abs_to_orig:
+                    orig_path = abs_to_orig[abs_involved]
+                    already_added = False
+                    for existing_err in consolidated[orig_path]:
+                        if (isinstance(existing_err, dict)
+                                and "variable_inconsistency" in existing_err):
+                            if (existing_err["variable_inconsistency"]
+                                ["variable"] == var_name):
+                                already_added = True
+                                break
+
+                    if not already_added:
+                        consolidated[orig_path].append({
+                            "variable_inconsistency": {
+                                "variable": var_name,
+                                "report": report,
+                            }
+                        })
+
+        print(json.dumps(dict(sorted(consolidated.items())), indent=2))
         sys.exit(1)
 
 
