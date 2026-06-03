@@ -30,9 +30,8 @@ class TestMain(unittest.TestCase):
 
         mock_exit.assert_called_with(1)
         output = json.loads(mock_stdout.getvalue())
-        self.assertIn("discrepancies", output)
-        self.assertIn(filepath, output["discrepancies"])
-        self.assertIn("Completely undocumented.", output["discrepancies"][filepath][0])
+        self.assertIn(filepath, output)
+        self.assertIn("Completely undocumented.", output[filepath][0])
 
     @patch("sys.exit")
     @patch("sys.stdout", new_callable=StringIO)
@@ -44,9 +43,8 @@ class TestMain(unittest.TestCase):
 
         mock_exit.assert_called_with(1)
         output = json.loads(mock_stdout.getvalue())
-        self.assertIn("discrepancies", output)
-        self.assertIn(filepath, output["discrepancies"])
-        self.assertIn("File could not be parsed:", output["discrepancies"][filepath][0])
+        self.assertIn(filepath, output)
+        self.assertIn("File could not be parsed:", output[filepath][0])
 
 if __name__ == "__main__":
     unittest.main()

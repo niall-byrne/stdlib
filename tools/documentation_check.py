@@ -883,7 +883,11 @@ class ModifierVariableInconsistencyReport(Dict):
             tag_key = f"@{instance.tag_type}"
             details = ModifierVariableInconsistencyError.format_instance_details(
                 instance)
-            tag_groups[tag_key][details][instance.filepath].append(
+            try:
+                rel_path = os.path.relpath(instance.filepath)
+            except ValueError:
+                rel_path = instance.filepath
+            tag_groups[tag_key][details][rel_path].append(
                 instance.function_name)
 
         # Convert to requested list-based hierarchy
@@ -1350,12 +1354,43 @@ def main():
     )
 
     if all_discrepancies or all_inconsistencies:
-        output = {}
-        if all_discrepancies:
-            output["discrepancies"] = all_discrepancies
-        if all_inconsistencies:
-            output["inconsistencies"] = all_inconsistencies
-        print(json.dumps(output, indent=2))
+        consolidated = defaultdict(list)
+
+        for filepath, errors in all_discrepancies.items():
+            consolidated[filepath].extend(errors)
+
+        abs_to_orig = {os.path.abspath(f): f for f in sys.argv[1:]}
+
+        for var_name, report in all_inconsistencies.items():
+            involved_files = set()
+            for item in report:
+                for tag, details_list in item.items():
+                    for detail_entry in details_list:
+                        for details, file_map in detail_entry.items():
+                            involved_files.update(file_map.keys())
+
+            for involved_file in involved_files:
+                abs_involved = os.path.abspath(involved_file)
+                if abs_involved in abs_to_orig:
+                    orig_path = abs_to_orig[abs_involved]
+                    already_added = False
+                    for existing_err in consolidated[orig_path]:
+                        if (isinstance(existing_err, dict)
+                                and "variable_inconsistency" in existing_err):
+                            if (existing_err["variable_inconsistency"]
+                                ["variable"] == var_name):
+                                already_added = True
+                                break
+
+                    if not already_added:
+                        consolidated[orig_path].append({
+                            "variable_inconsistency": {
+                                "variable": var_name,
+                                "report": report,
+                            }
+                        })
+
+        print(json.dumps(dict(sorted(consolidated.items())), indent=2))
         sys.exit(1)
 
 

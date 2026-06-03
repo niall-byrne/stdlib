@@ -46,7 +46,16 @@ class TestModifierVariableConsistency(unittest.TestCase):
 
         if mock_exit.called:
             output = json.loads(mock_stdout.getvalue())
-            self.assertIn("inconsistencies", output)
+            self.assertIn(file1, output)
+            self.assertIn(file2, output)
+
+            # Check that at least one error is a variable inconsistency
+            found_inconsistency = False
+            for error in output[file1]:
+                if isinstance(error, dict) and "variable_inconsistency" in error:
+                    found_inconsistency = True
+                    break
+            self.assertTrue(found_inconsistency)
 
 if __name__ == "__main__":
     unittest.main()
