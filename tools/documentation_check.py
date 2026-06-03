@@ -8,277 +8,6 @@ from collections import defaultdict
 from typing import Any, Callable, Dict, List, NamedTuple, Optional, Set
 
 
-# Dataclasses
-class ParsedFile(NamedTuple):
-    """The result of parsing a BASH script file."""
-
-    functions: List["BashFunction"]
-    derive_calls: List["DeriveCall"]
-    modifier_assignments: Set[str]
-
-
-class ModifierVariableMetadata(NamedTuple):
-    """Metadata extracted from a modifier variable's documentation."""
-
-    name: str
-    var_type: Optional[str]
-    modifier: Optional[str]
-    description: str
-    filepath: str
-    function_name: str
-    tag_type: str
-    is_well_formed: bool
-
-
-class BashFunction:
-    """A parsed BASH function with it's documentation."""
-
-    def __init__(
-        self,
-        name: str,
-        doc_lines: List[str],
-        body_lines: List[str],
-        start_line: int,
-        end_line: int,
-    ):
-        self.name = name
-        self.doc_lines = doc_lines
-        self.body_lines = body_lines
-        self.start_line = start_line
-        self.end_line = end_line
-        self.derive_call: Optional["DeriveCall"] = None
-        self.doc_tags: List["BashFunctionDocumentationTag"] = []
-        self.modifier_var_lines: List[str] = []
-        self._tag_map = {
-            tag_def.name: tag_def
-            for tag_def in Tags.get_sequence()
-        }
-        self._extract_documentation()
-
-    def get_documented_vars(self) -> set:
-        """Return a set of all documented modifier variables."""
-        documented_vars = set()
-        for line in self.modifier_var_lines:
-            match = re.search(REGEX_MODIFIER_VARIABLE_NAME, line)
-            if match:
-                documented_vars.add(match.group(1))
-
-        for tag in self.find_tags(Tags.SET):
-            parts = tag.content.split()
-            if len(parts) > 0:
-                documented_vars.add(parts[0])
-        return documented_vars
-
-    def get_local_vars(self) -> set:
-        """Return a set of all local variables declared in the function."""
-        local_vars = set()
-        for line in self.body_lines:
-            match = re.search(
-                r"\b(?:builtin\s+)?local\s+(?:-[a-zA-Z]+\s+)*([^#;]+)", line)
-            if match:
-                vars_part = match.group(1)
-                for part in re.split(r"\s+", vars_part):
-                    name_match = re.match(r"^([a-zA-Z_][a-zA-Z0-9_]*)", part)
-                    if name_match:
-                        local_vars.add(name_match.group(1))
-        return local_vars
-
-    def get_used_modifier_vars(self) -> set:
-        """Return a set of all modifier variables used in the function."""
-        local_vars = self.get_local_vars()
-        used_vars = set()
-        for line in self.body_lines:
-            if TRIGGER_IGNORE_COMMENT in line:
-                continue
-
-            keyword_usage_match = re.match(
-                REGEX_MODIFIER_VARIABLE_KEYWORD_USAGE,
-                line,
-            )
-            keyword_usage_prefix = ""
-            if keyword_usage_match:
-                keyword_usage_prefix = keyword_usage_match.group(0)
-
-            for match in re.finditer(
-                    REGEX_MODIFIER_VARIABLE_USAGE,
-                    line,
-            ):
-                var_name = match.group(1).replace("\\\\", "")
-                if var_name in local_vars:
-                    continue
-                if re.search(
-                        rf"# (clean|defaults|validates) {re.escape(var_name)}$",
-                        line,
-                ):
-                    continue
-
-                if self._is_exclusive_keyword_usage(
-                        line,
-                        match,
-                        keyword_usage_prefix,
-                ):
-                    continue
-
-                used_vars.add(var_name)
-        return used_vars
-
-    def _is_exclusive_keyword_usage(
-        self,
-        line: str,
-        match: re.Match,
-        keyword_usage_prefix: str,
-    ) -> bool:
-        if not keyword_usage_prefix:
-            return False
-
-        if match.start() >= len(keyword_usage_prefix):
-            return False
-
-        if not line[match.end():].startswith("="):
-            return False
-
-        var_name = match.group(1).replace("\\\\", "")
-        for other_match in re.finditer(
-                REGEX_MODIFIER_VARIABLE_USAGE,
-                line,
-        ):
-            if (other_match.group(1).replace("\\\\", "") == var_name
-                    and not line[other_match.end():].startswith("=")):
-                return False
-
-        return True
-
-    def _extract_documentation(self):
-        desc_started = False
-        for line in self.doc_lines:
-            tag_match = re.search(REGEX_DOC_TAGS, line)
-            if tag_match:
-                tag_name = tag_match.group(1)
-                content = line.split("@" + tag_name, 1)[1].strip()
-                self.doc_tags.append(
-                    BashFunctionDocumentationTag(
-                        tag_def=self._tag_map[tag_name],
-                        content=content,
-                        line=line))
-                desc_started = tag_name == Tags.DESCRIPTION.name
-            elif desc_started:
-                if line.strip().startswith("#") and not line.startswith("# @"):
-                    self.modifier_var_lines.append(line)
-                elif line.startswith("# @"):
-                    desc_started = False
-
-    def contains_tag(self, tag_def: "TagDefinition") -> bool:
-        """Evaluate if the function's documentation contains the given tag."""
-        return any(doc_tag.tag_def == tag_def for doc_tag in self.doc_tags)
-
-    def find_tags(
-        self,
-        tag_def: "TagDefinition",
-    ) -> List["BashFunctionDocumentationTag"]:
-        """Return all the function's documented instances of the given tag."""
-        return [
-            doc_tag for doc_tag in self.doc_tags if doc_tag.tag_def == tag_def
-        ]
-
-    def find_arg_by_index(
-        self,
-        index_str: str,
-    ) -> Optional["BashFunctionDocumentationTag"]:
-        """Return any defined argument tag by it's numerical index."""
-        arg_tags = self.find_tags(Tags.ARG)
-        if not index_str.lstrip("-").isdigit():
-            return None
-        idx = int(index_str)
-        if idx > 0:
-            prefix = f"${idx}"
-            for tag in arg_tags:
-                if tag.content.startswith(prefix):
-                    return tag
-        elif idx < 0:
-            try:
-                return arg_tags[idx]
-            except IndexError:
-                pass
-        return None
-
-
-class BashFunctionDocumentationTag:
-    """A parsed documentation tag for a BASH function."""
-
-    def __init__(self, tag_def: "TagDefinition", content: str, line: str):
-        self.tag_def = tag_def
-        self.content = content
-        self.line = line
-
-
-class DeriveCall:
-    """A call to a derive function creating a derivitive function."""
-
-    def __init__(
-        self,
-        definition: "DeriveDefinition",
-        source: str,
-        target: str,
-        arg_index: str,
-        line_number: int,
-    ):
-        self.definition = definition
-        self.source = source
-        self.target = target
-        self.arg_index = arg_index
-        self.line_number = line_number
-        self.linked_function: Optional["BashFunction"] = None
-
-    @classmethod
-    def from_line(cls, line: str, line_number: int) -> Optional["DeriveCall"]:
-        """Create an instance from a line in a script file."""
-        for derive_def in DERIVE_DEFINITIONS:
-            match = re.search(derive_def.regex, line)
-            if match:
-                return cls(
-                    definition=derive_def,
-                    source=derive_def.get_source(match),
-                    target=derive_def.get_target(match),
-                    arg_index=derive_def.get_arg_index(match),
-                    line_number=line_number,
-                )
-        return None
-
-    def link(self, functions: List["BashFunction"]):
-        """Link the derived function call to a BashFunction stub instance."""
-        for func in functions:
-            if func.end_line == self.line_number - 1:
-                func.derive_call = self
-                self.linked_function = func
-                break
-
-
-class DeriveDefinition:
-    """Defines a function that creates derivitives of functions."""
-
-    def __init__(
-        self,
-        type_name: str,
-        regex: str,
-        expected_desc_template: str,
-        get_source: Callable[[re.Match], str],
-        get_target: Callable[[re.Match], str],
-        get_arg_index: Callable[[re.Match], str],
-        arg_desc_requirement: Optional[str] = None,
-        arg_desc_suffix: Optional[str] = None,
-        required_tags: Optional[List["TagDefinition"]] = None,
-    ):
-        self.type_name = type_name
-        self.regex = regex
-        self.expected_desc_template = expected_desc_template
-        self.get_source = get_source
-        self.get_target = get_target
-        self.get_arg_index = get_arg_index
-        self.arg_desc_requirement = arg_desc_requirement
-        self.arg_desc_suffix = arg_desc_suffix
-        self.required_tags = required_tags or []
-
-
 class TagDefinition:
     """Defines a shdoc documentation tag."""
 
@@ -365,7 +94,33 @@ class Tags:
         ]
 
 
-# Constants
+class DeriveDefinition:
+    """Defines a function that creates derivitives of functions."""
+
+    def __init__(
+        self,
+        type_name: str,
+        regex: str,
+        expected_desc_template: str,
+        get_source: Callable[[re.Match], str],
+        get_target: Callable[[re.Match], str],
+        get_arg_index: Callable[[re.Match], str],
+        arg_desc_requirement: Optional[str] = None,
+        arg_desc_suffix: Optional[str] = None,
+        required_tags: Optional[List["TagDefinition"]] = None,
+    ):
+        self.type_name = type_name
+        self.regex = regex
+        self.expected_desc_template = expected_desc_template
+        self.get_source = get_source
+        self.get_target = get_target
+        self.get_arg_index = get_arg_index
+        self.arg_desc_requirement = arg_desc_requirement
+        self.arg_desc_suffix = arg_desc_suffix
+        self.required_tags = required_tags or []
+
+
+# Configuration Constants
 DERIVE_DEFINITIONS: List[DeriveDefinition] = [
     DeriveDefinition(
         type_name="pipeable",
@@ -397,6 +152,9 @@ MANDATORY_TAGS = [
 ]
 MODIFIER_TYPES = ["global", "keyword", "reserved"]
 MODIFIER_VARIABLE_PREFIX = r"#   * "
+PATH_SHELL_EXTENSION = ".sh"
+PATH_SNIPPET_EXTENSION = ".snippet"
+PATH_SOURCE_DIRECTORY = "src"
 VARIABLE_TYPES = ["string", "integer", "boolean", "array"]
 REGEX_DOC_TAGS = (
     rf"^#\s*@({'|'.join([tag_def.name for tag_def in Tags.get_sequence()])})")
@@ -428,9 +186,6 @@ REGEX_SKIP_PROCESSING = r"\s*# noqa$"
 SENTENCE_FORMAT_TAGS = [
     tag_def for tag_def in Tags.get_sequence() if tag_def.check_sentence_format
 ]
-SHELL_EXTENSION = ".sh"
-SNIPPET_EXTENSION = ".snippet"
-SOURCE_DIRECTORY = "src"
 STANDARDIZED_EXIT_CODES = {
     "123":
     rf"@{Tags.EXITCODE.name} 123 If a variable reserved "
@@ -459,7 +214,252 @@ TRIGGER_IGNORE_COMMENT = "# noqa"
 TYPE_TAGS = [tag_def for tag_def in Tags.get_sequence() if tag_def.has_types]
 
 
-# Rule Bases
+# Helper Models
+class BashFunctionDocumentationTag:
+    """A parsed documentation tag for a BASH function."""
+
+    def __init__(self, tag_def: "TagDefinition", content: str, line: str):
+        self.tag_def = tag_def
+        self.content = content
+        self.line = line
+
+
+class DeriveCall:
+    """A call to a derive function creating a derivitive function."""
+
+    def __init__(
+        self,
+        definition: "DeriveDefinition",
+        source: str,
+        target: str,
+        arg_index: str,
+        line_number: int,
+    ):
+        self.definition = definition
+        self.source = source
+        self.target = target
+        self.arg_index = arg_index
+        self.line_number = line_number
+        self.linked_function: Optional["BashFunction"] = None
+
+    @classmethod
+    def from_line(cls, line: str, line_number: int) -> Optional["DeriveCall"]:
+        """Create an instance from a line in a script file."""
+        for derive_def in DERIVE_DEFINITIONS:
+            match = re.search(derive_def.regex, line)
+            if match:
+                return cls(
+                    definition=derive_def,
+                    source=derive_def.get_source(match),
+                    target=derive_def.get_target(match),
+                    arg_index=derive_def.get_arg_index(match),
+                    line_number=line_number,
+                )
+        return None
+
+    def link(self, functions: List["BashFunction"]):
+        """Link the derived function call to a BashFunction stub instance."""
+        for func in functions:
+            if func.end_line == self.line_number - 1:
+                func.derive_call = self
+                self.linked_function = func
+                break
+
+
+class ModifierVariableMetadata(NamedTuple):
+    """Metadata extracted from a modifier variable's documentation."""
+
+    name: str
+    var_type: Optional[str]
+    modifier: Optional[str]
+    description: str
+    filepath: str
+    function_name: str
+    tag_type: str
+    is_well_formed: bool
+
+
+class ParsedFile(NamedTuple):
+    """The result of parsing a BASH script file."""
+
+    functions: List["BashFunction"]
+    derive_calls: List["DeriveCall"]
+    modifier_assignments: Set[str]
+
+
+class BashFunction:
+    """A parsed BASH function with it's documentation."""
+
+    def __init__(
+        self,
+        name: str,
+        doc_lines: List[str],
+        body_lines: List[str],
+        start_line: int,
+        end_line: int,
+    ):
+        self.name = name
+        self.doc_lines = doc_lines
+        self.body_lines = body_lines
+        self.start_line = start_line
+        self.end_line = end_line
+        self.derive_call: Optional["DeriveCall"] = None
+        self.doc_tags: List["BashFunctionDocumentationTag"] = []
+        self.modifier_var_lines: List[str] = []
+        self._tag_map = {
+            tag_def.name: tag_def
+            for tag_def in Tags.get_sequence()
+        }
+        self._extract_documentation()
+
+    def get_documented_vars(self) -> set:
+        """Return a set of all documented modifier variables."""
+        documented_vars = set()
+        for line in self.modifier_var_lines:
+            match = re.search(REGEX_MODIFIER_VARIABLE_NAME, line)
+            if match:
+                documented_vars.add(match.group(1))
+
+        for tag in self.find_tags(Tags.SET):
+            parts = tag.content.split()
+            if len(parts) > 0:
+                documented_vars.add(parts[0])
+        return documented_vars
+
+    def get_local_vars(self) -> set:
+        """Return a set of all local variables declared in the function."""
+        local_vars = set()
+        for line in self.body_lines:
+            match = re.search(
+                r"\b(?:builtin\s+)?local\s+(?:-[a-zA-Z]+\s+)*([^#;]+)", line)
+            if match:
+                vars_part = match.group(1)
+                for part in re.split(r"\s+", vars_part):
+                    name_match = re.match(r"^([a-zA-Z_][a-zA-Z0-9_]*)", part)
+                    if name_match:
+                        local_vars.add(name_match.group(1))
+        return local_vars
+
+    def get_used_modifier_vars(self) -> set:
+        """Return a set of all modifier variables used in the function."""
+        local_vars = self.get_local_vars()
+        used_vars = set()
+        for line in self.body_lines:
+            if TRIGGER_IGNORE_COMMENT in line:
+                continue
+
+            keyword_usage_match = re.match(
+                REGEX_MODIFIER_VARIABLE_KEYWORD_USAGE,
+                line,
+            )
+            keyword_usage_prefix = ""
+            if keyword_usage_match:
+                keyword_usage_prefix = keyword_usage_match.group(0)
+
+            for match in re.finditer(
+                    REGEX_MODIFIER_VARIABLE_USAGE,
+                    line,
+            ):
+                var_name = match.group(1).replace("\\", "")
+                if var_name in local_vars:
+                    continue
+                if re.search(
+                        rf"# (clean|defaults|validates) {re.escape(var_name)}$",
+                        line,
+                ):
+                    continue
+
+                if self._is_exclusive_keyword_usage(
+                        line,
+                        match,
+                        keyword_usage_prefix,
+                ):
+                    continue
+
+                used_vars.add(var_name)
+        return used_vars
+
+    def _is_exclusive_keyword_usage(
+        self,
+        line: str,
+        match: re.Match,
+        keyword_usage_prefix: str,
+    ) -> bool:
+        if not keyword_usage_prefix:
+            return False
+
+        if match.start() >= len(keyword_usage_prefix):
+            return False
+
+        if not line[match.end():].startswith("="):
+            return False
+
+        var_name = match.group(1).replace("\\", "")
+        for other_match in re.finditer(
+                REGEX_MODIFIER_VARIABLE_USAGE,
+                line,
+        ):
+            if (other_match.group(1).replace("\\", "") == var_name
+                    and not line[other_match.end():].startswith("=")):
+                return False
+
+        return True
+
+    def _extract_documentation(self):
+        desc_started = False
+        for line in self.doc_lines:
+            tag_match = re.search(REGEX_DOC_TAGS, line)
+            if tag_match:
+                tag_name = tag_match.group(1)
+                content = line.split("@" + tag_name, 1)[1].strip()
+                self.doc_tags.append(
+                    BashFunctionDocumentationTag(
+                        tag_def=self._tag_map[tag_name],
+                        content=content,
+                        line=line))
+                desc_started = tag_name == Tags.DESCRIPTION.name
+            elif desc_started:
+                if line.strip().startswith("#") and not line.startswith("# @"):
+                    self.modifier_var_lines.append(line)
+                elif line.startswith("# @"):
+                    desc_started = False
+
+    def contains_tag(self, tag_def: "TagDefinition") -> bool:
+        """Evaluate if the function's documentation contains the given tag."""
+        return any(doc_tag.tag_def == tag_def for doc_tag in self.doc_tags)
+
+    def find_tags(
+        self,
+        tag_def: "TagDefinition",
+    ) -> List["BashFunctionDocumentationTag"]:
+        """Return all the function's documented instances of the given tag."""
+        return [
+            doc_tag for doc_tag in self.doc_tags if doc_tag.tag_def == tag_def
+        ]
+
+    def find_arg_by_index(
+        self,
+        index_str: str,
+    ) -> Optional["BashFunctionDocumentationTag"]:
+        """Return any defined argument tag by it's numerical index."""
+        arg_tags = self.find_tags(Tags.ARG)
+        if not index_str.lstrip("-").isdigit():
+            return None
+        idx = int(index_str)
+        if idx > 0:
+            prefix = f"${idx}"
+            for tag in arg_tags:
+                if tag.content.startswith(prefix):
+                    return tag
+        elif idx < 0:
+            try:
+                return arg_tags[idx]
+            except IndexError:
+                pass
+        return None
+
+
+# Base Rules
 class DeriveRule:
     """A base class for validating calls to derived functions."""
 
@@ -488,7 +488,7 @@ class Rule:
         raise NotImplementedError
 
 
-# Rules
+# Validation Rules
 class AssertionStderrRule(Rule):
     """A rule that checks assertion functions for stderr documentation."""
 
@@ -748,7 +748,7 @@ class ModifierVariableConsistencyRule(ProjectRule):
 
     def check(
         self,
-        all_metadata: Dict[str, List[ModifierVariableMetadata]],
+        all_metadata: Dict[str, List["ModifierVariableMetadata"]],
         modified_files: Set[str],
     ) -> Dict[str, List[Dict]]:
         """Validate the project-wide metadata."""
@@ -765,7 +765,7 @@ class ModifierVariableConsistencyRule(ProjectRule):
         return errors
 
     def _has_inconsistency(self,
-                           instances: List[ModifierVariableMetadata]) -> bool:
+                           instances: List["ModifierVariableMetadata"]) -> bool:
         """Check if metadata instances have any inconsistencies."""
         for i in range(len(instances)):
             if not instances[i].is_well_formed:
@@ -779,7 +779,7 @@ class ModifierVariableConsistencyRule(ProjectRule):
 
     def _should_report_inconsistency(
         self,
-        instances: List[ModifierVariableMetadata],
+        instances: List["ModifierVariableMetadata"],
         modified_files: Set[str],
     ) -> bool:
         """Determine if an inconsistency should be reported."""
@@ -826,8 +826,8 @@ class ModifierVariableInconsistencyError:
 
     @staticmethod
     def is_inconsistent(
-        first: ModifierVariableMetadata,
-        other: ModifierVariableMetadata,
+        first: "ModifierVariableMetadata",
+        other: "ModifierVariableMetadata",
     ) -> bool:
         """Check if two metadata instances are inconsistent."""
         if first.var_type != other.var_type:
@@ -854,7 +854,7 @@ class ModifierVariableInconsistencyError:
         return description
 
     @staticmethod
-    def format_instance_details(instance: ModifierVariableMetadata) -> str:
+    def format_instance_details(instance: "ModifierVariableMetadata") -> str:
         """Format instance details for error reporting."""
         if not instance.is_well_formed:
             return f"MALFORMED: '{instance.description}'"
@@ -870,12 +870,12 @@ class ModifierVariableInconsistencyError:
 class ModifierVariableInconsistencyReport(Dict):
     """Represents a report for an inconsistent variable."""
 
-    def __init__(self, instances: List[ModifierVariableMetadata]):
+    def __init__(self, instances: List["ModifierVariableMetadata"]):
         """Initialize the report from a list of metadata instances."""
         super().__init__({})
         self._build_report(instances)
 
-    def _build_report(self, instances: List[ModifierVariableMetadata]):
+    def _build_report(self, instances: List["ModifierVariableMetadata"]):
         """Build the hierarchical report structure from metadata instances."""
         tag_groups: Dict[str, Dict[str, Dict[str, List[str]]]] = defaultdict(
             lambda: defaultdict(lambda: defaultdict(list)))
@@ -901,7 +901,7 @@ class ModifierVariableInconsistencyReport(Dict):
 class ModifierVariableIndentRule(Rule):
     """A rule that checks indentation of modifier variable mod descriptions."""
 
-    def check(self, func: BashFunction) -> List[str]:
+    def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         errors = []
         for line in func.modifier_var_lines:
@@ -955,7 +955,7 @@ class ModifierVariableValidationRule(Rule):
                 re.DOTALL,
             )
             if match:
-                var_name = match.group(1).replace("\\\\", "")
+                var_name = match.group(1).replace("\\", "")
                 line_start_comment_pattern = r"^# (clean) (\S+)$"
                 line_end_comment_pattern = r"# (defaults|validates) (\S+)$"
 
@@ -1083,78 +1083,166 @@ class UndocumentedRule(Rule):
         return []
 
 
-def extract_metadata_from_function(
-    function: BashFunction,
-    filepath: str,
-) -> List[ModifierVariableMetadata]:
-    """Extract all modifier variable metadata from a function."""
-    metadata_list = []
+# Orchestration Classes
+class ModifierVariableMetadataExtractor:
+    """Extracts modifier variable metadata from BASH functions."""
 
-    # Extract from description block
-    for line in function.modifier_var_lines:
-        params = {
-            "filepath": filepath,
-            "function_name": function.name,
-            "tag_type": "description",
-        }
+    def __init__(self, function: "BashFunction", filepath: str):
+        self.function = function
+        self.filepath = filepath
 
-        match = re.search(REGEX_MODIFIER_VARIABLE_DESCRIPTION_CONSISTENCY, line)
-        if match:
-            var_name, var_type, modifier, description = match.groups()
-            metadata_list.append(
-                ModifierVariableMetadata(
-                    name=var_name,
-                    var_type=var_type,
-                    modifier=modifier,
-                    description=description.strip(),
-                    is_well_formed=True,
-                    **params,
-                ))
-        else:
-            match = re.search(REGEX_MODIFIER_VARIABLE_DESCRIPTION_MALFORMED,
+    def extract(self) -> List["ModifierVariableMetadata"]:
+        """Extract all modifier variable metadata."""
+        return (self._extract_from_description() +
+                self._extract_from_set_tags())
+
+    def _extract_from_description(self) -> List["ModifierVariableMetadata"]:
+        metadata_list = []
+        for line in self.function.modifier_var_lines:
+            params = {
+                "filepath": self.filepath,
+                "function_name": self.function.name,
+                "tag_type": "description",
+            }
+            match = re.search(REGEX_MODIFIER_VARIABLE_DESCRIPTION_CONSISTENCY,
                               line)
-            metadata_list.append(
-                ModifierVariableMetadata(
-                    name=match.group(1) if match else "UNKNOWN",
-                    var_type=None,
-                    modifier=None,
-                    description=line.strip(),
-                    is_well_formed=False,
-                    **params,
-                ))
+            if match:
+                var_name, var_type, modifier, description = match.groups()
+                metadata_list.append(
+                    ModifierVariableMetadata(
+                        name=var_name,
+                        var_type=var_type,
+                        modifier=modifier,
+                        description=description.strip(),
+                        is_well_formed=True,
+                        **params,
+                    ))
+            else:
+                match = re.search(REGEX_MODIFIER_VARIABLE_DESCRIPTION_MALFORMED,
+                                  line)
+                metadata_list.append(
+                    ModifierVariableMetadata(
+                        name=match.group(1) if match else "UNKNOWN",
+                        var_type=None,
+                        modifier=None,
+                        description=line.strip(),
+                        is_well_formed=False,
+                        **params,
+                    ))
+        return metadata_list
 
-    # Extract from @set tags
-    for tag in function.find_tags(Tags.SET):
-        params = {
-            "filepath": filepath,
-            "function_name": function.name,
-            "tag_type": "set",
-        }
+    def _extract_from_set_tags(self) -> List["ModifierVariableMetadata"]:
+        metadata_list = []
+        for tag in self.function.find_tags(Tags.SET):
+            params = {
+                "filepath": self.filepath,
+                "function_name": self.function.name,
+                "tag_type": "set",
+            }
+            parts = tag.content.split()
+            if len(parts) >= 3 and parts[1] in VARIABLE_TYPES:
+                parts = tag.content.split(maxsplit=2)
+                metadata_list.append(
+                    ModifierVariableMetadata(
+                        name=parts[0],
+                        var_type=parts[1],
+                        modifier=None,
+                        description=parts[2].strip(),
+                        is_well_formed=True,
+                        **params,
+                    ))
+            else:
+                metadata_list.append(
+                    ModifierVariableMetadata(
+                        name=parts[0] if parts else "UNKNOWN",
+                        var_type=None,
+                        modifier=None,
+                        description=tag.content.strip(),
+                        is_well_formed=False,
+                        **params,
+                    ))
+        return metadata_list
 
-        parts = tag.content.split()
-        if len(parts) >= 3 and parts[1] in VARIABLE_TYPES:
-            parts = tag.content.split(maxsplit=2)
-            metadata_list.append(
-                ModifierVariableMetadata(
-                    name=parts[0],
-                    var_type=parts[1],
-                    modifier=None,
-                    description=parts[2].strip(),
-                    is_well_formed=True,
-                    **params,
-                ))
-        else:
-            metadata_list.append(
-                ModifierVariableMetadata(
-                    name=parts[0] if parts else "UNKNOWN",
-                    var_type=None,
-                    modifier=None,
-                    description=tag.content.strip(),
-                    is_well_formed=False,
-                    **params,
-                ))
 
-    return metadata_list
+class ProjectMetadataCollector:
+    """Collects metadata from all files in the project."""
+
+    def __init__(self, source_directory: str):
+        self.source_directory = source_directory
+
+    def collect(self) -> Dict[str, List["ModifierVariableMetadata"]]:
+        """Collect metadata from all relevant files in the source directory."""
+        all_metadata = defaultdict(list)
+        for root, _, filenames in os.walk(self.source_directory):
+            for filename in filenames:
+                if filename.endswith(PATH_SHELL_EXTENSION) or filename.endswith(
+                        PATH_SNIPPET_EXTENSION):
+                    filepath = os.path.abspath(os.path.join(root, filename))
+                    try:
+                        parsed_file = parse_file(filepath)
+                        for func in parsed_file.functions:
+                            extractor = ModifierVariableMetadataExtractor(
+                                func, filepath)
+                            for metadata in extractor.extract():
+                                all_metadata[metadata.name].append(metadata)
+                    except Exception:
+                        pass
+        return all_metadata
+
+
+class ProjectValidator:
+    """Orchestrates validation of both per-file and project-wide rules."""
+
+    def __init__(
+        self,
+        validation_rules: List[Rule],
+        derive_rules: List[DeriveRule],
+        project_rules: List[ProjectRule],
+        undocumented_rule: List[Rule],
+    ):
+        self.validation_rules = validation_rules
+        self.derive_rules = derive_rules
+        self.project_rules = project_rules
+        self.undocumented_rule = undocumented_rule
+
+    def validate_files(self, filepaths: List[str]) -> Dict[str, List[str]]:
+        """Validate a list of files against per-file rules."""
+        all_discrepancies = {}
+        for filepath in filepaths:
+            try:
+                parsed_file = parse_file(filepath)
+                file_errors = []
+                for func in parsed_file.functions:
+                    undocumented_errors = []
+                    for rule in self.undocumented_rule:
+                        undocumented_errors.extend(rule.check(func))
+                    if undocumented_errors:
+                        file_errors.extend(undocumented_errors)
+                        continue
+                    for rule in self.validation_rules:
+                        file_errors.extend(rule.check(func))
+                for call in parsed_file.derive_calls:
+                    for rule in self.derive_rules:
+                        file_errors.extend(rule.check(call))
+                if file_errors:
+                    all_discrepancies[filepath] = file_errors
+            except Exception as exception:
+                all_discrepancies[filepath] = [
+                    f"File could not be parsed: {str(exception)}"
+                ]
+        return all_discrepancies
+
+    def validate_project(
+        self,
+        all_metadata: Dict[str, List["ModifierVariableMetadata"]],
+        modified_files: Set[str],
+    ) -> Dict[str, List[Dict]]:
+        """Validate project-wide rules."""
+        all_inconsistencies = {}
+        for rule in self.project_rules:
+            all_inconsistencies.update(
+                rule.check(all_metadata, modified_files))
+        return all_inconsistencies
 
 
 def parse_file(filepath: str) -> ParsedFile:
@@ -1219,86 +1307,47 @@ def parse_file(filepath: str) -> ParsedFile:
 
 def main():
     """Validate the given list of input files."""
-    derive_rules = [
-        DeriveStubNamingRule(),
-        MissingDeriveStubRule(),
-    ]
-    undocumented_rule = [
-        UndocumentedRule(),
-    ]
-    validation_rules = [
-        AssertionStderrRule(),
-        DeriveStubArgRule(),
-        DeriveStubDescriptionRule(),
-        DeriveStubRequiredTagsRule(),
-        ExitCodeDescriptionRule(),
-        FieldOrderRule(),
-        InternalTagRule(),
-        MandatoryExitCodeRule(),
-        MandatoryTagRule(),
-        MissingOutputTagsRule(),
-        ModifierVariableFormatRule(),
-        ModifierVariableIndentRule(),
-        ModifierVariableUsageRule(),
-        ModifierVariableValidationRule(),
-        SentenceFormatRule(),
-        StandardExitCodesRule(),
-        TypeValidationRule(),
-    ]
-    project_rules = [
-        ModifierVariableConsistencyRule(),
-    ]
+    validator = ProjectValidator(
+        validation_rules=[
+            AssertionStderrRule(),
+            DeriveStubArgRule(),
+            DeriveStubDescriptionRule(),
+            DeriveStubRequiredTagsRule(),
+            ExitCodeDescriptionRule(),
+            FieldOrderRule(),
+            InternalTagRule(),
+            MandatoryExitCodeRule(),
+            MandatoryTagRule(),
+            MissingOutputTagsRule(),
+            ModifierVariableFormatRule(),
+            ModifierVariableIndentRule(),
+            ModifierVariableUsageRule(),
+            ModifierVariableValidationRule(),
+            SentenceFormatRule(),
+            StandardExitCodesRule(),
+            TypeValidationRule(),
+        ],
+        derive_rules=[
+            DeriveStubNamingRule(),
+            MissingDeriveStubRule(),
+        ],
+        project_rules=[
+            ModifierVariableConsistencyRule(),
+        ],
+        undocumented_rule=[
+            UndocumentedRule(),
+        ],
+    )
 
-    all_discrepancies: Dict[str, List[str]] = {}
-    all_metadata: Dict[str, List[ModifierVariableMetadata]] = {}
+    collector = ProjectMetadataCollector(PATH_SOURCE_DIRECTORY)
+    all_metadata = collector.collect()
     modified_files = {os.path.abspath(f) for f in sys.argv[1:]}
 
-    # Project-wide metadata collection
-    for root, _, filenames in os.walk(SOURCE_DIRECTORY):
-        for filename in filenames:
-            if filename.endswith(SHELL_EXTENSION) or filename.endswith(
-                    SNIPPET_EXTENSION):
-                filepath = os.path.abspath(os.path.join(root, filename))
-                try:
-                    parsed_file = parse_file(filepath)
-                    for func in parsed_file.functions:
-                        for metadata in extract_metadata_from_function(
-                                func, filepath):
-                            if metadata.name not in all_metadata:
-                                all_metadata[metadata.name] = []
-                            all_metadata[metadata.name].append(metadata)
-                except Exception:
-                    pass
-
-    # Per-file validation
-    for filepath in sys.argv[1:]:
-        try:
-            parsed_file = parse_file(filepath)
-            file_errors = []
-            for func in parsed_file.functions:
-                undocumented_errors = []
-                for rule in undocumented_rule:
-                    undocumented_errors.extend(rule.check(func))
-                if undocumented_errors:
-                    file_errors.extend(undocumented_errors)
-                    continue
-                for rule in validation_rules:
-                    file_errors.extend(rule.check(func))
-            for call in parsed_file.derive_calls:
-                for rule in derive_rules:
-                    file_errors.extend(rule.check(call))
-            if file_errors:
-                all_discrepancies[filepath] = file_errors
-        except Exception as exception:
-            all_discrepancies[filepath] = [
-                f"File could not be parsed: {str(exception)}"
-            ]
-
-    # Project-wide validation
-    all_inconsistencies: Dict[str, List[Dict]] = {}
-    for rule in project_rules:
-        all_inconsistencies.update(
-            rule.check(all_metadata, modified_files))
+    all_discrepancies = validator.validate_files(sys.argv[1:])
+    all_inconsistencies = validator.validate_project(
+        all_metadata,
+        modified_files,
+    )
 
     if all_discrepancies or all_inconsistencies:
         output = {}
