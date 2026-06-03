@@ -103,18 +103,10 @@ class TestValidationRules(unittest.TestCase):
         self.assertIn("should be in uppercase characters", errors[2])
 
     def test_exitcode_sort_rule(self):
-        func = documentation_check.BashFunction(
-            "test_func",
-            [
-                "# @description Test.",
-                "# @exitcode 1 If error.",
-                "# @exitcode 0 If success.",
-            ],
-            ["{ :; }"], 0, 1
-        )
+        filename = "sort_exitcodes.sh"
         rule = documentation_check.ExitCodeSortRule()
 
-        errors = rule.check(func)
+        errors = self._get_errors_for_file(filename, [rule], func_index=0)
 
         self.assertEqual(len(errors), 1)
         self.assertIn("tags should be sorted numerically.", errors[0])
@@ -128,19 +120,10 @@ class TestValidationRules(unittest.TestCase):
         self.assertIn("Incorrect field order.", errors[0])
 
     def test_incorrect_order_interleaving(self):
-        func = documentation_check.BashFunction(
-            "test_func",
-            [
-                "# @description Test.",
-                "# @set VAR_A string Description A.",
-                "# @exitcode 0 If success.",
-                "# @set VAR_B string Description B.",
-            ],
-            ["{ :; }"], 0, 1
-        )
+        filename = "interleaved_tags.sh"
         rule = documentation_check.FieldOrderRule()
 
-        errors = rule.check(func)
+        errors = self._get_errors_for_file(filename, [rule], func_index=0)
 
         self.assertEqual(len(errors), 1)
         self.assertIn("Incorrect field order.", errors[0])
@@ -173,18 +156,10 @@ class TestValidationRules(unittest.TestCase):
         self.assertIn(f"@{Tags.EXITCODE.name} description should start with 'If'", errors[0])
 
     def test_modifier_variable_sort_rule(self):
-        func = documentation_check.BashFunction(
-            "test_func",
-            [
-                "# @description Test.",
-                "#   * VAR_B string global: Description B. (default=\"b\")",
-                "#   * VAR_A string global: Description A. (default=\"a\")",
-            ],
-            ["{ :; }"], 0, 1
-        )
+        filename = "sort_modifier_vars.sh"
         rule = documentation_check.ModifierVariableSortRule()
 
-        errors = rule.check(func)
+        errors = self._get_errors_for_file(filename, [rule], func_index=0)
 
         self.assertEqual(len(errors), 1)
         self.assertIn("Modifier variables should be sorted alphabetically.", errors[0])
@@ -273,18 +248,10 @@ class TestValidationRules(unittest.TestCase):
         self.assertIn("content should end with a period.", errors[2])
 
     def test_set_tag_sort_rule(self):
-        func = documentation_check.BashFunction(
-            "test_func",
-            [
-                "# @description Test.",
-                "# @set VAR_B string Description B.",
-                "# @set VAR_A string Description A.",
-            ],
-            ["{ :; }"], 0, 1
-        )
+        filename = "sort_set_tags.sh"
         rule = documentation_check.SetTagSortRule()
 
-        errors = rule.check(func)
+        errors = self._get_errors_for_file(filename, [rule], func_index=0)
 
         self.assertEqual(len(errors), 1)
         self.assertIn("tags should be sorted alphabetically by variable name.", errors[0])
