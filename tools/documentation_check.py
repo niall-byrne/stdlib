@@ -488,7 +488,7 @@ class Rule:
         raise NotImplementedError
 
 
-# Validation Rules
+# Rules
 class AssertionStderrRule(Rule):
     """A rule that checks assertion functions for stderr documentation."""
 
@@ -758,7 +758,9 @@ class ModifierVariableConsistencyRule(ProjectRule):
                 continue
 
             if self._has_inconsistency(instances):
-                errors[var_name] = ModifierVariableInconsistencyReport(instances)
+                errors[var_name] = ModifierVariableInconsistencyReport(
+                    instances,
+                )
         return errors
 
     def _has_inconsistency(self,
@@ -823,21 +825,21 @@ class ModifierVariableInconsistencyError:
 
     @staticmethod
     def is_inconsistent(
-        first: "ModifierVariableMetadata",
-        other: "ModifierVariableMetadata",
+        metadata: "ModifierVariableMetadata",
+        other_metadata: "ModifierVariableMetadata",
     ) -> bool:
         """Check if two metadata instances are inconsistent."""
-        if first.var_type != other.var_type:
+        if metadata.var_type != other_metadata.var_type:
             return True
 
         if ModifierVariableInconsistencyError.get_normalized_description(
-                first.description
+                metadata.description
         ) != ModifierVariableInconsistencyError.get_normalized_description(
-                other.description):
+                other_metadata.description):
             return True
 
-        if first.tag_type == "description" and other.tag_type == "description":
-            if first.modifier != other.modifier:
+        if metadata.tag_type == "description" and other_metadata.tag_type == "description":
+            if metadata.modifier != other_metadata.modifier:
                 return True
 
         return False
@@ -873,16 +875,13 @@ class ModifierVariableInconsistencyReport(List):
 
     def _build_report(self, instances: List["ModifierVariableMetadata"]):
         """Build the hierarchical report structure from metadata instances."""
-        # Group instances by their documentation content and tag
         groups = defaultdict(list)
         for instance in instances:
-            # Create a hashable key for the documentation details
             doc = ModifierVariableInconsistencyError.get_instance_documentation(
                 instance)
             key = (instance.tag_type, json.dumps(doc, sort_keys=True))
             groups[key].append(instance)
 
-        # Build the final report list
         for (tag_type, doc_json), group_instances in sorted(groups.items()):
             usage = defaultdict(list)
             for inst in group_instances:
