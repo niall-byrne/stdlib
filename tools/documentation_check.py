@@ -154,7 +154,7 @@ MODIFIER_TYPES = ["global", "keyword", "reserved"]
 MODIFIER_VARIABLE_PREFIX = r"#   * "
 PATH_SHELL_EXTENSION = ".sh"
 PATH_SNIPPET_EXTENSION = ".snippet"
-PATH_SOURCE_DIRECTORY = "src"
+PATH_SOURCE_DIRECTORY = os.getenv("SRC_DIRECTORY", "src")
 VARIABLE_TYPES = ["string", "integer", "boolean", "array"]
 REGEX_DOC_TAGS = (
     rf"^#\s*@({'|'.join([tag_def.name for tag_def in Tags.get_sequence()])})")
@@ -758,10 +758,7 @@ class ModifierVariableConsistencyRule(ProjectRule):
                 continue
 
             if self._has_inconsistency(instances):
-                report = ModifierVariableInconsistencyReport(instances)
-                errors[var_name] = [{
-                    tag: items
-                } for tag, items in sorted(report.items())]
+                errors[var_name] = ModifierVariableInconsistencyReport(instances)
         return errors
 
     def _has_inconsistency(self,
@@ -854,52 +851,58 @@ class ModifierVariableInconsistencyError:
         return description
 
     @staticmethod
-    def format_instance_details(instance: "ModifierVariableMetadata") -> str:
-        """Format instance details for error reporting."""
+    def get_instance_documentation(
+            instance: "ModifierVariableMetadata") -> Dict[str, Any]:
+        """Return the documentation details for a metadata instance."""
         if not instance.is_well_formed:
-            return f"MALFORMED: '{instance.description}'"
+            return {"malformed": instance.description}
 
+        details = {"type": instance.var_type, "description": instance.description}
         if instance.tag_type == "description":
-            return (f"type='{instance.var_type}', "
-                    f"modifier='{instance.modifier}', "
-                    f"description='{instance.description}'")
-        return (f"type='{instance.var_type}', "
-                f"description='{instance.description}'")
+            details["modifier"] = instance.modifier
+        return details
 
 
-class ModifierVariableInconsistencyReport(Dict):
-    """Represents a report for an inconsistent variable."""
+class ModifierVariableInconsistencyReport(List):
+    """Represents a list of inconsistency report items for a variable."""
 
     def __init__(self, instances: List["ModifierVariableMetadata"]):
         """Initialize the report from a list of metadata instances."""
-        super().__init__({})
+        super().__init__([])
         self._build_report(instances)
 
     def _build_report(self, instances: List["ModifierVariableMetadata"]):
         """Build the hierarchical report structure from metadata instances."""
-        tag_groups: Dict[str, Dict[str, Dict[str, List[str]]]] = defaultdict(
-            lambda: defaultdict(lambda: defaultdict(list)))
+        # Group instances by their documentation content and tag
+        groups = defaultdict(list)
         for instance in instances:
-            tag_key = f"@{instance.tag_type}"
-            details = ModifierVariableInconsistencyError.format_instance_details(
+            # Create a hashable key for the documentation details
+            doc = ModifierVariableInconsistencyError.get_instance_documentation(
                 instance)
-            try:
-                rel_path = os.path.relpath(instance.filepath)
-            except ValueError:
-                rel_path = instance.filepath
-            tag_groups[tag_key][details][rel_path].append(
-                instance.function_name)
+            key = (instance.tag_type, json.dumps(doc, sort_keys=True))
+            groups[key].append(instance)
 
-        # Convert to requested list-based hierarchy
-        for tag, details_map in sorted(tag_groups.items()):
-            self[tag] = []
-            for details, file_map in sorted(details_map.items()):
-                # Sort file map keys and ensure function names are sorted
-                sorted_file_map = {
-                    fp: sorted(file_map[fp])
-                    for fp in sorted(file_map.keys())
-                }
-                self[tag].append({details: sorted_file_map})
+        # Build the final report list
+        for (tag_type, doc_json), group_instances in sorted(groups.items()):
+            usage = defaultdict(list)
+            for inst in group_instances:
+                try:
+                    rel_path = os.path.relpath(inst.filepath)
+                except ValueError:
+                    rel_path = inst.filepath
+                usage[rel_path].append(inst.function_name)
+
+            # Sort usage by filepath and function names
+            sorted_usage = {
+                fp: sorted(usage[fp])
+                for fp in sorted(usage.keys())
+            }
+
+            self.append({
+                "tag": f"@{tag_type}",
+                "documentation": json.loads(doc_json),
+                "usage": sorted_usage,
+            })
 
 
 class ModifierVariableIndentRule(Rule):
@@ -1364,10 +1367,7 @@ def main():
         for var_name, report in all_inconsistencies.items():
             involved_files = set()
             for item in report:
-                for tag, details_list in item.items():
-                    for detail_entry in details_list:
-                        for details, file_map in detail_entry.items():
-                            involved_files.update(file_map.keys())
+                involved_files.update(item["usage"].keys())
 
             for involved_file in involved_files:
                 abs_involved = os.path.abspath(involved_file)
