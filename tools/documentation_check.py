@@ -155,6 +155,7 @@ MANDATORY_TAGS = [
     tag_def for tag_def in Tags.get_sequence() if tag_def.is_mandatory
 ]
 MODIFIER_TYPES = ["global", "keyword", "reserved"]
+MODIFIER_VARIABLE_CONSISTENCY_WHITELIST = ["TEST_OUTPUT", "TEST_RC"]
 MODIFIER_VARIABLE_PREFIX = r"#   * "
 PATH_SHELL_EXTENSION = ".sh"
 PATH_SNIPPET_EXTENSION = ".snippet"
@@ -786,6 +787,13 @@ class ModifierVariableConsistencyRule(ProjectRule):
         errors: Dict[str, List[Dict]] = {}
         for var_name, instances in all_metadata.items():
             if not self._should_report_inconsistency(instances, modified_files):
+                continue
+
+            if var_name in MODIFIER_VARIABLE_CONSISTENCY_WHITELIST:
+                if any(not inst.is_well_formed for inst in instances):
+                    errors[var_name] = ModifierVariableInconsistencyReport(
+                        instances,
+                    )
                 continue
 
             if self._has_inconsistency(instances):
