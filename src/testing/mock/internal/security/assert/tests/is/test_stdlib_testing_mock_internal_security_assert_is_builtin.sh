@@ -5,7 +5,8 @@ setup() {
   not_builtin_string="not a builtin"
   not_builtin_array=()
 
-  _mock.create _testing.error
+  _mock.create stdlib.testing.internal.logger.error
+  stdlib.testing.internal.logger.error.mock.set.keywords "STDLIB_LOGGING_MESSAGE_PREFIX"
 }
 
 not_builtin_fn() {
@@ -76,8 +77,8 @@ test_stdlib_testing_mock_internal_security_assert_is_builtin__@vary__logs_an_inv
 
   _capture.rc fake.mock.object.method _mock.__internal.security.assert.is_builtin "${args[@]}"
 
-  _testing.error.mock.assert_called_once_with \
-    "1(_mock.__internal.security.assert.is_builtin: $(stdlib.__message.get "${message_args[@]}"))"
+  stdlib.testing.internal.logger.error.mock.assert_called_once_with \
+    "1($(stdlib.__message.get "${message_args[@]}")) STDLIB_LOGGING_MESSAGE_PREFIX(fake.mock.object.method)"
 }
 
 @parametrize_with_invalid_arguments \
@@ -92,8 +93,8 @@ test_stdlib_testing_mock_internal_security_assert_is_builtin__@vary__logs_an_ass
 
   fake.mock.object.method _mock.__internal.security.assert.is_builtin "${args[@]}"
 
-  _testing.error.mock.assert_called_once_with \
-    "1(fake.mock.object.method: $(_testing.mock.__message.get "${message_args[@]}"))"
+  stdlib.testing.internal.logger.error.mock.assert_called_once_with \
+    "1($(_testing.mock.__message.get "${message_args[@]}")) STDLIB_LOGGING_MESSAGE_PREFIX(fake.mock.object.method)"
 }
 
 @parametrize_with_error_messages \

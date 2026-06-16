@@ -1,7 +1,7 @@
 #!/bin/bash
 
 setup() {
-  _mock.create _testing.error
+  _mock.create stdlib.testing.internal.logger.error
 }
 
 _echo_fn() {
@@ -43,8 +43,8 @@ test_stdlib_testing_mock_create__@vary_____________generates_expected_error_logs
 
   _mock.create "${args[@]}"
 
-  _testing.error.mock.assert_calls_are \
-    "1(_mock.create: $(stdlib.__message.get "${message_args[@]}"))"
+  stdlib.testing.internal.logger.error.mock.assert_calls_are \
+    "1($(stdlib.__message.get "${message_args[@]}"))"
 }
 
 @parametrize_with_invalid_args \
@@ -59,8 +59,8 @@ test_stdlib_testing_mock_create__restricted_name_______returns_status_code_126()
 test_stdlib_testing_mock_create__restricted_name_______logs_error_message() {
   _mock.create while
 
-  _testing.error.mock.assert_calls_are \
-    "1(_mock.create: $(_testing.mock.__message.get MOCK_TARGET_INVALID "while"))"
+  stdlib.testing.internal.logger.error.mock.assert_calls_are \
+    "1($(_testing.mock.__message.get MOCK_TARGET_INVALID "while"))"
 }
 
 test_stdlib_testing_mock_create__binary__invalid_name__returns_status_code_126() {
@@ -73,14 +73,31 @@ test_stdlib_testing_mock_create__binary__invalid_name__returns_status_code_126()
 }
 
 test_stdlib_testing_mock_create__binary__invalid_name__logs_error_message() {
-  _mock.create _testing.error
   _mock.create stdlib.testing.internal.fn.query.is_valid_name
   stdlib.testing.internal.fn.query.is_valid_name.mock.set.rc 1
 
   _mock.create ls
 
-  _testing.error.mock.assert_calls_are \
-    "1(_mock.create: $(_testing.mock.__message.get MOCK_TARGET_INVALID "ls"))"
+  stdlib.testing.internal.logger.error.mock.assert_calls_are \
+    "1($(_testing.mock.__message.get MOCK_TARGET_INVALID "ls"))"
+}
+
+test_stdlib_testing_mock_create__binary__invalid_var___returns_status_code_123() {
+  local __STDLIB_TESTING_MOCK_RESTRICTED_ATTRIBUTES="not_an_array"
+
+  _capture.rc _mock.create ls
+
+  assert_rc "123"
+}
+
+test_stdlib_testing_mock_create__binary__invalid_var___logs_error_message() {
+  local __STDLIB_TESTING_MOCK_RESTRICTED_ATTRIBUTES="not_an_array"
+
+  _mock.create ls
+
+  stdlib.testing.internal.logger.error.mock.assert_calls_are \
+    "1($(stdlib.__message.get IS_NOT_ARRAY __STDLIB_TESTING_MOCK_RESTRICTED_ATTRIBUTES))" \
+    "1($(stdlib.__message.get VAR_VALUE_INVALID_RESERVED_DETAIL __STDLIB_TESTING_MOCK_RESTRICTED_ATTRIBUTES))"
 }
 
 test_stdlib_testing_mock_create__binary__valid_name____without_mock_create___original_implementation_is_called() {
@@ -97,6 +114,24 @@ test_stdlib_testing_mock_create__binary__valid_name____with_mock_create______ori
   assert_output_null
 }
 
+test_stdlib_testing_mock_create__binary__valid_var_____returns_status_code_123() {
+  local __STDLIB_TESTING_MOCK_RESTRICTED_ATTRIBUTES="not_an_array"
+
+  _capture.rc _mock.create ls
+
+  assert_rc "123"
+}
+
+test_stdlib_testing_mock_create__binary__valid_var_____logs_error_message() {
+  local __STDLIB_TESTING_MOCK_RESTRICTED_ATTRIBUTES="not_an_array"
+
+  _mock.create ls
+
+  stdlib.testing.internal.logger.error.mock.assert_calls_are \
+    "1($(stdlib.__message.get IS_NOT_ARRAY __STDLIB_TESTING_MOCK_RESTRICTED_ATTRIBUTES))" \
+    "1($(stdlib.__message.get VAR_VALUE_INVALID_RESERVED_DETAIL __STDLIB_TESTING_MOCK_RESTRICTED_ATTRIBUTES))"
+}
+
 test_stdlib_testing_mock_create__fn______invalid_name__returns_status_code_126() {
   _mock.create stdlib.testing.internal.fn.query.is_valid_name
   stdlib.testing.internal.fn.query.is_valid_name.mock.set.rc 1
@@ -107,14 +142,13 @@ test_stdlib_testing_mock_create__fn______invalid_name__returns_status_code_126()
 }
 
 test_stdlib_testing_mock_create__fn______invalid_name__logs_error_message() {
-  _mock.create _testing.error
   _mock.create stdlib.testing.internal.fn.query.is_valid_name
   stdlib.testing.internal.fn.query.is_valid_name.mock.set.rc 1
 
   _mock.create _echo_fn
 
-  _testing.error.mock.assert_calls_are \
-    "1(_mock.create: $(_testing.mock.__message.get MOCK_TARGET_INVALID "_echo_fn"))"
+  stdlib.testing.internal.logger.error.mock.assert_calls_are \
+    "1($(_testing.mock.__message.get MOCK_TARGET_INVALID "_echo_fn"))"
 }
 
 test_stdlib_testing_mock_create__fn______valid_name____without_mock_create___original_implementation_is_called() {

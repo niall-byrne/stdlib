@@ -20,10 +20,12 @@ _mock.__internal.security.assert.is_builtin() {
   case "${return_code}" in
     0) ;; # KCOV_EXCLUDE_LINE
     127)
-      _testing.error "${FUNCNAME[0]}: $(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)"
+      STDLIB_LOGGING_MESSAGE_PREFIX="${FUNCNAME[1]}" \
+        _testing.__protected stdlib.logger.error "$(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)"
       ;;
     *)
-      _testing.error "${FUNCNAME[1]}: $(_testing.mock.__message.get MOCK_REQUIRES_BUILTIN "${requesting_mock}" "${1}")"
+      STDLIB_LOGGING_MESSAGE_PREFIX="${FUNCNAME[1]}" \
+        _testing.__protected stdlib.logger.error "$(_testing.mock.__message.get MOCK_REQUIRES_BUILTIN "${requesting_mock}" "${1}")"
       ;;
   esac
 

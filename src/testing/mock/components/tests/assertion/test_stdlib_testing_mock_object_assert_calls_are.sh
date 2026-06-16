@@ -2,6 +2,7 @@
 
 # shellcheck disable=SC2034
 setup() {
+  _mock.create stdlib.testing.internal.logger.error
   keyword1="value1"
   keyword2="value2"
 }
@@ -16,14 +17,15 @@ test_stdlib_testing_mock_object_assert_calls_are__builtin_unavailable__returns_e
 }
 
 test_stdlib_testing_mock_object_assert_calls_are__builtin_unavailable__generates_expected_log_messages() {
+  stdlib.testing.internal.logger.error.mock.set.keywords "STDLIB_LOGGING_MESSAGE_PREFIX"
   _mock.create declare
   _mock.create test_mock
 
   _capture.assertion_failure test_mock.mock.assert_calls_are "1(arg)"
 
-  assert_equals \
-    "test_mock.mock.assert_calls_are: $(_testing.mock.__message.get "MOCK_REQUIRES_BUILTIN" "test_mock" "declare")" \
-    "${TEST_OUTPUT}"
+  _mock.delete declare
+  stdlib.testing.internal.logger.error.mock.assert_calls_are \
+    "1($(_testing.mock.__message.get "MOCK_REQUIRES_BUILTIN" "test_mock" "declare")) STDLIB_LOGGING_MESSAGE_PREFIX(test_mock.mock.assert_calls_are)"
 }
 
 test_stdlib_testing_mock_object_assert_calls_are__not_called___________single_call_____no_keywords____matching__succeeds() {
@@ -197,7 +199,7 @@ test_stdlib_testing_mock_object_assert_calls_are__single_arg___________single_ca
   test_mock.mock.assert_calls_are "${EXPECTED_CALLS[@]}"
 }
 
-test_stdlib_testing_mock_object_assert_calls_are__single_arg____________single_call_____with_keywords__matching__succeeds() {
+test_stdlib_testing_mock_object_assert_calls_are__single_arg___________single_call_____with_keywords__matching__succeeds() {
   _mock.create test_mock
   test_mock.mock.set.keywords "keyword1" "keyword2"
   EXPECTED_CALLS=(

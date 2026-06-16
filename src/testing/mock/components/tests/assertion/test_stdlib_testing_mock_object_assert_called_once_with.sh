@@ -94,14 +94,14 @@ test_stdlib_testing_mock_object_assert_called_once_with__builtin_unavailable__re
 }
 
 test_stdlib_testing_mock_object_assert_called_once_with__builtin_unavailable__generates_expected_log_messages() {
+  stdlib.testing.internal.logger.error.mock.set.keywords "STDLIB_LOGGING_MESSAGE_PREFIX"
   _mock.create declare
   _mock.create test_mock
+  test_mock.mock.assert_called_once_with ""
 
-  _capture.assertion_failure test_mock.mock.assert_called_once_with ""
-
-  assert_equals \
-    "test_mock.mock.assert_called_once_with: $(_testing.mock.__message.get "MOCK_REQUIRES_BUILTIN" "test_mock" "declare")" \
-    "${TEST_OUTPUT}"
+  _mock.delete declare
+  stdlib.testing.internal.logger.error.mock.assert_called_once_with \
+    "1($(_testing.mock.__message.get "MOCK_REQUIRES_BUILTIN" "test_mock" "declare")) STDLIB_LOGGING_MESSAGE_PREFIX(test_mock.mock.assert_called_once_with)"
 }
 
 test_stdlib_testing_mock_object_assert_called_once_with__valid_args___________called_1_time___no_args______no_keywords________succeeds() {

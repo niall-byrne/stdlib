@@ -4,6 +4,8 @@
 
 builtin set -eo pipefail
 
+STDLIB_LINE_BREAK_DELIMITER_CHAR=""
+
 # @description Generates a mock argument string from an array.
 # @arg $1 string The name of the array containing positional arguments.
 # @arg $2 string (optional) The name of the array containing keyword arguments.
@@ -35,10 +37,11 @@ _mock.arg_string.make.from_array() {
 }
 
 # @description Generates a mock argument string from a delimited string.
-#   * STDLIB_LINE_BREAK_DELIMITER: The delimiter used to split the string (default=" ").
+#   * STDLIB_LINE_BREAK_DELIMITER_CHAR string keyword: The delimiter chracter used to split the string (default=" ").
 # @arg $1 string The delimited string of positional arguments.
 # @arg $2 string (optional) The name of the array containing keyword arguments.
 # @exitcode 0 If the mock argument string was generated.
+# @exitcode 125 If an invalid keyword has been provided.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stdout The generated mock argument string.
@@ -46,13 +49,16 @@ _mock.arg_string.make.from_string() {
   builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
   builtin local -a _mock_args_array
   builtin local -a _mock_arg_string_args
-  builtin local _mock_separator="${STDLIB_LINE_BREAK_DELIMITER:- }"
+  builtin local _mock_separator="${STDLIB_LINE_BREAK_DELIMITER_CHAR:- }"
 
   # shellcheck disable=SC2034
   STDLIB_ARGS_NULL_SAFE_ARRAY=("2")
   _mock_arg_string_args=("_mock_args_array")
 
   _testing.__protected stdlib.fn.args.require "1" "1" "${@}" || builtin return 127
+
+  STDLIB_KW_SOURCE_VAR="_mock_separator" \
+    _testing.__protected stdlib.fn.keyword.assert.is_valid_with "$(_testing.__protected_name stdlib.string.assert.is_char)" STDLIB_LINE_BREAK_DELIMITER_CHAR || builtin return 125 # validates STDLIB_LINE_BREAK_DELIMITER_CHAR
 
   if [[ -n "${2}" ]]; then
     _mock_arg_string_args+=("${2}")
