@@ -66,14 +66,15 @@ test_stdlib_testing_mock_object_assert_any_call_is__builtin_unavailable________r
 }
 
 test_stdlib_testing_mock_object_assert_any_call_is__builtin_unavailable________generates_expected_log_messages() {
+  stdlib.testing.internal.logger.error.mock.set.keywords "STDLIB_LOGGING_MESSAGE_PREFIX"
   _mock.create declare
   _mock.create test_mock
 
-  _capture.assertion_failure test_mock.mock.assert_any_call_is "1(arg1)"
+  test_mock.mock.assert_any_call_is "1(arg1)"
 
-  assert_equals \
-    "test_mock.mock.assert_any_call_is: $(_testing.mock.__message.get "MOCK_REQUIRES_BUILTIN" "test_mock" "declare")" \
-    "${TEST_OUTPUT}"
+  _mock.delete declare
+  stdlib.testing.internal.logger.error.mock.assert_calls_are \
+    "1($(_testing.mock.__message.get "MOCK_REQUIRES_BUILTIN" "test_mock" "declare")) STDLIB_LOGGING_MESSAGE_PREFIX(test_mock.mock.assert_any_call_is)"
 }
 
 test_stdlib_testing_mock_object_assert_any_call_is__valid_args__no_keywords____no_calls__value_absent____fails() {

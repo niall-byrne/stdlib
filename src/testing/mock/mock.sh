@@ -59,6 +59,7 @@ _mock.clear_all() {
 # @description Creates a new mock object.
 # @arg $1 string The name of the function or binary to mock.
 # @exitcode 0 If the mock object was created successfully.
+# @exitcode 123 If a variable reserved for use by the BASH stdlib has been assigned an invalid value.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stderr The error message if the operation fails.
@@ -69,13 +70,18 @@ _mock.create() {
   builtin local _mock_restricted_attribute_boolean=0
 
   if [[ "${#@}" != 1 ]] || [[ -z "${1}" ]]; then
-    _testing.error "${FUNCNAME[0]}: $(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)"
+    _testing.__protected stdlib.logger.error "$(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)"
     builtin return 127
   fi
 
+  { # KCOV_EXCLUDE_LINE
+    STDLIB_LOGGING_MESSAGE_PREFIX="${FUNCNAME[0]}" \
+      _testing.__protected stdlib.var.reserved.assert.__is_valid_with "$(_testing.__protected_name stdlib.array.assert.is_array)" __STDLIB_TESTING_MOCK_RESTRICTED_ATTRIBUTES name || return 123 # validates __STDLIB_TESTING_MOCK_RESTRICTED_ATTRIBUTES
+  }
+
   if ! _testing.__protected stdlib.fn.query.is_valid_name "${1}" ||
-    _testing.__protected stdlib.array.query.is_contains "${1}" __STDLIB_TESTING_MOCK_RESTRICTED_ATTRIBUTES; then
-    _testing.error "${FUNCNAME[0]}: $(_testing.mock.__message.get MOCK_TARGET_INVALID "${1}")"
+    _testing.__protected stdlib.array.query.is_contains "${1}" __STDLIB_TESTING_MOCK_RESTRICTED_ATTRIBUTES; then # clean __STDLIB_TESTING_MOCK_RESTRICTED_ATTRIBUTES
+    _testing.__protected stdlib.logger.error "$(_testing.mock.__message.get MOCK_TARGET_INVALID "${1}")"
     builtin return 126
   fi
 

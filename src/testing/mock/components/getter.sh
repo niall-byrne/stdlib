@@ -26,7 +26,7 @@ ${1}.mock.__get_apply_to_matching_mock_calls() {
       builtin eval "\${@:2}"
     fi
     ((_mock_object_call_file_index++))
-  done < "\${__${2}_mock_calls_file}"
+  done < "\${__${2}_mock_calls_file}"  # noqa
 }
 
 # @description This function will retrieve the call at the specified index from the mock's call history.
@@ -83,7 +83,7 @@ ${1}.mock.get.count() {
 
   _testing.__protected stdlib.fn.args.require "0" "0" "\${@}" || builtin return "\$?"
 
-  < "\${__${2}_mock_calls_file}" "\${_STDLIB_BINARY_WC}" -l
+  < "\${__${2}_mock_calls_file}" "\${_STDLIB_BINARY_WC}" -l  # noqa
 }
 
 # @description This function will retrieve the keywords assigned to this mock. (These keywords are variables whose values are recorded during each mock call).
@@ -97,7 +97,7 @@ ${1}.mock.get.keywords() {
 
   _testing.__protected stdlib.fn.args.require "0" "0" "\${@}" || builtin return "\$?"
 
-  builtin echo "\${__${2}_mock_keywords[*]}"
+  builtin echo "\${__${2}_mock_keywords[*]}"  # noqa
 }
 EOF
 )"
