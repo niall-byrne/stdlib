@@ -125,8 +125,7 @@ DERIVE_DEFINITIONS: List[DeriveDefinition] = [
     DeriveDefinition(
         type_name="pipeable",
         regex=r'stdlib\.(?:fn\.)?derive\.pipeable\s+"([^"]+)"\s+"([^"]+)"',
-        expected_desc_template=
-        "A derivative of {source} that can read from stdin.",
+        expected_desc_template="A derivative of {source} that can read from stdin.",
         get_source=lambda match: match.group(1),
         get_target=lambda match: match.group(1) + "_pipe",
         get_arg_index=lambda match: match.group(2),
@@ -137,13 +136,11 @@ DERIVE_DEFINITIONS: List[DeriveDefinition] = [
         type_name="var",
         regex=r'stdlib\.(?:fn\.)?derive\.var\s+"([^"]+)"(?:\s+"([^"]+)")?'
         r'(?:\s+"([^"]+)")?',
-        expected_desc_template=
-        "A derivative of {source} that can read from and write to a variable.",
+        expected_desc_template="A derivative of {source} that can read from and write to a variable.",
         get_source=lambda match: match.group(1),
         get_target=lambda match: match.group(2) or (match.group(1) + "_var"),
         get_arg_index=lambda match: match.group(3) or "-1",
-        arg_desc_requirement=
-        "The name of the variable to read from and write to.",
+        arg_desc_requirement="The name of the variable to read from and write to.",
     ),
 ]
 MANDATORY_EXIT_CODES = ["0"]
@@ -157,48 +154,50 @@ PATH_SNIPPET_EXTENSION = ".snippet"
 PATH_SOURCE_DIRECTORY = os.getenv("SRC_DIRECTORY", "src")
 VARIABLE_TYPES = ["string", "integer", "boolean", "array"]
 REGEX_DOC_TAGS = (
-    rf"^#\s*@({'|'.join([tag_def.name for tag_def in Tags.get_sequence()])})")
+    rf"^#\s*@({'|'.join([tag_def.name for tag_def in Tags.get_sequence()])})"
+)
 REGEX_ECHO_ASSIGNMENT = r"=\s*\"?builtin echo"
 REGEX_FUNCTION_DEFINITION = r"^(([a-zA-Z_@]|\$\{1\}\.)[a-zA-Z0-9._]*) *\(\) *{"
 REGEX_MODIFIER_VARIABLE_DESCRIPTION = (
     rf"^{re.escape(MODIFIER_VARIABLE_PREFIX)}"
     r"(__\\?\$\{2\}[a-z_]+|[A-Z0-9_]+) " + rf"({'|'.join(VARIABLE_TYPES)}) "
-    rf"({'|'.join(MODIFIER_TYPES)}):\s+(.+)$")
+    rf"({'|'.join(MODIFIER_TYPES)}):\s+(.+)$"
+)
 REGEX_MODIFIER_VARIABLE_DESCRIPTION_CONSISTENCY = (
     rf"^{re.escape(MODIFIER_VARIABLE_PREFIX)}"
-    r"(__\\?\$\{2\}[a-z_]+|[A-Z0-9_]+)\s+(\S+)\s+(\S+):\s+(.*)$")
+    r"(__\\?\$\{2\}[a-z_]+|[A-Z0-9_]+)\s+(\S+)\s+(\S+):\s+(.*)$"
+)
 REGEX_MODIFIER_VARIABLE_DESCRIPTION_DEFAULT = r"^.+\(default=.+\)\.*$"
 REGEX_MODIFIER_VARIABLE_DESCRIPTION_MALFORMED = (
     rf"^{re.escape(MODIFIER_VARIABLE_PREFIX)}"
-    r"(__\\?\$\{2\}[a-z_]+|[A-Z0-9_]+).*")
+    r"(__\\?\$\{2\}[a-z_]+|[A-Z0-9_]+).*"
+)
 REGEX_MODIFIER_VARIABLE_KEYWORD_USAGE = (
     r"^\s*(?:(?:[A-Z_]+|__\$\{2\}[a-z_]+)="
-    r"(?:'[^']*'|\"[^\"]*\"|\\$\([^)]*\)|[^\s;]+)\s+)+")
-REGEX_MODIFIER_VARIABLE_NAME = (r"(__\\?\$\{2\}[a-z_]+|[A-Z0-9_]+) " +
-                                rf"({'|'.join(VARIABLE_TYPES)}) "
-                                rf"({'|'.join(MODIFIER_TYPES)}): ")
+    r"(?:'[^']*'|\"[^\"]*\"|\\$\([^)]*\)|[^\s;]+)\s+)+"
+)
+REGEX_MODIFIER_VARIABLE_NAME = (
+    r"(__\\?\$\{2\}[a-z_]+|[A-Z0-9_]+) " + rf"({'|'.join(VARIABLE_TYPES)}) "
+    rf"({'|'.join(MODIFIER_TYPES)}): "
+)
 REGEX_MODIFIER_VARIABLE_USAGE = (
-    r"(\b__\\?\$\{2\}[a-z_]+\b|\b_?_?STDLIB_(?!BINARY)[A-Z0-9_]+\b)")
+    r"(\b__\\?\$\{2\}[a-z_]+\b|\b_?_?STDLIB_(?!BINARY)[A-Z0-9_]+\b)"
+)
 REGEX_PROCESS_SUBSTITUTION = r"[\$=]\(builtin echo"
 REGEX_SKIP_PROCESSING = r"\s*# noqa$"
 SENTENCE_FORMAT_TAGS = [
     tag_def for tag_def in Tags.get_sequence() if tag_def.check_sentence_format
 ]
 STANDARDIZED_EXIT_CODES = {
-    "123":
-    rf"@{Tags.EXITCODE.name} 123 If a variable reserved "
+    "123": rf"@{Tags.EXITCODE.name} 123 If a variable reserved "
     r"for use by the BASH stdlib has been assigned an invalid value\.",
-    "124":
-    rf"@{Tags.EXITCODE.name} 124 If a global variable "
+    "124": rf"@{Tags.EXITCODE.name} 124 If a global variable "
     r"has been assigned an invalid value\.",
-    "125":
-    rf"@{Tags.EXITCODE.name} 125 If an invalid "
+    "125": rf"@{Tags.EXITCODE.name} 125 If an invalid "
     r"keyword has been provided\.",
-    "126":
-    rf"@{Tags.EXITCODE.name} 126 If an invalid "
+    "126": rf"@{Tags.EXITCODE.name} 126 If an invalid "
     r"argument has been provided\.",
-    "127":
-    rf"@{Tags.EXITCODE.name} 127 If the wrong "
+    "127": rf"@{Tags.EXITCODE.name} 127 If the wrong "
     r"number of arguments were provided\.",
 }
 STDERR_TRIGGERS = ["stdlib.logger.error", "stdlib.logger.warning", ">&2"]
@@ -305,8 +304,7 @@ class BashFunction:
         self.doc_tags: List["BashFunctionDocumentationTag"] = []
         self.modifier_var_lines: List[str] = []
         self._tag_map = {
-            tag_def.name: tag_def
-            for tag_def in Tags.get_sequence()
+            tag_def.name: tag_def for tag_def in Tags.get_sequence()
         }
         self._extract_documentation()
 
@@ -329,7 +327,8 @@ class BashFunction:
         local_vars = set()
         for line in self.body_lines:
             match = re.search(
-                r"\b(?:builtin\s+)?local\s+(?:-[a-zA-Z]+\s+)*([^#;]+)", line)
+                r"\b(?:builtin\s+)?local\s+(?:-[a-zA-Z]+\s+)*([^#;]+)", line
+            )
             if match:
                 vars_part = match.group(1)
                 for part in re.split(r"\s+", vars_part):
@@ -355,22 +354,22 @@ class BashFunction:
                 keyword_usage_prefix = keyword_usage_match.group(0)
 
             for match in re.finditer(
-                    REGEX_MODIFIER_VARIABLE_USAGE,
-                    line,
+                REGEX_MODIFIER_VARIABLE_USAGE,
+                line,
             ):
                 var_name = match.group(1).replace("\\", "")
                 if var_name in local_vars:
                     continue
                 if re.search(
-                        rf"# (clean|defaults|validates) {re.escape(var_name)}$",
-                        line,
+                    rf"# (clean|defaults|validates) {re.escape(var_name)}$",
+                    line,
                 ):
                     continue
 
                 if self._is_exclusive_keyword_usage(
-                        line,
-                        match,
-                        keyword_usage_prefix,
+                    line,
+                    match,
+                    keyword_usage_prefix,
                 ):
                     continue
 
@@ -389,16 +388,17 @@ class BashFunction:
         if match.start() >= len(keyword_usage_prefix):
             return False
 
-        if not line[match.end():].startswith("="):
+        if not line[match.end() :].startswith("="):
             return False
 
         var_name = match.group(1).replace("\\", "")
         for other_match in re.finditer(
-                REGEX_MODIFIER_VARIABLE_USAGE,
-                line,
+            REGEX_MODIFIER_VARIABLE_USAGE,
+            line,
         ):
-            if (other_match.group(1).replace("\\", "") == var_name
-                    and not line[other_match.end():].startswith("=")):
+            if other_match.group(1).replace("\\", "") == var_name and not line[
+                other_match.end() :
+            ].startswith("="):
                 return False
 
         return True
@@ -414,7 +414,9 @@ class BashFunction:
                     BashFunctionDocumentationTag(
                         tag_def=self._tag_map[tag_name],
                         content=content,
-                        line=line))
+                        line=line,
+                    )
+                )
                 desc_started = tag_name == Tags.DESCRIPTION.name
             elif desc_started:
                 if line.strip().startswith("#") and not line.startswith("# @"):
@@ -519,32 +521,44 @@ class DeriveStubArgRule(Rule):
         if not target_tag:
             return self._check_fallback(func, derive_def)
         errors = []
-        if (derive_def.arg_desc_requirement
-                and derive_def.arg_desc_requirement not in target_tag.content):
+        if (
+            derive_def.arg_desc_requirement
+            and derive_def.arg_desc_requirement not in target_tag.content
+        ):
             errors.append(
                 f"{func.name}: @arg at index {call.arg_index} "
                 f"description should match '{derive_def.arg_desc_requirement}'"
             )
-        if derive_def.arg_desc_suffix and not target_tag.content.strip(
-        ).endswith(derive_def.arg_desc_suffix):
+        if (
+            derive_def.arg_desc_suffix
+            and not target_tag.content.strip().endswith(
+                derive_def.arg_desc_suffix
+            )
+        ):
             errors.append(
                 f"{func.name}: @arg at index {call.arg_index} "
-                f"description should end with '{derive_def.arg_desc_suffix}'")
+                f"description should end with '{derive_def.arg_desc_suffix}'"
+            )
         return errors
 
-    def _check_fallback(self, func: "BashFunction",
-                        derive_def: "DeriveDefinition") -> List[str]:
+    def _check_fallback(
+        self, func: "BashFunction", derive_def: "DeriveDefinition"
+    ) -> List[str]:
         arg_tags = func.find_tags(Tags.ARG)
         if derive_def.arg_desc_requirement:
-            if not any(derive_def.arg_desc_requirement in tag.content
-                       for tag in arg_tags):
+            if not any(
+                derive_def.arg_desc_requirement in tag.content
+                for tag in arg_tags
+            ):
                 return [
                     f"{func.name}: Missing @arg with description "
                     f"'{derive_def.arg_desc_requirement}'"
                 ]
         elif derive_def.arg_desc_suffix:
-            if not any(tag.content.strip().endswith(derive_def.arg_desc_suffix)
-                       for tag in arg_tags):
+            if not any(
+                tag.content.strip().endswith(derive_def.arg_desc_suffix)
+                for tag in arg_tags
+            ):
                 return [
                     f"{func.name}: Missing @arg ending with "
                     f"'{derive_def.arg_desc_suffix}'"
@@ -562,7 +576,8 @@ class DeriveStubDescriptionRule(Rule):
         call = func.derive_call
         derive_def = call.definition
         expected_desc = derive_def.expected_desc_template.format(
-            source=call.source)
+            source=call.source
+        )
         desc_tags = func.find_tags(Tags.DESCRIPTION)
         if not any(expected_desc in tag.content for tag in desc_tags):
             return [
@@ -599,8 +614,10 @@ class DeriveStubRequiredTagsRule(Rule):
         errors = []
         for tag_def in call.definition.required_tags:
             if not func.contains_tag(tag_def):
-                errors.append(f"{func.name}: Missing @{tag_def.name} tag for "
-                              f"{call.definition.type_name} derivative")
+                errors.append(
+                    f"{func.name}: Missing @{tag_def.name} tag for "
+                    f"{call.definition.type_name} derivative"
+                )
         return errors
 
 
@@ -617,7 +634,8 @@ class ExitCodeDescriptionRule(Rule):
                 if text and not text.startswith("If"):
                     errors.append(
                         f"{func.name}: @{Tags.EXITCODE.name} description "
-                        f"should start with 'If'. Found: '{text}'")
+                        f"should start with 'If'. Found: '{text}'"
+                    )
         return errors
 
 
@@ -646,11 +664,11 @@ class FieldOrderRule(Rule):
     def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
         tag_order = {
-            tag_def.name: i
-            for i, tag_def in enumerate(Tags.get_sequence())
+            tag_def.name: i for i, tag_def in enumerate(Tags.get_sequence())
         }
         actual_order = [
-            doc_tag.tag_def.name for doc_tag in func.doc_tags
+            doc_tag.tag_def.name
+            for doc_tag in func.doc_tags
             if doc_tag.tag_def.name in tag_order
         ]
         expected_order = sorted(actual_order, key=lambda x: tag_order[x])
@@ -681,10 +699,12 @@ class MandatoryExitCodeRule(Rule):
         errors = []
         for code in MANDATORY_EXIT_CODES:
             if not any(
-                    re.search(rf"@{Tags.EXITCODE.name} {code}", doc_tag.line)
-                    for doc_tag in func.find_tags(Tags.EXITCODE)):
+                re.search(rf"@{Tags.EXITCODE.name} {code}", doc_tag.line)
+                for doc_tag in func.find_tags(Tags.EXITCODE)
+            ):
                 errors.append(
-                    f"{func.name}: Missing @{Tags.EXITCODE.name} {code}")
+                    f"{func.name}: Missing @{Tags.EXITCODE.name} {code}"
+                )
         return errors
 
 
@@ -695,7 +715,8 @@ class MandatoryTagRule(Rule):
         """Validate the given BASH function."""
         errors = [
             f"{func.name}: Missing @{tag_def.name}"
-            for tag_def in MANDATORY_TAGS if not func.contains_tag(tag_def)
+            for tag_def in MANDATORY_TAGS
+            if not func.contains_tag(tag_def)
         ]
         if not (func.contains_tag(Tags.ARG) or func.contains_tag(Tags.NOARGS)):
             errors.append(
@@ -729,19 +750,23 @@ class MissingOutputTagsRule(Rule):
         for line in body:
             if any((re.search(t + r"([\s\)]+|$)", line)) for t in triggers):
                 if is_stdout and "builtin echo" in line:
-                    if ">&2" in line or "/dev/null" in line or \
-                            line.strip().endswith(TRIGGER_IGNORE_COMMENT):
+                    if (
+                        ">&2" in line
+                        or "/dev/null" in line
+                        or line.strip().endswith(TRIGGER_IGNORE_COMMENT)
+                    ):
                         continue
                     if re.search(
-                            REGEX_PROCESS_SUBSTITUTION,
-                            line,
+                        REGEX_PROCESS_SUBSTITUTION,
+                        line,
                     ) or re.search(
-                            REGEX_ECHO_ASSIGNMENT,
-                            line,
+                        REGEX_ECHO_ASSIGNMENT,
+                        line,
                     ):
                         continue
                 elif "/dev/null" in line or line.strip().endswith(
-                        TRIGGER_IGNORE_COMMENT):
+                    TRIGGER_IGNORE_COMMENT
+                ):
                     continue
                 return True
         return False
@@ -750,11 +775,13 @@ class MissingOutputTagsRule(Rule):
         """Validate the given BASH function."""
         errors = []
         if not func.contains_tag(Tags.STDERR) and self._has_trigger(
-                func.body_lines, STDERR_TRIGGERS, is_stdout=False):
+            func.body_lines, STDERR_TRIGGERS, is_stdout=False
+        ):
             errors.append(f"{func.name}: Missing @{Tags.STDERR.name} tag")
 
         if not func.contains_tag(Tags.STDOUT) and self._has_trigger(
-                func.body_lines, STDOUT_TRIGGERS, is_stdout=True):
+            func.body_lines, STDOUT_TRIGGERS, is_stdout=True
+        ):
             errors.append(f"{func.name}: Missing @{Tags.STDOUT.name} tag")
         return errors
 
@@ -770,17 +797,18 @@ class ModifierVariableConsistencyRule(ProjectRule):
         """Validate the project-wide metadata."""
         errors: Dict[str, List[Dict]] = {}
         for var_name, instances in all_metadata.items():
-            if not self._should_report_inconsistency(instances,
-                                                     modified_files):
+            if not self._should_report_inconsistency(instances, modified_files):
                 continue
 
             if self._has_inconsistency(instances):
                 errors[var_name] = ModifierVariableInconsistencyReport(
-                    instances, )
+                    instances,
+                )
         return errors
 
     def _has_inconsistency(
-            self, instances: List["ModifierVariableMetadata"]) -> bool:
+        self, instances: List["ModifierVariableMetadata"]
+    ) -> bool:
         """Check if metadata instances have any inconsistencies."""
         for i in range(len(instances)):
             if not instances[i].is_well_formed:
@@ -788,7 +816,8 @@ class ModifierVariableConsistencyRule(ProjectRule):
 
             for j in range(i + 1, len(instances)):
                 if ModifierVariableInconsistencyError.is_inconsistent(
-                        instances[i], instances[j]):
+                    instances[i], instances[j]
+                ):
                     return True
         return False
 
@@ -811,28 +840,32 @@ class ModifierVariableFormatRule(Rule):
         """Validate the given BASH function."""
         errors = []
         for line in func.modifier_var_lines:
-
-            match = re.match(REGEX_MODIFIER_VARIABLE_DESCRIPTION, line.strip(),
-                             re.DOTALL)
+            match = re.match(
+                REGEX_MODIFIER_VARIABLE_DESCRIPTION, line.strip(), re.DOTALL
+            )
             if match:
                 if not match.group(4)[0].isupper():
                     errors.append(
                         f"{func.name}: Modifier variable description in "
                         f"@{Tags.DESCRIPTION.name} "
                         f"should start with a capital letter. "
-                        f"Found: '{line.strip()}'")
+                        f"Found: '{line.strip()}'"
+                    )
                 if not match.group(4).endswith("."):
                     errors.append(
                         f"{func.name}: Modifier variable description in "
                         f"@{Tags.DESCRIPTION.name} "
-                        f"should end with a period. Found: '{line.strip()}'")
-                if not re.match(REGEX_MODIFIER_VARIABLE_DESCRIPTION_DEFAULT,
-                                match.group(4)):
+                        f"should end with a period. Found: '{line.strip()}'"
+                    )
+                if not re.match(
+                    REGEX_MODIFIER_VARIABLE_DESCRIPTION_DEFAULT, match.group(4)
+                ):
                     errors.append(
                         f"{func.name}: Modifier variable description in "
                         f"@{Tags.DESCRIPTION.name} "
                         f"should detail a default value. "
-                        f"Found: '{line.strip()}'")
+                        f"Found: '{line.strip()}'"
+                    )
         return errors
 
 
@@ -849,13 +882,16 @@ class ModifierVariableInconsistencyError:
             return True
 
         if ModifierVariableInconsistencyError.get_normalized_description(
-                metadata.description
+            metadata.description
         ) != ModifierVariableInconsistencyError.get_normalized_description(
-                other_metadata.description):
+            other_metadata.description
+        ):
             return True
 
-        if (metadata.tag_type == "description"
-                and other_metadata.tag_type == "description"):
+        if (
+            metadata.tag_type == "description"
+            and other_metadata.tag_type == "description"
+        ):
             if metadata.modifier != other_metadata.modifier:
                 return True
 
@@ -871,14 +907,15 @@ class ModifierVariableInconsistencyError:
 
     @staticmethod
     def get_instance_documentation(
-            instance: "ModifierVariableMetadata") -> Dict[str, Any]:
+        instance: "ModifierVariableMetadata",
+    ) -> Dict[str, Any]:
         """Return the documentation details for a metadata instance."""
         if not instance.is_well_formed:
             return {"malformed": instance.description}
 
         details = {
             "type": instance.var_type,
-            "description": instance.description
+            "description": instance.description,
         }
         if instance.tag_type == "description":
             details["modifier"] = instance.modifier
@@ -898,7 +935,8 @@ class ModifierVariableInconsistencyReport(List):
         groups = defaultdict(list)
         for instance in instances:
             doc = ModifierVariableInconsistencyError.get_instance_documentation(
-                instance)
+                instance
+            )
             key = (instance.tag_type, json.dumps(doc, sort_keys=True))
             groups[key].append(instance)
 
@@ -913,15 +951,16 @@ class ModifierVariableInconsistencyReport(List):
 
             # Sort usage by filepath and function names
             sorted_usage = {
-                fp: sorted(usage[fp])
-                for fp in sorted(usage.keys())
+                fp: sorted(usage[fp]) for fp in sorted(usage.keys())
             }
 
-            self.append({
-                "tag": f"@{tag_type}",
-                "documentation": json.loads(doc_json),
-                "usage": sorted_usage,
-            })
+            self.append(
+                {
+                    "tag": f"@{tag_type}",
+                    "documentation": json.loads(doc_json),
+                    "usage": sorted_usage,
+                }
+            )
 
 
 class ModifierVariableIndentRule(Rule):
@@ -937,7 +976,8 @@ class ModifierVariableIndentRule(Rule):
                     f"{func.name}: Modifier variable in "
                     f"@{Tags.DESCRIPTION.name} "
                     f"should be in 2 space indented asterisk list format. "
-                    f"Found: '{stripped}'")
+                    f"Found: '{stripped}'"
+                )
 
             # Check if it's a variable with wrong elements or has wrong format
             if re.search(r"^[#\s\*]*(__\\?\$\{2\}[a-z_]+|[A-Z_]+)", stripped):
@@ -947,7 +987,8 @@ class ModifierVariableIndentRule(Rule):
                         f"@{Tags.DESCRIPTION.name} "
                         "should be in uppercase characters, followed by "
                         "a variable type, a modifier type, and a colon. "
-                        f"Found: '{stripped}'")
+                        f"Found: '{stripped}'"
+                    )
         return errors
 
 
@@ -981,8 +1022,9 @@ class ModifierVariableUsageRule(Rule):
 
         for var_name in sorted(used_vars):
             if var_name not in documented_vars:
-                errors.append(f"{func.name}: Undocumented modifier variable: "
-                              f"'{var_name}'")
+                errors.append(
+                    f"{func.name}: Undocumented modifier variable: '{var_name}'"
+                )
 
         return errors
 
@@ -1001,14 +1043,18 @@ class ModifierVariableValidationRule(Rule):
             )
             if match:
                 var_name = match.group(1).replace("\\", "")
-                line_start_comment_pattern = r"^# (clean) (\S+)$"
-                line_end_comment_pattern = r"# (defaults|validates) (\S+)$"
+                line_start_comment_pattern = (
+                    r"^# (clean|defaults|validates) (\S+)$"
+                )
+                line_end_comment_pattern = (
+                    r"# (clean|defaults|validates) (\S+)$"
+                )
 
                 validated = False
                 for body_line in func.body_lines:
                     stripped_body_line = body_line.strip()
 
-                    if (stripped_body_line.startswith("#")):
+                    if stripped_body_line.startswith("#"):
                         comment_match = re.match(
                             line_start_comment_pattern,
                             stripped_body_line,
@@ -1019,8 +1065,9 @@ class ModifierVariableValidationRule(Rule):
                             stripped_body_line,
                         )
 
-                    if ((comment_match
-                         and var_name in comment_match.group(2).split(","))):
+                    if comment_match and var_name in comment_match.group(
+                        2
+                    ).split(","):
                         validated = True
                         break
 
@@ -1028,7 +1075,8 @@ class ModifierVariableValidationRule(Rule):
                     errors.append(
                         f"{func.name}: Global Variable or Keyword '{var_name}' "
                         f"in @{Tags.DESCRIPTION.name} and has not been marked "
-                        "as defaulted, validated or clean.")
+                        "as defaulted, validated or clean."
+                    )
         return errors
 
 
@@ -1056,11 +1104,13 @@ class SentenceFormatRule(Rule):
             if not text[0].isupper():
                 errors.append(
                     f"{func.name}: @{doc_tag.tag_def.name} content should "
-                    f"start with a capital letter. Found: '{text}'")
+                    f"start with a capital letter. Found: '{text}'"
+                )
             if not text.endswith("."):
                 errors.append(
                     f"{func.name}: @{doc_tag.tag_def.name} content should "
-                    f"end with a period. Found: '{text}'")
+                    f"end with a period. Found: '{text}'"
+                )
         return errors
 
 
@@ -1092,10 +1142,12 @@ class StandardExitCodesRule(Rule):
         for doc_tag in func.find_tags(Tags.EXITCODE):
             for code, pattern in STANDARDIZED_EXIT_CODES.items():
                 if code in doc_tag.content and not re.search(
-                        pattern, doc_tag.line):
+                    pattern, doc_tag.line
+                ):
                     errors.append(
                         f"{func.name}: Non-standard @{Tags.EXITCODE.name} "
-                        f"{code} message. Found: '{doc_tag.line.strip()}'")
+                        f"{code} message. Found: '{doc_tag.line.strip()}'"
+                    )
         return errors
 
 
@@ -1110,15 +1162,19 @@ class TypeValidationRule(Rule):
                 parts = doc_tag.content.split()
                 if doc_tag.tag_def == Tags.SET:
                     if len(parts) < 2:
-                        errors.append(f"{func.name}: Missing type in "
-                                      f"@{doc_tag.tag_def.name}. "
-                                      f"Found: '{doc_tag.line.strip()}'")
+                        errors.append(
+                            f"{func.name}: Missing type in "
+                            f"@{doc_tag.tag_def.name}. "
+                            f"Found: '{doc_tag.line.strip()}'"
+                        )
                     else:
                         tag_type = parts[1].split("(")[0]
                         if tag_type not in VARIABLE_TYPES:
-                            errors.append(f"{func.name}: Invalid type in "
-                                          f"@{doc_tag.tag_def.name}. "
-                                          f"Found: '{doc_tag.line.strip()}'")
+                            errors.append(
+                                f"{func.name}: Invalid type in "
+                                f"@{doc_tag.tag_def.name}. "
+                                f"Found: '{doc_tag.line.strip()}'"
+                            )
                 else:
                     if len(parts) < 2:
                         errors.append(
@@ -1131,7 +1187,8 @@ class TypeValidationRule(Rule):
                             errors.append(
                                 f"{func.name}: Missing or invalid type in "
                                 f"@{tag_def.name}. "
-                                f"Found: '{doc_tag.line.strip()}'")
+                                f"Found: '{doc_tag.line.strip()}'"
+                            )
         return errors
 
 
@@ -1155,8 +1212,7 @@ class ModifierVariableMetadataExtractor:
 
     def extract(self) -> List["ModifierVariableMetadata"]:
         """Extract all modifier variable metadata."""
-        return (self._extract_from_description() +
-                self._extract_from_set_tags())
+        return self._extract_from_description() + self._extract_from_set_tags()
 
     def _extract_from_description(self) -> List["ModifierVariableMetadata"]:
         metadata_list = []
@@ -1166,8 +1222,9 @@ class ModifierVariableMetadataExtractor:
                 "function_name": self.function.name,
                 "tag_type": "description",
             }
-            match = re.search(REGEX_MODIFIER_VARIABLE_DESCRIPTION_CONSISTENCY,
-                              line)
+            match = re.search(
+                REGEX_MODIFIER_VARIABLE_DESCRIPTION_CONSISTENCY, line
+            )
             if match:
                 var_name, var_type, modifier, description = match.groups()
                 metadata_list.append(
@@ -1178,10 +1235,12 @@ class ModifierVariableMetadataExtractor:
                         description=description.strip(),
                         is_well_formed=True,
                         **params,
-                    ))
+                    )
+                )
             else:
                 match = re.search(
-                    REGEX_MODIFIER_VARIABLE_DESCRIPTION_MALFORMED, line)
+                    REGEX_MODIFIER_VARIABLE_DESCRIPTION_MALFORMED, line
+                )
                 metadata_list.append(
                     ModifierVariableMetadata(
                         name=match.group(1) if match else "UNKNOWN",
@@ -1190,7 +1249,8 @@ class ModifierVariableMetadataExtractor:
                         description=line.strip(),
                         is_well_formed=False,
                         **params,
-                    ))
+                    )
+                )
         return metadata_list
 
     def _extract_from_set_tags(self) -> List["ModifierVariableMetadata"]:
@@ -1212,7 +1272,8 @@ class ModifierVariableMetadataExtractor:
                         description=parts[2].strip(),
                         is_well_formed=True,
                         **params,
-                    ))
+                    )
+                )
             else:
                 metadata_list.append(
                     ModifierVariableMetadata(
@@ -1222,7 +1283,8 @@ class ModifierVariableMetadataExtractor:
                         description=tag.content.strip(),
                         is_well_formed=False,
                         **params,
-                    ))
+                    )
+                )
         return metadata_list
 
 
@@ -1237,15 +1299,16 @@ class ProjectMetadataCollector:
         all_metadata = defaultdict(list)
         for root, _, filenames in os.walk(self.source_directory):
             for filename in filenames:
-                if filename.endswith(
-                        PATH_SHELL_EXTENSION) or filename.endswith(
-                            PATH_SNIPPET_EXTENSION):
+                if filename.endswith(PATH_SHELL_EXTENSION) or filename.endswith(
+                    PATH_SNIPPET_EXTENSION
+                ):
                     filepath = os.path.abspath(os.path.join(root, filename))
                     try:
                         parsed_file = parse_file(filepath)
                         for func in parsed_file.functions:
                             extractor = ModifierVariableMetadataExtractor(
-                                func, filepath)
+                                func, filepath
+                            )
                             for metadata in extractor.extract():
                                 all_metadata[metadata.name].append(metadata)
                     except Exception:
@@ -1303,8 +1366,7 @@ class ProjectValidator:
         """Validate project-wide rules."""
         all_inconsistencies = {}
         for rule in self.project_rules:
-            all_inconsistencies.update(rule.check(all_metadata,
-                                                  modified_files))
+            all_inconsistencies.update(rule.check(all_metadata, modified_files))
         return all_inconsistencies
 
 
@@ -1320,8 +1382,10 @@ def parse_file(filepath: str) -> ParsedFile:
     while index < len(lines):
         line = lines[index]
         if line.strip().startswith("#"):
-            if not (line.strip().startswith("# shellcheck")
-                    or line.strip().startswith("#!/")):
+            if not (
+                line.strip().startswith("# shellcheck")
+                or line.strip().startswith("#!/")
+            ):
                 doc_buffer.append(line)
             index += 1
             continue
@@ -1354,12 +1418,15 @@ def parse_file(filepath: str) -> ParsedFile:
                     body_lines,
                     start_line=start_line,
                     end_line=index,
-                ))
+                )
+            )
             doc_buffer = []
             index += 1
             continue
-        if line.strip() and not (line.strip().startswith("# shellcheck")
-                                 or line.strip().startswith("builtin source")):
+        if line.strip() and not (
+            line.strip().startswith("# shellcheck")
+            or line.strip().startswith("builtin source")
+        ):
             match = re.match(rf"^\s*{REGEX_MODIFIER_VARIABLE_USAGE}=", line)
             if match:
                 modifier_assignments.add(match.group(1))
@@ -1434,20 +1501,28 @@ def main():
                     orig_path = abs_to_orig[abs_involved]
                     already_added = False
                     for existing_err in consolidated[orig_path]:
-                        if (isinstance(existing_err, dict)
-                                and "variable_inconsistency" in existing_err):
-                            if (existing_err["variable_inconsistency"]
-                                ["variable"] == var_name):
+                        if (
+                            isinstance(existing_err, dict)
+                            and "variable_inconsistency" in existing_err
+                        ):
+                            if (
+                                existing_err["variable_inconsistency"][
+                                    "variable"
+                                ]
+                                == var_name
+                            ):
                                 already_added = True
                                 break
 
                     if not already_added:
-                        consolidated[orig_path].append({
-                            "variable_inconsistency": {
-                                "variable": var_name,
-                                "report": report,
+                        consolidated[orig_path].append(
+                            {
+                                "variable_inconsistency": {
+                                    "variable": var_name,
+                                    "report": report,
+                                }
                             }
-                        })
+                        )
 
         print(json.dumps(dict(sorted(consolidated.items())), indent=2))
         sys.exit(1)
