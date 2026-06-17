@@ -22,36 +22,37 @@ class TestWhitelistConsistency(unittest.TestCase):
                 "../assets/documentation_check/whitelist",
             ))
 
+    def _run_check(self, source_dir, files):
+        with patch("documentation_check.PATH_SOURCE_DIRECTORY", source_dir):
+            with patch("sys.argv", ["documentation_check.py"] + files):
+                with patch("sys.stdout", new=StringIO()) as mock_stdout:
+                    try:
+                        documentation_check.main()
+                        return 0, mock_stdout.getvalue()
+                    except SystemExit as cm:
+                        return cm.code, mock_stdout.getvalue()
+
     def test_main__consistent_whitelisted_variable__success(self):
         consistent_dir = os.path.join(self.assets_dir, "consistent")
         file1 = os.path.join(consistent_dir, "whitelist_file1.sh")
         file2 = os.path.join(consistent_dir, "whitelist_file2.sh")
 
-        with patch("documentation_check.PATH_SOURCE_DIRECTORY", consistent_dir):
-            with patch("sys.argv", ["documentation_check.py", file1, file2]):
-                try:
-                    documentation_check.main()
-                except SystemExit as cm:
-                    self.assertNotEqual(cm.code, 1)
+        exit_code, _ = self._run_check(consistent_dir, [file1, file2])
+        self.assertNotEqual(exit_code, 1)
 
     def test_main__malformed_whitelisted_variable__returns_error(self):
         malformed_dir = os.path.join(self.assets_dir, "malformed")
         file = os.path.join(malformed_dir, "whitelist_malformed.sh")
 
-        with patch("documentation_check.PATH_SOURCE_DIRECTORY", malformed_dir):
-            with patch("sys.argv", ["documentation_check.py", file]):
-                with patch("sys.stdout", new=StringIO()) as mock_stdout:
-                    with self.assertRaises(SystemExit) as cm:
-                        documentation_check.main()
+        exit_code, stdout = self._run_check(malformed_dir, [file])
+        self.assertEqual(exit_code, 1)
 
-                    self.assertEqual(cm.exception.code, 1)
+        output = json.loads(stdout)
+        self.assertIn(file, output)
 
-                    output = json.loads(mock_stdout.getvalue())
-                    self.assertIn(file, output)
-
-                    errors = output[file]
-                    self.assertTrue(any("Invalid type in @set" in err for err in errors))
-                    self.assertTrue(any(isinstance(err, dict) and "variable_inconsistency" in err for err in errors))
+        errors = output[file]
+        self.assertTrue(any("Invalid type in @set" in err for err in errors))
+        self.assertTrue(any(isinstance(err, dict) and "variable_inconsistency" in err for err in errors))
 
 if __name__ == "__main__":
     unittest.main()
