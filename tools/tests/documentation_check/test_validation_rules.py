@@ -259,6 +259,14 @@ class TestValidationRules(unittest.TestCase):
         self.assertIn(f"Missing @{Tags.STDERR.name} tag", errors[0])
         self.assertIn(f"Missing @{Tags.STDOUT.name} tag", errors[1])
 
+    def test_missing_outputs_comments(self):
+        filename = "missing_outputs_comments.sh"
+        rule = documentation_check.MissingOutputTagsRule()
+
+        errors = self._get_errors_for_file(filename, [rule], func_index=0)
+
+        self.assertEqual(len(errors), 0)
+
     def test_missing_exitcode_configurable(self):
         filename = "valid.sh"
         rule = documentation_check.MandatoryExitCodeRule()
