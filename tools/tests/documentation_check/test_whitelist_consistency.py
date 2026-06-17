@@ -5,7 +5,7 @@ import os
 import sys
 import unittest
 from io import StringIO
-from typing import Tuple
+from typing import List, Tuple
 from unittest.mock import patch
 
 sys.path.append(
@@ -27,7 +27,7 @@ class TestWhitelistConsistency(unittest.TestCase):
             ),
         )
 
-    def _run_check(self, source_dir: str, files: list[str]) -> Tuple[int, str]:
+    def _run_check(self, source_dir: str, files: List[str]) -> Tuple[int, str]:
         """Run the documentation check main function with mocks."""
         with patch("documentation_check.PATH_SOURCE_DIRECTORY", source_dir):
             with patch("sys.argv", ["documentation_check.py"] + files):
@@ -36,7 +36,12 @@ class TestWhitelistConsistency(unittest.TestCase):
                         documentation_check.main()
                         return 0, mock_stdout.getvalue()
                     except SystemExit as cm:
-                        exit_code = cm.code if isinstance(cm.code, int) else 1
+                        if cm.code is None:
+                            exit_code = 0
+                        elif isinstance(cm.code, int):
+                            exit_code = cm.code
+                        else:
+                            exit_code = 1
                         return exit_code, mock_stdout.getvalue()
 
     def test_main__consistent_whitelisted_variable__success(self) -> None:
@@ -47,7 +52,7 @@ class TestWhitelistConsistency(unittest.TestCase):
 
         exit_code, _ = self._run_check(consistent_dir, [file1, file2])
 
-        self.assertNotEqual(exit_code, 1)
+        self.assertEqual(exit_code, 0)
 
     def test_main__malformed_whitelisted_variable__returns_error(self) -> None:
         """Malformed whitelisted variables should still trigger errors."""
