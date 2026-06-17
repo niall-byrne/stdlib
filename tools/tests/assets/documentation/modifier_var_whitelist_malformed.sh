@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # @description Malformed.
 # @noargs
 # @exitcode 0 If successful.
