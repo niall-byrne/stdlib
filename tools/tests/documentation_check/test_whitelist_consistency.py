@@ -42,15 +42,15 @@ class TestWhitelistConsistency(unittest.TestCase):
 
     def test_main__malformed_whitelisted_variable__returns_error(self):
         malformed_dir = os.path.join(self.assets_dir, "malformed")
-        file = os.path.join(malformed_dir, "whitelist_malformed.sh")
+        filepath = os.path.join(malformed_dir, "whitelist_malformed.sh")
 
-        exit_code, stdout = self._run_check(malformed_dir, [file])
+        exit_code, stdout = self._run_check(malformed_dir, [filepath])
         self.assertEqual(exit_code, 1)
 
         output = json.loads(stdout)
-        self.assertIn(file, output)
+        self.assertIn(filepath, output)
 
-        errors = output[file]
+        errors = output[filepath]
         self.assertTrue(any("Invalid type in @set" in err for err in errors))
         self.assertTrue(any(isinstance(err, dict) and "variable_inconsistency" in err for err in errors))
 
