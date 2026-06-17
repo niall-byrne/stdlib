@@ -12,7 +12,7 @@ sys.path.append(
     os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")),
 )
 
-import documentation_check  # type: ignore
+import documentation_check
 
 
 class TestWhitelistConsistency(unittest.TestCase):
