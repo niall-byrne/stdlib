@@ -756,6 +756,8 @@ class MissingOutputTagsRule(Rule):
         is_stdout: bool = False,
     ) -> bool:
         for line in body:
+            if line.strip().startswith("#"):
+                continue
             if any((re.search(t + r"([\s\)]+|$)", line)) for t in triggers):
                 if is_stdout and "builtin echo" in line:
                     if (
