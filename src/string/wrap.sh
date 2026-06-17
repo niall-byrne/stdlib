@@ -14,13 +14,14 @@ STDLIB_WRAP_PREFIX=""
 # @arg $2 integer The right-side wrap limit.
 # @arg $3 string The text to wrap.
 # @exitcode 0 If the operation succeeded.
+# @exitcode 125 If an invalid keyword has been provided.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stdout The wrapped text.
 # @stderr The error message if the operation fails.
 stdlib.string.wrap() {
   builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
-  builtin local wrap_indent_string="${STDLIB_WRAP_PREFIX:-""}"
+  builtin local wrap_indent_string="${STDLIB_WRAP_PREFIX:-""}" # defaults STDLIB_WRAP_PREFIX
   builtin local forced_line_break_char="${STDLIB_LINE_BREAK_FORCE_CHAR:-*}"
 
   builtin local current_line=""
@@ -38,6 +39,9 @@ stdlib.string.wrap() {
   stdlib.fn.args.require "3" "0" "${@}" || builtin return "$?"
   stdlib.string.assert.is_digit "${1}" || builtin return 126
   stdlib.string.assert.is_digit "${2}" || builtin return 126
+
+  STDLIB_KW_SOURCE_VAR="forced_line_break_char" \
+    stdlib.fn.keyword.assert.is_valid_with stdlib.string.assert.is_char STDLIB_LINE_BREAK_FORCE_CHAR || builtin return 125 # validates STDLIB_LINE_BREAK_FORCE_CHAR
 
   wrap_limit="$(("${2}" - "${1}"))"
   builtin read -ra input_array <<< "${3}"
@@ -67,14 +71,21 @@ stdlib.string.wrap() {
 }
 
 # @description A derivative of stdlib.string.wrap that can read from stdin.
+#   * STDLIB_LINE_BREAK_FORCE_CHAR string keyword: A char that 'forces' a line break in the output text (default="*").
+#   * STDLIB_WRAP_PREFIX string keyword: A string to insert when wrapping text (default="").
 # @arg $1 integer The left-side padding.
 # @arg $2 integer The right-side wrap limit.
 # @arg $3 string (optional, default="-") The text to wrap, by default this function reads from stdin.
 # @exitcode 0 If the operation succeeded.
+# @exitcode 125 If an invalid keyword has been provided.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stdin The text to wrap.
 # @stdout The wrapped text.
 # @stderr The error message if the operation fails.
-stdlib.string.wrap_pipe() { :; }
+stdlib.string.wrap_pipe() {
+  # clean STDLIB_LINE_BREAK_FORCE_CHAR
+  # clean STDLIB_WRAP_PREFIX
+  :  # KCOV_EXCLUDE_LINE
+}
 stdlib.fn.derive.pipeable "stdlib.string.wrap" "3"
