@@ -20,7 +20,7 @@ class TestModifierVariableConsistency(unittest.TestCase):
         self.assets_dir = os.path.abspath(
             os.path.join(
                 os.path.dirname(__file__),
-                "../assets/documentation_modifier_variable_check",
+                "../assets/documentation/modifier_var_consistency",
             )
         )
 
