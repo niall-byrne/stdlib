@@ -425,6 +425,13 @@ class BashFunction:
                 elif line.startswith("# @"):
                     desc_started = False
 
+    @property
+    def is_stub(self) -> bool:
+        """Evaluate if the function is a stub function."""
+        body = "".join(self.body_lines).strip()
+        match = re.search(r"\{[ \t\n]*:;[ \t\n]*\}$", body)
+        return bool(match)
+
     def contains_tag(self, tag_def: "TagDefinition") -> bool:
         """Evaluate if the function's documentation contains the given tag."""
         return any(doc_tag.tag_def == tag_def for doc_tag in self.doc_tags)
@@ -848,6 +855,9 @@ class ModifierVariableFormatRule(Rule):
 
     def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
+        if func.is_stub:
+            return []
+
         errors = []
         for line in func.modifier_var_lines:
             match = re.match(
@@ -978,6 +988,9 @@ class ModifierVariableIndentRule(Rule):
 
     def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
+        if func.is_stub:
+            return []
+
         errors = []
         for line in func.modifier_var_lines:
             stripped = line.strip()
@@ -1044,6 +1057,9 @@ class ModifierVariableValidationRule(Rule):
 
     def check(self, func: "BashFunction") -> List[str]:
         """Validate the given BASH function."""
+        if func.is_stub:
+            return []
+
         errors = []
         for line in func.modifier_var_lines:
             match = re.match(
