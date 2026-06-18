@@ -429,8 +429,7 @@ class BashFunction:
     def is_stub(self) -> bool:
         """Evaluate if the function is a stub function."""
         body = "".join(self.body_lines).strip()
-        match = re.search(r"\{[ \t\n]*:;[ \t\n]*\}$", body)
-        return bool(match)
+        return bool(re.match(rf"{REGEX_FUNCTION_DEFINITION}\s*:;\s*\}}$", body))
 
     def contains_tag(self, tag_def: "TagDefinition") -> bool:
         """Evaluate if the function's documentation contains the given tag."""
