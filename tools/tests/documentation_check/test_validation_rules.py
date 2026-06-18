@@ -238,6 +238,14 @@ class TestValidationRules(unittest.TestCase):
         self.assertEqual(len(err5), 1)
         self.assertIn("STDLIB_INVALID_VAR", err5[0])
 
+    def test_stub_function_modifier_variable_validation(self):
+        filename = "stub_function.sh"
+        rule = documentation_check.ModifierVariableValidationRule()
+
+        errors = self._get_errors_for_file(filename, [rule], func_index=0)
+
+        self.assertEqual(len(errors), 0)
+
     def test_modifier_variable_modifier_usage(self):
         filename = "modifier_variable_usage.sh"
         rule = documentation_check.ModifierVariableUsageRule()
