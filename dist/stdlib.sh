@@ -78,7 +78,7 @@ declare -a STDLIB_HANDLER_ERR_FN_ARRAY=()
 declare -a STDLIB_HANDLER_EXIT_FN_ARRAY=([0]="stdlib.trap.fn.cleanup_on_exit")
 declare -- STDLIB_KW_SOURCE_VAR=""
 declare -- STDLIB_LINE_BREAK_DELIMITER=""
-declare -- STDLIB_LINE_BREAK_FORCE_CHAR=""
+declare -- STDLIB_LINE_BREAK_DELIMITER_CHAR=""
 declare -- STDLIB_LOCK_PERMISSION_OCTAL=""
 declare -- STDLIB_LOCK_POLLING_INTERVAL=""
 declare -- STDLIB_LOCK_QUIET_FAILURE_BOOLEAN=""
@@ -95,6 +95,7 @@ declare -- STDLIB_THEME_LOGGER_SUCCESS="GREEN"
 declare -- STDLIB_THEME_LOGGER_WARNING="YELLOW"
 declare -- STDLIB_TRACEBACK_DISABLE_BOOLEAN="1"
 declare -- STDLIB_VALIDATION_SOURCE_VAR=""
+declare -- STDLIB_WRAP_LINE_BREAK_FORCE_CHAR=""
 declare -- STDLIB_WRAP_PREFIX=""
 declare -- _STDLIB_BINARY_CAT="/usr/bin/cat"
 declare -- _STDLIB_BINARY_CHMOD="/usr/bin/chmod"
@@ -3110,10 +3111,11 @@ stdlib.string.justify.right_var ()
 stdlib.string.lines.join ()
 {
     builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
-    builtin local delimiter="${STDLIB_LINE_BREAK_DELIMITER:-
-}";
+    builtin local delimiter;
     STDLIB_ARGS_NULL_SAFE_ARRAY=("1");
     stdlib.fn.args.require "1" "0" "${@}" || builtin return "$?";
+    stdlib.fn.keyword.consume delimiter STDLIB_LINE_BREAK_DELIMITER '
+';
     builtin printf '%s\n' "${1//${delimiter}/}"
 }
 
@@ -3180,14 +3182,15 @@ stdlib.string.lines.join_var ()
 stdlib.string.lines.map.fn ()
 {
     builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
-    builtin local delimiter="${STDLIB_LINE_BREAK_DELIMITER:-
-}";
+    builtin local delimiter;
     builtin local line="";
     builtin local output="";
     STDLIB_ARGS_NULL_SAFE_ARRAY=("2");
     stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?";
     stdlib.fn.assert.is_fn "${1}" || builtin return 126;
-    stdlib.string.assert.is_char "${delimiter}" || builtin return 126;
+    stdlib.fn.keyword.consume delimiter STDLIB_LINE_BREAK_DELIMITER_CHAR '
+';
+    STDLIB_KW_SOURCE_VAR="delimiter" stdlib.fn.keyword.assert.is_valid_with stdlib.string.assert.is_char STDLIB_LINE_BREAK_DELIMITER_CHAR || builtin return 125;
     if ! stdlib.string.query.has_substring "${delimiter}" "${2}"; then
         "${1}" "${2}";
         builtin return;
@@ -3261,13 +3264,14 @@ stdlib.string.lines.map.fn_var ()
 stdlib.string.lines.map.format ()
 {
     builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
-    builtin local delimiter="${STDLIB_LINE_BREAK_DELIMITER:-
-}";
+    builtin local delimiter;
     builtin local line="";
     builtin local output="";
     STDLIB_ARGS_NULL_SAFE_ARRAY=("2");
     stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?";
-    stdlib.string.assert.is_char "${delimiter}" || builtin return 126;
+    stdlib.fn.keyword.consume delimiter STDLIB_LINE_BREAK_DELIMITER_CHAR '
+';
+    STDLIB_KW_SOURCE_VAR="delimiter" stdlib.fn.keyword.assert.is_valid_with stdlib.string.assert.is_char STDLIB_LINE_BREAK_DELIMITER_CHAR || builtin return 125;
     if ! stdlib.string.query.has_substring "${delimiter}" "${2}"; then
         builtin printf "${1}" "${2}";
         builtin return;
@@ -3955,21 +3959,25 @@ stdlib.string.trim.right_var ()
 
 stdlib.string.wrap ()
 {
-    builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
-    builtin local wrap_indent_string="${STDLIB_WRAP_PREFIX:-""}";
-    builtin local forced_line_break_char="${STDLIB_LINE_BREAK_FORCE_CHAR:-*}";
-    builtin local current_line="";
-    builtin local current_line_length=0;
-    builtin local current_word="";
-    builtin local current_word_length=0;
     builtin local -a input_array;
+    builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
+    builtin local current_line_length=0;
+    builtin local current_line="";
+    builtin local current_word_length=0;
+    builtin local current_word="";
+    builtin local forced_line_break_char;
     builtin local output="";
+    builtin local wrap_indent_length;
+    builtin local wrap_indent_string;
     builtin local wrap_limit=0;
-    builtin local wrap_indent_length="${#wrap_indent_string}";
     STDLIB_ARGS_NULL_SAFE_ARRAY=("3");
     stdlib.fn.args.require "3" "0" "${@}" || builtin return "$?";
     stdlib.string.assert.is_digit "${1}" || builtin return 126;
     stdlib.string.assert.is_digit "${2}" || builtin return 126;
+    stdlib.fn.keyword.consume wrap_indent_string STDLIB_WRAP_PREFIX "";
+    stdlib.fn.keyword.consume forced_line_break_char STDLIB_WRAP_LINE_BREAK_FORCE_CHAR "*";
+    wrap_indent_length="${#wrap_indent_string}";
+    STDLIB_KW_SOURCE_VAR="forced_line_break_char" stdlib.fn.keyword.assert.is_valid_with stdlib.string.assert.is_char STDLIB_WRAP_LINE_BREAK_FORCE_CHAR || builtin return 125;
     wrap_limit="$(("${2}" - "${1}"))";
     builtin read -ra input_array <<< "${3}";
     for current_word in "${input_array[@]}";
