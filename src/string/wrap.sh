@@ -4,33 +4,36 @@
 
 builtin set -eo pipefail
 
-STDLIB_LINE_BREAK_FORCE_CHAR=""
-STDLIB_WRAP_PREFIX=""
+# shellcheck disable=SC2034
+{
+  STDLIB_LINE_BREAK_FORCE_CHAR=""
+  STDLIB_WRAP_PREFIX=""
+}
 
 # @description Wraps text to a specified width with padding.
-#   * STDLIB_LINE_BREAK_FORCE_CHAR: A char that 'forces' a line break in the output text (default="*").
-#   * STDLIB_WRAP_PREFIX: A string to insert when wrapping text (default="").
+#   * STDLIB_LINE_BREAK_FORCE_CHAR string keyword: A char that 'forces' a line break in the output text (default="*").
+#   * STDLIB_WRAP_PREFIX string keyword: A string to insert when wrapping text (default="").
 # @arg $1 integer The left-side padding.
 # @arg $2 integer The right-side wrap limit.
 # @arg $3 string The text to wrap.
 # @exitcode 0 If the operation succeeded.
+# @exitcode 125 If an invalid keyword has been provided.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stdout The wrapped text.
 # @stderr The error message if the operation fails.
 stdlib.string.wrap() {
-  builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
-  builtin local wrap_indent_string="${STDLIB_WRAP_PREFIX:-""}"
-  builtin local forced_line_break_char="${STDLIB_LINE_BREAK_FORCE_CHAR:-*}"
-
-  builtin local current_line=""
-  builtin local current_line_length=0
-  builtin local current_word=""
-  builtin local current_word_length=0
   builtin local -a input_array
+  builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
+  builtin local current_line_length=0
+  builtin local current_line=""
+  builtin local current_word_length=0
+  builtin local current_word=""
+  builtin local forced_line_break_char
   builtin local output=""
+  builtin local wrap_indent_length
+  builtin local wrap_indent_string
   builtin local wrap_limit=0
-  builtin local wrap_indent_length="${#wrap_indent_string}"
 
   # shellcheck disable=SC2034
   STDLIB_ARGS_NULL_SAFE_ARRAY=("3")
@@ -38,6 +41,13 @@ stdlib.string.wrap() {
   stdlib.fn.args.require "3" "0" "${@}" || builtin return "$?"
   stdlib.string.assert.is_digit "${1}" || builtin return 126
   stdlib.string.assert.is_digit "${2}" || builtin return 126
+
+  stdlib.fn.keyword.consume wrap_indent_string STDLIB_WRAP_PREFIX ""                # defaults STDLIB_WRAP_PREFIX
+  stdlib.fn.keyword.consume forced_line_break_char STDLIB_LINE_BREAK_FORCE_CHAR "*" # defaults STDLIB_LINE_BREAK_FORCE_CHAR
+  wrap_indent_length="${#wrap_indent_string}"
+
+  STDLIB_KW_SOURCE_VAR="forced_line_break_char" \
+    stdlib.fn.keyword.assert.is_valid_with stdlib.string.assert.is_char STDLIB_LINE_BREAK_FORCE_CHAR || builtin return 125 # validates STDLIB_LINE_BREAK_FORCE_CHAR
 
   wrap_limit="$(("${2}" - "${1}"))"
   builtin read -ra input_array <<< "${3}"
@@ -67,10 +77,13 @@ stdlib.string.wrap() {
 }
 
 # @description A derivative of stdlib.string.wrap that can read from stdin.
+#   * STDLIB_LINE_BREAK_FORCE_CHAR string keyword: A char that 'forces' a line break in the output text (default="*").
+#   * STDLIB_WRAP_PREFIX string keyword: A string to insert when wrapping text (default="").
 # @arg $1 integer The left-side padding.
 # @arg $2 integer The right-side wrap limit.
 # @arg $3 string (optional, default="-") The text to wrap, by default this function reads from stdin.
 # @exitcode 0 If the operation succeeded.
+# @exitcode 125 If an invalid keyword has been provided.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
 # @stdin The text to wrap.

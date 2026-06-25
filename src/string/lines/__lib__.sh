@@ -10,4 +10,4 @@ builtin source "${STDLIB_DIRECTORY}/string/lines/join.sh"
 builtin source "${STDLIB_DIRECTORY}/string/lines/map.sh"
 
 # shellcheck disable=SC2034
-STDLIB_LINE_BREAK_DELIMITER=""
+STDLIB_LINE_BREAK_DELIMITER_CHAR=""

@@ -36,6 +36,18 @@ test_stdlib_string_lines_join__valid_args_____arg___default_line_ending__correct
   assert_output "${TEST_EXPECTED}"
 }
 
+test_stdlib_string_lines_join__null_input_____arg___default_line_ending__stops_keyword_propagation() {
+  TEST_INPUT=""
+  _mock.create stdlib.fn.keyword.consume
+  # shellcheck disable=SC2016
+  stdlib.fn.keyword.consume.mock.set.subcommand 'printf -v "$1" "%s" "${!2}"'
+
+  stdlib.string.lines.join "${TEST_INPUT}" > /dev/null
+
+  stdlib.fn.keyword.consume.mock.assert_called_once_with \
+    "1(delimiter) 2(STDLIB_LINE_BREAK_DELIMITER) 3("$'\n'")"
+}
+
 test_stdlib_string_lines_join__valid_args_____arg___windows_line_ending__correct_output() {
   TEST_EXPECTED="string1 string2 string3 "
   TEST_INPUT="string1 "$'\r\n'"string2 "$'\r\n'"string3 "$'\r\n'
@@ -51,4 +63,16 @@ test_stdlib_string_lines_join__null_input_____arg___windows_line_ending__correct
   STDLIB_LINE_BREAK_DELIMITER=$'\r\n' _capture.output stdlib.string.lines.join "${TEST_INPUT}"
 
   assert_output_null
+}
+
+test_stdlib_string_lines_join__null_input_____arg___windows_line_ending__stops_keyword_propagation() {
+  TEST_INPUT=""
+  _mock.create stdlib.fn.keyword.consume
+  # shellcheck disable=SC2016
+  stdlib.fn.keyword.consume.mock.set.subcommand 'printf -v "$1" "%s" "${!2}"'
+
+  STDLIB_LINE_BREAK_DELIMITER=$'\r\n' stdlib.string.lines.join "${TEST_INPUT}" > /dev/null
+
+  stdlib.fn.keyword.consume.mock.assert_called_once_with \
+    "1(delimiter) 2(STDLIB_LINE_BREAK_DELIMITER) 3("$'\n'")"
 }
