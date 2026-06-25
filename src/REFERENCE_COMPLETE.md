@@ -44,6 +44,8 @@
 * [stdlib.fn.derive.pipeable](#stdlibfnderivepipeable)
 * [stdlib.fn.derive.var](#stdlibfnderivevar)
 * [stdlib.fn.keyword.assert.is_valid_with](#stdlibfnkeywordassertis_valid_with)
+* [stdlib.fn.keyword.consume](#stdlibfnkeywordconsume)
+* [stdlib.fn.keyword.consume_array](#stdlibfnkeywordconsume_array)
 * [stdlib.fn.keyword.query.is_valid_with](#stdlibfnkeywordqueryis_valid_with)
 * [stdlib.fn.query.is_builtin](#stdlibfnqueryis_builtin)
 * [stdlib.fn.query.is_fn](#stdlibfnqueryis_fn)
@@ -1016,6 +1018,49 @@ Checks if a keyword's value is valid against a validation function.
 #### Output on stderr
 
 * The error message if the assertion fails.
+
+### stdlib.fn.keyword.consume
+
+Consumes a scalar keyword, using a default value if required, (the keyword is also reset to "" so it's value can't propagate).
+
+#### Arguments
+
+* **$1** (string): The name of the scalar keyword variable to consume.
+* **$2** (string): (optional, default="") A string representation of a default value to use if the scalar keyword variable is empty or unset.
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+* **126**: If an invalid argument has been provided.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stdout
+
+* The calculated value.
+
+#### Output on stderr
+
+* The error message if the operation fails.
+
+### stdlib.fn.keyword.consume_array
+
+Consumes an array keyword, using a default array's contents if required, (the keyword is also reset to () so it's value can't propagate).
+
+#### Arguments
+
+* **$1** (string): The name of the array to assign, usually this is a locally scoped array.
+* **$2** (string): The name of the array keyword variable to consume.
+* **$3** (string): (optional, default="") A name of another array containing a default value to use if the keyword is empty or unset.
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+* **126**: If an invalid argument has been provided.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stderr
+
+* The error message if the operation fails.
 
 ### stdlib.fn.keyword.query.is_valid_with
 
