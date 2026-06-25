@@ -2546,6 +2546,7 @@ Asserts that two strings are not equal.
 ### stdlib.string.colour
 
 Colours a string and prints it with a newline.
+* STDLIB_COLOUR_NC string global: The no-colour escape sequence (default="\e[0m").
 
 #### Arguments
 
@@ -2568,6 +2569,7 @@ Colours a string and prints it with a newline.
 ### stdlib.string.colour_n
 
 Colours a string and prints it without a newline.
+* STDLIB_COLOUR_NC string global: The no-colour escape sequence (default="\e[0m").
 
 #### Arguments
 
@@ -2590,6 +2592,7 @@ Colours a string and prints it without a newline.
 ### stdlib.string.colour_n_pipe
 
 A derivative of stdlib.string.colour_n that can read from stdin.
+* STDLIB_COLOUR_NC string global: The no-colour escape sequence (default="\e[0m").
 
 #### Arguments
 
@@ -2616,6 +2619,7 @@ A derivative of stdlib.string.colour_n that can read from stdin.
 ### stdlib.string.colour_pipe
 
 A derivative of stdlib.string.colour that can read from stdin.
+* STDLIB_COLOUR_NC string global: The no-colour escape sequence (default="\e[0m").
 
 #### Arguments
 
@@ -2642,6 +2646,7 @@ A derivative of stdlib.string.colour that can read from stdin.
 ### stdlib.string.colour_var
 
 A derivative of stdlib.string.colour_n that can read from and write to a variable.
+* STDLIB_COLOUR_NC string global: The no-colour escape sequence (default="\e[0m").
 
 #### Arguments
 
@@ -2660,6 +2665,7 @@ A derivative of stdlib.string.colour_n that can read from and write to a variabl
 ### stdlib.string.colour.substring
 
 Colours the first occurrence of a substring in a string.
+* STDLIB_COLOUR_NC string global: The no-colour escape sequence (default="\e[0m").
 
 #### Arguments
 
@@ -2683,6 +2689,7 @@ Colours the first occurrence of a substring in a string.
 ### stdlib.string.colour.substring_pipe
 
 A derivative of stdlib.string.colour.substring that can read from stdin.
+* STDLIB_COLOUR_NC string global: The no-colour escape sequence (default="\e[0m").
 
 #### Arguments
 
@@ -2710,6 +2717,7 @@ A derivative of stdlib.string.colour.substring that can read from stdin.
 ### stdlib.string.colour.substring_var
 
 A derivative of stdlib.string.colour.substring that can read from and write to a variable.
+* STDLIB_COLOUR_NC string global: The no-colour escape sequence (default="\e[0m").
 
 #### Arguments
 
@@ -2729,6 +2737,7 @@ A derivative of stdlib.string.colour.substring that can read from and write to a
 ### stdlib.string.colour.substrings
 
 Colours all occurrences of a substring in a string.
+* STDLIB_COLOUR_NC string global: The no-colour escape sequence (default="\e[0m").
 
 #### Arguments
 
@@ -2752,6 +2761,7 @@ Colours all occurrences of a substring in a string.
 ### stdlib.string.colour.substrings_pipe
 
 A derivative of stdlib.string.colour.substrings that can read from stdin.
+* STDLIB_COLOUR_NC string global: The no-colour escape sequence (default="\e[0m").
 
 #### Arguments
 
@@ -2779,6 +2789,7 @@ A derivative of stdlib.string.colour.substrings that can read from stdin.
 ### stdlib.string.colour.substrings_var
 
 A derivative of stdlib.string.colour.substrings that can read from and write to a variable.
+* STDLIB_COLOUR_NC string global: The no-colour escape sequence (default="\e[0m").
 
 #### Arguments
 
@@ -2930,7 +2941,7 @@ A derivative of stdlib.string.justify.right that can read from and write to a va
 ### stdlib.string.lines.join
 
 Joins lines in a string by removing a delimiter.
-* STDLIB_LINE_BREAK_DELIMITER: A line break char sequence which is replaced to join the string (default=$'\n').
+* STDLIB_LINE_BREAK_DELIMITER string keyword: A line break char sequence which is replaced to join the string (default=$'\n').
 
 #### Arguments
 
@@ -2952,6 +2963,7 @@ Joins lines in a string by removing a delimiter.
 ### stdlib.string.lines.join_pipe
 
 A derivative of stdlib.string.lines.join that can read from stdin.
+* STDLIB_LINE_BREAK_DELIMITER string keyword: A line break char sequence which is replaced to join the string (default=$'\n').
 
 #### Arguments
 
@@ -2977,6 +2989,7 @@ A derivative of stdlib.string.lines.join that can read from stdin.
 ### stdlib.string.lines.join_var
 
 A derivative of stdlib.string.lines.join that can read from and write to a variable.
+* STDLIB_LINE_BREAK_DELIMITER string keyword: A line break char sequence which is replaced to join the string (default=$'\n').
 
 #### Arguments
 
@@ -2994,7 +3007,7 @@ A derivative of stdlib.string.lines.join that can read from and write to a varia
 ### stdlib.string.lines.map.fn
 
 Maps a function over each line of a string.
-* STDLIB_LINE_BREAK_DELIMITER: A line break char to split the string with for processing (default=$'\n').
+* STDLIB_LINE_BREAK_DELIMITER_CHAR string keyword: The line break char to use (default=$'\n').
 
 #### Arguments
 
@@ -3004,6 +3017,7 @@ Maps a function over each line of a string.
 #### Exit codes
 
 * **0**: If the operation succeeded.
+* **125**: If an invalid keyword has been provided.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 
@@ -3018,7 +3032,7 @@ Maps a function over each line of a string.
 ### stdlib.string.lines.map.fn_pipe
 
 A derivative of stdlib.string.lines.map.fn that can read from stdin.
-* STDLIB_LINE_BREAK_DELIMITER: A line break char to split the string with for processing (default=$'\n').
+* STDLIB_LINE_BREAK_DELIMITER_CHAR string keyword: The line break char to use (default=$'\n').
 
 #### Arguments
 
@@ -3028,6 +3042,7 @@ A derivative of stdlib.string.lines.map.fn that can read from stdin.
 #### Exit codes
 
 * **0**: If the operation succeeded.
+* **125**: If an invalid keyword has been provided.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 
@@ -3046,7 +3061,7 @@ A derivative of stdlib.string.lines.map.fn that can read from stdin.
 ### stdlib.string.lines.map.fn_var
 
 A derivative of stdlib.string.lines.map.fn that can read from and write to a variable.
-* STDLIB_LINE_BREAK_DELIMITER: A line break char to split the string with for processing (default=$'\n').
+* STDLIB_LINE_BREAK_DELIMITER_CHAR string keyword: The line break char to use (default=$'\n').
 
 #### Arguments
 
@@ -3056,6 +3071,7 @@ A derivative of stdlib.string.lines.map.fn that can read from and write to a var
 #### Exit codes
 
 * **0**: If the operation succeeded.
+* **125**: If an invalid keyword has been provided.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 
@@ -3066,7 +3082,7 @@ A derivative of stdlib.string.lines.map.fn that can read from and write to a var
 ### stdlib.string.lines.map.format
 
 Maps a format string over each line of a string.
-* STDLIB_LINE_BREAK_DELIMITER: A line break char to split the string with for processing (default=$'\n').
+* STDLIB_LINE_BREAK_DELIMITER_CHAR string keyword: The line break char to use (default=$'\n').
 
 #### Arguments
 
@@ -3076,6 +3092,7 @@ Maps a format string over each line of a string.
 #### Exit codes
 
 * **0**: If the operation succeeded.
+* **125**: If an invalid keyword has been provided.
 * **127**: If the wrong number of arguments were provided.
 
 #### Output on stdout
@@ -3089,7 +3106,7 @@ Maps a format string over each line of a string.
 ### stdlib.string.lines.map.format_pipe
 
 A derivative of stdlib.string.lines.map.format that can read from stdin.
-* STDLIB_LINE_BREAK_DELIMITER: A line break char to split the string with for processing (default=$'\n').
+* STDLIB_LINE_BREAK_DELIMITER_CHAR string keyword: The line break char to use (default=$'\n').
 
 #### Arguments
 
@@ -3099,6 +3116,7 @@ A derivative of stdlib.string.lines.map.format that can read from stdin.
 #### Exit codes
 
 * **0**: If the operation succeeded.
+* **125**: If an invalid keyword has been provided.
 * **127**: If the wrong number of arguments were provided.
 
 #### Input on stdin
@@ -3116,7 +3134,7 @@ A derivative of stdlib.string.lines.map.format that can read from stdin.
 ### stdlib.string.lines.map.format_var
 
 A derivative of stdlib.string.lines.map.format that can read from and write to a variable.
-* STDLIB_LINE_BREAK_DELIMITER: A line break char to split the string with for processing (default=$'\n').
+* STDLIB_LINE_BREAK_DELIMITER_CHAR string keyword: The line break char to use (default=$'\n').
 
 #### Arguments
 
@@ -3126,6 +3144,7 @@ A derivative of stdlib.string.lines.map.format that can read from and write to a
 #### Exit codes
 
 * **0**: If the operation succeeded.
+* **125**: If an invalid keyword has been provided.
 * **127**: If the wrong number of arguments were provided.
 
 #### Output on stderr
@@ -3746,8 +3765,8 @@ A derivative of stdlib.string.trim.right that can read from and write to a varia
 ### stdlib.string.wrap
 
 Wraps text to a specified width with padding.
-* STDLIB_LINE_BREAK_FORCE_CHAR: A char that 'forces' a line break in the output text (default="*").
-* STDLIB_WRAP_PREFIX: A string to insert when wrapping text (default="").
+* STDLIB_LINE_BREAK_FORCE_CHAR string keyword: A char that 'forces' a line break in the output text (default="*").
+* STDLIB_WRAP_PREFIX string keyword: A string to insert when wrapping text (default="").
 
 #### Arguments
 
@@ -3758,6 +3777,7 @@ Wraps text to a specified width with padding.
 #### Exit codes
 
 * **0**: If the operation succeeded.
+* **125**: If an invalid keyword has been provided.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 
@@ -3772,6 +3792,8 @@ Wraps text to a specified width with padding.
 ### stdlib.string.wrap_pipe
 
 A derivative of stdlib.string.wrap that can read from stdin.
+* STDLIB_LINE_BREAK_FORCE_CHAR string keyword: A char that 'forces' a line break in the output text (default="*").
+* STDLIB_WRAP_PREFIX string keyword: A string to insert when wrapping text (default="").
 
 #### Arguments
 
@@ -3782,6 +3804,7 @@ A derivative of stdlib.string.wrap that can read from stdin.
 #### Exit codes
 
 * **0**: If the operation succeeded.
+* **125**: If an invalid keyword has been provided.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 

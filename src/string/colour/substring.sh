@@ -5,6 +5,7 @@
 builtin set -eo pipefail
 
 # @description Colours the first occurrence of a substring in a string.
+#   * STDLIB_COLOUR_NC string global: The no-colour escape sequence (default="\e[0m").
 # @arg $1 string The name of the colour to use.
 # @arg $2 string The substring to colour.
 # @arg $3 string The source string.
@@ -15,6 +16,8 @@ builtin set -eo pipefail
 stdlib.string.colour.substring() {
   builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
   builtin local string_colour
+
+  # clean STDLIB_COLOUR_NC
 
   # shellcheck disable=SC2034
   STDLIB_ARGS_NULL_SAFE_ARRAY=("2" "3")
@@ -27,6 +30,7 @@ stdlib.string.colour.substring() {
 }
 
 # @description A derivative of stdlib.string.colour.substring that can read from stdin.
+#   * STDLIB_COLOUR_NC string global: The no-colour escape sequence (default="\e[0m").
 # @arg $1 string The name of the colour to use.
 # @arg $2 string The substring to colour.
 # @arg $3 string (optional, default="-") The source string, by default this function reads from stdin.
@@ -39,6 +43,7 @@ stdlib.string.colour.substring_pipe() { :; }
 stdlib.fn.derive.pipeable "stdlib.string.colour.substring" "3"
 
 # @description A derivative of stdlib.string.colour.substring that can read from and write to a variable.
+#   * STDLIB_COLOUR_NC string global: The no-colour escape sequence (default="\e[0m").
 # @arg $1 string The name of the colour to use.
 # @arg $2 string The substring to colour.
 # @arg $3 string The name of the variable to read from and write to.
@@ -49,6 +54,7 @@ stdlib.string.colour.substring_var() { :; }
 stdlib.fn.derive.var "stdlib.string.colour.substring"
 
 # @description Colours all occurrences of a substring in a string.
+#   * STDLIB_COLOUR_NC string global: The no-colour escape sequence (default="\e[0m").
 # @arg $1 string The name of the colour to use.
 # @arg $2 string The substring to colour.
 # @arg $3 string The source string.
@@ -59,6 +65,8 @@ stdlib.fn.derive.var "stdlib.string.colour.substring"
 stdlib.string.colour.substrings() {
   builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
   builtin local string_colour
+
+  # clean STDLIB_COLOUR_NC
 
   # shellcheck disable=SC2034
   STDLIB_ARGS_NULL_SAFE_ARRAY=("2" "3")
@@ -71,6 +79,7 @@ stdlib.string.colour.substrings() {
 }
 
 # @description A derivative of stdlib.string.colour.substrings that can read from stdin.
+#   * STDLIB_COLOUR_NC string global: The no-colour escape sequence (default="\e[0m").
 # @arg $1 string The name of the colour to use.
 # @arg $2 string The substring to colour.
 # @arg $3 string (optional, default="-") The source string, by default this function reads from stdin.
@@ -83,6 +92,7 @@ stdlib.string.colour.substrings_pipe() { :; }
 stdlib.fn.derive.pipeable "stdlib.string.colour.substrings" "3"
 
 # @description A derivative of stdlib.string.colour.substrings that can read from and write to a variable.
+#   * STDLIB_COLOUR_NC string global: The no-colour escape sequence (default="\e[0m").
 # @arg $1 string The name of the colour to use.
 # @arg $2 string The substring to colour.
 # @arg $3 string The name of the variable to read from and write to.
