@@ -49,19 +49,27 @@ test_stdlib_string_lines_map_format__valid_args_______________default_delimiter_
 }
 
 test_stdlib_string_lines_map_format__valid_args_______________custom__delimiter__single_line__applies_printf() {
-  STDLIB_LINE_BREAK_DELIMITER="|" _capture.output_raw stdlib.string.lines.map.format "# %s" "new line"
+  STDLIB_LINE_BREAK_DELIMITER_CHAR="|" _capture.output_raw stdlib.string.lines.map.format "# %s" "new line"
 
   assert_output "# new line"
 }
 
 test_stdlib_string_lines_map_format__valid_args_______________custom__delimiter__multi_line___applies_printf() {
-  STDLIB_LINE_BREAK_DELIMITER="|" _capture.output_raw stdlib.string.lines.map.format "# %s" "pipe|delimited|line"
+  STDLIB_LINE_BREAK_DELIMITER_CHAR="|" _capture.output_raw stdlib.string.lines.map.format "# %s" "pipe|delimited|line"
 
   assert_output "# pipe|# delimited|# line"$'\n'
 }
 
-test_stdlib_string_lines_map_format__valid_args_______________invalid_delimiter__returns_status_code_126() {
-  STDLIB_LINE_BREAK_DELIMITER="||" _capture.rc stdlib.string.lines.map.format "# %s" "pipe|delimited|line"
+test_stdlib_string_lines_map_format__valid_args_______________invalid_delimiter__returns_status_code_125() {
+  STDLIB_LINE_BREAK_DELIMITER_CHAR="||" _capture.rc stdlib.string.lines.map.format "# %s" "pipe|delimited|line"
 
-  assert_rc 126
+  assert_rc 125
+}
+
+test_stdlib_string_lines_map_format__valid_args_______________invalid_delimiter__logs_expected_error() {
+  STDLIB_LINE_BREAK_DELIMITER_CHAR="||" _capture.rc stdlib.string.lines.map.format "# %s" "pipe|delimited|line"
+
+  stdlib.logger.error.mock.assert_calls_are \
+    "1($(stdlib.__message.get IS_NOT_CHAR "||"))" \
+    "1($(stdlib.__message.get ARGUMENTS_KEYWORD_INVALID_DETAIL STDLIB_LINE_BREAK_DELIMITER_CHAR))"
 }

@@ -4,8 +4,11 @@
 
 builtin set -eo pipefail
 
+# shellcheck disable=SC2034
+STDLIB_LINE_BREAK_DELIMITER=""
+
 # @description Joins lines in a string by removing a delimiter.
-#   * STDLIB_LINE_BREAK_DELIMITER: A line break char sequence which is replaced to join the string (default=$'\n').
+#   * STDLIB_LINE_BREAK_DELIMITER string keyword: A line break char sequence which is replaced to join the string (default=$'\n').
 # @arg $1 string The string to process.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 127 If the wrong number of arguments were provided.
@@ -13,17 +16,20 @@ builtin set -eo pipefail
 # @stderr The error message if the operation fails.
 stdlib.string.lines.join() {
   builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
-  builtin local delimiter="${STDLIB_LINE_BREAK_DELIMITER:-$'\n'}"
+  builtin local delimiter
 
   # shellcheck disable=SC2034
   STDLIB_ARGS_NULL_SAFE_ARRAY=("1")
 
   stdlib.fn.args.require "1" "0" "${@}" || builtin return "$?"
 
+  stdlib.fn.keyword.consume delimiter STDLIB_LINE_BREAK_DELIMITER $'\n' # defaults STDLIB_LINE_BREAK_DELIMITER
+
   builtin printf '%s\n' "${1//${delimiter}/}"
 }
 
 # @description A derivative of stdlib.string.lines.join that can read from stdin.
+#   * STDLIB_LINE_BREAK_DELIMITER string keyword: A line break char sequence which is replaced to join the string (default=$'\n').
 # @arg $1 string (optional, default="-") The string to process, by default this function reads from stdin.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 127 If the wrong number of arguments were provided.
@@ -34,6 +40,7 @@ stdlib.string.lines.join_pipe() { :; }
 stdlib.fn.derive.pipeable "stdlib.string.lines.join" "1"
 
 # @description A derivative of stdlib.string.lines.join that can read from and write to a variable.
+#   * STDLIB_LINE_BREAK_DELIMITER string keyword: A line break char sequence which is replaced to join the string (default=$'\n').
 # @arg $1 string The name of the variable to read from and write to.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 127 If the wrong number of arguments were provided.
