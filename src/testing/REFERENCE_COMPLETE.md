@@ -652,7 +652,7 @@ Generates a mock argument string from an array.
 ### _mock.arg_string.make.from_string
 
 Generates a mock argument string from a delimited string.
-* STDLIB_LINE_BREAK_DELIMITER: The delimiter used to split the string (default=" ").
+* STDLIB_LINE_BREAK_DELIMITER_CHAR string keyword: The line break char to use (default=" ").
 
 #### Arguments
 
@@ -662,6 +662,7 @@ Generates a mock argument string from a delimited string.
 #### Exit codes
 
 * **0**: If the mock argument string was generated.
+* **125**: If an invalid keyword has been provided.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 
@@ -690,6 +691,7 @@ Creates a new mock object.
 #### Exit codes
 
 * **0**: If the mock object was created successfully.
+* **123**: If a variable reserved for use by the BASH stdlib has been assigned an invalid value.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
 

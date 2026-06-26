@@ -74,7 +74,7 @@ ${1}.mock.set.side_effects() {
   _mock_object_side_effects=("\${@}")
   _mock.__internal.security.assert.is_builtin "declare" || builtin return "\$?"
 
-  builtin declare -p _mock_object_side_effects > "\${__${2}_mock_side_effects_file}"
+  builtin declare -p _mock_object_side_effects > "\${__${2}_mock_side_effects_file}"  # noqa
   builtin printf -v "__${2}_mock_side_effects_boolean" "%s" "1"
 }
 

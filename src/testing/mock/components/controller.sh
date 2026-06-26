@@ -11,9 +11,6 @@ __STDLIB_TESTING_MOCK_COMPONENT="$(
   "${_STDLIB_BINARY_CAT}" << 'EOF'
 
 # @description This function is the central controller of the mock's behaviour.  It dispatches according to the command string it receives.
-#   * __${2}_mock_side_effects_boolean: This boolean determines if side effects have been configured on this mock (default="0").
-#   * __${2}_mock_stderr: If this variable contains a value, it will be emitted to stderr (default="").
-#   * __${2}_mock_stdout: If this variable contains a value, it will be emitted to stdout (default="").
 # @arg $1 string The controller command to dispatch (pipeable|side_effects|stderr|stdout|subcommand|update_rc).
 # @arg $@ array Additional arguments to pass to the specified controller command.
 # @exitcode 0 If the mock's controller command was successful.
@@ -37,24 +34,24 @@ ${1}.mock.__controller() {
       _mock_object_pipe_input="\${_mock_object_pipe_input%?}"
       ;;
     side_effects)
-      if [[ "\${__${2}_mock_side_effects_boolean}" == "1" ]]; then
-        builtin eval "\$(<"\${__${2}_mock_side_effects_file}")"
+      if [[ "\${__${2}_mock_side_effects_boolean}" == "1" ]]; then  # noqa
+        builtin eval "\$(<"\${__${2}_mock_side_effects_file}")"  # noqa
         if [[ "\${#_mock_object_side_effects[@]}" -gt 0 ]]; then
           _mock_object_side_effect="\${_mock_object_side_effects[0]}"
           _mock_object_side_effects=("\${_mock_object_side_effects[@]:1}")
-          builtin declare -p _mock_object_side_effects > "\${__${2}_mock_side_effects_file}"
+          builtin declare -p _mock_object_side_effects > "\${__${2}_mock_side_effects_file}"  # noqa
           builtin eval "\${_mock_object_side_effect}"
         fi
       fi
       ;;
     stderr)
-      if [[ -n "\${__${2}_mock_stderr}" ]]; then
-        builtin echo "\${__${2}_mock_stderr}" >&2
+      if [[ -n "\${__${2}_mock_stderr}" ]]; then  # noqa
+        builtin echo "\${__${2}_mock_stderr}" >&2   # noqa
       fi
       ;;
     stdout)
-      if [[ -n "\${__${2}_mock_stdout}" ]]; then
-        builtin echo "\${__${2}_mock_stdout}"
+      if [[ -n "\${__${2}_mock_stdout}" ]]; then  # noqa
+        builtin echo "\${__${2}_mock_stdout}" # noqa
       fi
       ;;
     subcommand)

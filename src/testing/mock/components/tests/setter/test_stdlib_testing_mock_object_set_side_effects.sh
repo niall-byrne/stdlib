@@ -1,5 +1,9 @@
 #!/bin/bash
 
+setup() {
+  _mock.create stdlib.testing.internal.logger.error
+}
+
 test_stdlib_testing_mock_object_set_side_effects__@vary__calls_side_effect_as_expected() {
   local side_effects=()
 
@@ -15,8 +19,6 @@ test_stdlib_testing_mock_object_set_side_effects__@vary__calls_side_effect_as_ex
   assert_equals "${TEST_EXPECTED_OUTPUT_2}" "${TEST_EMITTED_OUTPUT_2}"
   assert_equals "${TEST_EXPECTED_OUTPUT_3}" "${TEST_EMITTED_OUTPUT_3}"
 }
-
-#STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN=1
 
 @parametrize \
   test_stdlib_testing_mock_object_set_side_effects__@vary__calls_side_effect_as_expected \
@@ -36,12 +38,13 @@ test_stdlib_testing_mock_object_set_side_effects__builtin_unavailable__returns_e
 }
 
 test_stdlib_testing_mock_object_set_side_effects__builtin_unavailable__generates_expected_log_messages() {
+  stdlib.testing.internal.logger.error.mock.set.keywords "STDLIB_LOGGING_MESSAGE_PREFIX"
   _mock.create declare
   _mock.create test_mock
 
-  _capture.assertion_failure test_mock.mock.set.side_effects "echo stdout_side_effect_message"
+  test_mock.mock.set.side_effects "echo stdout_side_effect_message"
 
-  assert_equals \
-    "test_mock.mock.set.side_effects: $(_testing.mock.__message.get "MOCK_REQUIRES_BUILTIN" "test_mock" "declare")" \
-    "${TEST_OUTPUT}"
+  _mock.delete declare
+  stdlib.testing.internal.logger.error.mock.assert_calls_are \
+    "1($(_testing.mock.__message.get "MOCK_REQUIRES_BUILTIN" "test_mock" "declare")) STDLIB_LOGGING_MESSAGE_PREFIX(test_mock.mock.set.side_effects)"
 }
