@@ -71,11 +71,11 @@ test_stdlib_testing_mock_object_get_call__builtin_unavailable__generates_expecte
   _mock.create declare
   _mock.create test_mock
 
-  _capture.assertion_failure test_mock.mock.get.call "1"
+  test_mock.mock.get.call "1"
 
-  assert_equals \
-    "test_mock.mock.get.call: $(_testing.mock.__message.get "MOCK_REQUIRES_BUILTIN" "test_mock" "declare")" \
-    "${TEST_OUTPUT}"
+  _mock.delete declare
+  stdlib.testing.internal.logger.error.mock.assert_calls_are \
+    "1($(_testing.mock.__message.get "MOCK_REQUIRES_BUILTIN" "test_mock" "declare")) STDLIB_LOGGING_MESSAGE_PREFIX(test_mock.mock.get.call)"
 }
 
 test_stdlib_testing_mock_object_get_call__valid_args___________not_called__________________no_keywords____returns_correct_value() {

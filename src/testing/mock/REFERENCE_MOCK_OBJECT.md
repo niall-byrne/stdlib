@@ -30,8 +30,6 @@ This reference uses the fictional example of a mock created with `_mock.create o
 ### object
 
 A placeholder function that takes the place of a specific function or binary during testing.
-* _object_mock_pipeable: This boolean determines if the mock should read from stdin (default="0").
-* _object_mock_rc: This is the exit code the mock is configured to return (default="0").
 
 #### Arguments
 

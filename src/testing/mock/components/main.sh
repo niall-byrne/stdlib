@@ -11,8 +11,6 @@ __STDLIB_TESTING_MOCK_COMPONENT="$(
   "${_STDLIB_BINARY_CAT}" << 'EOF'
 
 # @description A placeholder function that takes the place of a specific function or binary during testing.
-#   * __${2}_mock_pipeable: This boolean determines if the mock should read from stdin (default="0").
-#   * __${2}_mock_rc: This is the exit code the mock is configured to return (default="0").
 # @arg $@ array These are the arguments that are passed to the original function or binary.
 # @exitcode 0 If the mock call succeeded.
 # @stdin The mock can be configured to receive arguments from stdin.
@@ -49,7 +47,7 @@ ${1}() {
 ${1}.mock.clear() {
   builtin local -a _mock_object_side_effects
   builtin echo -n "" > "\${__${2}_mock_calls_file}"  # noqa
-  builtin declare -p _mock_object_side_effects > "\${__${2}_mock_side_effects_file}"
+  builtin declare -p _mock_object_side_effects > "\${__${2}_mock_side_effects_file}"  # noqa
 }
 
 # @description Clears the mock's call history and configured side effects as well as its configured exit code, stdout, stderr and subcommand properties.
@@ -57,9 +55,9 @@ ${1}.mock.clear() {
 # @exitcode 0 If the mock was reset successfully.
 ${1}.mock.reset() {
   ${1}.mock.clear
-  __${2}_mock_rc=""
-  __${2}_mock_stderr=""
-  __${2}_mock_stdout=""
+  __${2}_mock_rc=""  # noqa
+  __${2}_mock_stderr=""  # noqa
+  __${2}_mock_stdout=""  # noqa
   builtin unset -f __${1}_mock_subcommand || builtin true
 }
 
