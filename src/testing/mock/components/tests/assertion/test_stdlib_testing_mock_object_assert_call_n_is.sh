@@ -62,20 +62,20 @@ test_stdlib_testing_mock_object_assert_call_n_is__builtin_unavailable__returns_e
   _mock.create declare
   _mock.create test_mock
 
-  _capture.assertion_failure test_mock.mock.assert_call_n_is "1" "1(called)"
+  _capture.rc test_mock.mock.assert_call_n_is "1" "1(called)" 2> /dev/null
 
-  assert_equals \
-    "test_mock.mock.assert_call_n_is: $(_testing.mock.__message.get "MOCK_REQUIRES_BUILTIN" "test_mock" "declare")" \
-    "${TEST_OUTPUT}"
+  assert_rc "1"
 }
 
 test_stdlib_testing_mock_object_assert_call_n_is__builtin_unavailable__generates_expected_log_messages() {
   _mock.create declare
   _mock.create test_mock
 
-  _capture.rc test_mock.mock.assert_call_n_is "1" "1(called)" 2> /dev/null
+  test_mock.mock.assert_call_n_is "1" "1(called)"
 
-  assert_rc "1"
+  _mock.delete declare
+  stdlib.testing.internal.logger.error.mock.assert_calls_are \
+    "1($(_testing.mock.__message.get "MOCK_REQUIRES_BUILTIN" "test_mock" "declare")) STDLIB_LOGGING_MESSAGE_PREFIX(test_mock.mock.assert_call_n_is)"
 }
 
 test_stdlib_testing_mock_object_assert_call_n_is__valid_args___________no_keywords____no_calls__assert_call_1__fails() {
