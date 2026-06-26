@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: stdlib \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-26 16:30-0400\n"
+"POT-Creation-Date: 2026-06-26 17:31-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -131,12 +131,12 @@ msgstr ""
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:615
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:637
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:657
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:686
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:704
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:737
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:815
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:842
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:869
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:687
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:706
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:739
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:817
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:844
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:871
 #: ../../reference_testing/src/testing/assertion/REFERENCE.md:31
 #: ../../reference_testing/src/testing/assertion/REFERENCE.md:49
 #: ../../reference_testing/src/testing/assertion/REFERENCE.md:67
@@ -167,23 +167,23 @@ msgstr ""
 #: ../../reference_testing/src/testing/fixtures/REFERENCE.md:54
 #: ../../reference_testing/src/testing/mock/REFERENCE.md:25
 #: ../../reference_testing/src/testing/mock/REFERENCE.md:45
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:74
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:92
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:125
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:36
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:80
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:99
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:119
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:142
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:159
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:194
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:273
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:294
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:316
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:338
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:359
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:381
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:403
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:75
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:94
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:127
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:34
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:78
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:97
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:117
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:140
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:157
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:192
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:271
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:292
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:314
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:336
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:357
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:379
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:401
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:21
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:48
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:75
@@ -231,20 +231,20 @@ msgstr ""
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:619
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:642
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:662
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:678
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:690
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:708
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:719
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:729
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:741
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:756
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:771
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:781
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:791
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:801
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:820
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:847
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:874
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:679
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:691
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:710
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:721
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:731
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:743
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:758
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:773
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:783
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:793
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:803
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:822
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:849
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:876
 #: ../../reference_testing/src/testing/assertion/REFERENCE.md:36
 #: ../../reference_testing/src/testing/assertion/REFERENCE.md:54
 #: ../../reference_testing/src/testing/assertion/REFERENCE.md:71
@@ -277,37 +277,37 @@ msgstr ""
 #: ../../reference_testing/src/testing/fixtures/REFERENCE.md:58
 #: ../../reference_testing/src/testing/mock/REFERENCE.md:30
 #: ../../reference_testing/src/testing/mock/REFERENCE.md:50
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:66
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:78
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:96
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:107
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:117
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:129
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:144
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:159
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:169
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:179
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:189
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:40
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:62
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:72
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:84
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:104
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:123
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:146
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:163
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:180
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:198
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:218
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:237
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:256
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:281
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:302
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:324
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:346
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:367
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:389
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:407
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:67
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:79
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:98
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:109
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:119
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:131
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:146
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:161
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:171
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:181
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:191
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:38
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:60
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:70
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:82
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:102
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:121
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:144
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:161
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:178
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:196
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:216
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:235
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:254
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:279
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:300
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:322
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:344
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:365
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:387
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:405
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:26
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:53
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:80
@@ -344,12 +344,12 @@ msgstr ""
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:551
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:590
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:629
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:696
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:746
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:761
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:828
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:855
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:886
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:698
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:748
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:763
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:830
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:857
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:888
 #: ../../reference_testing/src/testing/assertion/REFERENCE.md:41
 #: ../../reference_testing/src/testing/assertion/REFERENCE.md:59
 #: ../../reference_testing/src/testing/assertion/REFERENCE.md:76
@@ -371,26 +371,26 @@ msgstr ""
 #: ../../reference_testing/src/testing/assertion/REFERENCE.md:352
 #: ../../reference_testing/src/testing/capture/REFERENCE.md:38
 #: ../../reference_testing/src/testing/fixtures/REFERENCE.md:46
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:84
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:134
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:149
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:52
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:91
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:111
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:134
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:151
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:170
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:186
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:208
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:227
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:246
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:265
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:286
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:308
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:330
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:351
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:373
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:395
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:86
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:136
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:151
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:50
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:89
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:109
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:132
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:149
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:168
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:184
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:206
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:225
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:244
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:263
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:284
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:306
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:328
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:349
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:371
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:393
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:34
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:61
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:92
@@ -402,22 +402,22 @@ msgstr ""
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:553
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:592
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:631
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:698
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:830
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:857
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:888
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:700
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:832
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:859
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:890
 #: ../../reference_testing/src/testing/fixtures/REFERENCE.md:48
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:86
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:210
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:229
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:248
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:267
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:288
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:310
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:332
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:353
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:375
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:397
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:88
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:208
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:227
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:246
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:265
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:286
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:308
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:330
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:351
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:373
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:395
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:36
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:63
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:94
@@ -459,30 +459,30 @@ msgstr ""
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:583
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:622
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:645
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:665
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:693
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:825
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:852
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:879
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:666
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:695
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:827
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:854
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:881
 #: ../../reference_testing/src/testing/capture/REFERENCE.md:74
 #: ../../reference_testing/src/testing/capture/REFERENCE.md:109
 #: ../../reference_testing/src/testing/capture/REFERENCE.md:128
 #: ../../reference_testing/src/testing/capture/REFERENCE.md:163
 #: ../../reference_testing/src/testing/fixtures/REFERENCE.md:39
 #: ../../reference_testing/src/testing/mock/REFERENCE.md:33
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:53
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:81
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:88
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:108
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:127
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:167
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:201
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:284
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:305
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:327
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:349
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:370
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:392
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:54
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:83
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:86
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:106
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:125
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:165
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:199
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:282
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:303
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:325
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:347
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:368
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:390
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:31
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:58
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:85
@@ -497,34 +497,34 @@ msgstr ""
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:584
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:623
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:646
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:666
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:694
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:711
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:826
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:853
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:880
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:667
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:696
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:713
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:828
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:855
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:882
 #: ../../reference_testing/src/testing/capture/REFERENCE.md:75
 #: ../../reference_testing/src/testing/capture/REFERENCE.md:110
 #: ../../reference_testing/src/testing/capture/REFERENCE.md:129
 #: ../../reference_testing/src/testing/capture/REFERENCE.md:164
 #: ../../reference_testing/src/testing/fixtures/REFERENCE.md:40
 #: ../../reference_testing/src/testing/mock/REFERENCE.md:34
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:54
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:82
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:99
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:89
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:109
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:128
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:168
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:184
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:202
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:221
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:240
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:259
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:306
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:328
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:371
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:393
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:55
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:84
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:101
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:87
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:107
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:126
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:166
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:182
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:200
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:219
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:238
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:257
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:304
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:326
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:369
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:391
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:32
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:59
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:86
@@ -538,20 +538,20 @@ msgstr ""
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:606
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:625
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:648
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:668
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:882
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:669
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:884
 #: ../../reference_testing/src/testing/capture/REFERENCE.md:34
 #: ../../reference_testing/src/testing/fixtures/REFERENCE.md:26
 #: ../../reference_testing/src/testing/fixtures/REFERENCE.md:42
 #: ../../reference_testing/src/testing/fixtures/REFERENCE.md:62
 #: ../../reference_testing/src/testing/mock/REFERENCE.md:36
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:56
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:48
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:130
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:204
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:223
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:242
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:261
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:57
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:46
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:128
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:202
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:221
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:240
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:259
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:88
 msgid "Output on stdout"
 msgstr ""
@@ -849,8 +849,8 @@ msgstr ""
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:369
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:386
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:412
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:748
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:763
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:750
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:765
 #: ../../reference_testing/src/testing/assertion/REFERENCE.md:43
 #: ../../reference_testing/src/testing/assertion/REFERENCE.md:61
 #: ../../reference_testing/src/testing/assertion/REFERENCE.md:78
@@ -871,14 +871,14 @@ msgstr ""
 #: ../../reference_testing/src/testing/assertion/REFERENCE.md:337
 #: ../../reference_testing/src/testing/assertion/REFERENCE.md:354
 #: ../../reference_testing/src/testing/capture/REFERENCE.md:40
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:136
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:151
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:93
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:113
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:136
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:153
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:172
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:188
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:138
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:153
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:91
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:111
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:134
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:151
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:170
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:186
 msgid "The error message if the assertion fails."
 msgstr ""
 
@@ -1242,30 +1242,30 @@ msgstr ""
 
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:326
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:578
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:676
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:717
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:727
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:754
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:769
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:779
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:789
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:799
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:677
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:719
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:729
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:756
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:771
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:781
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:791
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:801
 #: ../../reference_testing/src/testing/assertion/REFERENCE.md:294
 #: ../../reference_testing/src/testing/fixtures/REFERENCE.md:34
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:64
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:105
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:115
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:142
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:157
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:167
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:177
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:187
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:60
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:70
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:178
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:216
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:235
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:254
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:65
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:107
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:117
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:144
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:159
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:169
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:179
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:189
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:58
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:68
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:176
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:214
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:233
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:252
 msgid "_Function has no arguments._"
 msgstr ""
 
@@ -1393,12 +1393,12 @@ msgstr ""
 #: ../../reference_testing/src/testing/capture/REFERENCE.md:120
 #: ../../reference_testing/src/testing/capture/REFERENCE.md:139
 #: ../../reference_testing/src/testing/capture/REFERENCE.md:155
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:277
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:298
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:320
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:342
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:363
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:385
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:275
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:296
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:318
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:340
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:361
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:383
 msgid "Variables set"
 msgstr ""
 
@@ -1613,7 +1613,7 @@ msgid "**0**: If the logger mocks were created successfully."
 msgstr ""
 
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:588
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:884
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:886
 #: ../../reference_testing/src/testing/fixtures/REFERENCE.md:44
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:90
 msgid "The informational messages."
@@ -1678,9 +1678,9 @@ msgid "**0**: If the mock argument string was generated."
 msgstr ""
 
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:650
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:670
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:671
 #: ../../reference_testing/src/testing/mock/REFERENCE.md:38
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:58
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:59
 msgid "The generated mock argument string."
 msgstr ""
 
@@ -1697,8 +1697,8 @@ msgstr ""
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:655
 #: ../../reference_testing/src/testing/mock/REFERENCE.md:43
 msgid ""
-"STDLIB_LINE_BREAK_DELIMITER: The delimiter used to split the string "
-"(default=\" \")."
+"STDLIB_LINE_BREAK_DELIMITER_CHAR string keyword: The line break char to "
+"use (default=\" \")."
 msgstr ""
 
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:659
@@ -1706,292 +1706,57 @@ msgstr ""
 msgid "**$1** (string): The delimited string of positional arguments."
 msgstr ""
 
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:672
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:60
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:665
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:826
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:853
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:880
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:53
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:30
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:57
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:84
+msgid "**125**: If an invalid keyword has been provided."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:673
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:61
 msgid "_mock.clear_all"
 msgstr ""
 
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:674
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:62
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:675
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:63
 msgid "Clears all calls from all registered mocks."
 msgstr ""
 
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:680
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:68
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:681
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:69
 msgid "**0**: If all registered mocks were cleared."
 msgstr ""
 
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:682
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:70
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:683
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:71
 msgid "_mock.create"
 msgstr ""
 
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:684
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:72
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:685
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:73
 msgid "Creates a new mock object."
 msgstr ""
 
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:688
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:76
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:689
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:77
 msgid "**$1** (string): The name of the function or binary to mock."
 msgstr ""
 
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:692
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:80
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:693
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:81
 msgid "**0**: If the mock object was created successfully."
 msgstr ""
 
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:700
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:88
-msgid "_mock.delete"
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:702
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:90
-msgid "Deletes a mock object and restores its original implementation."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:706
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:94
-msgid "**$1** (string): The name of the mock to delete."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:710
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:98
-msgid "**0**: If the mock object was deleted."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:713
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:101
-msgid "_mock.register_cleanup"
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:715
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:103
-msgid "Registers the mock cleanup function with the exit trap."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:721
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:109
-msgid "**0**: If the cleanup function was registered successfully."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:723
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:111
-msgid "_mock.reset_all"
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:725
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:113
-msgid "Resets all registered mocks to their default state."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:731
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:119
-msgid "**0**: If all registered mocks were reset."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:733
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:121
-msgid "_mock.sequence.assert_is"
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:735
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:123
-msgid "Asserts that the sequence of mock calls matches the expected values."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:739
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:127
-msgid "**...** (array): The expected sequence of mock calls."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:743
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:131
-msgid "**0**: If the sequence matches."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:744
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:132
-msgid "**1**: If the sequence does not match."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:750
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:138
-msgid "_mock.sequence.assert_is_empty"
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:752
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:140
-msgid "Asserts that no mock calls have been recorded."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:758
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:146
-msgid "**0**: If the sequence is empty."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:759
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:147
-msgid "**1**: If the sequence is not empty."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:765
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:153
-msgid "_mock.sequence.clear"
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:767
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:155
-msgid "Clears the recorded sequence of mock calls."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:773
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:161
-msgid "**0**: If the sequence was cleared."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:775
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:163
-msgid "_mock.sequence.record.resume"
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:777
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:165
-msgid "Resumes recording of mock calls in the sequence."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:783
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:171
-msgid "**0**: If the recording was resumed."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:785
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:173
-msgid "_mock.sequence.record.start"
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:787
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:175
-msgid "Starts recording a new sequence of mock calls."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:793
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:181
-msgid "**0**: If the recording was started."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:795
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:183
-msgid "_mock.sequence.record.stop"
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:797
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:185
-msgid "Stops recording of mock calls in the sequence."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:803
-#: ../../reference_testing/src/testing/mock/REFERENCE.md:191
-msgid "**0**: If the recording was stopped."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:805
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:11
-msgid "@parametrize.apply"
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:807
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:13
-msgid "Applies multiple parametrizer functions to a test function."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:808
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:835
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:862
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:14
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:41
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:68
-msgid ""
-"STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN string keyword: Whether "
-"to show debug information (default=\"0\")."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:809
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:836
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:863
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:15
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:42
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:69
-msgid ""
-"STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR string keyword: The "
-"field separator for scenarios (default=\";\")."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:810
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:837
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:864
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:16
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:43
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:70
-msgid ""
-"STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX string keyword:"
-" The prefix for fixture commands (default=\"@fixture \")."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:811
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:838
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:17
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:44
-msgid ""
-"STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX string keyword: The required "
-"prefix for parametrizer functions (default=\"@parametrize_with_\")."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:812
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:839
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:865
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:18
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:45
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:71
-msgid ""
-"STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN "
-"string keyword: Whether to show original test names (default=\"0\")."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:813
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:840
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:866
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:19
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:46
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:72
-msgid ""
-"STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG string keyword: The "
-"parameter tag in the test function name (default=\"@vary\")."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:817
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:844
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:871
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:23
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:50
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:77
-msgid "**$1** (string): The name of the test function to parametrize."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:818
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:24
-msgid "**...** (array): A series of parametrizer functions to apply."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:822
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:28
-msgid "**0**: If the parametrizer functions were applied successfully."
-msgstr ""
-
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:823
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:850
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:877
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:694
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:825
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:852
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:879
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:82
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:29
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:56
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:83
@@ -2000,53 +1765,292 @@ msgid ""
 "assigned an invalid value."
 msgstr ""
 
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:824
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:851
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:878
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:30
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:57
-#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:84
-msgid "**125**: If an invalid keyword has been provided."
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:702
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:90
+msgid "_mock.delete"
 msgstr ""
 
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:832
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:704
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:92
+msgid "Deletes a mock object and restores its original implementation."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:708
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:96
+msgid "**$1** (string): The name of the mock to delete."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:712
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:100
+msgid "**0**: If the mock object was deleted."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:715
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:103
+msgid "_mock.register_cleanup"
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:717
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:105
+msgid "Registers the mock cleanup function with the exit trap."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:723
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:111
+msgid "**0**: If the cleanup function was registered successfully."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:725
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:113
+msgid "_mock.reset_all"
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:727
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:115
+msgid "Resets all registered mocks to their default state."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:733
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:121
+msgid "**0**: If all registered mocks were reset."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:735
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:123
+msgid "_mock.sequence.assert_is"
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:737
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:125
+msgid "Asserts that the sequence of mock calls matches the expected values."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:741
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:129
+msgid "**...** (array): The expected sequence of mock calls."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:745
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:133
+msgid "**0**: If the sequence matches."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:746
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:134
+msgid "**1**: If the sequence does not match."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:752
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:140
+msgid "_mock.sequence.assert_is_empty"
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:754
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:142
+msgid "Asserts that no mock calls have been recorded."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:760
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:148
+msgid "**0**: If the sequence is empty."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:761
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:149
+msgid "**1**: If the sequence is not empty."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:767
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:155
+msgid "_mock.sequence.clear"
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:769
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:157
+msgid "Clears the recorded sequence of mock calls."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:775
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:163
+msgid "**0**: If the sequence was cleared."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:777
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:165
+msgid "_mock.sequence.record.resume"
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:779
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:167
+msgid "Resumes recording of mock calls in the sequence."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:785
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:173
+msgid "**0**: If the recording was resumed."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:787
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:175
+msgid "_mock.sequence.record.start"
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:789
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:177
+msgid "Starts recording a new sequence of mock calls."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:795
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:183
+msgid "**0**: If the recording was started."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:797
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:185
+msgid "_mock.sequence.record.stop"
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:799
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:187
+msgid "Stops recording of mock calls in the sequence."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:805
+#: ../../reference_testing/src/testing/mock/REFERENCE.md:193
+msgid "**0**: If the recording was stopped."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:807
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:11
+msgid "@parametrize.apply"
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:809
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:13
+msgid "Applies multiple parametrizer functions to a test function."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:810
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:837
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:864
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:14
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:41
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:68
+msgid ""
+"STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN string keyword: Whether "
+"to show debug information (default=\"0\")."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:811
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:838
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:865
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:15
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:42
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:69
+msgid ""
+"STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR string keyword: The "
+"field separator for scenarios (default=\";\")."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:812
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:839
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:866
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:16
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:43
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:70
+msgid ""
+"STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX string keyword:"
+" The prefix for fixture commands (default=\"@fixture \")."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:813
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:840
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:17
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:44
+msgid ""
+"STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX string keyword: The required "
+"prefix for parametrizer functions (default=\"@parametrize_with_\")."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:814
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:841
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:867
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:18
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:45
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:71
+msgid ""
+"STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN "
+"string keyword: Whether to show original test names (default=\"0\")."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:815
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:842
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:868
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:19
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:46
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:72
+msgid ""
+"STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG string keyword: The "
+"parameter tag in the test function name (default=\"@vary\")."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:819
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:846
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:873
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:23
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:50
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:77
+msgid "**$1** (string): The name of the test function to parametrize."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:820
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:24
+msgid "**...** (array): A series of parametrizer functions to apply."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:824
+#: ../../reference_testing/src/testing/parametrize/REFERENCE.md:28
+msgid "**0**: If the parametrizer functions were applied successfully."
+msgstr ""
+
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:834
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:38
 msgid "@parametrize.compose"
 msgstr ""
 
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:834
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:836
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:40
 msgid "Composes multiple parametrizer functions to create a product of scenarios."
 msgstr ""
 
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:845
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:847
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:51
 msgid "**...** (array): A series of parametrizer functions to compose."
 msgstr ""
 
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:849
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:851
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:55
 msgid "**0**: If the parametrizer functions were composed successfully."
 msgstr ""
 
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:859
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:861
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:65
 msgid "@parametrize"
 msgstr ""
 
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:861
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:863
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:67
 msgid "Parametrizes a test function with multiple scenarios."
 msgstr ""
 
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:867
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:869
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:73
 msgid ""
 "STDLIB_TESTING_THEME_PARAMETRIZE_HIGHLIGHT string global: A theme colour "
 "used to highlight informational messages (default=\"LIGHT_BLUE\")."
 msgstr ""
 
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:872
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:874
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:78
 msgid ""
 "**...** (array): Optional fixture commands (prefixed with '@fixture '), "
@@ -2054,7 +2058,7 @@ msgid ""
 " more semicolon-separated scenarios (scenario name followed by values)."
 msgstr ""
 
-#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:876
+#: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:878
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:82
 msgid "**0**: If the test function was parametrized successfully."
 msgstr ""
@@ -2175,359 +2179,347 @@ msgid ""
 "binary during testing."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:33
-msgid ""
-"_object_mock_pipeable: This boolean determines if the mock should read "
-"from stdin (default=\"0\")."
-msgstr ""
-
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:34
-msgid ""
-"_object_mock_rc: This is the exit code the mock is configured to return "
-"(default=\"0\")."
-msgstr ""
-
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:38
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:36
 msgid ""
 "**...** (array): These are the arguments that are passed to the original "
 "function or binary."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:42
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:40
 msgid "**0**: If the mock call succeeded."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:44
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:42
 msgid "Input on stdin"
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:46
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:44
 msgid "The mock can be configured to receive arguments from stdin."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:50
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:48
 msgid "The mock can be configured to emit stdout."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:54
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:52
 msgid "The mock can be configured to emit stderr."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:56
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:54
 msgid "object.mock.clear"
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:58
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:56
 msgid "Clears the mock's call history and configured side effects."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:64
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:62
 msgid "**0**: If the mock's history was cleared successfully."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:66
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:64
 msgid "object.mock.reset"
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:68
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:66
 msgid ""
 "Clears the mock's call history and configured side effects as well as its"
 " configured exit code, stdout, stderr and subcommand properties."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:74
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:72
 msgid "**0**: If the mock was reset successfully."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:76
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:74
 msgid "object.mock.assert_any_call_is"
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:78
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:76
 msgid "Asserts any call in the mock's call history matches the given arg string."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:82
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:121
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:80
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:119
 msgid ""
 "**$1** (string): The arg string to compare against the mock's call "
 "history."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:86
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:84
 msgid "**0**: If the mock was called at least once with the specified arguments."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:87
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:85
 msgid "**1**: If the mock was never called with the specified arguments."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:95
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:93
 msgid "object.mock.assert_call_n_is"
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:97
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:95
 msgid ""
 "Asserts a call at a specific index in the mock's call history matches the"
 " given arg string."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:101
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:99
 msgid ""
 "**$1** (integer): An index (from 1) in the mock's call history to compare"
 " against."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:102
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:100
 msgid ""
 "**$2** (string): The arg string to compare against the mock's call "
 "history."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:106
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:104
 msgid ""
 "**0**: If the call at the specified index in the mock's call history "
 "matches the given arg string."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:107
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:105
 msgid ""
 "**1**: If the call at the specified index in the mock's call history does"
 " not match the given arg string."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:115
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:113
 msgid "object.mock.assert_called_once_with"
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:117
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:115
 msgid ""
 "Asserts the mock was called once with a call matching the given arg "
 "string."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:125
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:123
 msgid "**0**: If the mock was called exactly once with the given arg string."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:126
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:124
 msgid "**1**: If the mock was not called exactly once with the given arg string."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:132
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:130
 msgid ""
 "The actual first arg string this mock was called with, if the assertion "
 "fails."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:138
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:136
 msgid "object.mock.assert_calls_are"
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:140
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:138
 msgid ""
 "Asserts the mock's call history matches the given arg strings. (Call this"
 " function without args to assert this mock was not called at all)."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:144
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:142
 msgid ""
 "**...** (array): An array of arg strings that is expected to match the "
 "mock's call history."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:148
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:146
 msgid "**0**: If the mock's call history matches the given arg strings."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:149
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:147
 msgid "**1**: If the mock's call history does not match the given arg strings."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:155
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:153
 msgid "object.mock.assert_count_is"
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:157
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:155
 msgid ""
 "Asserts the mock was called the number of times specified by the given "
 "count."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:161
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:159
 msgid ""
 "**$1** (integer): A positive integer representing the expected number of "
 "times this mock was called."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:165
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:163
 msgid ""
 "**0**: If the mock was called a number of times that matches the "
 "specified count."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:166
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:164
 msgid ""
 "**1**: If the mock was called a number of times that does not match the "
 "specified count."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:174
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:172
 msgid "object.mock.assert_not_called"
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:176
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:174
 msgid "Asserts the mock was not called."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:182
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:180
 msgid "**0**: If the mock was not called."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:183
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:181
 msgid "**1**: If the mock was called any number of times."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:190
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:188
 msgid "object.mock.get.call"
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:192
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:190
 msgid ""
 "This function will retrieve the call at the specified index from the "
 "mock's call history."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:196
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:194
 msgid ""
 "**$1** (integer): An index (from 1) in the mock's call history to "
 "retrieve."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:200
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:198
 msgid "**0**: If the mock's call was retrieved successfully."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:206
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:204
 msgid "The specified mock call as an arg string."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:212
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:210
 msgid "object.mock.get.calls"
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:214
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:212
 msgid "This function will retrieve all calls from the mock's call history."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:220
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:218
 msgid "**0**: If all the mock's calls were retrieved successfully."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:225
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:223
 msgid "All calls made by this mock as new line separated arg strings."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:231
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:229
 msgid "object.mock.get.count"
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:233
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:231
 msgid ""
 "This function will retrieve a count of the number of times this mock has "
 "been called."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:239
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:237
 msgid "**0**: If the mock's call count was retrieved successfully."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:244
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:242
 msgid "A count of the number of times this mock has been called."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:250
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:248
 msgid "object.mock.get.keywords"
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:252
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:250
 msgid ""
 "This function will retrieve the keywords assigned to this mock. (These "
 "keywords are variables whose values are recorded during each mock call)."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:258
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:256
 msgid "**0**: If the mock's keywords were retrieved successfully."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:263
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:261
 msgid "The keywords currently assigned to this mock."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:269
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:267
 msgid "object.mock.set.keywords"
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:271
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:269
 msgid ""
 "This function will set the keywords assigned to this mock. (These "
 "keywords are variables whose values are recorded during each mock call)."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:275
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:273
 msgid ""
 "**...** (array): These are the keywords, or variables, that the mock will"
 " record each time it's called. (Call this function without any arguments "
 "to disable this feature)."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:279
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:277
 msgid ""
 "**_object_mock_keywords** (array): These are the keywords, or variables, "
 "that the mock will record each time it's called."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:283
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:281
 msgid "**0**: If the mock's keywords were set successfully."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:290
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:288
 msgid "object.mock.set.pipeable"
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:292
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:290
 msgid ""
 "This function will toggle the 'pipeable' behaviour of the mock.  Turning "
 "this on allows the mock to receive stdin."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:296
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:294
 msgid ""
 "**$1** (boolean): This enables or disables the 'pipeable' behaviour of "
 "the mock, (default=\"0\")."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:300
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:298
 msgid ""
 "**_object_mock_pipeable** (boolean): This enables or disables the "
 "'pipeable' behaviour of the mock."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:304
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:302
 msgid "**0**: If the mock's pipeable behavior was toggled successfully."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:312
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:310
 msgid "object.mock.set.rc"
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:314
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:312
 msgid ""
 "This function will set the return code (exit code) of the mock.  This "
 "behaviour can be overridden by configuring side effects or a subcommand."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:318
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:316
 msgid ""
 "**$1** (integer): This is the return code (or exit code) you wish the "
 "mock to emit. (Please note that any non-zero number emitted by the side "
@@ -2535,183 +2527,114 @@ msgid ""
 "and be returned instead)."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:322
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:320
 msgid ""
 "**_object_mock_rc** (integer): This is the exit code the mock is "
 "configured to return."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:326
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:324
 msgid "**0**: If the mock's return code was set successfully."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:334
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:332
 msgid "object.mock.set.side_effects"
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:336
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:334
 msgid ""
 "This function will set the side effects of the mock.  These are a series "
 "of one or more commands the mock will execute each time it's called."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:340
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:338
 msgid ""
 "**...** (array): This is a series of commands the mock will execute each "
 "time it's called. (Call this function without any arguments to disable "
 "this feature)."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:344
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:342
 msgid ""
 "**_object_mock_side_effects_boolean** (boolean): This is a boolean "
 "indicating the mock has been configured with at least one side effect."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:348
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:346
 msgid "**0**: If the mock's side effects were set successfully."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:355
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:353
 msgid "object.mock.set.stderr"
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:357
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:355
 msgid "This function will set the stderr this mock will emit when called."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:361
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:359
 msgid ""
 "**$1** (string): This is the string that will be emitted to stderr when "
 "the mock is called."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:365
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:363
 msgid ""
 "**_object_mock_stderr** (string): This is the string that will be emitted"
 " to stderr when the mock is called."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:369
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:367
 msgid "**0**: If the mock's stderr was set successfully."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:377
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:375
 msgid "object.mock.set.stdout"
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:379
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:377
 msgid "This function will set the stdout this mock will emit when called."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:383
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:381
 msgid ""
 "**$1** (string): This is the string that will be emitted to stdout when "
 "the mock is called."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:387
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:385
 msgid ""
 "**_object_mock_stdout** (string): This is the string that will be emitted"
 " to stdout when the mock is called."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:391
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:389
 msgid "**0**: If the mock's stdout was set successfully."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:399
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:397
 msgid "object.mock.set.subcommand"
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:401
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:399
 msgid ""
 "This function will set the subcommand this mock will call when the mock "
 "is called.  All arguments passed to the mock are accessible in the "
 "subcommand as escaped arguments (\\$1 \\$2)."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:405
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:403
 msgid ""
 "**...** (array): This is a series of commands the mock will execute each "
 "time it's called.  This is distinct from side effects in that the "
 "subcommand will receive all arguments sent to the mock itself."
 msgstr ""
 
-#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:409
+#: ../../reference_testing/src/testing/mock/REFERENCE_MOCK_OBJECT.md:407
 msgid "**0**: If the mock's subcommand was set successfully."
 msgstr ""
 
 #: ../../reference_testing/src/testing/parametrize/REFERENCE.md:1
 msgid "STDLIB Testing Parametrization Function Reference"
 msgstr ""
-
-#~ msgid "[_testing.error_pipe](#_testingerror_pipe)"
-#~ msgstr ""
-
-#~ msgid "_testing.error_pipe"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "A pipeable version _testing.error that "
-#~ "can read from stdin and return "
-#~ "specific error codes when errors are "
-#~ "found."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "**$1** (integer): (optional, default=1) The"
-#~ " error code that should be returned"
-#~ " if any error message is piped "
-#~ "to this function."
-#~ msgstr ""
-
-#~ msgid "**0**: If the error message was not logged."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "**1**: If an error message is "
-#~ "logged.  (This value is configurable via"
-#~ " arguments)."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN: Whether "
-#~ "to show debug information (default=\"0\")."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR: The "
-#~ "field separator for scenarios (default=\";\")."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX: The"
-#~ " prefix for fixture commands "
-#~ "(default=\"@fixture \")."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX: The required"
-#~ " prefix for parametrizer functions "
-#~ "(default=\"@parametrize_with_\")."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN:"
-#~ " Whether to show original test names"
-#~ " (default=\"0\")."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG: The "
-#~ "parameter tag in the test function "
-#~ "name (default=\"@vary\")."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "STDLIB_TESTING_THEME_PARAMETRIZE_HIGHLIGHT: A theme "
-#~ "colour used to highlight informational "
-#~ "messages (default=\"LIGHT_BLUE\")."
-#~ msgstr ""
 
