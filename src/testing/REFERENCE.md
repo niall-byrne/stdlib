@@ -4,25 +4,7 @@
 
 ## Index
 
-* [_testing.error](#_testingerror)
 * [_testing.load](#_testingload)
-
-### _testing.error
-
-Logs an error message.
-* STDLIB_TESTING_THEME_ERROR: The colour to use for the message (default="LIGHT_RED").
-
-#### Arguments
-
-* **...** (array): The error messages to log.
-
-#### Exit codes
-
-* **0**: If the error message was logged.
-
-#### Output on stderr
-
-* The error message if the operation fails.
 
 ### _testing.load
 
