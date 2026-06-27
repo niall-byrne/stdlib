@@ -9,7 +9,7 @@
 ### _testing.load
 
 Loads a module with error support.
-* STDLIB_TESTING_THEME_LOAD: The colour to use for the message (default="GREY").
+* STDLIB_TESTING_THEME_LOAD string global: The colour to use for the message (default="GREY").
 
 #### Arguments
 
