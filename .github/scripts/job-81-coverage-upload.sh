@@ -14,7 +14,7 @@ main() {
 
   pushd "${codecov_folder}" > /dev/null
 
-  curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --no-default-keyring --keyring trustedkeys.gpg --import
+  curl https://keybase.io/codecovsecops/pgp_keys.asc | gpg --no-default-keyring --keyring trustedkeys.gpg --import
   curl -Os https://cli.codecov.io/latest/linux/codecov
   curl -Os https://cli.codecov.io/latest/linux/codecov.SHA256SUM
   curl -Os https://cli.codecov.io/latest/linux/codecov.SHA256SUM.sig
