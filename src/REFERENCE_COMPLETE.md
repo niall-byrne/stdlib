@@ -364,10 +364,6 @@ Gets the last element of an array.
 
 * **$1** (string): The name of the array.
 
-#### Variables set
-
-* **STDLIB_ARRAY_BUFFER** (string): The last element of the array.
-
 #### Exit codes
 
 * **0**: If the operation succeeded.
@@ -389,10 +385,6 @@ Gets the length of an array.
 #### Arguments
 
 * **$1** (string): The name of the array.
-
-#### Variables set
-
-* **STDLIB_ARRAY_BUFFER** (integer): The length of the array.
 
 #### Exit codes
 
@@ -416,10 +408,6 @@ Gets the length of the longest element in an array.
 
 * **$1** (string): The name of the array.
 
-#### Variables set
-
-* **STDLIB_ARRAY_BUFFER** (integer): The length of the longest element.
-
 #### Exit codes
 
 * **0**: If the operation succeeded.
@@ -441,10 +429,6 @@ Gets the length of the shortest element in an array.
 #### Arguments
 
 * **$1** (string): The name of the array.
-
-#### Variables set
-
-* **STDLIB_ARRAY_BUFFER** (integer): The length of the shortest element.
 
 #### Exit codes
 
