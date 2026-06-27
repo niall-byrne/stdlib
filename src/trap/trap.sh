@@ -26,7 +26,7 @@ stdlib.trap.fn.cleanup_on_exit() { :; } # validates STDLIB_CLEANUP_FN_TARGETS_AR
 stdlib.trap.handler.err.fn() { :; } # validates STDLIB_HANDLER_ERR_FN_ARRAY
 
 # @description Adds a function to the error handler, which will be invoked (without args) during an error.
-# @noargs
+# @arg $1 string The name of the function to register.
 # @exitcode 0 If the operation succeeded.
 # @set STDLIB_HANDLER_ERR_FN_ARRAY array An array containing a list of functions that are run on an error.
 stdlib.trap.handler.err.fn.register() { :; }
@@ -38,7 +38,7 @@ stdlib.trap.handler.err.fn.register() { :; }
 stdlib.trap.handler.exit.fn() { :; } # validates STDLIB_HANDLER_EXIT_FN_ARRAY
 
 # @description Adds a function to the exit handler, which will be invoked (without args) during an exit call.
-# @noargs
+# @arg $1 string The name of the function to register.
 # @exitcode 0 If the operation succeeded.
 # @set STDLIB_HANDLER_EXIT_FN_ARRAY array An array containing a list of functions that are run on an exit call.
 stdlib.trap.handler.exit.fn.register() { :; }
