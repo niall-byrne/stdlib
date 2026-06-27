@@ -16,6 +16,7 @@
 * [stdlib.array.get.length](#stdlibarraygetlength)
 * [stdlib.array.get.longest](#stdlibarraygetlongest)
 * [stdlib.array.get.shortest](#stdlibarraygetshortest)
+* [stdlib.array.make.from_array](#stdlibarraymakefrom_array)
 * [stdlib.array.make.from_file](#stdlibarraymakefrom_file)
 * [stdlib.array.make.from_string](#stdlibarraymakefrom_string)
 * [stdlib.array.make.from_string_n](#stdlibarraymakefrom_string_n)
@@ -271,6 +272,25 @@ Gets the length of the shortest element in an array.
 #### Output on stdout
 
 * The length of the shortest element.
+
+#### Output on stderr
+
+* The error message if the operation fails.
+
+### stdlib.array.make.from_array
+
+Creates a copy of an existing array.
+
+#### Arguments
+
+* **$1** (string): The name of the array to create.
+* **$2** (string): The name of the existing array to copy.
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+* **126**: If an invalid argument has been provided.
+* **127**: If the wrong number of arguments were provided.
 
 #### Output on stderr
 

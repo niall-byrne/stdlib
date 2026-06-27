@@ -732,6 +732,23 @@ stdlib.array.get.shortest ()
     builtin echo "${shortest_array_element_length}"
 }
 
+stdlib.array.make.from_array ()
+{
+    builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
+    builtin local -a indirect_array;
+    builtin local indirect_reference;
+    stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?";
+    stdlib.var.assert.is_valid_name "${1}" || builtin return 126;
+    stdlib.array.assert.is_array "${2}" || builtin return 126;
+    indirect_reference="${2}[@]";
+    indirect_array=("${!indirect_reference}");
+    if [[ "${#indirect_array[@]}" == 0 ]]; then
+        builtin eval "${1}=()";
+    else
+        builtin eval "${1}=($(builtin printf '%q ' "${indirect_array[@]}"))";
+    fi
+}
+
 stdlib.array.make.from_file ()
 {
     stdlib.fn.args.require "3" "0" "${@}" || builtin return "$?";
