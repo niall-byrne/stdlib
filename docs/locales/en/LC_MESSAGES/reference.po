@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: stdlib \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-28 12:43-0400\n"
+"POT-Creation-Date: 2026-06-28 12:44-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -1282,15 +1282,17 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:3798
 #: ../../reference/src/REFERENCE_COMPLETE.md:3827
 #: ../../reference/src/REFERENCE_COMPLETE.md:3847
-#: ../../reference/src/REFERENCE_COMPLETE.md:3927
-#: ../../reference/src/REFERENCE_COMPLETE.md:3946
-#: ../../reference/src/REFERENCE_COMPLETE.md:3965
-#: ../../reference/src/REFERENCE_COMPLETE.md:3985
-#: ../../reference/src/REFERENCE_COMPLETE.md:4007
-#: ../../reference/src/REFERENCE_COMPLETE.md:4028
-#: ../../reference/src/REFERENCE_COMPLETE.md:4043
-#: ../../reference/src/REFERENCE_COMPLETE.md:4058
-#: ../../reference/src/REFERENCE_COMPLETE.md:4074
+#: ../../reference/src/REFERENCE_COMPLETE.md:3888
+#: ../../reference/src/REFERENCE_COMPLETE.md:3915
+#: ../../reference/src/REFERENCE_COMPLETE.md:3931
+#: ../../reference/src/REFERENCE_COMPLETE.md:3950
+#: ../../reference/src/REFERENCE_COMPLETE.md:3969
+#: ../../reference/src/REFERENCE_COMPLETE.md:3989
+#: ../../reference/src/REFERENCE_COMPLETE.md:4011
+#: ../../reference/src/REFERENCE_COMPLETE.md:4032
+#: ../../reference/src/REFERENCE_COMPLETE.md:4047
+#: ../../reference/src/REFERENCE_COMPLETE.md:4062
+#: ../../reference/src/REFERENCE_COMPLETE.md:4078
 #: ../../reference/src/array/REFERENCE.md:41
 #: ../../reference/src/array/REFERENCE.md:59
 #: ../../reference/src/array/REFERENCE.md:79
@@ -1462,6 +1464,8 @@ msgstr ""
 #: ../../reference/src/string/REFERENCE.md:1745
 #: ../../reference/src/trap/REFERENCE.md:19
 #: ../../reference/src/trap/REFERENCE.md:39
+#: ../../reference/src/trap/REFERENCE.md:80
+#: ../../reference/src/trap/REFERENCE.md:107
 #: ../../reference/src/var/REFERENCE.md:21
 #: ../../reference/src/var/REFERENCE.md:40
 #: ../../reference/src/var/REFERENCE.md:59
@@ -1477,10 +1481,10 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:211
 #: ../../reference/src/REFERENCE_COMPLETE.md:288
 #: ../../reference/src/REFERENCE_COMPLETE.md:727
-#: ../../reference/src/REFERENCE_COMPLETE.md:3929
-#: ../../reference/src/REFERENCE_COMPLETE.md:3948
-#: ../../reference/src/REFERENCE_COMPLETE.md:4030
-#: ../../reference/src/REFERENCE_COMPLETE.md:4045
+#: ../../reference/src/REFERENCE_COMPLETE.md:3933
+#: ../../reference/src/REFERENCE_COMPLETE.md:3952
+#: ../../reference/src/REFERENCE_COMPLETE.md:4034
+#: ../../reference/src/REFERENCE_COMPLETE.md:4049
 #: ../../reference/src/array/REFERENCE.md:43
 #: ../../reference/src/array/REFERENCE.md:120
 #: ../../reference/src/array/REFERENCE.md:559
@@ -1676,18 +1680,18 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:3852
 #: ../../reference/src/REFERENCE_COMPLETE.md:3869
 #: ../../reference/src/REFERENCE_COMPLETE.md:3880
-#: ../../reference/src/REFERENCE_COMPLETE.md:3894
-#: ../../reference/src/REFERENCE_COMPLETE.md:3905
-#: ../../reference/src/REFERENCE_COMPLETE.md:3919
-#: ../../reference/src/REFERENCE_COMPLETE.md:3931
-#: ../../reference/src/REFERENCE_COMPLETE.md:3950
-#: ../../reference/src/REFERENCE_COMPLETE.md:3969
-#: ../../reference/src/REFERENCE_COMPLETE.md:3991
-#: ../../reference/src/REFERENCE_COMPLETE.md:4013
-#: ../../reference/src/REFERENCE_COMPLETE.md:4032
-#: ../../reference/src/REFERENCE_COMPLETE.md:4047
-#: ../../reference/src/REFERENCE_COMPLETE.md:4062
-#: ../../reference/src/REFERENCE_COMPLETE.md:4080
+#: ../../reference/src/REFERENCE_COMPLETE.md:3896
+#: ../../reference/src/REFERENCE_COMPLETE.md:3907
+#: ../../reference/src/REFERENCE_COMPLETE.md:3923
+#: ../../reference/src/REFERENCE_COMPLETE.md:3935
+#: ../../reference/src/REFERENCE_COMPLETE.md:3954
+#: ../../reference/src/REFERENCE_COMPLETE.md:3973
+#: ../../reference/src/REFERENCE_COMPLETE.md:3995
+#: ../../reference/src/REFERENCE_COMPLETE.md:4017
+#: ../../reference/src/REFERENCE_COMPLETE.md:4036
+#: ../../reference/src/REFERENCE_COMPLETE.md:4051
+#: ../../reference/src/REFERENCE_COMPLETE.md:4066
+#: ../../reference/src/REFERENCE_COMPLETE.md:4084
 #: ../../reference/src/array/REFERENCE.md:45
 #: ../../reference/src/array/REFERENCE.md:64
 #: ../../reference/src/array/REFERENCE.md:83
@@ -1873,9 +1877,9 @@ msgstr ""
 #: ../../reference/src/trap/REFERENCE.md:44
 #: ../../reference/src/trap/REFERENCE.md:61
 #: ../../reference/src/trap/REFERENCE.md:72
-#: ../../reference/src/trap/REFERENCE.md:86
-#: ../../reference/src/trap/REFERENCE.md:97
-#: ../../reference/src/trap/REFERENCE.md:111
+#: ../../reference/src/trap/REFERENCE.md:88
+#: ../../reference/src/trap/REFERENCE.md:99
+#: ../../reference/src/trap/REFERENCE.md:115
 #: ../../reference/src/var/REFERENCE.md:25
 #: ../../reference/src/var/REFERENCE.md:44
 #: ../../reference/src/var/REFERENCE.md:63
@@ -1919,10 +1923,10 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:2500
 #: ../../reference/src/REFERENCE_COMPLETE.md:2518
 #: ../../reference/src/REFERENCE_COMPLETE.md:2537
-#: ../../reference/src/REFERENCE_COMPLETE.md:3933
-#: ../../reference/src/REFERENCE_COMPLETE.md:3952
-#: ../../reference/src/REFERENCE_COMPLETE.md:3971
-#: ../../reference/src/REFERENCE_COMPLETE.md:3993
+#: ../../reference/src/REFERENCE_COMPLETE.md:3937
+#: ../../reference/src/REFERENCE_COMPLETE.md:3956
+#: ../../reference/src/REFERENCE_COMPLETE.md:3975
+#: ../../reference/src/REFERENCE_COMPLETE.md:3997
 #: ../../reference/src/array/REFERENCE.md:47
 #: ../../reference/src/array/REFERENCE.md:66
 #: ../../reference/src/array/REFERENCE.md:85
@@ -1991,10 +1995,10 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:2501
 #: ../../reference/src/REFERENCE_COMPLETE.md:2519
 #: ../../reference/src/REFERENCE_COMPLETE.md:2538
-#: ../../reference/src/REFERENCE_COMPLETE.md:3934
-#: ../../reference/src/REFERENCE_COMPLETE.md:3953
-#: ../../reference/src/REFERENCE_COMPLETE.md:3972
-#: ../../reference/src/REFERENCE_COMPLETE.md:3994
+#: ../../reference/src/REFERENCE_COMPLETE.md:3938
+#: ../../reference/src/REFERENCE_COMPLETE.md:3957
+#: ../../reference/src/REFERENCE_COMPLETE.md:3976
+#: ../../reference/src/REFERENCE_COMPLETE.md:3998
 #: ../../reference/src/array/REFERENCE.md:48
 #: ../../reference/src/array/REFERENCE.md:67
 #: ../../reference/src/array/REFERENCE.md:86
@@ -2197,15 +2201,15 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:3809
 #: ../../reference/src/REFERENCE_COMPLETE.md:3837
 #: ../../reference/src/REFERENCE_COMPLETE.md:3856
-#: ../../reference/src/REFERENCE_COMPLETE.md:3936
-#: ../../reference/src/REFERENCE_COMPLETE.md:3955
-#: ../../reference/src/REFERENCE_COMPLETE.md:3974
-#: ../../reference/src/REFERENCE_COMPLETE.md:3996
-#: ../../reference/src/REFERENCE_COMPLETE.md:4018
-#: ../../reference/src/REFERENCE_COMPLETE.md:4037
-#: ../../reference/src/REFERENCE_COMPLETE.md:4052
-#: ../../reference/src/REFERENCE_COMPLETE.md:4067
-#: ../../reference/src/REFERENCE_COMPLETE.md:4085
+#: ../../reference/src/REFERENCE_COMPLETE.md:3940
+#: ../../reference/src/REFERENCE_COMPLETE.md:3959
+#: ../../reference/src/REFERENCE_COMPLETE.md:3978
+#: ../../reference/src/REFERENCE_COMPLETE.md:4000
+#: ../../reference/src/REFERENCE_COMPLETE.md:4022
+#: ../../reference/src/REFERENCE_COMPLETE.md:4041
+#: ../../reference/src/REFERENCE_COMPLETE.md:4056
+#: ../../reference/src/REFERENCE_COMPLETE.md:4071
+#: ../../reference/src/REFERENCE_COMPLETE.md:4089
 #: ../../reference/src/array/REFERENCE.md:49
 #: ../../reference/src/array/REFERENCE.md:69
 #: ../../reference/src/array/REFERENCE.md:88
@@ -2514,11 +2518,11 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:3819
 #: ../../reference/src/REFERENCE_COMPLETE.md:3839
 #: ../../reference/src/REFERENCE_COMPLETE.md:3858
-#: ../../reference/src/REFERENCE_COMPLETE.md:3938
-#: ../../reference/src/REFERENCE_COMPLETE.md:3957
-#: ../../reference/src/REFERENCE_COMPLETE.md:3976
-#: ../../reference/src/REFERENCE_COMPLETE.md:3998
-#: ../../reference/src/REFERENCE_COMPLETE.md:4020
+#: ../../reference/src/REFERENCE_COMPLETE.md:3942
+#: ../../reference/src/REFERENCE_COMPLETE.md:3961
+#: ../../reference/src/REFERENCE_COMPLETE.md:3980
+#: ../../reference/src/REFERENCE_COMPLETE.md:4002
+#: ../../reference/src/REFERENCE_COMPLETE.md:4024
 #: ../../reference/src/array/REFERENCE.md:51
 #: ../../reference/src/array/REFERENCE.md:71
 #: ../../reference/src/array/REFERENCE.md:90
@@ -2701,11 +2705,11 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:2506
 #: ../../reference/src/REFERENCE_COMPLETE.md:2524
 #: ../../reference/src/REFERENCE_COMPLETE.md:2544
-#: ../../reference/src/REFERENCE_COMPLETE.md:3940
-#: ../../reference/src/REFERENCE_COMPLETE.md:3959
-#: ../../reference/src/REFERENCE_COMPLETE.md:3978
-#: ../../reference/src/REFERENCE_COMPLETE.md:4000
-#: ../../reference/src/REFERENCE_COMPLETE.md:4022
+#: ../../reference/src/REFERENCE_COMPLETE.md:3944
+#: ../../reference/src/REFERENCE_COMPLETE.md:3963
+#: ../../reference/src/REFERENCE_COMPLETE.md:3982
+#: ../../reference/src/REFERENCE_COMPLETE.md:4004
+#: ../../reference/src/REFERENCE_COMPLETE.md:4026
 #: ../../reference/src/array/REFERENCE.md:53
 #: ../../reference/src/array/REFERENCE.md:73
 #: ../../reference/src/array/REFERENCE.md:92
@@ -2879,15 +2883,15 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:3808
 #: ../../reference/src/REFERENCE_COMPLETE.md:3836
 #: ../../reference/src/REFERENCE_COMPLETE.md:3855
-#: ../../reference/src/REFERENCE_COMPLETE.md:3935
-#: ../../reference/src/REFERENCE_COMPLETE.md:3954
-#: ../../reference/src/REFERENCE_COMPLETE.md:3973
-#: ../../reference/src/REFERENCE_COMPLETE.md:3995
-#: ../../reference/src/REFERENCE_COMPLETE.md:4017
-#: ../../reference/src/REFERENCE_COMPLETE.md:4036
-#: ../../reference/src/REFERENCE_COMPLETE.md:4051
-#: ../../reference/src/REFERENCE_COMPLETE.md:4066
-#: ../../reference/src/REFERENCE_COMPLETE.md:4084
+#: ../../reference/src/REFERENCE_COMPLETE.md:3939
+#: ../../reference/src/REFERENCE_COMPLETE.md:3958
+#: ../../reference/src/REFERENCE_COMPLETE.md:3977
+#: ../../reference/src/REFERENCE_COMPLETE.md:3999
+#: ../../reference/src/REFERENCE_COMPLETE.md:4021
+#: ../../reference/src/REFERENCE_COMPLETE.md:4040
+#: ../../reference/src/REFERENCE_COMPLETE.md:4055
+#: ../../reference/src/REFERENCE_COMPLETE.md:4070
+#: ../../reference/src/REFERENCE_COMPLETE.md:4088
 #: ../../reference/src/array/REFERENCE.md:68
 #: ../../reference/src/array/REFERENCE.md:87
 #: ../../reference/src/array/REFERENCE.md:107
@@ -3124,8 +3128,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:2068
 #: ../../reference/src/REFERENCE_COMPLETE.md:2098
 #: ../../reference/src/REFERENCE_COMPLETE.md:2119
-#: ../../reference/src/REFERENCE_COMPLETE.md:3890
-#: ../../reference/src/REFERENCE_COMPLETE.md:3915
+#: ../../reference/src/REFERENCE_COMPLETE.md:3892
+#: ../../reference/src/REFERENCE_COMPLETE.md:3919
 #: ../../reference/src/array/REFERENCE.md:199
 #: ../../reference/src/array/REFERENCE.md:225
 #: ../../reference/src/array/REFERENCE.md:251
@@ -3137,8 +3141,8 @@ msgstr ""
 #: ../../reference/src/setting/REFERENCE.md:77
 #: ../../reference/src/setting/REFERENCE.md:107
 #: ../../reference/src/setting/REFERENCE.md:128
-#: ../../reference/src/trap/REFERENCE.md:82
-#: ../../reference/src/trap/REFERENCE.md:107
+#: ../../reference/src/trap/REFERENCE.md:84
+#: ../../reference/src/trap/REFERENCE.md:111
 msgid "Variables set"
 msgstr ""
 
@@ -3254,9 +3258,9 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:3854
 #: ../../reference/src/REFERENCE_COMPLETE.md:3871
 #: ../../reference/src/REFERENCE_COMPLETE.md:3882
-#: ../../reference/src/REFERENCE_COMPLETE.md:3896
-#: ../../reference/src/REFERENCE_COMPLETE.md:3907
-#: ../../reference/src/REFERENCE_COMPLETE.md:3921
+#: ../../reference/src/REFERENCE_COMPLETE.md:3898
+#: ../../reference/src/REFERENCE_COMPLETE.md:3909
+#: ../../reference/src/REFERENCE_COMPLETE.md:3925
 #: ../../reference/src/array/REFERENCE.md:205
 #: ../../reference/src/array/REFERENCE.md:231
 #: ../../reference/src/array/REFERENCE.md:257
@@ -3364,9 +3368,9 @@ msgstr ""
 #: ../../reference/src/trap/REFERENCE.md:46
 #: ../../reference/src/trap/REFERENCE.md:63
 #: ../../reference/src/trap/REFERENCE.md:74
-#: ../../reference/src/trap/REFERENCE.md:88
-#: ../../reference/src/trap/REFERENCE.md:99
-#: ../../reference/src/trap/REFERENCE.md:113
+#: ../../reference/src/trap/REFERENCE.md:90
+#: ../../reference/src/trap/REFERENCE.md:101
+#: ../../reference/src/trap/REFERENCE.md:117
 msgid "**0**: If the operation succeeded."
 msgstr ""
 
@@ -4258,8 +4262,8 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:3522
 #: ../../reference/src/REFERENCE_COMPLETE.md:3537
 #: ../../reference/src/REFERENCE_COMPLETE.md:3552
-#: ../../reference/src/REFERENCE_COMPLETE.md:3967
-#: ../../reference/src/REFERENCE_COMPLETE.md:4060
+#: ../../reference/src/REFERENCE_COMPLETE.md:3971
+#: ../../reference/src/REFERENCE_COMPLETE.md:4064
 #: ../../reference/src/fn/REFERENCE.md:93
 #: ../../reference/src/fn/REFERENCE.md:347
 #: ../../reference/src/string/REFERENCE.md:169
@@ -4464,9 +4468,9 @@ msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:1007
 #: ../../reference/src/REFERENCE_COMPLETE.md:1073
-#: ../../reference/src/REFERENCE_COMPLETE.md:3987
-#: ../../reference/src/REFERENCE_COMPLETE.md:4009
-#: ../../reference/src/REFERENCE_COMPLETE.md:4076
+#: ../../reference/src/REFERENCE_COMPLETE.md:3991
+#: ../../reference/src/REFERENCE_COMPLETE.md:4013
+#: ../../reference/src/REFERENCE_COMPLETE.md:4080
 #: ../../reference/src/fn/REFERENCE.md:233
 #: ../../reference/src/fn/REFERENCE.md:299
 #: ../../reference/src/var/REFERENCE.md:81
@@ -4825,9 +4829,7 @@ msgstr ""
 #: ../../reference/src/REFERENCE_COMPLETE.md:2139
 #: ../../reference/src/REFERENCE_COMPLETE.md:3867
 #: ../../reference/src/REFERENCE_COMPLETE.md:3878
-#: ../../reference/src/REFERENCE_COMPLETE.md:3888
-#: ../../reference/src/REFERENCE_COMPLETE.md:3903
-#: ../../reference/src/REFERENCE_COMPLETE.md:3913
+#: ../../reference/src/REFERENCE_COMPLETE.md:3905
 #: ../../reference/src/io/REFERENCE.md:116
 #: ../../reference/src/logger/REFERENCE.md:183
 #: ../../reference/src/security/REFERENCE.md:29
@@ -4842,16 +4844,14 @@ msgstr ""
 #: ../../reference/src/setting/REFERENCE.md:148
 #: ../../reference/src/trap/REFERENCE.md:59
 #: ../../reference/src/trap/REFERENCE.md:70
-#: ../../reference/src/trap/REFERENCE.md:80
-#: ../../reference/src/trap/REFERENCE.md:95
-#: ../../reference/src/trap/REFERENCE.md:105
+#: ../../reference/src/trap/REFERENCE.md:97
 msgid "_Function has no arguments._"
 msgstr ""
 
 #: ../../reference/src/REFERENCE_COMPLETE.md:1226
-#: ../../reference/src/REFERENCE_COMPLETE.md:3917
+#: ../../reference/src/REFERENCE_COMPLETE.md:3921
 #: ../../reference/src/io/REFERENCE.md:120
-#: ../../reference/src/trap/REFERENCE.md:109
+#: ../../reference/src/trap/REFERENCE.md:113
 msgid ""
 "**STDLIB_HANDLER_EXIT_FN_ARRAY** (array): An array containing a list of "
 "functions that are run on an exit call."
@@ -7842,87 +7842,94 @@ msgid ""
 "during an error."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:3892
-#: ../../reference/src/trap/REFERENCE.md:84
+#: ../../reference/src/REFERENCE_COMPLETE.md:3890
+#: ../../reference/src/REFERENCE_COMPLETE.md:3917
+#: ../../reference/src/trap/REFERENCE.md:82
+#: ../../reference/src/trap/REFERENCE.md:109
+msgid "**$1** (string): The name of the function to register."
+msgstr ""
+
+#: ../../reference/src/REFERENCE_COMPLETE.md:3894
+#: ../../reference/src/trap/REFERENCE.md:86
 msgid ""
 "**STDLIB_HANDLER_ERR_FN_ARRAY** (array): An array containing a list of "
 "functions that are run on an error."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:3898
-#: ../../reference/src/trap/REFERENCE.md:90
+#: ../../reference/src/REFERENCE_COMPLETE.md:3900
+#: ../../reference/src/trap/REFERENCE.md:92
 msgid "stdlib.trap.handler.exit.fn"
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:3900
-#: ../../reference/src/trap/REFERENCE.md:92
+#: ../../reference/src/REFERENCE_COMPLETE.md:3902
+#: ../../reference/src/trap/REFERENCE.md:94
 msgid "A handler function that is invoked on an exit trap."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:3901
-#: ../../reference/src/trap/REFERENCE.md:93
+#: ../../reference/src/REFERENCE_COMPLETE.md:3903
+#: ../../reference/src/trap/REFERENCE.md:95
 msgid ""
 "STDLIB_HANDLER_EXIT_FN_ARRAY array global: An array containing a list of "
 "functions that are run on an exit call "
 "(default=(\"stdlib.trap.fn.cleanup_on_exit\"))."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:3909
-#: ../../reference/src/trap/REFERENCE.md:101
+#: ../../reference/src/REFERENCE_COMPLETE.md:3911
+#: ../../reference/src/trap/REFERENCE.md:103
 msgid "stdlib.trap.handler.exit.fn.register"
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:3911
-#: ../../reference/src/trap/REFERENCE.md:103
+#: ../../reference/src/REFERENCE_COMPLETE.md:3913
+#: ../../reference/src/trap/REFERENCE.md:105
 msgid ""
 "Adds a function to the exit handler, which will be invoked (without args) "
 "during an exit call."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:3923
+#: ../../reference/src/REFERENCE_COMPLETE.md:3927
 #: ../../reference/src/var/REFERENCE.md:17
 msgid "stdlib.var.assert.is_empty"
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:3925
+#: ../../reference/src/REFERENCE_COMPLETE.md:3929
 #: ../../reference/src/var/REFERENCE.md:19
 msgid ""
 "Asserts that a variable is an empty value (unset variables, empty arrays, "
 "empty associative arrays, empty strings and empty integers)."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:3942
+#: ../../reference/src/REFERENCE_COMPLETE.md:3946
 #: ../../reference/src/var/REFERENCE.md:36
 msgid "stdlib.var.assert.is_set"
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:3944
+#: ../../reference/src/REFERENCE_COMPLETE.md:3948
 #: ../../reference/src/var/REFERENCE.md:38
 msgid "Asserts that a variable is set."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:3961
+#: ../../reference/src/REFERENCE_COMPLETE.md:3965
 #: ../../reference/src/var/REFERENCE.md:55
 msgid "stdlib.var.assert.is_valid_name"
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:3963
+#: ../../reference/src/REFERENCE_COMPLETE.md:3967
 #: ../../reference/src/var/REFERENCE.md:57
 msgid "Asserts that a string is a valid variable name."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:3980
+#: ../../reference/src/REFERENCE_COMPLETE.md:3984
 #: ../../reference/src/var/REFERENCE.md:74
 msgid "stdlib.var.assert.is_valid_with"
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:3982
+#: ../../reference/src/REFERENCE_COMPLETE.md:3986
 #: ../../reference/src/var/REFERENCE.md:76
 msgid "Asserts a variable's value is valid against a validation function."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:3983
-#: ../../reference/src/REFERENCE_COMPLETE.md:4005
+#: ../../reference/src/REFERENCE_COMPLETE.md:3987
+#: ../../reference/src/REFERENCE_COMPLETE.md:4009
 #: ../../reference/src/var/REFERENCE.md:77
 #: ../../reference/src/var/REFERENCE.md:99
 msgid ""
@@ -7931,8 +7938,8 @@ msgid ""
 "argument provided variable name) (default=\"\")."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:3988
-#: ../../reference/src/REFERENCE_COMPLETE.md:4077
+#: ../../reference/src/REFERENCE_COMPLETE.md:3992
+#: ../../reference/src/REFERENCE_COMPLETE.md:4081
 #: ../../reference/src/var/REFERENCE.md:82
 #: ../../reference/src/var/REFERENCE.md:171
 msgid ""
@@ -7940,9 +7947,9 @@ msgid ""
 "validation on."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:3989
-#: ../../reference/src/REFERENCE_COMPLETE.md:4011
-#: ../../reference/src/REFERENCE_COMPLETE.md:4078
+#: ../../reference/src/REFERENCE_COMPLETE.md:3993
+#: ../../reference/src/REFERENCE_COMPLETE.md:4015
+#: ../../reference/src/REFERENCE_COMPLETE.md:4082
 #: ../../reference/src/var/REFERENCE.md:83
 #: ../../reference/src/var/REFERENCE.md:105
 #: ../../reference/src/var/REFERENCE.md:172
@@ -7951,119 +7958,119 @@ msgid ""
 "or 'value' of the variable is passed to the validation function."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:4002
+#: ../../reference/src/REFERENCE_COMPLETE.md:4006
 #: ../../reference/src/var/REFERENCE.md:96
 msgid "stdlib.var.global.assert.is_valid_with"
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:4004
+#: ../../reference/src/REFERENCE_COMPLETE.md:4008
 #: ../../reference/src/var/REFERENCE.md:98
 msgid ""
 "Asserts a global variable's value is valid against a validation function."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:4010
+#: ../../reference/src/REFERENCE_COMPLETE.md:4014
 #: ../../reference/src/var/REFERENCE.md:104
 msgid ""
 "**$2** (string): The name of the global variable containing the value to "
 "perform validation on."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:4015
+#: ../../reference/src/REFERENCE_COMPLETE.md:4019
 #: ../../reference/src/var/REFERENCE.md:109
 msgid "**0**: If the global variable passes the validation function."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:4016
+#: ../../reference/src/REFERENCE_COMPLETE.md:4020
 #: ../../reference/src/var/REFERENCE.md:110
 msgid "**1**: If the global variable fails the validation check."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:4024
+#: ../../reference/src/REFERENCE_COMPLETE.md:4028
 #: ../../reference/src/var/REFERENCE.md:118
 msgid "stdlib.var.query.is_empty"
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:4026
+#: ../../reference/src/REFERENCE_COMPLETE.md:4030
 #: ../../reference/src/var/REFERENCE.md:120
 msgid ""
 "Checks if a variable is an empty value (unset variables, empty arrays, empty "
 "associative arrays, empty strings and empty integers)."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:4034
+#: ../../reference/src/REFERENCE_COMPLETE.md:4038
 #: ../../reference/src/var/REFERENCE.md:128
 msgid "**0**: If the variable is an empty value."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:4035
+#: ../../reference/src/REFERENCE_COMPLETE.md:4039
 #: ../../reference/src/var/REFERENCE.md:129
 msgid "**1**: If the variable is not an empty value."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:4039
+#: ../../reference/src/REFERENCE_COMPLETE.md:4043
 #: ../../reference/src/var/REFERENCE.md:133
 msgid "stdlib.var.query.is_set"
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:4041
+#: ../../reference/src/REFERENCE_COMPLETE.md:4045
 #: ../../reference/src/var/REFERENCE.md:135
 msgid "Checks if a variable is set."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:4049
+#: ../../reference/src/REFERENCE_COMPLETE.md:4053
 #: ../../reference/src/var/REFERENCE.md:143
 msgid "**0**: If the variable is set."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:4050
+#: ../../reference/src/REFERENCE_COMPLETE.md:4054
 #: ../../reference/src/var/REFERENCE.md:144
 msgid "**1**: If the variable is not set."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:4054
+#: ../../reference/src/REFERENCE_COMPLETE.md:4058
 #: ../../reference/src/var/REFERENCE.md:148
 msgid "stdlib.var.query.is_valid_name"
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:4056
+#: ../../reference/src/REFERENCE_COMPLETE.md:4060
 #: ../../reference/src/var/REFERENCE.md:150
 msgid "Checks if a string is a valid variable name."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:4064
+#: ../../reference/src/REFERENCE_COMPLETE.md:4068
 #: ../../reference/src/var/REFERENCE.md:158
 msgid "**0**: If the string is a valid variable name."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:4065
+#: ../../reference/src/REFERENCE_COMPLETE.md:4069
 #: ../../reference/src/var/REFERENCE.md:159
 msgid "**1**: If the string is not a valid variable name."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:4069
+#: ../../reference/src/REFERENCE_COMPLETE.md:4073
 #: ../../reference/src/var/REFERENCE.md:163
 msgid "stdlib.var.query.is_valid_with"
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:4071
+#: ../../reference/src/REFERENCE_COMPLETE.md:4075
 #: ../../reference/src/var/REFERENCE.md:165
 msgid "Checks if a variable's value is valid against a validation function."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:4072
+#: ../../reference/src/REFERENCE_COMPLETE.md:4076
 #: ../../reference/src/var/REFERENCE.md:166
 msgid ""
 "STDLIB_VALIDATION_SOURCE_VAR: An optional variable name that can be used as "
 "a source for validation (default=\"\")."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:4082
+#: ../../reference/src/REFERENCE_COMPLETE.md:4086
 #: ../../reference/src/var/REFERENCE.md:176
 msgid "**0**: If the variable passes the validation function."
 msgstr ""
 
-#: ../../reference/src/REFERENCE_COMPLETE.md:4083
+#: ../../reference/src/REFERENCE_COMPLETE.md:4087
 #: ../../reference/src/var/REFERENCE.md:177
 msgid "**1**: If the variable fails the validation check."
 msgstr ""

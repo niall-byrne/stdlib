@@ -77,7 +77,9 @@ _Function has no arguments._
 
 Adds a function to the error handler, which will be invoked (without args) during an error.
 
-_Function has no arguments._
+#### Arguments
+
+* **$1** (string): The name of the function to register.
 
 #### Variables set
 
@@ -102,7 +104,9 @@ _Function has no arguments._
 
 Adds a function to the exit handler, which will be invoked (without args) during an exit call.
 
-_Function has no arguments._
+#### Arguments
+
+* **$1** (string): The name of the function to register.
 
 #### Variables set
 
