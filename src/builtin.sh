@@ -8,7 +8,7 @@ STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=""
 __STDLIB_SECURE_DISTRIBUTION="${__STDLIB_SECURE_DISTRIBUTION:-"0"}"
 
 # @description Executes a command as a builtin unless overriding is allowed.
-#   * STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN: Enables overriding builtins (default="0").
+#   * STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN boolean global: Enables overriding builtins (default="0").
 # @arg $1 string The command to execute.
 # @arg $@ array The arguments to the command.
 # @exitcode 0 If the operation succeeded.
@@ -19,7 +19,7 @@ __STDLIB_SECURE_DISTRIBUTION="${__STDLIB_SECURE_DISTRIBUTION:-"0"}"
 stdlib.__builtin.overridable() {
   builtin local use_builtin_boolean="${STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN:-0}"
 
-  if [[ "${use_builtin_boolean}" == "0" ]]; then
+  if [[ "${use_builtin_boolean}" == "0" ]]; then # validates STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN
     builtin "${@}"
   else
     "${@}"
