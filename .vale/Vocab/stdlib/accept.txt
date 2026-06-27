@@ -33,6 +33,7 @@ bashunit
 boolean
 capture_assertion_failure
 cleanup_on_exit
+codecov
 fn
 jules
 kcov
