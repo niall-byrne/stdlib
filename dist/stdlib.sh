@@ -50,7 +50,6 @@ builtin set -Eeo pipefail
 declare -- STDLIB_ARGS_CALLER_FN_NAME=""
 declare -- STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN=""
 declare -a STDLIB_ARGS_NULL_SAFE_ARRAY=()
-declare -- STDLIB_ARRAY_BUFFER=""
 declare -- STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=""
 declare -a STDLIB_CLEANUP_FN_TARGETS_ARRAY=()
 declare -- STDLIB_COLOUR_BLACK=""
@@ -678,8 +677,7 @@ stdlib.array.get.last ()
     indirect_reference="${1}[@]";
     indirect_array=("${!indirect_reference}");
     indirect_array_last_element_index="$(("${#indirect_array[@]}" - 1))";
-    STDLIB_ARRAY_BUFFER="${indirect_array[indirect_array_last_element_index]}";
-    builtin echo "${STDLIB_ARRAY_BUFFER}"
+    builtin echo "${indirect_array[indirect_array_last_element_index]}"
 }
 
 stdlib.array.get.length ()
@@ -691,8 +689,7 @@ stdlib.array.get.length ()
     stdlib.array.assert.is_array "${1}" || builtin return 126;
     indirect_reference="${1}[@]";
     indirect_array=("${!indirect_reference}");
-    STDLIB_ARRAY_BUFFER="${#indirect_array[@]}";
-    builtin echo "${STDLIB_ARRAY_BUFFER}"
+    builtin echo "${#indirect_array[@]}"
 }
 
 stdlib.array.get.longest ()
@@ -712,8 +709,7 @@ stdlib.array.get.longest ()
             longest_array_element_length="${#current_array_element}";
         fi;
     done;
-    STDLIB_ARRAY_BUFFER="${longest_array_element_length}";
-    builtin echo "${STDLIB_ARRAY_BUFFER}"
+    builtin echo "${longest_array_element_length}"
 }
 
 stdlib.array.get.shortest ()
@@ -733,8 +729,7 @@ stdlib.array.get.shortest ()
             shortest_array_element_length="${#current_array_element}";
         fi;
     done;
-    STDLIB_ARRAY_BUFFER="${shortest_array_element_length}";
-    builtin echo "${STDLIB_ARRAY_BUFFER}"
+    builtin echo "${shortest_array_element_length}"
 }
 
 stdlib.array.make.from_file ()
