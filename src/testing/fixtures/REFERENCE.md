@@ -11,7 +11,7 @@
 ### _testing.fixtures.debug.diff
 
 Prints a diff between two values for debugging.
-* STDLIB_TESTING_THEME_DEBUG_FIXTURE: The colour to use for the debug output (default="GREY").
+* STDLIB_TESTING_THEME_DEBUG_FIXTURE string global: The colour to use for the debug output (default="GREY").
 
 #### Arguments
 
