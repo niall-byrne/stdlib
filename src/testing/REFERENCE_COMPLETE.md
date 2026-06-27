@@ -34,7 +34,6 @@
 * [_capture.stderr_raw](#_capturestderr_raw)
 * [_capture.stdout](#_capturestdout)
 * [_capture.stdout_raw](#_capturestdout_raw)
-* [_testing.error](#_testingerror)
 * [_testing.fixtures.debug.diff](#_testingfixturesdebugdiff)
 * [_testing.fixtures.mock.logger](#_testingfixturesmocklogger)
 * [_testing.fixtures.random.name](#_testingfixturesrandomname)
@@ -534,23 +533,6 @@ Captures the stdout of a command (raw).
 * **1**: If the command failed.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
-
-### _testing.error
-
-Logs an error message.
-* STDLIB_TESTING_THEME_ERROR: The colour to use for the message (default="LIGHT_RED").
-
-#### Arguments
-
-* **...** (array): The error messages to log.
-
-#### Exit codes
-
-* **0**: If the error message was logged.
-
-#### Output on stderr
-
-* The error message if the operation fails.
 
 ### _testing.fixtures.debug.diff
 
