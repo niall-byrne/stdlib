@@ -17,7 +17,7 @@ declare -- STDLIB_TESTING_THEME_DEBUG_FIXTURE="GREY"
 declare -- STDLIB_TESTING_THEME_LOAD="GREY"
 declare -- STDLIB_TESTING_THEME_PARAMETRIZE_HIGHLIGHT="LIGHT_BLUE"
 declare -- STDLIB_TESTING_THEME_PARAMETRIZE_ORIGINAL_TEST_NAMES="GREY"
-declare -- STDLIB_TESTING_TRACEBACK_REGEX="^([^:]+:[0-9]+|environment:[0-9]+):.+\$"
+declare -- STDLIB_TESTING_TRACEBACK_REGEX=""
 declare -a __STDLIB_TESTING_MOCK_REGISTERED_INSTANCES_ARRAY=()
 declare -- __STDLIB_TESTING_MOCK_REGISTRY_FOLDER=""
 declare -a __STDLIB_TESTING_MOCK_RESTRICTED_ATTRIBUTES=([0]="builtin" [1]="case" [2]="do" [3]="done" [4]="elif" [5]="else" [6]="esac" [7]="fi" [8]="for" [9]="if" [10]="while")
@@ -449,6 +449,7 @@ _capture.assertion_failure ()
 {
     builtin local output;
     builtin local rc;
+    builtin local traceback_regex="${STDLIB_TESTING_TRACEBACK_REGEX:-^([^:]+:[0-9]+|environment:[0-9]+):.+$}";
     builtin set +e;
     LC_ALL=C IFS= builtin read -rd '' output < <("$@" 2>&1);
     builtin set -e;
@@ -457,7 +458,7 @@ _capture.assertion_failure ()
     if [[ ${rc} -eq 0 ]]; then
         fail " $(_testing.assert.__message.get ASSERT_ERROR_DID_NOT_FAIL "${1}")";
     fi;
-    TEST_OUTPUT="$(builtin echo "${output}" | "${_STDLIB_BINARY_SED}" -E '/^FAILURE/d' | "${_STDLIB_BINARY_SED}" -E "/${STDLIB_TESTING_TRACEBACK_REGEX}/d")"
+    TEST_OUTPUT="$(builtin echo "${output}" | "${_STDLIB_BINARY_SED}" -E '/^FAILURE/d' | "${_STDLIB_BINARY_SED}" -E "/${traceback_regex}/d")"
 }
 
 _capture.output ()
@@ -1577,12 +1578,12 @@ _testing.fixtures.random.name ()
 _testing.load ()
 {
     [[ "${#@}" == 1 ]] || {
-        _testing.error "_testing.load: $(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)";
+        _testing.__protected stdlib.logger.error "$(_testing.__protected stdlib.__message.get ARGUMENTS_INVALID)";
         builtin return 127
     };
     _testing.__protected stdlib.string.colour "${STDLIB_TESTING_THEME_LOAD}" "    $(_testing.__message.get LOAD_MODULE_NOTIFICATION "${1}")";
     . "${1}" 2> /dev/null || {
-        _testing.error "$(_testing.__message.get LOAD_MODULE_NOT_FOUND "${1}")";
+        _testing.__protected stdlib.logger.error "$(_testing.__message.get LOAD_MODULE_NOT_FOUND "${1}")";
         builtin return 126
     }
 }

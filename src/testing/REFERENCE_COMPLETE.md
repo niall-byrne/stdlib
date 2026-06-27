@@ -163,7 +163,7 @@ Asserts that a value is not a function.
 ### assert_logger_error_matches
 
 Asserts that the stdlib.logger.error function was mocked and called with specific arguments, or alternatively, not called at all.
-* STDLIB_LOGGING_MESSAGE_PREFIX: If the mock has this keyword set, then the value of this keyword is used when matching (default="").
+* STDLIB_LOGGING_MESSAGE_PREFIX string keyword: A prefix identifying the calling function (default="").
 
 #### Arguments
 
@@ -181,7 +181,7 @@ Asserts that the stdlib.logger.error function was mocked and called with specifi
 ### assert_logger_info_matches
 
 Asserts that the stdlib.logger.info function was mocked and called with specific arguments, or alternatively, not called at all.
-* STDLIB_LOGGING_MESSAGE_PREFIX: If the mock has this keyword set, then the value of this keyword is used when matching (default="").
+* STDLIB_LOGGING_MESSAGE_PREFIX string keyword: A prefix identifying the calling function (default="").
 
 #### Arguments
 
@@ -199,7 +199,7 @@ Asserts that the stdlib.logger.info function was mocked and called with specific
 ### assert_logger_notice_matches
 
 Asserts that the stdlib.logger.notice function was mocked and called with specific arguments, or alternatively, not called at all.
-* STDLIB_LOGGING_MESSAGE_PREFIX: If the mock has this keyword set, then the value of this keyword is used when matching (default="").
+* STDLIB_LOGGING_MESSAGE_PREFIX string keyword: A prefix identifying the calling function (default="").
 
 #### Arguments
 
@@ -217,7 +217,7 @@ Asserts that the stdlib.logger.notice function was mocked and called with specif
 ### assert_logger_success_matches
 
 Asserts that the stdlib.logger.success function was mocked and called with specific arguments, or alternatively, not called at all.
-* STDLIB_LOGGING_MESSAGE_PREFIX: If the mock has this keyword set, then the value of this keyword is used when matching (default="").
+* STDLIB_LOGGING_MESSAGE_PREFIX string keyword: A prefix identifying the calling function (default="").
 
 #### Arguments
 
@@ -235,7 +235,7 @@ Asserts that the stdlib.logger.success function was mocked and called with speci
 ### assert_logger_warning_matches
 
 Asserts that the stdlib.logger.warning function was mocked and called with specific arguments, or alternatively, not called at all.
-* STDLIB_LOGGING_MESSAGE_PREFIX: If the mock has this keyword set, then the value of this keyword is used when matching (default="").
+* STDLIB_LOGGING_MESSAGE_PREFIX string keyword: A prefix identifying the calling function (default="").
 
 #### Arguments
 
@@ -387,7 +387,7 @@ Asserts that the captured output matches a snapshot file.
 ### _capture.assertion_failure
 
 Captures the output of a command that is expected to fail.
-* STDLIB_TESTING_TRACEBACK_REGEX: A regex used to identify and remove traceback lines (default="$'^([^:]+:[0-9]+|environment:[0-9]+):.+$'").
+* STDLIB_TESTING_TRACEBACK_REGEX string keyword: A regex used to identify and remove traceback lines (default="$'^([^:]+:[0-9]+|environment:[0-9]+):.+$'").
 
 #### Arguments
 
@@ -537,7 +537,7 @@ Captures the stdout of a command (raw).
 ### _testing.fixtures.debug.diff
 
 Prints a diff between two values for debugging.
-* STDLIB_TESTING_THEME_DEBUG_FIXTURE: The colour to use for the debug output (default="GREY").
+* STDLIB_TESTING_THEME_DEBUG_FIXTURE string global: The colour to use for the debug output (default="GREY").
 
 #### Arguments
 
@@ -592,7 +592,7 @@ Generates a random alphanumeric name.
 ### _testing.load
 
 Loads a module with error support.
-* STDLIB_TESTING_THEME_LOAD: The colour to use for the message (default="GREY").
+* STDLIB_TESTING_THEME_LOAD string global: The colour to use for the message (default="GREY").
 
 #### Arguments
 
