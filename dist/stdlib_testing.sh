@@ -14,7 +14,6 @@ declare -- STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN="
 declare -- STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG=""
 declare -- STDLIB_TESTING_PROTECT_PREFIX=""
 declare -- STDLIB_TESTING_THEME_DEBUG_FIXTURE="GREY"
-declare -- STDLIB_TESTING_THEME_ERROR="LIGHT_RED"
 declare -- STDLIB_TESTING_THEME_LOAD="GREY"
 declare -- STDLIB_TESTING_THEME_PARAMETRIZE_HIGHLIGHT="LIGHT_BLUE"
 declare -- STDLIB_TESTING_THEME_PARAMETRIZE_ORIGINAL_TEST_NAMES="GREY"
@@ -1554,16 +1553,6 @@ _testing.assert.__message.get ()
         builtin return ${return_status}
     };
     builtin echo -n "${message}"
-}
-
-_testing.error ()
-{
-    {
-        ( while [[ -n "${1}" ]]; do
-            _testing.__protected stdlib.string.colour "${STDLIB_TESTING_THEME_ERROR}" "${1}";
-            builtin shift;
-        done )
-    } 1>&2
 }
 
 _testing.fixtures.debug.diff ()
