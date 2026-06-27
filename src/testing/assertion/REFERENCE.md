@@ -132,7 +132,7 @@ Asserts that a value is not a function.
 ### assert_logger_error_matches
 
 Asserts that the stdlib.logger.error function was mocked and called with specific arguments, or alternatively, not called at all.
-* STDLIB_LOGGING_MESSAGE_PREFIX: If the mock has this keyword set, then the value of this keyword is used when matching (default="").
+* STDLIB_LOGGING_MESSAGE_PREFIX string keyword: A prefix identifying the calling function (default="").
 
 #### Arguments
 
@@ -150,7 +150,7 @@ Asserts that the stdlib.logger.error function was mocked and called with specifi
 ### assert_logger_info_matches
 
 Asserts that the stdlib.logger.info function was mocked and called with specific arguments, or alternatively, not called at all.
-* STDLIB_LOGGING_MESSAGE_PREFIX: If the mock has this keyword set, then the value of this keyword is used when matching (default="").
+* STDLIB_LOGGING_MESSAGE_PREFIX string keyword: A prefix identifying the calling function (default="").
 
 #### Arguments
 
@@ -168,7 +168,7 @@ Asserts that the stdlib.logger.info function was mocked and called with specific
 ### assert_logger_notice_matches
 
 Asserts that the stdlib.logger.notice function was mocked and called with specific arguments, or alternatively, not called at all.
-* STDLIB_LOGGING_MESSAGE_PREFIX: If the mock has this keyword set, then the value of this keyword is used when matching (default="").
+* STDLIB_LOGGING_MESSAGE_PREFIX string keyword: A prefix identifying the calling function (default="").
 
 #### Arguments
 
@@ -186,7 +186,7 @@ Asserts that the stdlib.logger.notice function was mocked and called with specif
 ### assert_logger_success_matches
 
 Asserts that the stdlib.logger.success function was mocked and called with specific arguments, or alternatively, not called at all.
-* STDLIB_LOGGING_MESSAGE_PREFIX: If the mock has this keyword set, then the value of this keyword is used when matching (default="").
+* STDLIB_LOGGING_MESSAGE_PREFIX string keyword: A prefix identifying the calling function (default="").
 
 #### Arguments
 
@@ -204,7 +204,7 @@ Asserts that the stdlib.logger.success function was mocked and called with speci
 ### assert_logger_warning_matches
 
 Asserts that the stdlib.logger.warning function was mocked and called with specific arguments, or alternatively, not called at all.
-* STDLIB_LOGGING_MESSAGE_PREFIX: If the mock has this keyword set, then the value of this keyword is used when matching (default="").
+* STDLIB_LOGGING_MESSAGE_PREFIX string keyword: A prefix identifying the calling function (default="").
 
 #### Arguments
 

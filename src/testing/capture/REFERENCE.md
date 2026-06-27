@@ -16,7 +16,7 @@
 ### _capture.assertion_failure
 
 Captures the output of a command that is expected to fail.
-* STDLIB_TESTING_TRACEBACK_REGEX: A regex used to identify and remove traceback lines (default="$'^([^:]+:[0-9]+|environment:[0-9]+):.+$'").
+* STDLIB_TESTING_TRACEBACK_REGEX string keyword: A regex used to identify and remove traceback lines (default="$'^([^:]+:[0-9]+|environment:[0-9]+):.+$'").
 
 #### Arguments
 

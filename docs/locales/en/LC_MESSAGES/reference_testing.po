@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: stdlib \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-27 11:02-0400\n"
+"POT-Creation-Date: 2026-06-27 11:09-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -88,8 +88,8 @@ msgstr ""
 #: ../../reference_testing/src/testing/REFERENCE.md:12
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:595
 msgid ""
-"STDLIB_TESTING_THEME_LOAD: The colour to use for the message "
-"(default=\"GREY\")."
+"STDLIB_TESTING_THEME_LOAD string global: The colour to use for the "
+"message (default=\"GREY\")."
 msgstr ""
 
 #: ../../reference_testing/src/testing/REFERENCE.md:14
@@ -997,8 +997,8 @@ msgstr ""
 #: ../../reference_testing/src/testing/assertion/REFERENCE.md:189
 #: ../../reference_testing/src/testing/assertion/REFERENCE.md:207
 msgid ""
-"STDLIB_LOGGING_MESSAGE_PREFIX: If the mock has this keyword set, then the"
-" value of this keyword is used when matching (default=\"\")."
+"STDLIB_LOGGING_MESSAGE_PREFIX string keyword: A prefix identifying the "
+"calling function (default=\"\")."
 msgstr ""
 
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:170
@@ -1314,8 +1314,9 @@ msgstr ""
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:390
 #: ../../reference_testing/src/testing/capture/REFERENCE.md:19
 msgid ""
-"STDLIB_TESTING_TRACEBACK_REGEX: A regex used to identify and remove "
-"traceback lines (default=\"$'^([^:]+:[0-9]+|environment:[0-9]+):.+$'\")."
+"STDLIB_TESTING_TRACEBACK_REGEX string keyword: A regex used to identify "
+"and remove traceback lines "
+"(default=\"$'^([^:]+:[0-9]+|environment:[0-9]+):.+$'\")."
 msgstr ""
 
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:394
@@ -1528,8 +1529,8 @@ msgstr ""
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:540
 #: ../../reference_testing/src/testing/fixtures/REFERENCE.md:14
 msgid ""
-"STDLIB_TESTING_THEME_DEBUG_FIXTURE: The colour to use for the debug "
-"output (default=\"GREY\")."
+"STDLIB_TESTING_THEME_DEBUG_FIXTURE string global: The colour to use for "
+"the debug output (default=\"GREY\")."
 msgstr ""
 
 #: ../../reference_testing/src/testing/REFERENCE_COMPLETE.md:544

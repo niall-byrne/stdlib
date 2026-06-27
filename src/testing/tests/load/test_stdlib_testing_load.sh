@@ -6,8 +6,8 @@ setup_suite() {
 }
 
 setup() {
-  _mock.create _testing.error
-  _testing.error.mock.set.rc "127"
+  _mock.create stdlib.testing.internal.logger.error
+  stdlib.testing.internal.logger.error.mock.set.rc "127"
 }
 
 @parametrize_with_invalid_args() {
@@ -42,7 +42,7 @@ test_stdlib_testing_load__@vary__logs_error_message() {
 
   _testing.load "${args[@]}"
 
-  _testing.error.mock.assert_called_once_with "1(_testing.load: $(stdlib.__message.get "${message_args[@]}"))"
+  stdlib.testing.internal.logger.error.mock.assert_called_once_with "1($(stdlib.__message.get "${message_args[@]}"))"
 }
 
 @parametrize_with_invalid_args \
@@ -64,7 +64,7 @@ test_stdlib_testing_load__no_error______returns_status_code_0() {
 test_stdlib_testing_load__with_error____display_error_message() {
   _capture.output _testing.load "non-existent_target.sh"
 
-  _testing.error.mock.assert_called_once_with "1($(_testing.__message.get LOAD_MODULE_NOT_FOUND "non-existent_target.sh"))"
+  stdlib.testing.internal.logger.error.mock.assert_called_once_with "1($(_testing.__message.get LOAD_MODULE_NOT_FOUND "non-existent_target.sh"))"
 }
 
 test_stdlib_testing_load__with_error____returns_status_code_126() {
