@@ -42,15 +42,6 @@
 * [stdlib.string.justify.right](#stdlibstringjustifyright)
 * [stdlib.string.justify.right_pipe](#stdlibstringjustifyright_pipe)
 * [stdlib.string.justify.right_var](#stdlibstringjustifyright_var)
-* [stdlib.string.lines.join](#stdlibstringlinesjoin)
-* [stdlib.string.lines.join_pipe](#stdlibstringlinesjoin_pipe)
-* [stdlib.string.lines.join_var](#stdlibstringlinesjoin_var)
-* [stdlib.string.lines.map.fn](#stdlibstringlinesmapfn)
-* [stdlib.string.lines.map.fn_pipe](#stdlibstringlinesmapfn_pipe)
-* [stdlib.string.lines.map.fn_var](#stdlibstringlinesmapfn_var)
-* [stdlib.string.lines.map.format](#stdlibstringlinesmapformat)
-* [stdlib.string.lines.map.format_pipe](#stdlibstringlinesmapformat_pipe)
-* [stdlib.string.lines.map.format_var](#stdlibstringlinesmapformat_var)
 * [stdlib.string.pad.left](#stdlibstringpadleft)
 * [stdlib.string.pad.left_pipe](#stdlibstringpadleft_pipe)
 * [stdlib.string.pad.left_var](#stdlibstringpadleft_var)
@@ -80,6 +71,12 @@
 * [stdlib.string.query.first_char_is](#stdlibstringqueryfirst_char_is)
 * [stdlib.string.query.last_char_is](#stdlibstringquerylast_char_is)
 * [stdlib.string.query.starts_with](#stdlibstringquerystarts_with)
+* [stdlib.string.split.map.fn](#stdlibstringsplitmapfn)
+* [stdlib.string.split.map.fn_pipe](#stdlibstringsplitmapfn_pipe)
+* [stdlib.string.split.map.fn_var](#stdlibstringsplitmapfn_var)
+* [stdlib.string.split.map.format](#stdlibstringsplitmapformat)
+* [stdlib.string.split.map.format_pipe](#stdlibstringsplitmapformat_pipe)
+* [stdlib.string.split.map.format_var](#stdlibstringsplitmapformat_var)
 * [stdlib.string.trim.left](#stdlibstringtrimleft)
 * [stdlib.string.trim.left_pipe](#stdlibstringtrimleft_pipe)
 * [stdlib.string.trim.left_var](#stdlibstringtrimleft_var)
@@ -885,219 +882,6 @@ A derivative of stdlib.string.justify.right that can read from and write to a va
 
 * The error message if the operation fails.
 
-### stdlib.string.lines.join
-
-Joins lines in a string by removing a delimiter.
-* STDLIB_LINE_BREAK_DELIMITER string keyword: A line break char sequence which is replaced to join the string (default=$'\n').
-
-#### Arguments
-
-* **$1** (string): The string to process.
-
-#### Exit codes
-
-* **0**: If the operation succeeded.
-* **127**: If the wrong number of arguments were provided.
-
-#### Output on stdout
-
-* The joined string.
-
-#### Output on stderr
-
-* The error message if the operation fails.
-
-### stdlib.string.lines.join_pipe
-
-A derivative of stdlib.string.lines.join that can read from stdin.
-* STDLIB_LINE_BREAK_DELIMITER string keyword: A line break char sequence which is replaced to join the string (default=$'\n').
-
-#### Arguments
-
-* **$1** (string): (optional, default="-") The string to process, by default this function reads from stdin.
-
-#### Exit codes
-
-* **0**: If the operation succeeded.
-* **127**: If the wrong number of arguments were provided.
-
-#### Input on stdin
-
-* The string to process.
-
-#### Output on stdout
-
-* The joined string.
-
-#### Output on stderr
-
-* The error message if the operation fails.
-
-### stdlib.string.lines.join_var
-
-A derivative of stdlib.string.lines.join that can read from and write to a variable.
-* STDLIB_LINE_BREAK_DELIMITER string keyword: A line break char sequence which is replaced to join the string (default=$'\n').
-
-#### Arguments
-
-* **$1** (string): The name of the variable to read from and write to.
-
-#### Exit codes
-
-* **0**: If the operation succeeded.
-* **127**: If the wrong number of arguments were provided.
-
-#### Output on stderr
-
-* The error message if the operation fails.
-
-### stdlib.string.lines.map.fn
-
-Maps a function over each line of a string.
-* STDLIB_LINE_BREAK_DELIMITER_CHAR string keyword: The line break char to use (default=$'\n').
-
-#### Arguments
-
-* **$1** (string): The name of the function to apply to each line.
-* **$2** (string): The input string to process.
-
-#### Exit codes
-
-* **0**: If the operation succeeded.
-* **125**: If an invalid keyword has been provided.
-* **126**: If an invalid argument has been provided.
-* **127**: If the wrong number of arguments were provided.
-
-#### Output on stdout
-
-* The mapped lines.
-
-#### Output on stderr
-
-* The error message if the operation fails.
-
-### stdlib.string.lines.map.fn_pipe
-
-A derivative of stdlib.string.lines.map.fn that can read from stdin.
-* STDLIB_LINE_BREAK_DELIMITER_CHAR string keyword: The line break char to use (default=$'\n').
-
-#### Arguments
-
-* **$1** (string): The name of the function to apply to each line.
-* **$2** (string): (optional, default="-") The input string to process, by default this function reads from stdin.
-
-#### Exit codes
-
-* **0**: If the operation succeeded.
-* **125**: If an invalid keyword has been provided.
-* **126**: If an invalid argument has been provided.
-* **127**: If the wrong number of arguments were provided.
-
-#### Input on stdin
-
-* The input string to process.
-
-#### Output on stdout
-
-* The mapped lines.
-
-#### Output on stderr
-
-* The error message if the operation fails.
-
-### stdlib.string.lines.map.fn_var
-
-A derivative of stdlib.string.lines.map.fn that can read from and write to a variable.
-* STDLIB_LINE_BREAK_DELIMITER_CHAR string keyword: The line break char to use (default=$'\n').
-
-#### Arguments
-
-* **$1** (string): The name of the function to apply to each line.
-* **$2** (string): The name of the variable to read from and write to.
-
-#### Exit codes
-
-* **0**: If the operation succeeded.
-* **125**: If an invalid keyword has been provided.
-* **126**: If an invalid argument has been provided.
-* **127**: If the wrong number of arguments were provided.
-
-#### Output on stderr
-
-* The error message if the operation fails.
-
-### stdlib.string.lines.map.format
-
-Maps a format string over each line of a string.
-* STDLIB_LINE_BREAK_DELIMITER_CHAR string keyword: The line break char to use (default=$'\n').
-
-#### Arguments
-
-* **$1** (string): A valid printf format string.
-* **$2** (string): The input string to process.
-
-#### Exit codes
-
-* **0**: If the operation succeeded.
-* **125**: If an invalid keyword has been provided.
-* **127**: If the wrong number of arguments were provided.
-
-#### Output on stdout
-
-* The formatted lines.
-
-#### Output on stderr
-
-* The error message if the operation fails.
-
-### stdlib.string.lines.map.format_pipe
-
-A derivative of stdlib.string.lines.map.format that can read from stdin.
-* STDLIB_LINE_BREAK_DELIMITER_CHAR string keyword: The line break char to use (default=$'\n').
-
-#### Arguments
-
-* **$1** (string): A valid printf format string.
-* **$2** (string): (optional, default="-") The input string to process, by default this function reads from stdin.
-
-#### Exit codes
-
-* **0**: If the operation succeeded.
-* **125**: If an invalid keyword has been provided.
-* **127**: If the wrong number of arguments were provided.
-
-#### Input on stdin
-
-* The input string to process.
-
-#### Output on stdout
-
-* The formatted lines.
-
-#### Output on stderr
-
-* The error message if the operation fails.
-
-### stdlib.string.lines.map.format_var
-
-A derivative of stdlib.string.lines.map.format that can read from and write to a variable.
-* STDLIB_LINE_BREAK_DELIMITER_CHAR string keyword: The line break char to use (default=$'\n').
-
-#### Arguments
-
-* **$1** (string): A valid printf format string.
-* **$2** (string): The name of the variable to read from and write to.
-
-#### Exit codes
-
-* **0**: If the operation succeeded.
-* **125**: If an invalid keyword has been provided.
-* **127**: If the wrong number of arguments were provided.
-
-#### Output on stderr
-
-* The error message if the operation fails.
-
 ### stdlib.string.pad.left
 
 Pads a string on the left with a specified number of spaces.
@@ -1582,6 +1366,159 @@ Checks if a string starts with a specified substring.
 * **1**: If the string does not start with the substring.
 * **126**: If an invalid argument has been provided.
 * **127**: If the wrong number of arguments were provided.
+
+### stdlib.string.split.map.fn
+
+Maps a function over each line of a string.
+* STDLIB_FIELD_DELIMITER string keyword: The field separator char sequence to use (default=$'\n').
+* STDLIB_FIELD_DELIMITER_ENCODE_CHAR string keyword: A placeholder char used to encode multi-char delimiters (default=$'\x1e').
+
+#### Arguments
+
+* **$1** (string): The name of the function to apply to each line.
+* **$2** (string): The input string to process.
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+* **125**: If an invalid keyword has been provided.
+* **126**: If an invalid argument has been provided.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stdout
+
+* The mapped lines.
+
+#### Output on stderr
+
+* The error message if the operation fails.
+
+### stdlib.string.split.map.fn_pipe
+
+A derivative of stdlib.string.split.map.fn that can read from stdin.
+* STDLIB_FIELD_DELIMITER string keyword: The field separator char sequence to use (default=$'\n').
+* STDLIB_FIELD_DELIMITER_ENCODE_CHAR string keyword: A placeholder char used to encode multi-char delimiters (default=$'\x1e').
+
+#### Arguments
+
+* **$1** (string): The name of the function to apply to each line.
+* **$2** (string): (optional, default="-") The input string to process, by default this function reads from stdin.
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+* **125**: If an invalid keyword has been provided.
+* **126**: If an invalid argument has been provided.
+* **127**: If the wrong number of arguments were provided.
+
+#### Input on stdin
+
+* The input string to process.
+
+#### Output on stdout
+
+* The mapped lines.
+
+#### Output on stderr
+
+* The error message if the operation fails.
+
+### stdlib.string.split.map.fn_var
+
+A derivative of stdlib.string.split.map.fn that can read from and write to a variable.
+* STDLIB_FIELD_DELIMITER string keyword: The field separator char sequence to use (default=$'\n').
+* STDLIB_FIELD_DELIMITER_ENCODE_CHAR string keyword: A placeholder char used to encode multi-char delimiters (default=$'\x1e').
+
+#### Arguments
+
+* **$1** (string): The name of the function to apply to each line.
+* **$2** (string): The name of the variable to read from and write to.
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+* **125**: If an invalid keyword has been provided.
+* **126**: If an invalid argument has been provided.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stderr
+
+* The error message if the operation fails.
+
+### stdlib.string.split.map.format
+
+Maps a format string over each line of a string.
+* STDLIB_FIELD_DELIMITER string keyword: The field separator char sequence to use (default=$'\n').
+* STDLIB_FIELD_DELIMITER_ENCODE_CHAR string keyword: A placeholder char used to encode multi-char delimiters (default=$'\x1e').
+
+#### Arguments
+
+* **$1** (string): A valid printf format string.
+* **$2** (string): The input string to process.
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+* **125**: If an invalid keyword has been provided.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stdout
+
+* The formatted lines.
+
+#### Output on stderr
+
+* The error message if the operation fails.
+
+### stdlib.string.split.map.format_pipe
+
+A derivative of stdlib.string.split.map.format that can read from stdin.
+* STDLIB_FIELD_DELIMITER string keyword: The field separator char sequence to use (default=$'\n').
+* STDLIB_FIELD_DELIMITER_ENCODE_CHAR string keyword: A placeholder char used to encode multi-char delimiters (default=$'\x1e').
+
+#### Arguments
+
+* **$1** (string): A valid printf format string.
+* **$2** (string): (optional, default="-") The input string to process, by default this function reads from stdin.
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+* **125**: If an invalid keyword has been provided.
+* **127**: If the wrong number of arguments were provided.
+
+#### Input on stdin
+
+* The input string to process.
+
+#### Output on stdout
+
+* The formatted lines.
+
+#### Output on stderr
+
+* The error message if the operation fails.
+
+### stdlib.string.split.map.format_var
+
+A derivative of stdlib.string.split.map.format that can read from and write to a variable.
+* STDLIB_FIELD_DELIMITER string keyword: The field separator char sequence to use (default=$'\n').
+* STDLIB_FIELD_DELIMITER_ENCODE_CHAR string keyword: A placeholder char used to encode multi-char delimiters (default=$'\x1e').
+
+#### Arguments
+
+* **$1** (string): A valid printf format string.
+* **$2** (string): The name of the variable to read from and write to.
+
+#### Exit codes
+
+* **0**: If the operation succeeded.
+* **125**: If an invalid keyword has been provided.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stderr
+
+* The error message if the operation fails.
 
 ### stdlib.string.trim.left
 

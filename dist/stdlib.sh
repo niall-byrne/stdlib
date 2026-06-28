@@ -73,11 +73,11 @@ declare -- STDLIB_COLOUR_WHITE=""
 declare -- STDLIB_COLOUR_YELLOW=""
 declare -a STDLIB_DEFERRED_FN_ARRAY=()
 declare -a STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY=()
+declare -- STDLIB_FIELD_DELIMITER=""
+declare -- STDLIB_FIELD_DELIMITER_ENCODE_CHAR=""
 declare -a STDLIB_HANDLER_ERR_FN_ARRAY=()
 declare -a STDLIB_HANDLER_EXIT_FN_ARRAY=([0]="stdlib.trap.fn.cleanup_on_exit")
 declare -- STDLIB_KW_SOURCE_VAR=""
-declare -- STDLIB_LINE_BREAK_DELIMITER=""
-declare -- STDLIB_LINE_BREAK_DELIMITER_CHAR=""
 declare -- STDLIB_LINE_BREAK_FORCE_CHAR=""
 declare -- STDLIB_LOCK_PERMISSION_OCTAL=""
 declare -- STDLIB_LOCK_POLLING_INTERVAL=""
@@ -3120,240 +3120,6 @@ stdlib.string.justify.right_var ()
     builtin printf -v "${fn_variable_name}" "%s" "$("stdlib.string.justify.right" "${fn_arguments[@]}")"
 }
 
-stdlib.string.lines.join ()
-{
-    builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
-    builtin local delimiter;
-    STDLIB_ARGS_NULL_SAFE_ARRAY=("1");
-    stdlib.fn.args.require "1" "0" "${@}" || builtin return "$?";
-    stdlib.fn.keyword.consume delimiter STDLIB_LINE_BREAK_DELIMITER '
-';
-    builtin printf '%s\n' "${1//${delimiter}/}"
-}
-
-stdlib.string.lines.join_pipe ()
-{
-    builtin local mutate_examined_arg="";
-    builtin local mutate_examined_arg_index=0;
-    builtin local mutate_pipe_input="";
-    builtin local mutate_pipe_input_index=0;
-    builtin local mutate_pipe_input_line='';
-    builtin local mutate_pipe_parser_strategy="ARG_SPECIFIED";
-    builtin local -a mutate_received_args;
-    mutate_received_args=("$@");
-    if [[ "${#@}" -lt "1" ]]; then
-        mutate_pipe_parser_strategy="STDIN_ASSUMED";
-        mutate_pipe_input_index="$(("${#@}" + 1))";
-    fi;
-    if [[ "${mutate_pipe_parser_strategy}" == "ARG_SPECIFIED" ]]; then
-        for mutate_examined_arg in "${@}";
-        do
-            if [[ "${mutate_examined_arg}" == "-" ]]; then
-                mutate_pipe_parser_strategy="STDIN_POSITIONAL";
-                mutate_pipe_input_index="${mutate_examined_arg_index}";
-                builtin break;
-            fi;
-            ((mutate_examined_arg_index+=1));
-        done;
-    fi;
-    if [[ "${mutate_pipe_parser_strategy}" != "ARG_SPECIFIED" ]]; then
-        while IFS= builtin read -r mutate_pipe_input_line; do
-            mutate_pipe_input+="${mutate_pipe_input_line}";
-            mutate_pipe_input+='
-';
-        done;
-        mutate_pipe_input="${mutate_pipe_input%?}";
-        mutate_received_args[mutate_pipe_input_index]="${mutate_pipe_input}";
-    fi;
-    "stdlib.string.lines.join" "${mutate_received_args[@]}"
-}
-
-stdlib.string.lines.join_var ()
-{
-    builtin local fn_argument_index;
-    builtin local fn_argument_index_variable_name="-1";
-    builtin local -a fn_arguments;
-    builtin local fn_variable_name="";
-    stdlib.fn.args.require "1" "1000" "${@}" || builtin return "$?";
-    if [[ "-1" -lt "0" ]]; then
-        fn_argument_index_variable_name="$(("${#@}" + 1 + "-1"))";
-    fi;
-    for ((fn_argument_index=1; fn_argument_index <= "${#@}"; fn_argument_index+=1))
-    do
-        if (("${fn_argument_index}" == "${fn_argument_index_variable_name}")); then
-            fn_variable_name="${!fn_argument_index}";
-            stdlib.var.assert.is_valid_name "${fn_variable_name}" || builtin return 126;
-            fn_arguments+=("${!fn_variable_name}");
-        else
-            fn_arguments+=("${!fn_argument_index}");
-        fi;
-    done;
-    builtin printf -v "${fn_variable_name}" "%s" "$("stdlib.string.lines.join" "${fn_arguments[@]}")"
-}
-
-stdlib.string.lines.map.fn ()
-{
-    builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
-    builtin local delimiter;
-    builtin local line="";
-    builtin local output="";
-    STDLIB_ARGS_NULL_SAFE_ARRAY=("2");
-    stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?";
-    stdlib.fn.assert.is_fn "${1}" || builtin return 126;
-    stdlib.fn.keyword.consume delimiter STDLIB_LINE_BREAK_DELIMITER_CHAR '
-';
-    STDLIB_KW_SOURCE_VAR="delimiter" stdlib.fn.keyword.assert.is_valid_with stdlib.string.assert.is_char STDLIB_LINE_BREAK_DELIMITER_CHAR || builtin return 125;
-    if ! stdlib.string.query.has_substring "${delimiter}" "${2}"; then
-        "${1}" "${2}";
-        builtin return;
-    fi;
-    while IFS="${delimiter}" builtin read -r -d "${delimiter}" line; do
-        output+="$("${1}" "${line}")${delimiter}";
-    done < <(builtin echo -n "${2}${delimiter}");
-    builtin echo -e "${output%?}"
-}
-
-stdlib.string.lines.map.fn_pipe ()
-{
-    builtin local mutate_examined_arg="";
-    builtin local mutate_examined_arg_index=0;
-    builtin local mutate_pipe_input="";
-    builtin local mutate_pipe_input_index=0;
-    builtin local mutate_pipe_input_line='';
-    builtin local mutate_pipe_parser_strategy="ARG_SPECIFIED";
-    builtin local -a mutate_received_args;
-    mutate_received_args=("$@");
-    if [[ "${#@}" -lt "2" ]]; then
-        mutate_pipe_parser_strategy="STDIN_ASSUMED";
-        mutate_pipe_input_index="$(("${#@}" + 1))";
-    fi;
-    if [[ "${mutate_pipe_parser_strategy}" == "ARG_SPECIFIED" ]]; then
-        for mutate_examined_arg in "${@}";
-        do
-            if [[ "${mutate_examined_arg}" == "-" ]]; then
-                mutate_pipe_parser_strategy="STDIN_POSITIONAL";
-                mutate_pipe_input_index="${mutate_examined_arg_index}";
-                builtin break;
-            fi;
-            ((mutate_examined_arg_index+=1));
-        done;
-    fi;
-    if [[ "${mutate_pipe_parser_strategy}" != "ARG_SPECIFIED" ]]; then
-        while IFS= builtin read -r mutate_pipe_input_line; do
-            mutate_pipe_input+="${mutate_pipe_input_line}";
-            mutate_pipe_input+='
-';
-        done;
-        mutate_pipe_input="${mutate_pipe_input%?}";
-        mutate_received_args[mutate_pipe_input_index]="${mutate_pipe_input}";
-    fi;
-    "stdlib.string.lines.map.fn" "${mutate_received_args[@]}"
-}
-
-stdlib.string.lines.map.fn_var ()
-{
-    builtin local fn_argument_index;
-    builtin local fn_argument_index_variable_name="-1";
-    builtin local -a fn_arguments;
-    builtin local fn_variable_name="";
-    stdlib.fn.args.require "1" "1000" "${@}" || builtin return "$?";
-    if [[ "-1" -lt "0" ]]; then
-        fn_argument_index_variable_name="$(("${#@}" + 1 + "-1"))";
-    fi;
-    for ((fn_argument_index=1; fn_argument_index <= "${#@}"; fn_argument_index+=1))
-    do
-        if (("${fn_argument_index}" == "${fn_argument_index_variable_name}")); then
-            fn_variable_name="${!fn_argument_index}";
-            stdlib.var.assert.is_valid_name "${fn_variable_name}" || builtin return 126;
-            fn_arguments+=("${!fn_variable_name}");
-        else
-            fn_arguments+=("${!fn_argument_index}");
-        fi;
-    done;
-    builtin printf -v "${fn_variable_name}" "%s" "$("stdlib.string.lines.map.fn" "${fn_arguments[@]}")"
-}
-
-stdlib.string.lines.map.format ()
-{
-    builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
-    builtin local delimiter;
-    builtin local line="";
-    builtin local output="";
-    STDLIB_ARGS_NULL_SAFE_ARRAY=("2");
-    stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?";
-    stdlib.fn.keyword.consume delimiter STDLIB_LINE_BREAK_DELIMITER_CHAR '
-';
-    STDLIB_KW_SOURCE_VAR="delimiter" stdlib.fn.keyword.assert.is_valid_with stdlib.string.assert.is_char STDLIB_LINE_BREAK_DELIMITER_CHAR || builtin return 125;
-    if ! stdlib.string.query.has_substring "${delimiter}" "${2}"; then
-        builtin printf "${1}" "${2}";
-        builtin return;
-    fi;
-    while IFS="${delimiter}" builtin read -r -d "${delimiter}" line; do
-        output+="$(builtin printf "${1}" "${line}")${delimiter}";
-    done < <(builtin echo -n "${2}${delimiter}");
-    builtin echo -e "${output%?}"
-}
-
-stdlib.string.lines.map.format_pipe ()
-{
-    builtin local mutate_examined_arg="";
-    builtin local mutate_examined_arg_index=0;
-    builtin local mutate_pipe_input="";
-    builtin local mutate_pipe_input_index=0;
-    builtin local mutate_pipe_input_line='';
-    builtin local mutate_pipe_parser_strategy="ARG_SPECIFIED";
-    builtin local -a mutate_received_args;
-    mutate_received_args=("$@");
-    if [[ "${#@}" -lt "2" ]]; then
-        mutate_pipe_parser_strategy="STDIN_ASSUMED";
-        mutate_pipe_input_index="$(("${#@}" + 1))";
-    fi;
-    if [[ "${mutate_pipe_parser_strategy}" == "ARG_SPECIFIED" ]]; then
-        for mutate_examined_arg in "${@}";
-        do
-            if [[ "${mutate_examined_arg}" == "-" ]]; then
-                mutate_pipe_parser_strategy="STDIN_POSITIONAL";
-                mutate_pipe_input_index="${mutate_examined_arg_index}";
-                builtin break;
-            fi;
-            ((mutate_examined_arg_index+=1));
-        done;
-    fi;
-    if [[ "${mutate_pipe_parser_strategy}" != "ARG_SPECIFIED" ]]; then
-        while IFS= builtin read -r mutate_pipe_input_line; do
-            mutate_pipe_input+="${mutate_pipe_input_line}";
-            mutate_pipe_input+='
-';
-        done;
-        mutate_pipe_input="${mutate_pipe_input%?}";
-        mutate_received_args[mutate_pipe_input_index]="${mutate_pipe_input}";
-    fi;
-    "stdlib.string.lines.map.format" "${mutate_received_args[@]}"
-}
-
-stdlib.string.lines.map.format_var ()
-{
-    builtin local fn_argument_index;
-    builtin local fn_argument_index_variable_name="-1";
-    builtin local -a fn_arguments;
-    builtin local fn_variable_name="";
-    stdlib.fn.args.require "1" "1000" "${@}" || builtin return "$?";
-    if [[ "-1" -lt "0" ]]; then
-        fn_argument_index_variable_name="$(("${#@}" + 1 + "-1"))";
-    fi;
-    for ((fn_argument_index=1; fn_argument_index <= "${#@}"; fn_argument_index+=1))
-    do
-        if (("${fn_argument_index}" == "${fn_argument_index_variable_name}")); then
-            fn_variable_name="${!fn_argument_index}";
-            stdlib.var.assert.is_valid_name "${fn_variable_name}" || builtin return 126;
-            fn_arguments+=("${!fn_variable_name}");
-        else
-            fn_arguments+=("${!fn_argument_index}");
-        fi;
-    done;
-    builtin printf -v "${fn_variable_name}" "%s" "$("stdlib.string.lines.map.format" "${fn_arguments[@]}")"
-}
-
 stdlib.string.pad.left ()
 {
     builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
@@ -3827,6 +3593,176 @@ stdlib.string.query.starts_with ()
     [[ -n "${2}" ]] || builtin return 126;
     [[ "${2}" == "${1}"* ]] || builtin return 1;
     builtin return 0
+}
+
+stdlib.string.split.map.fn ()
+{
+    builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
+    builtin local delimiter="";
+    builtin local fn_name="${1}";
+    builtin local input="${2}";
+    builtin local line="";
+    builtin local output="";
+    builtin local placeholder="";
+    STDLIB_ARGS_NULL_SAFE_ARRAY=("2");
+    stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?";
+    stdlib.fn.assert.is_fn "${fn_name}" || builtin return 126;
+    stdlib.fn.keyword.consume delimiter STDLIB_FIELD_DELIMITER '
+';
+    stdlib.fn.keyword.consume placeholder STDLIB_FIELD_DELIMITER_ENCODE_CHAR '';
+    STDLIB_KW_SOURCE_VAR="delimiter" stdlib.fn.keyword.assert.is_valid_with stdlib.string.assert.not_empty STDLIB_FIELD_DELIMITER || builtin return 125;
+    STDLIB_KW_SOURCE_VAR="placeholder" stdlib.fn.keyword.assert.is_valid_with stdlib.string.assert.is_char STDLIB_FIELD_DELIMITER_ENCODE_CHAR || builtin return 125;
+    input="${input//${delimiter}/${placeholder}}";
+    while IFS="${placeholder}" builtin read -r -d "${placeholder}" line; do
+        output+="$("${fn_name}" "${line}")${placeholder}";
+    done < <(builtin printf "%s" "${input}${placeholder}");
+    output="${output%?}";
+    output="${output//${placeholder}/${delimiter}}";
+    builtin echo -e "${output}"
+}
+
+stdlib.string.split.map.fn_pipe ()
+{
+    builtin local mutate_examined_arg="";
+    builtin local mutate_examined_arg_index=0;
+    builtin local mutate_pipe_input="";
+    builtin local mutate_pipe_input_index=0;
+    builtin local mutate_pipe_input_line='';
+    builtin local mutate_pipe_parser_strategy="ARG_SPECIFIED";
+    builtin local -a mutate_received_args;
+    mutate_received_args=("$@");
+    if [[ "${#@}" -lt "2" ]]; then
+        mutate_pipe_parser_strategy="STDIN_ASSUMED";
+        mutate_pipe_input_index="$(("${#@}" + 1))";
+    fi;
+    if [[ "${mutate_pipe_parser_strategy}" == "ARG_SPECIFIED" ]]; then
+        for mutate_examined_arg in "${@}";
+        do
+            if [[ "${mutate_examined_arg}" == "-" ]]; then
+                mutate_pipe_parser_strategy="STDIN_POSITIONAL";
+                mutate_pipe_input_index="${mutate_examined_arg_index}";
+                builtin break;
+            fi;
+            ((mutate_examined_arg_index+=1));
+        done;
+    fi;
+    if [[ "${mutate_pipe_parser_strategy}" != "ARG_SPECIFIED" ]]; then
+        while IFS= builtin read -r mutate_pipe_input_line; do
+            mutate_pipe_input+="${mutate_pipe_input_line}";
+            mutate_pipe_input+='
+';
+        done;
+        mutate_pipe_input="${mutate_pipe_input%?}";
+        mutate_received_args[mutate_pipe_input_index]="${mutate_pipe_input}";
+    fi;
+    "stdlib.string.split.map.fn" "${mutate_received_args[@]}"
+}
+
+stdlib.string.split.map.fn_var ()
+{
+    builtin local fn_argument_index;
+    builtin local fn_argument_index_variable_name="-1";
+    builtin local -a fn_arguments;
+    builtin local fn_variable_name="";
+    stdlib.fn.args.require "1" "1000" "${@}" || builtin return "$?";
+    if [[ "-1" -lt "0" ]]; then
+        fn_argument_index_variable_name="$(("${#@}" + 1 + "-1"))";
+    fi;
+    for ((fn_argument_index=1; fn_argument_index <= "${#@}"; fn_argument_index+=1))
+    do
+        if (("${fn_argument_index}" == "${fn_argument_index_variable_name}")); then
+            fn_variable_name="${!fn_argument_index}";
+            stdlib.var.assert.is_valid_name "${fn_variable_name}" || builtin return 126;
+            fn_arguments+=("${!fn_variable_name}");
+        else
+            fn_arguments+=("${!fn_argument_index}");
+        fi;
+    done;
+    builtin printf -v "${fn_variable_name}" "%s" "$("stdlib.string.split.map.fn" "${fn_arguments[@]}")"
+}
+
+stdlib.string.split.map.format ()
+{
+    builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
+    builtin local delimiter;
+    builtin local line="";
+    builtin local output="";
+    builtin local fmt_string="${1}";
+    builtin local input="${2}";
+    STDLIB_ARGS_NULL_SAFE_ARRAY=("2");
+    stdlib.fn.args.require "2" "0" "${@}" || builtin return "$?";
+    stdlib.fn.keyword.consume delimiter STDLIB_FIELD_DELIMITER '
+';
+    stdlib.fn.keyword.consume placeholder STDLIB_FIELD_DELIMITER_ENCODE_CHAR '';
+    STDLIB_KW_SOURCE_VAR="delimiter" stdlib.fn.keyword.assert.is_valid_with stdlib.string.assert.not_empty STDLIB_FIELD_DELIMITER || builtin return 125;
+    STDLIB_KW_SOURCE_VAR="placeholder" stdlib.fn.keyword.assert.is_valid_with stdlib.string.assert.is_char STDLIB_FIELD_DELIMITER_ENCODE_CHAR || builtin return 125;
+    input="${input//${delimiter}/${placeholder}}";
+    while IFS="${placeholder}" builtin read -r -d "${placeholder}" line; do
+        output+="$(builtin printf "${fmt_string}" "${line}")${placeholder}";
+    done < <(builtin printf "%s" "${input}${placeholder}");
+    output="${output%?}";
+    output="${output//${placeholder}/${delimiter}}";
+    builtin echo -e "${output}"
+}
+
+stdlib.string.split.map.format_pipe ()
+{
+    builtin local mutate_examined_arg="";
+    builtin local mutate_examined_arg_index=0;
+    builtin local mutate_pipe_input="";
+    builtin local mutate_pipe_input_index=0;
+    builtin local mutate_pipe_input_line='';
+    builtin local mutate_pipe_parser_strategy="ARG_SPECIFIED";
+    builtin local -a mutate_received_args;
+    mutate_received_args=("$@");
+    if [[ "${#@}" -lt "2" ]]; then
+        mutate_pipe_parser_strategy="STDIN_ASSUMED";
+        mutate_pipe_input_index="$(("${#@}" + 1))";
+    fi;
+    if [[ "${mutate_pipe_parser_strategy}" == "ARG_SPECIFIED" ]]; then
+        for mutate_examined_arg in "${@}";
+        do
+            if [[ "${mutate_examined_arg}" == "-" ]]; then
+                mutate_pipe_parser_strategy="STDIN_POSITIONAL";
+                mutate_pipe_input_index="${mutate_examined_arg_index}";
+                builtin break;
+            fi;
+            ((mutate_examined_arg_index+=1));
+        done;
+    fi;
+    if [[ "${mutate_pipe_parser_strategy}" != "ARG_SPECIFIED" ]]; then
+        while IFS= builtin read -r mutate_pipe_input_line; do
+            mutate_pipe_input+="${mutate_pipe_input_line}";
+            mutate_pipe_input+='
+';
+        done;
+        mutate_pipe_input="${mutate_pipe_input%?}";
+        mutate_received_args[mutate_pipe_input_index]="${mutate_pipe_input}";
+    fi;
+    "stdlib.string.split.map.format" "${mutate_received_args[@]}"
+}
+
+stdlib.string.split.map.format_var ()
+{
+    builtin local fn_argument_index;
+    builtin local fn_argument_index_variable_name="-1";
+    builtin local -a fn_arguments;
+    builtin local fn_variable_name="";
+    stdlib.fn.args.require "1" "1000" "${@}" || builtin return "$?";
+    if [[ "-1" -lt "0" ]]; then
+        fn_argument_index_variable_name="$(("${#@}" + 1 + "-1"))";
+    fi;
+    for ((fn_argument_index=1; fn_argument_index <= "${#@}"; fn_argument_index+=1))
+    do
+        if (("${fn_argument_index}" == "${fn_argument_index_variable_name}")); then
+            fn_variable_name="${!fn_argument_index}";
+            stdlib.var.assert.is_valid_name "${fn_variable_name}" || builtin return 126;
+            fn_arguments+=("${!fn_variable_name}");
+        else
+            fn_arguments+=("${!fn_argument_index}");
+        fi;
+    done;
+    builtin printf -v "${fn_variable_name}" "%s" "$("stdlib.string.split.map.format" "${fn_arguments[@]}")"
 }
 
 stdlib.string.trim.left ()
