@@ -4,6 +4,9 @@
 
 builtin set -eo pipefail
 
+# shellcheck disable=SC2034
+STDLIB_LINE_BREAK_DELIMITER_CHAR=""
+
 # @description Generates a mock argument string from an array.
 # @arg $1 string The name of the array containing positional arguments.
 # @arg $2 string (optional) The name of the array containing keyword arguments.
