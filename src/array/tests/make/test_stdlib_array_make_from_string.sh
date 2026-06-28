@@ -14,7 +14,6 @@ setup() {
     "extra_arg____________returns_status_code_127;ARRAY1|#|input_string|extra_arg;127" \
     "null_array_name______returns_status_code_126;|#|input string;126" \
     "null_separator_______returns_status_code_126;test||input string;126" \
-    "invalid_separator____returns_status_code_126;test|##|input string;126" \
     "invalid_array_name___returns_status_code_126;INVALID!NAME|#|input string;126" \
     "null_source_string___returns_status_code___0;test|#||;0"
 }
@@ -32,6 +31,42 @@ test_stdlib_array_make_from_string__@vary() {
 @parametrize_with_arg_combos \
   test_stdlib_array_make_from_string__@vary
 
+test_stdlib_array_make_from_string__invalid_keyword______returns_status_code_125() {
+  STDLIB_FIELD_DELIMITER_ENCODE_CHAR="##" \
+    _capture.rc stdlib.array.make.from_string \
+    "array_name" \
+    "|" \
+    "field1|field2|field3"
+
+  assert_rc "125"
+}
+
+test_stdlib_array_make_from_string__invalid_keyword______generates_expected_logging_message() {
+  STDLIB_FIELD_DELIMITER_ENCODE_CHAR="##" \
+    stdlib.array.make.from_string \
+    "array_name" \
+    "|" \
+    "field1|field2|field3"
+
+  stdlib.logger.error.mock.assert_calls_are \
+    "1($(stdlib.__message.get IS_NOT_CHAR "##"))" \
+    "1($(stdlib.__message.get ARGUMENTS_KEYWORD_INVALID_DETAIL STDLIB_FIELD_DELIMITER_ENCODE_CHAR))"
+}
+
+test_stdlib_array_make_from_string__valid_arguments______stops_keyword_propagation() {
+  _mock.create stdlib.fn.keyword.consume
+  # shellcheck disable=SC2016
+  stdlib.fn.keyword.consume.mock.set.subcommand 'printf -v "$1" "%s" "${!2}"'
+
+  stdlib.array.make.from_string \
+    "array_name" \
+    "|" \
+    "field1|field2|field3"
+
+  stdlib.fn.keyword.consume.mock.assert_called_once_with \
+    "1(placeholder) 2(STDLIB_FIELD_DELIMITER_ENCODE_CHAR) 3("$'\x1e'")"
+}
+
 test_stdlib_array_make_from_string__valid_arguments______returns_status_code___0() {
   _capture.rc stdlib.array.make.from_string \
     "array_name" \
@@ -47,8 +82,8 @@ test_stdlib_array_make_from_string__valid_arguments______creates_new_array() {
 
   _capture.rc stdlib.array.make.from_string \
     "array_name" \
-    "|" \
-    "field1|field2|field3"
+    "||" \
+    "field1||field2||field3"
 
   assert_array_equals expected_array array_name
 }

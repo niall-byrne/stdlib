@@ -751,21 +751,34 @@ stdlib.array.make.from_array ()
 
 stdlib.array.make.from_file ()
 {
+    builtin local delimiter="${2}";
+    builtin local file_content;
+    builtin local placeholder;
     stdlib.fn.args.require "3" "0" "${@}" || builtin return "$?";
     stdlib.var.assert.is_valid_name "${1}" || builtin return 126;
-    stdlib.string.assert.is_char "${2}" || builtin return 126;
+    stdlib.string.assert.not_empty "${delimiter}" || builtin return 126;
     stdlib.io.path.assert.is_file "${3}" || builtin return 126;
-    IFS="${2}" builtin read -ra "${1}" < "${3}"
+    stdlib.fn.keyword.consume placeholder STDLIB_FIELD_DELIMITER_ENCODE_CHAR '';
+    STDLIB_KW_SOURCE_VAR="placeholder" stdlib.fn.keyword.assert.is_valid_with stdlib.string.assert.is_char STDLIB_FIELD_DELIMITER_ENCODE_CHAR || builtin return 125;
+    IFS= builtin read -r -d '' file_content < "${3}" || builtin true;
+    file_content="${file_content//${delimiter}/${placeholder}}";
+    IFS="${placeholder}" builtin read -d "" -ra "${1}" < <(builtin printf %s "$file_content") || builtin true
 }
 
 stdlib.array.make.from_string ()
 {
     builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
+    builtin local delimiter="${2}";
+    builtin local input="${3}";
+    builtin local placeholder;
     STDLIB_ARGS_NULL_SAFE_ARRAY=("3");
     stdlib.fn.args.require "3" "0" "${@}" || builtin return "$?";
     stdlib.var.assert.is_valid_name "${1}" || builtin return 126;
-    stdlib.string.assert.is_char "${2}" || builtin return 126;
-    IFS="${2}" builtin read -d "" -ra "${1}" < <(builtin echo -n "${3}") || builtin return 0
+    stdlib.string.assert.not_empty "${delimiter}" || builtin return 126;
+    stdlib.fn.keyword.consume placeholder STDLIB_FIELD_DELIMITER_ENCODE_CHAR '';
+    STDLIB_KW_SOURCE_VAR="placeholder" stdlib.fn.keyword.assert.is_valid_with stdlib.string.assert.is_char STDLIB_FIELD_DELIMITER_ENCODE_CHAR || builtin return 125;
+    input="${input//${delimiter}/${placeholder}}";
+    IFS="${placeholder}" builtin read -d "" -ra "${1}" < <(builtin printf %s "$input") || builtin true
 }
 
 stdlib.array.make.from_string_n ()

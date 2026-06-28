@@ -4,7 +4,7 @@
 setup() {
   NON_EXISTENT_FILE="non_existent.txt"
   ARRAY_NAME="array_name"
-  EXPECTED_ARRAY=("field1" "field2" "field3")
+  EXPECTED_ARRAY=("field1" "field2" "field3"$'\n')
 
   _mock.create stdlib.logger.error
 }
@@ -20,7 +20,6 @@ setup() {
     "null_array_name____;|#|NON_EXISTENT_FILE;126" \
     "null_separator_____;ARRAY_NAME||NON_EXISTENT_FILE;126" \
     "invalid_array_name_;INVALID!NAME|#|NON_EXISTENT_FILE;126" \
-    "invalid_separator__;ARRAY_NAME|##|__fixtures__/array_as_file.txt;126" \
     "null_file_name_____;ARRAY_NAME|#||;126" \
     "file_does_not_exist;ARRAY_NAME|#|NON_EXISTENT_FILE;126" \
     "file_exists________;ARRAY_NAME|#|__fixtures__/array_as_file.txt;0"
@@ -52,6 +51,7 @@ setup() {
 
 test_stdlib_array_make_from_file__@vary__returns_expected_status_code() {
   local args=()
+
   stdlib.array.make.from_string args "|" "${TEST_ARGS}"
 
   _capture.rc stdlib.array.make.from_file "${args[@]}" > /dev/null
@@ -61,6 +61,28 @@ test_stdlib_array_make_from_file__@vary__returns_expected_status_code() {
 
 @parametrize_with_return_codes \
   test_stdlib_array_make_from_file__@vary__returns_expected_status_code
+
+test_stdlib_array_make_from_file__invalid_keyword______returns_status_code_125() {
+  STDLIB_FIELD_DELIMITER_ENCODE_CHAR="##" \
+    _capture.rc stdlib.array.make.from_file \
+    "array_name_1" \
+    "|" \
+    "__fixtures__/array_as_file.txt"
+
+  assert_rc "125"
+}
+
+test_stdlib_array_make_from_file__invalid_keyword______generates_expected_logging_message() {
+  STDLIB_FIELD_DELIMITER_ENCODE_CHAR="##" \
+    stdlib.array.make.from_file \
+    "array_name" \
+    "|" \
+    "__fixtures__/array_as_file.txt"
+
+  stdlib.logger.error.mock.assert_calls_are \
+    "1($(stdlib.__message.get IS_NOT_CHAR "##"))" \
+    "1($(stdlib.__message.get ARGUMENTS_KEYWORD_INVALID_DETAIL STDLIB_FIELD_DELIMITER_ENCODE_CHAR))"
+}
 
 test_stdlib_array_make_from_file__@vary__logs_error() {
   local args=()
@@ -87,6 +109,7 @@ test_stdlib_array_make_from_file__@vary__logs_error() {
 
 test_stdlib_array_make_from_file__@vary__creates_array() {
   local args=()
+
   stdlib.array.make.from_string args "|" "${TEST_ARGS}"
 
   stdlib.array.make.from_file "${args[@]}"
@@ -96,3 +119,20 @@ test_stdlib_array_make_from_file__@vary__creates_array() {
 
 @parametrize_with_success_outputs \
   test_stdlib_array_make_from_file__@vary__creates_array
+
+test_stdlib_array_make_from_file__@vary__stops_keyword_propagation() {
+  local args=()
+
+  stdlib.array.make.from_string args "|" "${TEST_ARGS}"
+  _mock.create stdlib.fn.keyword.consume
+  # shellcheck disable=SC2016
+  stdlib.fn.keyword.consume.mock.set.subcommand 'printf -v "$1" "%s" "${!2}"'
+
+  stdlib.array.make.from_file "${args[@]}"
+
+  stdlib.fn.keyword.consume.mock.assert_called_once_with \
+    "1(placeholder) 2(STDLIB_FIELD_DELIMITER_ENCODE_CHAR) 3("$'\x1e'")"
+}
+
+@parametrize_with_success_outputs \
+  test_stdlib_array_make_from_file__@vary__stops_keyword_propagation
