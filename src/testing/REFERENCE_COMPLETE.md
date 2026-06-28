@@ -634,7 +634,8 @@ Generates a mock argument string from an array.
 ### _mock.arg_string.make.from_string
 
 Generates a mock argument string from a delimited string.
-* STDLIB_LINE_BREAK_DELIMITER_CHAR string keyword: The line break char to use (default=" ").
+* STDLIB_FIELD_DELIMITER string keyword: The field separator char sequence to use (default=' ').
+* STDLIB_FIELD_DELIMITER_ENCODE_CHAR string keyword: A placeholder char used to encode multi-char delimiters (default=$'\x1e').
 
 #### Arguments
 

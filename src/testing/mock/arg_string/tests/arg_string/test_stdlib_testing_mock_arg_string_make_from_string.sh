@@ -19,18 +19,12 @@ setup_suite() {
     "null_string___no_array___________valid_separator____127; ;|;127" \
     "null_string___invalid_array______valid_separator____127; ;|invalid_array;127" \
     "null_string___valid_array________valid_separator____127; ;|empty_array;127" \
-    "null_string___no_array___________invalid_separator__127;--;|;127" \
-    "null_string___invalid_array______invalid_separator__127;--;|invalid_array;127" \
-    "null_string___valid_array________invalid_separator__127;--;|empty_array;127" \
     "valid_string__no_array___________null_separator_______0;;test string;0" \
     "valid_string__invalid_array______null_separator_____126;;test string|invalid_array;126" \
     "valid_string__valid_array________null_separator_______0;;test string|empty_array;0" \
     "valid_string__no_array___________valid_separator______0; ;test string;0" \
     "valid_string__invalid_array______valid_separator____126; ;test string|invalid_array;126" \
-    "valid_string__valid_array________valid_separator______0; ;test string|empty_array;0" \
-    "valid_string__no_array___________invalid_separator__125;--;test string;125" \
-    "valid_string__invalid_array______invalid_separator__125;--;test string|invalid_array;125" \
-    "valid_string__valid_array________invalid_separator__125;--;test string|empty_array;125"
+    "valid_string__valid_array________valid_separator______0; ;test string|empty_array;0"
 }
 
 @parametrize_with_valid_strings() {
@@ -59,7 +53,7 @@ setup_suite() {
 
 test_stdlib_testing_mock_arg_string_make_from_string__@vary__returns_expected_status_code() {
   local args=()
-  [[ "${TEST_SEPERATOR}" != "" ]] && local STDLIB_LINE_BREAK_DELIMITER_CHAR="${TEST_SEPERATOR}"
+  [[ "${TEST_SEPERATOR}" != "" ]] && local STDLIB_FIELD_DELIMITER="${TEST_SEPERATOR}"
 
   _mock.create stdlib.testing.internal.logger.error
   stdlib.array.make.from_string args "|" "${TEST_ARGS_DEFINITION}"
@@ -73,10 +67,10 @@ test_stdlib_testing_mock_arg_string_make_from_string__@vary__returns_expected_st
   test_stdlib_testing_mock_arg_string_make_from_string__@vary__returns_expected_status_code
 
 test_stdlib_testing_mock_arg_string_make_from_string__@vary__generates_correct_arg_string() {
-  local STDLIB_LINE_BREAK_DELIMITER_CHAR
+  local STDLIB_FIELD_DELIMITER
   local args=()
 
-  STDLIB_LINE_BREAK_DELIMITER_CHAR="${TEST_SEPERATOR}"
+  STDLIB_FIELD_DELIMITER="${TEST_SEPERATOR}"
   stdlib.array.make.from_string args "|" "${TEST_ARGS_DEFINITION}"
 
   _capture.stdout _mock.arg_string.make.from_string "${args[@]}"
@@ -88,19 +82,20 @@ test_stdlib_testing_mock_arg_string_make_from_string__@vary__generates_correct_a
   test_stdlib_testing_mock_arg_string_make_from_string__@vary__generates_correct_arg_string
 
 test_stdlib_testing_mock_arg_string_make_from_string__@vary__stops_keyword_propagation() {
-  local STDLIB_LINE_BREAK_DELIMITER_CHAR
+  local STDLIB_FIELD_DELIMITER
   local args=()
 
+  stdlib.array.make.from_string args "|" "${TEST_ARGS_DEFINITION}"
   _mock.create stdlib.testing.internal.fn.keyword.consume
   # shellcheck disable=SC2016
   stdlib.testing.internal.fn.keyword.consume.mock.set.subcommand 'printf -v "$1" "%s" "${!2}"'
-  STDLIB_LINE_BREAK_DELIMITER_CHAR="${TEST_SEPERATOR}"
-  stdlib.array.make.from_string args "|" "${TEST_ARGS_DEFINITION}"
+  STDLIB_FIELD_DELIMITER="${TEST_SEPERATOR}"
 
   _capture.stdout _mock.arg_string.make.from_string "${args[@]}"
 
-  stdlib.testing.internal.fn.keyword.consume.mock.assert_called_once_with \
-    "1(_mock_separator) 2(STDLIB_LINE_BREAK_DELIMITER_CHAR) 3( )"
+  stdlib.testing.internal.fn.keyword.consume.mock.assert_calls_are \
+    "1(_mock_delimiter) 2(STDLIB_FIELD_DELIMITER) 3( )" \
+    "1(_mock_placeholder) 2(STDLIB_FIELD_DELIMITER_ENCODE_CHAR) 3("$'\x1e'")"
 }
 
 @parametrize_with_valid_strings \
@@ -109,34 +104,34 @@ test_stdlib_testing_mock_arg_string_make_from_string__@vary__stops_keyword_propa
 test_stdlib_testing_mock_arg_string_make_from_string__valid_string__no_array___________invalid_keyword_________logs_expected_error() {
   _mock.create stdlib.testing.internal.logger.error
 
-  STDLIB_LINE_BREAK_DELIMITER_CHAR="invalid value" \
+  STDLIB_FIELD_DELIMITER_ENCODE_CHAR="invalid value" \
     _mock.arg_string.make.from_string "123"
 
   stdlib.testing.internal.logger.error.mock.assert_calls_are \
     "1($(stdlib.__message.get IS_NOT_CHAR "invalid value"))" \
-    "1($(stdlib.__message.get ARGUMENTS_KEYWORD_INVALID_DETAIL STDLIB_LINE_BREAK_DELIMITER_CHAR))"
+    "1($(stdlib.__message.get ARGUMENTS_KEYWORD_INVALID_DETAIL STDLIB_FIELD_DELIMITER_ENCODE_CHAR))"
 }
 
 test_stdlib_testing_mock_arg_string_make_from_string__valid_string__valid_array________invalid_keyword_________logs_expected_error() {
   _mock.create stdlib.testing.internal.logger.error
 
-  STDLIB_LINE_BREAK_DELIMITER_CHAR="invalid value" \
+  STDLIB_FIELD_DELIMITER_ENCODE_CHAR="invalid value" \
     _mock.arg_string.make.from_string "123" empty_array
 
   stdlib.testing.internal.logger.error.mock.assert_calls_are \
     "1($(stdlib.__message.get IS_NOT_CHAR "invalid value"))" \
-    "1($(stdlib.__message.get ARGUMENTS_KEYWORD_INVALID_DETAIL STDLIB_LINE_BREAK_DELIMITER_CHAR))"
+    "1($(stdlib.__message.get ARGUMENTS_KEYWORD_INVALID_DETAIL STDLIB_FIELD_DELIMITER_ENCODE_CHAR))"
 }
 
 test_stdlib_testing_mock_arg_string_make_from_string__valid_string__invalid_array______invalid_keyword_________logs_expected_error() {
   _mock.create stdlib.testing.internal.logger.error
 
-  STDLIB_LINE_BREAK_DELIMITER_CHAR="invalid value" \
+  STDLIB_FIELD_DELIMITER_ENCODE_CHAR="invalid value" \
     _mock.arg_string.make.from_string "123" _non_existent_array
 
   stdlib.testing.internal.logger.error.mock.assert_calls_are \
     "1($(stdlib.__message.get IS_NOT_CHAR "invalid value"))" \
-    "1($(stdlib.__message.get ARGUMENTS_KEYWORD_INVALID_DETAIL STDLIB_LINE_BREAK_DELIMITER_CHAR))"
+    "1($(stdlib.__message.get ARGUMENTS_KEYWORD_INVALID_DETAIL STDLIB_FIELD_DELIMITER_ENCODE_CHAR))"
 }
 
 test_stdlib_testing_mock_arg_string_make_from_string__new_lines_____no_keywords________________________________generates_correct_arg_string() {
