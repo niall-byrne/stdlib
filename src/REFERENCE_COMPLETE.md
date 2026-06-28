@@ -464,6 +464,7 @@ Creates a copy of an existing array.
 ### stdlib.array.make.from_file
 
 Creates an array from a file using a separator.
+* STDLIB_FIELD_DELIMITER_ENCODE_CHAR string keyword: A placeholder char used to encode multi-char delimiters (default=$'\x1e').
 
 #### Arguments
 
@@ -484,6 +485,7 @@ Creates an array from a file using a separator.
 ### stdlib.array.make.from_string
 
 Creates an array from a string using a separator.
+* STDLIB_FIELD_DELIMITER_ENCODE_CHAR string keyword: A placeholder char used to encode multi-char delimiters (default=$'\x1e').
 
 #### Arguments
 
