@@ -4,9 +4,6 @@
 
 builtin set -eo pipefail
 
-# shellcheck disable=SC2034
-STDLIB_LINE_BREAK_DELIMITER_CHAR=""
-
 # @description Generates a mock argument string from an array.
 # @arg $1 string The name of the array containing positional arguments.
 # @arg $2 string (optional) The name of the array containing keyword arguments.
@@ -38,7 +35,8 @@ _mock.arg_string.make.from_array() {
 }
 
 # @description Generates a mock argument string from a delimited string.
-#   * STDLIB_LINE_BREAK_DELIMITER_CHAR string keyword: The line break char to use (default=" ").
+#   * STDLIB_FIELD_DELIMITER string keyword: The field separator char sequence to use (default=' ').
+#   * STDLIB_FIELD_DELIMITER_ENCODE_CHAR string keyword: A placeholder char used to encode multi-char delimiters (default=$'\x1e').
 # @arg $1 string The delimited string of positional arguments.
 # @arg $2 string (optional) The name of the array containing keyword arguments.
 # @exitcode 0 If the mock argument string was generated.
@@ -50,7 +48,8 @@ _mock.arg_string.make.from_string() {
   builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY
   builtin local -a _mock_args_array
   builtin local -a _mock_arg_string_args
-  builtin local _mock_separator
+  builtin local _mock_delimiter=""
+  builtin local _mock_placeholder=""
 
   # shellcheck disable=SC2034
   STDLIB_ARGS_NULL_SAFE_ARRAY=("2")
@@ -58,16 +57,20 @@ _mock.arg_string.make.from_string() {
 
   _testing.__protected stdlib.fn.args.require "1" "1" "${@}" || builtin return 127
 
-  _testing.__protected stdlib.fn.keyword.consume _mock_separator STDLIB_LINE_BREAK_DELIMITER_CHAR " "
+  _testing.__protected stdlib.fn.keyword.consume _mock_delimiter STDLIB_FIELD_DELIMITER " "
+  _testing.__protected stdlib.fn.keyword.consume _mock_placeholder STDLIB_FIELD_DELIMITER_ENCODE_CHAR $'\x1e'
 
-  STDLIB_KW_SOURCE_VAR="_mock_separator" \
-    _testing.__protected stdlib.fn.keyword.assert.is_valid_with "$(_testing.__protected_name stdlib.string.assert.is_char)" STDLIB_LINE_BREAK_DELIMITER_CHAR || builtin return 125 # validates STDLIB_LINE_BREAK_DELIMITER_CHAR
+  STDLIB_KW_SOURCE_VAR="_mock_delimiter" \
+    _testing.__protected stdlib.fn.keyword.assert.is_valid_with "$(_testing.__protected_name stdlib.string.assert.not_empty)" STDLIB_FIELD_DELIMITER || builtin return 125 # validates STDLIB_FIELD_DELIMITER
+  STDLIB_KW_SOURCE_VAR="_mock_placeholder" \
+    _testing.__protected stdlib.fn.keyword.assert.is_valid_with "$(_testing.__protected_name stdlib.string.assert.is_char)" STDLIB_FIELD_DELIMITER_ENCODE_CHAR || builtin return 125 # validates STDLIB_FIELD_DELIMITER_ENCODE_CHAR
 
   if [[ -n "${2}" ]]; then
     _mock_arg_string_args+=("${2}")
   fi
 
-  _testing.__protected stdlib.array.make.from_string _mock_args_array "${_mock_separator}" "${1}" || builtin return "$?"
+  STDLIB_FIELD_DELIMITER_ENCODE_CHAR="${_mock_placeholder}" _testing.__protected \
+    stdlib.array.make.from_string _mock_args_array "${_mock_delimiter}" "${1}" || builtin return "$?"
 
   _mock.arg_string.make.from_array "${_mock_arg_string_args[@]}"
 }

@@ -1269,16 +1269,19 @@ _mock.arg_string.make.from_string ()
     builtin local -a STDLIB_ARGS_NULL_SAFE_ARRAY;
     builtin local -a _mock_args_array;
     builtin local -a _mock_arg_string_args;
-    builtin local _mock_separator;
+    builtin local _mock_delimiter="";
+    builtin local _mock_placeholder="";
     STDLIB_ARGS_NULL_SAFE_ARRAY=("2");
     _mock_arg_string_args=("_mock_args_array");
     _testing.__protected stdlib.fn.args.require "1" "1" "${@}" || builtin return 127;
-    _testing.__protected stdlib.fn.keyword.consume _mock_separator STDLIB_LINE_BREAK_DELIMITER_CHAR " ";
-    STDLIB_KW_SOURCE_VAR="_mock_separator" _testing.__protected stdlib.fn.keyword.assert.is_valid_with "$(_testing.__protected_name stdlib.string.assert.is_char)" STDLIB_LINE_BREAK_DELIMITER_CHAR || builtin return 125;
+    _testing.__protected stdlib.fn.keyword.consume _mock_delimiter STDLIB_FIELD_DELIMITER " ";
+    _testing.__protected stdlib.fn.keyword.consume _mock_placeholder STDLIB_FIELD_DELIMITER_ENCODE_CHAR '';
+    STDLIB_KW_SOURCE_VAR="_mock_delimiter" _testing.__protected stdlib.fn.keyword.assert.is_valid_with "$(_testing.__protected_name stdlib.string.assert.not_empty)" STDLIB_FIELD_DELIMITER || builtin return 125;
+    STDLIB_KW_SOURCE_VAR="_mock_placeholder" _testing.__protected stdlib.fn.keyword.assert.is_valid_with "$(_testing.__protected_name stdlib.string.assert.is_char)" STDLIB_FIELD_DELIMITER_ENCODE_CHAR || builtin return 125;
     if [[ -n "${2}" ]]; then
         _mock_arg_string_args+=("${2}");
     fi;
-    _testing.__protected stdlib.array.make.from_string _mock_args_array "${_mock_separator}" "${1}" || builtin return "$?";
+    STDLIB_FIELD_DELIMITER_ENCODE_CHAR="${_mock_placeholder}" _testing.__protected stdlib.array.make.from_string _mock_args_array "${_mock_delimiter}" "${1}" || builtin return "$?";
     _mock.arg_string.make.from_array "${_mock_arg_string_args[@]}"
 }
 
