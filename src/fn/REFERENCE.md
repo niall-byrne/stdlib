@@ -32,7 +32,7 @@ Validates the presence and number of arguments for a function.
 #### Arguments
 
 * **$1** (integer): The number of required arguments.
-* **$2** (integer): The number of optional arguments.
+* **$2** (integer): The number of optional arguments. (The value "-1" indicates unlimited optional arguments).
 * **...** (array): The list of argument values to check.
 
 #### Exit codes
