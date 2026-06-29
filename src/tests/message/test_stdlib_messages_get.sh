@@ -48,7 +48,7 @@ setup() {
     "is_array;IS_ARRAY|value;The value 'value' is an array!" \
     "is_builtin;IS_BUILTIN|value;The value 'value' is a shell builtin!" \
     "is_empty_string;IS_EMPTY_STRING|value;The value 'value' is an empty string!" \
-    "is_equal;IS_EQUAL|value;A value equal to 'value' cannot be used!" \
+    "is_equal;IS_EQUAL|value|value;The values 'value' and 'value' are equal!" \
     "is_fn;IS_FN|value;The value 'value' is a function!" \
     "is_not_alphabetic;IS_NOT_ALPHABETIC|value;The value 'value' is not a alphabetic only string!" \
     "is_not_alpha_numeric;IS_NOT_ALPHA_NUMERIC|value;The value 'value' is not a alpha-numeric only string!" \
@@ -60,6 +60,7 @@ setup() {
     "is_not_decimal_positive;IS_NOT_DECIMAL_POSITIVE|value;The value 'value' is not a string containing a positive decimal!" \
     "is_not_digit;IS_NOT_DIGIT|value;The value 'value' is not a string containing a digit!" \
     "is_not_empty_string;IS_NOT_EMPTY_STRING|value;The value 'value' is not an empty string!" \
+    "is_not_equal;IS_NOT_EQUAL|value1|value2;The values 'value1' and 'value2' are not equal!" \
     "is_not_fn;IS_NOT_FN|value;The value 'value' is not a function!" \
     "is_not_integer;IS_NOT_INTEGER|value;The value 'value' is not a string containing an integer!" \
     "is_not_integer_in_range;IS_NOT_INTEGER_IN_RANGE|1|10|11;The value '11' is not a string containing an integer in the inclusive range 1 to 10!" \
@@ -152,7 +153,7 @@ setup() {
     "is_empty_string_________________________no_args______;IS_EMPTY_STRING" \
     "is_empty_string_________________________too_many_args;IS_EMPTY_STRING|1|2" \
     "is_equal________________________________no_args______;IS_EQUAL" \
-    "is_equal________________________________too_many_args;IS_EQUAL|1|2" \
+    "is_equal________________________________too_many_args;IS_EQUAL|1|2|3" \
     "is_fn___________________________________no_args______;IS_FN" \
     "is_fn___________________________________too_many_args;IS_FN|1|2" \
     "is_not_alphabetic_______________________no_args______;IS_NOT_ALPHABETIC" \
@@ -175,6 +176,8 @@ setup() {
     "is_not_digit____________________________too_many_args;IS_NOT_DIGIT|1|2" \
     "is_not_empty_string_____________________no_args______;IS_NOT_EMPTY_STRING" \
     "is_not_empty_string_____________________too_many_args;IS_NOT_EMPTY_STRING|1|2" \
+    "is_not_equal________________________________no_args______;IS_NOT_EQUAL" \
+    "is_not_equal________________________________too_many_args;IS_NOT_EQUAL|1|2|3" \
     "is_not_fn_______________________________no_args______;IS_NOT_FN" \
     "is_not_fn_______________________________too_many_args;IS_NOT_FN|1|2" \
     "is_not_integer__________________________no_args______;IS_NOT_INTEGER" \
