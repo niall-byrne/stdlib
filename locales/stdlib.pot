@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: niall@niallbyrne.ca\n"
-"POT-Creation-Date: 2026-06-29 19:36+0000\n"
+"POT-Creation-Date: 2026-06-29 19:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -142,7 +142,7 @@ msgstr ""
 
 #: src/message.sh:135
 #, sh-format
-msgid "A value equal to '${option1}' cannot be used!"
+msgid "The values '${option1}' and '${option2}' are equal!"
 msgstr ""
 
 #: src/message.sh:139
@@ -202,157 +202,162 @@ msgstr ""
 
 #: src/message.sh:183
 #, sh-format
-msgid "The value '${option1}' is not a function!"
+msgid "The values '${option1}' and '${option2}' are not equal!"
 msgstr ""
 
 #: src/message.sh:187
 #, sh-format
-msgid "The value '${option1}' is not a string containing an integer!"
+msgid "The value '${option1}' is not a function!"
 msgstr ""
 
 #: src/message.sh:191
+#, sh-format
+msgid "The value '${option1}' is not a string containing an integer!"
+msgstr ""
+
+#: src/message.sh:195
 #, sh-format
 msgid ""
 "The value '${option3}' is not a string containing an integer in the "
 "inclusive range ${option1} to ${option2}!"
 msgstr ""
 
-#: src/message.sh:195
+#: src/message.sh:199
 #, sh-format
 msgid "The value '${option1}' is not a string containing a valid ipv4 address!"
 msgstr ""
 
-#: src/message.sh:199
+#: src/message.sh:203
 #, sh-format
 msgid "The value '${option1}' is not a string containing a valid ipv6 address!"
 msgstr ""
 
-#: src/message.sh:203
+#: src/message.sh:207
 #, sh-format
 msgid ""
 "The value '${option1}' is not a string containing an octal file permission!"
 msgstr ""
 
-#: src/message.sh:207
+#: src/message.sh:211
 #, sh-format
 msgid "The value '${option1}' is not a string in valid snake case!"
 msgstr ""
 
-#: src/message.sh:211
+#: src/message.sh:215
 #, sh-format
 msgid "The value '${option1}' is not a string in valid upper snake case!"
 msgstr ""
 
-#: src/message.sh:215
+#: src/message.sh:219
 #, sh-format
 msgid ""
 "An exclusive execution lock, with name '${option1}', could not be acquired "
 "in time!"
 msgstr ""
 
-#: src/message.sh:219
+#: src/message.sh:223
 #, sh-format
 msgid ""
 "An exclusive execution lock, with name '${option1}', could not be released!"
 msgstr ""
 
-#: src/message.sh:223
-msgid "A workspace for filesystem locks could not be allocated!"
-msgstr ""
-
 #: src/message.sh:227
-#, sh-format
-msgid "The regex '${option1}' does not match the value '${option2}'!"
+msgid "A workspace for filesystem locks could not be allocated!"
 msgstr ""
 
 #: src/message.sh:231
 #, sh-format
-msgid "SECURITY: The group ownership on '${option1}' is not secure!"
+msgid "The regex '${option1}' does not match the value '${option2}'!"
 msgstr ""
 
 #: src/message.sh:235
 #, sh-format
-msgid "SECURITY: The ownership on '${option1}' is not secure!"
+msgid "SECURITY: The group ownership on '${option1}' is not secure!"
 msgstr ""
 
 #: src/message.sh:239
 #, sh-format
-msgid "SECURITY: The permissions on '${option1}' are not secure!"
+msgid "SECURITY: The ownership on '${option1}' is not secure!"
 msgstr ""
 
 #: src/message.sh:243
-msgid "SECURITY: This script must be run as root."
+#, sh-format
+msgid "SECURITY: The permissions on '${option1}' are not secure!"
 msgstr ""
 
 #: src/message.sh:247
-#, sh-format
-msgid "Please consider running: sudo chgrp '${option1}' '${option2}'"
+msgid "SECURITY: This script must be run as root."
 msgstr ""
 
 #: src/message.sh:251
 #, sh-format
-msgid "Please consider running: sudo chmod '${option1}' '${option2}'"
+msgid "Please consider running: sudo chgrp '${option1}' '${option2}'"
 msgstr ""
 
 #: src/message.sh:255
 #, sh-format
-msgid "Please consider running: sudo chown '${option1}' '${option2}'"
+msgid "Please consider running: sudo chmod '${option1}' '${option2}'"
 msgstr ""
 
 #: src/message.sh:259
-msgid "Are you sure you wish to proceed (Y/n) ?"
+#, sh-format
+msgid "Please consider running: sudo chown '${option1}' '${option2}'"
 msgstr ""
 
 #: src/message.sh:263
-msgid "Press any key to continue ..."
+msgid "Are you sure you wish to proceed (Y/n) ?"
 msgstr ""
 
 #: src/message.sh:267
-msgid "Enter a value:"
+msgid "Press any key to continue ..."
 msgstr ""
 
 #: src/message.sh:271
-msgid "Callstack:"
+msgid "Enter a value:"
 msgstr ""
 
 #: src/message.sh:275
-#, sh-format
-msgid "The value '${option1}' is not a valid variable name!"
+msgid "Callstack:"
 msgstr ""
 
 #: src/message.sh:279
 #, sh-format
-msgid "The variable '${option1}' is not set!"
+msgid "The value '${option1}' is not a valid variable name!"
 msgstr ""
 
 #: src/message.sh:283
 #, sh-format
-msgid "The variable '${option1}' has an invalid value!"
+msgid "The variable '${option1}' is not set!"
 msgstr ""
 
 #: src/message.sh:287
-msgid "A global variable has been assigned an invalid value!"
+#, sh-format
+msgid "The variable '${option1}' has an invalid value!"
 msgstr ""
 
 #: src/message.sh:291
+msgid "A global variable has been assigned an invalid value!"
+msgstr ""
+
+#: src/message.sh:295
 #, sh-format
 msgid "The global variable '${option1}' has been assigned an invalid value!"
 msgstr ""
 
-#: src/message.sh:295
+#: src/message.sh:299
 msgid ""
 "A variable reserved for internal use by the BASH stdlib and has been "
 "assigned an invalid value!"
 msgstr ""
 
-#: src/message.sh:299
+#: src/message.sh:303
 #, sh-format
 msgid ""
 "The variable '${option1}' is reserved for internal use by the BASH stdlib "
 "and has been assigned an invalid value!"
 msgstr ""
 
-#: src/message.sh:303
+#: src/message.sh:307
 #, sh-format
 msgid "The variable '${option1}' has been assigned a non-empty value!"
 msgstr ""

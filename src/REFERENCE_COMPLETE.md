@@ -113,6 +113,7 @@
 * [stdlib.string.assert.is_decimal_positive](#stdlibstringassertis_decimal_positive)
 * [stdlib.string.assert.is_digit](#stdlibstringassertis_digit)
 * [stdlib.string.assert.is_empty](#stdlibstringassertis_empty)
+* [stdlib.string.assert.is_equal](#stdlibstringassertis_equal)
 * [stdlib.string.assert.is_integer](#stdlibstringassertis_integer)
 * [stdlib.string.assert.is_integer_with_range](#stdlibstringassertis_integer_with_range)
 * [stdlib.string.assert.is_octal_permission](#stdlibstringassertis_octal_permission)
@@ -156,6 +157,7 @@
 * [stdlib.string.query.is_decimal_positive](#stdlibstringqueryis_decimal_positive)
 * [stdlib.string.query.is_digit](#stdlibstringqueryis_digit)
 * [stdlib.string.query.is_empty](#stdlibstringqueryis_empty)
+* [stdlib.string.query.is_equal](#stdlibstringqueryis_equal)
 * [stdlib.string.query.is_integer](#stdlibstringqueryis_integer)
 * [stdlib.string.query.is_integer_with_range](#stdlibstringqueryis_integer_with_range)
 * [stdlib.string.query.is_octal_permission](#stdlibstringqueryis_octal_permission)
@@ -165,6 +167,7 @@
 * [stdlib.string.query.net.is_ipv4](#stdlibstringquerynetis_ipv4)
 * [stdlib.string.query.net.is_ipv6](#stdlibstringquerynetis_ipv6)
 * [stdlib.string.query.not_empty](#stdlibstringquerynot_empty)
+* [stdlib.string.query.not_equal](#stdlibstringquerynot_equal)
 * [stdlib.string.query.ends_with](#stdlibstringqueryends_with)
 * [stdlib.string.query.first_char_is](#stdlibstringqueryfirst_char_is)
 * [stdlib.string.query.last_char_is](#stdlibstringquerylast_char_is)
@@ -2360,6 +2363,26 @@ Asserts that a value is a non-empty string.
 
 * The error message if the assertion fails.
 
+### stdlib.string.assert.is_equal
+
+Asserts that two strings are equal.
+
+#### Arguments
+
+* **$1** (string): The first string to compare.
+* **$2** (string): The second string to compare.
+
+#### Exit codes
+
+* **0**: If the assertion succeeded.
+* **1**: If the assertion failed.
+* **126**: If an invalid argument has been provided.
+* **127**: If the wrong number of arguments were provided.
+
+#### Output on stderr
+
+* The error message if the assertion fails.
+
 ### stdlib.string.assert.is_integer
 
 Asserts that a string is an integer.
@@ -3225,6 +3248,21 @@ Checks if a value is an empty string.
 * **1**: If the value is a non empty string.
 * **127**: If the wrong number of arguments were provided.
 
+### stdlib.string.query.is_equal
+
+Checks if two strings are equal.
+
+#### Arguments
+
+* **$1** (string): The first string to compare.
+* **$2** (string): The second string to compare.
+
+#### Exit codes
+
+* **0**: If the two strings are equal.
+* **1**: If the two strings are not equal.
+* **127**: If the wrong number of arguments were provided.
+
 ### stdlib.string.query.is_integer
 
 Checks if a string is an integer.
@@ -3360,6 +3398,21 @@ Checks if a value is not an empty string.
 
 * **0**: If the value is not an empty string.
 * **1**: If the value is an empty string.
+* **127**: If the wrong number of arguments were provided.
+
+### stdlib.string.query.not_equal
+
+Checks if two strings are not equal.
+
+#### Arguments
+
+* **$1** (string): The first string to compare.
+* **$2** (string): The second string to compare.
+
+#### Exit codes
+
+* **0**: If the two strings are not equal.
+* **1**: If the two strings are equal.
 * **127**: If the wrong number of arguments were provided.
 
 ### stdlib.string.query.ends_with

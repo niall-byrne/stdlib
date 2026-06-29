@@ -17,7 +17,7 @@ setup() {
     "no_args____________;;127;ARGUMENT_REQUIREMENTS_VIOLATION|1|0 ARGUMENT_REQUIREMENTS_VIOLATION_DETAIL|0" \
     "extra_arg__________;1|extra argument;127;ARGUMENT_REQUIREMENTS_VIOLATION|1|0 ARGUMENT_REQUIREMENTS_VIOLATION_DETAIL|2" \
     "index_is_invalid___;a;126;IS_NOT_DIGIT|a" \
-    "index_is_zero______;0;126;IS_EQUAL|0"
+    "index_is_zero______;0;126;IS_EQUAL|0|0"
 }
 
 test_stdlib_testing_mock_object_get_call__@vary__returns_expected_status_code() {

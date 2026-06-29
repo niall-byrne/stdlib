@@ -158,6 +158,17 @@ stdlib.string.query.is_empty() {
   [[ -z "${1}" ]] || builtin return 1
 }
 
+# @description Checks if two strings are equal.
+# @arg $1 string The first string to compare.
+# @arg $2 string The second string to compare.
+# @exitcode 0 If the two strings are equal.
+# @exitcode 1 If the two strings are not equal.
+# @exitcode 127 If the wrong number of arguments were provided.
+stdlib.string.query.is_equal() {
+  [[ "${#@}" == "2" ]] || builtin return 127
+  [[ "${1}" == "${2}" ]] || builtin return 1
+}
+
 # @description Checks if a string is an integer.
 # @arg $1 string The string to check.
 # @exitcode 0 If the string is an integer.

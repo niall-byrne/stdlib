@@ -39,9 +39,7 @@ stdlib.string.assert.not_empty() {
 stdlib.string.assert.not_equal() {
   builtin local return_code=0
 
-  [[ "${1}" != "${2}" ]] || return_code="1"
-  [[ -n "${1}" ]] || return_code="126"
-  [[ "${#@}" == "2" ]] || return_code="127"
+  stdlib.string.query.not_equal "${@}" || return_code="$?"
 
   case "${return_code}" in
     0) ;; # KCOV_EXCLUDE_LINE
@@ -49,7 +47,7 @@ stdlib.string.assert.not_equal() {
       stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
       ;;
     *)
-      stdlib.logger.error "$(stdlib.__message.get IS_EQUAL "${1}")"
+      stdlib.logger.error "$(stdlib.__message.get IS_EQUAL "${1}" "${2}")"
       ;;
   esac
 

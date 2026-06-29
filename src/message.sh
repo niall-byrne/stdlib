@@ -131,8 +131,8 @@ stdlib.__message.get() {
       message="$(stdlib.__gettext "The value '\${option1}' is an empty string!")" # noqa
       ;;
     IS_EQUAL)
-      required_options=1
-      message="$(stdlib.__gettext "A value equal to '\${option1}' cannot be used!")"
+      required_options=2
+      message="$(stdlib.__gettext "The values '\${option1}' and '\${option2}' are equal!")"
       ;;
     IS_FN)
       required_options=1
@@ -177,6 +177,10 @@ stdlib.__message.get() {
     IS_NOT_EMPTY_STRING)
       required_options=1
       message="$(stdlib.__gettext "The value '\${option1}' is not an empty string!")" # noqa
+      ;;
+    IS_NOT_EQUAL)
+      required_options=2
+      message="$(stdlib.__gettext "The values '\${option1}' and '\${option2}' are not equal!")"
       ;;
     IS_NOT_FN)
       required_options=1

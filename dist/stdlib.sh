@@ -281,8 +281,8 @@ stdlib.__message.get ()
             message="$(stdlib.__gettext "The value '\${option1}' is an empty string!")"
         ;;
         IS_EQUAL)
-            required_options=1;
-            message="$(stdlib.__gettext "A value equal to '\${option1}' cannot be used!")"
+            required_options=2;
+            message="$(stdlib.__gettext "The values '\${option1}' and '\${option2}' are equal!")"
         ;;
         IS_FN)
             required_options=1;
@@ -327,6 +327,10 @@ stdlib.__message.get ()
         IS_NOT_EMPTY_STRING)
             required_options=1;
             message="$(stdlib.__gettext "The value '\${option1}' is not an empty string!")"
+        ;;
+        IS_NOT_EQUAL)
+            required_options=2;
+            message="$(stdlib.__gettext "The values '\${option1}' and '\${option2}' are not equal!")"
         ;;
         IS_NOT_FN)
             required_options=1;
@@ -2556,6 +2560,24 @@ stdlib.string.assert.is_empty ()
     builtin return "${return_code}"
 }
 
+stdlib.string.assert.is_equal ()
+{
+    builtin local return_code=0;
+    stdlib.string.query.is_equal "${@}" || return_code="$?";
+    case "${return_code}" in
+        0)
+
+        ;;
+        126 | 127)
+            stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
+        ;;
+        *)
+            stdlib.logger.error "$(stdlib.__message.get IS_NOT_EQUAL "${1}" "${2}")"
+        ;;
+    esac;
+    builtin return "${return_code}"
+}
+
 stdlib.string.assert.is_integer ()
 {
     builtin local return_code=0;
@@ -2721,9 +2743,7 @@ stdlib.string.assert.not_empty ()
 stdlib.string.assert.not_equal ()
 {
     builtin local return_code=0;
-    [[ "${1}" != "${2}" ]] || return_code="1";
-    [[ -n "${1}" ]] || return_code="126";
-    [[ "${#@}" == "2" ]] || return_code="127";
+    stdlib.string.query.not_equal "${@}" || return_code="$?";
     case "${return_code}" in
         0)
 
@@ -2732,7 +2752,7 @@ stdlib.string.assert.not_equal ()
             stdlib.logger.error "$(stdlib.__message.get ARGUMENTS_INVALID)"
         ;;
         *)
-            stdlib.logger.error "$(stdlib.__message.get IS_EQUAL "${1}")"
+            stdlib.logger.error "$(stdlib.__message.get IS_EQUAL "${1}" "${2}")"
         ;;
     esac;
     builtin return "${return_code}"
@@ -3422,6 +3442,12 @@ stdlib.string.query.is_empty ()
     [[ -z "${1}" ]] || builtin return 1
 }
 
+stdlib.string.query.is_equal ()
+{
+    [[ "${#@}" == "2" ]] || builtin return 127;
+    [[ "${1}" == "${2}" ]] || builtin return 1
+}
+
 stdlib.string.query.is_integer ()
 {
     [[ "${#@}" == "1" ]] || builtin return 127;
@@ -3597,6 +3623,12 @@ stdlib.string.query.not_empty ()
 {
     [[ "${#@}" == "1" ]] || builtin return 127;
     [[ -n "${1}" ]] || builtin return 1
+}
+
+stdlib.string.query.not_equal ()
+{
+    [[ "${#@}" == "2" ]] || builtin return 127;
+    [[ "${1}" != "${2}" ]] || builtin return 1
 }
 
 stdlib.string.query.starts_with ()
