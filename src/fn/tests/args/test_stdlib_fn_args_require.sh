@@ -32,7 +32,10 @@ setup() {
     "2_required__1_optional_args__no_null____2_given__1_null_arg__;2;1;;arg1|;127;" \
     "2_required__1_optional_args__3_null_ok__2_given__3_null_arg__;2;1;3;arg1|arg2||;0;" \
     "2_required__1_optional_args__no_null____3_given__no_null_args;2;1;;arg1|arg2|arg3;0;" \
-    "2_required__1_optional_args__no_null____3_given__1_null_arg__;2;1;;arg1|arg2||;126;"
+    "2_required__1_optional_args__no_null____3_given__1_null_arg__;2;1;;arg1|arg2||;126;" \
+    "2_required__unlimited_optional_args_____2_given__no_null_args;2;-1;;arg1|arg2;0;" \
+    "2_required__unlimited_optional_args_____5_given__no_null_args;2;-1;;arg1|arg2|arg3|arg4|arg5;0;" \
+    "2_required__unlimited_optional_args_____5_given__1_null_arg__;2;-1;;arg1|arg2||arg4|arg5;126;"
 }
 
 @parametrize_with_error_logs() {
