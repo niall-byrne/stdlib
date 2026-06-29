@@ -1108,7 +1108,7 @@ stdlib.fn.args.require ()
     builtin local args_optional_count="${2}";
     builtin local args_required_count="${1}";
     stdlib.string.assert.is_digit "${args_required_count}" || builtin return 126;
-    stdlib.string.assert.is_digit "${args_optional_count}" || builtin return 126;
+    stdlib.string.assert.is_integer_with_range "-1" "100" "${args_optional_count}" || builtin return 126;
     stdlib.fn.keyword.assert.is_valid_with stdlib.array.assert.is_array STDLIB_ARGS_NULL_SAFE_ARRAY name || builtin return 125;
     args_null_safe_array=("${STDLIB_ARGS_NULL_SAFE_ARRAY[@]}");
     STDLIB_ARGS_CALLER_FN_NAME="";
@@ -1116,7 +1116,7 @@ stdlib.fn.args.require ()
     STDLIB_ARGS_NULL_SAFE_ARRAY=();
     STDLIB_KW_SOURCE_VAR="args_null_safe_all_boolean" stdlib.fn.keyword.assert.is_valid_with stdlib.string.assert.is_boolean STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN || builtin return 125;
     builtin shift 2;
-    if (("${#@}" < "${args_required_count}" || "${#@}" > "${args_required_count}" + "${args_optional_count}")); then
+    if (("${#@}" < "${args_required_count}" || ("${args_optional_count}" >= 0 && "${#@}" > "${args_required_count}" + "${args_optional_count}"))); then
         stdlib.logger.error "$(stdlib.__message.get ARGUMENT_REQUIREMENTS_VIOLATION "${args_required_count}" "${args_optional_count}")";
         stdlib.logger.error "$(stdlib.__message.get ARGUMENT_REQUIREMENTS_VIOLATION_DETAIL "${#@}")";
         builtin return 127;
@@ -1372,7 +1372,7 @@ ${derive_target_fn_name}() {
   builtin local -a fn_arguments
   builtin local fn_variable_name=""
 
-  stdlib.fn.args.require "1" "1000" "\${@}" || builtin return "\$?"
+  stdlib.fn.args.require "1" "-1" "\${@}" || builtin return "\$?"
 
   if [[ "${derive_argument_index}" -lt "0" ]]; then
     fn_argument_index_variable_name="\$(("\${#@}" + 1 + "${derive_argument_index}"))"
@@ -1605,7 +1605,7 @@ stdlib.io.lock.with ()
 {
     builtin local lock_name="${1}";
     builtin local exit_code;
-    stdlib.fn.args.require "1" "1000" "$@" || builtin return "$?";
+    stdlib.fn.args.require "1" "-1" "$@" || builtin return "$?";
     builtin shift;
     stdlib.io.lock.workspace_allocate || builtin return "$?";
     stdlib.io.lock.acquire "${lock_name}" || builtin return "$?";
@@ -2385,7 +2385,7 @@ stdlib.string.args.join ()
 {
     builtin local string_output;
     builtin local delimiter="${1}";
-    STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN="1" stdlib.fn.args.require "2" "1000" "${@}" || builtin return "$?";
+    STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN="1" stdlib.fn.args.require "2" "-1" "${@}" || builtin return "$?";
     builtin shift;
     while [[ -n "${1}" ]]; do
         [[ -z "${string_output}" ]] || string_output+="${delimiter}";
@@ -2410,7 +2410,7 @@ stdlib.string.args.join_pipe ()
 stdlib.string.args.join_var ()
 {
     builtin local var_name="${1}";
-    STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN="1" stdlib.fn.args.require "3" "1000" "${@}" || builtin return "$?";
+    STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN="1" stdlib.fn.args.require "3" "-1" "${@}" || builtin return "$?";
     stdlib.var.query.is_valid_name "${var_name}" || builtin return 126;
     builtin shift;
     builtin printf -v "${var_name}" "%s" "$(stdlib.string.args.join "${@}")"
@@ -2821,7 +2821,7 @@ stdlib.string.colour.substring_var ()
     builtin local fn_argument_index_variable_name="-1";
     builtin local -a fn_arguments;
     builtin local fn_variable_name="";
-    stdlib.fn.args.require "1" "1000" "${@}" || builtin return "$?";
+    stdlib.fn.args.require "1" "-1" "${@}" || builtin return "$?";
     if [[ "-1" -lt "0" ]]; then
         fn_argument_index_variable_name="$(("${#@}" + 1 + "-1"))";
     fi;
@@ -2891,7 +2891,7 @@ stdlib.string.colour.substrings_var ()
     builtin local fn_argument_index_variable_name="-1";
     builtin local -a fn_arguments;
     builtin local fn_variable_name="";
-    stdlib.fn.args.require "1" "1000" "${@}" || builtin return "$?";
+    stdlib.fn.args.require "1" "-1" "${@}" || builtin return "$?";
     if [[ "-1" -lt "0" ]]; then
         fn_argument_index_variable_name="$(("${#@}" + 1 + "-1"))";
     fi;
@@ -2998,7 +2998,7 @@ stdlib.string.colour_var ()
     builtin local fn_argument_index_variable_name="-1";
     builtin local -a fn_arguments;
     builtin local fn_variable_name="";
-    stdlib.fn.args.require "1" "1000" "${@}" || builtin return "$?";
+    stdlib.fn.args.require "1" "-1" "${@}" || builtin return "$?";
     if [[ "-1" -lt "0" ]]; then
         fn_argument_index_variable_name="$(("${#@}" + 1 + "-1"))";
     fi;
@@ -3067,7 +3067,7 @@ stdlib.string.justify.left_var ()
     builtin local fn_argument_index_variable_name="-1";
     builtin local -a fn_arguments;
     builtin local fn_variable_name="";
-    stdlib.fn.args.require "1" "1000" "${@}" || builtin return "$?";
+    stdlib.fn.args.require "1" "-1" "${@}" || builtin return "$?";
     if [[ "-1" -lt "0" ]]; then
         fn_argument_index_variable_name="$(("${#@}" + 1 + "-1"))";
     fi;
@@ -3136,7 +3136,7 @@ stdlib.string.justify.right_var ()
     builtin local fn_argument_index_variable_name="-1";
     builtin local -a fn_arguments;
     builtin local fn_variable_name="";
-    stdlib.fn.args.require "1" "1000" "${@}" || builtin return "$?";
+    stdlib.fn.args.require "1" "-1" "${@}" || builtin return "$?";
     if [[ "-1" -lt "0" ]]; then
         fn_argument_index_variable_name="$(("${#@}" + 1 + "-1"))";
     fi;
@@ -3205,7 +3205,7 @@ stdlib.string.pad.left_var ()
     builtin local fn_argument_index_variable_name="-1";
     builtin local -a fn_arguments;
     builtin local fn_variable_name="";
-    stdlib.fn.args.require "1" "1000" "${@}" || builtin return "$?";
+    stdlib.fn.args.require "1" "-1" "${@}" || builtin return "$?";
     if [[ "-1" -lt "0" ]]; then
         fn_argument_index_variable_name="$(("${#@}" + 1 + "-1"))";
     fi;
@@ -3274,7 +3274,7 @@ stdlib.string.pad.right_var ()
     builtin local fn_argument_index_variable_name="-1";
     builtin local -a fn_arguments;
     builtin local fn_variable_name="";
-    stdlib.fn.args.require "1" "1000" "${@}" || builtin return "$?";
+    stdlib.fn.args.require "1" "-1" "${@}" || builtin return "$?";
     if [[ "-1" -lt "0" ]]; then
         fn_argument_index_variable_name="$(("${#@}" + 1 + "-1"))";
     fi;
@@ -3709,7 +3709,7 @@ stdlib.string.split.map.fn_var ()
     builtin local fn_argument_index_variable_name="-1";
     builtin local -a fn_arguments;
     builtin local fn_variable_name="";
-    stdlib.fn.args.require "1" "1000" "${@}" || builtin return "$?";
+    stdlib.fn.args.require "1" "-1" "${@}" || builtin return "$?";
     if [[ "-1" -lt "0" ]]; then
         fn_argument_index_variable_name="$(("${#@}" + 1 + "-1"))";
     fi;
@@ -3793,7 +3793,7 @@ stdlib.string.split.map.format_var ()
     builtin local fn_argument_index_variable_name="-1";
     builtin local -a fn_arguments;
     builtin local fn_variable_name="";
-    stdlib.fn.args.require "1" "1000" "${@}" || builtin return "$?";
+    stdlib.fn.args.require "1" "-1" "${@}" || builtin return "$?";
     if [[ "-1" -lt "0" ]]; then
         fn_argument_index_variable_name="$(("${#@}" + 1 + "-1"))";
     fi;
@@ -3863,7 +3863,7 @@ stdlib.string.trim.left_var ()
     builtin local fn_argument_index_variable_name="-1";
     builtin local -a fn_arguments;
     builtin local fn_variable_name="";
-    stdlib.fn.args.require "1" "1000" "${@}" || builtin return "$?";
+    stdlib.fn.args.require "1" "-1" "${@}" || builtin return "$?";
     if [[ "-1" -lt "0" ]]; then
         fn_argument_index_variable_name="$(("${#@}" + 1 + "-1"))";
     fi;
@@ -3933,7 +3933,7 @@ stdlib.string.trim.right_var ()
     builtin local fn_argument_index_variable_name="-1";
     builtin local -a fn_arguments;
     builtin local fn_variable_name="";
-    stdlib.fn.args.require "1" "1000" "${@}" || builtin return "$?";
+    stdlib.fn.args.require "1" "-1" "${@}" || builtin return "$?";
     if [[ "-1" -lt "0" ]]; then
         fn_argument_index_variable_name="$(("${#@}" + 1 + "-1"))";
     fi;

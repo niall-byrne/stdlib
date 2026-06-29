@@ -15,7 +15,7 @@ stdlib.string.args.join() {
   builtin local string_output
   builtin local delimiter="${1}"
 
-  STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN="1" stdlib.fn.args.require "2" "1000" "${@}" || builtin return "$?"
+  STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN="1" stdlib.fn.args.require "2" "-1" "${@}" || builtin return "$?"
 
   builtin shift
 
@@ -61,7 +61,7 @@ stdlib.string.args.join_pipe() {
 stdlib.string.args.join_var() {
   builtin local var_name="${1}"
 
-  STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN="1" stdlib.fn.args.require "3" "1000" "${@}" || builtin return "$?"
+  STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN="1" stdlib.fn.args.require "3" "-1" "${@}" || builtin return "$?"
   stdlib.var.query.is_valid_name "${var_name}" || builtin return 126
 
   builtin shift

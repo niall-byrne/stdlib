@@ -133,7 +133,7 @@ stdlib.io.lock.with() {
   builtin local lock_name="${1}"
   builtin local exit_code
 
-  stdlib.fn.args.require "1" "1000" "$@" || builtin return "$?"
+  stdlib.fn.args.require "1" "-1" "$@" || builtin return "$?"
 
   builtin shift
 

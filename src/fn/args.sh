@@ -13,7 +13,7 @@ STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN=""
 #   * STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN boolean keyword: A boolean that indicates all arguments are null safe, meaning they can be empty values (default="0").
 #   * STDLIB_ARGS_NULL_SAFE_ARRAY array keyword: An array of argument indexes that are null safe, meaning they can be empty values (default=()).
 # @arg $1 integer The number of required arguments.
-# @arg $2 integer The number of optional arguments.
+# @arg $2 integer The number of optional arguments. (The value "-1" indicates unlimited optional arguments).
 # @arg $@ array The list of argument values to check.
 # @exitcode 0 If the operation succeeded.
 # @exitcode 125 If an invalid keyword has been provided.
@@ -31,7 +31,7 @@ stdlib.fn.args.require() {
   builtin local args_required_count="${1}"
 
   stdlib.string.assert.is_digit "${args_required_count}" || builtin return 126
-  stdlib.string.assert.is_digit "${args_optional_count}" || builtin return 126
+  stdlib.string.assert.is_integer_with_range "-1" "100" "${args_optional_count}" || builtin return 126
 
   stdlib.fn.keyword.assert.is_valid_with stdlib.array.assert.is_array STDLIB_ARGS_NULL_SAFE_ARRAY name || builtin return 125 # validates STDLIB_ARGS_NULL_SAFE_ARRAY
 
@@ -48,7 +48,7 @@ stdlib.fn.args.require() {
 
   builtin shift 2
 
-  if (("${#@}" < "${args_required_count}" || "${#@}" > "${args_required_count}" + "${args_optional_count}")); then
+  if (("${#@}" < "${args_required_count}" || ("${args_optional_count}" >= 0 && "${#@}" > "${args_required_count}" + "${args_optional_count}"))); then
     stdlib.logger.error "$(stdlib.__message.get ARGUMENT_REQUIREMENTS_VIOLATION "${args_required_count}" "${args_optional_count}")"
     stdlib.logger.error "$(stdlib.__message.get ARGUMENT_REQUIREMENTS_VIOLATION_DETAIL "${#@}")"
     builtin return 127

@@ -43,7 +43,7 @@ ${derive_target_fn_name}() {
   builtin local -a fn_arguments
   builtin local fn_variable_name=""
 
-  stdlib.fn.args.require "1" "1000" "\${@}" || builtin return "\$?"
+  stdlib.fn.args.require "1" "-1" "\${@}" || builtin return "\$?"
 
   if [[ "${derive_argument_index}" -lt "0" ]]; then
     fn_argument_index_variable_name="\$(("\${#@}" + 1 + "${derive_argument_index}"))"
