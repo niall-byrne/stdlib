@@ -30,8 +30,8 @@ setup() {
     "null_limit_______arg_;20||input_string;ARGUMENT_REQUIREMENTS_VIOLATION|3|0 ARGUMENT_REQUIREMENTS_VIOLATION_NULL|2;ARGUMENT_REQUIREMENTS_VIOLATION|3|0 ARGUMENT_REQUIREMENTS_VIOLATION_NULL|2" \
     "invalid_limit____arg_;20|aa|input_string;IS_NOT_DIGIT|aa;IS_NOT_DIGIT|aa" \
     "extra_arg________arg_;20|80|input_string|extra_arg;ARGUMENT_REQUIREMENTS_VIOLATION|3|0 ARGUMENT_REQUIREMENTS_VIOLATION_DETAIL|4;ARGUMENT_REQUIREMENTS_VIOLATION|3|0 ARGUMENT_REQUIREMENTS_VIOLATION_DETAIL|4" \
-    "null_input_______arg_;20|80||;;IS_NOT_CHAR|not_a_char ARGUMENTS_KEYWORD_INVALID_DETAIL|STDLIB_LINE_BREAK_FORCE_CHAR" \
-    "valid_args_______arg_;20|80|input_string;;IS_NOT_CHAR|not_a_char ARGUMENTS_KEYWORD_INVALID_DETAIL|STDLIB_LINE_BREAK_FORCE_CHAR"
+    "null_input_______arg_;20|80||;;IS_NOT_CHAR|not_a_char ARGUMENTS_KEYWORD_INVALID_DETAIL|STDLIB_WRAP_LINE_BREAK_FORCE_CHAR" \
+    "valid_args_______arg_;20|80|input_string;;IS_NOT_CHAR|not_a_char ARGUMENTS_KEYWORD_INVALID_DETAIL|STDLIB_WRAP_LINE_BREAK_FORCE_CHAR"
 }
 
 @parametrize_with_wrap_content() {
@@ -95,7 +95,7 @@ test_stdlib_string_wrap__invalid_kw__@vary() {
 
   stdlib.array.make.from_string args "|" "${TEST_ARGS_DEFINITION}"
 
-  STDLIB_LINE_BREAK_FORCE_CHAR="not_a_char" \
+  STDLIB_WRAP_LINE_BREAK_FORCE_CHAR="not_a_char" \
     _capture.rc stdlib.string.wrap "${args[@]}" > /dev/null
 
   assert_rc "${TEST_INVALID_KW_EXPECTED_RC}"
@@ -114,7 +114,7 @@ test_stdlib_string_wrap__invalid_kw__@vary__logs_expected_error_message() {
   stdlib.array.make.from_string message_args_sets " " "${TEST_INVALID_KW_MESSAGE_DEFINITION}"
   stdlib.array.map.fn _fixture_unpack_message_args message_args_sets
 
-  STDLIB_LINE_BREAK_FORCE_CHAR="not_a_char" \
+  STDLIB_WRAP_LINE_BREAK_FORCE_CHAR="not_a_char" \
     stdlib.string.wrap "${args[@]}" > /dev/null
 
   assert_logger_error_matches "${messages[@]}"
@@ -130,7 +130,7 @@ test_stdlib_string_wrap__valid_kw____valid_args_______arg___@vary__correct_outpu
   stdlib.array.make.from_string args "|" "${TEST_ARGS_DEFINITION}"
   TEST_EXPECTED="${TEST_EXPECTED//'<br>'/$'\n'}"
 
-  STDLIB_LINE_BREAK_FORCE_CHAR="${TEST_LINE_BREAK_CHAR}" \
+  STDLIB_WRAP_LINE_BREAK_FORCE_CHAR="${TEST_LINE_BREAK_CHAR}" \
     STDLIB_WRAP_PREFIX="${TEST_PREFIX_STRING}" \
     _capture.output stdlib.string.wrap "${args[@]}"
 

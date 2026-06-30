@@ -5,7 +5,7 @@
 builtin set -eo pipefail
 
 # @description Wraps text to a specified width with padding.
-#   * STDLIB_LINE_BREAK_FORCE_CHAR string keyword: A char that 'forces' a line break in the output text (default="*").
+#   * STDLIB_WRAP_LINE_BREAK_FORCE_CHAR string keyword: A char that 'forces' a line break in the output text (default="*").
 #   * STDLIB_WRAP_PREFIX string keyword: A string to insert when wrapping text (default="").
 # @arg $1 integer The left-side padding.
 # @arg $2 integer The right-side wrap limit.
@@ -37,11 +37,11 @@ stdlib.string.wrap() {
   stdlib.string.assert.is_digit "${2}" || builtin return 126
 
   stdlib.fn.keyword.consume wrap_indent_string STDLIB_WRAP_PREFIX ""                # defaults STDLIB_WRAP_PREFIX
-  stdlib.fn.keyword.consume forced_line_break_char STDLIB_LINE_BREAK_FORCE_CHAR "*" # defaults STDLIB_LINE_BREAK_FORCE_CHAR
+  stdlib.fn.keyword.consume forced_line_break_char STDLIB_WRAP_LINE_BREAK_FORCE_CHAR "*" # defaults STDLIB_WRAP_LINE_BREAK_FORCE_CHAR
   wrap_indent_length="${#wrap_indent_string}"
 
   STDLIB_KW_SOURCE_VAR="forced_line_break_char" \
-    stdlib.fn.keyword.assert.is_valid_with stdlib.string.assert.is_char STDLIB_LINE_BREAK_FORCE_CHAR || builtin return 125 # validates STDLIB_LINE_BREAK_FORCE_CHAR
+    stdlib.fn.keyword.assert.is_valid_with stdlib.string.assert.is_char STDLIB_WRAP_LINE_BREAK_FORCE_CHAR || builtin return 125 # validates STDLIB_WRAP_LINE_BREAK_FORCE_CHAR
 
   wrap_limit="$(("${2}" - "${1}"))"
   builtin read -ra input_array <<< "${3}"
@@ -71,7 +71,7 @@ stdlib.string.wrap() {
 }
 
 # @description A derivative of stdlib.string.wrap that can read from stdin.
-#   * STDLIB_LINE_BREAK_FORCE_CHAR string keyword: A char that 'forces' a line break in the output text (default="*").
+#   * STDLIB_WRAP_LINE_BREAK_FORCE_CHAR string keyword: A char that 'forces' a line break in the output text (default="*").
 #   * STDLIB_WRAP_PREFIX string keyword: A string to insert when wrapping text (default="").
 # @arg $1 integer The left-side padding.
 # @arg $2 integer The right-side wrap limit.

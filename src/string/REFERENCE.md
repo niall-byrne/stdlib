@@ -1702,7 +1702,7 @@ A derivative of stdlib.string.trim.right that can read from and write to a varia
 ### stdlib.string.wrap
 
 Wraps text to a specified width with padding.
-* STDLIB_LINE_BREAK_FORCE_CHAR string keyword: A char that 'forces' a line break in the output text (default="*").
+* STDLIB_WRAP_LINE_BREAK_FORCE_CHAR string keyword: A char that 'forces' a line break in the output text (default="*").
 * STDLIB_WRAP_PREFIX string keyword: A string to insert when wrapping text (default="").
 
 #### Arguments
@@ -1729,7 +1729,7 @@ Wraps text to a specified width with padding.
 ### stdlib.string.wrap_pipe
 
 A derivative of stdlib.string.wrap that can read from stdin.
-* STDLIB_LINE_BREAK_FORCE_CHAR string keyword: A char that 'forces' a line break in the output text (default="*").
+* STDLIB_WRAP_LINE_BREAK_FORCE_CHAR string keyword: A char that 'forces' a line break in the output text (default="*").
 * STDLIB_WRAP_PREFIX string keyword: A string to insert when wrapping text (default="").
 
 #### Arguments
