@@ -36,6 +36,6 @@ builtin declare "STDLIB_WRAP_LINE_BREAK_FORCE_CHAR="
 builtin declare "STDLIB_WRAP_PREFIX="
 
 # reserved
-builtin declare -a "STDLIB_DEFERRED_FN_ARRAY=(\"stdlib.fn.derive.pipeable\" \"stdlib.fn.derive.var\")"
+builtin declare -a "STDLIB_DEFERRED_FN_ARRAY=('stdlib.fn.derive.pipeable' 'stdlib.fn.derive.var')"
 builtin declare -a "STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY=()"
-builtin declare -a "__STDLIB_LOGGING_DECORATORS_ARRAY=(\"_testing.__protected\")"
+builtin declare -a "__STDLIB_LOGGING_DECORATORS_ARRAY=('_testing.__protected')"
