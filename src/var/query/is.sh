@@ -4,8 +4,6 @@
 
 builtin set -eo pipefail
 
-STDLIB_VALIDATION_SOURCE_VAR=""
-
 # @description Checks if a variable is an empty value (unset variables, empty arrays, empty associative arrays, empty strings and empty integers).
 # @arg $1 string The name of the variable to check.
 # @exitcode 0 If the variable is an empty value.

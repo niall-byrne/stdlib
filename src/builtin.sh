@@ -4,9 +4,6 @@
 
 builtin set -eo pipefail
 
-STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=""
-__STDLIB_SECURE_DISTRIBUTION="${__STDLIB_SECURE_DISTRIBUTION:-"0"}"
-
 # @description Executes a command as a builtin unless overriding is allowed.
 #   * STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN boolean global: Enables overriding builtins (default="0").
 # @arg $1 string The command to execute.

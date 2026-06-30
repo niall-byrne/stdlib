@@ -4,9 +4,6 @@
 
 builtin set -eo pipefail
 
-__STDLIB_TESTING_MOCK_SEQUENCE_LOCK_NAME="__stdlib_testing_internal__mock_sequence_lock"
-__STDLIB_TESTING_MOCK_SEQUENCE_FILENAME=""
-
 # @description Clears the persisted sequence of mock calls.
 #   * __STDLIB_TESTING_MOCK_SEQUENCE_ARRAY array reserved: An array containing the sequence of mock calls (default=()).
 #   * __STDLIB_TESTING_MOCK_SEQUENCE_FILENAME string reserved: The filename containing the persisted sequence of mock calls (default="").

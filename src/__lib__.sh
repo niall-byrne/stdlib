@@ -3,10 +3,10 @@
 # stdlib - reusable components for bash scripting
 
 # shellcheck disable=SC2034
-{
-  STDLIB_DIRECTORY="$(dirname -- "${BASH_SOURCE[0]}")"               # noqa
-  STDLIB_TEXTDOMAINDIR="$(dirname -- "${STDLIB_DIRECTORY}")/locales" # noqa
-}
+STDLIB_DIRECTORY="$(dirname -- "${BASH_SOURCE[0]}")"
+
+# source=src/variables.sh
+builtin source "${STDLIB_DIRECTORY}/variables.sh"
 
 # Check Builtin Integrity
 

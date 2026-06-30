@@ -4,9 +4,6 @@
 
 builtin set -eo pipefail
 
-STDLIB_DEFERRED_FN_ARRAY=("stdlib.fn.derive.pipeable" "stdlib.fn.derive.var")
-STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY=()
-
 # @description Creates a function that stores a deferred call and saves it to a global variable.
 # @arg $1 string The target function whose call is being deferred.
 # @arg $@ array The arguments to pass to the target function during execution.

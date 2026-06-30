@@ -4,8 +4,6 @@
 
 builtin set -eo pipefail
 
-STDLIB_PIPEABLE_STDIN_SOURCE_SPECIFIER=""
-
 # @description Creates a pipeable version of an existing function.
 #   * STDLIB_PIPEABLE_STDIN_SOURCE_SPECIFIER string keyword: A string used to specify the position of stdin in the arguments (default='-').
 # @arg $1 string The name of the function to make pipeable.

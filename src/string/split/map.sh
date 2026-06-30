@@ -4,12 +4,6 @@
 
 builtin set -eo pipefail
 
-# shellcheck disable=SC2034
-{
-  STDLIB_FIELD_DELIMITER=""
-  STDLIB_FIELD_DELIMITER_ENCODE_CHAR=""
-}
-
 # @description Maps a function over each line of a string.
 #   * STDLIB_FIELD_DELIMITER string keyword: The field separator char sequence to use (default=$'\n').
 #   * STDLIB_FIELD_DELIMITER_ENCODE_CHAR string keyword: A placeholder char used to encode multi-char delimiters (default=$'\x1e').

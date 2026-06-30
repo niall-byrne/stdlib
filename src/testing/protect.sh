@@ -4,8 +4,6 @@
 
 builtin set -eo pipefail
 
-STDLIB_TESTING_PROTECT_PREFIX=""
-
 # @description Protects the stdlib by creating internal copies of functions.
 #   * STDLIB_TESTING_PROTECT_PREFIX string global: The prefix of the library to protect (default="stdlib").
 # @noargs

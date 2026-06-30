@@ -4,15 +4,6 @@
 
 builtin set -eo pipefail
 
-STDLIB_TRACEBACK_DISABLE_BOOLEAN="${STDLIB_TRACEBACK_DISABLE_BOOLEAN:-1}"
-
-# shellcheck disable=SC2034
-STDLIB_HANDLER_ERR_FN_ARRAY=()
-# shellcheck disable=SC2034
-STDLIB_HANDLER_EXIT_FN_ARRAY=()
-# shellcheck disable=SC2034
-STDLIB_CLEANUP_FN_TARGETS_ARRAY=()
-
 # @description A handler function that removes files when called (by default this handler is registered to the exit signal).
 #   * STDLIB_CLEANUP_FN_TARGETS_ARRAY array global: An array containing a list of file names targeted by the cleanup_on_exit function (default=()).
 # @noargs

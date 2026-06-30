@@ -4,8 +4,6 @@
 
 builtin set -eo pipefail
 
-STDLIB_KW_SOURCE_VAR=""
-
 # @description Checks if a keyword's value is valid against a validation function.
 #   * STDLIB_KW_SOURCE_VAR string keyword: An optional variable name that can be used as a source for validation (default="").
 # @arg $1 string The validation function to run.
