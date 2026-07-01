@@ -4,9 +4,6 @@
 
 builtin set -eo pipefail
 
-__STDLIB_TESTING_MOCK_REGISTRY_FOLDER=""
-__STDLIB_TESTING_MOCK_REGISTERED_INSTANCES_ARRAY=()
-
 # @description Adds a mock to the registry and creates its persistence files.
 #   * __STDLIB_TESTING_MOCK_REGISTERED_INSTANCES_ARRAY array reserved: A list of mock functions that have been created (default=()).
 #   * __STDLIB_TESTING_MOCK_REGISTRY_FOLDER string reserved: The folder where mock related tracking data is stored during test execution (default="").

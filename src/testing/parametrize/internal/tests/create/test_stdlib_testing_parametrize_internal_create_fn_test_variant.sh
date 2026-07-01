@@ -212,10 +212,10 @@ test_parametrize_internal_create_fn_test_variant__@vary__test_fn________when_cal
   @parametrize_with_fn_name_toggle
 
 test_parametrize_internal_create_fn_test_variant__@vary__test_fn________when_called__@vary__sets_scenario_name_variable() {
-  local PARAMETRIZE_SCENARIO_NAME
+  local STDLIB_TESTING_PARAMETRIZE_SCENARIO_NAME
 
   expected_environment_variables=("${test_array_scenario_definition[@]:1}")
-  test_fn_original_reference.mock.set.keywords "PARAMETRIZE_SCENARIO_NAME"
+  test_fn_original_reference.mock.set.keywords "STDLIB_TESTING_PARAMETRIZE_SCENARIO_NAME"
 
   setting_debug_boolean="${DEBUG_VALUE}" \
     setting_original_test_names_boolean="${SHOW_FN_NAME_VALUE}" \
@@ -230,7 +230,7 @@ test_parametrize_internal_create_fn_test_variant__@vary__test_fn________when_cal
   new_test_variant > /dev/null
 
   test_fn_original_reference.mock.assert_called_once_with \
-    "PARAMETRIZE_SCENARIO_NAME(${test_array_scenario_definition[0]})"
+    "STDLIB_TESTING_PARAMETRIZE_SCENARIO_NAME(${test_array_scenario_definition[0]})"
 }
 
 @parametrize.compose \

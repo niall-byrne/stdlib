@@ -6,7 +6,7 @@ setup() {
 }
 
 _fixture_load_module() {
-  STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=1 \
+  __STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=1 \
     _testing.load "${STDLIB_DIRECTORY}/gettext.snippet" > /dev/null
 }
 

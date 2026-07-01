@@ -18,6 +18,8 @@ builtin set -eo pipefail
 
 # source=src/binary.sh
 builtin source "${STDLIB_DIRECTORY}/binary.sh"
+# source=src/variables.sh
+builtin source "${STDLIB_DIRECTORY}/variables.sh"
 # source=src/deferred.sh
 builtin source "${STDLIB_DIRECTORY}/deferred.sh"
 

@@ -4,9 +4,6 @@
 
 builtin set -eo pipefail
 
-STDLIB_LOGGING_MESSAGE_PREFIX=""
-__STDLIB_LOGGING_DECORATORS_ARRAY=("_testing.__protected")
-
 # @description Logs an error message.
 #   * STDLIB_LOGGING_MESSAGE_PREFIX string keyword: A prefix identifying the calling function (default="${FUNCNAME[2]}").
 #   * STDLIB_THEME_LOGGER_ERROR string global: The colour to use for error messages (default="LIGHT_RED").

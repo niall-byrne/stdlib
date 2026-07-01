@@ -4,6 +4,9 @@
 
 builtin set -eo pipefail
 
+# source=src/testing/variables.sh
+builtin source "${STDLIB_DIRECTORY}/testing/variables.sh"
+
 # shellcheck source=src/testing/assertion/__lib__.sh
 builtin source "${STDLIB_DIRECTORY}/testing/assertion/__lib__.sh"
 # shellcheck source=src/testing/capture/__lib__.sh

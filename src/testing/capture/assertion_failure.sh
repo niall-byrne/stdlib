@@ -4,8 +4,6 @@
 
 builtin set -eo pipefail
 
-STDLIB_TESTING_TRACEBACK_REGEX=""
-
 # @description Captures the output of a command that is expected to fail.
 #   * STDLIB_TESTING_TRACEBACK_REGEX string keyword: A regex used to identify and remove traceback lines (default="$'^([^:]+:[0-9]+|environment:[0-9]+):.+$'").
 # @arg $@ array The command to execute.

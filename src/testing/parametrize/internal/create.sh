@@ -51,6 +51,7 @@ builtin set -eo pipefail
 # @arg $5 string The name of the array containing fixture commands.
 # @arg $6 string The name of the array containing scenario values.
 # @exitcode 0 If the test function variant was created.
+# @set STDLIB_TESTING_PARAMETRIZE_SCENARIO_NAME string The name of the parametrized test scenario.
 # @stdout The informational messages.
 # @internal
 @parametrize.__internal.create.fn.test_variant() {
@@ -89,7 +90,7 @@ builtin set -eo pipefail
       )'"
     fi
 
-    builtin echo "  builtin printf -v \"PARAMETRIZE_SCENARIO_NAME\" \"%s\" \"${array_indirect_scenario_definition[0]}\""
+    builtin echo "  builtin printf -v \"STDLIB_TESTING_PARAMETRIZE_SCENARIO_NAME\" \"%s\" \"${array_indirect_scenario_definition[0]}\""
 
     scenario_debug_message+=$'\n'
     scenario_debug_message+="$(_testing.parametrize.__message.get PARAMETRIZE_HEADER_SCENARIO): "

@@ -26,7 +26,7 @@ teardown_suite() {
 test_parametrize__1st_run_test_variants__valid_config__________@vary__populate_indexes() {
   function_name_receiver "${FUNCNAME[1]}"
   environment_variable_receiver "${VAR_1}|${VAR_2}|${VAR_3}"
-  scenario_name_receiver "${PARAMETRIZE_SCENARIO_NAME}"
+  scenario_name_receiver "${STDLIB_TESTING_PARAMETRIZE_SCENARIO_NAME}"
 }
 
 STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="0" @parametrize \

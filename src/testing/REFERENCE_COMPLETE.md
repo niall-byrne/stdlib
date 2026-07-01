@@ -856,6 +856,10 @@ Parametrizes a test function with multiple scenarios.
 * **$1** (string): The name of the test function to parametrize.
 * **...** (array): Optional fixture commands (prefixed with '@fixture '), followed by a semicolon-separated list of variable names, and then one or more semicolon-separated scenarios (scenario name followed by values).
 
+#### Variables set
+
+* **STDLIB_TESTING_PARAMETRIZE_SCENARIO_NAME** (string): The name of the parametrized test scenario.
+
 #### Exit codes
 
 * **0**: If the test function was parametrized successfully.

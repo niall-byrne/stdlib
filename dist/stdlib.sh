@@ -47,80 +47,80 @@ builtin set -Eeo pipefail
 
 # stdlib variable definitions
 
-declare -- STDLIB_ARGS_CALLER_FN_NAME=""
-declare -- STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN=""
-declare -a STDLIB_ARGS_NULL_SAFE_ARRAY=()
-declare -- STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=""
-declare -a STDLIB_CLEANUP_FN_TARGETS_ARRAY=()
-declare -- STDLIB_COLOUR_BLACK=""
-declare -- STDLIB_COLOUR_BLUE=""
-declare -- STDLIB_COLOUR_CYAN=""
-declare -- STDLIB_COLOUR_GREEN=""
-declare -- STDLIB_COLOUR_GREY=""
-declare -- STDLIB_COLOUR_LIGHT_BLUE=""
-declare -- STDLIB_COLOUR_LIGHT_CYAN=""
-declare -- STDLIB_COLOUR_LIGHT_GREEN=""
-declare -- STDLIB_COLOUR_LIGHT_PURPLE=""
-declare -- STDLIB_COLOUR_LIGHT_RED=""
-declare -- STDLIB_COLOUR_LIGHT_WHITE=""
-declare -- STDLIB_COLOUR_LIGHT_YELLOW=""
-declare -- STDLIB_COLOUR_NC=""
-declare -- STDLIB_COLOUR_NULL=""
-declare -- STDLIB_COLOUR_PURPLE=""
-declare -- STDLIB_COLOUR_RED=""
-declare -- STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN=""
-declare -- STDLIB_COLOUR_WHITE=""
-declare -- STDLIB_COLOUR_YELLOW=""
-declare -a STDLIB_DEFERRED_FN_ARRAY=()
-declare -a STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY=()
-declare -- STDLIB_FIELD_DELIMITER=""
-declare -- STDLIB_FIELD_DELIMITER_ENCODE_CHAR=""
-declare -a STDLIB_HANDLER_ERR_FN_ARRAY=()
-declare -a STDLIB_HANDLER_EXIT_FN_ARRAY=([0]="stdlib.trap.fn.cleanup_on_exit")
-declare -- STDLIB_KW_SOURCE_VAR=""
-declare -- STDLIB_LOCK_PERMISSION_OCTAL=""
-declare -- STDLIB_LOCK_POLLING_INTERVAL=""
-declare -- STDLIB_LOCK_QUIET_FAILURE_BOOLEAN=""
-declare -- STDLIB_LOCK_WAIT_SECONDS=""
-declare -x STDLIB_LOCK_WORKSPACE=""
-declare -- STDLIB_LOCK_WORKSPACE_PERMISSION_OCTAL=""
-declare -- STDLIB_LOGGING_MESSAGE_PREFIX=""
-declare -- STDLIB_PIPEABLE_STDIN_SOURCE_SPECIFIER=""
-declare -- STDLIB_STDIN_PASSWORD_MASK_BOOLEAN=""
-declare -- STDLIB_THEME_LOGGER_ERROR="LIGHT_RED"
-declare -- STDLIB_THEME_LOGGER_INFO="WHITE"
-declare -- STDLIB_THEME_LOGGER_NOTICE="GREY"
-declare -- STDLIB_THEME_LOGGER_SUCCESS="GREEN"
-declare -- STDLIB_THEME_LOGGER_WARNING="YELLOW"
-declare -- STDLIB_TRACEBACK_DISABLE_BOOLEAN="1"
-declare -- STDLIB_VALIDATION_SOURCE_VAR=""
-declare -- STDLIB_WRAP_LINE_BREAK_FORCE_CHAR=""
-declare -- STDLIB_WRAP_PREFIX=""
-declare -- _STDLIB_BINARY_CAT="/usr/bin/cat"
-declare -- _STDLIB_BINARY_CHMOD="/usr/bin/chmod"
-declare -- _STDLIB_BINARY_CHOWN="/usr/bin/chown"
-declare -- _STDLIB_BINARY_CUT="/usr/bin/cut"
-declare -- _STDLIB_BINARY_DIFF="/usr/bin/diff"
-declare -- _STDLIB_BINARY_DIRNAME="/usr/bin/dirname"
-declare -- _STDLIB_BINARY_GETENT="/usr/bin/getent"
-declare -- _STDLIB_BINARY_GREP="/usr/bin/grep"
-declare -- _STDLIB_BINARY_HEAD="/usr/bin/head"
-declare -- _STDLIB_BINARY_ID="/usr/bin/id"
-declare -- _STDLIB_BINARY_MKDIR="/usr/bin/mkdir"
-declare -- _STDLIB_BINARY_MKTEMP="/usr/bin/mktemp"
-declare -- _STDLIB_BINARY_RM="/usr/bin/rm"
-declare -- _STDLIB_BINARY_RMDIR="/usr/bin/rmdir"
-declare -- _STDLIB_BINARY_SED="/usr/bin/sed"
-declare -- _STDLIB_BINARY_SLEEP="/usr/bin/sleep"
-declare -- _STDLIB_BINARY_SORT="/usr/bin/sort"
-declare -- _STDLIB_BINARY_STAT="/usr/bin/stat"
-declare -- _STDLIB_BINARY_TAIL="/usr/bin/tail"
-declare -- _STDLIB_BINARY_TOUCH="/usr/bin/touch"
-declare -- _STDLIB_BINARY_TPUT="/usr/bin/tput"
-declare -- _STDLIB_BINARY_TR="/usr/bin/tr"
-declare -- _STDLIB_BINARY_WC="/usr/bin/wc"
-declare -a __STDLIB_LOGGING_DECORATORS_ARRAY=([0]="_testing.__protected")
-declare -x __STDLIB_SECURE_DISTRIBUTION="1"
+builtin declare -- STDLIB_ARGS_CALLER_FN_NAME=""
+builtin declare -- STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN=""
+builtin declare -a "STDLIB_ARGS_NULL_SAFE_ARRAY=()"
+builtin declare -a "STDLIB_CLEANUP_FN_TARGETS_ARRAY=()"
+builtin declare -- STDLIB_COLOUR_BLACK=""
+builtin declare -- STDLIB_COLOUR_BLUE=""
+builtin declare -- STDLIB_COLOUR_CYAN=""
+builtin declare -- STDLIB_COLOUR_GREEN=""
+builtin declare -- STDLIB_COLOUR_GREY=""
+builtin declare -- STDLIB_COLOUR_LIGHT_BLUE=""
+builtin declare -- STDLIB_COLOUR_LIGHT_CYAN=""
+builtin declare -- STDLIB_COLOUR_LIGHT_GREEN=""
+builtin declare -- STDLIB_COLOUR_LIGHT_PURPLE=""
+builtin declare -- STDLIB_COLOUR_LIGHT_RED=""
+builtin declare -- STDLIB_COLOUR_LIGHT_WHITE=""
+builtin declare -- STDLIB_COLOUR_LIGHT_YELLOW=""
+builtin declare -- STDLIB_COLOUR_NC=""
+builtin declare -- STDLIB_COLOUR_NULL=""
+builtin declare -- STDLIB_COLOUR_PURPLE=""
+builtin declare -- STDLIB_COLOUR_RED=""
+builtin declare -- STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN=""
+builtin declare -- STDLIB_COLOUR_WHITE=""
+builtin declare -- STDLIB_COLOUR_YELLOW=""
+builtin declare -- STDLIB_FIELD_DELIMITER=""
+builtin declare -- STDLIB_FIELD_DELIMITER_ENCODE_CHAR=""
+builtin declare -a "STDLIB_HANDLER_ERR_FN_ARRAY=()"
+builtin declare -a "STDLIB_HANDLER_EXIT_FN_ARRAY=([0]='stdlib.trap.fn.cleanup_on_exit')"
+builtin declare -- STDLIB_KW_SOURCE_VAR=""
+builtin declare -- STDLIB_LOCK_PERMISSION_OCTAL=""
+builtin declare -- STDLIB_LOCK_POLLING_INTERVAL=""
+builtin declare -- STDLIB_LOCK_QUIET_FAILURE_BOOLEAN=""
+builtin declare -- STDLIB_LOCK_WAIT_SECONDS=""
+builtin declare -x STDLIB_LOCK_WORKSPACE=""
+builtin declare -- STDLIB_LOCK_WORKSPACE_PERMISSION_OCTAL=""
+builtin declare -- STDLIB_LOGGING_MESSAGE_PREFIX=""
+builtin declare -- STDLIB_PIPEABLE_STDIN_SOURCE_SPECIFIER=""
+builtin declare -- STDLIB_STDIN_PASSWORD_MASK_BOOLEAN=""
+builtin declare -- STDLIB_THEME_LOGGER_ERROR="LIGHT_RED"
+builtin declare -- STDLIB_THEME_LOGGER_INFO="WHITE"
+builtin declare -- STDLIB_THEME_LOGGER_NOTICE="GREY"
+builtin declare -- STDLIB_THEME_LOGGER_SUCCESS="GREEN"
+builtin declare -- STDLIB_THEME_LOGGER_WARNING="YELLOW"
+builtin declare -- STDLIB_TRACEBACK_DISABLE_BOOLEAN="1"
+builtin declare -- STDLIB_VALIDATION_SOURCE_VAR=""
+builtin declare -- STDLIB_WRAP_LINE_BREAK_FORCE_CHAR=""
+builtin declare -- STDLIB_WRAP_PREFIX=""
+builtin declare -- _STDLIB_BINARY_CAT="/usr/bin/cat"
+builtin declare -- _STDLIB_BINARY_CHMOD="/usr/bin/chmod"
+builtin declare -- _STDLIB_BINARY_CHOWN="/usr/bin/chown"
+builtin declare -- _STDLIB_BINARY_CUT="/usr/bin/cut"
+builtin declare -- _STDLIB_BINARY_DIFF="/usr/bin/diff"
+builtin declare -- _STDLIB_BINARY_DIRNAME="/usr/bin/dirname"
+builtin declare -- _STDLIB_BINARY_GETENT="/usr/bin/getent"
+builtin declare -- _STDLIB_BINARY_GREP="/usr/bin/grep"
+builtin declare -- _STDLIB_BINARY_HEAD="/usr/bin/head"
+builtin declare -- _STDLIB_BINARY_ID="/usr/bin/id"
+builtin declare -- _STDLIB_BINARY_MKDIR="/usr/bin/mkdir"
+builtin declare -- _STDLIB_BINARY_MKTEMP="/usr/bin/mktemp"
+builtin declare -- _STDLIB_BINARY_RM="/usr/bin/rm"
+builtin declare -- _STDLIB_BINARY_RMDIR="/usr/bin/rmdir"
+builtin declare -- _STDLIB_BINARY_SED="/usr/bin/sed"
+builtin declare -- _STDLIB_BINARY_SLEEP="/usr/bin/sleep"
+builtin declare -- _STDLIB_BINARY_SORT="/usr/bin/sort"
+builtin declare -- _STDLIB_BINARY_STAT="/usr/bin/stat"
+builtin declare -- _STDLIB_BINARY_TAIL="/usr/bin/tail"
+builtin declare -- _STDLIB_BINARY_TOUCH="/usr/bin/touch"
+builtin declare -- _STDLIB_BINARY_TPUT="/usr/bin/tput"
+builtin declare -- _STDLIB_BINARY_TR="/usr/bin/tr"
+builtin declare -- _STDLIB_BINARY_WC="/usr/bin/wc"
+builtin declare -- __STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=""
+builtin declare -a "__STDLIB_DEFERRED_FN_ARRAY=()"
+builtin declare -a "__STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY=()"
+builtin declare -a "__STDLIB_LOGGING_DECORATORS_ARRAY=([0]='_testing.__protected')"
+builtin declare -ax "__STDLIB_SECURE_DISTRIBUTION=([0]='1')"
 
 # stdlib function definitions
 
@@ -1062,7 +1062,7 @@ stdlib.array.query.is_equal ()
 stdlib.deferred.__defer ()
 {
     builtin local func="${1}";
-    builtin local deferred_function_call="stdlib.__deferred.call.${#STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY[*]}";
+    builtin local deferred_function_call="stdlib.__deferred.call.${#__STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY[*]}";
     builtin shift;
     builtin eval "$("${_STDLIB_BINARY_CAT}" <<EOF
 ${deferred_function_call}() {
@@ -1070,25 +1070,25 @@ ${deferred_function_call}() {
 }
 EOF
 )";
-    STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY+=("${deferred_function_call}")
+    __STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY+=("${deferred_function_call}")
 }
 
 stdlib.deferred.__execute ()
 {
     builtin local func;
-    for func in "${STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY[@]}";
+    for func in "${__STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY[@]}";
     do
         "${func}";
         builtin unset -f "${func}";
     done;
-    STDLIB_DEFERRED_FN_ARRAY=();
-    STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY=()
+    __STDLIB_DEFERRED_FN_ARRAY=();
+    __STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY=()
 }
 
 stdlib.deferred.__initialize ()
 {
     builtin local func;
-    for func in "${STDLIB_DEFERRED_FN_ARRAY[@]}";
+    for func in "${__STDLIB_DEFERRED_FN_ARRAY[@]}";
     do
         builtin eval "$("${_STDLIB_BINARY_CAT}" <<EOF
 ${func}() {
@@ -4356,8 +4356,6 @@ stdlib.var.reserved.assert.__is_valid_with ()
 
 # this snippet is included by the build script:
 # src/gettext.snippet
-STDLIB_TEXTDOMAINDIR="${STDLIB_TEXTDOMAINDIR-$(dirname -- "${BASH_SOURCE[0]}/locales")}"
-
 # shellcheck disable=SC2034
 {
   builtin export TEXTDOMAIN

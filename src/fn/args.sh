@@ -4,10 +4,6 @@
 
 builtin set -eo pipefail
 
-STDLIB_ARGS_CALLER_FN_NAME=""
-STDLIB_ARGS_NULL_SAFE_ARRAY=()
-STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN=""
-
 # @description Validates the presence and number of arguments for a function.
 #   * STDLIB_ARGS_CALLER_FN_NAME string keyword: A string presented as the name of the calling function in logging messages (default="${FUNCNAME[1]}").
 #   * STDLIB_ARGS_NULL_SAFE_ALL_BOOLEAN boolean keyword: A boolean that indicates all arguments are null safe, meaning they can be empty values (default="0").

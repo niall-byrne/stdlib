@@ -31,7 +31,7 @@ test_stdlib_builtin_overridable__secure_distribution____environment_variable_set
   _fixture_secure_distribution
   _mock.create echo
 
-  STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=1 \
+  __STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=1 \
     stdlib.__builtin.overridable echo "hello" > /dev/null
 
   echo.mock.assert_not_called
@@ -43,7 +43,7 @@ test_stdlib_builtin_overridable__secure_distribution____environment_variable_set
   _fixture_secure_distribution
   _mock.create echo
 
-  STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=0 \
+  __STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=0 \
     stdlib.__builtin.overridable echo "hello" > /dev/null
 
   echo.mock.assert_not_called
@@ -66,7 +66,7 @@ test_stdlib_builtin_overridable__testable_distribution__environment_variable_set
   _fixture_testable_distribution
   _mock.create echo
 
-  STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=1 \
+  __STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=1 \
     stdlib.__builtin.overridable echo "hello" > /dev/null
 
   echo.mock.assert_called_once_with "1(hello)"
@@ -78,7 +78,7 @@ test_stdlib_builtin_overridable__testable_distribution__environment_variable_set
   _fixture_testable_distribution
   _mock.create echo
 
-  STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=0 \
+  __STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=0 \
     stdlib.__builtin.overridable echo "hello" > /dev/null
 
   echo.mock.assert_not_called

@@ -12,8 +12,8 @@ __STDLIB_TESTING_MOCK_COMPONENT="$(
 
 # @description Persists a mock call, storing it's arguments as an arg string in the correct persistence file.  If sequence tracking is enabled, the mock will also be added to the sequence persistence file.
 #   * __STDLIB_TESTING_MOCK_SEQUENCE_ARRAY array reserved: An array containing the sequence of mock calls (default=()).
-#   * __STDLIB_TESTING_MOCK_SEQUENCE_LOCK_NAME string global: This string identifies the lock file used to control locking during sequence tracking (default="__stdlib_testing_internal__mock_sequence_lock").
-#   * __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN string global: This boolean determines whether sequence information will be persisted for this call (default="0").
+#   * __STDLIB_TESTING_MOCK_SEQUENCE_LOCK_NAME string reserved: This string identifies the lock file used to control locking during sequence tracking (default="__stdlib_testing_internal__mock_sequence_lock").
+#   * __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN string reserved: This boolean determines whether sequence information will be persisted for this call (default="0").
 # @arg $@ string The arguments the mock was called with.
 # @exitcode 0 If the mock's call was persisted successfully.
 # @internal

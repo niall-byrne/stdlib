@@ -12,6 +12,27 @@ __build_add_snippet() {
   tail +3 "${1}"
 }
 
+__build_add_variables() {
+  local declare_attribute
+  local declare_definition
+
+  # $1: the regex to match
+  # $2: the regex to filter
+
+  while IFS= read -r stdlib_variable_name_line; do
+    declare_attribute=$(echo "${stdlib_variable_name_line}" | "${_STDLIB_BINARY_CUT}" -d' ' -f2)
+    declare_definition=$(echo "${stdlib_variable_name_line}" | "${_STDLIB_BINARY_CUT}" -d' ' -f3-)
+
+    if [[ "${declare_attribute}" == *"a"* ]]; then
+      declare_definition="${declare_definition//'"'/"'"}"
+      printf 'builtin declare %s "%s"\n' "${declare_attribute}" "${declare_definition}"
+    else
+      printf 'builtin declare %s %s\n' "${declare_attribute}" "${declare_definition}"
+    fi
+
+  done <<< "$(builtin declare -p | "${_STDLIB_BINARY_GREP}" -E "${1}" | "${_STDLIB_BINARY_GREP}" -v "${2}")"
+}
+
 __build_generate_step_1_stdlib_file_header() {
   echo "#!/bin/bash"
   echo
@@ -32,13 +53,14 @@ __build_generate_step_1_testing_file_header() {
 }
 
 __build_generate_step_2_stdlib_variables() {
+  local declare_attribute
+  local declare_definition
+
   echo
   echo "# stdlib variable definitions"
   echo
 
-  while IFS= read -r stdlib_variable_name_line; do
-    echo "${stdlib_variable_name_line}"
-  done <<< "$(builtin declare -p | "${_STDLIB_BINARY_GREP}" -E "${stdlib_variable_regex}" | "${_STDLIB_BINARY_GREP}" -v "${stdlib_variable_filter}")"
+  __build_add_variables "${stdlib_variable_regex}" "${stdlib_variable_filter}"
 }
 
 __build_generate_step_2_testing_variables() {
@@ -46,9 +68,7 @@ __build_generate_step_2_testing_variables() {
   echo "# stdlib testing variable definitions"
   echo
 
-  while IFS= read -r stdlib_variable_name_line; do
-    echo "${stdlib_variable_name_line}"
-  done <<< "$(builtin declare -p | "${_STDLIB_BINARY_GREP}" -E "${stdlib_testing_variable_regex}")"
+  __build_add_variables "${stdlib_testing_variable_regex}" "NO_FILTER"
 }
 
 __build_generate_step_3_stdlib_functions() {

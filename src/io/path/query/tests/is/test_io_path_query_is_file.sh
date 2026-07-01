@@ -5,7 +5,7 @@ setup() {
   _mock.create test
 
   # shellcheck disable=SC2034
-  STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=1
+  __STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=1
 }
 
 @parametrize_with_arg_combos() {

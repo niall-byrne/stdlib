@@ -6,26 +6,27 @@ set -eo pipefail
 
 # stdlib testing variable definitions
 
-declare -- STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN=""
-declare -- STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR=""
-declare -- STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX=""
-declare -- STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX=""
-declare -- STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN=""
-declare -- STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG=""
-declare -- STDLIB_TESTING_PROTECT_PREFIX=""
-declare -- STDLIB_TESTING_THEME_DEBUG_FIXTURE="GREY"
-declare -- STDLIB_TESTING_THEME_LOAD="GREY"
-declare -- STDLIB_TESTING_THEME_PARAMETRIZE_HIGHLIGHT="LIGHT_BLUE"
-declare -- STDLIB_TESTING_THEME_PARAMETRIZE_ORIGINAL_TEST_NAMES="GREY"
-declare -- STDLIB_TESTING_TRACEBACK_REGEX=""
-declare -a __STDLIB_TESTING_MOCK_REGISTERED_INSTANCES_ARRAY=()
-declare -- __STDLIB_TESTING_MOCK_REGISTRY_FOLDER=""
-declare -a __STDLIB_TESTING_MOCK_RESTRICTED_ATTRIBUTES=([0]="builtin" [1]="case" [2]="do" [3]="done" [4]="elif" [5]="else" [6]="esac" [7]="fi" [8]="for" [9]="if" [10]="while")
-declare -a __STDLIB_TESTING_MOCK_SEQUENCE_ARRAY=()
-declare -- __STDLIB_TESTING_MOCK_SEQUENCE_FILENAME=""
-declare -- __STDLIB_TESTING_MOCK_SEQUENCE_LOCK_NAME="__stdlib_testing_internal__mock_sequence_lock"
-declare -- __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN="0"
-declare -a __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY=()
+builtin declare -- STDLIB_TESTING_PARAMETRIZE_SCENARIO_NAME=""
+builtin declare -- STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN=""
+builtin declare -- STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR=""
+builtin declare -- STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX=""
+builtin declare -- STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX=""
+builtin declare -- STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN=""
+builtin declare -- STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG=""
+builtin declare -- STDLIB_TESTING_THEME_DEBUG_FIXTURE="GREY"
+builtin declare -- STDLIB_TESTING_THEME_LOAD="GREY"
+builtin declare -- STDLIB_TESTING_THEME_PARAMETRIZE_HIGHLIGHT="LIGHT_BLUE"
+builtin declare -- STDLIB_TESTING_THEME_PARAMETRIZE_ORIGINAL_TEST_NAMES="GREY"
+builtin declare -- STDLIB_TESTING_TRACEBACK_REGEX=""
+builtin declare -a "__STDLIB_TESTING_MOCK_REGISTERED_INSTANCES_ARRAY=()"
+builtin declare -- __STDLIB_TESTING_MOCK_REGISTRY_FOLDER=""
+builtin declare -a "__STDLIB_TESTING_MOCK_RESTRICTED_ATTRIBUTES=([0]='builtin' [1]='case' [2]='do' [3]='done' [4]='elif' [5]='else' [6]='esac' [7]='fi' [8]='for' [9]='if' [10]='while')"
+builtin declare -a "__STDLIB_TESTING_MOCK_SEQUENCE_ARRAY=()"
+builtin declare -- __STDLIB_TESTING_MOCK_SEQUENCE_FILENAME=""
+builtin declare -- __STDLIB_TESTING_MOCK_SEQUENCE_LOCK_NAME="__stdlib_testing_internal__mock_sequence_lock"
+builtin declare -- __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN="0"
+builtin declare -a "__STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY=()"
+builtin declare -- __STDLIB_TESTING_PROTECT_PREFIX=""
 
 # stdlib testing function definitions
 
@@ -44,7 +45,7 @@ declare -a __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY=()
     builtin local parametrize_configuration_scenario_start_index;
     builtin local test_function_variant_name="";
     builtin local test_function_variant_padding_value=0;
-    builtin local PARAMETRIZE_SCENARIO_NAME;
+    builtin local STDLIB_TESTING_PARAMETRIZE_SCENARIO_NAME;
     {
         builtin local setting_debug_boolean;
         builtin local setting_field_separator_char;
@@ -205,7 +206,7 @@ declare -a __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY=()
   $(if [[ "${setting_original_test_names_boolean}" == "1" ]]; then
     builtin echo -e "builtin echo -ne '\n                $(_testing.__protected stdlib.string.colour "${STDLIB_TESTING_THEME_PARAMETRIZE_ORIGINAL_TEST_NAMES}" "${original_test_function_name} ...")'";
 fi
-builtin echo "  builtin printf -v \"PARAMETRIZE_SCENARIO_NAME\" \"%s\" \"${array_indirect_scenario_definition[0]}\""
+builtin echo "  builtin printf -v \"STDLIB_TESTING_PARAMETRIZE_SCENARIO_NAME\" \"%s\" \"${array_indirect_scenario_definition[0]}\""
 scenario_debug_message+='
 '
 scenario_debug_message+="$(_testing.parametrize.__message.get PARAMETRIZE_HEADER_SCENARIO): "
@@ -592,8 +593,8 @@ ${1}.mock.reset() {
 
 # @description Persists a mock call, storing it's arguments as an arg string in the correct persistence file.  If sequence tracking is enabled, the mock will also be added to the sequence persistence file.
 #   * __STDLIB_TESTING_MOCK_SEQUENCE_ARRAY array reserved: An array containing the sequence of mock calls (default=()).
-#   * __STDLIB_TESTING_MOCK_SEQUENCE_LOCK_NAME string global: This string identifies the lock file used to control locking during sequence tracking (default="__stdlib_testing_internal__mock_sequence_lock").
-#   * __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN string global: This boolean determines whether sequence information will be persisted for this call (default="0").
+#   * __STDLIB_TESTING_MOCK_SEQUENCE_LOCK_NAME string reserved: This string identifies the lock file used to control locking during sequence tracking (default="__stdlib_testing_internal__mock_sequence_lock").
+#   * __STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN string reserved: This boolean determines whether sequence information will be persisted for this call (default="0").
 # @arg $@ string The arguments the mock was called with.
 # @exitcode 0 If the mock's call was persisted successfully.
 # @internal
@@ -1459,7 +1460,7 @@ _testing.__message.get ()
 
 _testing.__protect_stdlib ()
 {
-    builtin local stdlib_library_prefix="${STDLIB_TESTING_PROTECT_PREFIX:-"stdlib"}";
+    builtin local stdlib_library_prefix="${__STDLIB_TESTING_PROTECT_PREFIX:-"stdlib"}";
     builtin local stdlib_function_regex="${stdlib_library_prefix}\\..*";
     while IFS= builtin read -r stdlib_fn_name; do
         stdlib_fn_definition="$(builtin declare -f "${stdlib_fn_name/"declare -f "/}")";
@@ -1474,7 +1475,7 @@ _testing.__protected ()
 
 _testing.__protected_name ()
 {
-    builtin local stdlib_library_prefix="${STDLIB_TESTING_PROTECT_PREFIX:-"stdlib"}";
+    builtin local stdlib_library_prefix="${__STDLIB_TESTING_PROTECT_PREFIX:-"stdlib"}";
     builtin echo "${1//"${stdlib_library_prefix}."/"${stdlib_library_prefix}.testing.internal."}"
 }
 

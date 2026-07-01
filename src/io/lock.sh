@@ -4,17 +4,6 @@
 
 builtin set -eo pipefail
 
-# shellcheck disable=SC2034
-{
-  STDLIB_LOCK_PERMISSION_OCTAL=""
-  STDLIB_LOCK_QUIET_FAILURE_BOOLEAN=""
-  STDLIB_LOCK_POLLING_INTERVAL=""
-  STDLIB_LOCK_WAIT_SECONDS=""
-  STDLIB_LOCK_WORKSPACE_PERMISSION_OCTAL=""
-}
-
-builtin export STDLIB_LOCK_WORKSPACE=""
-
 # @description Acquires a named exclusive execution lock, or waits until able to do so.
 #   * STDLIB_LOCK_PERMISSION_OCTAL string keyword: An octal file system permission value for the created lock (default="0700").
 #   * STDLIB_LOCK_POLLING_INTERVAL string keyword: A decimal value for the number of seconds the process will wait before retrying lock acquisition (default="0.1").

@@ -4,11 +4,11 @@ setup() {
   _mock.create stdlib.logger.error
 
   # shellcheck disable=SC2034
-  STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=1
+  __STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=1
 }
 
 teardown() {
-  unset STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN
+  unset __STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN
 }
 
 @parametrize_with_args_and_status_codes() {

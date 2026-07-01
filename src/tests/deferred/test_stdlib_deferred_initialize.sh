@@ -13,7 +13,7 @@ teardown() {
 
 # shellcheck disable=SC2034
 test_deferred_initialize__creates_deferred_functions() {
-  local STDLIB_DEFERRED_FN_ARRAY=("${test_functions[@]}")
+  local __STDLIB_DEFERRED_FN_ARRAY=("${test_functions[@]}")
 
   stdlib.deferred.__initialize
 
@@ -23,7 +23,7 @@ test_deferred_initialize__creates_deferred_functions() {
 
 # shellcheck disable=SC2034
 test_deferred_initialize__test_fn_is_called_____call_is_deferred() {
-  local STDLIB_DEFERRED_FN_ARRAY=("${test_functions[@]}")
+  local __STDLIB_DEFERRED_FN_ARRAY=("${test_functions[@]}")
   stdlib.deferred.__initialize
 
   test_fn1 arg1 arg2
@@ -36,7 +36,7 @@ test_deferred_initialize__test_fn_is_called_____call_is_deferred() {
 
 # shellcheck disable=SC2034
 test_deferred_initialize__regular_fn_is_called__call_is_not_deferred() {
-  local STDLIB_DEFERRED_FN_ARRAY=("${test_functions[@]}")
+  local __STDLIB_DEFERRED_FN_ARRAY=("${test_functions[@]}")
   stdlib.deferred.__initialize
 
   test_fn3 arg1 arg2

@@ -1,0 +1,29 @@
+#!/bin/bash
+# shellcheck disable=SC2034
+
+# stdlib testing variables library
+
+builtin set -eo pipefail
+
+# globals
+builtin declare -g "STDLIB_TESTING_PARAMETRIZE_SCENARIO_NAME="
+
+# keywords
+builtin declare -g "STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN="
+builtin declare -g "STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR="
+builtin declare -g "STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX="
+builtin declare -g "STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX="
+builtin declare -g "STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN="
+builtin declare -g "STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG="
+builtin declare -g "STDLIB_TESTING_TRACEBACK_REGEX="
+
+# reserved
+builtin declare -g "__STDLIB_TESTING_MOCK_REGISTRY_FOLDER="
+builtin declare -g "__STDLIB_TESTING_MOCK_SEQUENCE_FILENAME="
+builtin declare -g "__STDLIB_TESTING_MOCK_SEQUENCE_LOCK_NAME=__stdlib_testing_internal__mock_sequence_lock"
+builtin declare -g "__STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN=0"
+builtin declare -g "__STDLIB_TESTING_PROTECT_PREFIX="
+builtin declare -ga "__STDLIB_TESTING_MOCK_REGISTERED_INSTANCES_ARRAY=()"
+builtin declare -ga "__STDLIB_TESTING_MOCK_RESTRICTED_ATTRIBUTES=()"
+builtin declare -ga "__STDLIB_TESTING_MOCK_SEQUENCE_ARRAY=()"
+builtin declare -ga "__STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY=()"

@@ -4,18 +4,6 @@
 
 builtin set -eo pipefail
 
-# shellcheck disable=SC2034
-{
-  STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN=""
-  STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR=""
-  STDLIB_TESTING_PARAMETRIZE_SETTING_FIXTURE_COMMAND_PREFIX=""
-  STDLIB_TESTING_PARAMETRIZE_SETTING_PREFIX=""
-  STDLIB_TESTING_PARAMETRIZE_SETTING_SHOW_ORIGINAL_TEST_NAMES_BOOLEAN=""
-  STDLIB_TESTING_PARAMETRIZE_SETTING_VARIANT_TAG=""
-}
-
-__STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY=()
-
 # @description Parametrizes a test function with multiple scenarios.
 #   * STDLIB_TESTING_PARAMETRIZE_SETTING_DEBUG_BOOLEAN string keyword: Whether to show debug information (default="0").
 #   * STDLIB_TESTING_PARAMETRIZE_SETTING_FIELD_SEPARATOR string keyword: The field separator for scenarios (default=";").
@@ -30,6 +18,7 @@ __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY=()
 # @exitcode 125 If an invalid keyword has been provided.
 # @exitcode 126 If an invalid argument has been provided.
 # @exitcode 127 If the wrong number of arguments were provided.
+# @set STDLIB_TESTING_PARAMETRIZE_SCENARIO_NAME string The name of the parametrized test scenario.
 # @stdout The informational messages.
 # @stderr The error message if the operation fails.
 @parametrize() {
@@ -49,7 +38,7 @@ __STDLIB_TESTING_PARAMETRIZE_GENERATED_FUNCTIONS_ARRAY=()
   builtin local test_function_variant_padding_value=0
 
   # shellcheck disable=SC2034
-  builtin local PARAMETRIZE_SCENARIO_NAME
+  builtin local STDLIB_TESTING_PARAMETRIZE_SCENARIO_NAME
 
   # shellcheck disable=SC2034
   {

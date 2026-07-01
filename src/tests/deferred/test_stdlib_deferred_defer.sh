@@ -16,7 +16,7 @@ _fixture_two_calls() {
 }
 
 test_deferred_defer__single_call__creates_expected_function() {
-  local STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY=()
+  local __STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY=()
 
   _fixture_single_call
 
@@ -24,16 +24,16 @@ test_deferred_defer__single_call__creates_expected_function() {
 }
 
 test_deferred_defer__single_call__registers_deferred_call() {
-  local STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY=()
+  local __STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY=()
   local expected_calls=("stdlib.__deferred.call.0")
 
   _fixture_single_call
 
-  assert_array_equals expected_calls STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY
+  assert_array_equals expected_calls __STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY
 }
 
 test_deferred_defer__single_call__deferred_fn_is_called_______calls_original_fn() {
-  local STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY=()
+  local __STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY=()
   _fixture_single_call
 
   stdlib.__deferred.call.0
@@ -43,7 +43,7 @@ test_deferred_defer__single_call__deferred_fn_is_called_______calls_original_fn(
 }
 
 test_deferred_defer__two_calls____creates_expected_functions() {
-  local STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY=()
+  local __STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY=()
   _fixture_two_calls
 
   assert_is_fn "stdlib.__deferred.call.0"
@@ -51,16 +51,16 @@ test_deferred_defer__two_calls____creates_expected_functions() {
 }
 
 test_deferred_defer__two_calls____registers_deferred_call() {
-  local STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY=()
+  local __STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY=()
   local expected_calls=("stdlib.__deferred.call.0" "stdlib.__deferred.call.1")
 
   _fixture_two_calls
 
-  assert_array_equals expected_calls STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY
+  assert_array_equals expected_calls __STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY
 }
 
 test_deferred_defer__two_calls____deferred_fns_is_called_____calls_original_fns() {
-  local STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY=()
+  local __STDLIB_DEFERRED_FN_ARRAY_CALLS_ARRAY=()
   _fixture_two_calls
 
   stdlib.__deferred.call.0

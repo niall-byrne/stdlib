@@ -5,11 +5,11 @@ setup() {
   _mock.create stdlib.trap.__register_default_handlers
   _mock.create trap
 
-  STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=1
+  __STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN=1
 }
 
 teardown() {
-  unset STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN
+  unset __STDLIB_BUILTIN_ALLOW_OVERRIDE_BOOLEAN
 }
 
 @parametrize_with_array_name() {

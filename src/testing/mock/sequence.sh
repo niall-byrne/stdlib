@@ -4,9 +4,6 @@
 
 builtin set -eo pipefail
 
-__STDLIB_TESTING_MOCK_SEQUENCE_ARRAY=()
-__STDLIB_TESTING_MOCK_SEQUENCE_TRACKING_BOOLEAN="0"
-
 # @description Asserts that the sequence of mock calls matches the expected values.
 # @arg $@ array The expected sequence of mock calls.
 # @exitcode 0 If the sequence matches.

@@ -4,9 +4,6 @@
 
 builtin set -eo pipefail
 
-# shellcheck disable=SC2034
-STDLIB_COLOUR_NULL=""
-
 # @description Gets the name of a colour variable from the theme.
 #   * STDLIB_COLOUR_NULL string global: A default value for null or missing colours (default="").
 # @arg $1 string The name of the colour.

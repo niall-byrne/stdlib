@@ -45,7 +45,7 @@ teardown_suite() {
 test_parametrize_compose__1st_run_test_variants__@vary________@vary__populate_indexes() {
   function_name_receiver "${FUNCNAME[2]}"
   environment_variable_receiver "${VAR_1}|${VAR_2}|${VAR_3}|${NEW_VAR_1}|${NEW_VAR_2}|${NEW_VAR_3}"
-  scenario_name_receiver "${PARAMETRIZE_SCENARIO_NAME}"
+  scenario_name_receiver "${STDLIB_TESTING_PARAMETRIZE_SCENARIO_NAME}"
 }
 
 @parametrize.compose \

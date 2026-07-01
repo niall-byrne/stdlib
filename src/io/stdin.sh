@@ -4,9 +4,6 @@
 
 builtin set -eo pipefail
 
-# shellcheck disable=SC2034
-STDLIB_STDIN_PASSWORD_MASK_BOOLEAN=""
-
 # @description Prompts the user for a confirmation (Y/n).
 # @arg $1 string (optional, default=STDIN_DEFAULT_CONFIRMATION_PROMPT) The prompt to display.
 # @exitcode 0 If the user confirmed with 'Y'.

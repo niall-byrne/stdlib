@@ -4,8 +4,6 @@
 
 builtin set -eo pipefail
 
-STDLIB_COLOUR_SILENT_FALLBACK_BOOLEAN=""
-
 # @description Disables terminal colours.
 # @noargs
 # @exitcode 0 If the operation succeeded.

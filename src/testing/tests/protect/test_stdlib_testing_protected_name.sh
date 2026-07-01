@@ -22,7 +22,7 @@
 
 # shellcheck disable=SC2034
 test_stdlib_testing_protected_name__custom__prefix__@vary__generates_correct_transformed_name() {
-  local STDLIB_TESTING_PROTECT_PREFIX="custom"
+  local __STDLIB_TESTING_PROTECT_PREFIX="custom"
 
   _capture.output _testing.__protected_name "${TEST_FUNCTION_NAME}"
 

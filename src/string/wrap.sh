@@ -4,12 +4,6 @@
 
 builtin set -eo pipefail
 
-# shellcheck disable=SC2034
-{
-  STDLIB_WRAP_LINE_BREAK_FORCE_CHAR=""
-  STDLIB_WRAP_PREFIX=""
-}
-
 # @description Wraps text to a specified width with padding.
 #   * STDLIB_WRAP_LINE_BREAK_FORCE_CHAR string keyword: A char that 'forces' a line break in the output text (default="*").
 #   * STDLIB_WRAP_PREFIX string keyword: A string to insert when wrapping text (default="").
